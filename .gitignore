@@ -1,6 +1,9 @@
 # Idea config files
 /.idea
 
+# Idea project file
+*.iml
+
 # Maven output directory
 /target
 
