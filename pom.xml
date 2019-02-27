@@ -76,20 +76,12 @@
 				<version>4.3.0</version>
 				<configuration>
 					<repoToken>Sb83PCE4yUaYw83OrnJzQ2z2SyTI1UNue</repoToken>
-					<excludes>
-						<exclude>com.danit.finalproject.application.FinalProjectApplication</exclude>
-					</excludes>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.6.201602180812</version>
-				<configuration>
-					<excludes>
-						<exclude>com.danit.finalproject.application.FinalProjectApplication</exclude>
-					</excludes>
-				</configuration>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
