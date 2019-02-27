@@ -83,7 +83,9 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.6.201602180812</version>
 				<configuration>
-					<exclude>**/FinalProjectApplication.**</exclude>
+					<excludes>
+						<exclude>com.danit.finalproject.application.FinalProjectApplication</exclude>
+					</excludes>
 				</configuration>
 				<executions>
 					<execution>
