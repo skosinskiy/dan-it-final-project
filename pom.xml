@@ -75,7 +75,7 @@
 				<artifactId>coveralls-maven-plugin</artifactId>
 				<version>4.3.0</version>
 				<configuration>
-					<repoToken>Sb83PCE4yUaYw83OrnJzQ2z2SyTI1UNue</repoToken>
+					<repoToken>37OVIvC22rZ9VWd3YODGPrcw768fyviee</repoToken>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -83,9 +83,9 @@
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.8</version>
 				<configuration>
-					<excludes>
-						<exclude>**/*FinalProjectApplication.*</exclude>
-					</excludes>
+					<!--<excludes>-->
+						<!--<exclude>**/*FinalProjectApplication.*</exclude>-->
+					<!--</excludes>-->
 				</configuration>
 				<executions>
 					<execution>
