@@ -5,4 +5,6 @@ jdk:
   - oraclejdk8
 
 script:
-  mvn clean test jacoco:report coveralls:report
+  mvn clean test
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
