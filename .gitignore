@@ -1,3 +1,9 @@
+# Idea config files
+/.idea
+
+# Maven output directory
+/target
+
 # Compiled class file
 *.class
 
