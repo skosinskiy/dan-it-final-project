@@ -6,7 +6,7 @@ jdk:
 
 script:
   - mvn clean test
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+  - sonar-scanner
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
