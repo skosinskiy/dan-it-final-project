@@ -13,3 +13,5 @@ after_success:
 addons:
   sonarcloud:
     organization: "skosinskiy-github"
+    token:
+      secure: ${SONAR_TOKEN}
