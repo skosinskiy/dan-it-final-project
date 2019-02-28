@@ -10,7 +10,7 @@ cache:
 
 script:
   - mvn clean test
-  - sonar-scanner
+  - sonar-scanner -Dsonar.analysis.mode=preview
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
