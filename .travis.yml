@@ -13,4 +13,5 @@ after_success:
 addons:
   sonarcloud:
     organization: "skosinskiy-github"
-    token: 4a3ddb56350b4ce04ccecdebee76245f0143a766
+    token:
+      secure: 4a3ddb56350b4ce04ccecdebee76245f0143a766
