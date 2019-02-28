@@ -12,4 +12,4 @@ after_success:
 
 addons:
   sonarcloud:
-    organization: "skosinskiy_dan-it-final-project"
+    organization: "skosinskiy-github"
