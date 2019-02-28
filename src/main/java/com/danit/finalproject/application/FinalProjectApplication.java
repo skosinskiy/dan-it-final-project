@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.LinkedList;
 import java.util.HashMap;
+import java.util.Base64;
 
 @SpringBootApplication
 public class FinalProjectApplication {
