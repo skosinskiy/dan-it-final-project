@@ -5,6 +5,13 @@ jdk:
   - oraclejdk8
 
 script:
-  mvn clean test
+  - mvn clean test
+  - sonar-scanner
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
+addons:
+  sonarcloud:
+    organization: "skosinskiy-github"
+    token:
+      secure: ${SONAR_TOKEN}
