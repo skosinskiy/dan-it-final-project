@@ -1,7 +1,9 @@
 # final-project
 
-[![Build Status](https://travis-ci.com/skosinskiy/dan-it-final-project.svg?branch=master)](https://travis-ci.org/skosinskiy/dan-it-final-project) [![Coverage Status](https://coveralls.io/repos/github/skosinskiy/dan-it-final-project/badge.svg?branch=master)](https://coveralls.io/github/skosinskiy/dan-it-final-project?branch=master)
-[![Coverage Status](https://coveralls.io/repos/github/skosinskiy/dan-it-final-project/badge.svg?branch=master)](https://coveralls.io/github/skosinskiy/dan-it-final-project?branch=master)
+[![Build Status](https://travis-ci.com/skosinskiy/dan-it-final-project.svg?branch=master)](https://travis-ci.org/skosinskiy/dan-it-final-project)
+[![codecov](https://codecov.io/gh/skosinskiy/dan-it-final-project/branch/master/graph/badge.svg)](https://codecov.io/gh/skosinskiy/dan-it-final-project)
 
-e-mails
+####e-mails
+
 a.i.danilishin@gmails.com
+stanislav.kosinski@gmail.com
