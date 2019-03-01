@@ -2,8 +2,8 @@ $font-stack:    Helvetica, sans-serif;
 $primary-color: rgb(153, 71, 71);
 // 
 body {
-  display: 'block';
-  position: static;
-  color: $primary-color;
-  font: 100% $font-stack;
+    position: static;
+    display: 'block';
+    color: $primary-color;
+    font: 100% $font-stack;
 }
