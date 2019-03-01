@@ -19,15 +19,29 @@ public class LoggingAspect {
   public Object beforeMethodExecution(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
     String methodName = proceedingJoinPoint.getSignature().toShortString();
     Object[] args = proceedingJoinPoint.getArgs();
+    logBeforeMethodExecution(args, methodName);
+    return proceedJoinPointAndLogResult(proceedingJoinPoint, args, methodName);
+  }
+
+  private void logBeforeMethodExecution(Object[] args, String methodName) {
     String argsString = Arrays.stream(args)
-        .map(arg -> String.format("%s: {%s}", arg.getClass(), arg.toString()))
-        .reduce((arg1, arg2) -> String.format("%s; %s", arg1, arg2))
-        .orElse("");
+            .map(arg -> String.format("%s: {%s}", arg.getClass(), arg.toString()))
+            .reduce((arg1, arg2) -> String.format("%s; %s", arg1, arg2))
+            .orElse("");
     LOG.info(String.format("%s method execution started with arguments [%s]", methodName, argsString));
-    Object result = proceedingJoinPoint.proceed(args);
-    LOG.info(String.format("%s method execution finished returning [%s: {%s}]",
-            methodName, result.getClass(), result.toString()));
-    return result;
+  }
+
+  private Object proceedJoinPointAndLogResult(ProceedingJoinPoint joinPoint, Object[] args, String methodName)
+          throws Throwable {
+    try {
+      Object result = joinPoint.proceed(args);
+      LOG.info(String.format("%s method execution finished returning [%s: {%s}]",
+              methodName, result.getClass(), result.toString()));
+      return result;
+    } catch (Throwable throwable) {
+      LOG.error(String.format("Error during %s method execution: %s]", methodName, throwable.getMessage()));
+      throw throwable;
+    }
   }
 
 }
