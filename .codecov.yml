@@ -7,4 +7,4 @@ coverage:
 
 ignore:
   - "**/com.danit.finalproject.application.FinalProjectApplication.java"
-  - "**/com.danit.finalproject.application.aspect.LoggingAspect.java"
+  - "**/com.danit.finalproject.application.aspect.*.java"
