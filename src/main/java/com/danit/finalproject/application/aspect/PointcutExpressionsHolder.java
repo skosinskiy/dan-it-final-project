@@ -5,6 +5,8 @@ import org.aspectj.lang.annotation.Pointcut;
 public class PointcutExpressionsHolder {
 
   @Pointcut("execution(* com.danit.finalproject.application..*(..))")
-  public void forApplication() {}
+  public void forApplication() {
+    //Technical Method
+  }
 
 }
