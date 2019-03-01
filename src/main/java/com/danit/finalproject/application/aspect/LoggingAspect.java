@@ -25,7 +25,8 @@ public class LoggingAspect {
         .orElse("");
     LOG.info(String.format("%s method execution started with arguments [%s]", methodName, argsString));
     Object result = proceedingJoinPoint.proceed(args);
-    LOG.info(String.format("%s method execution finished returning [%s: {%s}]", methodName, result.getClass(), result.toString()));
+    LOG.info(String.format("%s method execution finished returning [%s: {%s}]",
+            methodName, result.getClass(), result.toString()));
     return result;
   }
 
