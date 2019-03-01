@@ -18,7 +18,7 @@ public class LoggingAspect {
   private static final String VOID_RETURN_TYPE = "void";
 
   @Around("com.danit.finalproject.application.aspect.PointcutExpressionsHolder.forApplication()")
-  public Object beforeMethodExecution(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+  public Object logAroundMessageExecution(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
     MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
     String methodName = signature.toShortString();
     String returnType = signature.getReturnType().getName();
