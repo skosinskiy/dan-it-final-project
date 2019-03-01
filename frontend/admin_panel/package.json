@@ -7,6 +7,23 @@
     "react-dom": "^16.8.3",
     "react-scripts": "2.1.5"
   },
+  "devDependencies": {
+    "node-sass": "^4.11.0",
+    "npm-run-all": "^4.1.1",
+    "npm-watch": "^0.3.0",
+    "standard": "^10.0.3",
+    "stylelint": "^8.4.0",
+    "stylelint-config-rational-order": "0.0.2",
+    "stylelint-order": "^2.0.0"
+  },
+  "watch": {
+    "stylelint-dev": {
+      "patterns": [
+        "/src/**/*.scss"
+      ],
+      "extensions": "scss"
+    }
+  },
   "scripts": {
     "start": "npm-run-all -p watch-styles-sass start-js",
     "start-js": "react-scripts start",
@@ -18,16 +35,6 @@
     "watch-styles-sass": "npm-watch",
     "stylelint-fix-sass": "stylelint --fix \"src/**/*.scss\""
   },
-
-  "watch": {
-    "stylelint-dev": {
-      "patterns": [
-        "/src/**/*.scss"
-      ],
-      "extensions": "scss"
-    }
-  },
- 
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -36,14 +43,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "devDependencies": {
-    "node-sass": "^4.11.0",
-    "npm-run-all": "^4.1.1",
-    "npm-watch": "^0.3.0",
-    "standard": "^10.0.3",
-    "stylelint": "^8.2.0",
-    "stylelint-config-rational-order": "0.0.2",
-    "stylelint-order": "^2.0.0"
-  }
+  ]
 }
