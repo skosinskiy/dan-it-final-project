@@ -18,13 +18,13 @@ public class LoggingAspect {
   private static final String VOID_RETURN_TYPE = "void";
 
   @Around("com.danit.finalproject.application.aspect.PointcutExpressionsHolder.forApplication()")
-  public Object logAroundMessageExecution(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+  public Object logAroundMethodExecution(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
     MethodSignature signature = (MethodSignature) proceedingJoinPoint.getSignature();
     String methodName = signature.toShortString();
     String returnType = signature.getReturnType().getName();
     Object[] args = proceedingJoinPoint.getArgs();
     logBeforeMethodExecution(args, methodName);
-    return proceedJoinPointAndLogResult(proceedingJoinPoint, args, methodName, returnType);
+    return proceedAndLogAfterMethodExecution(proceedingJoinPoint, args, methodName, returnType);
   }
 
   private void logBeforeMethodExecution(Object[] args, String methodName) {
@@ -35,7 +35,7 @@ public class LoggingAspect {
     LOG.info(String.format("%s method execution started with arguments [%s]", methodName, argsString));
   }
 
-  private Object proceedJoinPointAndLogResult(
+  private Object proceedAndLogAfterMethodExecution(
           ProceedingJoinPoint joinPoint,
           Object[] args,
           String methodName,
