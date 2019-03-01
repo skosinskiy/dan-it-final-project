@@ -4,6 +4,3 @@ coverage:
   range: 90..100
   round: down
   precision: 2
-
-ignore:
-  - "**/com.danit.finalproject.application.FinalProjectApplication.java"
