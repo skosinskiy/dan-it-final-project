@@ -16,7 +16,7 @@ public class LoggingAspect {
   private static final Logger LOG = LoggerFactory.getLogger(LoggingAspect.class);
 
   @Around("com.danit.finalproject.application.aspect.PointcutExpressionsHolder.forApplication()")
-  public Object beforeMethodExecution(ProceedingJoinPoint proceedingJoinPoint) {
+  public Object beforeMethodExecution(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
     String methodName = proceedingJoinPoint.getSignature().toShortString();
     Object[] args = proceedingJoinPoint.getArgs();
     String argsString = Arrays.stream(args)
@@ -24,14 +24,9 @@ public class LoggingAspect {
         .reduce((arg1, arg2) -> String.format("%s; %s", arg1, arg2))
         .orElse("");
     LOG.info(String.format("%s method execution started with arguments [%s]", methodName, argsString));
-    Object result = null;
-    try {
-      result = proceedingJoinPoint.proceed(args);
-      LOG.info(String.format("%s method execution finished returning [%s: {%s}]",
-              methodName, result.getClass(), result.toString()));
-    } catch (Throwable throwable) {
-      LOG.error(String.format("Error proceeding %s method: %s", methodName, throwable.getMessage()));
-    }
+    Object result = proceedingJoinPoint.proceed(args);
+    LOG.info(String.format("%s method execution finished returning [%s: {%s}]",
+            methodName, result.getClass(), result.toString()));
     return result;
   }
 
