@@ -18,17 +18,32 @@ public class GenericExceptionHandlerTest {
   private TestRestTemplate testRestTemplate;
 
   @Test
-  public void handleException() {
+  public void handleUnknownException() {
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
 
     HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
 
-    ResponseEntity<String> responseEntity = testRestTemplate.exchange("http://localhost:8080/test",
+    ResponseEntity<String> responseEntity = testRestTemplate.exchange("http://localhost:8080/testUnknownExc",
         HttpMethod.GET, requestEntity, String.class);
 
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
-    assertEquals("TEST EXCEPTION", responseEntity.getBody());
+    assertEquals("UNKNOWN EXCEPTION", responseEntity.getBody());
+  }
+
+  @Test
+  public void handleKnownException() {
+
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON);
+
+    HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
+
+    ResponseEntity<String> responseEntity = testRestTemplate.exchange("http://localhost:8080/testKnownExc",
+        HttpMethod.GET, requestEntity, String.class);
+
+    assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+    assertEquals("KNOWN EXCEPTION", responseEntity.getBody());
   }
 }
