@@ -26,7 +26,7 @@ public class GenericExceptionHandler {
         .map(e -> e.toString() + "\n")
         .reduce((e1, e2) -> e1 + e2)
         .orElse("");
-    log.error(String.format("%s\n%s", exc.getMessage(), stackTrace));
+    log.error(String.format("%s%n%s", exc.getMessage(), stackTrace));
     return new ResponseEntity<>(exc.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
