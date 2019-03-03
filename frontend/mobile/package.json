@@ -7,11 +7,33 @@
     "react-dom": "^16.8.3",
     "react-scripts": "2.1.5"
   },
+  "devDependencies": {
+    "node-sass": "^4.11.0",
+    "npm-run-all": "^4.1.1",
+    "npm-watch": "^0.3.0",
+    "standard": "^10.0.3",
+    "stylelint": "^8.4.0",
+    "stylelint-config-rational-order": "0.0.2",
+    "stylelint-order": "^2.0.0"
+  },
+  "watch": {
+    "stylelint-dev": {
+      "patterns": [
+        "/src/**/*.scss"
+      ],
+      "extensions": "scss"
+    }
+  },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "npm-run-all -p watch-styles-sass start-js",
+    "start-js": "react-scripts start",
+    "build": "npm run stylelint-build && react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "stylelint-dev": "stylelint \"src/**/*.scss\" --cache --cache-location \"./.stylelintcache\"; exit 0",
+    "stylelint-build": "stylelint \"src/**/*.scss\"",
+    "watch-styles-sass": "npm-watch",
+    "stylelint-fix-sass": "stylelint --fix \"src/**/*.scss\""
   },
   "eslintConfig": {
     "extends": "react-app"
