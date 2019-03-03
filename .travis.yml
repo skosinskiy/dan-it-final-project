@@ -7,10 +7,21 @@ jdk:
 cache:
   directories:
     - $HOME/.m2
+    - frontend/admin_panel/node_modules/
+    - frontend/mobile/node_modules/
+    - frontend/screen/node_modules/
+
+before_script:
+  - npm install --prefix frontend/admin_panel/
+  - npm install --prefix frontend/mobile/
+  - npm install --prefix frontend/screen/
 
 script:
   - mvn clean test
   - sonar-scanner
+  - npm run build --prefix frontend/admin_panel/
+  - npm run build --prefix frontend/mobile/
+  - npm run build --prefix frontend/screen/
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 
