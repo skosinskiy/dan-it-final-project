@@ -8,13 +8,13 @@ export default class Preloader extends Component{
 
     render() {
         const items = [];
-        const preloader = 'preloader' + `${this.state.fullscreen ? " full_screen_preloader" : ''}`;
+        const fullScreen = this.state.fullscreen ? " full_screen_preloader" : '';
         for (let i = 0; i < 9; i++) {
             items.push(<div className={`item-${i+1}`}><div></div></div>)
         }
 
         return (
-            <div className={preloader}>
+            <div className={'preloader' + fullScreen}>
                 {items}
             </div>
         )
