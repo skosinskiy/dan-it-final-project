@@ -22,9 +22,8 @@ class App extends Component {
         {/* </header> */}
         <Preloader />
       </div>
-
     )
   }
 }
 
-export default App
+export default App;
