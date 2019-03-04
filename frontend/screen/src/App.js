@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Preloader from './components/Preloader'
+import logo from './logo.svg'
 import './App.css'
 
 class App extends Component {
@@ -22,7 +23,6 @@ class App extends Component {
         {/* </header> */}
         <Preloader />
       </div>
-
     )
   }
 }

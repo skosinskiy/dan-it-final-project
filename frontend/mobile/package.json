@@ -27,13 +27,14 @@
   "scripts": {
     "start": "npm-run-all -p watch-styles-sass start-js",
     "start-js": "react-scripts start",
-    "build": "npm run stylelint-build && react-scripts build",
+    "build": "npm run eslint-build && npm run stylelint-build && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "stylelint-dev": "stylelint \"src/**/*.scss\" --cache --cache-location \"./.stylelintcache\"; exit 0",
-    "stylelint-build": "stylelint \"src/**/*.scss\"",
+    "stylelint-dev": "stylelint \"src/**/*.*css\" --cache --cache-location \"./.stylelintcache\"; exit 0",
+    "stylelint-build": "stylelint \"src/**/*.*css\"",
     "watch-styles-sass": "npm-watch",
-    "stylelint-fix-sass": "stylelint --fix \"src/**/*.scss\""
+    "stylelint-fix-sass": "stylelint --fix \"src/**/*.scss\"",
+    "eslint-build": "eslint src/**/*.js"
   },
   "eslintConfig": {
     "extends": "react-app"
