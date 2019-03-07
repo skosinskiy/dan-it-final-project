@@ -10,8 +10,8 @@ import javax.persistence.MappedSuperclass;
 @Data
 @MappedSuperclass
 public class BaseEntity extends Auditable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 }
 

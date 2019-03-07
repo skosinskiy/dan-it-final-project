@@ -2,8 +2,11 @@ package com.danit.finalproject.application.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
@@ -11,11 +14,11 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Chat extends BaseEntity {
-    private String name;
+  private String name;
 
-    @ManyToMany(mappedBy = "chats")
-    private List<User> users;
+  @ManyToMany(mappedBy = "chats")
+  private List<User> users;
 
-    @OneToMany(mappedBy = "chat", fetch = FetchType.LAZY)
-    private List<ChatMessage> chatMessages;
+  @OneToMany(mappedBy = "chat", fetch = FetchType.LAZY)
+  private List<ChatMessage> chatMessages;
 }

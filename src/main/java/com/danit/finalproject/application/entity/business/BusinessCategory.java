@@ -1,4 +1,4 @@
-package com.danit.finalproject.application.entity.buseness;
+package com.danit.finalproject.application.entity.business;
 
 import com.danit.finalproject.application.entity.BaseEntity;
 import lombok.Data;
@@ -14,8 +14,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class BusinessCategory extends BaseEntity {
-    private String name;
+  private String name;
 
-    @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY)
-    private List<BusinessSubcategory> subcategories;
+  @OneToMany(mappedBy = "parentCategory", fetch = FetchType.LAZY)
+  private List<BusinessSubcategory> subcategories;
 }

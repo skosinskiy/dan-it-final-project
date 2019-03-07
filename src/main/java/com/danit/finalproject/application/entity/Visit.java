@@ -3,7 +3,13 @@ package com.danit.finalproject.application.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
 
@@ -12,12 +18,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Visit extends BaseEntity {
-    private Date date_finish;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+  @Column(name = "date_finish")
+  private Date dateFinish;
 
-    @OneToMany(mappedBy = "visit", fetch = FetchType.LAZY)
-    private List<VisitAction> actions;
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private User user;
+
+  @OneToMany(mappedBy = "visit", fetch = FetchType.LAZY)
+  private List<VisitAction> actions;
 }

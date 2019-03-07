@@ -13,10 +13,10 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 public class VisitAction extends BaseEntity {
-    private String type;
-    private String mood;
+  private String type;
+  private String mood;
 
-    @ManyToOne
-    @JoinColumn(name = "visit_id", nullable = false)
-    private Visit visit;
+  @ManyToOne
+  @JoinColumn(name = "visit_id", nullable = false)
+  private Visit visit;
 }

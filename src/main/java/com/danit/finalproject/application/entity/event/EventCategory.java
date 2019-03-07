@@ -3,7 +3,6 @@ package com.danit.finalproject.application.entity.event;
 import com.danit.finalproject.application.entity.BaseEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
@@ -15,8 +14,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class EventCategory extends BaseEntity {
-    private String name;
+  private String name;
 
-    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
-    private List<Event> events;
+  @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
+  private List<Event> events;
 }

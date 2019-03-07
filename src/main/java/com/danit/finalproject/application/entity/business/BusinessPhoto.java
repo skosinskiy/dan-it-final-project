@@ -1,23 +1,28 @@
-package com.danit.finalproject.application.entity.buseness;
+package com.danit.finalproject.application.entity.business;
 
 import com.danit.finalproject.application.entity.BaseEntity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 
 @Entity
 @Table(name = "business_photos")
 @Data
 @NoArgsConstructor
 public class BusinessPhoto extends BaseEntity {
-    private String photo;
+  private String photo;
 
-    @OneToOne
-    @JoinColumn(name = "main_business_id")
-    private Business main;
+  @OneToOne
+  @JoinColumn(name = "main_business_id")
+  private Business main;
 
-    @ManyToOne
-    @JoinColumn(name = "business_id")
-    private Business business;
+  @ManyToOne
+  @JoinColumn(name = "business_id")
+  private Business business;
 }

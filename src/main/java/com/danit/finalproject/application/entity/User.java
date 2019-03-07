@@ -3,44 +3,52 @@ package com.danit.finalproject.application.entity;
 import com.danit.finalproject.application.entity.place.Place;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
 @Data
 @NoArgsConstructor
-public class User extends BaseEntity{
+public class User extends BaseEntity {
 
-    private String email;
-    private String password;
-    private String photo;
+  private String email;
+  private String password;
+  private String photo;
 
-    @Column(name = "first_name")
-    private String firstName;
+  @Column(name = "first_name")
+  private String firstName;
 
-    @Column(name = "last_name")
-    private String lastName;
+  @Column(name = "last_name")
+  private String lastName;
 
-    private Long age;
-    private Boolean sex;
+  private Long age;
+  private Boolean sex;
 
-    @ManyToMany
-    @JoinTable(name = "users_roles",
-    joinColumns = {@JoinColumn(name = "user_id")},
-    inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private List<Role> roles;
+  @ManyToMany
+  @JoinTable(name = "users_roles",
+          joinColumns = {@JoinColumn(name = "user_id")},
+          inverseJoinColumns = {@JoinColumn(name = "role_id")})
+  private List<Role> roles;
 
-    @ManyToOne
-    @JoinColumn(name = "place_id")
-    private Place place;
+  @ManyToOne
+  @JoinColumn(name = "place_id")
+  private Place place;
 
-    @ManyToMany
-    @JoinTable(name = "users_chats",
-    joinColumns = {@JoinColumn(name = "user_id")},
-    inverseJoinColumns = {@JoinColumn(name = "chat_id")})
-    private List<Chat> chats;
+  @ManyToMany
+  @JoinTable(name = "users_chats",
+          joinColumns = {@JoinColumn(name = "user_id")},
+          inverseJoinColumns = {@JoinColumn(name = "chat_id")})
+  private List<Chat> chats;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Visit> visits;
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  private List<Visit> visits;
 }

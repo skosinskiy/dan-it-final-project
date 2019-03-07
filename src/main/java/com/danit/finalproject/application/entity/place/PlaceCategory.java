@@ -14,9 +14,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class PlaceCategory extends BaseEntity {
-    private String name;
-    private Boolean multisync;
+  private String name;
+  private Boolean multisync;
 
-    @OneToMany(mappedBy = "placeCategory", fetch = FetchType.LAZY)
-    private List<Place> places;
+  @OneToMany(mappedBy = "placeCategory", fetch = FetchType.LAZY)
+  private List<Place> places;
 }
