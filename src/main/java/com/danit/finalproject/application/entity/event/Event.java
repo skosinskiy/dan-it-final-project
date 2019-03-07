@@ -34,10 +34,10 @@ public class Event extends BaseEntity {
           inverseJoinColumns = {@JoinColumn(name = "category_id")})
   private List<EventCategory> categories;
 
-  @OneToOne(mappedBy = "main", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "main")
   private EventPhoto mainPhoto;
 
-  @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
   private List<EventPhoto> photos;
 
   @OneToOne

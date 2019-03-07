@@ -46,10 +46,10 @@ public class Business extends BaseEntity {
   @OneToOne(mappedBy = "mainBusiness")
   private Event event;
 
-  @OneToOne(mappedBy = "main", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "main")
   private BusinessPhoto mainPhoto;
 
-  @OneToMany(mappedBy = "business", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "business", fetch = FetchType.LAZY)
   private List<BusinessPhoto> photos;
 
   @OneToOne(mappedBy = "business")

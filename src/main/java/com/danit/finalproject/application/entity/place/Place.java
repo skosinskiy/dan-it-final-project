@@ -32,10 +32,10 @@ public class Place extends BaseEntity {
   @OneToMany(mappedBy = "place")
   private List<Notification> notifications;
 
-  @OneToOne(mappedBy = "main", cascade = CascadeType.ALL)
+  @OneToOne(mappedBy = "main")
   private PlacePhoto mainPhoto;
 
-  @OneToMany(mappedBy = "place", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "place", fetch = FetchType.LAZY)
   private List<PlacePhoto> photos;
 
   @OneToMany(mappedBy = "place")
