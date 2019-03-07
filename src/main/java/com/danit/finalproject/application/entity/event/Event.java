@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -25,7 +26,10 @@ import java.util.List;
 @NoArgsConstructor
 public class Event extends BaseEntity {
 
+  @Column(name = "title")
   private String title;
+
+  @Column(name = "descritpion")
   private String description;
 
   @ManyToMany
@@ -51,5 +55,6 @@ public class Event extends BaseEntity {
   @JoinColumn(name = "place_id")
   private Place place;
 
+  @Column(name = "adress")
   private String adress;
 }

@@ -20,8 +20,13 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends BaseEntity {
 
+  @Column(name = "email")
   private String email;
+
+  @Column(name = "password")
   private String password;
+
+  @Column(name = "photo")
   private String photo;
 
   @Column(name = "first_name")
@@ -30,7 +35,10 @@ public class User extends BaseEntity {
   @Column(name = "last_name")
   private String lastName;
 
+  @Column(name = "age")
   private Long age;
+
+  @Column(name = "sex")
   private Boolean sex;
 
   @ManyToMany

@@ -8,6 +8,7 @@ import com.danit.finalproject.application.entity.event.Event;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -22,8 +23,14 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Place extends BaseEntity {
+
+  @Column(name = "title")
   private String title;
+
+  @Column(name = "description")
   private String description;
+
+  @Column(name = "adress")
   private String adress;
 
   @OneToMany(mappedBy = "place")

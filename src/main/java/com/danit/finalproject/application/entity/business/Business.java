@@ -25,7 +25,11 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Business extends BaseEntity {
+
+  @Column(name = "title")
   private String title;
+
+  @Column(name = "description")
   private String description;
 
   @ManyToMany
@@ -34,9 +38,13 @@ public class Business extends BaseEntity {
           inverseJoinColumns = {@JoinColumn(name = "category_id")})
   private BusinessSubcategory category;
 
+  @Column(name = "adress")
   private String adress;
+
   @Column(name = "web_site")
   private String site;
+
+  @Column(name = "phone_number")
   private String phone;
 
   @ManyToOne

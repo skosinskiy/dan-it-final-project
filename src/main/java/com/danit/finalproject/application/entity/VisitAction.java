@@ -3,6 +3,7 @@ package com.danit.finalproject.application.entity;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,7 +14,11 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 public class VisitAction extends BaseEntity {
+
+  @Column(name = "type")
   private String type;
+
+  @Column(name = "mood")
   private String mood;
 
   @ManyToOne
