@@ -2,12 +2,10 @@ package com.danit.finalproject.application.entity.event;
 
 import com.danit.finalproject.application.entity.BaseEntity;
 import com.danit.finalproject.application.entity.Notification;
-import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.business.Business;
+import com.danit.finalproject.application.entity.place.Place;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

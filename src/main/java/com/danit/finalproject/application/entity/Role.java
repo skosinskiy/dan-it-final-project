@@ -18,7 +18,7 @@ import java.util.List;
 public class Role extends BaseEntity {
 
   @Column(name = "role")
-  private String role;
+  private String userRole;
 
   @ManyToMany
   @JoinTable(name = "permissions_roles",
