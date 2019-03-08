@@ -21,6 +21,6 @@ public class BusinessCategory extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "parent_category_id")
-  private BusinessCategory category;
+  private BusinessCategory parentCategory;
 
 }

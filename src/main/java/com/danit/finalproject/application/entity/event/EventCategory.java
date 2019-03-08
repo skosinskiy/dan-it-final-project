@@ -19,7 +19,7 @@ public class EventCategory extends BaseEntity {
   private String name;
 
   @ManyToOne
-  @JoinColumn(name = "parent_category")
+  @JoinColumn(name = "parent_category_id")
   private EventCategory parentCategory;
 
 }
