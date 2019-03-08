@@ -27,7 +27,7 @@ public class Notification extends BaseEntity {
   @JoinColumn(name = "place_id")
   private Place place;
 
-  @OneToOne
+  @ManyToOne
   @JoinColumn(name = "business_id")
   private Business business;
 

@@ -21,8 +21,6 @@ public class PlaceCategory extends BaseEntity {
   private String name;
 
   @Column(name = "multisync")
-  private Boolean multisync;
+  private boolean multisync;
 
-  @OneToMany(mappedBy = "placeCategory", fetch = FetchType.LAZY)
-  private List<Place> places;
 }

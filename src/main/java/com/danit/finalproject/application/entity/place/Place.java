@@ -1,15 +1,13 @@
 package com.danit.finalproject.application.entity.place;
 
 import com.danit.finalproject.application.entity.BaseEntity;
-import com.danit.finalproject.application.entity.Notification;
-import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.event.Event;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -29,26 +27,22 @@ public class Place extends BaseEntity {
   @Column(name = "description")
   private String description;
 
-  @Column(name = "adress")
-  private String adress;
+  @Column(name = "address")
+  private String address;
 
   @OneToMany(mappedBy = "place")
   private List<Business> businesses;
 
-  @OneToMany(mappedBy = "place")
-  private List<Notification> notifications;
-
-  @OneToOne(mappedBy = "main")
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "main_photo")
   private PlacePhoto mainPhoto;
 
-  @OneToMany(mappedBy = "place", fetch = FetchType.LAZY)
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "photos")
   private List<PlacePhoto> photos;
 
   @OneToMany(mappedBy = "place")
   private List<Event> events;
-
-  @OneToMany(mappedBy = "place", fetch = FetchType.LAZY)
-  private List<User> users;
 
   @ManyToOne
   @JoinColumn(name = "place_category", nullable = false)

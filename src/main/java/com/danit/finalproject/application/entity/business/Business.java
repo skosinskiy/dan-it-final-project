@@ -1,14 +1,14 @@
 package com.danit.finalproject.application.entity.business;
 
 import com.danit.finalproject.application.entity.BaseEntity;
-import com.danit.finalproject.application.entity.Notification;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.place.Place;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -19,9 +19,10 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "places")
+@Table(name = "businesses")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Business extends BaseEntity {
 
   @Column(name = "title")
@@ -31,33 +32,34 @@ public class Business extends BaseEntity {
   private String description;
 
   @ManyToMany
-  @JoinTable(name = "businesses_categorie",
+  @JoinTable(name = "businesses_categories",
           joinColumns = {@JoinColumn(name = "business_id")},
           inverseJoinColumns = {@JoinColumn(name = "category_id")})
-  private BusinessSubcategory category;
+  private List<BusinessCategory> categories;
 
-  @Column(name = "adress")
-  private String adress;
+  @Column(name = "address")
+  private String address;
 
   @Column(name = "web_site")
-  private String site;
+  private String webSite;
 
   @Column(name = "phone_number")
-  private String phone;
+  private String phoneNumber;
 
   @ManyToOne
   @JoinColumn(name = "place_id")
   private Place place;
 
-  @OneToOne(mappedBy = "mainBusiness")
-  private Event event;
+  @OneToMany
+  @JoinColumn(name = "event_id")
+  private List<Event> events;
 
-  @OneToOne(mappedBy = "main")
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "main_photo")
   private BusinessPhoto mainPhoto;
 
-  @OneToMany(mappedBy = "business", fetch = FetchType.LAZY)
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "photos")
   private List<BusinessPhoto> photos;
 
-  @OneToOne(mappedBy = "business")
-  private Notification notification;
 }
