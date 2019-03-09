@@ -1,5 +1,6 @@
+
 .menu {
-    position: absolute;
+    position: fixed;
     top: 5px;
     left: 5px;
     display: block;
@@ -30,6 +31,12 @@
     opacity: 0;
     transition: .5s;
 }
+
+$icon_classes: (
+    'icon': 'menu-icon', 
+    'crossed': 'menu-icon-crossed', 
+    'crossed-reverse': 'menu-icon-crossed-reverse'
+    );
 
 .menu-icon {
     width: 25px;
