@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Preloader from './components/Preloader'
+import AddBusinessCategory from './components/AddBusinessCategory'
 import './App.css'
 
 class App extends Component {
@@ -20,7 +20,6 @@ class App extends Component {
         {/* Learn React */}
         {/* </a> */}
         {/* </header> */}
-        <Preloader />
       </div>
     )
   }
