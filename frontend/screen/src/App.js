@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import './App.css'
-import AppRoutes from './components/AppRoutes'
 import Preloader from './components/Preloader'
 
 class App extends Component {
@@ -22,7 +21,6 @@ class App extends Component {
         {/* </a> */}
         {/* </header> */}
         <Preloader />
-        <AppRoutes/>
       </div>
     )
   }

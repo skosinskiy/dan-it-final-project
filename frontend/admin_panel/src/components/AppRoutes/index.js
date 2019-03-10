@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import { Route, Switch, Redirect } from 'react-router-dom'
-import Login from '../Login'
-import Admin from '../Admin'
-import ForgotPasword from '../ForgotPassword'
-import Main from '../Main'
+import Login from '../Login/index'
+import Admin from '../Admin/index'
+import ForgotPasword from '../ForgotPassword/index'
+import Main from '../Main/index'
 
 class AppRoutes extends Component {
     state = {
