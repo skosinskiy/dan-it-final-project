@@ -1,5 +1,4 @@
-import React, { Component } from 'react'
-import AddBusinessCategory from './components/AddBusinessCategory'
+import React, {Component} from 'react'
 import './App.css'
 
 class App extends Component {
