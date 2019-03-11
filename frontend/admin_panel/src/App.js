@@ -21,7 +21,6 @@ class App extends Component {
         {/* Learn React */}
         {/* </a> */}
         {/* </header> */}
-        <Preloader />
         <AppRouter/>
       </div>
     )
