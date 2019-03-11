@@ -1,4 +1,5 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
+import AppRouter from './components/AppRoutes'
 import './App.css'
 
 class App extends Component {
@@ -19,6 +20,7 @@ class App extends Component {
         {/* Learn React */}
         {/* </a> */}
         {/* </header> */}
+        <AppRouter/>
       </div>
     )
   }

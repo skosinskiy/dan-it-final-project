@@ -3,7 +3,7 @@ import './preloader.scss'
 
 export default class Preloader extends Component {
     state = {
-      fullscreen: true
+      fullscreen: false
     }
 
     render () {
