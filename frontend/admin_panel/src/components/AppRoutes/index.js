@@ -1,12 +1,7 @@
-import React, {Component} from 'react'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import React, { Component } from 'react'
 import Login from '../../pages/Login'
 import Admin from '../../pages/Admin'
-<<<<<<< HEAD
-import ForgotPasword from '../../pages/ForgorPassword'
-=======
 import ForgotPasword from '../../pages/ForgotPassword'
->>>>>>> master
 import Main from '../../pages/Main'
 
 class AppRoutes extends Component {
