@@ -5,7 +5,7 @@ export default class Login extends Component {
   render () {
     return (
       <div>
-        LoginPage
+        Login Page
         <NavLink to={'/forgot-password'}><button>Forgot Password</button></NavLink>
       </div>
     )

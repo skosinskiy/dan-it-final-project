@@ -1,11 +1,13 @@
 import React, {Component} from 'react'
 
-export default class Login extends Component {
+class Admin extends Component {
   render () {
     return (
       <div>
-        Admin Panel
+                Admin Panel
       </div>
     )
   }
 }
+
+export default Admin
