@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Preloader from './components/Preloader'
 import AppRouter from './components/AppRoutes'
 import './App.css'
 
