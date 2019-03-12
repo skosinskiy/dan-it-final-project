@@ -37,7 +37,7 @@ public class User extends BaseEntity {
   private Long age;
 
   @Column(name = "gender")
-  private boolean gender;
+  private Gender gender;
 
   @ManyToMany
   @JoinTable(name = "users_roles",
