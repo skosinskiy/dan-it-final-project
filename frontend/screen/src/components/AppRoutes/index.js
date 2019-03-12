@@ -20,6 +20,7 @@ const AppRoutes = (props) => {
           <Route path="/Services" component={Services}/>
           <Route path="/FunnyCats" component={FunnyCats}/>
           <Route path="/Extra" component={Extra}/>
+          <Route path="/" component={Restaurants}/>
         </Switch>
       </div>
     )
