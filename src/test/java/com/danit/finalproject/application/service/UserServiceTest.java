@@ -1,26 +1,33 @@
 package com.danit.finalproject.application.service;
 
+import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-public class UserServiceTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@AutoConfigureMockMvc
+@Transactional
+public class UserServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
 
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private RoleService roleService;
+
 	@Test
-	@Transactional
 	public void getUserById() {
 		Long expectedId = 1L;
 		String expectedEmail = "first.user@test.com";
@@ -32,7 +39,6 @@ public class UserServiceTest {
 	}
 
 	@Test
-	@Transactional
 	public void getUsersByEmail() {
 		int expectedUsersSize = 2;
 		String expectedSecondUserEmail = "first.user@test2.com";
@@ -44,7 +50,6 @@ public class UserServiceTest {
 	}
 
 	@Test
-	@Transactional
 	public void createUser() {
 		Long userAge = 30L;
 		String userEmail = "createdUser@gmail.com";
@@ -66,7 +71,6 @@ public class UserServiceTest {
 	}
 
 	@Test
-	@Transactional
 	public void updateUser() {
 		String userFirstName = "Updated";
 		Long userId = 2L;
@@ -80,9 +84,20 @@ public class UserServiceTest {
 	}
 
 	@Test
-	@Transactional
 	public void deleteUser() {
 		userService.deleteUser(2L);
 		assertNull(userService.getUserById(2L));
+	}
+
+	@Test
+	public void setUserRoles() {
+		Long userId = 1L;
+		List<Role> roles = roleService.getAllRoles();
+
+		userService.setUserRoles(userId, roles);
+		User user = userService.getUserById(userId);
+
+		assertEquals(roles.size(), user.getRoles().size());
+		assertEquals(roles.get(0).getName(), user.getRoles().get(0).getName());
 	}
 }

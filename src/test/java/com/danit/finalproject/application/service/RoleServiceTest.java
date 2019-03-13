@@ -4,26 +4,28 @@ import com.danit.finalproject.application.entity.Role;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@AutoConfigureMockMvc
+@Transactional
 public class RoleServiceTest {
 
   @Autowired
   private RoleService roleService;
 
   @Test
-  @Transactional
   public void getRoleById() {
-    Long expectedId = 1L;
-    String expectedName = "admin";
+    Long expectedId = 2L;
+    String expectedName = "super-admin";
 
     Role role = roleService.getRoleById(expectedId);
 
@@ -32,50 +34,54 @@ public class RoleServiceTest {
   }
 
   @Test
-  @Transactional
   public void getAllRoles() {
+    int expectedRolesSize = 2;
+    String expectedName = "super-admin";
+
     List<Role> roles = roleService.getAllRoles();
 
-    int expectedRolesSize = 2;
     assertEquals(expectedRolesSize, roles.size());
+    assertEquals(expectedName, roles.get(1).getName());
   }
 
   @Test
-  @Transactional
   public void createRole() {
-
-    String roleName = "user";
+    int expectedRolesSize = 3;
+    String expectedRoleName = "user";
 
     Role role = new Role();
-    role.setName("user");
-
+    role.setName(expectedRoleName);
     Role createdRole = roleService.createRole(role);
 
-    assertEquals(roleName, createdRole.getName());
+    assertEquals(expectedRoleName, createdRole.getName());
+    assertEquals(expectedRolesSize, roleService.getAllRoles().size());
     assertNotNull(createdRole.getCreatedDate());
     assertNotNull(createdRole.getModifiedDate());
     assertNotNull(createdRole.getId());
   }
 
   @Test
-  @Transactional
   public void updateRole() {
+    int expectedRolesSize = 2;
     String roleName = "updated-admin";
-    Long roleId = 1L;
+    Long roleId = 2L;
 
     Role role = roleService.getRoleById(roleId);
     role.setName(roleName);
-
     Role updatedRole = roleService.updateRole(roleId, role);
 
     assertEquals(roleName, updatedRole.getName());
-    assertEquals(roleName, roleService.getAllRoles().get(0).getName());
+    assertEquals(roleName, roleService.getRoleById(roleId).getName());
+    assertEquals(expectedRolesSize, roleService.getAllRoles().size());
   }
 
   @Test
-  @Transactional
   public void deleteRole() {
-    roleService.deleteRole(1L);
-    assertNull(roleService.getRoleById(1L));
+    int expectedRolesSize = 1;
+
+    roleService.deleteRole(2L);
+
+    assertNull(roleService.getRoleById(2L));
+    assertEquals(expectedRolesSize, roleService.getAllRoles().size());
   }
 }

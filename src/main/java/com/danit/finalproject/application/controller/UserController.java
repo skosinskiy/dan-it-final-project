@@ -1,5 +1,6 @@
 package com.danit.finalproject.application.controller;
 
+import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,11 @@ public class UserController {
   @DeleteMapping("{userId}")
   public User deleteUser(@PathVariable Long userId) {
     return userService.deleteUser(userId);
+  }
+
+  @PutMapping("{userId}/roles")
+  public User setUserRoles(@PathVariable Long userId, @RequestBody List<Role> roles) {
+    return userService.setUserRoles(userId, roles);
   }
 
 }
