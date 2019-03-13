@@ -15,28 +15,28 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api")
+@RequestMapping("api/roles")
 public class RoleController {
 
   @Autowired
   private RoleService roleService;
 
-  @GetMapping("roles")
+  @GetMapping
   public List<Role> getAllRoles() {
     return roleService.getAllRoles();
   }
 
-  @PostMapping("roles")
+  @PostMapping
   public Role createRole(@RequestBody Role role) {
     return roleService.createRole(role);
   }
 
-  @PutMapping("roles/{roleId}")
+  @PutMapping("{roleId}")
   public Role updateRole(@PathVariable Long roleId, @RequestBody Role role) {
     return roleService.updateRole(roleId, role);
   }
 
-  @DeleteMapping("roles/{roleId}")
+  @DeleteMapping("{roleId}")
   public Role deleteRole(@PathVariable Long roleId) {
     return roleService.deleteRole(roleId);
   }

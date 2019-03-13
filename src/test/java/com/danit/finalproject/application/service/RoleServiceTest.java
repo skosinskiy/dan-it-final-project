@@ -21,14 +21,23 @@ public class RoleServiceTest {
 
   @Test
   @Transactional
+  public void getRoleById() {
+    Long expectedId = 1L;
+    String expectedName = "admin";
+
+    Role role = roleService.getRoleById(expectedId);
+
+    assertEquals(expectedId, role.getId());
+    assertEquals(expectedName, role.getName());
+  }
+
+  @Test
+  @Transactional
   public void getAllRoles() {
     List<Role> roles = roleService.getAllRoles();
 
     int expectedRolesSize = 2;
-    String expectedFirstRoleName = "admin";
-
     assertEquals(expectedRolesSize, roles.size());
-    assertEquals(expectedFirstRoleName, roles.get(0).getName());
   }
 
   @Test
@@ -54,9 +63,8 @@ public class RoleServiceTest {
     String roleName = "updated-admin";
     Long roleId = 1L;
 
-    Role role = new Role();
+    Role role = roleService.getRoleById(roleId);
     role.setName(roleName);
-    role.setId(roleId);
 
     Role updatedRole = roleService.updateRole(roleId, role);
 
@@ -67,8 +75,7 @@ public class RoleServiceTest {
   @Test
   @Transactional
   public void deleteRole() {
-    roleService.deleteRole(2L);
-    int expectedRolesSize = 1;
-    assertEquals(expectedRolesSize, roleService.getAllRoles().size());
+    roleService.deleteRole(1L);
+    assertNull(roleService.getRoleById(1L));
   }
 }
