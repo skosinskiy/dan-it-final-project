@@ -107,11 +107,8 @@ public class UserControllerTest {
 	public void updateUser() throws IOException {
 		String userFirstName = "Updated";
 		Long userId = 2L;
-		String userEmail = "first.user@test2.com";
-		User user = new User();
-		user.setId(2L);
+		User user = userService.getUserById(userId);
 		user.setFirstName(userFirstName);
-		user.setEmail(userEmail);
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);

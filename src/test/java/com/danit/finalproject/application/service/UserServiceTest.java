@@ -70,11 +70,8 @@ public class UserServiceTest {
 	public void updateUser() {
 		String userFirstName = "Updated";
 		Long userId = 2L;
-		String userEmail = "first.user@test2.com";
-		User user = new User();
-		user.setId(2L);
+		User user = userService.getUserById(userId);
 		user.setFirstName(userFirstName);
-		user.setEmail(userEmail);
 
 		User updatedUser = userService.updateUser(userId, user);
 
