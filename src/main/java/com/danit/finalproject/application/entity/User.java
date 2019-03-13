@@ -61,4 +61,8 @@ public class User extends BaseEntity {
   @JoinColumn(name = "visit_id")
   private List<Visit> visits;
 
+  public void removeRole(Role role) {
+    roles.remove(role);
+  }
+
 }
