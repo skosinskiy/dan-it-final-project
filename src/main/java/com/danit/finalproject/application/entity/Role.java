@@ -21,7 +21,7 @@ public class Role extends BaseEntity {
   private String name;
 
   @JsonIgnore
-  @ManyToMany(mappedBy="roles")
+  @ManyToMany(mappedBy = "roles")
   private List<User> users;
 
   @ManyToMany
@@ -32,9 +32,9 @@ public class Role extends BaseEntity {
 
   @Override
   public String toString() {
-    return "Role{" +
-        "name='" + name + '\'' +
-        ", permissions=" + permissions +
-        '}';
+    return "Role{"
+        + "name='" + name + '\''
+        + ", permissions=" + permissions
+        + '}';
   }
 }
