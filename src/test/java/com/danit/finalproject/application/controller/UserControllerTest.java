@@ -117,9 +117,9 @@ public class UserControllerTest extends AbstractTransactionalJUnit4SpringContext
 
 	@Test
 	public void deleteUser() throws Exception {
-		mockMvc.perform(delete("/api/roles/3"));
+		mockMvc.perform(delete("/api/users/2"));
 
-		assertNull(userService.getUserById(3L));
+		assertNull(userService.getUserById(2L));
 	}
 
 	@Test
