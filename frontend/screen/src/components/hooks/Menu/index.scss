@@ -11,13 +11,16 @@
 .menu > ul{
     position: absolute;
     top: 5px;
-    color: black;
-    text-decoration: none;
-    list-style: none;
 }
 
 .menu li{
     margin-bottom: 2em;
+    color: black;
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
 }
 
 .menu-visible {
