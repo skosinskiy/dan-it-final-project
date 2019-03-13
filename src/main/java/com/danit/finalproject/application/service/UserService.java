@@ -13,12 +13,12 @@ public class UserService {
   @Autowired
   private UserRepository userRepository;
 
-  public User getUserById (Long userId) {
-  	return userRepository.findById(userId).orElse(null);
+  public User getUserById(Long userId) {
+    return userRepository.findById(userId).orElse(null);
   }
 
   public List<User> getUsersByEmail(String email) {
-  	return userRepository.findAllByEmailStartingWith(email);
+    return userRepository.findAllByEmailStartingWith(email);
   }
 
   public User createUser(User user) {
@@ -26,13 +26,13 @@ public class UserService {
   }
 
   public User updateUser(Long userId, User user) {
-  	user.setId(userId);
-  	return userRepository.save(user);
+    user.setId(userId);
+    return userRepository.save(user);
   }
 
   public User deleteUser(Long userId) {
-	User user = userRepository.findById(userId).orElse(null);
-	userRepository.delete(user);
-	return user;
+    User user = userRepository.findById(userId).orElse(null);
+    userRepository.delete(user);
+    return user;
   }
 }

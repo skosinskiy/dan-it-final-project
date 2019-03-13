@@ -25,7 +25,7 @@ public class GenericExceptionHandlerTest {
 
     HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
 
-    ResponseEntity<String> responseEntity = testRestTemplate.exchange("http://localhost:8080/testUnknownExc",
+    ResponseEntity<String> responseEntity = testRestTemplate.exchange("http://localhost:9000/testUnknownExc",
         HttpMethod.GET, requestEntity, String.class);
 
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
@@ -40,7 +40,7 @@ public class GenericExceptionHandlerTest {
 
     HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
 
-    ResponseEntity<String> responseEntity = testRestTemplate.exchange("http://localhost:8080/testKnownExc",
+    ResponseEntity<String> responseEntity = testRestTemplate.exchange("http://localhost:9000/testKnownExc",
         HttpMethod.GET, requestEntity, String.class);
 
     assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());

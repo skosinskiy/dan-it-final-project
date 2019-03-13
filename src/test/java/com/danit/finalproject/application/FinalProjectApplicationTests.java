@@ -23,7 +23,7 @@ public class FinalProjectApplicationTests {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
 
-		ResponseEntity<String> responseEntity = testRestTemplate.exchange("http://localhost:8080",
+		ResponseEntity<String> responseEntity = testRestTemplate.exchange("http://localhost:9000",
 				HttpMethod.GET, requestEntity, String.class);
 
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());

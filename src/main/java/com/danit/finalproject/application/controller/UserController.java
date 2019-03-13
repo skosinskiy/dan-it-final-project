@@ -3,7 +3,15 @@ package com.danit.finalproject.application.controller;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -16,17 +24,17 @@ public class UserController {
 
   @GetMapping("users/{userId}")
   public User getUserById(@PathVariable Long userId) {
-  	return userService.getUserById(userId);
+    return userService.getUserById(userId);
   }
 
-  @GetMapping("users?email")
+  @GetMapping("users")
   public List<User> getUsersByEmail(@RequestParam String email) {
-  	return userService.getUsersByEmail(email);
+    return userService.getUsersByEmail(email);
   }
 
   @PostMapping("users")
-  public User createUser(User user) {
-  	return userService.createUser(user);
+  public User createUser(@RequestBody User user) {
+    return userService.createUser(user);
   }
 
   @PutMapping("users/{userId}")
@@ -36,7 +44,7 @@ public class UserController {
 
   @DeleteMapping("users/{userId}")
   public User deleteUser(@PathVariable Long userId) {
-  	return userService.deleteUser(userId);
+    return userService.deleteUser(userId);
   }
 
 }
