@@ -12,6 +12,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class UserControllerTest {
 	private static String endpoint = String.format("http://%s:%s/api/users", "localhost", 9000);
 
 	@Test
+	@Transactional
 	public void getUserById() throws IOException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -54,6 +56,7 @@ public class UserControllerTest {
 	}
 
 	@Test
+	@Transactional
 	public void getUsersByEmail() throws IOException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
@@ -72,6 +75,7 @@ public class UserControllerTest {
 	}
 
 	@Test
+	@Transactional
 	public void createUser() throws IOException {
 		Long userAge = 30L;
 		String userEmail = "createdUser@gmail.com";
@@ -99,6 +103,7 @@ public class UserControllerTest {
 	}
 
 	@Test
+	@Transactional
 	public void updateUser() throws IOException {
 		String userFirstName = "Updated";
 		Long userId = 2L;
@@ -122,6 +127,7 @@ public class UserControllerTest {
 	}
 
 	@Test
+	@Transactional
 	public void deleteUser() {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);

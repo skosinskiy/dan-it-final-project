@@ -1,5 +1,6 @@
 package com.danit.finalproject.application.aspect;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -49,8 +50,16 @@ public class LoggingAspect {
       log.info(String.format("%s method execution finished returning void", methodName));
     } else {
       log.info(String.format("%s method execution finished returning [%s: {%s}]",
-              methodName, result.getClass(), result.toString()));
+              methodName, getResultClass(result), getResultString(result)));
     }
+  }
+
+  private Class getResultClass(Object result) {
+    return result == null ? null : result.getClass();
+  }
+
+  private String getResultString(Object result) {
+    return result == null ? null : result.toString();
   }
 
 }

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -19,6 +20,7 @@ public class UserServiceTest {
 	private UserService userService;
 
 	@Test
+	@Transactional
 	public void getUserById() {
 		Long expectedId = 1L;
 		String expectedEmail = "first.user@test.com";
@@ -30,6 +32,7 @@ public class UserServiceTest {
 	}
 
 	@Test
+	@Transactional
 	public void getUsersByEmail() {
 		int expectedUsersSize = 2;
 		String expectedSecondUserEmail = "first.user@test2.com";
@@ -41,6 +44,7 @@ public class UserServiceTest {
 	}
 
 	@Test
+	@Transactional
 	public void createUser() {
 		Long userAge = 30L;
 		String userEmail = "createdUser@gmail.com";
@@ -62,6 +66,7 @@ public class UserServiceTest {
 	}
 
 	@Test
+	@Transactional
 	public void updateUser() {
 		String userFirstName = "Updated";
 		Long userId = 2L;
@@ -78,6 +83,7 @@ public class UserServiceTest {
 	}
 
 	@Test
+	@Transactional
 	public void deleteUser() {
 		userService.deleteUser(2L);
 		assertNull(userService.getUserById(2L));
