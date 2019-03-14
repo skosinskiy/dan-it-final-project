@@ -12,7 +12,8 @@ public class RoleService {
 
   private RoleRepository roleRepository;
 
-  public RoleService(@Autowired RoleRepository roleRepository) {
+  @Autowired
+  public RoleService(RoleRepository roleRepository) {
     this.roleRepository = roleRepository;
   }
 
