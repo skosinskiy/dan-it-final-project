@@ -67,7 +67,7 @@ function ForgotPassword (props) {
             <InputLabel htmlFor="email">Email Address</InputLabel>
             <Input id="email" name="email" autoComplete="email" autoFocus />
           </FormControl>
-          <NavLink to={'/login'}><Button
+          <Button
             type="submit"
             fullWidth
             variant="contained"
@@ -75,7 +75,7 @@ function ForgotPassword (props) {
             className={classes.submit}
           >
                         Send Password
-          </Button></NavLink>
+          </Button>
         </form>
       </Paper>
     </main>
