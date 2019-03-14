@@ -1,2 +1,3 @@
 export const GET_USERS_BY_EMAIL = 'GET_USERS_BY_EMAIL'
 export const SET_USER_ROLES = 'SET_USER_ROLES'
+export const GET_ROLES_LIST = 'GET_ROLES_LIST'
