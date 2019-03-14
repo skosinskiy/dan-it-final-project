@@ -34,7 +34,7 @@ public class User extends BaseEntity {
   private String lastName;
 
   @Column(name = "age")
-  private Long age;
+  private Integer age;
 
   @Column(name = "gender")
   private Gender gender;

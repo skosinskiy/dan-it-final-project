@@ -3,6 +3,7 @@ package com.danit.finalproject.application.error;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
@@ -14,18 +15,24 @@ import static org.junit.Assert.assertEquals;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class GenericExceptionHandlerTest {
 
+  @Value("${server.port}")
+  private String port;
+  private String host = "localhost";
+
   @Autowired
   private TestRestTemplate testRestTemplate;
 
   @Test
   public void handleUnknownException() {
+    String endpoint = String.format("http://%s:%s/testUnknownExc", host, port);
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
 
     HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
 
-    ResponseEntity<String> responseEntity = testRestTemplate.exchange("http://localhost:9000/testUnknownExc",
+
+    ResponseEntity<String> responseEntity = testRestTemplate.exchange(endpoint,
         HttpMethod.GET, requestEntity, String.class);
 
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
@@ -34,13 +41,14 @@ public class GenericExceptionHandlerTest {
 
   @Test
   public void handleKnownException() {
+    String endpoint = String.format("http://%s:%s/testKnownExc", host, port);
 
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON);
 
     HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
 
-    ResponseEntity<String> responseEntity = testRestTemplate.exchange("http://localhost:9000/testKnownExc",
+    ResponseEntity<String> responseEntity = testRestTemplate.exchange(endpoint,
         HttpMethod.GET, requestEntity, String.class);
 
     assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());

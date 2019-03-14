@@ -71,7 +71,7 @@ public class UserControllerTest {
 
 	@Test
 	public void createUser() throws Exception {
-		Long userAge = 30L;
+		Integer userAge = 30;
 		String userEmail = "createdUser@gmail.com";
 
 		User user = new User();

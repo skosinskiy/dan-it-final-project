@@ -6,4 +6,4 @@ spring:
       sa
 server:
   port:
-    9000
+    9001

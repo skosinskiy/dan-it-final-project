@@ -35,7 +35,7 @@ public class RoleService {
 
   public Role deleteRole(Long roleId) {
     Role role = roleRepository.findById(roleId).orElse(null);
-    if (role != null) {
+    if (role != null && role.getUsers() != null) {
       role.getUsers().forEach(user -> user.getRoles().remove(role));
     }
     roleRepository.delete(role);
