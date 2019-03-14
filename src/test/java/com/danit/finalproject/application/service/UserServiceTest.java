@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,7 +18,7 @@ import static org.junit.Assert.*;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-public class UserServiceTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class UserServiceTest {
 
 	@Autowired
 	private UserService userService;
@@ -43,7 +42,7 @@ public class UserServiceTest extends AbstractTransactionalJUnit4SpringContextTes
 		int expectedUsersSize = 2;
 		String expectedSecondUserEmail = "first.user@test2.com";
 
-		List<User> users = userService.getUsersByEmail("first");
+		List<User> users = userService.getUsersByEmail("First");
 
 		assertEquals(expectedUsersSize, users.size());
 		assertEquals(expectedSecondUserEmail, users.get(1).getEmail());

@@ -1,6 +1,7 @@
 package com.danit.finalproject.application.service;
 
 import com.danit.finalproject.application.entity.Role;
+import com.danit.finalproject.application.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class RoleServiceTest {
 
   @Autowired
   private RoleService roleService;
+
+  @Autowired
+  private UserService userService;
 
   @Test
   public void getRoleById() {
@@ -78,10 +82,12 @@ public class RoleServiceTest {
   @Test
   public void deleteRole() {
     int expectedRolesSize = 1;
+    User user = userService.getUserById(2L);
 
     roleService.deleteRole(2L);
 
     assertNull(roleService.getRoleById(2L));
     assertEquals(expectedRolesSize, roleService.getAllRoles().size());
+    assertEquals(expectedRolesSize, user.getRoles().size());
   }
 }

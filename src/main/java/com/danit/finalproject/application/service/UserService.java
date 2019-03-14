@@ -12,15 +12,18 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-  @Autowired
   private UserRepository userRepository;
+
+  public UserService(@Autowired UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
   public User getUserById(Long userId) {
     return userRepository.findById(userId).orElse(null);
   }
 
   public List<User> getUsersByEmail(String email) {
-    return userRepository.findAllByEmailStartingWith(email);
+    return userRepository.findAllByEmailStartingWithIgnoreCase(email);
   }
 
   public User createUser(User user) {

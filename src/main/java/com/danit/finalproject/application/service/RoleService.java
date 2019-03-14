@@ -10,8 +10,11 @@ import java.util.List;
 @Service
 public class RoleService {
 
-  @Autowired
   private RoleRepository roleRepository;
+
+  public RoleService(@Autowired RoleRepository roleRepository) {
+    this.roleRepository = roleRepository;
+  }
 
   public Role getRoleById(Long roleId) {
     return roleRepository.findById(roleId).orElse(null);
@@ -33,7 +36,7 @@ public class RoleService {
   public Role deleteRole(Long roleId) {
     Role role = roleRepository.findById(roleId).orElse(null);
     if (role != null) {
-      role.getUsers().forEach(user -> user.removeRole(role));
+      role.getUsers().forEach(user -> user.getRoles().remove(role));
     }
     roleRepository.delete(role);
     return role;

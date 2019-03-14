@@ -20,8 +20,11 @@ import java.util.List;
 @RequestMapping("api/users")
 public class UserController {
 
-  @Autowired
   private UserService userService;
+
+  public UserController(@Autowired UserService userService) {
+    this.userService = userService;
+  }
 
   @GetMapping("{userId}")
   public User getUserById(@PathVariable Long userId) {

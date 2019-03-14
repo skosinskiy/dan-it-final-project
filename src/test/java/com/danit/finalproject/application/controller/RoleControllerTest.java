@@ -1,7 +1,9 @@
 package com.danit.finalproject.application.controller;
 
 import com.danit.finalproject.application.entity.Role;
+import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.RoleService;
+import com.danit.finalproject.application.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -10,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,13 +25,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
-public class RoleControllerTest extends AbstractTransactionalJUnit4SpringContextTests {
+@Transactional
+public class RoleControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
 
   @Autowired
   private RoleService roleService;
+
+  @Autowired
+  private UserService userService;
 
   @Autowired
   private ObjectMapper objectMapper;
@@ -99,10 +105,12 @@ public class RoleControllerTest extends AbstractTransactionalJUnit4SpringContext
   @Test
   public void deleteRole() throws Exception {
     int expectedRolesSize = 1;
+    User user = userService.getUserById(2L);
 
     mockMvc.perform(delete("/api/roles/1"));
 
     assertNull(roleService.getRoleById(1L));
     assertEquals(expectedRolesSize, roleService.getAllRoles().size());
+    assertEquals(expectedRolesSize, user.getRoles().size());
   }
 }
