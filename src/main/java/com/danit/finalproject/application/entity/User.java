@@ -34,10 +34,10 @@ public class User extends BaseEntity {
   private String lastName;
 
   @Column(name = "age")
-  private Long age;
+  private Integer age;
 
   @Column(name = "gender")
-  private boolean gender;
+  private Gender gender;
 
   @ManyToMany
   @JoinTable(name = "users_roles",
@@ -60,5 +60,4 @@ public class User extends BaseEntity {
   @OneToMany
   @JoinColumn(name = "visit_id")
   private List<Visit> visits;
-
 }

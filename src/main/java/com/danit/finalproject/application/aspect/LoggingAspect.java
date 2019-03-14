@@ -49,8 +49,16 @@ public class LoggingAspect {
       log.info(String.format("%s method execution finished returning void", methodName));
     } else {
       log.info(String.format("%s method execution finished returning [%s: {%s}]",
-              methodName, result.getClass(), result.toString()));
+              methodName, getResultClass(result), getResultString(result)));
     }
+  }
+
+  private Class getResultClass(Object result) {
+    return result == null ? null : result.getClass();
+  }
+
+  private String getResultString(Object result) {
+    return result == null ? null : result.toString();
   }
 
 }
