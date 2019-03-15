@@ -100,7 +100,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     updateUsersList: (user, selectedRoles, userList) => {
-      user.roles = [...selectedRoles]
+      user.roles = selectedRoles
       let updatedUserList = userList.map((item) => {
         if (item.id == user.id) {
           return user

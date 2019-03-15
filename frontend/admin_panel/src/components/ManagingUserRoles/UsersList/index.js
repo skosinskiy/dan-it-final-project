@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import UserItem from './UserItem/index'
 import './userList.scss'
+import { SET_USER_ROLES } from '../../../actions/users'
 
 const styles = theme => ({
   root: {
@@ -51,9 +52,9 @@ class UsersList extends React.Component {
 
   saveUsersRoles = () => {
     this.props.changedUsersList.forEach((user) => {
-      console.log(this.props.usersListByEmail)
-      // axios.put(`/api/users/${user.id}`, { user })
+      axios.put(`/api/users/${user.id}`, { user })
     })
+    this.props.updateUsersList()
   }
 
   render () {
@@ -94,10 +95,16 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-
+  return {
+    updateUsersList: () => {
+      let updatedUserList = []
+      let changedUsersList = new Set()
+      dispatch({type: SET_USER_ROLES, payload: {updatedUserList, changedUsersList}})
+    }
+  }
 }
 
 UsersList.propTypes = {
   classes: PropTypes.object.isRequired
 }
-export default connect(mapStateToProps)(withStyles(styles, { withTheme: true })(UsersList))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(UsersList))
