@@ -44,16 +44,6 @@ const MenuProps = {
   }
 }
 
-const names = [
-  'Role 1',
-  'Role 2',
-  'Role 3',
-  'Role 4',
-  'Role 5',
-  'Role 6',
-  'Role 7'
-]
-
 class UsersList extends React.Component {
   componentDidMount () {
 
@@ -61,14 +51,15 @@ class UsersList extends React.Component {
 
   saveUsersRoles = () => {
     this.props.changedUsersList.forEach((user) => {
-      axios.put(`/api/${user.id}`, { user })
+      console.log(this.props.usersListByEmail)
+      // axios.put(`/api/users/${user.id}`, { user })
     })
   }
 
   render () {
     const { classes } = this.props
     const usersListByEmail = this.props.usersListByEmail.map((item) => {
-      return <UserItem user={item} roles={names} key={item.id}/>
+      return <UserItem user={item} key={item.id}/>
     })
 
     return (
@@ -79,9 +70,10 @@ class UsersList extends React.Component {
           </ul>
         </div>
         <div className="user-list-buttons">
-          <Button onClick={this.saveUsersRoles} variant="contained" color="primary" className={classes.button}>
+          <NavLink to={'/admin'}><Button onClick={this.saveUsersRoles} variant="contained" color="primary" className={classes.button}>
             Save
           </Button>
+          </NavLink>
           <NavLink to={'/admin'}>
             <Button variant="contained" color="secondary" className={classes.button}>
             Exit

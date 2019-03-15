@@ -1,4 +1,5 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
 import axios from 'axios'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
@@ -199,4 +200,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapDispatchToProps, mapDispatchToProps)((withStyles(styles, { withTheme: true })(Admin)))
+export default withRouter(connect(mapDispatchToProps, mapDispatchToProps)(((withStyles(styles, { withTheme: true })(Admin)))))

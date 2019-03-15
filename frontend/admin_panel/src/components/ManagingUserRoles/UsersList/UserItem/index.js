@@ -48,13 +48,12 @@ function getStyles (name, that) {
 
 class UserItem extends React.Component {
   handleChange = event => {
-
     this.props.updateUsersList(this.props.user, event.target.value, this.props.usersListByEmail)
   }
 
   render () {
-    const { classes } = this.props
-    const user = this.props.user
+    const { classes, user } = this.props
+    const roles = this.props.userRoles.filter(role => user.roles.some(userRole => role.id === userRole.id))
 
     return (
       <li className="user-item">
@@ -63,7 +62,7 @@ class UserItem extends React.Component {
           <InputLabel htmlFor="select-multiple-chip">Select Roles</InputLabel>
           <Select
             multiple
-            value={user.roles}
+            value={roles}
             onChange={this.handleChange}
             input={<Input id="select-multiple-chip" />}
             renderValue={selected => (
@@ -76,7 +75,7 @@ class UserItem extends React.Component {
             MenuProps={MenuProps}
           >
             {this.props.userRoles.map(role => (
-              <MenuItem key={role.id} value={role} style={getStyles(role.name, this)}>
+              <MenuItem key={role.id} value={role} style={getStyles(role, this)}>
                 {role.name}
               </MenuItem>
             ))}
@@ -94,15 +93,14 @@ UserItem.propTypes = {
 const mapStateToProps = (state) => {
   return {
     usersListByEmail: state.users.usersListByEmail,
-    userRoles: state.users.userRoles,
-    changedUsersList: state.users.changedUsersList
+    userRoles: state.users.userRoles
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     updateUsersList: (user, selectedRoles, userList) => {
-      user.roles = selectedRoles
+      user.roles = [...selectedRoles]
       let updatedUserList = userList.map((item) => {
         if (item.id == user.id) {
           return user

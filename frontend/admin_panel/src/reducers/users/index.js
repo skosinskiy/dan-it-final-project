@@ -1,9 +1,10 @@
-import { GET_ROLES_LIST, GET_USERS_BY_EMAIL, SET_USER_ROLES } from '../../actions/users'
+import { AUTHENTICATE_USER, GET_ROLES_LIST, GET_USERS_BY_EMAIL, SET_USER_ROLES } from '../../actions/users'
 
 const initialState = {
   usersListByEmail: [],
   userRoles: [],
-  changedUsersList: new Set()
+  changedUsersList: new Set(),
+  isAuthenticated: true
 }
 
 function users (state = initialState, action) {
@@ -14,6 +15,8 @@ function users (state = initialState, action) {
       return {...state, usersListByEmail: action.payload.users}
     case SET_USER_ROLES:
       return {...state, usersListByEmail: action.payload.updatedUserList, changedUsersList: action.payload.changedUsersList}
+    case AUTHENTICATE_USER:
+      return {...state, isAuthenticated: true}
     default:
       return {...state}
   }
