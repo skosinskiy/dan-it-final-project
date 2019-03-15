@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -59,7 +60,9 @@ class UsersList extends React.Component {
   }
 
   saveUsersRoles = () => {
-    console.log(this.props.usersListByEmail)
+    this.props.changedUsersList.forEach((user) => {
+      axios.put(`/api/${user.id}`, { user })
+    })
   }
 
   render () {
@@ -92,7 +95,9 @@ class UsersList extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    usersListByEmail: state.users.usersListByEmail
+    usersListByEmail: state.users.usersListByEmail,
+    changedUsersList: state.users.changedUsersList,
+    userRoles: state.users.userRoles
   }
 }
 

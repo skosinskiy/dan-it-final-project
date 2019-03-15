@@ -1,19 +1,19 @@
-import usersList from '../../dummy'
 import { GET_ROLES_LIST, GET_USERS_BY_EMAIL, SET_USER_ROLES } from '../../actions/users'
 
 const initialState = {
-  usersListByEmail: usersList,
-  userRoles: []
+  usersListByEmail: [],
+  userRoles: [],
+  changedUsersList: new Set()
 }
 
 function users (state = initialState, action) {
   switch (action.type) {
     case GET_ROLES_LIST:
-      return {...state, userRoles: [...action.payload.userRoles]}
+      return {...state, userRoles: action.payload.userRoles}
     case GET_USERS_BY_EMAIL:
-      return {...state, usersListByEmail: [...usersList]}
+      return {...state, usersListByEmail: action.payload.users}
     case SET_USER_ROLES:
-      return {...state, usersListByEmail: action.payload.updatedUserList}
+      return {...state, usersListByEmail: action.payload.updatedUserList, changedUsersList: action.payload.changedUsersList}
     default:
       return {...state}
   }
