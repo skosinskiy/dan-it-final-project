@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import Login from '../../../pages/Login'
 import Admin from '../../../pages/Admin'
@@ -26,5 +27,15 @@ class AppRoutes extends Component {
       )
     }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    userRoles: state.users.userRoles
+  }
+}
+
+export const ProtectedRoute = ({component: Component, authenticated, ...rest}) => (
+  <Route {...rest} render={(props) => authenticated ? <Component {...props} /> : <Redirect to='/login'/>}/>
+)
 
 export default AppRoutes

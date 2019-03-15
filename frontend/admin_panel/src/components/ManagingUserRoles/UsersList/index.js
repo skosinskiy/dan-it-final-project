@@ -51,8 +51,10 @@ class UsersList extends React.Component {
   }
 
   saveUsersRoles = () => {
+    console.log(this.props.changedUsersList)
     this.props.changedUsersList.forEach((user) => {
-      axios.put(`/api/users/${user.id}`, { user })
+      let roles = user.roles
+      axios.put(`api/users/${user.id}/roles`, {roles})
     })
     this.props.updateUsersList()
   }
@@ -76,7 +78,7 @@ class UsersList extends React.Component {
           </Button>
           </NavLink>
           <NavLink to={'/admin'}>
-            <Button variant="contained" color="secondary" className={classes.button}>
+            <Button onClick={() => this.props.updateUsersList()} variant="contained" color="secondary" className={classes.button}>
             Exit
             </Button>
           </NavLink>
