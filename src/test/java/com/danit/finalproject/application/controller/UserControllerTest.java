@@ -9,7 +9,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.danit.finalproject.application.entity.Gender;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
@@ -64,7 +63,7 @@ public class UserControllerTest {
 	}
 
   @Test
-  public void getCurrentUser() throws Exception {
+  public void getCurrentUserWithCookie() throws Exception {
     final Long ID = 1L;
     final String FIRST_NAME = "Elon";
     final String LAST_NAME = "Musk";
@@ -87,6 +86,11 @@ public class UserControllerTest {
     assertEquals(EMAIL, responseUser.getEmail());
     assertEquals(AGE, responseUser.getAge());
     assertEquals(GENDER, responseUser.getGender());
+  }
+
+  @Test
+  public void getCurrentUserWithoutCookie() throws Exception {
+    this.mockMvc.perform(get("/api/users/current")).andExpect(status().is5xxServerError());
   }
 
 	@Test

@@ -36,7 +36,7 @@ public class UserController {
 
   @GetMapping("current")
   @ResponseBody
-  public User getCurrentUser(@CookieValue(value = "user_id", defaultValue = "1") String userCookie) {
+  public User getCurrentUser(@CookieValue(value = "user_id") String userCookie) {
     return userService.getUserById(Long.parseLong(userCookie));
   }
 
