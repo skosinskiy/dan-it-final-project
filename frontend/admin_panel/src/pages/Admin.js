@@ -200,4 +200,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default withRouter(connect(mapDispatchToProps, mapDispatchToProps)(((withStyles(styles, { withTheme: true })(Admin)))))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(((withStyles(styles, { withTheme: true })(Admin)))))

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
-import { Route, Switch, Redirect } from 'react-router-dom'
+import { Redirect, Route, Switch } from 'react-router-dom'
 import Login from '../../../pages/Login'
 import Admin from '../../../pages/Admin'
 import ForgotPasword from '../../../pages/ForgorPassword'
@@ -20,12 +19,6 @@ class AppRoutes extends Component {
         </Switch>
       )
     }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    userRoles: state.users.userRoles
-  }
 }
 
 export const ProtectedRoute = ({component: Component, authenticated, ...rest}) => (
