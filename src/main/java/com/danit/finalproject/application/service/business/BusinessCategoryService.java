@@ -17,7 +17,7 @@ public class BusinessCategoryService {
   }
 
   public BusinessCategory getBusinessCategoryById(Long id) {
-    return businessCategoryRepository.getOne(id);
+    return businessCategoryRepository.findById(id).orElse(null);
   }
 
   public List<BusinessCategory> findAll() {

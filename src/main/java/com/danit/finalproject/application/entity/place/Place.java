@@ -30,7 +30,8 @@ public class Place extends BaseEntity {
   @Column(name = "address")
   private String address;
 
-  @OneToMany(mappedBy = "place")
+  @OneToMany
+  @JoinColumn(name = "businesses_id")
   private List<Business> businesses;
 
   @OneToOne(cascade = CascadeType.ALL)
@@ -41,7 +42,8 @@ public class Place extends BaseEntity {
   @JoinColumn(name = "photos")
   private List<PlacePhoto> photos;
 
-  @OneToMany(mappedBy = "place")
+  @OneToMany
+  @JoinColumn(name = "events_id")
   private List<Event> events;
 
   @ManyToOne

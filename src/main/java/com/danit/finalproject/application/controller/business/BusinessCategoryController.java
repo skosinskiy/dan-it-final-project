@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/business-categories/")
+@RequestMapping("api/business-categories")
 public class BusinessCategoryController {
   private BusinessCategoryService businessCategoryService;
 

@@ -17,7 +17,7 @@ public class PlaceCategoryService {
   }
 
   public PlaceCategory getPlaceCategoryById(Long id) {
-    return placeCategoryRepository.getOne(id);
+    return placeCategoryRepository.findById(id).orElse(null);
   }
 
   public List<PlaceCategory> findAll() {

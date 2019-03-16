@@ -42,10 +42,6 @@ public class Event extends BaseEntity {
   @JoinColumn(name = "photos")
   private List<EventPhoto> photos;
 
-  @ManyToOne
-  @JoinColumn(name = "place_id")
-  private Place place;
-
   @Column(name = "address")
   private String address;
 }

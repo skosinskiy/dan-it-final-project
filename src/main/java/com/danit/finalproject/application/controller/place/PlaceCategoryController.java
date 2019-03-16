@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/place-categories/")
+@RequestMapping("api/place-categories")
 public class PlaceCategoryController {
   private PlaceCategoryService placeCategoryService;
 

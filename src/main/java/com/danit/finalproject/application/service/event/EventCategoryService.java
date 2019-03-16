@@ -17,7 +17,7 @@ public class EventCategoryService {
   }
 
   public EventCategory getEventCategoryById(Long id) {
-    return eventCategoryRepository.getOne(id);
+    return eventCategoryRepository.findById(id).orElse(null);
   }
 
   public List<EventCategory> findAll() {

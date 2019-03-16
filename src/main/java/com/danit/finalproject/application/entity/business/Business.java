@@ -46,10 +46,6 @@ public class Business extends BaseEntity {
   @Column(name = "phone_number")
   private String phoneNumber;
 
-  @ManyToOne
-  @JoinColumn(name = "place_id")
-  private Place place;
-
   @OneToMany
   @JoinColumn(name = "event_id")
   private List<Event> events;
