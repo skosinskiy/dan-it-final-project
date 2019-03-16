@@ -10,6 +10,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -38,6 +39,12 @@ public class User extends BaseEntity {
 
   @Column(name = "gender")
   private Gender gender;
+
+  @Column(name = "token")
+  private String token;
+
+  @Column(name = "tokenExpirationDate")
+  private Date tokenExpirationDate;
 
   @ManyToMany
   @JoinTable(name = "users_roles",

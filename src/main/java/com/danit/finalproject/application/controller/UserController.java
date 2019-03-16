@@ -1,5 +1,6 @@
 package com.danit.finalproject.application.controller;
 
+import com.danit.finalproject.application.dto.request.UpdateUserPassWordRequestDTO;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.UserService;
@@ -55,6 +56,16 @@ public class UserController {
   @PutMapping("{userId}/roles")
   public User setUserRoles(@PathVariable Long userId, @RequestBody List<Role> roles) {
     return userService.setUserRoles(userId, roles);
+  }
+
+  @PutMapping("forgot-password/token")
+  public void generateToken(@RequestParam String email) {
+    userService.generateToken(email);
+  }
+
+  @PutMapping("forgot-password/update")
+  public User updatePassword(@RequestBody UpdateUserPassWordRequestDTO userDTO) {
+    return userService.updateUserPassword(userDTO);
   }
 
 }
