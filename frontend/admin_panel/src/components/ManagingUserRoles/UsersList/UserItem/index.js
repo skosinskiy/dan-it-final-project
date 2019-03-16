@@ -48,7 +48,7 @@ function getStyles (name, that) {
 
 class UserItem extends React.Component {
   handleChange = event => {
-    this.props.updateUsersList(this.props.user, event.target.value, this.props.usersListByEmail)
+    this.props.updateUsersList(this.props.user, event.target.value, this.props.usersListByEmail, this.props.changedUsersList)
   }
 
   render () {
@@ -93,14 +93,15 @@ UserItem.propTypes = {
 const mapStateToProps = (state) => {
   return {
     usersListByEmail: state.users.usersListByEmail,
-    userRoles: state.users.userRoles
+    userRoles: state.users.userRoles,
+    changedUsersList: state.users.changedUsersList
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateUsersList: (user, selectedRoles, userList) => {
-      user.roles = selectedRoles
+    updateUsersList: (user, selectedRoles, userList, chengedUsers) => {
+      user.roles = [...selectedRoles]
       let updatedUserList = userList.map((item) => {
         if (item.id == user.id) {
           return user
@@ -108,8 +109,8 @@ const mapDispatchToProps = (dispatch) => {
         return item
       })
 
-      let changedUsersList = new Set()
-      changedUsersList.add(user)
+      let changedUsersList = chengedUsers
+      changedUsersList.add(user.id)
       dispatch({type: SET_USER_ROLES, payload: {updatedUserList, changedUsersList}})
     }
   }

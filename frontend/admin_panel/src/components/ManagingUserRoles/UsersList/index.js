@@ -52,9 +52,11 @@ class UsersList extends React.Component {
 
   saveUsersRoles = () => {
     console.log(this.props.changedUsersList)
-    this.props.changedUsersList.forEach((user) => {
-      let roles = user.roles
-      axios.put(`api/users/${user.id}/roles`, {roles})
+    this.props.usersListByEmail.forEach((user) => {
+      if (this.props.changedUsersList.has(user.id)) {
+        let roles = user.roles
+        axios.put(`api/users/${user.id}/roles`, roles)
+      }
     })
     this.props.updateUsersList()
   }
