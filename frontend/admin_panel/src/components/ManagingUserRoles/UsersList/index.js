@@ -34,9 +34,6 @@ const styles = theme => ({
   }
 })
 
-const ITEM_HEIGHT = 48
-const ITEM_PADDING_TOP = 8
-
 class UsersList extends React.Component {
   componentDidMount () {
 
