@@ -14,13 +14,7 @@ class AppRoutes extends Component {
       return (
         <Switch>
           <Route path="/login" component={Login}/>
-          <Route path="/admin" render={() => (
-            !this.state.isAuthenticated ? (
-              <Redirect to="/login"/>
-            ) : (
-              <Admin/>
-            )
-          )}/>
+          <ProtectedRoute path="/admin" component={Admin} authenticated={this.state.isAuthenticated}/>
           <Route path="/forgot-password" component={ForgotPasword}/>
           <Route path="/" component={Main}/>
         </Switch>
