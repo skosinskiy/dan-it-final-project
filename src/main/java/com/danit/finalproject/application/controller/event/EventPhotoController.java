@@ -23,12 +23,12 @@ public class EventPhotoController {
   }
 
   @PostMapping
-  public void addPhotosToEvent(@RequestBody EventPhoto eventPhoto) {
-    eventPhotoService.createNewEventPhoto(eventPhoto);
+  public void addPhotosToEvent(@RequestBody EventPhoto eventPhoto, @PathVariable("eventId") Long eventId) {
+    eventPhotoService.createNewEventPhoto(eventPhoto, eventId);
   }
 
   @DeleteMapping("/photoId")
-  public void deletePhoto(@PathVariable Long photoId) {
-    eventPhotoService.deleteEventPhoto(photoId);
+  public void deletePhoto(@PathVariable("eventId") Long placeId, @PathVariable("photoId") Long photoId) {
+    eventPhotoService.deleteEventPhoto(photoId, placeId);
   }
 }

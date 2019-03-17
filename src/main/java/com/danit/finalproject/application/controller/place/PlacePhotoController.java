@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/places/{placeId}/photos")
+@RequestMapping("/api/places/{placeId}/photos")
 public class PlacePhotoController {
   private PlacePhotoService placePhotoService;
 
@@ -21,12 +21,12 @@ public class PlacePhotoController {
   }
 
   @PostMapping
-  public void addPhotosToPlace(@RequestBody PlacePhoto placePhoto) {
-    placePhotoService.createNewPlacePhoto(placePhoto);
+  public void addPhotosToPlace(@RequestBody PlacePhoto placePhoto, @PathVariable("placeId") Long placeId) {
+    placePhotoService.createNewPlacePhoto(placePhoto, placeId);
   }
 
   @DeleteMapping("/photoId")
-  public void deletePhoto(@PathVariable Long photoId) {
-    placePhotoService.deletePlacePhoto(photoId);
+  public void deletePhoto(@PathVariable("placeId") Long placeId, @PathVariable("photoId") Long photoId) {
+    placePhotoService.deletePlacePhoto(photoId, placeId);
   }
 }

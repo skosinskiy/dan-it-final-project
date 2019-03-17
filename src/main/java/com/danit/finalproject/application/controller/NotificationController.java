@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/notifications/")
+@RequestMapping("/api/notifications")
 public class NotificationController {
   private NotificationService notificationService;
   private PlaceService placeService;
@@ -32,8 +32,8 @@ public class NotificationController {
   }
 
   @PostMapping("/places/{placeId}")
-  public Notification createNewNotification(@RequestBody Notification notification) {
-    return notificationService.createNewNotification(notification);
+  public Notification createNewNotification(@RequestBody Notification notification, @PathVariable("placeId") Long placeId) {
+    return notificationService.createNewNotification(notification, placeId);
   }
 
   @PutMapping

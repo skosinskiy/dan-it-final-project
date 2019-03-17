@@ -49,12 +49,4 @@ public class Business extends BaseEntity {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "main_photo")
   private BusinessPhoto mainPhoto;
-
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "business_photos")
-  private List<BusinessPhoto> photos;
-
-  @Column(name = "place_id")
-  private Place place;
-
 }

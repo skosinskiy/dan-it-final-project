@@ -21,13 +21,13 @@ public class BusinessPhotoPhotoController {
   }
 
   @PostMapping
-  public void addPhotosToBusiness(@RequestBody BusinessPhoto businessPhoto) {
-    businessPhotoService.createNewBusinessPhoto(businessPhoto);
+  public void addPhotosToBusiness(@RequestBody BusinessPhoto businessPhoto, @PathVariable("businessId") Long businessId) {
+    businessPhotoService.createNewBusinessPhoto(businessPhoto, businessId);
   }
 
   @DeleteMapping("/photoId")
-  public void deletePhoto(@PathVariable Long photoId) {
-    businessPhotoService.deleteBusinesPhoto(photoId);
+  public void deletePhoto(@PathVariable("businessId") Long placeId, @PathVariable("photoId") Long photoId) {
+    businessPhotoService.deleteBusinesPhotoByIdAndBusiness(photoId, placeId);
   }
 
 }

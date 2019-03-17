@@ -26,10 +26,10 @@ VALUES
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-2', false );
 
 INSERT INTO places
-  (id, date_created, date_modified, title, description, address, main_photo, place_category)
+  (id, date_created, date_modified, title, description, address, place_category)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-1', 'description-1', 'address-1', 1, 1 ),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-2', 'description-2', 'address-2', 3, 2 );
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-1', 'description-1', 'address-1', 1 ),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-2', 'description-2', 'address-2', 2 );
 
 INSERT INTO places_photos
   (id, date_created, date_modified, photo, place_id)
@@ -38,6 +38,9 @@ VALUES
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-2', 1),
   (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-3', 2),
   (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-4', 2);
+
+UPDATE places SET main_photo = 1, WHERE id = 1;
+UPDATE places SET main_photo = 2, WHERE id = 2;
 
 -- businesses
 

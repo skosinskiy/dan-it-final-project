@@ -15,7 +15,4 @@ public class PlacePhoto extends BaseEntity {
 
   @Column(name = "photo")
   private String photo;
-
-  @Column(name = "place_id")
-  private Place place;
 }
