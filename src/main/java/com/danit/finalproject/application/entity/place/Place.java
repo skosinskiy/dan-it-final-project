@@ -39,12 +39,8 @@ public class Place extends BaseEntity {
   private PlacePhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "photos")
+  @JoinColumn(name = "place_photos")
   private List<PlacePhoto> photos;
-
-  @OneToMany
-  @JoinColumn(name = "events_id")
-  private List<Event> events;
 
   @ManyToOne
   @JoinColumn(name = "place_category", nullable = false)

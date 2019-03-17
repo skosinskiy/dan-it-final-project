@@ -16,4 +16,7 @@ public class BusinessPhoto extends BaseEntity {
   @Column(name = "photo")
   private String photo;
 
+  @Column(name = "business_id")
+  private Business business;
+
 }

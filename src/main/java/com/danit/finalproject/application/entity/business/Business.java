@@ -46,16 +46,15 @@ public class Business extends BaseEntity {
   @Column(name = "phone_number")
   private String phoneNumber;
 
-  @OneToMany
-  @JoinColumn(name = "event_id")
-  private List<Event> events;
-
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "main_photo")
   private BusinessPhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "photos")
+  @JoinColumn(name = "business_photos")
   private List<BusinessPhoto> photos;
+
+  @Column(name = "place_id")
+  private Place place;
 
 }

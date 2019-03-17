@@ -17,7 +17,7 @@ public class PlaceService {
   }
 
   public Place getPlaceById(Long id) {
-    return placeRepository.getOne(id);
+    return placeRepository.findById(id).orElse(null);
   }
 
   public List<Place> findAll() {

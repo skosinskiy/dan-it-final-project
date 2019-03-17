@@ -16,4 +16,6 @@ public class EventPhoto extends BaseEntity {
   @Column(name = "photo")
   private String photo;
 
+  @Column(name = "event_id")
+  private Event event;
 }

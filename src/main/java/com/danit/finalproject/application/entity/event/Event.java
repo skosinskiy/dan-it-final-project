@@ -1,6 +1,7 @@
 package com.danit.finalproject.application.entity.event;
 
 import com.danit.finalproject.application.entity.BaseEntity;
+import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.place.Place;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,8 +40,16 @@ public class Event extends BaseEntity {
   private EventPhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "photos")
+  @JoinColumn(name = "event_photos")
   private List<EventPhoto> photos;
+
+  @ManyToOne
+  @JoinColumn(name = "business_id")
+  private Business business;
+
+  @ManyToOne
+  @JoinColumn(name = "place_id")
+  private Place place;
 
   @Column(name = "address")
   private String address;
