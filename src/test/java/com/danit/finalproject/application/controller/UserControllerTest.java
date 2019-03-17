@@ -57,8 +57,8 @@ public class UserControllerTest {
 
 	@Test
 	public void getUsersByEmail() throws Exception {
-		int expectedUsersSize = 2;
-		String expectedSecondUserEmail = "first.user@test2.com";
+		int expectedUsersSize = 1;
+		String expectedSecondUserEmail = "first.user@test.com";
 
 		MvcResult result = mockMvc.perform(get("/api/users?email=first"))
 				.andReturn();
@@ -66,7 +66,7 @@ public class UserControllerTest {
 		List<User> users = objectMapper.readValue(responseBody, new TypeReference<List<User>>(){});
 
 		assertEquals(expectedUsersSize, users.size());
-		assertEquals(expectedSecondUserEmail, users.get(1).getEmail());
+		assertEquals(expectedSecondUserEmail, users.get(0).getEmail());
 	}
 
 	@Test

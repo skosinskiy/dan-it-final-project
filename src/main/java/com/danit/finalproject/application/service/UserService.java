@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.service;
 
-import com.danit.finalproject.application.dto.request.UpdateUserPassWordRequestDTO;
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.repository.UserRepository;
@@ -15,7 +15,7 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-  private static final int DAY_MILLISECONDS_COUNT = 24*60*60*1000;
+  private static final int DAY_MILLISECONDS_COUNT = 24 * 60 * 60 * 1000;
   private static final String PASS_RECOVERY_EMAIL_SUBJECT = "Password recovery";
 
   private UserRepository userRepository;
@@ -59,28 +59,39 @@ public class UserService {
     return user;
   }
 
+  public User getUserByToken(String token) {
+    return userRepository.findByToken(token);
+  }
+
   public void generateToken(String userEmail) {
     User user = userRepository.findByEmail(userEmail);
     if (user != null) {
-      String token = UUID.randomUUID().toString();
-      user.setToken(token);
-      user.setTokenExpirationDate(new Date(System.currentTimeMillis() + DAY_MILLISECONDS_COUNT));
+      String token = generateAndSetToken(user);
       userRepository.save(user);
-      String text = String.format("Please follow the link to change your password\n"
-          + "http://localhost:3000/reset-password/%s", token);
-      emailService.sendSimpleMessage(userEmail, PASS_RECOVERY_EMAIL_SUBJECT, text);
+      sendPasswordRecoveryEmail(token, userEmail);
     }
   }
 
-  public User updateUserPassword(UpdateUserPassWordRequestDTO userDTO) {
-    String token = userDTO.getToken();
-    String password = userDTO.getPassword();
+  private String generateAndSetToken(User user) {
+    String token = UUID.randomUUID().toString();
+    user.setToken(token);
+    user.setTokenExpirationDate(new Date(System.currentTimeMillis() + DAY_MILLISECONDS_COUNT));
+    return token;
+  }
+
+  private void sendPasswordRecoveryEmail(String token, String userEmail) {
+    String text = String.format("Please follow the link to change your password\n"
+        + "http://localhost:3000/reset-password/%s", token);
+    emailService.sendSimpleMessage(userEmail, PASS_RECOVERY_EMAIL_SUBJECT, text);
+  }
+
+  public User updateUserPassword(UpdateUserPasswordRequestDto userDto) {
+    String token = userDto.getToken();
     User user = userRepository.findByToken(token);
-    if (System.currentTimeMillis() > user.getTokenExpirationDate().getTime()) {
-      user.setPassword(password);
-      user.setTokenExpirationDate(new Date(System.currentTimeMillis()));
-      userRepository.save(user);
-    }
-    return user;
+    String password = userDto.getPassword();
+    user.setPassword(password);
+    user.setTokenExpirationDate(null);
+    user.setToken(null);
+    return userRepository.save(user);
   }
 }

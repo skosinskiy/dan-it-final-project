@@ -1,10 +1,12 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.dto.request.UpdateUserPassWordRequestDTO;
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.UserService;
+import com.danit.finalproject.application.service.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,10 +25,12 @@ import java.util.List;
 public class UserController {
 
   private UserService userService;
+  private ValidationService validationService;
 
   @Autowired
-  public UserController(UserService userService) {
+  public UserController(UserService userService, ValidationService validationService) {
     this.userService = userService;
+    this.validationService = validationService;
   }
 
   @GetMapping("{userId}")
@@ -64,8 +69,9 @@ public class UserController {
   }
 
   @PutMapping("forgot-password/update")
-  public User updatePassword(@RequestBody UpdateUserPassWordRequestDTO userDTO) {
-    return userService.updateUserPassword(userDTO);
+  public User updatePassword(@RequestBody @Valid UpdateUserPasswordRequestDto userDto, BindingResult bindingResult) {
+    validationService.checkForValidationErrors(bindingResult);
+    return userService.updateUserPassword(userDto);
   }
 
 }
