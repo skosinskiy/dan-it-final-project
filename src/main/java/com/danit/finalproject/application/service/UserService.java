@@ -76,8 +76,11 @@ public class UserService {
     String token = userDTO.getToken();
     String password = userDTO.getPassword();
     User user = userRepository.findByToken(token);
-    user.setPassword(password);
-    user.setTokenExpirationDate(new Date(System.currentTimeMillis()));
-    return userRepository.save(user);
+    if (System.currentTimeMillis() > user.getTokenExpirationDate().getTime()) {
+      user.setPassword(password);
+      user.setTokenExpirationDate(new Date(System.currentTimeMillis()));
+      userRepository.save(user);
+    }
+    return user;
   }
 }
