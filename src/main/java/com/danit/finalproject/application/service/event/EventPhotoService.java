@@ -24,7 +24,7 @@ public class EventPhotoService {
   }
 
   public void createNewEventPhoto(EventPhoto eventPhoto, Long eventId) {
-    eventPhoto.setEvent(eventRepository.findById(eventId).orElse(null));
+//    eventPhoto.setEvent(eventRepository.findById(eventId).orElse(null));
     eventPhotoRepository.save(eventPhoto);
   }
 

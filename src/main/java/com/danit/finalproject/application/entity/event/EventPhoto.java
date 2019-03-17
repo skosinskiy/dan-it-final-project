@@ -18,7 +18,6 @@ public class EventPhoto extends BaseEntity {
   @Column(name = "photo")
   private String photo;
 
-  @ManyToOne
-  @JoinColumn(name = "event_id")
+  @Column(name = "event_id")
   private Event event;
 }

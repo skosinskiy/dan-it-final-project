@@ -25,7 +25,7 @@ public class PlacePhotoService {
   }
 
   public void createNewPlacePhoto(PlacePhoto placePhoto, Long placeId) {
-    placePhoto.setPlace(placeRepository.findById(placeId).orElse(null));
+//    placePhoto.setPlace(placeRepository.findById(placeId).orElse(null));
     placePhotoRepository.save(placePhoto);
   }
 

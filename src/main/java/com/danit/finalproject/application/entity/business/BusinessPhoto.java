@@ -18,7 +18,6 @@ public class BusinessPhoto extends BaseEntity {
   @Column(name = "photo")
   private String photo;
 
-  @ManyToOne
-  @JoinColumn(name = "business_id")
+  @Column(name = "business_id")
   private Business business;
 }

@@ -39,9 +39,6 @@ VALUES
   (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-3', 2),
   (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-4', 2);
 
-UPDATE places SET main_photo = 1, WHERE id = 1;
-UPDATE places SET main_photo = 2, WHERE id = 2;
-
 -- businesses
 
 INSERT INTO business_categories
