@@ -1,18 +1,13 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.entity.business.Business;
-import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.event.EventCategory;
 import com.danit.finalproject.application.entity.event.EventPhoto;
 import com.danit.finalproject.application.entity.place.Place;
-import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.service.business.BusinessService;
 import com.danit.finalproject.application.service.event.EventCategoryService;
 import com.danit.finalproject.application.service.event.EventPhotoService;
 import com.danit.finalproject.application.service.event.EventService;
-import com.danit.finalproject.application.service.place.PlaceCategoryService;
-import com.danit.finalproject.application.service.place.PlacePhotoService;
 import com.danit.finalproject.application.service.place.PlaceService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -62,7 +57,7 @@ public class EventControllerTest {
   @Test
   public void getEventById() throws Exception {
     Long expectedId = 1L;
-    String expectedName = "place-1";
+    String expectedName = "event-1";
 
     MvcResult result = mockMvc.perform(get("/api/events/1"))
         .andReturn();
@@ -73,24 +68,22 @@ public class EventControllerTest {
     assertEquals(expectedName, event.getTitle());
   }
 
-//  @Test
-//  public void getAllPlaces() throws Exception {
-//    int expectedSize = 2;
-//    String secondCategoryName = "place-2";
-//
-//    MvcResult result = mockMvc.perform(get("/api/places"))
-//        .andReturn();
-//    String responseBody = result.getResponse().getContentAsString();
-//    List<Place> places = objectMapper.readValue(responseBody, new TypeReference<List<Place>>(){});
-//
-//    assertEquals(expectedSize, places.size());
-//    assertEquals(secondCategoryName, places.get(1).getTitle());
-//  }
+  @Test
+  public void getAllEventsByPlaceAndBusiness() throws Exception {
+    int expectedSize = 1;
+
+    MvcResult result = mockMvc.perform(get("/api/events?place=1&business=1"))
+        .andReturn();
+    String responseBody = result.getResponse().getContentAsString();
+    List<Event> events = objectMapper.readValue(responseBody, new TypeReference<List<Place>>(){});
+
+    assertEquals(expectedSize, events.size());
+  }
 
   @Test
   public void createNewEvent() throws Exception {
     Long expectedId = 3L;
-    String expectedName = "place-3";
+    String expectedName = "event-3";
 
     Event event = new Event();
     event.setId(expectedId);
@@ -100,12 +93,6 @@ public class EventControllerTest {
     eventCategories.add(eventCategoryService.getEventCategoryById(1L));
     eventCategories.add(eventCategoryService.getEventCategoryById(2L));
     event.setCategories(eventCategories);
-//    event.setMainPhoto(eventPhotoService.getEventPhotoById(1L));
-    List<EventPhoto> photos = new ArrayList<>();
-
-//    photos.add(eventPhotoService.getEventPhotoById(1L));
-//    photos.add(eventPhotoService.getEventPhotoById(2L));
-    event.setPhotos(photos);
 
     event.setBusiness(businessService.getBusinessById(1L));
     event.setPlace(placeService.getPlaceById(1L));
@@ -126,8 +113,6 @@ public class EventControllerTest {
     assertNotNull(createdEvent.getModifiedDate());
     assertNotNull(createdEventId);
     assertEquals(createdEvent.getCategories().get(0).getId(), eventCategoryService.getEventCategoryById(1L).getId());
-//    assertEquals(createdEvent.getMainPhoto().getId(), eventPhotoService.getEventPhotoById(1L).getId());
-//    assertEquals(createdEvent.getPhotos().get(1).getId(), eventPhotoService.getEventPhotoById(2L).getId());
     assertEquals(createdEvent.getBusiness().getId(), businessService.getBusinessById(1L).getId());
   }
 
@@ -137,11 +122,6 @@ public class EventControllerTest {
     Long eventId = 1L;
     Event event = eventService.getEventById(eventId);
     event.setTitle(eventTitle);
-
-    List<EventPhoto> photos = event.getPhotos();
-    photos.remove(1);
-    event.setPhotos(photos);
-
     event.setBusiness(businessService.getBusinessById(2L));
     event.setPlace(placeService.getPlaceById(2L));
 
@@ -157,7 +137,6 @@ public class EventControllerTest {
 
     assertEquals(eventTitle, upgatedEvent.getTitle());
     assertEquals(eventTitle, eventService.getEventById(eventId).getTitle());
-    assertEquals(1, upgatedEvent.getPhotos().size());
     assertEquals(businessService.getBusinessById(2L).getId(), upgatedEvent.getBusiness().getId());
     assertEquals(placeService.getPlaceById(2L).getId(), upgatedEvent.getPlace().getId());
   }
@@ -167,5 +146,39 @@ public class EventControllerTest {
     mockMvc.perform(delete("/api/events/2"));
 
     assertNull(eventService.getEventById(2L));
+  }
+
+  @Test
+  public void createNewEventPhoto() throws Exception {
+    Long expectedId = 5L;
+    String expectedName = "photo-5";
+
+    EventPhoto eventPhoto = new EventPhoto();
+    eventPhoto.setId(expectedId);
+    eventPhoto.setPhoto(expectedName);
+
+    String placeCategoryJson = objectMapper.writeValueAsString(eventPhoto);
+
+    MvcResult result = mockMvc.perform(
+        post("/api/events/1/photos")
+            .content(placeCategoryJson)
+            .contentType(MediaType.APPLICATION_JSON))
+        .andReturn();
+    String responseBody = result.getResponse().getContentAsString();
+    EventPhoto createdEventPhoto = objectMapper.readValue(responseBody, EventPhoto.class);
+    Long createdEventPhotoId= createdEventPhoto.getId();
+
+    assertEquals(expectedName, createdEventPhoto.getPhoto());
+    assertNotNull(createdEventPhoto.getCreatedDate());
+    assertNotNull(createdEventPhoto.getModifiedDate());
+    assertNotNull(createdEventPhotoId);
+    assertEquals(createdEventPhoto.getEvent().getId(), eventService.getEventById(1L).getId());
+  }
+
+  @Test
+  public void deleteEventPhoto() throws Exception {
+    mockMvc.perform(delete("/api/events/1/photos/1"));
+
+    assertNull(eventPhotoService.getEventPhotoById(1L));
   }
 }

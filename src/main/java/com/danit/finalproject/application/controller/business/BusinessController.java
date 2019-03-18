@@ -1,6 +1,8 @@
 package com.danit.finalproject.application.controller.business;
 
 import com.danit.finalproject.application.entity.business.Business;
+import com.danit.finalproject.application.entity.business.BusinessPhoto;
+import com.danit.finalproject.application.service.business.BusinessPhotoService;
 import com.danit.finalproject.application.service.business.BusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,10 +21,12 @@ import java.util.List;
 @RequestMapping("/api/businesses")
 public class BusinessController {
   private BusinessService businessService;
+  private BusinessPhotoService businessPhotoService;
 
   @Autowired
-  public BusinessController(BusinessService businessService) {
+  public BusinessController(BusinessService businessService, BusinessPhotoService businessPhotoService) {
     this.businessService = businessService;
+    this.businessPhotoService = businessPhotoService;
   }
 
   @GetMapping("{id}")
@@ -48,5 +52,15 @@ public class BusinessController {
   @DeleteMapping("{id}")
   public void deleteBusiness(@PathVariable("id") Long businessId) {
     businessService.deleteBusiness(businessId);
+  }
+
+  @PostMapping("/{businessId}/photos")
+  public BusinessPhoto addPhotosToBusiness(@RequestBody BusinessPhoto businessPhoto, @PathVariable("businessId") Long businessId) {
+    return businessPhotoService.createNewBusinessPhoto(businessPhoto, businessId);
+  }
+
+  @DeleteMapping("/{businessId}/photos/{photoId}")
+  public void deletePhoto(@PathVariable("photoId") Long photoId) {
+    businessPhotoService.deleteBusinesPhoto(photoId);
   }
 }

@@ -22,9 +22,9 @@ public class BusinessPhotoService {
     return businessPhotoRepository.findById(photoId).orElse(null);
   }
 
-  public void createNewBusinessPhoto(BusinessPhoto businessPhoto, Long businessId) {
+  public BusinessPhoto createNewBusinessPhoto(BusinessPhoto businessPhoto, Long businessId) {
     businessPhoto.setBusiness(businessRepository.findById(businessId).orElse(null));
-    businessPhotoRepository.save(businessPhoto);
+    return businessPhotoRepository.save(businessPhoto);
   }
 
   public void deleteBusinesPhoto(Long photoId) {

@@ -23,9 +23,9 @@ public class EventPhotoService {
     return eventPhotoRepository.findById(photoId).orElse(null);
   }
 
-  public void createNewEventPhoto(EventPhoto eventPhoto, Long eventId) {
+  public EventPhoto createNewEventPhoto(EventPhoto eventPhoto, Long eventId) {
     eventPhoto.setEvent(eventRepository.findById(eventId).orElse(null));
-    eventPhotoRepository.save(eventPhoto);
+    return eventPhotoRepository.save(eventPhoto);
   }
 
   public void deleteEventPhoto(Long eventPhotoId) {

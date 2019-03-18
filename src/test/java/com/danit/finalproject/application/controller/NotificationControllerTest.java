@@ -70,11 +70,11 @@ public class NotificationControllerTest {
     notification.setBusiness(businessService.getBusinessById(1L));
     notification.setEvent(eventService.getEventById(1L));
 
-    String placeCategoryJson = objectMapper.writeValueAsString(notification);
+    String notificationJson = objectMapper.writeValueAsString(notification);
 
     MvcResult result = mockMvc.perform(
-        post("/api/notifications/places/1")
-            .content(placeCategoryJson)
+        post("/api/notifications/places/2")
+            .content(notificationJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();

@@ -24,8 +24,8 @@ public class NotificationService {
     return notificationRepository.findById(id).orElse(null);
   }
 
-  public List<Notification> findAllByPlaceId(Place place) {
-    return notificationRepository.findAllByPlace(place);
+  public List<Notification> findAllByPlace(Long placeId) {
+    return notificationRepository.findAllByPlace(placeRepository.findById(placeId).orElse(null));
   }
 
   public Notification createNewNotification(Notification notification, Long placeId) {
@@ -33,7 +33,8 @@ public class NotificationService {
     return notificationRepository.save(notification);
   }
 
-  public Notification updateNotification(Notification notification) {
+  public Notification updateNotification(Notification notification, Long id) {
+    notification.setId(id);
     return notificationRepository.saveAndFlush(notification);
   }
 

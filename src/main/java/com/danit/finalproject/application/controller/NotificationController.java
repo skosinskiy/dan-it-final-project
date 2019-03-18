@@ -19,7 +19,6 @@ import java.util.List;
 @RequestMapping("/api/notifications")
 public class NotificationController {
   private NotificationService notificationService;
-  private PlaceService placeService;
 
   @Autowired
   public NotificationController(NotificationService notificationService) {
@@ -28,7 +27,7 @@ public class NotificationController {
 
   @GetMapping
   public List<Notification> findAllNotificationsByPlace(@RequestParam("placeId") Long id) {
-    return notificationService.findAllByPlaceId(placeService.getPlaceById(id));
+    return notificationService.findAllByPlace(id);
   }
 
   @PostMapping("/places/{placeId}")
@@ -36,9 +35,9 @@ public class NotificationController {
     return notificationService.createNewNotification(notification, placeId);
   }
 
-  @PutMapping
-  public Notification updateNotification(@RequestBody Notification notification) {
-    return notificationService.updateNotification(notification);
+  @PutMapping("/{id}")
+  public Notification updateNotification(@RequestBody Notification notification, @PathVariable("id") Long id) {
+    return notificationService.updateNotification(notification, id);
   }
 
   @DeleteMapping("{id}")

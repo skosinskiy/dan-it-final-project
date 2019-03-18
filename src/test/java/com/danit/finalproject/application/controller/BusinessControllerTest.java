@@ -46,6 +46,9 @@ public class BusinessControllerTest {
   @Autowired
   private PlaceService placeService;
 
+  @Autowired
+  private BusinessPhotoService businessPhotoService;
+
   @Test
   public void getBusinessById() throws Exception {
     Long expectedId = 1L;
@@ -136,5 +139,39 @@ public class BusinessControllerTest {
     mockMvc.perform(delete("/api/businesses/2"));
 
     assertNull(businessService.getBusinessById(2L));
+  }
+
+  @Test
+  public void createNewBusinessPhoto() throws Exception {
+    Long expectedId = 5L;
+    String expectedName = "photo-5";
+
+    BusinessPhoto businessPhoto = new BusinessPhoto();
+    businessPhoto.setId(expectedId);
+    businessPhoto.setPhoto(expectedName);
+
+    String businessPhotoJson = objectMapper.writeValueAsString(businessPhoto);
+
+    MvcResult result = mockMvc.perform(
+        post("/api/businesses/2/photos")
+            .content(businessPhotoJson)
+            .contentType(MediaType.APPLICATION_JSON))
+        .andReturn();
+    String responseBody = result.getResponse().getContentAsString();
+    BusinessPhoto createdBUsinessPhoto = objectMapper.readValue(responseBody, BusinessPhoto.class);
+    Long createdBusinessPhotoId= createdBUsinessPhoto.getId();
+
+    assertEquals(expectedName, createdBUsinessPhoto.getPhoto());
+    assertNotNull(createdBUsinessPhoto.getCreatedDate());
+    assertNotNull(createdBUsinessPhoto.getModifiedDate());
+    assertNotNull(createdBusinessPhotoId);
+    assertEquals(createdBUsinessPhoto.getBusiness().getId(), businessService.getBusinessById(2L).getId());
+  }
+
+  @Test
+  public void deletePlace() throws Exception {
+    mockMvc.perform(delete("/api/businesses/1/photos/1"));
+
+    assertNull(businessPhotoService.getBusinessPhotoById(1L));
   }
 }

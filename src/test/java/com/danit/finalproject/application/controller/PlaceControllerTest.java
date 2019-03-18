@@ -133,4 +133,37 @@ public class PlaceControllerTest {
 
     assertNull(placeService.getPlaceById(2L));
   }
+
+  @Test
+  public void createNewPlacePhoto() throws Exception {
+    Long expectedId = 5L;
+    String expectedName = "photo-5";
+
+    PlacePhoto placePhoto = new PlacePhoto();
+    placePhoto.setId(expectedId);
+    placePhoto.setPhoto(expectedName);
+
+    String placePhotoJson = objectMapper.writeValueAsString(placePhoto);
+
+    MvcResult result = mockMvc.perform(
+        post("/api/places/1/photos")
+            .content(placePhotoJson)
+            .contentType(MediaType.APPLICATION_JSON))
+        .andReturn();
+    String responseBody = result.getResponse().getContentAsString();
+    PlacePhoto createdPlacePhoto = objectMapper.readValue(responseBody, PlacePhoto.class);
+    Long createdPlacePhotoId= createdPlacePhoto.getId();
+
+    assertEquals(expectedName, createdPlacePhoto.getPhoto());
+    assertNotNull(createdPlacePhoto.getCreatedDate());
+    assertNotNull(createdPlacePhoto.getModifiedDate());
+    assertNotNull(createdPlacePhotoId);
+    assertEquals(createdPlacePhoto.getPlace().getId(), placeService.getPlaceById(1L).getId());
+  }
+
+  @Test
+  public void deletePlacePhoto() throws Exception {
+    mockMvc.perform(delete("/api/places/1/photos/1"));
+    assertNull(placePhotoService.getPlacePhotoById(1L));
+  }
 }

@@ -1,6 +1,8 @@
 package com.danit.finalproject.application.controller.place;
 
 import com.danit.finalproject.application.entity.place.Place;
+import com.danit.finalproject.application.entity.place.PlacePhoto;
+import com.danit.finalproject.application.service.place.PlacePhotoService;
 import com.danit.finalproject.application.service.place.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,10 +20,12 @@ import java.util.List;
 @RequestMapping("/api/places")
 public class PlaceController {
   private PlaceService placeService;
+  private PlacePhotoService placePhotoService;
 
   @Autowired
-  public PlaceController(PlaceService placeService) {
+  public PlaceController(PlaceService placeService, PlacePhotoService placePhotoService) {
     this.placeService = placeService;
+    this.placePhotoService = placePhotoService;
   }
 
   @GetMapping("{id}")
@@ -47,5 +51,15 @@ public class PlaceController {
   @DeleteMapping("{id}")
   public void deletePlace(@PathVariable("id") Long placeId) {
     placeService.deletePlace(placeId);
+  }
+
+  @PostMapping("/{placeId}/photos")
+  public PlacePhoto addPhotosToPlace(@RequestBody PlacePhoto placePhoto, @PathVariable("placeId") Long placeId) {
+    return placePhotoService.createNewPlacePhoto(placePhoto, placeId);
+  }
+
+  @DeleteMapping("/{placeId}/photos/{photoId}")
+  public void deletePhoto(@PathVariable("photoId") Long photoId ) {
+    placePhotoService.deletePlacePhoto(photoId);
   }
 }
