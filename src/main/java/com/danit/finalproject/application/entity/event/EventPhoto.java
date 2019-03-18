@@ -1,8 +1,12 @@
 package com.danit.finalproject.application.entity.event;
 
 import com.danit.finalproject.application.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -18,6 +22,10 @@ public class EventPhoto extends BaseEntity {
   @Column(name = "photo")
   private String photo;
 
-  @Column(name = "event_id")
+  @ManyToOne
+  @JoinColumn(name = "event_id")
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
+  @JsonIgnore
   private Event event;
 }

@@ -51,18 +51,18 @@ public class PlacePhotoControllerTest {
 
   @Test
   public void createNewPlacePhoto() throws Exception {
-    Long expectedId = 3L;
-    String expectedName = "photo-3";
+    Long expectedId = 5L;
+    String expectedName = "photo-5";
 
     PlacePhoto placePhoto = new PlacePhoto();
     placePhoto.setId(expectedId);
     placePhoto.setPhoto(expectedName);
 
-    String placeCategoryJson = objectMapper.writeValueAsString(placePhoto);
+    String placePhotoJson = objectMapper.writeValueAsString(placePhoto);
 
     MvcResult result = mockMvc.perform(
-        post("/api/places/1/photos")
-            .content(placeCategoryJson)
+        post("/api/places/2/photos")
+            .content(placePhotoJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
@@ -73,7 +73,7 @@ public class PlacePhotoControllerTest {
     assertNotNull(createdPlacePhoto.getCreatedDate());
     assertNotNull(createdPlacePhoto.getModifiedDate());
     assertNotNull(createdPlacePhotoId);
-//    assertEquals(createdPlacePhoto.getPlace().getId(), placeService.getPlaceById(1L).getId());
+    assertEquals(createdPlacePhoto.getPlace().getId(), placeService.getPlaceById(5L).getId());
   }
 
   @Test

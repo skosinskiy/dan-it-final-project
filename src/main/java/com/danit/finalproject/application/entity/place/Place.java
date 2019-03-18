@@ -5,6 +5,8 @@ import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.event.Event;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.util.List;
 
@@ -30,19 +33,18 @@ public class Place extends BaseEntity {
   @Column(name = "address")
   private String address;
 
-  @OneToMany
-  @JoinColumn(name = "businesses_id")
+  @OneToMany(mappedBy = "place")
   private List<Business> businesses;
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "main_photo")
   private PlacePhoto mainPhoto;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "place_photos")
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "place")
   private List<PlacePhoto> photos;
 
   @ManyToOne
   @JoinColumn(name = "place_category", nullable = false)
   private PlaceCategory placeCategory;
+
 }

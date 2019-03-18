@@ -24,12 +24,12 @@ public class PlacePhotoService {
     return placePhotoRepository.getByIdAndPlace(photoId, placeRepository.findById(placeId).orElse(null));
   }
 
-  public void createNewPlacePhoto(PlacePhoto placePhoto, Long placeId) {
-//    placePhoto.setPlace(placeRepository.findById(placeId).orElse(null));
-    placePhotoRepository.save(placePhoto);
+  public PlacePhoto createNewPlacePhoto(PlacePhoto placePhoto, Long placeId) {
+    placePhoto.setPlace(placeRepository.findById(placeId).orElse(null));
+    return placePhotoRepository.save(placePhoto);
   }
 
-  public void deletePlacePhoto(Long placePhotoId, Long placeId) {
-    placePhotoRepository.deletePlacePhotoByIdAndPhoto(placePhotoId, placeRepository.findById(placeId).orElse(null));
+  public PlacePhoto deletePlacePhoto(Long placePhotoId, Long placeId) {
+    return placePhotoRepository.deletePlacePhotoByIdAndPhoto(placePhotoId, placeRepository.findById(placeId).orElse(null));
   }
 }

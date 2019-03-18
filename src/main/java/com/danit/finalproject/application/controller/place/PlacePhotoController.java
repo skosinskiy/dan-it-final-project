@@ -21,12 +21,12 @@ public class PlacePhotoController {
   }
 
   @PostMapping
-  public void addPhotosToPlace(@RequestBody PlacePhoto placePhoto, @PathVariable("placeId") Long placeId) {
-    placePhotoService.createNewPlacePhoto(placePhoto, placeId);
+  public PlacePhoto addPhotosToPlace(@RequestBody PlacePhoto placePhoto, @PathVariable("placeId") Long placeId) {
+    return placePhotoService.createNewPlacePhoto(placePhoto, placeId);
   }
 
   @DeleteMapping("/photoId")
-  public void deletePhoto(@PathVariable("placeId") Long placeId, @PathVariable("photoId") Long photoId) {
-    placePhotoService.deletePlacePhoto(photoId, placeId);
+  public PlacePhoto deletePhoto(@PathVariable("placeId") Long placeId, @PathVariable("photoId") Long photoId) {
+    return placePhotoService.deletePlacePhoto(photoId, placeId);
   }
 }

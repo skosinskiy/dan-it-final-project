@@ -87,16 +87,6 @@ public class PlaceControllerTest {
     place.setId(expectedId);
     place.setTitle(expectedName);
     place.setPlaceCategory(placeCategoryService.getPlaceCategoryById(1L));
-//    place.setMainPhoto(placePhotoService.getPlacePhotoById(1L));
-
-    List<PlacePhoto> photos = new ArrayList<>();
-//    photos.add(placePhotoService.getPlacePhotoById(1L));
-//    photos.add(placePhotoService.getPlacePhotoById(2L));
-//    place.setPhotos(photos);
-
-    List<Business> businesses = new ArrayList<>();
-    businesses.add(businessService.getBusinessById(1L));
-    place.setBusinesses(businesses);
 
     String placeCategoryJson = objectMapper.writeValueAsString(place);
 
@@ -114,25 +104,14 @@ public class PlaceControllerTest {
     assertNotNull(createdPlace.getModifiedDate());
     assertNotNull(createdPlaceId);
     assertEquals(createdPlace.getPlaceCategory().getId(), placeCategoryService.getPlaceCategoryById(1L).getId());
-//    assertEquals(createdPlace.getMainPhoto().getId(), placePhotoService.getPlacePhotoById(1L).getId());
-//    assertEquals(createdPlace.getPhotos().get(1).getId(), placePhotoService.getPlacePhotoById(2L).getId());
-//    assertEquals(createdPlace.getBusinesses().get(0).getId(), businessService.getBusinessById(1L).getId());
   }
-//
+
   @Test
   public void updatePlace() throws Exception {
     String placeTitle = "Updated";
     Long placeId = 1L;
     Place place = placeService.getPlaceById(placeId);
     place.setTitle(placeTitle);
-
-//    List<PlacePhoto> photos = place.getPhotos();
-//    photos.remove(1);
-//    place.setPhotos(photos);
-
-    List<Business> businesses = place.getBusinesses();
-    businesses.add(businessService.getBusinessById(2L));
-    place.setBusinesses(businesses);
 
     String userJson = objectMapper.writeValueAsString(place);
 
@@ -146,8 +125,6 @@ public class PlaceControllerTest {
 
     assertEquals(placeTitle, upgatedPlace.getTitle());
     assertEquals(placeTitle, placeService.getPlaceById(placeId).getTitle());
-//    assertEquals(1, upgatedPlace.getPhotos().size());
-//    assertEquals(2, upgatedPlace.getBusinesses().size());
   }
 
   @Test
