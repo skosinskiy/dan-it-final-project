@@ -22,18 +22,20 @@ public class ValidationService {
   }
 
   public void checkForValidationErrors(BindingResult bindingResult) {
-    for (Object object : bindingResult.getAllErrors()) {
-      if (object instanceof FieldError) {
-        FieldError fieldError = (FieldError) object;
-        String errorMessage = messageSource.getMessage(fieldError, null);
-        if (INVALID_TOKEN_MESSAGE.equals(errorMessage)) {
-          throw new TokenExpiredException(INVALID_TOKEN_MESSAGE);
-        }
-      } else if (object instanceof ObjectError) {
-        ObjectError objectError = (ObjectError) object;
-        String errorMessage = messageSource.getMessage(objectError, null);
-        if (PASSWORDS_DONT_MATCH_MESSAGE.equals(errorMessage)) {
-          throw new PasswordsDontMatchException(PASSWORDS_DONT_MATCH_MESSAGE);
+    if (bindingResult.hasErrors()) {
+      for (Object object : bindingResult.getAllErrors()) {
+        if (object instanceof FieldError) {
+          FieldError fieldError = (FieldError) object;
+          String errorMessage = messageSource.getMessage(fieldError, null);
+          if (INVALID_TOKEN_MESSAGE.equals(errorMessage)) {
+            throw new TokenExpiredException();
+          }
+        } else if (object instanceof ObjectError) {
+          ObjectError objectError = (ObjectError) object;
+          String errorMessage = messageSource.getMessage(objectError, null);
+          if (PASSWORDS_DONT_MATCH_MESSAGE.equals(errorMessage)) {
+            throw new PasswordsDontMatchException();
+          }
         }
       }
     }

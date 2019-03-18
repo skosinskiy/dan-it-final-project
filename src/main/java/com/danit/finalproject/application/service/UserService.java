@@ -5,7 +5,9 @@ import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.util.Date;
 import java.util.List;
@@ -20,12 +22,17 @@ public class UserService {
 
   private UserRepository userRepository;
   private EmailService emailService;
+  private ValidationService validationService;
+  @Value("${react.server.port}")
+  private String applicationPort;
+  @Value("${react.server.host}")
+  private String applicationHost;
 
   @Autowired
-  public UserService(
-      UserRepository userRepository, EmailService emailService) {
+  public UserService(UserRepository userRepository, EmailService emailService, ValidationService validationService) {
     this.userRepository = userRepository;
     this.emailService = emailService;
+    this.validationService = validationService;
   }
 
   public User getUserById(Long userId) {
@@ -81,15 +88,14 @@ public class UserService {
 
   private void sendPasswordRecoveryEmail(String token, String userEmail) {
     String text = String.format("Please follow the link to change your password\n"
-        + "http://localhost:3000/reset-password/%s", token);
+        + "http://%s:%s/reset-password/%s", applicationHost, applicationPort, token);
     emailService.sendSimpleMessage(userEmail, PASS_RECOVERY_EMAIL_SUBJECT, text);
   }
 
-  public User updateUserPassword(UpdateUserPasswordRequestDto userDto) {
-    String token = userDto.getToken();
-    User user = userRepository.findByToken(token);
-    String password = userDto.getPassword();
-    user.setPassword(password);
+  public User updateUserPassword(UpdateUserPasswordRequestDto userDto, BindingResult bindingResult) {
+    validationService.checkForValidationErrors(bindingResult);
+    User user = userRepository.findByToken(userDto.getToken());
+    user.setPassword(userDto.getPassword());
     user.setTokenExpirationDate(null);
     user.setToken(null);
     return userRepository.save(user);

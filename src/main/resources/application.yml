@@ -24,3 +24,10 @@ spring:
 server:
   port:
     9000
+
+react:
+  server:
+    port:
+      3000
+    host:
+      localhost
