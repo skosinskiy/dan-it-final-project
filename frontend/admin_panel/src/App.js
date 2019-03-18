@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import AppRouter from './components/AppRoutes'
+import AppRouter from './components/AppRoutes/MainRouter'
 import './App.css'
 import {connect} from 'react-redux'
 import fetchCurrentUser from './components/ActionCreators/UserActions'

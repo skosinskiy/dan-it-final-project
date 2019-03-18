@@ -10,7 +10,6 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
-import {NavLink} from 'react-router-dom'
 
 const styles = theme => ({
   main: {
@@ -67,7 +66,7 @@ function ForgotPassword (props) {
             <InputLabel htmlFor="email">Email Address</InputLabel>
             <Input id="email" name="email" autoComplete="email" autoFocus />
           </FormControl>
-          <NavLink to={'/login'}><Button
+          <Button
             type="submit"
             fullWidth
             variant="contained"
@@ -75,7 +74,7 @@ function ForgotPassword (props) {
             className={classes.submit}
           >
                         Send Password
-          </Button></NavLink>
+          </Button>
         </form>
       </Paper>
     </main>
