@@ -7,6 +7,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -24,9 +25,6 @@ public class PlacePhoto extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "place_id")
-  @ToString.Exclude
-  @EqualsAndHashCode.Exclude
-  @JsonIgnore
   private Place place;
 
 }

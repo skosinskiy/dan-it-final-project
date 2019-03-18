@@ -3,7 +3,9 @@ package com.danit.finalproject.application.entity.place;
 import com.danit.finalproject.application.entity.BaseEntity;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.event.Event;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -34,6 +36,8 @@ public class Place extends BaseEntity {
   private String address;
 
   @OneToMany(mappedBy = "place")
+  @ToString.Exclude
+  @JsonIgnore
   private List<Business> businesses;
 
   @OneToOne(cascade = CascadeType.ALL)
@@ -41,6 +45,8 @@ public class Place extends BaseEntity {
   private PlacePhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "place")
+  @ToString.Exclude
+  @JsonIgnore
   private List<PlacePhoto> photos;
 
   @ManyToOne

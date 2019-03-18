@@ -10,10 +10,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("api/businesses/")
+@RequestMapping("/api/businesses")
 public class BusinessController {
   private BusinessService businessService;
 
@@ -27,10 +30,10 @@ public class BusinessController {
     return businessService.getBusinessById(businessId);
   }
 
-//  @GetMapping
-//  public List<Business> getAllBusinesses(@RequestParam("place") Long placeId, @RequestParam("location") String location) {
-//    return businessService.;
-//  }
+  @GetMapping
+  public List<Business> getAllBusinesses(@RequestParam("placeId") Long placeId) {
+    return businessService.findAllByPlace(placeId);
+  }
 
   @PostMapping
   public Business createNewBusiness(@RequestBody Business business) {

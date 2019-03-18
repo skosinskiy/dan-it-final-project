@@ -19,16 +19,16 @@ public class EventPhotoService {
     this.eventRepository = eventRepository;
   }
 
-  public EventPhoto getEventPhotoByIdAndEvent(Long photoId, Long eventId) {
-    return eventPhotoRepository.getByIdAndEvent(photoId, eventRepository.findById(eventId).orElse(null));
+  public EventPhoto getEventPhotoById(Long photoId) {
+    return eventPhotoRepository.findById(photoId).orElse(null);
   }
 
   public void createNewEventPhoto(EventPhoto eventPhoto, Long eventId) {
-//    eventPhoto.setEvent(eventRepository.findById(eventId).orElse(null));
+    eventPhoto.setEvent(eventRepository.findById(eventId).orElse(null));
     eventPhotoRepository.save(eventPhoto);
   }
 
-  public void deleteEventPhoto(Long eventPhotoId, Long eventId) {
-    eventPhotoRepository.deleteEventPhotoByIdAndEvent(eventPhotoId, eventRepository.findById(eventId).orElse(null));
+  public void deleteEventPhoto(Long eventPhotoId) {
+    eventPhotoRepository.deleteById(eventPhotoId);
   }
 }

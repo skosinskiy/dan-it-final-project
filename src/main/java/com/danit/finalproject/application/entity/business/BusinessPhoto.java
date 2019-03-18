@@ -24,8 +24,5 @@ public class BusinessPhoto extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "business_id")
-  @ToString.Exclude
-  @EqualsAndHashCode.Exclude
-  @JsonIgnore
   private Business business;
 }

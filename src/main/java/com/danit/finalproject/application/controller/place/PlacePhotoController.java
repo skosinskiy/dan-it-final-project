@@ -25,8 +25,8 @@ public class PlacePhotoController {
     return placePhotoService.createNewPlacePhoto(placePhoto, placeId);
   }
 
-  @DeleteMapping("/photoId")
-  public PlacePhoto deletePhoto(@PathVariable("placeId") Long placeId, @PathVariable("photoId") Long photoId) {
-    return placePhotoService.deletePlacePhoto(photoId, placeId);
+  @DeleteMapping("{photoId}")
+  public void deletePhoto(@PathVariable("photoId") Long photoId ) {
+    placePhotoService.deletePlacePhoto(photoId);
   }
 }

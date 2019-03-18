@@ -18,8 +18,8 @@ public class BusinessPhotoService {
     this.businessRepository = businessRepository;
   }
 
-  public BusinessPhoto getBusinessPhotoByIdAndBusiness(Long photoId, Long businessId) {
-    return businessPhotoRepository.getByIdAndBusiness(photoId, businessRepository.findById(businessId).orElse(null));
+  public BusinessPhoto getBusinessPhotoById(Long photoId) {
+    return businessPhotoRepository.findById(photoId).orElse(null);
   }
 
   public void createNewBusinessPhoto(BusinessPhoto businessPhoto, Long businessId) {
@@ -27,7 +27,7 @@ public class BusinessPhotoService {
     businessPhotoRepository.save(businessPhoto);
   }
 
-  public void deleteBusinesPhotoByIdAndBusiness(Long photoId, Long businessId) {
-    businessPhotoRepository.deleteByIdAndBusiness(photoId, businessRepository.findById(businessId).orElse(null));
+  public void deleteBusinesPhoto(Long photoId) {
+    businessPhotoRepository.deleteById(photoId);
   }
 }

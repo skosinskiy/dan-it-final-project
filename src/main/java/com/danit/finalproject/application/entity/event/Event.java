@@ -3,7 +3,9 @@ package com.danit.finalproject.application.entity.event;
 import com.danit.finalproject.application.entity.BaseEntity;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.place.Place;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -44,6 +46,9 @@ public class Event extends BaseEntity {
   private EventPhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
+  @JsonIgnore
   private List<EventPhoto> photos;
 
   @ManyToOne

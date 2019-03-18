@@ -1,13 +1,8 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.entity.business.Business;
-import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlacePhoto;
-import com.danit.finalproject.application.service.business.BusinessService;
-import com.danit.finalproject.application.service.place.PlaceCategoryService;
 import com.danit.finalproject.application.service.place.PlacePhotoService;
 import com.danit.finalproject.application.service.place.PlaceService;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,11 +15,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -41,13 +34,7 @@ public class PlacePhotoControllerTest {
   private PlaceService placeService;
 
   @Autowired
-  private PlaceCategoryService placeCategoryService;
-
-  @Autowired
   private PlacePhotoService placePhotoService;
-
-  @Autowired
-  private BusinessService businessService;
 
   @Test
   public void createNewPlacePhoto() throws Exception {
@@ -61,7 +48,7 @@ public class PlacePhotoControllerTest {
     String placePhotoJson = objectMapper.writeValueAsString(placePhoto);
 
     MvcResult result = mockMvc.perform(
-        post("/api/places/2/photos")
+        post("/api/places/1/photos")
             .content(placePhotoJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -73,13 +60,13 @@ public class PlacePhotoControllerTest {
     assertNotNull(createdPlacePhoto.getCreatedDate());
     assertNotNull(createdPlacePhoto.getModifiedDate());
     assertNotNull(createdPlacePhotoId);
-    assertEquals(createdPlacePhoto.getPlace().getId(), placeService.getPlaceById(5L).getId());
+    assertEquals(createdPlacePhoto.getPlace().getId(), placeService.getPlaceById(1L).getId());
   }
 
   @Test
   public void deletePlace() throws Exception {
     mockMvc.perform(delete("/api/places/1/photos/1"));
 
-    assertNull(placePhotoService.getPlacePhotoByIdAndPlace(1L, 1L));
+    assertNull(placePhotoService.getPlacePhotoById(1L));
   }
 }

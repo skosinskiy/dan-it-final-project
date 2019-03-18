@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/businesses/{businessId}/photos")
-public class BusinessPhotoPhotoController {
+@RequestMapping("/api/businesses/{businessId}/photos")
+public class BusinessPhotoController {
   private BusinessPhotoService businessPhotoService;
 
   @Autowired
-  public BusinessPhotoPhotoController(BusinessPhotoService businessPhotoService) {
+  public BusinessPhotoController(BusinessPhotoService businessPhotoService) {
     this.businessPhotoService = businessPhotoService;
   }
 
@@ -25,9 +25,9 @@ public class BusinessPhotoPhotoController {
     businessPhotoService.createNewBusinessPhoto(businessPhoto, businessId);
   }
 
-  @DeleteMapping("/photoId")
-  public void deletePhoto(@PathVariable("businessId") Long placeId, @PathVariable("photoId") Long photoId) {
-    businessPhotoService.deleteBusinesPhotoByIdAndBusiness(photoId, placeId);
+  @DeleteMapping("/{photoId}")
+  public void deletePhoto(@PathVariable("photoId") Long photoId) {
+    businessPhotoService.deleteBusinesPhoto(photoId);
   }
 
 }

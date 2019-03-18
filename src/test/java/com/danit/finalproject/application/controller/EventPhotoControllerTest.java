@@ -43,8 +43,8 @@ public class EventPhotoControllerTest {
 
   @Test
   public void createNewEventPhoto() throws Exception {
-    Long expectedId = 3L;
-    String expectedName = "photo-3";
+    Long expectedId = 5L;
+    String expectedName = "photo-5";
 
     EventPhoto eventPhoto = new EventPhoto();
     eventPhoto.setId(expectedId);
@@ -65,13 +65,13 @@ public class EventPhotoControllerTest {
     assertNotNull(createdEventPhoto.getCreatedDate());
     assertNotNull(createdEventPhoto.getModifiedDate());
     assertNotNull(createdEventPhotoId);
-//    assertEquals(createdEventPhoto.getEvent().getId(), eventService.getEventById(1L).getId());
+    assertEquals(createdEventPhoto.getEvent().getId(), eventService.getEventById(1L).getId());
   }
 
   @Test
-  public void deletePlace() throws Exception {
+  public void deleteEventPhoto() throws Exception {
     mockMvc.perform(delete("/api/events/1/photos/1"));
 
-    assertNull(eventPhotoService.getEventPhotoByIdAndEvent(1L, 1L));
+    assertNull(eventPhotoService.getEventPhotoById(1L));
   }
 }

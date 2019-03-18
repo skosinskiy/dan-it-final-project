@@ -41,10 +41,10 @@ public class BusinessControllerTest {
   private BusinessCategoryService businessCategoryService;
 
   @Autowired
-  private BusinessPhotoService businessPhotoService;
+  private BusinessService businessService;
 
   @Autowired
-  private BusinessService businessService;
+  private PlaceService placeService;
 
   @Test
   public void getBusinessById() throws Exception {
@@ -60,45 +60,40 @@ public class BusinessControllerTest {
     assertEquals(expectedName, business.getTitle());
   }
 
-//  @Test
-//  public void getAllBusinesses() throws Exception {
-//    int expectedSize = 2;
-//    String secondCategoryName = "business-2";
-//
-//    MvcResult result = mockMvc.perform(get("/api/businesses"))
-//        .andReturn();
-//    String responseBody = result.getResponse().getContentAsString();
-//    List<Business> businesses = objectMapper.readValue(responseBody, new TypeReference<List<Business>>(){});
-//
-//    assertEquals(expectedSize, businesses.size());
-//    assertEquals(secondCategoryName, businesses.get(1).getTitle());
-//  }
+  @Test
+  public void getAllBusinessesByPlace() throws Exception {
+    int expectedSize = 2;
+    String secondCategoryName = "business-3";
+
+    MvcResult result = mockMvc.perform(get("/api/businesses?placeId=1"))
+        .andReturn();
+    String responseBody = result.getResponse().getContentAsString();
+    List<Business> businesses = objectMapper.readValue(responseBody, new TypeReference<List<Business>>(){});
+
+    assertEquals(expectedSize, businesses.size());
+    assertEquals(secondCategoryName, businesses.get(1).getTitle());
+  }
 
   @Test
   public void createNewBusiness() throws Exception {
-    Long expectedId = 3L;
-    String expectedName = "business-3";
+    Long expectedId = 4L;
+    String expectedName = "business-4";
 
     Business business = new Business();
     business.setId(expectedId);
     business.setTitle(expectedName);
+    business.setPlace(placeService.getPlaceById(2L));
 
     List<BusinessCategory> businessCategories = new ArrayList<>();
     businessCategories.add(businessCategoryService.getBusinessCategoryById(1L));
     businessCategories.add(businessCategoryService.getBusinessCategoryById(2L));
     business.setCategories(businessCategories);
-//    business.setMainPhoto(businessPhotoService.getBusinessPhotoById(1L));
 
-//    List<BusinessPhoto> photos = new ArrayList<>();
-//    photos.add(businessPhotoService.getBusinessPhotoById(1L));
-//    photos.add(businessPhotoService.getBusinessPhotoById(2L));
-//    business.setPhotos(photos);
-
-    String placeCategoryJson = objectMapper.writeValueAsString(business);
+    String businessJson = objectMapper.writeValueAsString(business);
 
     MvcResult result = mockMvc.perform(
         post("/api/businesses")
-            .content(placeCategoryJson)
+            .content(businessJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
@@ -110,10 +105,8 @@ public class BusinessControllerTest {
     assertNotNull(createdBusiness.getModifiedDate());
     assertNotNull(createdBUsinessId);
     assertEquals(createdBusiness.getCategories().get(0).getId(), businessCategoryService.getBusinessCategoryById(1L).getId());
-//    assertEquals(createdBusiness.getMainPhoto().getId(), businessPhotoService.getBusinessPhotoById(1L).getId());
-//    assertEquals(createdBusiness.getPhotos().get(1).getId(), businessPhotoService.getBusinessPhotoById(2L).getId());
-
-  }
+    assertEquals(createdBusiness.getPlace().getId(), placeService.getPlaceById(2L).getId());
+ }
 
   @Test
   public void updateBusiness() throws Exception {
@@ -121,10 +114,7 @@ public class BusinessControllerTest {
     Long businesssId = 1L;
     Business business = businessService.getBusinessById(businesssId);
     business.setTitle(businessTitle);
-
-//    List<BusinessPhoto> photos = business.getPhotos();
-//    photos.remove(1);
-//    business.setPhotos(photos);
+    business.setPlace(placeService.getPlaceById(2L));
 
     String userJson = objectMapper.writeValueAsString(business);
 
@@ -138,12 +128,12 @@ public class BusinessControllerTest {
 
     assertEquals(businessTitle, upgatedBusiness.getTitle());
     assertEquals(businessTitle, businessService.getBusinessById(businesssId).getTitle());
-//    assertEquals(1, upgatedBusiness.getPhotos().size());
+    assertEquals(upgatedBusiness.getPlace().getId(), placeService.getPlaceById(2L).getId());
   }
 
   @Test
   public void deleteBusiness() throws Exception {
-    mockMvc.perform(delete("/api/businesses/1"));
+    mockMvc.perform(delete("/api/businesses/2"));
 
     assertNull(businessService.getBusinessById(2L));
   }

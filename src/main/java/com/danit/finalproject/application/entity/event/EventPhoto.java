@@ -24,8 +24,5 @@ public class EventPhoto extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "event_id")
-  @ToString.Exclude
-  @EqualsAndHashCode.Exclude
-  @JsonIgnore
   private Event event;
 }

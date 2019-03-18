@@ -27,8 +27,8 @@ public class EventPhotoController {
     eventPhotoService.createNewEventPhoto(eventPhoto, eventId);
   }
 
-  @DeleteMapping("/photoId")
-  public void deletePhoto(@PathVariable("eventId") Long placeId, @PathVariable("photoId") Long photoId) {
-    eventPhotoService.deleteEventPhoto(photoId, placeId);
+  @DeleteMapping("/{photoId}")
+  public void deletePhoto(@PathVariable("photoId") Long photoId) {
+    eventPhotoService.deleteEventPhoto(photoId);
   }
 }

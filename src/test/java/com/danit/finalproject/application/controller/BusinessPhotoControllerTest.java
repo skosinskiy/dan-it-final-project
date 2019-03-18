@@ -1,11 +1,8 @@
 package com.danit.finalproject.application.controller;
 
 import com.danit.finalproject.application.entity.business.BusinessPhoto;
-import com.danit.finalproject.application.entity.event.EventPhoto;
 import com.danit.finalproject.application.service.business.BusinessPhotoService;
 import com.danit.finalproject.application.service.business.BusinessService;
-import com.danit.finalproject.application.service.event.EventPhotoService;
-import com.danit.finalproject.application.service.event.EventService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,36 +37,36 @@ public class BusinessPhotoControllerTest {
   private BusinessPhotoService businessPhotoService;
 
   @Test
-  public void createNewEventPhoto() throws Exception {
-    Long expectedId = 3L;
-    String expectedName = "photo-3";
+  public void createNewBusinessPhoto() throws Exception {
+    Long expectedId = 5L;
+    String expectedName = "photo-5";
 
     BusinessPhoto businessPhoto = new BusinessPhoto();
     businessPhoto.setId(expectedId);
     businessPhoto.setPhoto(expectedName);
 
-    String placeCategoryJson = objectMapper.writeValueAsString(businessPhoto);
+    String businessPhotoJson = objectMapper.writeValueAsString(businessPhoto);
 
     MvcResult result = mockMvc.perform(
-        post("/api/businesses/1/photos")
-            .content(placeCategoryJson)
+        post("/api/businesses/2/photos")
+            .content(businessPhotoJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    BusinessPhoto createdBusinessPhoto = objectMapper.readValue(responseBody, BusinessPhoto.class);
-    Long createdBusinessPhotoId= createdBusinessPhoto.getId();
+    BusinessPhoto createdBUsinessPhoto = objectMapper.readValue(responseBody, BusinessPhoto.class);
+    Long createdBusinessPhotoId= createdBUsinessPhoto.getId();
 
-    assertEquals(expectedName, createdBusinessPhoto.getPhoto());
-    assertNotNull(createdBusinessPhoto.getCreatedDate());
-    assertNotNull(createdBusinessPhoto.getModifiedDate());
+    assertEquals(expectedName, createdBUsinessPhoto.getPhoto());
+    assertNotNull(createdBUsinessPhoto.getCreatedDate());
+    assertNotNull(createdBUsinessPhoto.getModifiedDate());
     assertNotNull(createdBusinessPhotoId);
-    assertEquals(createdBusinessPhoto.getBusiness().getId(), businessService.getBusinessById(1L).getId());
+    assertEquals(createdBUsinessPhoto.getBusiness().getId(), businessService.getBusinessById(2L).getId());
   }
 
   @Test
   public void deletePlace() throws Exception {
     mockMvc.perform(delete("/api/businesses/1/photos/1"));
 
-    assertNull(businessPhotoService.getBusinessPhotoByIdAndBusiness(1L, 1L));
+    assertNull(businessPhotoService.getBusinessPhotoById(1L));
   }
 }

@@ -57,12 +57,11 @@ public class Business extends BaseEntity {
   private BusinessPhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "business")
+  @ToString.Exclude
+  @JsonIgnore
   private List<BusinessPhoto> photos;
 
   @ManyToOne
   @JoinColumn(name = "place_id")
-  @ToString.Exclude
-  @EqualsAndHashCode.Exclude
-  @JsonIgnore
   private Place place;
 }
