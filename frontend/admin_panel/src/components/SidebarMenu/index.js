@@ -30,7 +30,7 @@ export default class SidebarMenu extends Component {
           <ListItemIcon>
             <PeopleIcon />
           </ListItemIcon>
-          <ListItemText primary="Link 3" />
+          <ListItemText primary={<NavLink to={'/admin/managing-types'} className="sidebarItem">{'Managing Types'}</NavLink>} />
         </ListItem>
         <ListItem button>
           <ListItemIcon>

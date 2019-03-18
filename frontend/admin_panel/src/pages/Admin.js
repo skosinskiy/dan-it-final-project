@@ -19,6 +19,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications'
 import Sidebarmenu from '../components/SidebarMenu'
 import AdminRouter from '../components/AppRoutes/AdminRouter'
 import { GET_ROLES_LIST } from '../actions/users'
+import { GET_TYPES_LIST } from '../actions/buildings'
 
 const drawerWidth = 240
 
@@ -109,6 +110,10 @@ class Admin extends React.Component {
       .then(res => {
         this.props.getUserRolesList(res.data)
       })
+    // axios.get(`/api/types`)
+    //   .then(res => {
+    //     this.props.getBuldingTypesList(res.data)
+    //   })
   }
 
   handleDrawerOpen = () => {
@@ -188,7 +193,8 @@ Admin.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    userRoles: state.users.userRoles
+    userRoles: state.users.userRoles,
+    buildingTypes: state.buildings.buildingTypes
   }
 }
 
@@ -196,6 +202,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getUserRolesList: (userRoles) => {
       dispatch({type: GET_ROLES_LIST, payload: {userRoles: userRoles}})
+    },
+    getBuldingTypesList: (buildingTypes) => {
+      dispatch({type: GET_TYPES_LIST, payload: {buildingTypes: buildingTypes}})
     }
   }
 }
