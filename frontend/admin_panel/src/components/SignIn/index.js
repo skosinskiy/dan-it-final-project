@@ -1,4 +1,5 @@
 import React from 'react'
+import {NavLink} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -80,6 +81,15 @@ function SignIn (props) {
           >
             Sign in
           </Button>
+          <NavLink to={'/forgot-password'}><Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Forgot Password
+          </Button></NavLink>
         </form>
       </Paper>
     </main>
