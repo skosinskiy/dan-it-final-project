@@ -63,7 +63,7 @@ public class UserControllerTest {
 	}
 
   @Test
-  public void getCurrentUserWithCookie() throws Exception {
+  public void getCurrentUser() throws Exception {
     final Long ID = 1L;
     final String FIRST_NAME = "Elon";
     final String LAST_NAME = "Musk";
@@ -71,8 +71,7 @@ public class UserControllerTest {
     final Integer AGE = 24;
     final Gender GENDER = Gender.MALE;
 
-    MvcResult response = this.mockMvc.perform(get("/api/users/current")
-        .cookie(new Cookie("user_id", "1")))
+    MvcResult response = this.mockMvc.perform(get("/api/users/current"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andReturn();
@@ -86,11 +85,6 @@ public class UserControllerTest {
     assertEquals(EMAIL, responseUser.getEmail());
     assertEquals(AGE, responseUser.getAge());
     assertEquals(GENDER, responseUser.getGender());
-  }
-
-  @Test
-  public void getCurrentUserWithoutCookie() throws Exception {
-    this.mockMvc.perform(get("/api/users/current")).andExpect(status().is5xxServerError());
   }
 
 	@Test

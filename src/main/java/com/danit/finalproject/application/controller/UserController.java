@@ -3,8 +3,8 @@ package com.danit.finalproject.application.controller;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.UserService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/users")
@@ -36,8 +34,8 @@ public class UserController {
 
   @GetMapping("current")
   @ResponseBody
-  public User getCurrentUser(@CookieValue(value = "user_id") String userCookie) {
-    return userService.getUserById(Long.parseLong(userCookie));
+  public User getCurrentUser() {
+    return userService.getUserById(1L);
   }
 
   @GetMapping

@@ -1,29 +1,39 @@
 import React, { Component } from 'react'
 import AppRouter from './components/AppRoutes'
 import './App.css'
+import {connect} from 'react-redux'
+import fetchCurrentUser from './components/ActionCreators/UserActions'
 
 class App extends Component {
+  componentDidMount () {
+    console.log('componentDidMount...')
+    console.log(this.props)
+    this.props.fetchCurrentUser()
+  }
   render () {
+    console.log(this.props)
     return (
       <div className='App'>
-        {/* <header className="App-header"> */}
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        {/* <p> */}
-        {/* Edit <code>src/App.js</code> and save to reload. */}
-        {/* </p> */}
-        {/* <a */}
-        {/* className="App-link" */}
-        {/* href="https://reactjs.org" */}
-        {/* target="_blank" */}
-        {/* rel="noopener noreferrer" */}
-        {/* > */}
-        {/* Learn React */}
-        {/* </a> */}
-        {/* </header> */}
         <AppRouter/>
       </div>
     )
   }
 }
 
-export default App
+const mapStateToProps = store => {
+  return {
+    ...store.UserReducer,
+    currentUser: store.UserReducer.currentUser
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchCurrentUser: () => dispatch({
+      type: 'FETCH_USER',
+      fetchCurrentUser: fetchCurrentUser
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)
