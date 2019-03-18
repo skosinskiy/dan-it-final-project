@@ -9,12 +9,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
+import static com.danit.finalproject.application.error.TokenExpiredException.INVALID_TOKEN_MESSAGE;
+import static com.danit.finalproject.application.error.PasswordsDontMatchException.PASSWORDS_DONT_MATCH_MESSAGE;
+
 @Service
 public class ValidationService {
 
   private MessageSource messageSource;
-  private static final String INVALID_TOKEN_MESSAGE = "Token is expired";
-  private static final String PASSWORDS_DONT_MATCH_MESSAGE = "Passwords don\'t match";
 
   @Autowired
   public ValidationService(MessageSource messageSource) {
