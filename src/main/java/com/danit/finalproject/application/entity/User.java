@@ -43,7 +43,7 @@ public class User extends BaseEntity {
   @Column(name = "token")
   private String token;
 
-  @Column(name = "tokenExpirationDate")
+  @Column(name = "token_expiration_date")
   private Date tokenExpirationDate;
 
   @ManyToMany
