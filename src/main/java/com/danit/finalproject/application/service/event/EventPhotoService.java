@@ -6,8 +6,6 @@ import com.danit.finalproject.application.repository.event.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class EventPhotoService {
   private EventPhotoRepository eventPhotoRepository;

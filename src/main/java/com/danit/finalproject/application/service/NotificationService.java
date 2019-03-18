@@ -1,7 +1,6 @@
 package com.danit.finalproject.application.service;
 
 import com.danit.finalproject.application.entity.Notification;
-import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.repository.NotificationRepository;
 import com.danit.finalproject.application.repository.place.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +11,12 @@ import java.util.List;
 @Service
 public class NotificationService {
   private NotificationRepository notificationRepository;
-
   private PlaceRepository placeRepository;
 
   @Autowired
-  public NotificationService(NotificationRepository notificationRepository) {
+  public NotificationService(NotificationRepository notificationRepository, PlaceRepository placeRepository) {
     this.notificationRepository = notificationRepository;
+    this.placeRepository = placeRepository;
   }
 
   public Notification getNotifivcationById(Long id) {

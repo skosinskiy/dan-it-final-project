@@ -1,6 +1,5 @@
 package com.danit.finalproject.application.service.business;
 
-import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.business.BusinessPhoto;
 import com.danit.finalproject.application.repository.business.BusinessPhotoRepository;
 import com.danit.finalproject.application.repository.business.BusinessRepository;

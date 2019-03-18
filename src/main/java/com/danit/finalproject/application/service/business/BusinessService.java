@@ -1,7 +1,6 @@
 package com.danit.finalproject.application.service.business;
 
 import com.danit.finalproject.application.entity.business.Business;
-import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.repository.business.BusinessRepository;
 import com.danit.finalproject.application.repository.place.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -49,7 +49,7 @@ public class NotificationControllerTest {
 
   @Test
   public void getNotificationsByPlace() throws Exception {
-    int expectedSize = 2;
+    int expectedSize = 1;
 
     MvcResult result = mockMvc.perform(get("/api/notifications?placeId=1"))
         .andReturn();
@@ -73,7 +73,7 @@ public class NotificationControllerTest {
     String notificationJson = objectMapper.writeValueAsString(notification);
 
     MvcResult result = mockMvc.perform(
-        post("/api/notifications/places/2")
+        post("/api/notifications/places/1")
             .content(notificationJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();

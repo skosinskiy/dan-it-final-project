@@ -1,8 +1,6 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.entity.event.EventCategory;
-import com.danit.finalproject.application.service.business.BusinessCategoryService;
 import com.danit.finalproject.application.service.event.EventCategoryService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

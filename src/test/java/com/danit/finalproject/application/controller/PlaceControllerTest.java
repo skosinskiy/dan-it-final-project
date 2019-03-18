@@ -1,8 +1,6 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.place.Place;
-import com.danit.finalproject.application.entity.place.PlaceCategory;
 import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.service.business.BusinessService;
 import com.danit.finalproject.application.service.place.PlaceCategoryService;
@@ -21,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
