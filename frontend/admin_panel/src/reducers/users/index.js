@@ -1,0 +1,25 @@
+import { AUTHENTICATE_USER, GET_ROLES_LIST, GET_USERS_BY_EMAIL, SET_USER_ROLES } from '../../actions/users'
+
+const initialState = {
+  usersListByEmail: [],
+  userRoles: [],
+  changedUsersList: new Set(),
+  isAuthenticated: true
+}
+
+function users (state = initialState, action) {
+  switch (action.type) {
+    case GET_ROLES_LIST:
+      return {...state, userRoles: action.payload.userRoles}
+    case GET_USERS_BY_EMAIL:
+      return {...state, usersListByEmail: action.payload.users}
+    case SET_USER_ROLES:
+      return {...state, usersListByEmail: action.payload.updatedUserList, changedUsersList: action.payload.changedUsersList}
+    case AUTHENTICATE_USER:
+      return {...state, isAuthenticated: true}
+    default:
+      return {...state}
+  }
+}
+
+export default users
