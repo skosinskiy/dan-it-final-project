@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -7,7 +6,8 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import UserItem from './UserItem/index'
 import './userList.scss'
-import { SET_USER_ROLES } from '../../../actions/users'
+import UserActions from '../../../actions/UserActions'
+import { saveUserRoles } from '../../../actions/users'
 
 const styles = theme => ({
   root: {
@@ -40,11 +40,10 @@ class UsersList extends React.Component {
   }
 
   saveUsersRoles = () => {
-    console.log(this.props.changedUsersList)
     this.props.usersListByEmail.forEach((user) => {
       if (this.props.changedUsersList.has(user.id)) {
         let roles = user.roles
-        axios.put(`api/users/${user.id}/roles`, roles)
+        this.props.saveUserRoles(user.id, roles)
       }
     })
     this.props.updateUsersList()
@@ -92,8 +91,10 @@ const mapDispatchToProps = (dispatch) => {
     updateUsersList: () => {
       let updatedUserList = []
       let changedUsersList = new Set()
-      dispatch({type: SET_USER_ROLES, payload: {updatedUserList, changedUsersList}})
-    }
+      dispatch({type: UserActions.SET_USER_ROLES, payload: {updatedUserList, changedUsersList}})
+    },
+
+    saveUserRoles: (userId, roles) => dispatch(saveUserRoles(userId, roles))
   }
 }
 
