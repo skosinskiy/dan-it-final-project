@@ -3,9 +3,13 @@ package com.danit.finalproject.application.entity.business;
 import com.danit.finalproject.application.entity.BaseEntity;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.place.Place;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.util.List;
 
@@ -35,6 +40,7 @@ public class Business extends BaseEntity {
   @JoinTable(name = "businesses_categories",
           joinColumns = {@JoinColumn(name = "business_id")},
           inverseJoinColumns = {@JoinColumn(name = "category_id")})
+  @ToString.Exclude
   private List<BusinessCategory> categories;
 
   @Column(name = "address")
@@ -46,20 +52,16 @@ public class Business extends BaseEntity {
   @Column(name = "phone_number")
   private String phoneNumber;
 
-  @ManyToOne
-  @JoinColumn(name = "place_id")
-  private Place place;
-
-  @OneToMany
-  @JoinColumn(name = "event_id")
-  private List<Event> events;
-
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "main_photo")
   private BusinessPhoto mainPhoto;
 
-  @OneToMany(cascade = CascadeType.ALL)
-  @JoinColumn(name = "photos")
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "business")
+  @ToString.Exclude
+  @JsonIgnore
   private List<BusinessPhoto> photos;
 
+  @ManyToOne
+  @JoinColumn(name = "place_id")
+  private Place place;
 }
