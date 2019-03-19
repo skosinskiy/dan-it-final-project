@@ -33,7 +33,6 @@ public class UserController {
   }
 
   @GetMapping("current")
-  @ResponseBody
   public User getCurrentUser() {
     return userService.getUserById(1L);
   }
