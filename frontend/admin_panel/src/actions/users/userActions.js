@@ -11,5 +11,5 @@ const getCurrentUser = () => dispatch => {
     })
     .catch(err => console.error(err))
 }
-
+//
 export default getCurrentUser
