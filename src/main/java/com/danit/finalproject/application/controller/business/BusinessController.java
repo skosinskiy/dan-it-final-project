@@ -19,60 +19,50 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/businesses")
-public
-class BusinessController {
-  private BusinessService      businessService;
+public class BusinessController {
+  private BusinessService businessService;
   private BusinessPhotoService businessPhotoService;
 
   @Autowired
-  public
-  BusinessController(BusinessService businessService, BusinessPhotoService businessPhotoService) {
+  public BusinessController(BusinessService businessService, BusinessPhotoService businessPhotoService) {
     this.businessService = businessService;
     this.businessPhotoService = businessPhotoService;
   }
 
   @GetMapping("{id}")
-  public
-  Business getBusinessById(@PathVariable("id") Long businessId) {
+  public Business getBusinessById(@PathVariable("id") Long businessId) {
     return businessService.getBusinessById(businessId);
   }
 
   @GetMapping
-  public
-  List<Business> getAllBusinesses(@RequestParam("placeId") Long placeId) {
+  public List<Business> getAllBusinesses(@RequestParam("placeId") Long placeId) {
     return businessService.findAllByPlace(placeId);
   }
 
   @PostMapping
-  public
-  Business createNewBusiness(@RequestBody Business business) {
+  public Business createNewBusiness(@RequestBody Business business) {
     return businessService.createNewBusiness(business);
   }
 
   @PutMapping("{id}")
-  public
-  Business updateBusiness(@RequestBody Business business) {
+  public Business updateBusiness(@RequestBody Business business) {
     return businessService.updateBusiness(business);
   }
 
   @DeleteMapping("{id}")
-  public
-  void deleteBusiness(@PathVariable("id") Long businessId) {
+  public void deleteBusiness(@PathVariable("id") Long businessId) {
     businessService.deleteBusiness(businessId);
   }
 
   @PostMapping("/{businessId}/photos")
-  public
-  BusinessPhoto addPhotosToBusiness(
+  public BusinessPhoto addPhotosToBusiness(
       @RequestBody BusinessPhoto businessPhoto,
-      @PathVariable("businessId") Long businessId
-                                   ) {
+      @PathVariable("businessId") Long businessId) {
     return businessPhotoService.createNewBusinessPhoto(businessPhoto, businessId);
   }
 
   @DeleteMapping("/{businessId}/photos/{photoId}")
-  public
-  void deletePhoto(@PathVariable("photoId") Long photoId) {
+  public void deletePhoto(@PathVariable("photoId") Long photoId) {
     businessPhotoService.deleteBusinesPhoto(photoId);
   }
 }
