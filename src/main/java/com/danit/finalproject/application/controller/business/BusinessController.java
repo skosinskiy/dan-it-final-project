@@ -55,7 +55,8 @@ public class BusinessController {
   }
 
   @PostMapping("/{businessId}/photos")
-  public BusinessPhoto addPhotosToBusiness(@RequestBody BusinessPhoto businessPhoto, @PathVariable("businessId") Long businessId) {
+  public BusinessPhoto addPhotosToBusiness(@RequestBody BusinessPhoto businessPhoto,
+    @PathVariable("businessId") Long businessId) {
     return businessPhotoService.createNewBusinessPhoto(businessPhoto, businessId);
   }
 

@@ -16,7 +16,9 @@ public class EventService {
   private PlaceService placeService;
 
   @Autowired
-  public EventService(EventRepository eventRepository, BusinessService businessService, PlaceService placeService) {
+  public EventService(EventRepository eventRepository,
+    BusinessService businessService,
+    PlaceService placeService) {
     this.eventRepository = eventRepository;
     this.businessService = businessService;
     this.placeService = placeService;
@@ -27,8 +29,8 @@ public class EventService {
   }
 
   public List<Event> findAllByLocation(Long placeId, Long businessId) {
-
-    return eventRepository.findAllByPlaceAndBusiness(placeService.getPlaceById(placeId), businessService.getBusinessById(businessId));
+    return eventRepository.findAllByPlaceAndBusiness(placeService.getPlaceById(placeId),
+    businessService.getBusinessById(businessId));
   }
 
   public Event createNewEvent(Event event) {
