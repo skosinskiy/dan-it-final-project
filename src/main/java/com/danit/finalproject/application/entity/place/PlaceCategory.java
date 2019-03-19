@@ -19,5 +19,4 @@ public class PlaceCategory extends BaseEntity {
 
   @Column(name = "multisync")
   private boolean multisync;
-
 }
