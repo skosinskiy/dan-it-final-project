@@ -1,10 +1,12 @@
-import { AUTHENTICATE_USER, GET_ROLES_LIST, GET_USERS_BY_EMAIL, SET_USER_ROLES } from '../../actions/users'
+import { AUTHENTICATE_USER, GET_ROLES_LIST, GET_USERS_BY_EMAIL, SET_USER_ROLES, UserActions } from '../../actions/Users'
 
 const initialState = {
   usersListByEmail: [],
   userRoles: [],
   changedUsersList: new Set(),
-  isAuthenticated: true
+  isAuthenticated: true,
+  currentUser: null,
+  currentUserLoading: true
 }
 
 function users (state = initialState, action) {
@@ -17,6 +19,10 @@ function users (state = initialState, action) {
       return {...state, usersListByEmail: action.payload.updatedUserList, changedUsersList: action.payload.changedUsersList}
     case AUTHENTICATE_USER:
       return {...state, isAuthenticated: true}
+    case UserActions.CURRENT_USER_FETCHED:
+      return {...state, currentUser: action.payload.currentUser}
+    case UserActions.CURRENT_USER_LOADING:
+      return {...state, currentUserLoading: action.payload.currentUserLoading}
     default:
       return {...state}
   }

@@ -2,16 +2,17 @@ import React, { Component } from 'react'
 import AppRouter from './components/AppRoutes/MainRouter'
 import './App.css'
 import {connect} from 'react-redux'
-import fetchCurrentUser from './components/ActionCreators/UserActions'
+import getCurrentUser from './actions/Users/userActions'
+import Preloader from './components/Preloader'
 
 class App extends Component {
   componentDidMount () {
-    console.log('componentDidMount...')
-    console.log(this.props)
-    this.props.fetchCurrentUser()
+    this.props.getCurrentUser()
   }
   render () {
-    console.log(this.props)
+    if (this.props.currentUserLoading) {
+      return <Preloader />
+    }
     return (
       <div className='App'>
         <AppRouter/>
@@ -20,19 +21,16 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = store => {
+const mapStateToProps = ({store}) => {
   return {
-    ...store.UserReducer,
-    currentUser: store.UserReducer.currentUser
+    currentUser: store.currentUser,
+    currentUserLoading: store.currentUserLoading
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    fetchCurrentUser: () => dispatch({
-      type: 'FETCH_USER',
-      fetchCurrentUser: fetchCurrentUser
-    })
+    getCurrentUser: () => dispatch(getCurrentUser())
   }
 }
 

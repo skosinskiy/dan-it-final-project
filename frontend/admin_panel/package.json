@@ -53,11 +53,6 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-<<<<<<< HEAD
-  ]
-}
-=======
   ],
   "proxy": "http://localhost:9000"
 }
->>>>>>> b3597bb929c59e9bb560da45f5b9345e6783d27c
