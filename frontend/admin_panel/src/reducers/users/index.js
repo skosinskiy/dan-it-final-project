@@ -1,4 +1,4 @@
-import { AUTHENTICATE_USER, GET_ROLES_LIST, GET_USERS_BY_EMAIL, SET_USER_ROLES, UserActions } from '../../actions/Users'
+import { AUTHENTICATE_USER, GET_ROLES_LIST, GET_USERS_BY_EMAIL, SET_USER_ROLES, UserActions } from '../../actions/users'
 
 const initialState = {
   usersListByEmail: [],
@@ -22,7 +22,7 @@ function users (state = initialState, action) {
     case UserActions.CURRENT_USER_FETCHED:
       return {...state, currentUser: action.payload.currentUser}
     case UserActions.CURRENT_USER_LOADING:
-      return {...state, currentUserLoading: action.payload.currentUserLoading}
+      return {...state, currentUserLoading: action.payload.loading}
     default:
       return {...state}
   }

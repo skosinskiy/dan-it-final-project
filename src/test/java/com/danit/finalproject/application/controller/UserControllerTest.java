@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.danit.finalproject.application.entity.Gender;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
@@ -17,7 +18,6 @@ import com.danit.finalproject.application.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
-import javax.servlet.http.Cookie;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,15 +51,12 @@ public class UserControllerTest {
 	public void getUserById() throws Exception {
 		Long expectedId = 1L;
 		String expectedEmail = "first.user@test.com";
-
 		MvcResult result = mockMvc.perform(get("/api/users/1"))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
 		User user = objectMapper.readValue(responseBody, User.class);
-
 		assertEquals(expectedId, user.getId());
 		assertEquals(expectedEmail, user.getEmail());
-
 	}
 
   @Test

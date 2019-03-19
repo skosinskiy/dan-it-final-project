@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import AppRouter from './components/AppRoutes/MainRouter'
 import './App.css'
 import {connect} from 'react-redux'
-import getCurrentUser from './actions/Users/userActions'
+import getCurrentUser from './actions/users/userActions'
 import Preloader from './components/Preloader'
 
 class App extends Component {
@@ -21,10 +21,10 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({store}) => {
+const mapStateToProps = ({users}) => {
   return {
-    currentUser: store.currentUser,
-    currentUserLoading: store.currentUserLoading
+    currentUser: users.currentUser,
+    currentUserLoading: users.currentUserLoading
   }
 }
 
