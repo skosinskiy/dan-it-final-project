@@ -11,6 +11,7 @@ class App extends Component {
   componentDidMount () {
     this.props.getCurrentUser()
   }
+
   render () {
     if (this.props.currentUserLoading) {
       return <Preloader />
