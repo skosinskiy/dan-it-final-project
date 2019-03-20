@@ -1,5 +1,4 @@
 import UserActions from '../../actions/UserActions'
-import { AUTHENTICATE_USER, GET_ROLES_LIST, GET_USERS_BY_EMAIL, SET_USER_ROLES, UserActions } from '../../actions/users'
 
 const initialState = {
   usersListByEmail: [],
