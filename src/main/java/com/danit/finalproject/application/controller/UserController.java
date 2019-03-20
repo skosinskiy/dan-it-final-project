@@ -3,6 +3,7 @@ package com.danit.finalproject.application.controller;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.UserService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,9 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/users")
@@ -30,6 +30,11 @@ public class UserController {
   @GetMapping("{userId}")
   public User getUserById(@PathVariable Long userId) {
     return userService.getUserById(userId);
+  }
+
+  @GetMapping("current")
+  public User getCurrentUser() {
+    return userService.getUserById(1L);
   }
 
   @GetMapping
