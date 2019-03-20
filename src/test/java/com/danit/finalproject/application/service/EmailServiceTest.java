@@ -9,11 +9,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
+@SpringBootTest
 public class EmailServiceTest {
 
   @Autowired
@@ -33,6 +32,7 @@ public class EmailServiceTest {
     message.setSubject(subject);
     message.setText(text);
 
+    verify(mailSender, timeout(10000)).send(message);
     verify(mailSender, times(1)).send(message);
   }
 }
