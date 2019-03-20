@@ -1,8 +1,8 @@
-const UserAcrions = {
+const UserAcеions = {
   GET_USERS_BY_EMAIL: 'GET_USERS_BY_EMAIL',
   SET_USER_ROLES: 'SET_USER_ROLES',
   GET_ROLES_LIST: 'GET_ROLES_LIST',
   AUTHENTICATE_USER: 'AUTHENTICATE_USER'
 }
 
-export default UserAcrions
+export default UserAcеions

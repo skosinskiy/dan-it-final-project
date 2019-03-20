@@ -35,23 +35,21 @@ const styles = theme => ({
 })
 
 class UsersList extends React.Component {
-  componentDidMount () {
-
-  }
 
   saveUsersRoles = () => {
-    this.props.usersListByEmail.forEach((user) => {
-      if (this.props.changedUsersList.has(user.id)) {
+    const {usersListByEmail, changedUsersList, saveUserRoles} = this.props
+    usersListByEmail.forEach((user) => {
+      if (changedUsersList.has(user.id)) {
         let roles = user.roles
-        this.props.saveUserRoles(user.id, roles)
+        saveUserRoles(user.id, roles)
       }
     })
     this.props.updateUsersList()
   }
 
   render () {
-    const { classes } = this.props
-    const usersListByEmail = this.props.usersListByEmail.map((item) => {
+    const { classes, usersListByEmail } = this.props
+    const usersByEmail = usersListByEmail.map((item) => {
       return <UserItem user={item} key={item.id}/>
     })
 
@@ -59,7 +57,7 @@ class UsersList extends React.Component {
       <>
         <div className={classes.root}>
           <ul className="user-list">
-            {usersListByEmail}
+            {usersByEmail}
           </ul>
         </div>
         <div className="user-list-buttons">

@@ -54,15 +54,7 @@ export class FetchData {
   }
 
   requestFailed (reason) {
-    if (axios.isCancel) {
-      toastr.error('Info', 'Upload cancelled')
-    } else if (reason.message === 'Failed to fetch') {
-      toastr.error('Error', 'Network request has failed')
-    } else if (reason.error) {
-      toastr.error(reason.error, reason.message)
-    } else {
-      toastr.error('Error', 'An error has occurred')
-    }
+    toastr.error('Error', `${reason.response.status} ${reason.response.statusText}`)
   }
 }
 

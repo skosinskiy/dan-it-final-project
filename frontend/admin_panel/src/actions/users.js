@@ -2,7 +2,7 @@ import api from '../components/FetchData'
 import UserActions from './UserActions'
 
 export const getUserRoles = () => dispatch => {
-  api.get(`/api/roles`).then(res => {
+  api.get(`/api/rolesa`).then(res => {
     dispatch({type: UserActions.GET_ROLES_LIST, payload: {userRoles: res}})
   })
 }
