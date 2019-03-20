@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import Button from '@material-ui/core/Button'
-import { getPlaces, getPlacesCategories } from '../../../actions/places'
+import { getPlaces } from '../../../actions/places'
 import PlaceItem from './PLaceItem'
 
 const styles = theme => ({
@@ -18,14 +18,12 @@ const styles = theme => ({
 
 class Places extends Component {
   componentDidMount () {
-    const {getAllPlaces, getPlaceCategories} = this.props
+    const {getAllPlaces} = this.props
     getAllPlaces()
-    getPlaceCategories()
   }
 
   render () {
     const { classes, places } = this.props
-
     const placeList = places.map((place) => {
       return <PlaceItem key={place.id} place={place}/>
     })
@@ -48,14 +46,13 @@ Places.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    places: state.places.places,
+    places: state.places.places
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllPlaces: () => dispatch(getPlaces()),
-    getPlaceCategories: () => dispatch(getPlacesCategories())
+    getAllPlaces: () => dispatch(getPlaces())
   }
 }
 

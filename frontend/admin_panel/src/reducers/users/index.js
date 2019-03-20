@@ -15,8 +15,6 @@ function users (state = initialState, action) {
       return {...state, usersListByEmail: action.payload.users}
     case UserActions.SET_USER_ROLES:
       return {...state, usersListByEmail: action.payload.updatedUserList, changedUsersList: action.payload.changedUsersList}
-    case UserActions.AUTHENTICATE_USER:
-      return {...state, isAuthenticated: true}
     default:
       return {...state}
   }

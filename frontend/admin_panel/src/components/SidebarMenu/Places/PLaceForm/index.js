@@ -5,9 +5,8 @@ import { withStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import {saveNewPlace} from '../../../../actions/places'
+import { getPlacesCategories, saveNewPlace } from '../../../../actions/places'
 import { connect } from 'react-redux'
-import places from '../../../../reducers/places'
 
 const styles = theme => ({
   container: {
@@ -29,29 +28,33 @@ const styles = theme => ({
 class PlaceForm extends React.Component {
   state = {
     place: {
-      name: '',
+      title: '',
       description: '',
       address: '',
-      main_photo: '',
-      place_category: ''
+      mainPhoto: '',
+      placeCategory: {
+      }
     }
   };
 
+  componentDidMount () {
+    const {getPlaceCategories} = this.props
+    getPlaceCategories()
+  }
+
   handleChange = name => event => {
     this.setState({
-      place: {...event.target.value}
+      place: {...this.state.place, [name]: event.target.value}
     })
   };
 
   render () {
     const { classes, saveNewPlace, categories } = this.props
     const { place } = this.state
-    console.log(categories)
     return (
       <div className="edit-place-form">
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
-            id="outlined-required"
             label="Title"
             style={{ margin: 8 }}
             fullWidth
@@ -61,7 +64,7 @@ class PlaceForm extends React.Component {
               shrink: true
             }}
             value={place.title}
-            onChange={this.handleChange('weightRange')}
+            onChange={this.handleChange('title')}
           />
 
           <TextField
@@ -75,7 +78,7 @@ class PlaceForm extends React.Component {
               shrink: true
             }}
             value={place.description}
-            onChange={this.handleChange('weightRange')}
+            onChange={this.handleChange('description')}
           />
 
           <TextField
@@ -89,7 +92,7 @@ class PlaceForm extends React.Component {
               shrink: true
             }}
             value={place.address}
-            onChange={this.handleChange('weightRange')}
+            onChange={this.handleChange('address')}
           />
 
           <TextField
@@ -106,8 +109,8 @@ class PlaceForm extends React.Component {
             select
             label="Select"
             className={classes.textField}
-            value={place.place_category}
-            onChange={this.handleChange('currency')}
+            value={place.placeCategory}
+            onChange={this.handleChange('placeCategory')}
             SelectProps={{
               MenuProps: {
                 className: classes.menu
@@ -118,7 +121,7 @@ class PlaceForm extends React.Component {
             variant="outlined"
           >
             {categories.map(category => (
-              <MenuItem key={category.id} value={category.id}>
+              <MenuItem key={category.id} value={category}>
                 {category.name}
               </MenuItem>
             ))}
@@ -126,12 +129,12 @@ class PlaceForm extends React.Component {
         </form>
         <div className="place-buttons">
           <NavLink to={'/admin/places'}>
-            <Button onClick={() => saveNewPlace(place)} variant="contained" color="primary" className={classes.button}>
+            <Button onClick={() => saveNewPlace(JSON.stringify(place))} variant="contained" color="primary" className={classes.button}>
             Save
             </Button>
           </NavLink>
           <NavLink to={'/admin/places'}>
-            <Button onClick="" variant="contained" color="secondary" className={classes.button}>
+            <Button variant="contained" color="secondary" className={classes.button}>
             Exit
             </Button>
           </NavLink>
@@ -153,7 +156,10 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveNewPlace: (place) => dispatch(saveNewPlace(place))
+    saveNewPlace: (place) => {
+      dispatch(saveNewPlace(place))
+    },
+    getPlaceCategories: () => dispatch(getPlacesCategories())
   }
 }
 
