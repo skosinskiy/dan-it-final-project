@@ -73,7 +73,7 @@ public class NotificationControllerTest {
     String notificationJson = objectMapper.writeValueAsString(notification);
 
     MvcResult result = mockMvc.perform(
-        post("/api/notifications/places/1")
+        post("/api/notifications/index/1")
             .content(notificationJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();

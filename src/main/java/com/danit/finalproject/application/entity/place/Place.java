@@ -21,7 +21,7 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "places")
+@Table(name = "index")
 @Data
 @NoArgsConstructor
 public class Place extends BaseEntity {
