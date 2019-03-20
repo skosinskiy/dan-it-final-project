@@ -31,7 +31,6 @@ class PlaceForm extends React.Component {
       title: '',
       description: '',
       address: '',
-      mainPhoto: '',
       placeCategory: {
       }
     }
@@ -129,7 +128,7 @@ class PlaceForm extends React.Component {
         </form>
         <div className="place-buttons">
           <NavLink to={'/admin/places'}>
-            <Button onClick={() => saveNewPlace(JSON.stringify(place))} variant="contained" color="primary" className={classes.button}>
+            <Button onClick={() => saveNewPlace(place)} variant="contained" color="primary" className={classes.button}>
             Save
             </Button>
           </NavLink>

@@ -8,7 +8,9 @@ export const getPlaces = () => dispatch => {
 }
 
 export const saveNewPlace = (place) => dispatch => {
-  api.post(`/api/places`, place)
+  api.post(`/api/places`, place).then(res => {
+    dispatch({type: PlaceActions.ADD_NEW_PLACE, payload: {newPlace: res}})
+  })
 }
 
 export const getPlacesCategories = () => dispatch => {

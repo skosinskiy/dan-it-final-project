@@ -40,9 +40,9 @@ public class Place extends BaseEntity {
   @JsonIgnore
   private List<Business> businesses;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "main_photo")
-  private PlacePhoto mainPhoto;
+//  @OneToOne(cascade = CascadeType.ALL)
+//  @JoinColumn(name = "main_photo")
+//  private PlacePhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "place")
   @ToString.Exclude

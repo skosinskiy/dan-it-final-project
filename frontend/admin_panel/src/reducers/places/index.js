@@ -11,6 +11,9 @@ function places (state = initialState, action) {
       return {...state, places: action.payload.places}
     case PlaceActions.GET_PLACES_CATEGORIES:
       return {...state, placeCategories: action.payload.placeCategories}
+    case PlaceActions.ADD_NEW_PLACE:
+      const updatedPlaces = state.places.push(action.payload.newPlace)
+      return {...state, places: [...updatedPlaces]}
     default:
       return {...state}
   }

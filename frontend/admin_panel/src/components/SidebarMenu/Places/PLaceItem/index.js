@@ -29,6 +29,7 @@ class Places extends Component {
         </Avatar>
         <ListItemText primary={place.title} secondary={place.address} />
         <Button onClick={this.editPlace} variant="contained" color="primary" className={classes.button}>Edit</Button>
+        <Button variant="contained" color="secondary" className={classes.button}>Delete</Button>
       </ListItem>
     )
   }
