@@ -4,6 +4,7 @@ import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestD
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.UserService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequestMapping("api/users")
@@ -33,6 +33,11 @@ public class UserController {
   @GetMapping("{userId}")
   public User getUserById(@PathVariable Long userId) {
     return userService.getUserById(userId);
+  }
+
+  @GetMapping("current")
+  public User getCurrentUser() {
+    return userService.getUserById(1L);
   }
 
   @GetMapping
