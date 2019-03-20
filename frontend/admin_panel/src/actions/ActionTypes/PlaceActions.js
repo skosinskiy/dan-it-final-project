@@ -1,5 +1,7 @@
 const PlaceAcеions = {
-  GET_ALL_PLACES: 'GET_ALL_PLACES'
+  GET_ALL_PLACES: 'GET_ALL_PLACES',
+  ADD_NEW_PLACE: 'ADD_NEW_PLACE,',
+  GET_PLACES_CATEGORIES: 'GET_PLACES_CATEGORIES,'
 }
 
 export default PlaceAcеions
