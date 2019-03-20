@@ -85,11 +85,11 @@ public class UserServiceTest {
 		List<User> mockUsers = new ArrayList<>();
 		mockUsers.add(firstMockUser);
 		mockUsers.add(secondMockUser);
-		when(userRepository.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail)).thenReturn(mockUsers);
+		when(userRepository.findAllByEmailContainingIgnoreCase(expectedSearchEmail)).thenReturn(mockUsers);
 		List<User> users = userService.getUsersByEmail(expectedSearchEmail);
 
 		verify(userRepository, times(1))
-				.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail);
+				.findAllByEmailContainingIgnoreCase(expectedSearchEmail);
 		assertEquals(expectedUsersSize, users.size());
 		assertEquals(expectedSecondUserEmail, users.get(1).getEmail());
 	}

@@ -5,12 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -27,9 +22,14 @@ public class Role extends BaseEntity {
   @ManyToMany(mappedBy = "roles")
   private List<User> users;
 
-  @ManyToMany
-  @JoinTable(name = "permissions_roles",
-          joinColumns = {@JoinColumn(name = "role_id")},
-          inverseJoinColumns = {@JoinColumn(name = "permission_id")})
+//  @ManyToMany
+//  @JoinTable(name = "permissions_roles",
+//          joinColumns = {@JoinColumn(name = "role_id")},
+//          inverseJoinColumns = {@JoinColumn(name = "permission_id")})
+//  private List<Permission> permissions;
+
+  @ElementCollection
+  @CollectionTable(name = "role_permissions", joinColumns = @JoinColumn(name = "role_id"))
+  @Column(name = "permission_id")
   private List<Permission> permissions;
 }
