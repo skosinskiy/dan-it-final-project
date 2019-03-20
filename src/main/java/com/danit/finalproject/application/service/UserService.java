@@ -17,8 +17,8 @@ import java.util.UUID;
 @Service
 public class UserService {
 
-  private static final int DAY_MILLISECONDS_COUNT = 24 * 60 * 60 * 1000;
-  private static final String PASS_RECOVERY_EMAIL_SUBJECT = "Password recovery";
+  public static final int DAY_MILLISECONDS_COUNT = 24 * 60 * 60 * 1000;
+  public static final String PASS_RECOVERY_EMAIL_SUBJECT = "Password recovery";
 
   private UserRepository userRepository;
   private EmailService emailService;
@@ -70,13 +70,14 @@ public class UserService {
     return userRepository.findByToken(token);
   }
 
-  public void generateToken(String userEmail) {
+  public User generateToken(String userEmail) {
     User user = userRepository.findByEmail(userEmail);
     if (user != null) {
       String token = generateAndSetToken(user);
       userRepository.save(user);
       sendPasswordRecoveryEmail(token, userEmail);
     }
+    return user;
   }
 
   private String generateAndSetToken(User user) {
