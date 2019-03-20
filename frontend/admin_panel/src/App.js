@@ -4,6 +4,7 @@ import './App.css'
 import {connect} from 'react-redux'
 import getCurrentUser from './actions/users/userActions'
 import Preloader from './components/Preloader'
+import { withRouter } from 'react-router'
 
 class App extends Component {
   componentDidMount () {
@@ -15,7 +16,7 @@ class App extends Component {
     }
     return (
       <div className='App'>
-        <AppRouter/>
+        <AppRouter />
       </div>
     )
   }
@@ -34,4 +35,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
