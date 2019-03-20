@@ -1,11 +1,23 @@
 package com.danit.finalproject.application.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import com.danit.finalproject.application.entity.Gender;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.RoleService;
 import com.danit.finalproject.application.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +28,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -44,16 +51,38 @@ public class UserControllerTest {
 	public void getUserById() throws Exception {
 		Long expectedId = 1L;
 		String expectedEmail = "first.user@test.com";
-
 		MvcResult result = mockMvc.perform(get("/api/users/1"))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
 		User user = objectMapper.readValue(responseBody, User.class);
-
 		assertEquals(expectedId, user.getId());
 		assertEquals(expectedEmail, user.getEmail());
-
 	}
+
+  @Test
+  public void getCurrentUser() throws Exception {
+    final Long ID = 1L;
+    final String FIRST_NAME = "Elon";
+    final String LAST_NAME = "Musk";
+    final String EMAIL = "first.user@test.com";
+    final Integer AGE = 24;
+    final Gender GENDER = Gender.MALE;
+
+    MvcResult response = this.mockMvc.perform(get("/api/users/current"))
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+        .andReturn();
+
+    User responseUser = objectMapper
+        .readValue(response.getResponse().getContentAsString(), User.class);
+
+    assertNotNull(responseUser);
+    assertEquals(FIRST_NAME, responseUser.getFirstName());
+    assertEquals(LAST_NAME, responseUser.getLastName());
+    assertEquals(EMAIL, responseUser.getEmail());
+    assertEquals(AGE, responseUser.getAge());
+    assertEquals(GENDER, responseUser.getGender());
+  }
 
 	@Test
 	public void getUsersByEmail() throws Exception {
