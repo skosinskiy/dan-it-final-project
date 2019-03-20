@@ -3,7 +3,6 @@ import axios from 'axios'
 import PropTypes from 'prop-types'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import FormControl from '@material-ui/core/FormControl'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
@@ -11,7 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Paper from '@material-ui/core/Paper'
 import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
-import CircularIndeterminate from '../components/CircularIndeterminateLoader'
+import Preloader from '../components/Preloader'
 import {NavLink} from 'react-router-dom'
 
 const styles = theme => ({
@@ -47,12 +46,17 @@ const styles = theme => ({
   email: {
     display: 'block',
     fontSize: '12px'
+  },
+  wrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center'
   }
 })
 
 class ForgotPassword extends Component {
   state = {
-    formSubmitted: false,
+    isFormSubmitted: false,
     isLoading: false
   }
 
@@ -66,7 +70,7 @@ class ForgotPassword extends Component {
       .then(res => {
         if (res.status === 200) {
           this.setState({
-            formSubmitted: true,
+            isFormSubmitted: true,
             isLoading: false
           })
         }
@@ -75,68 +79,63 @@ class ForgotPassword extends Component {
 
   render () {
     const { classes } = this.props
+    const { isLoading } = this.state
+    const { isFormSubmitted } = this.state
 
-    let form =
-        <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
+    const forgotPasswordForm = (
+      <div className={classes.wrapper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
             Forgot Password
-            <span className={classes.email}>enter your email and we send there your password</span>
-          </Typography>
-          <form
-            className={classes.form}
-            onSubmit={event => this.handleSubmit(event)}>
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="email">Email Address</InputLabel>
-              <Input id="email" name="email" autoComplete="email" autoFocus />
-            </FormControl>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Reset Password
-            </Button>
-          </form>
-        </Paper>
+          <span className={classes.email}>enter your email and we send there your password</span>
+        </Typography>
+        <form
+          className={classes.form}
+          onSubmit={event => this.handleSubmit(event)}>
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="email">Email Address</InputLabel>
+            <Input id="email" name="email" autoComplete="email" autoFocus />
+          </FormControl>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}>
+            Reset Password
+          </Button>
+        </form>
+      </div>
+    )
 
-    if (this.state.isLoading) {
-      form =
-          <Paper className={classes.paper}>
-            <CircularIndeterminate/>
-          </Paper>
-    }
-
-    if (this.state.formSubmitted) {
-      form =
-          <Paper className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
+    const afterSubmitContent = (
+      <div className={classes.wrapper}>
+        <Avatar className={classes.avatar}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
               Password recovery
-              <span className={classes.email}>Link to reset password was sent to your email</span>
-            </Typography>
-            <NavLink to={'/login'}><Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Back to Login
-            </Button></NavLink>
-          </Paper>
-    }
+          <span className={classes.email}>Link to reset password was sent to your email</span>
+        </Typography>
+        <Button component={NavLink} to={'login'}
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}>
+          Back to Login
+        </Button>
+      </div>
+    )
 
     return (
       <main className={classes.main}>
-        <CssBaseline />
-        {form}
+        <Paper className={classes.paper}>
+          {isLoading && <Preloader/>}
+          {!isLoading && !isFormSubmitted && forgotPasswordForm}
+          {isFormSubmitted && afterSubmitContent}
+        </Paper>
       </main>
     )
   }

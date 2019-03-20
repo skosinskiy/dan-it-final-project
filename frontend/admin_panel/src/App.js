@@ -4,6 +4,8 @@ import './App.css'
 import {connect} from 'react-redux'
 import getCurrentUser from './actions/users/userActions'
 import Preloader from './components/Preloader'
+import { withRouter } from 'react-router'
+import CssBaseline from '@material-ui/core/es/CssBaseline/CssBaseline'
 
 class App extends Component {
   componentDidMount () {
@@ -15,6 +17,7 @@ class App extends Component {
     }
     return (
       <div className='App'>
+        <CssBaseline/>
         <AppRouter/>
       </div>
     )
@@ -34,4 +37,4 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
