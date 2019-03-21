@@ -6,8 +6,8 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import UserItem from './UserItem/index'
 import './userList.scss'
-import UserActions from '../../../actions/user/UserActions'
-import { saveUserRoles } from '../../../actions/user/users'
+import Actions from '../../../actions/Actions'
+import { saveUserRoles } from '../../../actions/users'
 
 const styles = theme => ({
   root: {
@@ -35,7 +35,6 @@ const styles = theme => ({
 })
 
 class UsersList extends React.Component {
-
   saveUsersRoles = () => {
     const {usersListByEmail, changedUsersList, saveUserRoles} = this.props
     usersListByEmail.forEach((user) => {
@@ -89,7 +88,7 @@ const mapDispatchToProps = (dispatch) => {
     updateUsersList: () => {
       let updatedUserList = []
       let changedUsersList = new Set()
-      dispatch({type: UserActions.SET_USER_ROLES, payload: {updatedUserList, changedUsersList}})
+      dispatch({type: Actions.Users.SET_USER_ROLES, payload: {updatedUserList, changedUsersList}})
     },
 
     saveUserRoles: (userId, roles) => dispatch(saveUserRoles(userId, roles))

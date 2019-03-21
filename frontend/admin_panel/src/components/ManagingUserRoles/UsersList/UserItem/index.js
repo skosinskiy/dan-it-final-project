@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import Chip from '@material-ui/core/Chip'
-import UserAcеions from '../../../../actions/user/UserActions'
+import Actions from '../../../../actions/Actions'
 import './userItem.scss'
 
 const styles = theme => ({
@@ -112,7 +112,7 @@ const mapDispatchToProps = (dispatch) => {
 
       let changedUsersList = chengedUsers
       changedUsersList.add(user.id)
-      dispatch({type: UserAcеions.SET_USER_ROLES, payload: {updatedUserList, changedUsersList}})
+      dispatch({type: Actions.Users.SET_USER_ROLES, payload: {updatedUserList, changedUsersList}})
     }
   }
 }

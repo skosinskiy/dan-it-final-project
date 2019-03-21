@@ -49,8 +49,8 @@ public class PlaceController {
   }
 
   @DeleteMapping("{id}")
-  public void deletePlace(@PathVariable("id") Long placeId) {
-    placeService.deletePlace(placeId);
+  public Place deletePlace(@PathVariable("id") Long placeId) {
+    return placeService.deletePlace(placeId);
   }
 
   @PostMapping("/{placeId}/photos")

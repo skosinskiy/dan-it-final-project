@@ -1,22 +1,26 @@
-import React, {Component} from 'react'
-import './preloader.scss'
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import CircularProgress from '@material-ui/core/CircularProgress'
+import './index.scss'
 
-export default class Preloader extends Component {
-    state = {
-      fullscreen: false
-    }
+const styles = theme => ({
+  progress: {
+    margin: theme.spacing.unit * 2
+  }
+})
 
-    render () {
-      const items = []
-      const fullScreen = this.state.fullscreen ? ' full_screen_preloader' : ''
-      for (let i = 0; i < 9; i++) {
-        items.push(<div className={`item-${i + 1}`}><div></div></div>)
-      }
-
-      return (
-        <div className={'preloader' + fullScreen}>
-          {items}
-        </div>
-      )
-    }
+function Preloader (props) {
+  const { classes } = props
+  return (
+    <div className='preloader'>
+      <CircularProgress className={classes.progress} />
+    </div>
+  )
 }
+
+Preloader.propTypes = {
+  classes: PropTypes.object.isRequired
+}
+
+export default withStyles(styles)(Preloader)

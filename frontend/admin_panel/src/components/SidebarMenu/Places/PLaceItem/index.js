@@ -23,12 +23,8 @@ const styles = theme => ({
 })
 
 class Places extends Component {
-  editPlace = () => {
-    
-  }
-
   render () {
-    const {classes, place, deletePlace, placeList, getPlaceById} = this.props
+    const {classes, place, deletePlace, getPlaceById} = this.props
     return (
       <ListItem>
         <Avatar>
@@ -38,7 +34,7 @@ class Places extends Component {
         <NavLink to={`/admin/places/${place.id}`} className={classes.buttons}>
           <Button onClick={() => getPlaceById(place.id)} variant="contained" color="primary" className={classes.button}>Edit</Button>
         </NavLink>
-        <Button onClick={() => deletePlace(place.id, placeList)} variant="contained" color="secondary" className={classes.button}>Delete</Button>
+        <Button onClick={() => deletePlace(place.id)} variant="contained" color="secondary" className={classes.button}>Delete</Button>
       </ListItem>
     )
   }
@@ -52,7 +48,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deletePlace: (placeId, placeList) => dispatch(deletePlace(placeId, placeList)),
+    deletePlace: (placeId) => dispatch(deletePlace(placeId)),
     getPlaceById: (placeId) => dispatch(getPlaceById(placeId))
   }
 }

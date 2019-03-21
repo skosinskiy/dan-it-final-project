@@ -81,15 +81,14 @@ function SignIn (props) {
           >
             Sign in
           </Button>
-          <NavLink to={'/forgot-password'}><Button
-            type="submit"
+          <Button component={NavLink} to={'/forgot-password'}
             fullWidth
             variant="contained"
-            color="primary"
+            color="secondary"
             className={classes.submit}
           >
             Forgot Password
-          </Button></NavLink>
+          </Button>
         </form>
       </Paper>
     </main>

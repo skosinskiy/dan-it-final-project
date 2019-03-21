@@ -33,7 +33,9 @@ public class PlaceService {
     return placeRepository.save(place);
   }
 
-  public void deletePlace(Long id) {
-    placeRepository.deleteById(id);
+  public Place deletePlace(Long id) {
+    Place place = placeRepository.findById(id).orElse(null);
+    placeRepository.delete(place);
+    return place;
   }
 }

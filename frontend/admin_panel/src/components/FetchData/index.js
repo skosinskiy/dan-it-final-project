@@ -54,7 +54,11 @@ export class FetchData {
   }
 
   requestFailed (reason) {
-    toastr.error('Error', `${reason.response.status} ${reason.response.statusText}`)
+    if (reason.message) {
+      toastr.error(reason.message, reason.response.data && reason.response.data.message)
+    } else {
+      toastr.error('Error', 'An error has occurred')
+    }
   }
 }
 

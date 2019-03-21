@@ -1,29 +1,44 @@
 import React, { Component } from 'react'
 import AppRouter from './components/AppRoutes/MainRouter'
-import './App.css'
+import {connect} from 'react-redux'
+import {getCurrentUser} from './actions/users/index'
+import Preloader from './components/Preloader'
+import { withRouter } from 'react-router'
+import CssBaseline from '@material-ui/core/es/CssBaseline/CssBaseline'
 
 class App extends Component {
+  componentDidMount () {
+    this.props.getCurrentUser()
+  }
+
   render () {
+    if (this.props.currentUserLoading) {
+      return (
+        <div className='wrapper'>
+          <Preloader/>
+        </div>
+      )
+    }
     return (
       <div className='App'>
-        {/* <header className="App-header"> */}
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        {/* <p> */}
-        {/* Edit <code>src/App.js</code> and save to reload. */}
-        {/* </p> */}
-        {/* <a */}
-        {/* className="App-link" */}
-        {/* href="https://reactjs.org" */}
-        {/* target="_blank" */}
-        {/* rel="noopener noreferrer" */}
-        {/* > */}
-        {/* Learn React */}
-        {/* </a> */}
-        {/* </header> */}
+        <CssBaseline/>
         <AppRouter/>
       </div>
     )
   }
 }
 
-export default App
+const mapStateToProps = ({users}) => {
+  return {
+    currentUser: users.currentUser,
+    currentUserLoading: users.currentUserLoading
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getCurrentUser: () => dispatch(getCurrentUser())
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
