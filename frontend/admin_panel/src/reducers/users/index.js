@@ -1,4 +1,4 @@
-import UserActions from '../../actions/UserActions'
+import Actions from '../../actions/Actions'
 
 const initialState = {
   usersListByEmail: [],
@@ -11,17 +11,17 @@ const initialState = {
 
 function users (state = initialState, action) {
   switch (action.type) {
-    case UserActions.GET_ROLES_LIST:
+    case Actions.Users.GET_ROLES_LIST:
       return {...state, userRoles: action.payload.userRoles}
-    case UserActions.GET_USERS_BY_EMAIL:
+    case Actions.Users.GET_USERS_BY_EMAIL:
       return {...state, usersListByEmail: action.payload.users}
-    case UserActions.SET_USER_ROLES:
+    case Actions.Users.SET_USER_ROLES:
       return {...state, usersListByEmail: action.payload.updatedUserList, changedUsersList: action.payload.changedUsersList}
-    case UserActions.AUTHENTICATE_USER:
+    case Actions.Users.AUTHENTICATE_USER:
       return {...state, isAuthenticated: true}
-    case UserActions.CURRENT_USER_FETCHED:
+    case Actions.Users.CURRENT_USER_FETCHED:
       return {...state, currentUser: action.payload.currentUser}
-    case UserActions.CURRENT_USER_LOADING:
+    case Actions.Users.CURRENT_USER_LOADING:
       return {...state, currentUserLoading: action.payload.loading}
     default:
       return {...state}

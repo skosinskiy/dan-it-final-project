@@ -11,4 +11,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
   List<User> findAllByEmailStartingWithIgnoreCase(String email);
 
+  User findByEmail(String email);
+
+  User findByToken(String token);
+
 }
