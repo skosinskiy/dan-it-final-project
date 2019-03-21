@@ -40,8 +40,7 @@ function places (state = initialState, action) {
       }
       return {...state, places: [...updatedPlacesList], currentPlaceById: {...emptyPlace}}
     case PlaceActions.GET_PLACE_BY_ID:
-      console.log(action.payload.placeById)
-      return {...state, currentPlaceById: action.payload.placeById}
+      return {...state, currentPlaceById: {...action.payload.placeById}}
     default:
       return {...state}
   }

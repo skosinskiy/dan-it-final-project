@@ -26,14 +26,16 @@ const styles = theme => ({
 })
 
 class PlaceForm extends React.Component {
-  state = {
-    place: {...this.props.currentPlaceById}
+  constructor (props) {
+    super(props)
+    this.state = {
+      place: props.place
+    }
   }
 
   componentDidMount () {
-    const {getPlaceCategories, currentPlaceById} = this.props
+    const {getPlaceCategories} = this.props
     getPlaceCategories()
-    console.log(currentPlaceById)
   }
 
   savePlace = (placeId, place) => {
@@ -51,8 +53,9 @@ class PlaceForm extends React.Component {
   };
 
   render () {
-    const { classes, saveNewPlace, categories, placeId } = this.props
+    const { classes, categories, placeId } = this.props
     const { place } = this.state
+    console.log(place)
     return (
       <div className="edit-place-form">
         <form className={classes.container} noValidate autoComplete="off">
@@ -154,7 +157,7 @@ const mapStateToProps = (state) => {
   return {
     categories: state.places.placeCategories,
     placeList: state.places.places,
-    currentPlaceById: {...state.places.currentPlaceById}
+    place: {...state.places.currentPlaceById}
   }
 }
 
@@ -164,7 +167,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(saveNewPlace(place))
     },
     getPlaceCategories: () => dispatch(getPlacesCategories()),
-    updatePlace: (placeId, place) => dispatch(updatePlace(placeId, place)),
+    updatePlace: (placeId, place) => dispatch(updatePlace(placeId, place))
   }
 }
 
