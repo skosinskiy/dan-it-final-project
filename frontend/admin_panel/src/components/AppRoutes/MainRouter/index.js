@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 import Login from '../../../pages/Login'
 import Admin from '../../../pages/Admin'
-import ForgotPasword from '../../../pages/ForgorPassword'
-import Main from '../../..//pages/Main'
+import ForgotPassword from '../../../pages/ForgotPassword'
+import ResetPassword from '../../../pages/ResetPassword'
+import Main from '../../../pages/Main'
 
 class AppRoutes extends Component {
     state = {
@@ -14,7 +15,8 @@ class AppRoutes extends Component {
         <Switch>
           <Route path="/login" component={Login}/>
           <ProtectedRoute path="/admin" component={Admin} authenticated={this.state.isAuthenticated}/>
-          <Route path="/forgot-password" component={ForgotPasword}/>
+          <Route path="/forgot-password" component={ForgotPassword}/>
+          <Route path="/reset-password" component={ResetPassword} />
           <Route path="/" component={Main}/>
         </Switch>
       )

@@ -10,7 +10,7 @@ const styles = theme => ({
   }
 })
 
-function CircularIndeterminate (props) {
+function Preloader (props) {
   const { classes } = props
   return (
     <div className='preloader'>
@@ -19,8 +19,8 @@ function CircularIndeterminate (props) {
   )
 }
 
-CircularIndeterminate.propTypes = {
+Preloader.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(CircularIndeterminate)
+export default withStyles(styles)(Preloader)

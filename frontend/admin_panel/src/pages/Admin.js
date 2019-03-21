@@ -1,7 +1,6 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
-import axios from 'axios'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
@@ -18,7 +17,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import Sidebarmenu from '../components/SidebarMenu'
 import AdminRouter from '../components/AppRoutes/AdminRouter'
-import { GET_ROLES_LIST } from '../actions/users'
+import { getUserRoles } from '../actions/users'
 
 const drawerWidth = 240
 
@@ -105,10 +104,7 @@ class Admin extends React.Component {
   };
 
   componentDidMount () {
-    axios.get(`/api/roles`)
-      .then(res => {
-        this.props.getUserRolesList(res.data)
-      })
+    this.props.getUserRolesList()
   }
 
   handleDrawerOpen = () => {
@@ -194,9 +190,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUserRolesList: (userRoles) => {
-      dispatch({type: GET_ROLES_LIST, payload: {userRoles: userRoles}})
-    }
+    getUserRolesList: () => dispatch(getUserRoles())
   }
 }
 

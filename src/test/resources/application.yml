@@ -4,6 +4,30 @@ spring:
       jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username:
       sa
+  mail:
+    host:
+      smtp.gmail.com
+    port:
+      587
+    username:
+      noreplyrionup@gmail.com
+    password:
+      crmcsdjqkkvansiy
+    properties:
+      mail:
+        smtp:
+          auth:
+            true
+          starttls:
+            enable:
+              true
 server:
   port:
     9001
+
+react:
+  server:
+    port:
+      3000
+    host:
+      localhost

@@ -1,5 +1,6 @@
 package com.danit.finalproject.application.service;
 
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
 import com.danit.finalproject.application.entity.Gender;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.validation.BindingResult;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -30,6 +32,12 @@ public class UserServiceTest {
 
 	@MockBean
 	private UserRepository userRepository;
+	@MockBean
+	private EmailService emailService;
+	@MockBean
+	private ValidationService validationService;
+	@MockBean
+	private BindingResult bindingResult;
 
 	private static User firstMockUser;
 	private static User secondMockUser;
@@ -47,6 +55,7 @@ public class UserServiceTest {
 		firstUser.setFirstName("Elon");
 		firstUser.setLastName("Musk");
 		firstUser.setGender(Gender.MALE);
+		firstUser.setToken("ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0");
 		firstMockUser = firstUser;
 
 		User secondUser = new User();
@@ -155,5 +164,54 @@ public class UserServiceTest {
 		verify(userRepository, times(1)).save(firstMockUser);
 		assertEquals(roles.size(), user.getRoles().size());
 		assertEquals(roles.get(0).getName(), user.getRoles().get(0).getName());
+	}
+
+	@Test
+	public void verifyFindByTokenCalledOnce() {
+		String token = "ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0";
+		when(userRepository.findByToken(token)).thenReturn(firstMockUser);
+
+		User user = userService.getUserByToken("ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0");
+
+		verify(userRepository, times(1)).findByToken(token);
+		assertEquals(token, user.getToken());
+	}
+
+	@Test
+	public void verifyUserTokenGeneratedAndSetAndEmailServiceCalled() {
+		String email = "first.user@test.com";
+		String token = "ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0";
+		long currentTime = System.currentTimeMillis();
+
+		when(userRepository.findByEmail(email)).thenReturn(firstMockUser);
+
+		User user = userService.generateToken(email);
+
+		assertNotNull(user.getToken());
+		assertNotEquals(token, user.getToken());
+		assertTrue(user.getTokenExpirationDate().getTime() - currentTime > UserService.DAY_MILLISECONDS_COUNT);
+		verify(emailService, times(1))
+				.sendSimpleMessage(eq(email), eq(UserService.PASS_RECOVERY_EMAIL_SUBJECT), anyString());
+	}
+
+	@Test
+	public void verifyUserPasswordUpdatedAndTokenReset() {
+		UpdateUserPasswordRequestDto userDto = UpdateUserPasswordRequestDto.builder()
+				.token("ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0")
+				.build();
+		User expectedUser = new User();
+		expectedUser.setPassword(userDto.getPassword());
+		expectedUser.setToken(null);
+		expectedUser.setTokenExpirationDate(null);
+
+		when(userRepository.findByToken(userDto.getToken())).thenReturn(firstMockUser);
+		when(userRepository.save(any())).thenReturn(expectedUser);
+		User user = userService.updateUserPassword(userDto, bindingResult);
+
+		assertNull(user.getToken());
+		assertNull(user.getTokenExpirationDate());
+		verify(userRepository, times(1)).findByToken(userDto.getToken());
+		verify(userRepository, times(1)).save(any());
+		verify(validationService, times(1)).checkForValidationErrors(bindingResult);
 	}
 }
