@@ -31,7 +31,7 @@ class Places extends Component {
         <List className={classes.root}>
           {placeList}
         </List>
-        <NavLink to={'/admin/places/edit'}>
+        <NavLink to={'/admin/places/add-new'}>
           <Button onClick={this.editPlace} variant="contained" color="primary" className={classes.button}>Add New PLace</Button>
         </NavLink>
       </div>

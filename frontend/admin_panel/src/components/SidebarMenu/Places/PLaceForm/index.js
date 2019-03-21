@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import { getPlacesCategories, saveNewPlace } from '../../../../actions/places'
+import { getPlacesCategories, saveNewPlace, updatePlace } from '../../../../actions/places'
 import { connect } from 'react-redux'
 
 const styles = theme => ({
@@ -27,18 +27,21 @@ const styles = theme => ({
 
 class PlaceForm extends React.Component {
   state = {
-    place: {
-      title: '',
-      description: '',
-      address: '',
-      placeCategory: {
-      }
-    }
-  };
+    place: {...this.props.currentPlaceById}
+  }
 
   componentDidMount () {
-    const {getPlaceCategories} = this.props
+    const {getPlaceCategories, currentPlaceById} = this.props
     getPlaceCategories()
+    console.log(currentPlaceById)
+  }
+
+  savePlace = (placeId, place) => {
+    if (placeId) {
+      this.props.updatePlace(placeId, place)
+    } else {
+      this.props.saveNewPlace(place)
+    }
   }
 
   handleChange = name => event => {
@@ -48,7 +51,7 @@ class PlaceForm extends React.Component {
   };
 
   render () {
-    const { classes, saveNewPlace, categories } = this.props
+    const { classes, saveNewPlace, categories, placeId } = this.props
     const { place } = this.state
     return (
       <div className="edit-place-form">
@@ -128,7 +131,7 @@ class PlaceForm extends React.Component {
         </form>
         <div className="place-buttons">
           <NavLink to={'/admin/places'}>
-            <Button onClick={() => saveNewPlace(place)} variant="contained" color="primary" className={classes.button}>
+            <Button onClick={() => this.savePlace(placeId, place)} variant="contained" color="primary" className={classes.button}>
             Save
             </Button>
           </NavLink>
@@ -149,7 +152,9 @@ PlaceForm.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    categories: state.places.placeCategories
+    categories: state.places.placeCategories,
+    placeList: state.places.places,
+    currentPlaceById: {...state.places.currentPlaceById}
   }
 }
 
@@ -158,7 +163,8 @@ const mapDispatchToProps = (dispatch) => {
     saveNewPlace: (place) => {
       dispatch(saveNewPlace(place))
     },
-    getPlaceCategories: () => dispatch(getPlacesCategories())
+    getPlaceCategories: () => dispatch(getPlacesCategories()),
+    updatePlace: (placeId, place) => dispatch(updatePlace(placeId, place)),
   }
 }
 

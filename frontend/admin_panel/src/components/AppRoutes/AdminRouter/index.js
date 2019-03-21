@@ -14,7 +14,10 @@ class AppRoutes extends Component {
         <Switch>
           <Route path="/admin/business-categories" component={AddBusinessCategory}/>
           <Route path="/admin/managing-roles" component={ManaginrUserRoles}/>
-          <Route path="/admin/places/edit" component={PlaceForm}/>
+          <Route path="/admin/places/add-new" component={PlaceForm}/>
+          <Route path="/admin/places/:id" render={({match}) => (
+            <PlaceForm placeId={match.params.id}/>
+          )}/>
           <Route path="/admin/places" component={Places}/>
         </Switch>
       )
