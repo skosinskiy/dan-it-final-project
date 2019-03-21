@@ -7,13 +7,18 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
 import ImageIcon from '@material-ui/icons/Image'
-import {deletePlace, getPlaceById} from '../../../../actions/places'
+import {deletePlace, getPlaceById} from '../../../../actions/place/places'
 
 const styles = theme => ({
   root: {
     width: '100%',
     maxWidth: 360,
     backgroundColor: theme.palette.background.paper
+  },
+
+  buttons: {
+    textDecoration: 'none',
+    marginRight: '10px'
   }
 })
 
@@ -30,7 +35,7 @@ class Places extends Component {
           <ImageIcon />
         </Avatar>
         <ListItemText primary={place.title} secondary={place.address} />
-        <NavLink to={`/admin/places/${place.id}`}>
+        <NavLink to={`/admin/places/${place.id}`} className={classes.buttons}>
           <Button onClick={() => getPlaceById(place.id)} variant="contained" color="primary" className={classes.button}>Edit</Button>
         </NavLink>
         <Button onClick={() => deletePlace(place.id, placeList)} variant="contained" color="secondary" className={classes.button}>Delete</Button>

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
+import Chip from '@material-ui/core/Chip'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import { getPlacesCategories, saveNewPlace, updatePlace } from '../../../../actions/places'
+import { getPlacesCategories, saveNewPlace, updatePlace } from '../../../../actions/place/places'
 import { connect } from 'react-redux'
 
 const styles = theme => ({
@@ -22,14 +23,22 @@ const styles = theme => ({
   },
   menu: {
     width: 200
-  }
+  },
+
 })
+
+const emptyPLace = {
+  title: '',
+  description: '',
+  address: '',
+  placeCategory: {}
+}
 
 class PlaceForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      place: props.place
+      place: typeof props.place !== 'undefined' ? props.place : emptyPLace
     }
   }
 
@@ -47,15 +56,22 @@ class PlaceForm extends React.Component {
   }
 
   handleChange = name => event => {
+    let value
+    if (name === 'placeCategory') {
+      value = this.props.categories.find(category => {
+        return category.id === event.target.value
+      })
+    } else {
+      value = event.target.value
+    }
     this.setState({
-      place: {...this.state.place, [name]: event.target.value}
+      place: {...this.state.place, [name]: value}
     })
   };
 
   render () {
     const { classes, categories, placeId } = this.props
     const { place } = this.state
-    console.log(place)
     return (
       <div className="edit-place-form">
         <form className={classes.container} noValidate autoComplete="off">
@@ -114,7 +130,7 @@ class PlaceForm extends React.Component {
             select
             label="Select"
             className={classes.textField}
-            value={place.placeCategory}
+            value={place.placeCategory.id}
             onChange={this.handleChange('placeCategory')}
             SelectProps={{
               MenuProps: {
@@ -123,10 +139,10 @@ class PlaceForm extends React.Component {
             }}
             helperText="Please select your currency"
             margin="normal"
-            variant="outlined"
+            variant="filled"
           >
             {categories.map(category => (
-              <MenuItem key={category.id} value={category}>
+              <MenuItem key={category.id} value={category.id}>
                 {category.name}
               </MenuItem>
             ))}
@@ -153,11 +169,11 @@ PlaceForm.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
   return {
-    categories: state.places.placeCategories,
-    placeList: state.places.places,
-    place: {...state.places.currentPlaceById}
+    categories: [...state.places.placeCategories],
+    placeList: [...state.places.places],
+    place: state.places.places.find(place => place.id === +props.match.params.placeId)
   }
 }
 

@@ -1,4 +1,4 @@
-import UserActions from '../../actions/ActionTypes/UserActions'
+import UserActions from '../../actions/user/UserActions'
 
 const initialState = {
   usersListByEmail: [],

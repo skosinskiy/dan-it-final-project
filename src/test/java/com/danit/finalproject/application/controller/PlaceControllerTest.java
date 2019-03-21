@@ -52,7 +52,7 @@ public class PlaceControllerTest {
     Long expectedId = 1L;
     String expectedName = "place-1";
 
-    MvcResult result = mockMvc.perform(get("/api/index/1"))
+    MvcResult result = mockMvc.perform(get("/api/places/1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
     Place place = objectMapper.readValue(responseBody, Place.class);
@@ -66,7 +66,7 @@ public class PlaceControllerTest {
     int expectedSize = 2;
     String secondCategoryName = "place-2";
 
-    MvcResult result = mockMvc.perform(get("/api/index"))
+    MvcResult result = mockMvc.perform(get("/api/places"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
     List<Place> places = objectMapper.readValue(responseBody, new TypeReference<List<Place>>(){});
@@ -88,7 +88,7 @@ public class PlaceControllerTest {
     String placeCategoryJson = objectMapper.writeValueAsString(place);
 
     MvcResult result = mockMvc.perform(
-        post("/api/index")
+        post("/api/places")
             .content(placeCategoryJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -113,7 +113,7 @@ public class PlaceControllerTest {
     String userJson = objectMapper.writeValueAsString(place);
 
     MvcResult result = mockMvc.perform(
-        put("/api/index/1")
+        put("/api/places/1")
             .content(userJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -126,7 +126,7 @@ public class PlaceControllerTest {
 
   @Test
   public void deletePlace() throws Exception {
-    mockMvc.perform(delete("/api/index/2"));
+    mockMvc.perform(delete("/api/places/2"));
 
     assertNull(placeService.getPlaceById(2L));
   }
@@ -143,7 +143,7 @@ public class PlaceControllerTest {
     String placePhotoJson = objectMapper.writeValueAsString(placePhoto);
 
     MvcResult result = mockMvc.perform(
-        post("/api/index/1/photos")
+        post("/api/places/1/photos")
             .content(placePhotoJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -160,7 +160,7 @@ public class PlaceControllerTest {
 
   @Test
   public void deletePlacePhoto() throws Exception {
-    mockMvc.perform(delete("/api/index/1/photos/1"));
+    mockMvc.perform(delete("/api/places/1/photos/1"));
     assertNull(placePhotoService.getPlacePhotoById(1L));
   }
 }

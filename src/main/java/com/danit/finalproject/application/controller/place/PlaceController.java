@@ -44,8 +44,8 @@ public class PlaceController {
   }
 
   @PutMapping("{id}")
-  public Place updatePlace(@RequestBody Place place) {
-    return placeService.updatePlace(place);
+  public Place updatePlace(@PathVariable("id") Long placeId, @RequestBody Place place) {
+    return placeService.updatePlace(place, placeId);
   }
 
   @DeleteMapping("{id}")

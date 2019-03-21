@@ -1,5 +1,5 @@
-import api from '../components/FetchData'
-import PlaceActions from './ActionTypes/PlaceActions'
+import api from '../../components/FetchData/index'
+import PlaceActions from './PlaceActions'
 
 export const getPlaces = () => dispatch => {
   api.get(`/api/places`).then(res => {
@@ -8,9 +8,9 @@ export const getPlaces = () => dispatch => {
 }
 
 export const saveNewPlace = (place) => dispatch => {
-  api.post(`/api/places`, place).then(res => {
-    dispatch({type: PlaceActions.ADD_NEW_PLACE, payload: {newPlace: res}})
-  })
+  api.post(`/api/places`, place).then(api.get(`/api/places`).then(res => {
+    dispatch({type: PlaceActions.GET_ALL_PLACES, payload: {places: res}})
+  }))
 }
 
 export const getPlacesCategories = () => dispatch => {
@@ -20,21 +20,15 @@ export const getPlacesCategories = () => dispatch => {
 }
 
 export const deletePlace = (placeId, placeList) => dispatch => {
-  api.deleteApi(`/api/places/${placeId}`).then(res => {
-    const updatedPlaceList = []
-    placeList.forEach((place) => {
-      if (place.id !== placeId) {
-        updatedPlaceList.push(place)
-      }
-    })
-    dispatch({type: PlaceActions.DELETE_PLACE, payload: {places: updatedPlaceList}})
-  })
+  api.deleteApi(`/api/places/${placeId}`).then(api.get(`/api/places`).then(res => {
+    dispatch({type: PlaceActions.GET_ALL_PLACES, payload: {places: res}})
+  }))
 }
 
 export const updatePlace = (placeId, place) => dispatch => {
-  api.put(`/api/places/${placeId}`, place).then(res => {
-    dispatch({type: PlaceActions.UPDATE_PLACE, payload: {updatedPLace: res}})
-  })
+  api.put(`/api/places/${placeId}`, place).then(api.get(`/api/places`).then(res => {
+    dispatch({type: PlaceActions.GET_ALL_PLACES, payload: {places: res}})
+  }))
 }
 
 export const getPlaceById = (placeId) => dispatch => {

@@ -17,7 +17,7 @@ VALUES
   (2, 1),
   (2, 2);
 
--- index
+-- place
 
 INSERT INTO places_categories
   (id, date_created, date_modified, name, multisync)

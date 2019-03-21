@@ -6,8 +6,8 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import UserItem from './UserItem/index'
 import './userList.scss'
-import UserActions from '../../../actions/ActionTypes/UserActions'
-import { saveUserRoles } from '../../../actions/users'
+import UserActions from '../../../actions/user/UserActions'
+import { saveUserRoles } from '../../../actions/user/users'
 
 const styles = theme => ({
   root: {

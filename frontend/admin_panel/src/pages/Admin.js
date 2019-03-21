@@ -17,7 +17,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
 import Sidebarmenu from '../components/SidebarMenu'
 import AdminRouter from '../components/AppRoutes/AdminRouter'
-import { getUserRoles } from '../actions/users'
+import { getUserRoles } from '../actions/user/users'
 
 const drawerWidth = 240
 

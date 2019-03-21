@@ -28,8 +28,9 @@ public class PlaceService {
     return placeRepository.save(place);
   }
 
-  public Place updatePlace(Place place) {
-    return placeRepository.saveAndFlush(place);
+  public Place updatePlace(Place place, Long id) {
+    place.setId(id);
+    return placeRepository.save(place);
   }
 
   public void deletePlace(Long id) {

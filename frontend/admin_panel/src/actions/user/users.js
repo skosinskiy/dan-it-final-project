@@ -1,5 +1,5 @@
-import api from '../components/FetchData'
-import UserActions from './ActionTypes/UserActions'
+import api from '../../components/FetchData'
+import UserActions from './UserActions'
 
 export const getUserRoles = () => dispatch => {
   api.get(`/api/roles`).then(res => {
