@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {UserActions} from './index'
+import UserActions from '../UserActions'
 
 const getCurrentUser = () => dispatch => {
   dispatch({type: UserActions.CURRENT_USER_LOADING, payload: {loading: true}})
