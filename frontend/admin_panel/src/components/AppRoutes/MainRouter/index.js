@@ -4,7 +4,7 @@ import Login from '../../../pages/Login'
 import Admin from '../../../pages/Admin'
 import ForgotPassword from '../../../pages/ForgotPassword'
 import ResetPassword from '../../../pages/ResetPassword'
-import Main from '../../..//pages/Main'
+import Main from '../../../pages/Main'
 
 class AppRoutes extends Component {
     state = {

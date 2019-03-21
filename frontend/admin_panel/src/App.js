@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import AppRouter from './components/AppRoutes/MainRouter'
-import './App.css'
 import {connect} from 'react-redux'
-import getCurrentUser from './actions/users/userActions'
+import {getCurrentUser} from './actions/users/index'
 import Preloader from './components/Preloader'
 import { withRouter } from 'react-router'
 import CssBaseline from '@material-ui/core/es/CssBaseline/CssBaseline'
@@ -14,7 +13,11 @@ class App extends Component {
 
   render () {
     if (this.props.currentUserLoading) {
-      return <Preloader />
+      return (
+        <div className='wrapper'>
+          <Preloader/>
+        </div>
+      )
     }
     return (
       <div className='App'>

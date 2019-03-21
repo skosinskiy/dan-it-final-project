@@ -9,9 +9,10 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Input from '@material-ui/core/Input'
 import Button from '@material-ui/core/Button'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
-import axios from 'axios'
 import Preloader from '../components/Preloader'
 import {NavLink} from 'react-router-dom'
+import {submitResetPasswordForm} from '../actions/resetPassword'
+import {connect} from 'react-redux'
 
 const styles = theme => ({
   main: {
@@ -53,57 +54,15 @@ const styles = theme => ({
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    textAlign: 'center'
   }
 })
 
 class ResetPassword extends Component {
-  state = {
-    isFormSubmitted: false,
-    isLoading: false,
-    arePasswordsDifferent: false
-  }
-
-  handleSubmit = event => {
-    event.preventDefault()
-    const formData = new FormData(event.target)
-    let data = {}
-    formData.forEach((value, key) => {
-      data[key] = value
-    })
-    if (data.password === data.passwordConfirmation) {
-      this.setState({
-        isLoading: true
-      })
-      const jsonData = JSON.stringify(data)
-      axios.put('/api/users/forgot-password/update', jsonData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-        .then(res => {
-          if (res.status === 200) {
-            this.setState({
-              isFormSubmitted: true,
-              isLoading: false
-            })
-          }
-        })
-    } else {
-      this.setState({
-        arePasswordsDifferent: true
-      })
-    }
-  }
-
   render () {
-    const { classes } = this.props
-    const { isLoading } = this.state
-    const { isFormSubmitted } = this.state
-    const { arePasswordsDifferent } = this.state
-
-    let tokenArray = window.location.href.split('/')
-    let token = tokenArray[tokenArray.length - 1]
+    const { classes, isLoading, isFormSubmitted, arePasswordsDifferent } = this.props
+    const token = getToken()
 
     const resetPasswordForm = (
       <div className={classes.wrapper}>
@@ -115,7 +74,7 @@ class ResetPassword extends Component {
         </Typography>
         <form
           className={classes.form}
-          onSubmit={this.handleSubmit}>
+          onSubmit={this.props.submitResetPasswordForm}>
           {arePasswordsDifferent &&
           <Typography component="h2" color="error">
             Passwords do not match!
@@ -149,7 +108,7 @@ class ResetPassword extends Component {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-              Password was set
+              Password was changed
         </Typography>
         <Button component={NavLink} to={'/login'}
           type="submit"
@@ -174,8 +133,27 @@ class ResetPassword extends Component {
   }
 }
 
+const getToken = () => {
+  const tokenArray = window.location.href.split('/')
+  return tokenArray[tokenArray.length - 1]
+}
+
+const mapStateToProps = ({resetPassword}) => {
+  return {
+    isFormSubmitted: resetPassword.isFormSubmitted,
+    isLoading: resetPassword.isLoading,
+    arePasswordsDifferent: resetPassword.arePasswordsDifferent
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    submitResetPasswordForm: (event) => dispatch(submitResetPasswordForm(event))
+  }
+}
+
 ResetPassword.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(ResetPassword)
+export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles))(ResetPassword))

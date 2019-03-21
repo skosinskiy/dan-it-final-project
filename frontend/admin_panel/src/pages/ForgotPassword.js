@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import axios from 'axios'
 import PropTypes from 'prop-types'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
@@ -12,6 +11,8 @@ import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
 import Preloader from '../components/Preloader'
 import {NavLink} from 'react-router-dom'
+import {connect} from 'react-redux'
+import {submitForgotPasswordForm} from '../actions/forgotPassword'
 
 const styles = theme => ({
   main: {
@@ -50,37 +51,14 @@ const styles = theme => ({
   wrapper: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center'
+    alignItems: 'center',
+    textAlign: 'center'
   }
 })
 
 class ForgotPassword extends Component {
-  state = {
-    isFormSubmitted: false,
-    isLoading: false
-  }
-
-  handleSubmit = event => {
-    event.preventDefault()
-    this.setState({
-      isLoading: true
-    })
-    const data = new FormData(event.target)
-    axios.put('/api/users/forgot-password/token', data)
-      .then(res => {
-        if (res.status === 200) {
-          this.setState({
-            isFormSubmitted: true,
-            isLoading: false
-          })
-        }
-      })
-  }
-
   render () {
-    const { classes } = this.props
-    const { isLoading } = this.state
-    const { isFormSubmitted } = this.state
+    const {classes, isFormSubmitted, isLoading} = this.props
 
     const forgotPasswordForm = (
       <div className={classes.wrapper}>
@@ -93,7 +71,7 @@ class ForgotPassword extends Component {
         </Typography>
         <form
           className={classes.form}
-          onSubmit={event => this.handleSubmit(event)}>
+          onSubmit={this.props.submitForgotPasswordForm}>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="email">Email Address</InputLabel>
             <Input id="email" name="email" autoComplete="email" autoFocus />
@@ -141,8 +119,21 @@ class ForgotPassword extends Component {
   }
 }
 
+const mapStateToProps = ({forgotPassword}) => {
+  return {
+    isFormSubmitted: forgotPassword.isFormSubmitted,
+    isLoading: forgotPassword.isLoading
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    submitForgotPasswordForm: (event) => dispatch(submitForgotPasswordForm(event))
+  }
+}
+
 ForgotPassword.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(ForgotPassword)
+export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles))(ForgotPassword))
