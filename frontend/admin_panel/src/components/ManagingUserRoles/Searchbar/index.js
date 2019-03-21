@@ -1,5 +1,4 @@
 import React from 'react'
-import axios from 'axios'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withStyles } from '@material-ui/core/styles'
@@ -7,7 +6,7 @@ import Paper from '@material-ui/core/Paper'
 import InputBase from '@material-ui/core/InputBase'
 import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
-import { GET_USERS_BY_EMAIL } from '../../../actions/users'
+import {getUsersByEmail} from '../../../actions/users'
 
 const styles = {
   root: {
@@ -41,10 +40,7 @@ class UserEmailSearchBar extends React.Component {
 
   findUsersByEmail = (e) => {
     if (e.key === 'Enter') {
-      axios.get(`/api/users?email=${this.state.email}`)
-        .then(res => {
-          this.props.getUsersByEmail(res.data)
-        })
+      this.props.getUsersByEmail(this.state.email)
     }
   }
 
@@ -75,9 +71,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUsersByEmail: (users) => {
-      dispatch({type: GET_USERS_BY_EMAIL, payload: {users: users}})
-    }
+    getUsersByEmail: (params) => dispatch(getUsersByEmail(params))
   }
 }
 

@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import Chip from '@material-ui/core/Chip'
-import { SET_USER_ROLES } from '../../../../actions/users'
+import UserAcеions from '../../../../actions/UserActions'
 import './userItem.scss'
 
 const styles = theme => ({
@@ -48,12 +48,13 @@ function getStyles (name, that) {
 
 class UserItem extends React.Component {
   handleChange = event => {
-    this.props.updateUsersList(this.props.user, event.target.value, this.props.usersListByEmail, this.props.changedUsersList)
+    const {user, usersListByEmail, changedUsersList, updateUsersList} = this.props
+    updateUsersList(user, event.target.value, usersListByEmail, changedUsersList)
   }
 
   render () {
-    const { classes, user } = this.props
-    const roles = this.props.userRoles.filter(role => user.roles.some(userRole => role.id === userRole.id))
+    const { classes, user, userRoles } = this.props
+    const roles = userRoles.filter(role => user.roles.some(userRole => role.id === userRole.id))
 
     return (
       <li className="user-item">
@@ -74,7 +75,7 @@ class UserItem extends React.Component {
             )}
             MenuProps={MenuProps}
           >
-            {this.props.userRoles.map(role => (
+            {userRoles.map(role => (
               <MenuItem key={role.id} value={role} style={getStyles(role, this)}>
                 {role.name}
               </MenuItem>
@@ -111,7 +112,7 @@ const mapDispatchToProps = (dispatch) => {
 
       let changedUsersList = chengedUsers
       changedUsersList.add(user.id)
-      dispatch({type: SET_USER_ROLES, payload: {updatedUserList, changedUsersList}})
+      dispatch({type: UserAcеions.SET_USER_ROLES, payload: {updatedUserList, changedUsersList}})
     }
   }
 }
