@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "places_categories")
+@Table(name = "menu_items")
 @Data
 @NoArgsConstructor
 public class MenuItem extends BaseEntity {

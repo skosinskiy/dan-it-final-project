@@ -17,13 +17,21 @@ VALUES
   (2, 1),
   (2, 2);
 
+-- menu items
+
+INSERT INTO menu_items
+  (id, date_created, date_modified, name, display_name)
+VALUES
+  (1, '2019-03-21 01:15:00', '2019-03-21 02:55:50', 'Shops', 1),
+  (2, '2019-03-22 06:25:00', '2019-03-22 07:05:02', 'Restaurants', 0);
+
 -- places
 
 INSERT INTO places_categories
   (id, date_created, date_modified, name, multisync)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-1', true ),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-2', false );
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-1', 1),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-2', 0 );
 
 INSERT INTO places
   (id, date_created, date_modified, title, description, address, place_category)
