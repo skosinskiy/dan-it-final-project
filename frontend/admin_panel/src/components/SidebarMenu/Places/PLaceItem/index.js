@@ -24,7 +24,7 @@ const styles = theme => ({
 
 class Places extends Component {
   render () {
-    const {classes, place, deletePlace, getPlaceById} = this.props
+    const {classes, place, deletePlace} = this.props
     return (
       <ListItem>
         <Avatar>
