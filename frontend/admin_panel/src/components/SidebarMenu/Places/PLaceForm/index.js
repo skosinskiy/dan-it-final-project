@@ -24,6 +24,10 @@ const styles = theme => ({
     width: 200
   },
 
+  buttonLink: {
+    textDecoration: 'none'
+  }
+
 })
 
 const emptyPLace = {
@@ -148,12 +152,12 @@ class PlaceForm extends React.Component {
           </TextField>
         </form>
         <div className="place-buttons">
-          <NavLink to={'/admin/places'}>
+          <NavLink to={'/admin/places'} className={classes.buttonLink}>
             <Button onClick={() => this.savePlace(placeId, place)} variant="contained" color="primary" className={classes.button}>
             Save
             </Button>
           </NavLink>
-          <NavLink to={'/admin/places'}>
+          <NavLink to={'/admin/places'} className={classes.buttonLink}>
             <Button variant="contained" color="secondary" className={classes.button}>
             Exit
             </Button>

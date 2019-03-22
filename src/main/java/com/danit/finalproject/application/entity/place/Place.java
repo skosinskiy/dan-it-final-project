@@ -1,6 +1,7 @@
 package com.danit.finalproject.application.entity.place;
 
 import com.danit.finalproject.application.entity.BaseEntity;
+import com.danit.finalproject.application.entity.Notification;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.event.Event;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -39,6 +40,18 @@ public class Place extends BaseEntity {
   @ToString.Exclude
   @JsonIgnore
   private List<Business> businesses;
+
+
+  @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
+  @ToString.Exclude
+  @JsonIgnore
+  private List<Event> events;
+
+
+  @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
+  @ToString.Exclude
+  @JsonIgnore
+  private List<Notification> notifications;
 
   //  @OneToOne(cascade = CascadeType.ALL)
   //  @JoinColumn(name = "main_photo")
