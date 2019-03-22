@@ -58,7 +58,6 @@ public class MenuItemControllerTest {
           .parse("2019-03-21 01:15:00"));
       setModifiedDate(new SimpleDateFormat(SIMPLE_DATE_FORMAT_PATTERN)
           .parse("2019-03-21 02:55:50"));
-      ;
     }};
     mockMenuItem2 = new MenuItem() {{
       setId(2L);
@@ -68,7 +67,6 @@ public class MenuItemControllerTest {
           .parse("2019-03-22 06:25:00"));
       setModifiedDate(new SimpleDateFormat(SIMPLE_DATE_FORMAT_PATTERN)
           .parse("2019-03-22 07:05:02"));
-      ;
     }};
   }
 
@@ -82,8 +80,7 @@ public class MenuItemControllerTest {
             .andReturn()
             .getResponse()
             .getContentAsString(),
-        new TypeReference<List<MenuItem>>() {
-        }
+        new TypeReference<List<MenuItem>>() {}
     );
     assertEquals(EXPECTED_MENU_ITEMS_SIZE, menuItems.size());
     assertEquals(mockMenuItem1, menuItems.get(0));
@@ -108,6 +105,5 @@ public class MenuItemControllerTest {
     assertEquals(NEW_NAME, updatedMenuItem.getName());
     assertEquals(NEW_NAME, menuItemService.getAllMenuItems().get(0).getName());
   }
-
 
 }

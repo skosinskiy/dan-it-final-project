@@ -48,7 +48,6 @@ public class MenuItemServiceTest {
           .parse("2019-03-21 01:15:00"));
       setModifiedDate(new SimpleDateFormat(SIMPLE_DATE_FORMAT_PATTERN)
           .parse("2019-03-21 02:55:50"));
-      ;
     }};
     mockMenuItem2 = new MenuItem() {{
       setId(2L);
@@ -58,7 +57,6 @@ public class MenuItemServiceTest {
           .parse("2019-03-22 06:25:00"));
       setModifiedDate(new SimpleDateFormat(SIMPLE_DATE_FORMAT_PATTERN)
           .parse("2019-03-22 07:05:02"));
-      ;
     }};
   }
 
