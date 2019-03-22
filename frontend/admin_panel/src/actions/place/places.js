@@ -36,7 +36,3 @@ export const updatePlace = (placeId, place) => dispatch => {
     })
   })
 }
-
-export const getPlaceById = (placeId) => dispatch => {
-  api.get(`/api/places/${placeId}`)
-}

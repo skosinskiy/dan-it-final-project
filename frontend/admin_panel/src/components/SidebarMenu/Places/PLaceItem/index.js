@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
 import ImageIcon from '@material-ui/icons/Image'
-import {deletePlace, getPlaceById} from '../../../../actions/place/places'
+import {deletePlace} from '../../../../actions/place/places'
 
 const styles = theme => ({
   root: {
@@ -32,7 +32,7 @@ class Places extends Component {
         </Avatar>
         <ListItemText primary={place.title} secondary={place.address} />
         <NavLink to={`/admin/places/${place.id}`} className={classes.buttons}>
-          <Button onClick={() => getPlaceById(place.id)} variant="contained" color="primary" className={classes.button}>Edit</Button>
+          <Button variant="contained" color="primary" className={classes.button}>Edit</Button>
         </NavLink>
         <Button onClick={() => deletePlace(place.id)} variant="contained" color="secondary" className={classes.button}>Delete</Button>
       </ListItem>
@@ -49,7 +49,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     deletePlace: (placeId) => dispatch(deletePlace(placeId)),
-    getPlaceById: (placeId) => dispatch(getPlaceById(placeId))
   }
 }
 

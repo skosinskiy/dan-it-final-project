@@ -131,7 +131,6 @@ class PlaceForm extends React.Component {
           <TextField
             id="outlined-select-currency"
             select
-            label="Select"
             className={classes.textField}
             value={place.placeCategory.id}
             onChange={this.handleChange('placeCategory')}
@@ -140,7 +139,7 @@ class PlaceForm extends React.Component {
                 className: classes.menu
               }
             }}
-            helperText="Please select your currency"
+            helperText="select place category"
             margin="normal"
             variant="filled"
           >
