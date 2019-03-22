@@ -35,14 +35,14 @@ public class Place extends BaseEntity {
   @Column(name = "address")
   private String address;
 
-  @OneToMany(mappedBy = "place")
+  @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
   @ToString.Exclude
   @JsonIgnore
   private List<Business> businesses;
 
-//  @OneToOne(cascade = CascadeType.ALL)
-//  @JoinColumn(name = "main_photo")
-//  private PlacePhoto mainPhoto;
+  //  @OneToOne(cascade = CascadeType.ALL)
+  //  @JoinColumn(name = "main_photo")
+  //  private PlacePhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "place")
   @ToString.Exclude

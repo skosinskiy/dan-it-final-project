@@ -8,9 +8,11 @@ export const getPlaces = () => dispatch => {
 }
 
 export const saveNewPlace = (place) => dispatch => {
-  api.post(`/api/places`, place).then(api.get(`/api/places`).then(res => {
-    dispatch({type: Actions.Place.GET_ALL_PLACES, payload: {places: res}})
-  }))
+  api.post(`/api/places`, place).then(res => {
+    api.get(`/api/places`).then(res => {
+      dispatch({type: Actions.Place.GET_ALL_PLACES, payload: {places: res}})
+    })
+  })
 }
 
 export const getPlacesCategories = () => dispatch => {
@@ -20,19 +22,21 @@ export const getPlacesCategories = () => dispatch => {
 }
 
 export const deletePlace = (placeId) => dispatch => {
-  api.deleteApi(`/api/places/${placeId}`).then(api.get(`/api/places`).then(res => {
-    dispatch({type: Actions.Place.GET_ALL_PLACES, payload: {places: res}})
-  }))
+  api.deleteApi(`/api/places/${placeId}`).then(res => {
+    api.get(`/api/places`).then(res => {
+      dispatch({type: Actions.Place.GET_ALL_PLACES, payload: {places: res}})
+    })
+  })
 }
 
 export const updatePlace = (placeId, place) => dispatch => {
-  api.put(`/api/places/${placeId}`, place).then(api.get(`/api/places`).then(res => {
-    dispatch({type: Actions.Place.GET_ALL_PLACES, payload: {places: res}})
-  }))
+  api.put(`/api/places/${placeId}`, place).then(res => {
+    api.get(`/api/places`).then(res => {
+      dispatch({type: Actions.Place.GET_ALL_PLACES, payload: {places: res}})
+    })
+  })
 }
 
 export const getPlaceById = (placeId) => dispatch => {
-  api.get(`/api/places/${placeId}`).then(res => {
-    dispatch({type: Actions.Place.GET_PLACE_BY_ID, payload: {placeById: {...res}}})
-  })
+  api.get(`/api/places/${placeId}`)
 }
