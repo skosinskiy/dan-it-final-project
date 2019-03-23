@@ -6,7 +6,7 @@ const initialState = {
   changedUsersList: new Set(),
   isAuthenticated: false,
   currentUser: null,
-  currentUserLoading: true
+  isCurrentUserLoading: true
 }
 
 function users (state = initialState, action) {
@@ -22,7 +22,7 @@ function users (state = initialState, action) {
     case Actions.Users.CURRENT_USER_FETCHED:
       return {...state, currentUser: action.payload.currentUser}
     case Actions.Users.CURRENT_USER_LOADING:
-      return {...state, currentUserLoading: action.payload.loading}
+      return {...state, isCurrentUserLoading: action.payload.isCurrentUserLoading}
     default:
       return {...state}
   }

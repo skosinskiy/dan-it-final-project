@@ -12,7 +12,7 @@ class App extends Component {
   }
 
   render () {
-    if (this.props.currentUserLoading) {
+    if (this.props.isCurrentUserLoading) {
       return (
         <div className='wrapper'>
           <Preloader/>
@@ -31,7 +31,7 @@ class App extends Component {
 const mapStateToProps = ({users}) => {
   return {
     currentUser: users.currentUser,
-    currentUserLoading: users.currentUserLoading
+    isCurrentUserLoading: users.isCurrentUserLoading
   }
 }
 

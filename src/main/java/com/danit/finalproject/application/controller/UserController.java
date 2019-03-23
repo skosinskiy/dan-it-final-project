@@ -38,7 +38,6 @@ public class UserController {
 
   @GetMapping("current")
   public User getCurrentUser() {
-
     return userService.getPrincipalUser();
   }
 

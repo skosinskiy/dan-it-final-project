@@ -55,9 +55,9 @@ const styles = theme => ({
 
 class SignIn extends Component {
   render () {
-    const { classes, isAuthenticated, isLoading } = this.props
+    const { classes, isAuthenticated, isCurrentUserLoading } = this.props
     
-    if (isLoading) {
+    if (isCurrentUserLoading) {
       return (
         <div className={classes.wrapper}>
           <Preloader/>
@@ -121,7 +121,7 @@ class SignIn extends Component {
 const mapStateToProps = ({users}) => {
   return {
     isAuthenticated: users.isAuthenticated,
-    isLoading: users.isLoading
+    isCurrentUserLoading: users.isCurrentUserLoading
   }
 }
 
