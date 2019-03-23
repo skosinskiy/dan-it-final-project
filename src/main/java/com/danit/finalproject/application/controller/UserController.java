@@ -5,7 +5,6 @@ import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.UserService;
 
-import java.security.Principal;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -39,7 +38,8 @@ public class UserController {
 
   @GetMapping("current")
   public User getCurrentUser() {
-    return userService.getUserById(1L);
+
+    return userService.getPrincipalUser();
   }
 
   @GetMapping

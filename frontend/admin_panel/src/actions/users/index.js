@@ -21,8 +21,23 @@ export const getCurrentUser = () => dispatch => {
   dispatch({type: Actions.Users.CURRENT_USER_LOADING, payload: {loading: true}})
   api.get('/api/users/current')
     .then(user => {
-      dispatch({type: Actions.Users.CURRENT_USER_FETCHED, payload: {currentUser: user}})
+      console.log(user)
+      if (user !== '') {
+        dispatch({type: Actions.Users.CURRENT_USER_FETCHED, payload: {currentUser: user}})
+        dispatch({type: Actions.Users.AUTHENTICATE_USER, payload: {isAuthenticated: true, isLoading: false}})
+      }
       dispatch({type: Actions.Users.CURRENT_USER_LOADING, payload: {loading: false}})
     })
-    .catch(err => console.error(err))
+    .catch(() => dispatch({type: Actions.Users.CURRENT_USER_LOADING, payload: {loading: false}}))
+}
+
+export const submitLoginForm = (event) => dispatch => {
+  event.preventDefault()
+  dispatch({type: Actions.Users.AUTHENTICATE_USER, payload: {isLoading: true, isAuthenticated: false}})
+  const data = new FormData(event.target)
+  api.post('/auth', data).then(res => {
+    if (res.status === 200) {
+      dispatch({type: Actions.Users.AUTHENTICATE_USER, payload: {isAuthenticated: true, isLoading: false}})
+    }
+  })
 }

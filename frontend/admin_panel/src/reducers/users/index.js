@@ -4,7 +4,7 @@ const initialState = {
   usersListByEmail: [],
   userRoles: [],
   changedUsersList: new Set(),
-  isAuthenticated: true,
+  isAuthenticated: false,
   currentUser: null,
   currentUserLoading: true
 }
@@ -18,7 +18,7 @@ function users (state = initialState, action) {
     case Actions.Users.SET_USER_ROLES:
       return {...state, usersListByEmail: action.payload.updatedUserList, changedUsersList: action.payload.changedUsersList}
     case Actions.Users.AUTHENTICATE_USER:
-      return {...state, isAuthenticated: true}
+      return {...state, isAuthenticated: action.payload.isAuthenticated, isLoading: action.payload.isLoading}
     case Actions.Users.CURRENT_USER_FETCHED:
       return {...state, currentUser: action.payload.currentUser}
     case Actions.Users.CURRENT_USER_LOADING:

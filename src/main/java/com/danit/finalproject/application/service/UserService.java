@@ -7,12 +7,16 @@ import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -126,5 +130,13 @@ public class UserService implements UserDetailsService {
         .password(user.getPassword())
         .build();
 
+  }
+
+  public User getPrincipalUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (!(authentication instanceof AnonymousAuthenticationToken)) {
+      return userRepository.findByEmail(authentication.getName());
+    }
+    return null;
   }
 }
