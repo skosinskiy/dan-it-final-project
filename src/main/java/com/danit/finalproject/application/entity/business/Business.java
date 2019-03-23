@@ -1,12 +1,10 @@
 package com.danit.finalproject.application.entity.business;
 
 import com.danit.finalproject.application.entity.BaseEntity;
-import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.place.Place;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -19,7 +17,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.util.List;
 
