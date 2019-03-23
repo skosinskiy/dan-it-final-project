@@ -15,7 +15,6 @@ import Typography from '@material-ui/core/Typography'
 import withStyles from '@material-ui/core/styles/withStyles'
 import {submitLoginForm} from '../../actions/users'
 import {connect} from 'react-redux'
-import Preloader from '../Preloader'
 
 const styles = theme => ({
   main: {
@@ -55,17 +54,9 @@ const styles = theme => ({
 
 class SignIn extends Component {
   render () {
-    const { classes, isAuthenticated, isCurrentUserLoading } = this.props
-    
-    if (isCurrentUserLoading) {
-      return (
-        <div className={classes.wrapper}>
-          <Preloader/>
-        </div>
-      )
-    }
+    const { classes, currentUser } = this.props
 
-    if (isAuthenticated) {
+    if (currentUser) {
       return <Redirect to={'/'}/>
     }
 
@@ -120,7 +111,7 @@ class SignIn extends Component {
 
 const mapStateToProps = ({users}) => {
   return {
-    isAuthenticated: users.isAuthenticated,
+    currentUser: users.currentUser,
     isCurrentUserLoading: users.isCurrentUserLoading
   }
 }

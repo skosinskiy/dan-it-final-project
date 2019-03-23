@@ -3,6 +3,7 @@ package com.danit.finalproject.application.security;
 import com.danit.finalproject.application.entity.Permission;
 import com.danit.finalproject.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -10,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -19,15 +21,14 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-@Profile("prod")
-public class ProdSecurityConfig extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   private UserService userService;
   private SecuritySuccessHandler successHandler;
   private SecurityFailureHandler failureHandler;
 
   @Autowired
-  public ProdSecurityConfig(
+  public SecurityConfig(
       UserService userService,
       SecuritySuccessHandler successHandler,
       SecurityFailureHandler failureHandler) {
@@ -48,7 +49,7 @@ public class ProdSecurityConfig extends WebSecurityConfigurerAdapter {
           .httpBasic()
         .and()
           .authorizeRequests()
-          .antMatchers("/h2-console/**", "/api/users/current")
+          .antMatchers("/h2-console/**", "/api/users/current", "/api/users/forgot-password/**")
           .permitAll()
           .antMatchers("/").hasAuthority(Permission.MANAGE_BUSINESS_CATEGORIES.toString())
           .anyRequest()

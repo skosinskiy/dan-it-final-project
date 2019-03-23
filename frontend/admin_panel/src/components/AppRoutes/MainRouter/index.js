@@ -8,27 +8,18 @@ import {connect} from 'react-redux'
 
 class AppRoutes extends Component {
   render () {
-    const {isAuthenticated} = this.props
-
-    // if (isAuthenticated) {
-    //   return (<RootRoute path="/" authenticated={isAuthenticated}/>)
-    // }
+    const {currentUser} = this.props
     
     return (
       <Switch>
         <Route path="/login" component={Login}/>
-        <ProtectedRoute path="/admin" component={Admin} authenticated={isAuthenticated}/>
         <Route path="/forgot-password" component={ForgotPassword}/>
         <Route path="/reset-password" component={ResetPassword} />
-        <RootRoute path="/" authenticated={isAuthenticated}/>
+        <ProtectedRoute path="/" component={Admin} authenticated={currentUser}/>
       </Switch>
     )
   }
 }
-
-export const RootRoute = (authenticated) => (
-  <Route render={() => authenticated ? <Redirect to='/admin'/> : <Redirect to='/login'/>}/>
-)
 
 export const ProtectedRoute = ({component: Component, authenticated, ...rest}) => (
   <Route {...rest} render={(props) => authenticated ? <Component {...props} /> : <Redirect to='/login'/>}/>
@@ -36,7 +27,7 @@ export const ProtectedRoute = ({component: Component, authenticated, ...rest}) =
 
 const mapStateToProps = ({users}) => {
   return {
-    isAuthenticated: users.isAuthenticated
+    currentUser: users.currentUser
   }
 }
 
