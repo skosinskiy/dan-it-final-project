@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -26,12 +27,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
+@WithMockUser(value = "first.user@test.com")
 public class EventControllerTest {
   @Autowired
   private MockMvc mockMvc;
@@ -101,6 +104,7 @@ public class EventControllerTest {
 
     MvcResult result = mockMvc.perform(
         post("/api/events/")
+            .with(csrf())
             .content(placeCategoryJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -129,6 +133,7 @@ public class EventControllerTest {
 
     MvcResult result = mockMvc.perform(
         put("/api/events/1")
+            .with(csrf())
             .content(userJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -143,7 +148,7 @@ public class EventControllerTest {
 
   @Test
   public void deleteEvent() throws Exception {
-    mockMvc.perform(delete("/api/events/2"));
+    mockMvc.perform(delete("/api/events/2").with(csrf()));
 
     assertNull(eventService.getEventById(2L));
   }
@@ -161,6 +166,7 @@ public class EventControllerTest {
 
     MvcResult result = mockMvc.perform(
         post("/api/events/1/photos")
+            .with(csrf())
             .content(placeCategoryJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -177,7 +183,7 @@ public class EventControllerTest {
 
   @Test
   public void deleteEventPhoto() throws Exception {
-    mockMvc.perform(delete("/api/events/1/photos/1"));
+    mockMvc.perform(delete("/api/events/1/photos/1").with(csrf()));
 
     assertNull(eventPhotoService.getEventPhotoById(1L));
   }

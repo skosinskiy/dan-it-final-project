@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -22,12 +23,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
+@WithMockUser(value = "first.user@test.com")
 public class PlaceControllerTest {
   @Autowired
   private MockMvc mockMvc;
@@ -44,15 +47,12 @@ public class PlaceControllerTest {
   @Autowired
   private PlacePhotoService placePhotoService;
 
-  @Autowired
-  private BusinessService businessService;
-
   @Test
   public void getPlaceById() throws Exception {
     Long expectedId = 1L;
     String expectedName = "place-1";
 
-    MvcResult result = mockMvc.perform(get("/api/places/1"))
+    MvcResult result = mockMvc.perform(get("/api/places/1").with(csrf()))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
     Place place = objectMapper.readValue(responseBody, Place.class);
@@ -89,6 +89,7 @@ public class PlaceControllerTest {
 
     MvcResult result = mockMvc.perform(
         post("/api/places")
+            .with(csrf())
             .content(placeCategoryJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -114,6 +115,7 @@ public class PlaceControllerTest {
 
     MvcResult result = mockMvc.perform(
         put("/api/places/1")
+            .with(csrf())
             .content(userJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -126,7 +128,7 @@ public class PlaceControllerTest {
 
   @Test
   public void deletePlace() throws Exception {
-    mockMvc.perform(delete("/api/places/2"));
+    mockMvc.perform(delete("/api/places/2").with(csrf()));
 
     assertNull(placeService.getPlaceById(2L));
   }
@@ -144,6 +146,7 @@ public class PlaceControllerTest {
 
     MvcResult result = mockMvc.perform(
         post("/api/places/1/photos")
+            .with(csrf())
             .content(placePhotoJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -160,7 +163,7 @@ public class PlaceControllerTest {
 
   @Test
   public void deletePlacePhoto() throws Exception {
-    mockMvc.perform(delete("/api/places/1/photos/1"));
+    mockMvc.perform(delete("/api/places/1/photos/1").with(csrf()));
     assertNull(placePhotoService.getPlacePhotoById(1L));
   }
 }

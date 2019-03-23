@@ -25,7 +25,10 @@ public class SecurityFailureHandler implements AuthenticationFailureHandler {
   }
 
   @Override
-  public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+  public void onAuthenticationFailure(
+      HttpServletRequest httpServletRequest,
+      HttpServletResponse httpServletResponse,
+      AuthenticationException exc) throws IOException {
     AuthResultDto authResultDto = AuthResultDto.builder()
         .timestamp(new Date(System.currentTimeMillis()))
         .status(HttpStatus.UNAUTHORIZED.value())

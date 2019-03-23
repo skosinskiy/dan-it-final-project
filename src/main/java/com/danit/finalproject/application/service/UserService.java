@@ -116,7 +116,7 @@ public class UserService implements UserDetailsService {
   @Transactional
   public UserDetails loadUserByUsername(String email) {
     User user = userRepository.findByEmail(email);
-    Set <Permission> permissions = new HashSet<>();
+    Set<Permission> permissions = new HashSet<>();
     user
         .getRoles()
         .stream()
