@@ -1,22 +1,54 @@
 package com.danit.finalproject.application.service;
 
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
+import com.danit.finalproject.application.entity.Permission;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.Set;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
+
+  public static final int DAY_MILLISECONDS_COUNT = 24 * 60 * 60 * 1000;
+  public static final String PASS_RECOVERY_EMAIL_SUBJECT = "Password recovery";
 
   private UserRepository userRepository;
+  private EmailService emailService;
+  private ValidationService validationService;
+  private PasswordEncoder passwordEncoder;
+  @Value("${react.server.port}")
+  private String applicationPort;
+  @Value("${react.server.host}")
+  private String applicationHost;
 
   @Autowired
-  public UserService(UserRepository userRepository) {
+  public UserService(
+      UserRepository userRepository,
+      EmailService emailService,
+      ValidationService validationService,
+      PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
+    this.emailService = emailService;
+    this.validationService = validationService;
+    this.passwordEncoder = passwordEncoder;
   }
 
   public User getUserById(Long userId) {
@@ -24,7 +56,7 @@ public class UserService {
   }
 
   public List<User> getUsersByEmail(String email) {
-    return userRepository.findAllByEmailStartingWithIgnoreCase(email);
+    return userRepository.findAllByEmailContainingIgnoreCase(email);
   }
 
   public User createUser(User user) {
@@ -48,5 +80,69 @@ public class UserService {
     User user = optionalUser.orElse(null);
     userRepository.save(user);
     return user;
+  }
+
+  public User getUserByToken(String token) {
+    return userRepository.findByToken(token);
+  }
+
+  public User generateToken(String userEmail) {
+    User user = userRepository.findByEmail(userEmail);
+    if (user != null) {
+      String token = generateAndSetToken(user);
+      userRepository.save(user);
+      sendPasswordRecoveryEmail(token, userEmail);
+    }
+    return user;
+  }
+
+  private String generateAndSetToken(User user) {
+    String token = UUID.randomUUID().toString();
+    user.setToken(token);
+    user.setTokenExpirationDate(new Date(System.currentTimeMillis() + DAY_MILLISECONDS_COUNT));
+    return token;
+  }
+
+  private void sendPasswordRecoveryEmail(String token, String userEmail) {
+    String text = String.format("Please follow the link to change your password\n"
+        + "http://%s:%s/reset-password/%s", applicationHost, applicationPort, token);
+    emailService.sendSimpleMessage(userEmail, PASS_RECOVERY_EMAIL_SUBJECT, text);
+  }
+
+  public User updateUserPassword(UpdateUserPasswordRequestDto userDto, BindingResult bindingResult) {
+    validationService.checkForValidationErrors(bindingResult);
+    User user = userRepository.findByToken(userDto.getToken());
+    user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+    user.setTokenExpirationDate(null);
+    user.setToken(null);
+    return userRepository.save(user);
+  }
+
+  @Override
+  @Transactional
+  public UserDetails loadUserByUsername(String email) {
+    User user = userRepository.findByEmail(email);
+    Set<Permission> permissions = new HashSet<>();
+    user
+        .getRoles()
+        .stream()
+        .map(Role::getPermissions)
+        .forEach(permissions::addAll);
+
+    return org.springframework.security.core.userdetails.User.builder()
+        .username(user.getEmail())
+        .roles(user.getRoles().stream().map(Role::getName).toArray(String[]::new))
+        .authorities(permissions)
+        .password(user.getPassword())
+        .build();
+
+  }
+
+  public User getPrincipalUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (!(authentication instanceof AnonymousAuthenticationToken)) {
+      return userRepository.findByEmail(authentication.getName());
+    }
+    return null;
   }
 }

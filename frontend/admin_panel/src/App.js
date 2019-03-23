@@ -1,22 +1,28 @@
 import React, { Component } from 'react'
 import AppRouter from './components/AppRoutes/MainRouter'
-import './App.css'
 import {connect} from 'react-redux'
-import getCurrentUser from './actions/users/userActions'
+import {getCurrentUser} from './actions/users/index'
 import Preloader from './components/Preloader'
 import { withRouter } from 'react-router'
+import CssBaseline from '@material-ui/core/es/CssBaseline/CssBaseline'
 
 class App extends Component {
   componentDidMount () {
     this.props.getCurrentUser()
   }
+
   render () {
-    if (this.props.currentUserLoading) {
-      return <Preloader />
+    if (this.props.isCurrentUserLoading) {
+      return (
+        <div className='wrapper'>
+          <Preloader/>
+        </div>
+      )
     }
     return (
       <div className='App'>
-        <AppRouter />
+        <CssBaseline/>
+        <AppRouter/>
       </div>
     )
   }
@@ -25,7 +31,7 @@ class App extends Component {
 const mapStateToProps = ({users}) => {
   return {
     currentUser: users.currentUser,
-    currentUserLoading: users.currentUserLoading
+    isCurrentUserLoading: users.isCurrentUserLoading
   }
 }
 

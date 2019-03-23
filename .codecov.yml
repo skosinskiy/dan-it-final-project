@@ -6,5 +6,6 @@ coverage:
   precision: 2
 
 ignore:
+  - "**/com.danit.finalproject.application.security.*.java"
   - "**/com.danit.finalproject.application.FinalProjectApplication.java"
   - "**/com.danit.finalproject.application.aspect.*.java"

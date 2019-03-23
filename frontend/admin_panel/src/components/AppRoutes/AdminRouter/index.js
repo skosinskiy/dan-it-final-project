@@ -4,17 +4,14 @@ import AddBusinessCategory from '../../AddBusinessCategory'
 import ManaginrUserRoles from '../../ManagingUserRoles'
 
 class AppRoutes extends Component {
-    state = {
-      isAuthenticated: true
-    }
-    render () {
-      return (
-        <Switch>
-          <Route path="/admin/business-categories" component={AddBusinessCategory}/>
-          <Route path="/admin/managing-roles" component={ManaginrUserRoles}/>
-        </Switch>
-      )
-    }
+  render () {
+    return (
+      <Switch>
+        <Route path="/admin/business-categories" component={AddBusinessCategory}/>
+        <Route path="/admin/managing-roles" component={ManaginrUserRoles}/>
+      </Switch>
+    )
+  }
 }
 
 export default AppRoutes

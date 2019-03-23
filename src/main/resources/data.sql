@@ -1,8 +1,8 @@
 INSERT INTO users
-  (id, date_created, date_modified, age, email, first_name, gender, last_name, password, photo)
+  (id, date_created, date_modified, age, email, first_name, gender, last_name, password, photo, token, token_expiration_date)
 VALUES
-  (1, '2019-03-12 12:00:00', '2019-03-12 12:01:00', 24, 'first.user@test.com', 'Elon', 0, 'Musk', 'secret_pass', 'empty'),
-  (2, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'first.user@test2.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty');
+  (1, '2019-03-12 12:00:00', '2019-03-12 12:01:00', 24, 'first.user@test.com', 'Elon', 0, 'Musk', '$2a$10$LsVsLTHNDaJDu8dDbkGEk.4qDE8zIuiqvQ1Kvo99ET.gd.rqUQZjW', 'empty', '12b0e9eb-ad60-44ec-81d1-a759313856ce', '2100-01-01 00:00:00'),
+  (2, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', 'ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0', '2019-03-19 00:00:00');
 
 INSERT INTO roles
   (id, date_created, date_modified, name)
@@ -16,6 +16,19 @@ VALUES
   (1, 1),
   (2, 1),
   (2, 2);
+  
+INSERT INTO role_permissions
+  (role_id, permission_id)
+VALUES
+  (1, 0),
+  (1, 1),
+  (1, 2),
+  (1, 3),
+  (2, 0),
+  (2, 1),
+  (2, 2),
+  (2, 3),
+  (2, 4);
 
 -- menu items
 
