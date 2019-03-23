@@ -2,6 +2,7 @@ package com.danit.finalproject.application.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -21,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
+@WithMockUser(value = "first.user@test.com")
 public class MenuItemControllerTest {
 
   @Autowired
@@ -94,6 +97,7 @@ public class MenuItemControllerTest {
     mockMenuItem1.setDisplayName(NEW_DISPLAY_NAME);
     String responseBody = mockMvc.perform(
         put("/api/menu-items/" + MENU_ITEM_ID)
+            .with(csrf())
             .content(objectMapper.writeValueAsString(mockMenuItem1))
             .contentType(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
