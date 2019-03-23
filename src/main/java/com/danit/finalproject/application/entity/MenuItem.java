@@ -18,6 +18,6 @@ public class MenuItem extends BaseEntity {
   private String name;
 
   @Column(name = "display_name")
-  private boolean displayName;
+  private String displayName;
 
 }

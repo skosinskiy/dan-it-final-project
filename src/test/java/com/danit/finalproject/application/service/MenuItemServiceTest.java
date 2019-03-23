@@ -36,10 +36,10 @@ public class MenuItemServiceTest {
   @Before
   public void initMenuItemMocks() throws ParseException {
     final String MOCK_NAME_1 = "Shops";
-    final boolean MOCK_DISPLAY_NAME_1 = true;
+    final String MOCK_DISPLAY_NAME_1 = "The Bazar";
     final String MOCK_NAME_2 = "Restaurants";
-    final boolean MOCK_DISPLAY_NAME_2 = false;
-    String SIMPLE_DATE_FORMAT_PATTERN = "YYYY-MM-DD hh:mm:ss";
+    final String MOCK_DISPLAY_NAME_2 = "Healthy food zone";
+    final String SIMPLE_DATE_FORMAT_PATTERN = "YYYY-MM-DD hh:mm:ss";
     mockMenuItem1 = new MenuItem() {{
       setId(1L);
       setName(MOCK_NAME_1);

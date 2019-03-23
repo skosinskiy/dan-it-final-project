@@ -46,10 +46,10 @@ public class MenuItemControllerTest {
   @Before
   public void initMenuItemMocks() throws ParseException {
     final String MOCK_NAME_1 = "Shops";
-    final boolean MOCK_DISPLAY_NAME_1 = true;
+    final String MOCK_DISPLAY_NAME_1 = "The Bazar";
     final String MOCK_NAME_2 = "Restaurants";
-    final boolean MOCK_DISPLAY_NAME_2 = false;
-    String SIMPLE_DATE_FORMAT_PATTERN = "YYYY-MM-DD hh:mm:ss";
+    final String MOCK_DISPLAY_NAME_2 = "Healthy food zone";
+    final String SIMPLE_DATE_FORMAT_PATTERN = "YYYY-MM-DD hh:mm:ss";
     mockMenuItem1 = new MenuItem() {{
       setId(1L);
       setName(MOCK_NAME_1);
@@ -89,9 +89,9 @@ public class MenuItemControllerTest {
 
   @Test
   public void updateMenuItem() throws Exception {
-    final String NEW_NAME = "Services";
+    final String NEW_DISPLAY_NAME = "Marketplace";
     final Long MENU_ITEM_ID = 1L;
-    mockMenuItem1.setName(NEW_NAME);
+    mockMenuItem1.setDisplayName(NEW_DISPLAY_NAME);
     String responseBody = mockMvc.perform(
         put("/api/menu-items/" + MENU_ITEM_ID)
             .content(objectMapper.writeValueAsString(mockMenuItem1))
@@ -102,8 +102,8 @@ public class MenuItemControllerTest {
         .getResponse()
         .getContentAsString();
     MenuItem updatedMenuItem = objectMapper.readValue(responseBody, MenuItem.class);
-    assertEquals(NEW_NAME, updatedMenuItem.getName());
-    assertEquals(NEW_NAME, menuItemService.getAllMenuItems().get(0).getName());
+    assertEquals(NEW_DISPLAY_NAME, updatedMenuItem.getDisplayName());
+    assertEquals(NEW_DISPLAY_NAME, menuItemService.getAllMenuItems().get(0).getDisplayName());
   }
 
 }
