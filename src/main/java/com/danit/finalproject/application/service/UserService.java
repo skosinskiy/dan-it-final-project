@@ -12,11 +12,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -33,16 +33,22 @@ public class UserService implements UserDetailsService {
   private UserRepository userRepository;
   private EmailService emailService;
   private ValidationService validationService;
+  private PasswordEncoder passwordEncoder;
   @Value("${react.server.port}")
   private String applicationPort;
   @Value("${react.server.host}")
   private String applicationHost;
 
   @Autowired
-  public UserService(UserRepository userRepository, EmailService emailService, ValidationService validationService) {
+  public UserService(
+      UserRepository userRepository,
+      EmailService emailService,
+      ValidationService validationService,
+      PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.emailService = emailService;
     this.validationService = validationService;
+    this.passwordEncoder = passwordEncoder;
   }
 
   public User getUserById(Long userId) {
@@ -106,7 +112,7 @@ public class UserService implements UserDetailsService {
   public User updateUserPassword(UpdateUserPasswordRequestDto userDto, BindingResult bindingResult) {
     validationService.checkForValidationErrors(bindingResult);
     User user = userRepository.findByToken(userDto.getToken());
-    user.setPassword(userDto.getPassword());
+    user.setPassword(passwordEncoder.encode(userDto.getPassword()));
     user.setTokenExpirationDate(null);
     user.setToken(null);
     return userRepository.save(user);

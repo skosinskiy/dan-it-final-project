@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.BindingResult;
 
@@ -29,6 +30,8 @@ public class UserServiceTest {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@MockBean
 	private UserRepository userRepository;
@@ -197,10 +200,12 @@ public class UserServiceTest {
 	@Test
 	public void verifyUserPasswordUpdatedAndTokenReset() {
 		UpdateUserPasswordRequestDto userDto = UpdateUserPasswordRequestDto.builder()
+				.password("12345678")
 				.token("ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0")
 				.build();
+		String expectedPassword = passwordEncoder.encode(userDto.getPassword());
 		User expectedUser = new User();
-		expectedUser.setPassword(userDto.getPassword());
+		expectedUser.setPassword(expectedPassword);
 		expectedUser.setToken(null);
 		expectedUser.setTokenExpirationDate(null);
 
@@ -210,6 +215,7 @@ public class UserServiceTest {
 
 		assertNull(user.getToken());
 		assertNull(user.getTokenExpirationDate());
+		assertEquals(expectedPassword, user.getPassword());
 		verify(userRepository, times(1)).findByToken(userDto.getToken());
 		verify(userRepository, times(1)).save(any());
 		verify(validationService, times(1)).checkForValidationErrors(bindingResult);

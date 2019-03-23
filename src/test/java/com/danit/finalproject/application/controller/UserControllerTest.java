@@ -31,6 +31,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -57,6 +58,9 @@ public class UserControllerTest {
 	private ObjectMapper objectMapper;
 
 	@MockBean
+	private PasswordEncoder passwordEncoder;
+
+	@MockBean
 	private EmailService emailService;
 
 	@Test
@@ -73,7 +77,6 @@ public class UserControllerTest {
 
   @Test
   public void getCurrentUser() throws Exception {
-    final Long ID = 1L;
     final String FIRST_NAME = "Elon";
     final String LAST_NAME = "Musk";
     final String EMAIL = "first.user@test.com";
@@ -227,6 +230,6 @@ public class UserControllerTest {
 
 		assertNull(user.getToken());
 		assertNull(user.getTokenExpirationDate());
-		assertEquals(expectedPassword, user.getPassword());
+		verify(passwordEncoder, times(1)).encode(expectedPassword);
 	}
 }
