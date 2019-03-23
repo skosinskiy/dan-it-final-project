@@ -25,7 +25,6 @@ export const submitLoginForm = (event) => dispatch => {
     if (res.status === 200) {
       fetchCurrentUser(dispatch)
     }
-    dispatch({type: Actions.Users.CURRENT_USER_LOADING, payload: {isCurrentUserLoading: false}})
   })
     .catch(() => dispatch({type: Actions.Users.CURRENT_USER_LOADING, payload: {isCurrentUserLoading: false}}))
 }
