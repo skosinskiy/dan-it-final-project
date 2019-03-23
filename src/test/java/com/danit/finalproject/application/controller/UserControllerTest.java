@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -30,6 +31,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -39,6 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
+@WithMockUser(value = "first.user@test.com")
 public class UserControllerTest {
 
 	@Autowired
@@ -52,6 +56,9 @@ public class UserControllerTest {
 
 	@Autowired
 	private ObjectMapper objectMapper;
+
+	@MockBean
+	private PasswordEncoder passwordEncoder;
 
 	@MockBean
 	private EmailService emailService;
@@ -70,7 +77,6 @@ public class UserControllerTest {
 
   @Test
   public void getCurrentUser() throws Exception {
-    final Long ID = 1L;
     final String FIRST_NAME = "Elon";
     final String LAST_NAME = "Musk";
     final String EMAIL = "first.user@test.com";
@@ -119,6 +125,7 @@ public class UserControllerTest {
 
 		MvcResult result = mockMvc.perform(
 				post("/api/users")
+						.with(csrf())
 						.content(userJson)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
@@ -144,6 +151,7 @@ public class UserControllerTest {
 
 		MvcResult result = mockMvc.perform(
 				put("/api/users/2")
+						.with(csrf())
 						.content(userJson)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
@@ -156,7 +164,7 @@ public class UserControllerTest {
 
 	@Test
 	public void deleteUser() throws Exception {
-		mockMvc.perform(delete("/api/users/2"));
+		mockMvc.perform(delete("/api/users/2").with(csrf()));
 
 		assertNull(userService.getUserById(2L));
 	}
@@ -168,6 +176,7 @@ public class UserControllerTest {
 
 		MvcResult result = mockMvc.perform(
 				put("/api/users/1/roles")
+						.with(csrf())
 						.content(rolesJson)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
@@ -187,6 +196,7 @@ public class UserControllerTest {
 
 		mockMvc.perform(
 				put("/api/users/forgot-password/token")
+						.with(csrf())
 						.param("email", userEmail)
 						.contentType(MediaType.APPLICATION_JSON));
 
@@ -211,6 +221,7 @@ public class UserControllerTest {
 		String userDtoJson = objectMapper.writeValueAsString(userDto);
 		MvcResult result = mockMvc.perform(
 				put("/api/users/forgot-password/update")
+						.with(csrf())
 						.content(userDtoJson)
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
@@ -219,6 +230,6 @@ public class UserControllerTest {
 
 		assertNull(user.getToken());
 		assertNull(user.getTokenExpirationDate());
-		assertEquals(expectedPassword, user.getPassword());
+		verify(passwordEncoder, times(1)).encode(expectedPassword);
 	}
 }

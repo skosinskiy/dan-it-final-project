@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -24,12 +25,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
+@WithMockUser(value = "first.user@test.com")
 public class BusinessControllerTest {
   @Autowired
   private MockMvc mockMvc;
@@ -96,6 +99,7 @@ public class BusinessControllerTest {
 
     MvcResult result = mockMvc.perform(
         post("/api/businesses")
+            .with(csrf())
             .content(businessJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -123,6 +127,7 @@ public class BusinessControllerTest {
 
     MvcResult result = mockMvc.perform(
         put("/api/businesses/1")
+            .with(csrf())
             .content(userJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -136,7 +141,7 @@ public class BusinessControllerTest {
 
   @Test
   public void deleteBusiness() throws Exception {
-    mockMvc.perform(delete("/api/businesses/2"));
+    mockMvc.perform(delete("/api/businesses/2").with(csrf()));
 
     assertNull(businessService.getBusinessById(2L));
   }
@@ -154,6 +159,7 @@ public class BusinessControllerTest {
 
     MvcResult result = mockMvc.perform(
         post("/api/businesses/2/photos")
+            .with(csrf())
             .content(businessPhotoJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -170,7 +176,7 @@ public class BusinessControllerTest {
 
   @Test
   public void deletePlace() throws Exception {
-    mockMvc.perform(delete("/api/businesses/1/photos/1"));
+    mockMvc.perform(delete("/api/businesses/1/photos/1").with(csrf()));
 
     assertNull(businessPhotoService.getBusinessPhotoById(1L));
   }

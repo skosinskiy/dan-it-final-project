@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -20,12 +21,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
+@WithMockUser(value = "first.user@test.com")
 public class RoleControllerTest {
 
   @Autowired
@@ -65,6 +68,7 @@ public class RoleControllerTest {
 
     MvcResult result = mockMvc.perform(
         post("/api/roles")
+            .with(csrf())
             .content(roleJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -91,6 +95,7 @@ public class RoleControllerTest {
 
     MvcResult result = mockMvc.perform(
         put("/api/roles/1")
+            .with(csrf())
             .content(roleJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -107,7 +112,7 @@ public class RoleControllerTest {
     int expectedRolesSize = 1;
     User user = userService.getUserById(2L);
 
-    mockMvc.perform(delete("/api/roles/1"));
+    mockMvc.perform(delete("/api/roles/1").with(csrf()));
 
     assertNull(roleService.getRoleById(1L));
     assertEquals(expectedRolesSize, roleService.getAllRoles().size());

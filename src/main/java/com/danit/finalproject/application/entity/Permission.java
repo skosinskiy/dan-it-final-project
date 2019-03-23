@@ -1,18 +1,16 @@
 package com.danit.finalproject.application.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import org.springframework.security.core.GrantedAuthority;
 
-@Entity
-@Table(name = "permissions")
-@Data
-@NoArgsConstructor
-public class Permission extends BaseEntity {
+public enum Permission implements GrantedAuthority {
+  MANAGE_USER_ROLES,
+  MANAGE_BUILDING_TYPES,
+  MANAGE_ROLES,
+  MANAGE_BUSINESS_CATEGORIES,
+  MANAGE_PLACE_CATEGORIES;
 
-  @Column(name = "name")
-  private String name;
-
+  @Override
+  public String getAuthority() {
+    return this.toString();
+  }
 }
