@@ -35,8 +35,8 @@ VALUES
 INSERT INTO menu_items
   (id, date_created, date_modified, name, display_name)
 VALUES
-  (1, '2019-03-21 01:15:00', '2019-03-21 02:55:50', 'Shops', 'The Bazar'),
-  (2, '2019-03-22 06:25:00', '2019-03-22 07:05:02', 'Restaurants', 'Healthy food zone');
+  (1, '2019-03-21 01:15:00', '2019-03-21 02:55:50', 'SHOPS', 'The Bazar'),
+  (2, '2019-03-22 06:25:00', '2019-03-22 07:05:02', 'RESTAURANTS', 'Healthy food zone');
 
 -- place
 

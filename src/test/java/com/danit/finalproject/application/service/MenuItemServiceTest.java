@@ -2,15 +2,18 @@ package com.danit.finalproject.application.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.danit.finalproject.application.entity.MenuItem;
+import com.danit.finalproject.application.entity.menuItem.MenuItem;
+import com.danit.finalproject.application.entity.menuItem.MenuItemName;
 import com.danit.finalproject.application.repository.MenuItemRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,9 +38,9 @@ public class MenuItemServiceTest {
 
   @Before
   public void initMenuItemMocks() throws ParseException {
-    final String MOCK_NAME_1 = "Shops";
+    final MenuItemName MOCK_NAME_1 = MenuItemName.SHOPS;
     final String MOCK_DISPLAY_NAME_1 = "The Bazar";
-    final String MOCK_NAME_2 = "Restaurants";
+    final MenuItemName MOCK_NAME_2 = MenuItemName.RESTAURANTS;
     final String MOCK_DISPLAY_NAME_2 = "Healthy food zone";
     final String SIMPLE_DATE_FORMAT_PATTERN = "YYYY-MM-DD hh:mm:ss";
     mockMenuItem1 = new MenuItem() {{
@@ -77,11 +80,24 @@ public class MenuItemServiceTest {
 
   @Test
   public void verifySaveOnUpdateCalledOnce() {
-    final String newName = "Services";
+    final MenuItemName newName = MenuItemName.SERVICES;
     mockMenuItem1.setName(newName);
     when(menuItemRepository.save(mockMenuItem1)).thenReturn(mockMenuItem1);
     MenuItem updatedMenuItem = menuItemService.updateMenuItem(1L, mockMenuItem1);
     verify(menuItemRepository, times(1)).save(mockMenuItem1);
     assertEquals(newName, updatedMenuItem.getName());
+  }
+
+  @Test
+  public void getAvailableMenuItemNames() {
+    final ArrayList<MenuItemName> expectedMenuItemNames = new ArrayList<MenuItemName>() {{
+      add(MenuItemName.KIDS);
+      add(MenuItemName.RESTAURANTS);
+      add(MenuItemName.SERVICES);
+      add(MenuItemName.SHOPS);
+      add(MenuItemName.SPORT);
+    }};
+    assertTrue(Arrays.asList(MenuItemName.values()).stream()
+        .allMatch(name -> expectedMenuItemNames.contains(name)));
   }
 }

@@ -1,9 +1,12 @@
 package com.danit.finalproject.application.controller.place;
 
+import com.danit.finalproject.application.entity.menuItem.MenuItemName;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlacePhoto;
+import com.danit.finalproject.application.service.MenuItemService;
 import com.danit.finalproject.application.service.place.PlacePhotoService;
 import com.danit.finalproject.application.service.place.PlaceService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,18 +17,25 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/places")
 public class PlaceController {
+
   private PlaceService placeService;
   private PlacePhotoService placePhotoService;
+  private MenuItemService menuItemService;
 
   @Autowired
-  public PlaceController(PlaceService placeService, PlacePhotoService placePhotoService) {
+  public PlaceController(PlaceService placeService, PlacePhotoService placePhotoService,
+      MenuItemService menuItemService) {
     this.placeService = placeService;
     this.placePhotoService = placePhotoService;
+    this.menuItemService = menuItemService;
+  }
+
+  @GetMapping("/available")
+  public List<MenuItemName> getAvailableMenuItemNames(){
+    return menuItemService.getAvailableMenuItemNames();
   }
 
   @GetMapping("{id}")
@@ -54,12 +64,13 @@ public class PlaceController {
   }
 
   @PostMapping("/{placeId}/photos")
-  public PlacePhoto addPhotosToPlace(@RequestBody PlacePhoto placePhoto, @PathVariable("placeId") Long placeId) {
+  public PlacePhoto addPhotosToPlace(@RequestBody PlacePhoto placePhoto,
+      @PathVariable("placeId") Long placeId) {
     return placePhotoService.createNewPlacePhoto(placePhoto, placeId);
   }
 
   @DeleteMapping("/{placeId}/photos/{photoId}")
-  public void deletePhoto(@PathVariable("photoId") Long photoId ) {
+  public void deletePhoto(@PathVariable("photoId") Long photoId) {
     placePhotoService.deletePlacePhoto(photoId);
   }
 }

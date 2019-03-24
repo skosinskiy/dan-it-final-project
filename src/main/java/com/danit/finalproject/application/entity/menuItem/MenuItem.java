@@ -1,7 +1,10 @@
-package com.danit.finalproject.application.entity;
+package com.danit.finalproject.application.entity.menuItem;
 
+import com.danit.finalproject.application.entity.BaseEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +18,8 @@ import lombok.NoArgsConstructor;
 public class MenuItem extends BaseEntity {
 
   @Column(name = "name")
-  private String name;
+  @Enumerated(EnumType.STRING)
+  private MenuItemName name;
 
   @Column(name = "display_name")
   private String displayName;
