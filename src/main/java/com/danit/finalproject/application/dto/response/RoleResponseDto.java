@@ -8,7 +8,6 @@ import lombok.ToString;
 import java.util.List;
 
 @Data
-@ToString
 public class RoleResponseDto {
 
   private Long id;

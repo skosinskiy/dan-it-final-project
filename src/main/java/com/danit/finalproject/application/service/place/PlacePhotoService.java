@@ -2,7 +2,6 @@ package com.danit.finalproject.application.service.place;
 
 import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.repository.place.PlacePhotoRepository;
-import com.danit.finalproject.application.repository.place.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

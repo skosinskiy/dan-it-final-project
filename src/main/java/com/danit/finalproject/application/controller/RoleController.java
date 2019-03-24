@@ -2,9 +2,7 @@ package com.danit.finalproject.application.controller;
 
 import com.danit.finalproject.application.dto.request.RoleRequestDto;
 import com.danit.finalproject.application.dto.response.RoleResponseDto;
-import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.facade.RoleFacade;
-import com.danit.finalproject.application.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

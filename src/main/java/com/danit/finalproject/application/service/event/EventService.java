@@ -33,12 +33,12 @@ public class EventService implements CrudService<Event> {
 
   @Override
   public List<Event> getAll() {
-    return null;
+    return eventRepository.findAll();
   }
 
   public List<Event> findAllByLocation(Long placeId, Long businessId) {
     return eventRepository.findAllByPlaceAndBusiness(placeService.getById(placeId), businessService
-        .getBusinessById(businessId));
+        .getById(businessId));
   }
 
   @Override

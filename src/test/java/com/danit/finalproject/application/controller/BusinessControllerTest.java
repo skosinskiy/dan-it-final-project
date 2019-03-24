@@ -1,5 +1,6 @@
 package com.danit.finalproject.application.controller;
 
+import com.danit.finalproject.application.dto.response.business.BusinessResponseDto;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.entity.business.BusinessPhoto;
@@ -60,7 +61,7 @@ public class BusinessControllerTest {
     MvcResult result = mockMvc.perform(get("/api/businesses/1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    Business business = objectMapper.readValue(responseBody, Business.class);
+    BusinessResponseDto business = objectMapper.readValue(responseBody, BusinessResponseDto.class);
 
     assertEquals(expectedId, business.getId());
     assertEquals(expectedName, business.getTitle());
@@ -74,7 +75,8 @@ public class BusinessControllerTest {
     MvcResult result = mockMvc.perform(get("/api/businesses?placeId=1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<Business> businesses = objectMapper.readValue(responseBody, new TypeReference<List<Business>>(){});
+    List<BusinessResponseDto> businesses
+        = objectMapper.readValue(responseBody, new TypeReference<List<BusinessResponseDto>>(){});
 
     assertEquals(expectedSize, businesses.size());
     assertEquals(secondCategoryName, businesses.get(1).getTitle());
@@ -91,8 +93,8 @@ public class BusinessControllerTest {
     business.setPlace(placeService.getById(2L));
 
     List<BusinessCategory> businessCategories = new ArrayList<>();
-    businessCategories.add(businessCategoryService.getBusinessCategoryById(1L));
-    businessCategories.add(businessCategoryService.getBusinessCategoryById(2L));
+    businessCategories.add(businessCategoryService.getById(1L));
+    businessCategories.add(businessCategoryService.getById(2L));
     business.setCategories(businessCategories);
 
     String businessJson = objectMapper.writeValueAsString(business);
@@ -104,14 +106,12 @@ public class BusinessControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    Business createdBusiness = objectMapper.readValue(responseBody, Business.class);
+    BusinessResponseDto createdBusiness = objectMapper.readValue(responseBody, BusinessResponseDto.class);
     Long createdBUsinessId= createdBusiness.getId();
 
     assertEquals(expectedName, createdBusiness.getTitle());
-    assertNotNull(createdBusiness.getCreatedDate());
-    assertNotNull(createdBusiness.getModifiedDate());
     assertNotNull(createdBUsinessId);
-    assertEquals(createdBusiness.getCategories().get(0).getId(), businessCategoryService.getBusinessCategoryById(1L).getId());
+    assertEquals(createdBusiness.getCategories().get(0).getId(), businessCategoryService.getById(1L).getId());
     assertEquals(createdBusiness.getPlace().getId(), placeService.getById(2L).getId());
  }
 
@@ -119,7 +119,7 @@ public class BusinessControllerTest {
   public void updateBusiness() throws Exception {
     String businessTitle = "Updated";
     Long businesssId = 1L;
-    Business business = businessService.getBusinessById(businesssId);
+    Business business = businessService.getById(businesssId);
     business.setTitle(businessTitle);
     business.setPlace(placeService.getById(2L));
 
@@ -132,10 +132,10 @@ public class BusinessControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    Business upgatedBusiness = objectMapper.readValue(responseBody, Business.class);
+    BusinessResponseDto upgatedBusiness = objectMapper.readValue(responseBody, BusinessResponseDto.class);
 
     assertEquals(businessTitle, upgatedBusiness.getTitle());
-    assertEquals(businessTitle, businessService.getBusinessById(businesssId).getTitle());
+    assertEquals(businessTitle, businessService.getById(businesssId).getTitle());
     assertEquals(upgatedBusiness.getPlace().getId(), placeService.getById(2L).getId());
   }
 
@@ -143,7 +143,7 @@ public class BusinessControllerTest {
   public void deleteBusiness() throws Exception {
     mockMvc.perform(delete("/api/businesses/2").with(csrf()));
 
-    assertNull(businessService.getBusinessById(2L));
+    assertNull(businessService.getById(2L));
   }
 
   @Test
@@ -164,14 +164,10 @@ public class BusinessControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    BusinessPhoto createdBUsinessPhoto = objectMapper.readValue(responseBody, BusinessPhoto.class);
-    Long createdBusinessPhotoId= createdBUsinessPhoto.getId();
+    BusinessResponseDto updatedBusiness = objectMapper.readValue(responseBody, BusinessResponseDto.class);
 
-    assertEquals(expectedName, createdBUsinessPhoto.getPhoto());
-    assertNotNull(createdBUsinessPhoto.getCreatedDate());
-    assertNotNull(createdBUsinessPhoto.getModifiedDate());
-    assertNotNull(createdBusinessPhotoId);
-    assertEquals(createdBUsinessPhoto.getBusiness().getId(), businessService.getBusinessById(2L).getId());
+    assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getPhoto().equals(expectedName)));
+    assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getId().equals(expectedId)));
   }
 
   @Test

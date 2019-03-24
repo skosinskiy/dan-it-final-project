@@ -26,7 +26,7 @@ public class NotificationService implements CrudService<Notification> {
 
   @Override
   public List<Notification> getAll() {
-    return null;
+    return notificationRepository.findAll();
   }
 
   public List<Notification> findAllByPlace(Long placeId) {

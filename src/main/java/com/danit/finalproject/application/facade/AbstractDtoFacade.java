@@ -60,8 +60,4 @@ public abstract class AbstractDtoFacade<E extends BaseEntity, I, O> {
     return modelMapper.map(entityList, new TypeToken<List<O>>(){}.getType());
   }
 
-  protected List<E> mapRequestDtoListToEntityList(List<I> dtoList) {
-    return modelMapper.map(dtoList, new TypeToken<List<E>>(){}.getType());
-  }
-
 }

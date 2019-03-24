@@ -77,7 +77,7 @@ public class NotificationControllerTest {
     notification.setId(expectedId);
     notification.setText(expectedText);
     notification.setPlace(place);
-    notification.setBusiness(businessService.getBusinessById(1L));
+    notification.setBusiness(businessService.getById(1L));
     notification.setEvent(eventService.getById(1L));
 
     String notificationJson = objectMapper.writeValueAsString(notification);
@@ -94,7 +94,7 @@ public class NotificationControllerTest {
 
     assertEquals(expectedText, createdNotification.getText());
     assertNotNull(createdNotificationId);
-    assertEquals(createdNotification.getBusiness().getId(), businessService.getBusinessById(1L).getId());
+    assertEquals(createdNotification.getBusiness().getId(), businessService.getById(1L).getId());
     assertEquals(createdNotification.getEvent().getId(), eventService.getById(1L).getId());
     assertEquals(createdNotification.getPlace().getId(), placeService.getById(1L).getId());
   }
@@ -106,7 +106,7 @@ public class NotificationControllerTest {
     Notification notification = notificationService.getById(notificationId);
     notification.setText(notificationText);
 
-    notification.setBusiness(businessService.getBusinessById(2L));
+    notification.setBusiness(businessService.getById(2L));
     notification.setEvent(eventService.getById(2L));
     notification.setPlace(placeService.getById(2L));
 
@@ -123,7 +123,7 @@ public class NotificationControllerTest {
 
     assertEquals(notificationText, upgatedNotification.getText());
     assertEquals(notificationText, notificationService.getById(notificationId).getText());
-    assertEquals(businessService.getBusinessById(2L).getId(), upgatedNotification.getBusiness().getId());
+    assertEquals(businessService.getById(2L).getId(), upgatedNotification.getBusiness().getId());
     assertEquals(eventService.getById(2L).getId(), upgatedNotification.getEvent().getId());
     assertEquals(placeService.getById(2L).getId(), upgatedNotification.getEvent().getId());
   }

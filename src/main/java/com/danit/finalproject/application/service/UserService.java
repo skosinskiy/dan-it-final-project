@@ -58,7 +58,7 @@ public class UserService implements UserDetailsService, CrudService<User> {
 
   @Override
   public List<User> getAll() {
-    return null;
+    return userRepository.findAll();
   }
 
   public List<User> getUsersByEmail(String email) {

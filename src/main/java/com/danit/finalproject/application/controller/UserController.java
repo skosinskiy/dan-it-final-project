@@ -4,8 +4,6 @@ import com.danit.finalproject.application.dto.request.RoleRequestDto;
 import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
 import com.danit.finalproject.application.dto.request.UserRequestDto;
 import com.danit.finalproject.application.dto.response.UserResponseDto;
-import com.danit.finalproject.application.entity.Role;
-import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.facade.UserFacade;
 import com.danit.finalproject.application.service.UserService;
 

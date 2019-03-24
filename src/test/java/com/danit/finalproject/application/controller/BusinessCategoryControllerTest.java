@@ -1,6 +1,9 @@
 package com.danit.finalproject.application.controller;
 
+import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponseDto;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
+import com.danit.finalproject.application.facade.business.BusinessCategoryFacade;
+import com.danit.finalproject.application.facade.business.BusinessFacade;
 import com.danit.finalproject.application.service.business.BusinessCategoryService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +40,9 @@ public class BusinessCategoryControllerTest {
   @Autowired
   private BusinessCategoryService businessCategoryService;
 
+  @Autowired
+  private BusinessCategoryFacade businessCategoryFacade;
+
   @Test
   public void getBusinessCategoryById() throws Exception {
     Long expectedId = 1L;
@@ -45,7 +51,7 @@ public class BusinessCategoryControllerTest {
     MvcResult result = mockMvc.perform(get("/api/business-categories/1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    BusinessCategory businessCategory = objectMapper.readValue(responseBody, BusinessCategory.class);
+    BusinessCategoryResponseDto businessCategory = objectMapper.readValue(responseBody, BusinessCategoryResponseDto.class);
 
     assertEquals(expectedId, businessCategory.getId());
     assertEquals(expectedName, businessCategory.getName());
@@ -59,23 +65,24 @@ public class BusinessCategoryControllerTest {
     MvcResult result = mockMvc.perform(get("/api/business-categories"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<BusinessCategory> categories = objectMapper.readValue(responseBody, new TypeReference<List<BusinessCategory>>(){});
+    List<BusinessCategoryResponseDto> categories =
+        objectMapper.readValue(responseBody, new TypeReference<List<BusinessCategoryResponseDto>>(){});
 
     assertEquals(expectedSize, categories.size());
     assertEquals(secondCategoryName, categories.get(1).getName());
-    assertEquals(businessCategoryService.getBusinessCategoryById(1L).getId(), categories.get(1).getParentCategory().getId());
+    assertEquals(businessCategoryService.getById(1L).getId(), categories.get(1).getParentCategory().getId());
   }
 
   @Test
   public void createNewPlaceCategory() throws Exception {
     Long expectedId = 3L;
     String expectedName = "business-category-3";
-    BusinessCategory expectedParent = businessCategoryService.getBusinessCategoryById(2L);
+    BusinessCategoryResponseDto expectedParent = businessCategoryFacade.getById(2L);
 
     BusinessCategory businessCategory = new BusinessCategory();
     businessCategory.setId(expectedId);
     businessCategory.setName(expectedName);
-    businessCategory.setParentCategory(businessCategoryService.getBusinessCategoryById(2L));
+    businessCategory.setParentCategory(businessCategoryService.getById(2L));
     String businessCategoryJson = objectMapper.writeValueAsString(businessCategory);
 
     MvcResult result = mockMvc.perform(
@@ -85,22 +92,21 @@ public class BusinessCategoryControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    BusinessCategory createdBusinessCategory = objectMapper.readValue(responseBody, BusinessCategory.class);
+    BusinessCategoryResponseDto createdBusinessCategory
+        = objectMapper.readValue(responseBody, BusinessCategoryResponseDto.class);
     Long createdBusinesCategoryId= createdBusinessCategory.getId();
 
     assertEquals(expectedName, createdBusinessCategory.getName());
     assertEquals(expectedParent, createdBusinessCategory.getParentCategory());
-    assertNotNull(createdBusinessCategory.getCreatedDate());
-    assertNotNull(createdBusinessCategory.getModifiedDate());
     assertNotNull(createdBusinesCategoryId);
-    assertNotNull(businessCategoryService.getBusinessCategoryById(createdBusinesCategoryId));
+    assertNotNull(businessCategoryService.getById(createdBusinesCategoryId));
   }
 
   @Test
   public void updateBusinessCategory() throws Exception {
     String businessCategoryName = "Updated";
     Long businessCategoryId = 2L;
-    BusinessCategory businessCategory = businessCategoryService.getBusinessCategoryById(businessCategoryId);
+    BusinessCategory businessCategory = businessCategoryService.getById(businessCategoryId);
     businessCategory.setName(businessCategoryName);
     businessCategory.setParentCategory(null);
     String userJson = objectMapper.writeValueAsString(businessCategory);
@@ -112,17 +118,18 @@ public class BusinessCategoryControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    BusinessCategory upgatedBusinesCategory = objectMapper.readValue(responseBody, BusinessCategory.class);
+    BusinessCategoryResponseDto updatedBusinessCategory =
+        objectMapper.readValue(responseBody, BusinessCategoryResponseDto.class);
 
-    assertEquals(businessCategoryName, upgatedBusinesCategory.getName());
-    assertEquals(businessCategoryName, businessCategoryService.getBusinessCategoryById(businessCategoryId).getName());
-    assertNull(upgatedBusinesCategory.getParentCategory());
+    assertEquals(businessCategoryName, updatedBusinessCategory.getName());
+    assertEquals(businessCategoryName, businessCategoryService.getById(businessCategoryId).getName());
+    assertNull(updatedBusinessCategory.getParentCategory());
   }
 
   @Test
   public void deleteBusinessCategory() throws Exception {
     mockMvc.perform(delete("/api/business-categories/2").with(csrf()));
 
-    assertNull(businessCategoryService.getBusinessCategoryById(2L));
+    assertNull(businessCategoryService.getById(2L));
   }
 }
