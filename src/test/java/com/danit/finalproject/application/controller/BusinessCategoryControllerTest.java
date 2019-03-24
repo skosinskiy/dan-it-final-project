@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -18,12 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
+@WithMockUser(value = "first.user@test.com")
 public class BusinessCategoryControllerTest {
   @Autowired
   private MockMvc mockMvc;
@@ -77,6 +80,7 @@ public class BusinessCategoryControllerTest {
 
     MvcResult result = mockMvc.perform(
         post("/api/business-categories/")
+            .with(csrf())
             .content(businessCategoryJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -103,6 +107,7 @@ public class BusinessCategoryControllerTest {
 
     MvcResult result = mockMvc.perform(
         put("/api/business-categories/1")
+            .with(csrf())
             .content(userJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -116,7 +121,7 @@ public class BusinessCategoryControllerTest {
 
   @Test
   public void deleteBusinessCategory() throws Exception {
-    mockMvc.perform(delete("/api/business-categories/2"));
+    mockMvc.perform(delete("/api/business-categories/2").with(csrf()));
 
     assertNull(businessCategoryService.getBusinessCategoryById(2L));
   }
