@@ -44,13 +44,13 @@ public class PlaceController {
   }
 
   @PutMapping("{id}")
-  public Place updatePlace(@RequestBody Place place) {
-    return placeService.updatePlace(place);
+  public Place updatePlace(@PathVariable("id") Long placeId, @RequestBody Place place) {
+    return placeService.updatePlace(place, placeId);
   }
 
   @DeleteMapping("{id}")
-  public void deletePlace(@PathVariable("id") Long placeId) {
-    placeService.deletePlace(placeId);
+  public Place deletePlace(@PathVariable("id") Long placeId) {
+    return placeService.deletePlace(placeId);
   }
 
   @PostMapping("/{placeId}/photos")

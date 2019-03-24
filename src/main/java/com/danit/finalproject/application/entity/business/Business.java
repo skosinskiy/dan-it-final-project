@@ -64,4 +64,10 @@ public class Business extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "place_id")
   private Place place;
+
+
+  @OneToMany(mappedBy = "business", cascade = CascadeType.REMOVE)
+  @ToString.Exclude
+  @JsonIgnore
+  private List<Event> events;
 }
