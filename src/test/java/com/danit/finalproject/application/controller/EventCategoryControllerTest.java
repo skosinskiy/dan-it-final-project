@@ -2,6 +2,7 @@ package com.danit.finalproject.application.controller;
 
 import com.danit.finalproject.application.dto.response.event.EventCategoryResponseDto;
 import com.danit.finalproject.application.entity.event.EventCategory;
+import com.danit.finalproject.application.facade.event.EventCategoryFacade;
 import com.danit.finalproject.application.service.event.EventCategoryService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,6 +39,9 @@ public class EventCategoryControllerTest {
   @Autowired
   private EventCategoryService eventCategoryService;
 
+  @Autowired
+  private EventCategoryFacade eventCategoryFacade;
+
   @Test
   public void getEventCategoryById() throws Exception {
     Long expectedId = 1L;
@@ -71,7 +75,7 @@ public class EventCategoryControllerTest {
   public void createNewPlaceCategory() throws Exception {
     Long expectedId = 3L;
     String expectedName = "event-category-3";
-    EventCategory expectedParent = eventCategoryService.getById(2L);
+    EventCategoryResponseDto expectedParent = eventCategoryFacade.getById(2L);
 
     EventCategory eventCategory = new EventCategory();
     eventCategory.setId(expectedId);
@@ -90,7 +94,7 @@ public class EventCategoryControllerTest {
     Long createdEventCategoryId= createdEventCategory.getId();
 
     assertEquals(expectedName, createdEventCategory.getName());
-    assertEquals(expectedParent, createdEventCategory.getParentCategory());
+    assertEquals(expectedParent,  createdEventCategory.getParentCategory());
     assertNotNull(createdEventCategoryId);
     assertNotNull(eventCategoryService.getById(createdEventCategoryId));
   }
