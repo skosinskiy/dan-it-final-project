@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Switch } from 'react-router-dom'
-import AddBusinessCategory from '../../AddBusinessCategory'
+import AddBusinessCategory from '../../ManageBusinessCategory'
 import ManaginrUserRoles from '../../ManagingUserRoles'
 import Places from '../../SidebarMenu/Places'
 import PlaceForm from '../../SidebarMenu/Places/PLaceForm'
