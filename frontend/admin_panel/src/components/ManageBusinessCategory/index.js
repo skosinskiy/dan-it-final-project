@@ -8,7 +8,6 @@ import Button from '@material-ui/core/Button'
 import {getAllBusinessCategories, handleSubmit} from '../../actions/businessCategories'
 import {connect} from 'react-redux'
 import Preloader from '../Preloader'
-import FormControl from '@material-ui/core/es/FormControl/FormControl'
 
 const styles = theme => ({
   root: {
@@ -34,16 +33,39 @@ class ManageBusinessCategory extends React.Component {
   }
 
   state = {
-    category: ''
+    category: {
+      name: '',
+      parentCategory: {
+        name: '',
+        parentCategory: null
+      }
+    }
   }
 
   handleChange = prop => event => {
-    this.setState({ [prop]: event.target.value })
+    if (prop === 'name') {
+      this.setState({
+        category: {
+          parentCategory: this.state.category.parentCategory,
+          [prop]: event.target.value
+        }
+      }
+      )
+    } else {
+      this.setState({
+        category: {
+          name: this.state.category.name,
+          [prop]: this.props.allBusinessCategories.find(category => category.name === event.target.value)
+        }
+      }
+      )
+    }
   };
 
   render () {
     const { classes, allBusinessCategories } = this.props
-
+    const { category } = this.state
+    console.log(category)
     if (!allBusinessCategories) {
       return (
         <Preloader/>
@@ -51,20 +73,21 @@ class ManageBusinessCategory extends React.Component {
     }
 
     return (
-      <form onSubmit={this.props.handleSubmit} className={classes.root}>
+      <form onSubmit={(event) => this.props.handleSubmit(event, category)} className={classes.root}>
         <TextField
           id="outlined-simple-start-adornment"
           className={classNames(classes.margin, classes.textField)}
           variant="outlined"
           label="Business Category Title"
+          onChange={this.handleChange('name')}
         />
         <TextField
           select
           className={classNames(classes.margin, classes.textField)}
           variant="outlined"
           label="Select Parent Category"
-          value={this.state.category}
-          onChange={this.handleChange('category')}
+          value={this.state.category.parentCategory.name}
+          onChange={this.handleChange('parentCategory')}
         >
           {allBusinessCategories.map(category => (
             <MenuItem key={category.id} value={category.name}>
@@ -97,7 +120,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllBusinessCategories: () => dispatch(getAllBusinessCategories()),
     // handleChange: () => dispatch(handleChange())
-    handleSubmit: (event) => dispatch(handleSubmit(event))
+    handleSubmit: (event, category) => dispatch(handleSubmit(event, category))
   }
 }
 
