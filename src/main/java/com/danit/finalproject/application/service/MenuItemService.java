@@ -1,7 +1,7 @@
 package com.danit.finalproject.application.service;
 
-import com.danit.finalproject.application.entity.menuItem.MenuItem;
-import com.danit.finalproject.application.entity.menuItem.MenuItemName;
+import com.danit.finalproject.application.entity.menuitem.MenuItem;
+import com.danit.finalproject.application.entity.menuitem.MenuItemName;
 import com.danit.finalproject.application.repository.MenuItemRepository;
 import java.util.Arrays;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.danit.finalproject.application.entity.menuItem;
+package com.danit.finalproject.application.entity.menuitem;
 
 import com.danit.finalproject.application.entity.BaseEntity;
 import javax.persistence.Column;

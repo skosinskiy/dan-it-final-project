@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.entity.menuItem.MenuItem;
+import com.danit.finalproject.application.entity.menuitem.MenuItem;
 import com.danit.finalproject.application.service.MenuItemService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

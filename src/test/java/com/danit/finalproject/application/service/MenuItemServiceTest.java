@@ -7,8 +7,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.danit.finalproject.application.entity.menuItem.MenuItem;
-import com.danit.finalproject.application.entity.menuItem.MenuItemName;
+import com.danit.finalproject.application.entity.menuitem.MenuItem;
+import com.danit.finalproject.application.entity.menuitem.MenuItemName;
 import com.danit.finalproject.application.repository.MenuItemRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

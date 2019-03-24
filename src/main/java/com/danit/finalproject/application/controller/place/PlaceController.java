@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.controller.place;
 
-import com.danit.finalproject.application.entity.menuItem.MenuItemName;
+import com.danit.finalproject.application.entity.menuitem.MenuItemName;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.service.MenuItemService;
@@ -34,7 +34,7 @@ public class PlaceController {
   }
 
   @GetMapping("/available")
-  public List<MenuItemName> getAvailableMenuItemNames(){
+  public List<MenuItemName> getAvailableMenuItemNames() {
     return menuItemService.getAvailableMenuItemNames();
   }
 
