@@ -2,6 +2,7 @@ package com.danit.finalproject.application.dto.response;
 
 import com.danit.finalproject.application.dto.response.place.PlaceResponseDto;
 import com.danit.finalproject.application.entity.Gender;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.util.Date;
@@ -12,6 +13,7 @@ public class UserResponseDto {
 
   private Long id;
   private String email;
+  @JsonIgnore
   private String password;
   private String photo;
   private String firstName;

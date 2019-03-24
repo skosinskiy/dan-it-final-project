@@ -81,7 +81,7 @@ public class UserServiceTest {
 		String expectedEmail = "first.user@test.com";
 
 		when(userRepository.findById(expectedId)).thenReturn(Optional.of(firstMockUser));
-		User user = userService.getUserById(expectedId);
+		User user = userService.getById(expectedId);
 
 		verify(userRepository, times(1)).findById(expectedId);
 		assertEquals(expectedId, user.getId());
@@ -114,7 +114,7 @@ public class UserServiceTest {
 		firstMockUser.setAge(expectedUserAge);
 		firstMockUser.setEmail(expectedUserEmail);
 		when(userRepository.save(firstMockUser)).thenReturn(firstMockUser);
-		User createdUser = userService.createUser(firstMockUser);
+		User createdUser = userService.create(firstMockUser);
 
 		Long createdUserId = createdUser.getId();
 
@@ -134,7 +134,7 @@ public class UserServiceTest {
 
 		firstMockUser.setFirstName(userFirstName);
 		when(userRepository.save(firstMockUser)).thenReturn(firstMockUser);
-		User updatedUser = userService.updateUser(userId, firstMockUser);
+		User updatedUser = userService.update(userId, firstMockUser);
 
 		verify(userRepository, times(1)).save(firstMockUser);
 		assertEquals(userFirstName, updatedUser.getFirstName());
@@ -143,7 +143,7 @@ public class UserServiceTest {
 	@Test
 	public void verifyDeleteCalledOnce() {
 		when(userRepository.findById(2L)).thenReturn(Optional.of(secondMockUser));
-		userService.deleteUser(2L);
+		userService.delete(2L);
 
 		verify(userRepository, times(1)).delete(secondMockUser);
 	}

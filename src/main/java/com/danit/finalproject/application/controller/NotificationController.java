@@ -1,7 +1,8 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.entity.Notification;
-import com.danit.finalproject.application.service.NotificationService;
+import com.danit.finalproject.application.dto.request.NotificationRequestDto;
+import com.danit.finalproject.application.dto.response.NotificationResponseDto;
+import com.danit.finalproject.application.facade.NotificationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,30 +19,33 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/notifications")
 public class NotificationController {
-  private NotificationService notificationService;
+
+  private NotificationFacade notificationFacade;
 
   @Autowired
-  public NotificationController(NotificationService notificationService) {
-    this.notificationService = notificationService;
+  public NotificationController(NotificationFacade notificationFacade) {
+    this.notificationFacade = notificationFacade;
   }
 
   @GetMapping
-  public List<Notification> findAllNotificationsByPlace(@RequestParam("placeId") Long id) {
-    return notificationService.findAllByPlace(id);
+  public List<NotificationResponseDto> findAllNotificationsByPlace(@RequestParam("placeId") Long id) {
+    return notificationFacade.findAllByPlace(id);
   }
 
-  @PostMapping("/places/{placeId}")
-  public Notification createNewNotification(@RequestBody Notification notification, @PathVariable("placeId") Long placeId) {
-    return notificationService.createNewNotification(notification, placeId);
+  @PostMapping("/places")
+  public NotificationResponseDto createNewNotification(@RequestBody NotificationRequestDto notificationDto) {
+    return notificationFacade.create(notificationDto);
   }
 
   @PutMapping("/{id}")
-  public Notification updateNotification(@RequestBody Notification notification, @PathVariable("id") Long id) {
-    return notificationService.updateNotification(notification, id);
+  public NotificationResponseDto updateNotification(
+      @RequestBody NotificationRequestDto notificationDto,
+      @PathVariable("id") Long id) {
+    return notificationFacade.update(id, notificationDto);
   }
 
   @DeleteMapping("{id}")
-  public void deleteNotification(@PathVariable("id") Long notificationId) {
-    notificationService.deleteNotification(notificationId);
+  public void deleteNotification(@PathVariable("id") Long id) {
+    notificationFacade.delete(id);
   }
 }

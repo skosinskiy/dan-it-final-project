@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class RoleService {
+public class RoleService implements CrudService<Role> {
 
   private RoleRepository roleRepository;
 
@@ -17,24 +17,29 @@ public class RoleService {
     this.roleRepository = roleRepository;
   }
 
-  public Role getRoleById(Long roleId) {
+  @Override
+  public Role getById(Long roleId) {
     return roleRepository.findById(roleId).orElse(null);
   }
 
-  public List<Role> getAllRoles() {
+  @Override
+  public List<Role> getAll() {
     return roleRepository.findAll();
   }
 
-  public Role createRole(Role role) {
+  @Override
+  public Role create(Role role) {
     return roleRepository.save(role);
   }
 
-  public Role updateRole(Long roleId, Role role) {
+  @Override
+  public Role update(Long roleId, Role role) {
     role.setId(roleId);
     return roleRepository.save(role);
   }
 
-  public Role deleteRole(Long roleId) {
+  @Override
+  public Role delete(Long roleId) {
     Role role = roleRepository.findById(roleId).orElse(null);
     if (role != null && role.getUsers() != null) {
       role.getUsers().forEach(user -> user.getRoles().remove(role));

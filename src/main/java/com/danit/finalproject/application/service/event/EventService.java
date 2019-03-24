@@ -1,16 +1,19 @@
 package com.danit.finalproject.application.service.event;
 
 import com.danit.finalproject.application.entity.event.Event;
+import com.danit.finalproject.application.entity.event.EventPhoto;
 import com.danit.finalproject.application.repository.event.EventRepository;
+import com.danit.finalproject.application.service.CrudService;
 import com.danit.finalproject.application.service.business.BusinessService;
 import com.danit.finalproject.application.service.place.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class EventService {
+public class EventService implements CrudService<Event> {
   private EventRepository eventRepository;
   private BusinessService businessService;
   private PlaceService    placeService;
@@ -23,24 +26,44 @@ public class EventService {
     this.placeService = placeService;
   }
 
-  public Event getEventById(Long id) {
+  @Override
+  public Event getById(Long id) {
     return eventRepository.findById(id).orElse(null);
   }
 
+  @Override
+  public List<Event> getAll() {
+    return null;
+  }
+
   public List<Event> findAllByLocation(Long placeId, Long businessId) {
-    return eventRepository.findAllByPlaceAndBusiness(placeService.getPlaceById(placeId), businessService
+    return eventRepository.findAllByPlaceAndBusiness(placeService.getById(placeId), businessService
         .getBusinessById(businessId));
   }
 
-  public Event createNewEvent(Event event) {
+  @Override
+  public Event create(Event event) {
     return eventRepository.save(event);
   }
 
-  public Event updateEvent(Event event) {
+  @Override
+  public Event update(Long id, Event event) {
+    event.setId(id);
     return eventRepository.saveAndFlush(event);
   }
 
-  public void deleteEvent(Long id) {
+  @Override
+  public Event delete(Long id) {
+    Event event = eventRepository.findById(id).orElse(null);
     eventRepository.deleteById(id);
+    return event;
+  }
+
+  public Event addPhoto(EventPhoto eventPhoto, Long eventId) {
+    Optional<Event> optionalEvent = eventRepository.findById(eventId);
+    optionalEvent.ifPresent(event -> event.getPhotos().add(eventPhoto));
+    Event event = optionalEvent.orElse(null);
+    eventRepository.save(event);
+    return event;
   }
 }

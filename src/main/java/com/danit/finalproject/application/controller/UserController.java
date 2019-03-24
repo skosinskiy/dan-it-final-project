@@ -1,8 +1,12 @@
 package com.danit.finalproject.application.controller;
 
+import com.danit.finalproject.application.dto.request.RoleRequestDto;
 import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
+import com.danit.finalproject.application.dto.request.UserRequestDto;
+import com.danit.finalproject.application.dto.response.UserResponseDto;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
+import com.danit.finalproject.application.facade.UserFacade;
 import com.danit.finalproject.application.service.UserService;
 
 import java.util.List;
@@ -25,45 +29,47 @@ import javax.validation.Valid;
 public class UserController {
 
   private UserService userService;
+  private UserFacade userFacade;
 
   @Autowired
-  public UserController(UserService userService) {
+  public UserController(UserService userService, UserFacade userFacade) {
     this.userService = userService;
+    this.userFacade = userFacade;
   }
 
   @GetMapping("{userId}")
-  public User getUserById(@PathVariable Long userId) {
-    return userService.getUserById(userId);
+  public UserResponseDto getUserById(@PathVariable Long userId) {
+    return userFacade.getById(userId);
   }
 
   @GetMapping("current")
-  public User getCurrentUser() {
-    return userService.getPrincipalUser();
+  public UserResponseDto getCurrentUser() {
+    return userFacade.getPrincipalUser();
   }
 
   @GetMapping
-  public List<User> getUsersByEmail(@RequestParam String email) {
-    return userService.getUsersByEmail(email);
+  public List<UserResponseDto> getUsersByEmail(@RequestParam String email) {
+    return userFacade.getUsersByEmail(email);
   }
 
   @PostMapping
-  public User createUser(@RequestBody User user) {
-    return userService.createUser(user);
+  public UserResponseDto createUser(@RequestBody UserRequestDto userRequestDto) {
+    return userFacade.create(userRequestDto);
   }
 
   @PutMapping("{userId}")
-  public User updateUser(@PathVariable Long userId, @RequestBody User user) {
-    return userService.updateUser(userId, user);
+  public UserResponseDto updateUser(@PathVariable Long userId, @RequestBody UserRequestDto userRequestDto) {
+    return userFacade.update(userId, userRequestDto);
   }
 
   @DeleteMapping("{userId}")
-  public User deleteUser(@PathVariable Long userId) {
-    return userService.deleteUser(userId);
+  public UserResponseDto deleteUser(@PathVariable Long userId) {
+    return userFacade.delete(userId);
   }
 
   @PutMapping("{userId}/roles")
-  public User setUserRoles(@PathVariable Long userId, @RequestBody List<Role> roles) {
-    return userService.setUserRoles(userId, roles);
+  public UserResponseDto setUserRoles(@PathVariable Long userId, @RequestBody List<RoleRequestDto> roles) {
+    return userFacade.setUserRoles(userId, roles);
   }
 
   @PutMapping("forgot-password/token")
@@ -72,8 +78,10 @@ public class UserController {
   }
 
   @PutMapping("forgot-password/update")
-  public User updatePassword(@RequestBody @Valid UpdateUserPasswordRequestDto userDto, BindingResult bindingResult) {
-    return userService.updateUserPassword(userDto, bindingResult);
+  public UserResponseDto updatePassword(
+      @RequestBody @Valid UpdateUserPasswordRequestDto userDto,
+      BindingResult bindingResult) {
+    return userFacade.updateUserPassword(userDto, bindingResult);
   }
 
 }

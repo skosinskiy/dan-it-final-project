@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
+import com.danit.finalproject.application.dto.response.UserResponseDto;
 import com.danit.finalproject.application.entity.Gender;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
@@ -70,7 +71,7 @@ public class UserControllerTest {
 		MvcResult result = mockMvc.perform(get("/api/users/1"))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		User user = objectMapper.readValue(responseBody, User.class);
+		UserResponseDto user = objectMapper.readValue(responseBody, UserResponseDto.class);
 		assertEquals(expectedId, user.getId());
 		assertEquals(expectedEmail, user.getEmail());
 	}
@@ -88,8 +89,8 @@ public class UserControllerTest {
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andReturn();
 
-    User responseUser = objectMapper
-        .readValue(response.getResponse().getContentAsString(), User.class);
+	  UserResponseDto responseUser = objectMapper
+        .readValue(response.getResponse().getContentAsString(), UserResponseDto.class);
 
     assertNotNull(responseUser);
     assertEquals(FIRST_NAME, responseUser.getFirstName());
@@ -130,22 +131,20 @@ public class UserControllerTest {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		User createdUser = objectMapper.readValue(responseBody, User.class);
+		UserResponseDto createdUser = objectMapper.readValue(responseBody, UserResponseDto.class);
 		Long createdUserId = createdUser.getId();
 
 		assertEquals(userAge, createdUser.getAge());
 		assertEquals(userEmail, createdUser.getEmail());
-		assertNotNull(createdUser.getCreatedDate());
-		assertNotNull(createdUser.getModifiedDate());
 		assertNotNull(createdUserId);
-		assertNotNull(userService.getUserById(createdUserId));
+		assertNotNull(userService.getById(createdUserId));
 	}
 
 	@Test
 	public void updateUser() throws Exception {
 		String userFirstName = "Updated";
 		Long userId = 2L;
-		User user = userService.getUserById(userId);
+		User user = userService.getById(userId);
 		user.setFirstName(userFirstName);
 		String userJson = objectMapper.writeValueAsString(user);
 
@@ -156,22 +155,22 @@ public class UserControllerTest {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		User updatedUser = objectMapper.readValue(responseBody, User.class);
+		UserResponseDto updatedUser = objectMapper.readValue(responseBody, UserResponseDto.class);
 
 		assertEquals(userFirstName, updatedUser.getFirstName());
-		assertEquals(userFirstName, userService.getUserById(userId).getFirstName());
+		assertEquals(userFirstName, userService.getById(userId).getFirstName());
 	}
 
 	@Test
 	public void deleteUser() throws Exception {
 		mockMvc.perform(delete("/api/users/2").with(csrf()));
 
-		assertNull(userService.getUserById(2L));
+		assertNull(userService.getById(2L));
 	}
 
 	@Test
 	public void setUserRoles() throws Exception {
-		List<Role> roles = roleService.getAllRoles();
+		List<Role> roles = roleService.getAll();
 		String rolesJson = objectMapper.writeValueAsString(roles);
 
 		MvcResult result = mockMvc.perform(
@@ -181,7 +180,7 @@ public class UserControllerTest {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		User user = objectMapper.readValue(responseBody, User.class);
+		UserResponseDto user = objectMapper.readValue(responseBody, UserResponseDto.class);
 
 		assertEquals(roles.size(), user.getRoles().size());
 		assertEquals(roles.get(0).getName(), user.getRoles().get(0).getName());
@@ -200,7 +199,7 @@ public class UserControllerTest {
 						.param("email", userEmail)
 						.contentType(MediaType.APPLICATION_JSON));
 
-		User user = userService.getUserById(userId);
+		User user = userService.getById(userId);
 
 		assertNotNull(user.getToken());
 		assertNotEquals(token, user.getToken());
@@ -226,7 +225,7 @@ public class UserControllerTest {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		User user = objectMapper.readValue(responseBody, User.class);
+		UserResponseDto user = objectMapper.readValue(responseBody, UserResponseDto.class);
 
 		assertNull(user.getToken());
 		assertNull(user.getTokenExpirationDate());

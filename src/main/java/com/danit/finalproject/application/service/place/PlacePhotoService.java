@@ -10,21 +10,14 @@ import org.springframework.stereotype.Service;
 public class PlacePhotoService {
 
   private PlacePhotoRepository placePhotoRepository;
-  private PlaceRepository placeRepository;
 
   @Autowired
-  public PlacePhotoService(PlacePhotoRepository placePhotoRepository, PlaceRepository placeRepository) {
+  public PlacePhotoService(PlacePhotoRepository placePhotoRepository) {
     this.placePhotoRepository = placePhotoRepository;
-    this.placeRepository = placeRepository;
   }
 
   public PlacePhoto getPlacePhotoById(Long placeId) {
     return placePhotoRepository.findById(placeId).orElse(null);
-  }
-
-  public PlacePhoto createNewPlacePhoto(PlacePhoto placePhoto, Long placeId) {
-    placePhoto.setPlace(placeRepository.findById(placeId).orElse(null));
-    return placePhotoRepository.save(placePhoto);
   }
 
   public void deletePlacePhoto(Long photoId) {

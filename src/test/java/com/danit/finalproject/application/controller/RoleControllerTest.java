@@ -1,5 +1,6 @@
 package com.danit.finalproject.application.controller;
 
+import com.danit.finalproject.application.dto.response.RoleResponseDto;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.RoleService;
@@ -51,7 +52,7 @@ public class RoleControllerTest {
     MvcResult result = mockMvc.perform(get("/api/roles"))
          .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<Role> roles = objectMapper.readValue(responseBody, new TypeReference<List<Role>>(){});
+    List<RoleResponseDto> roles = objectMapper.readValue(responseBody, new TypeReference<List<RoleResponseDto>>(){});
 
     assertEquals(expectedRolesSize, roles.size());
     assertEquals(expectedName, roles.get(0).getName());
@@ -73,12 +74,10 @@ public class RoleControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    Role createdRole = objectMapper.readValue(responseBody, Role.class);
+    RoleResponseDto createdRole = objectMapper.readValue(responseBody, RoleResponseDto.class);
 
     assertEquals(expectedName, createdRole.getName());
-    assertEquals(expectedRolesSize, roleService.getAllRoles().size());
-    assertNotNull(createdRole.getCreatedDate());
-    assertNotNull(createdRole.getModifiedDate());
+    assertEquals(expectedRolesSize, roleService.getAll().size());
     assertNotNull(createdRole.getId());
   }
 
@@ -100,22 +99,22 @@ public class RoleControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    Role updatedRole = objectMapper.readValue(responseBody, Role.class);
+    RoleResponseDto updatedRole = objectMapper.readValue(responseBody, RoleResponseDto.class);
 
     assertEquals(expectedName, updatedRole.getName());
-    assertEquals(expectedName, roleService.getAllRoles().get(0).getName());
-    assertEquals(expectedRolesSize, roleService.getAllRoles().size());
+    assertEquals(expectedName, roleService.getAll().get(0).getName());
+    assertEquals(expectedRolesSize, roleService.getAll().size());
   }
 
   @Test
   public void deleteRole() throws Exception {
     int expectedRolesSize = 1;
-    User user = userService.getUserById(2L);
+    User user = userService.getById(2L);
 
     mockMvc.perform(delete("/api/roles/1").with(csrf()));
 
-    assertNull(roleService.getRoleById(1L));
-    assertEquals(expectedRolesSize, roleService.getAllRoles().size());
+    assertNull(roleService.getById(1L));
+    assertEquals(expectedRolesSize, roleService.getAll().size());
     assertEquals(expectedRolesSize, user.getRoles().size());
   }
 }

@@ -88,7 +88,7 @@ public class BusinessControllerTest {
     Business business = new Business();
     business.setId(expectedId);
     business.setTitle(expectedName);
-    business.setPlace(placeService.getPlaceById(2L));
+    business.setPlace(placeService.getById(2L));
 
     List<BusinessCategory> businessCategories = new ArrayList<>();
     businessCategories.add(businessCategoryService.getBusinessCategoryById(1L));
@@ -112,7 +112,7 @@ public class BusinessControllerTest {
     assertNotNull(createdBusiness.getModifiedDate());
     assertNotNull(createdBUsinessId);
     assertEquals(createdBusiness.getCategories().get(0).getId(), businessCategoryService.getBusinessCategoryById(1L).getId());
-    assertEquals(createdBusiness.getPlace().getId(), placeService.getPlaceById(2L).getId());
+    assertEquals(createdBusiness.getPlace().getId(), placeService.getById(2L).getId());
  }
 
   @Test
@@ -121,7 +121,7 @@ public class BusinessControllerTest {
     Long businesssId = 1L;
     Business business = businessService.getBusinessById(businesssId);
     business.setTitle(businessTitle);
-    business.setPlace(placeService.getPlaceById(2L));
+    business.setPlace(placeService.getById(2L));
 
     String userJson = objectMapper.writeValueAsString(business);
 
@@ -136,7 +136,7 @@ public class BusinessControllerTest {
 
     assertEquals(businessTitle, upgatedBusiness.getTitle());
     assertEquals(businessTitle, businessService.getBusinessById(businesssId).getTitle());
-    assertEquals(upgatedBusiness.getPlace().getId(), placeService.getPlaceById(2L).getId());
+    assertEquals(upgatedBusiness.getPlace().getId(), placeService.getById(2L).getId());
   }
 
   @Test

@@ -1,9 +1,10 @@
 package com.danit.finalproject.application.controller.place;
 
-import com.danit.finalproject.application.entity.place.Place;
-import com.danit.finalproject.application.entity.place.PlacePhoto;
+import com.danit.finalproject.application.dto.request.place.PlacePhotoRequestDto;
+import com.danit.finalproject.application.dto.request.place.PlaceRequestDto;
+import com.danit.finalproject.application.dto.response.place.PlaceResponseDto;
+import com.danit.finalproject.application.facade.place.PlaceFacade;
 import com.danit.finalproject.application.service.place.PlacePhotoService;
-import com.danit.finalproject.application.service.place.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,47 +20,49 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/places")
 public class PlaceController {
-  private PlaceService placeService;
   private PlacePhotoService placePhotoService;
+  private PlaceFacade placeFacade;
 
   @Autowired
-  public PlaceController(PlaceService placeService, PlacePhotoService placePhotoService) {
-    this.placeService = placeService;
+  public PlaceController(PlacePhotoService placePhotoService, PlaceFacade placeFacade) {
     this.placePhotoService = placePhotoService;
+    this.placeFacade = placeFacade;
   }
 
   @GetMapping("{id}")
-  public Place getPlaceById(@PathVariable("id") Long placeId) {
-    return placeService.getPlaceById(placeId);
+  public PlaceResponseDto getPlaceById(@PathVariable("id") Long placeId) {
+    return placeFacade.getById(placeId);
   }
 
   @GetMapping
-  public List<Place> getAllPlaces() {
-    return placeService.findAll();
+  public List<PlaceResponseDto> getAllPlaces() {
+    return placeFacade.getAll();
   }
 
   @PostMapping
-  public Place createNewPlace(@RequestBody Place place) {
-    return placeService.createNewPlace(place);
+  public PlaceResponseDto createNewPlace(@RequestBody PlaceRequestDto placeRequestDto) {
+    return placeFacade.create(placeRequestDto);
   }
 
   @PutMapping("{id}")
-  public Place updatePlace(@RequestBody Place place) {
-    return placeService.updatePlace(place);
+  public PlaceResponseDto updatePlace(@RequestBody PlaceRequestDto placeRequestDto, @PathVariable Long id) {
+    return placeFacade.update(id, placeRequestDto);
   }
 
   @DeleteMapping("{id}")
-  public void deletePlace(@PathVariable("id") Long placeId) {
-    placeService.deletePlace(placeId);
+  public PlaceResponseDto deletePlace(@PathVariable("id") Long placeId) {
+    return placeFacade.delete(placeId);
   }
 
   @PostMapping("/{placeId}/photos")
-  public PlacePhoto addPhotosToPlace(@RequestBody PlacePhoto placePhoto, @PathVariable("placeId") Long placeId) {
-    return placePhotoService.createNewPlacePhoto(placePhoto, placeId);
+  public PlaceResponseDto addPhotosToPlace(
+      @RequestBody PlacePhotoRequestDto placePhotoRequestDto,
+      @PathVariable("placeId") Long placeId) {
+    return placeFacade.addPhoto(placePhotoRequestDto, placeId);
   }
 
   @DeleteMapping("/{placeId}/photos/{photoId}")
-  public void deletePhoto(@PathVariable("photoId") Long photoId ) {
+  public void deletePhoto(@PathVariable Long photoId) {
     placePhotoService.deletePlacePhoto(photoId);
   }
 }
