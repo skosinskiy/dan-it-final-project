@@ -14,24 +14,30 @@ export default class SidebarMenu extends Component {
   render () {
     return (
       <div>
-        <ListItem button>
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary={<NavLink to={'/admin/business-categories'} className="sidebarItem">{'Business Categories'}</NavLink>} />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <ShoppingCartIcon />
-          </ListItemIcon>
-          <ListItemText primary={<NavLink to={'/admin/managing-roles'} className="sidebarItem">{'Managing Roles'}</NavLink>} />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <PeopleIcon />
-          </ListItemIcon>
-          <ListItemText primary="Link 3" />
-        </ListItem>
+        <NavLink to={'/admin/business-categories'} className="sidebarItem">
+          <ListItem button>
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary={'Business Categories'}/>
+          </ListItem>
+        </NavLink>
+        <NavLink to={'/admin/managing-roles'} className="sidebarItem">
+          <ListItem button>
+            <ListItemIcon>
+              <ShoppingCartIcon />
+            </ListItemIcon>
+            <ListItemText primary={'Managing Roles'}/>
+          </ListItem>
+        </NavLink>
+        <NavLink to={'/admin/places'} className="sidebarItem">
+          <ListItem button>
+            <ListItemIcon>
+              <PeopleIcon />
+            </ListItemIcon>
+            <ListItemText primary="Places" />
+          </ListItem>
+        </NavLink>
         <ListItem button>
           <ListItemIcon>
             <BarChartIcon />
