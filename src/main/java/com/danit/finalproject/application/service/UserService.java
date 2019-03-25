@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.service;
 
-import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
 import com.danit.finalproject.application.entity.Permission;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
@@ -25,7 +25,7 @@ import java.util.UUID;
 import java.util.Set;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService implements UserDetailsService, CrudService<User> {
 
   public static final int DAY_MILLISECONDS_COUNT = 24 * 60 * 60 * 1000;
   public static final String PASS_RECOVERY_EMAIL_SUBJECT = "Password recovery";
@@ -51,24 +51,33 @@ public class UserService implements UserDetailsService {
     this.passwordEncoder = passwordEncoder;
   }
 
-  public User getUserById(Long userId) {
+  @Override
+  public User getById(Long userId) {
     return userRepository.findById(userId).orElse(null);
+  }
+
+  @Override
+  public List<User> getAll() {
+    return userRepository.findAll();
   }
 
   public List<User> getUsersByEmail(String email) {
     return userRepository.findAllByEmailContainingIgnoreCase(email);
   }
 
-  public User createUser(User user) {
+  @Override
+  public User create(User user) {
     return userRepository.save(user);
   }
 
-  public User updateUser(Long userId, User user) {
+  @Override
+  public User update(Long userId, User user) {
     user.setId(userId);
     return userRepository.save(user);
   }
 
-  public User deleteUser(Long userId) {
+  @Override
+  public User delete(Long userId) {
     User user = userRepository.findById(userId).orElse(null);
     userRepository.delete(user);
     return user;
@@ -109,7 +118,7 @@ public class UserService implements UserDetailsService {
     emailService.sendSimpleMessage(userEmail, PASS_RECOVERY_EMAIL_SUBJECT, text);
   }
 
-  public User updateUserPassword(UpdateUserPasswordRequestDto userDto, BindingResult bindingResult) {
+  public User updateUserPassword(UpdateUserPasswordRequest userDto, BindingResult bindingResult) {
     validationService.checkForValidationErrors(bindingResult);
     User user = userRepository.findByToken(userDto.getToken());
     user.setPassword(passwordEncoder.encode(userDto.getPassword()));

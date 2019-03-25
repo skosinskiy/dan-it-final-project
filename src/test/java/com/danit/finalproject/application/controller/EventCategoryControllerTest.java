@@ -1,6 +1,8 @@
 package com.danit.finalproject.application.controller;
 
+import com.danit.finalproject.application.dto.response.event.EventCategoryResponse;
 import com.danit.finalproject.application.entity.event.EventCategory;
+import com.danit.finalproject.application.facade.event.EventCategoryFacade;
 import com.danit.finalproject.application.service.event.EventCategoryService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,6 +39,9 @@ public class EventCategoryControllerTest {
   @Autowired
   private EventCategoryService eventCategoryService;
 
+  @Autowired
+  private EventCategoryFacade eventCategoryFacade;
+
   @Test
   public void getEventCategoryById() throws Exception {
     Long expectedId = 1L;
@@ -45,7 +50,7 @@ public class EventCategoryControllerTest {
     MvcResult result = mockMvc.perform(get("/api/event-categories/1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    EventCategory eventCategory = objectMapper.readValue(responseBody, EventCategory.class);
+    EventCategoryResponse eventCategory = objectMapper.readValue(responseBody, EventCategoryResponse.class);
 
     assertEquals(expectedId, eventCategory.getId());
     assertEquals(expectedName, eventCategory.getName());
@@ -59,23 +64,23 @@ public class EventCategoryControllerTest {
     MvcResult result = mockMvc.perform(get("/api/event-categories"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<EventCategory> categories = objectMapper.readValue(responseBody, new TypeReference<List<EventCategory>>(){});
+    List<EventCategoryResponse> categories = objectMapper.readValue(responseBody, new TypeReference<List<EventCategoryResponse>>(){});
 
     assertEquals(expectedSize, categories.size());
     assertEquals(secondCategoryName, categories.get(1).getName());
-    assertEquals(eventCategoryService.getEventCategoryById(1L).getId(), categories.get(1).getParentCategory().getId());
+    assertEquals(eventCategoryService.getById(1L).getId(), categories.get(1).getParentCategory().getId());
   }
 
   @Test
   public void createNewPlaceCategory() throws Exception {
     Long expectedId = 3L;
     String expectedName = "event-category-3";
-    EventCategory expectedParent = eventCategoryService.getEventCategoryById(2L);
+    EventCategoryResponse expectedParent = eventCategoryFacade.getById(2L);
 
     EventCategory eventCategory = new EventCategory();
     eventCategory.setId(expectedId);
     eventCategory.setName(expectedName);
-    eventCategory.setParentCategory(eventCategoryService.getEventCategoryById(2L));
+    eventCategory.setParentCategory(eventCategoryService.getById(2L));
     String eventCategoryJson = objectMapper.writeValueAsString(eventCategory);
 
     MvcResult result = mockMvc.perform(
@@ -85,22 +90,20 @@ public class EventCategoryControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    EventCategory createdEventCategory = objectMapper.readValue(responseBody, EventCategory.class);
+    EventCategoryResponse createdEventCategory = objectMapper.readValue(responseBody, EventCategoryResponse.class);
     Long createdEventCategoryId= createdEventCategory.getId();
 
     assertEquals(expectedName, createdEventCategory.getName());
-    assertEquals(expectedParent, createdEventCategory.getParentCategory());
-    assertNotNull(createdEventCategory.getCreatedDate());
-    assertNotNull(createdEventCategory.getModifiedDate());
+    assertEquals(expectedParent,  createdEventCategory.getParentCategory());
     assertNotNull(createdEventCategoryId);
-    assertNotNull(eventCategoryService.getEventCategoryById(createdEventCategoryId));
+    assertNotNull(eventCategoryService.getById(createdEventCategoryId));
   }
 
   @Test
   public void updateBusinessCategory() throws Exception {
     String eventCategoryName = "Updated";
     Long eventCategoryId = 2L;
-    EventCategory eventCategory = eventCategoryService.getEventCategoryById(eventCategoryId);
+    EventCategory eventCategory = eventCategoryService.getById(eventCategoryId);
     eventCategory.setName(eventCategoryName);
     eventCategory.setParentCategory(null);
     String userJson = objectMapper.writeValueAsString(eventCategory);
@@ -112,10 +115,10 @@ public class EventCategoryControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    EventCategory upgatedEventCategory = objectMapper.readValue(responseBody, EventCategory.class);
+    EventCategoryResponse upgatedEventCategory = objectMapper.readValue(responseBody, EventCategoryResponse.class);
 
     assertEquals(eventCategoryName, upgatedEventCategory.getName());
-    assertEquals(eventCategoryName, eventCategoryService.getEventCategoryById(eventCategoryId).getName());
+    assertEquals(eventCategoryName, eventCategoryService.getById(eventCategoryId).getName());
     assertNull(upgatedEventCategory.getParentCategory());
   }
 
@@ -123,6 +126,6 @@ public class EventCategoryControllerTest {
   public void deleteEventCategory() throws Exception {
     mockMvc.perform(delete("/api/event-categories/2").with(csrf()));
 
-    assertNull(eventCategoryService.getEventCategoryById(2L));
+    assertNull(eventCategoryService.getById(2L));
   }
 }

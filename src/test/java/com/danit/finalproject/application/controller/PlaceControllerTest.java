@@ -1,17 +1,6 @@
 package com.danit.finalproject.application.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import com.danit.finalproject.application.entity.menuitem.MenuItemName;
+import com.danit.finalproject.application.dto.response.place.PlaceResponse;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.service.place.PlaceCategoryService;
@@ -40,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @WithMockUser(value = "first.user@test.com")
 public class PlaceControllerTest {
-
   @Autowired
   private MockMvc mockMvc;
 
@@ -64,7 +52,7 @@ public class PlaceControllerTest {
     MvcResult result = mockMvc.perform(get("/api/places/1").with(csrf()))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    Place place = objectMapper.readValue(responseBody, Place.class);
+    PlaceResponse place = objectMapper.readValue(responseBody, PlaceResponse.class);
 
     assertEquals(expectedId, place.getId());
     assertEquals(expectedName, place.getTitle());
@@ -78,8 +66,8 @@ public class PlaceControllerTest {
     MvcResult result = mockMvc.perform(get("/api/places"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<Place> places = objectMapper.readValue(responseBody, new TypeReference<List<Place>>() {
-    });
+    List<PlaceResponse> places
+        = objectMapper.readValue(responseBody, new TypeReference<List<PlaceResponse>>(){});
 
     assertEquals(expectedSize, places.size());
     assertEquals(secondCategoryName, places.get(1).getTitle());
@@ -93,7 +81,7 @@ public class PlaceControllerTest {
     Place place = new Place();
     place.setId(expectedId);
     place.setTitle(expectedName);
-    place.setPlaceCategory(placeCategoryService.getPlaceCategoryById(1L));
+    place.setPlaceCategory(placeCategoryService.getById(1L));
 
     String placeCategoryJson = objectMapper.writeValueAsString(place);
 
@@ -104,22 +92,19 @@ public class PlaceControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    Place createdPlace = objectMapper.readValue(responseBody, Place.class);
-    Long createdPlaceId = createdPlace.getId();
+    PlaceResponse createdPlace = objectMapper.readValue(responseBody, PlaceResponse.class);
+    Long createdPlaceId= createdPlace.getId();
 
     assertEquals(expectedName, createdPlace.getTitle());
-    assertNotNull(createdPlace.getCreatedDate());
-    assertNotNull(createdPlace.getModifiedDate());
     assertNotNull(createdPlaceId);
-    assertEquals(createdPlace.getPlaceCategory().getId(),
-        placeCategoryService.getPlaceCategoryById(1L).getId());
+    assertEquals(createdPlace.getPlaceCategory().getId(), placeCategoryService.getById(1L).getId());
   }
 
   @Test
   public void updatePlace() throws Exception {
     String placeTitle = "Updated";
     Long placeId = 1L;
-    Place place = placeService.getPlaceById(placeId);
+    Place place = placeService.getById(placeId);
     place.setTitle(placeTitle);
 
     String userJson = objectMapper.writeValueAsString(place);
@@ -131,17 +116,17 @@ public class PlaceControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    Place upgatedPlace = objectMapper.readValue(responseBody, Place.class);
+    PlaceResponse upgatedPlace = objectMapper.readValue(responseBody, PlaceResponse.class);
 
     assertEquals(placeTitle, upgatedPlace.getTitle());
-    assertEquals(placeTitle, placeService.getPlaceById(placeId).getTitle());
+    assertEquals(placeTitle, placeService.getById(placeId).getTitle());
   }
 
   @Test
   public void deletePlace() throws Exception {
     mockMvc.perform(delete("/api/places/2").with(csrf()));
 
-    assertNull(placeService.getPlaceById(2L));
+    assertNull(placeService.getById(2L));
   }
 
   @Test
@@ -162,14 +147,10 @@ public class PlaceControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    PlacePhoto createdPlacePhoto = objectMapper.readValue(responseBody, PlacePhoto.class);
-    Long createdPlacePhotoId = createdPlacePhoto.getId();
+    PlaceResponse updatedPlace = objectMapper.readValue(responseBody, PlaceResponse.class);
 
-    assertEquals(expectedName, createdPlacePhoto.getPhoto());
-    assertNotNull(createdPlacePhoto.getCreatedDate());
-    assertNotNull(createdPlacePhoto.getModifiedDate());
-    assertNotNull(createdPlacePhotoId);
-    assertEquals(createdPlacePhoto.getPlace().getId(), placeService.getPlaceById(1L).getId());
+    assertTrue(updatedPlace.getPhotos().stream().anyMatch(photo -> photo.getPhoto().equals(expectedName)));
+    assertTrue(updatedPlace.getPhotos().stream().anyMatch(photo -> photo.getId().equals(expectedId)));
   }
 
   @Test

@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 @Builder
-public class AuthResultDto {
+public class AuthResult {
 
   private Date timestamp;
   private int status;

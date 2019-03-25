@@ -1,9 +1,10 @@
 package com.danit.finalproject.application.controller.business;
 
-import com.danit.finalproject.application.entity.business.Business;
-import com.danit.finalproject.application.entity.business.BusinessPhoto;
+import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequest;
+import com.danit.finalproject.application.dto.request.business.BusinessRequest;
+import com.danit.finalproject.application.dto.response.business.BusinessResponse;
+import com.danit.finalproject.application.facade.business.BusinessFacade;
 import com.danit.finalproject.application.service.business.BusinessPhotoService;
-import com.danit.finalproject.application.service.business.BusinessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,49 +21,49 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/businesses")
 public class BusinessController {
-  private BusinessService businessService;
+  private BusinessFacade businessFacade;
   private BusinessPhotoService businessPhotoService;
 
   @Autowired
-  public BusinessController(BusinessService businessService, BusinessPhotoService businessPhotoService) {
-    this.businessService = businessService;
+  public BusinessController(BusinessFacade businessFacade, BusinessPhotoService businessPhotoService) {
+    this.businessFacade = businessFacade;
     this.businessPhotoService = businessPhotoService;
   }
 
   @GetMapping("{id}")
-  public Business getBusinessById(@PathVariable("id") Long businessId) {
-    return businessService.getBusinessById(businessId);
+  public BusinessResponse getBusinessById(@PathVariable("id") Long businessId) {
+    return businessFacade.getById(businessId);
   }
 
   @GetMapping
-  public List<Business> getAllBusinesses(@RequestParam("placeId") Long placeId) {
-    return businessService.findAllByPlace(placeId);
+  public List<BusinessResponse> getAllBusinesses(@RequestParam("placeId") Long placeId) {
+    return businessFacade.getAllByPlace(placeId);
   }
 
   @PostMapping
-  public Business createNewBusiness(@RequestBody Business business) {
-    return businessService.createNewBusiness(business);
+  public BusinessResponse createNewBusiness(@RequestBody BusinessRequest businessRequest) {
+    return businessFacade.create(businessRequest);
   }
 
   @PutMapping("{id}")
-  public Business updateBusiness(@RequestBody Business business) {
-    return businessService.updateBusiness(business);
+  public BusinessResponse updateBusiness(@PathVariable Long id, @RequestBody BusinessRequest businessRequest) {
+    return businessFacade.update(id, businessRequest);
   }
 
   @DeleteMapping("{id}")
-  public void deleteBusiness(@PathVariable("id") Long businessId) {
-    businessService.deleteBusiness(businessId);
+  public BusinessResponse deleteBusiness(@PathVariable("id") Long businessId) {
+    return businessFacade.delete(businessId);
   }
 
   @PostMapping("/{businessId}/photos")
-  public BusinessPhoto addPhotosToBusiness(
-      @RequestBody BusinessPhoto businessPhoto,
+  public BusinessResponse addPhotosToBusiness(
+      @RequestBody BusinessPhotoRequest businessPhotoRequest,
       @PathVariable("businessId") Long businessId) {
-    return businessPhotoService.createNewBusinessPhoto(businessPhoto, businessId);
+    return businessFacade.addPhoto(businessPhotoRequest, businessId);
   }
 
   @DeleteMapping("/{businessId}/photos/{photoId}")
   public void deletePhoto(@PathVariable("photoId") Long photoId) {
-    businessPhotoService.deleteBusinesPhoto(photoId);
+    businessPhotoService.deleteBusinessPhoto(photoId);
   }
 }

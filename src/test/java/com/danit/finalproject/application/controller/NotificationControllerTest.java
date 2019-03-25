@@ -1,6 +1,8 @@
 package com.danit.finalproject.application.controller;
 
+import com.danit.finalproject.application.dto.response.NotificationResponse;
 import com.danit.finalproject.application.entity.Notification;
+import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.service.NotificationService;
 import com.danit.finalproject.application.service.business.BusinessService;
 import com.danit.finalproject.application.service.event.EventService;
@@ -57,7 +59,8 @@ public class NotificationControllerTest {
     MvcResult result = mockMvc.perform(get("/api/notifications?placeId=1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<Notification> notifications = objectMapper.readValue(responseBody, new TypeReference<List<Notification>>(){});
+    List<NotificationResponse> notifications =
+        objectMapper.readValue(responseBody, new TypeReference<List<NotificationResponse>>(){});
 
     assertEquals(expectedSize, notifications.size());
   }
@@ -67,43 +70,45 @@ public class NotificationControllerTest {
     Long expectedId = 3L;
     String expectedText = "notification-3";
 
+    Place place = new Place();
+    place.setId(1L);
+
     Notification notification = new Notification();
     notification.setId(expectedId);
     notification.setText(expectedText);
-    notification.setBusiness(businessService.getBusinessById(1L));
-    notification.setEvent(eventService.getEventById(1L));
+    notification.setPlace(place);
+    notification.setBusiness(businessService.getById(1L));
+    notification.setEvent(eventService.getById(1L));
 
     String notificationJson = objectMapper.writeValueAsString(notification);
 
     MvcResult result = mockMvc.perform(
-        post("/api/notifications/places/1")
+        post("/api/notifications/places")
             .with(csrf())
             .content(notificationJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    Notification createdNotification = objectMapper.readValue(responseBody, Notification.class);
+    NotificationResponse createdNotification = objectMapper.readValue(responseBody, NotificationResponse.class);
     Long createdNotificationId= createdNotification.getId();
 
     assertEquals(expectedText, createdNotification.getText());
-    assertNotNull(createdNotification.getCreatedDate());
-    assertNotNull(createdNotification.getModifiedDate());
     assertNotNull(createdNotificationId);
-    assertEquals(createdNotification.getBusiness().getId(), businessService.getBusinessById(1L).getId());
-    assertEquals(createdNotification.getEvent().getId(), eventService.getEventById(1L).getId());
-    assertEquals(createdNotification.getPlace().getId(), placeService.getPlaceById(1L).getId());
+    assertEquals(createdNotification.getBusiness().getId(), businessService.getById(1L).getId());
+    assertEquals(createdNotification.getEvent().getId(), eventService.getById(1L).getId());
+    assertEquals(createdNotification.getPlace().getId(), placeService.getById(1L).getId());
   }
 
   @Test
   public void updateNotification() throws Exception {
     String notificationText = "Updated";
     Long notificationId = 1L;
-    Notification notification = notificationService.getNotifivcationById(notificationId);
+    Notification notification = notificationService.getById(notificationId);
     notification.setText(notificationText);
 
-    notification.setBusiness(businessService.getBusinessById(2L));
-    notification.setEvent(eventService.getEventById(2L));
-    notification.setPlace(placeService.getPlaceById(2L));
+    notification.setBusiness(businessService.getById(2L));
+    notification.setEvent(eventService.getById(2L));
+    notification.setPlace(placeService.getById(2L));
 
     String userJson = objectMapper.writeValueAsString(notification);
 
@@ -114,19 +119,19 @@ public class NotificationControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    Notification upgatedNotification = objectMapper.readValue(responseBody, Notification.class);
+    NotificationResponse upgatedNotification = objectMapper.readValue(responseBody, NotificationResponse.class);
 
     assertEquals(notificationText, upgatedNotification.getText());
-    assertEquals(notificationText, notificationService.getNotifivcationById(notificationId).getText());
-    assertEquals(businessService.getBusinessById(2L).getId(), upgatedNotification.getBusiness().getId());
-    assertEquals(eventService.getEventById(2L).getId(), upgatedNotification.getEvent().getId());
-    assertEquals(placeService.getPlaceById(2L).getId(), upgatedNotification.getEvent().getId());
+    assertEquals(notificationText, notificationService.getById(notificationId).getText());
+    assertEquals(businessService.getById(2L).getId(), upgatedNotification.getBusiness().getId());
+    assertEquals(eventService.getById(2L).getId(), upgatedNotification.getEvent().getId());
+    assertEquals(placeService.getById(2L).getId(), upgatedNotification.getEvent().getId());
   }
 
   @Test
   public void deleteNotification() throws Exception {
     mockMvc.perform(delete("/api/notifications/2").with(csrf()));
 
-    assertNull(notificationService.getNotifivcationById(2L));
+    assertNull(notificationService.getById(2L));
   }
 }
