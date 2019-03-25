@@ -3,6 +3,7 @@ package com.danit.finalproject.application.entity.place;
 import com.danit.finalproject.application.entity.BaseEntity;
 import com.danit.finalproject.application.entity.Notification;
 import com.danit.finalproject.application.entity.business.Business;
+import com.danit.finalproject.application.entity.event.Event;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
