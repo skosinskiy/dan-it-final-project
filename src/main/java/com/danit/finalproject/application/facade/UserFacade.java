@@ -7,12 +7,11 @@ import com.danit.finalproject.application.dto.response.UserResponse;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.UserService;
+import java.util.List;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
-
-import java.util.List;
 
 @Component
 public class UserFacade extends AbstractDtoFacade<User, UserRequest, UserResponse> {

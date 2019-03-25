@@ -1,9 +1,8 @@
 package com.danit.finalproject.application.dto.response.business;
 
 import com.danit.finalproject.application.dto.response.place.PlaceResponse;
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class BusinessResponse {

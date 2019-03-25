@@ -1,6 +1,19 @@
 package com.danit.finalproject.application.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.danit.finalproject.application.dto.response.place.PlaceResponse;
+import com.danit.finalproject.application.entity.menuitem.MenuItemName;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.service.place.PlaceCategoryService;
@@ -161,7 +174,7 @@ public class PlaceControllerTest {
 
   @Test
   public void getAvailableMenuItemNames() throws Exception {
-    String response = mockMvc.perform(get("/api/places/available"))
+    String response = mockMvc.perform(get("/api/places/menu-items"))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andReturn()

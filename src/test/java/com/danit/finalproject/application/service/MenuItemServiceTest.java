@@ -70,7 +70,7 @@ public class MenuItemServiceTest {
           add(mockMenuItem2);
         }});
     final int EXPECTED_MENU_ITEMS_SIZE = 2;
-    List<MenuItem> menuItems = menuItemService.getAllMenuItems();
+    List<MenuItem> menuItems = menuItemService.getAll();
     verify(menuItemRepository, times(1)).findAll();
     assertEquals(EXPECTED_MENU_ITEMS_SIZE, menuItems.size());
     assertEquals(menuItemRepository.findAll().get(0), menuItems.get(0));
@@ -82,7 +82,7 @@ public class MenuItemServiceTest {
     final MenuItemName newName = MenuItemName.SERVICES;
     mockMenuItem1.setName(newName);
     when(menuItemRepository.save(mockMenuItem1)).thenReturn(mockMenuItem1);
-    MenuItem updatedMenuItem = menuItemService.updateMenuItem(1L, mockMenuItem1);
+    MenuItem updatedMenuItem = menuItemService.update(1L, mockMenuItem1);
     verify(menuItemRepository, times(1)).save(mockMenuItem1);
     assertEquals(newName, updatedMenuItem.getName());
   }

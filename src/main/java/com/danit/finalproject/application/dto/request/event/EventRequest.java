@@ -2,9 +2,8 @@ package com.danit.finalproject.application.dto.request.event;
 
 import com.danit.finalproject.application.dto.request.business.BusinessRequest;
 import com.danit.finalproject.application.dto.request.place.PlaceRequest;
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class EventRequest {
