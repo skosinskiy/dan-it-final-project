@@ -13,7 +13,6 @@ import com.danit.finalproject.application.repository.MenuItemRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -97,7 +96,8 @@ public class MenuItemServiceTest {
       add(MenuItemName.SHOPS);
       add(MenuItemName.SPORT);
     }};
-    assertTrue(Arrays.asList(MenuItemName.values()).stream()
-        .allMatch(name -> expectedMenuItemNames.contains(name)));
+    List<MenuItemName> menuItemNames = menuItemService.getAvailableMenuItemNames();
+    assertTrue(expectedMenuItemNames.size() == menuItemNames.size()
+        && expectedMenuItemNames.stream().allMatch(name -> menuItemNames.contains(name)));
   }
 }
