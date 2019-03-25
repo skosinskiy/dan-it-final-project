@@ -1,8 +1,8 @@
 package com.danit.finalproject.application.facade.place;
 
-import com.danit.finalproject.application.dto.request.place.PlacePhotoRequestDto;
-import com.danit.finalproject.application.dto.request.place.PlaceRequestDto;
-import com.danit.finalproject.application.dto.response.place.PlaceResponseDto;
+import com.danit.finalproject.application.dto.request.place.PlacePhotoRequest;
+import com.danit.finalproject.application.dto.request.place.PlaceRequest;
+import com.danit.finalproject.application.dto.response.place.PlaceResponse;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.facade.AbstractDtoFacade;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PlaceFacade extends AbstractDtoFacade<Place, PlaceRequestDto, PlaceResponseDto> {
+public class PlaceFacade extends AbstractDtoFacade<Place, PlaceRequest, PlaceResponse> {
 
   private PlaceService placeService;
 
@@ -21,8 +21,8 @@ public class PlaceFacade extends AbstractDtoFacade<Place, PlaceRequestDto, Place
     this.placeService = placeService;
   }
 
-  public PlaceResponseDto addPhoto(PlacePhotoRequestDto placePhotoRequestDto, Long placeId) {
-    PlacePhoto placePhoto = modelMapper.map(placePhotoRequestDto, PlacePhoto.class);
+  public PlaceResponse addPhoto(PlacePhotoRequest placePhotoRequest, Long placeId) {
+    PlacePhoto placePhoto = modelMapper.map(placePhotoRequest, PlacePhoto.class);
     Place updatedPlace = placeService.addPhoto(placePhoto, placeId);
     return mapEntityToResponseDto(updatedPlace);
   }

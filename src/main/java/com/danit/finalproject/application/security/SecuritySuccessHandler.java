@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.security;
 
-import com.danit.finalproject.application.dto.response.AuthResultDto;
+import com.danit.finalproject.application.dto.response.AuthResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,12 +28,12 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
       HttpServletRequest httpServletRequest,
       HttpServletResponse httpServletResponse,
       Authentication authentication) throws IOException {
-    AuthResultDto authResultDto = AuthResultDto.builder()
+    AuthResult authResult = AuthResult.builder()
         .timestamp(new Date(System.currentTimeMillis()))
         .status(HttpStatus.OK.value())
         .message(HttpStatus.OK.getReasonPhrase())
         .build();
-    httpServletResponse.getWriter().write(objectMapper.writeValueAsString(authResultDto));
+    httpServletResponse.getWriter().write(objectMapper.writeValueAsString(authResult));
     httpServletResponse.setStatus(HttpStatus.OK.value());
   }
 }

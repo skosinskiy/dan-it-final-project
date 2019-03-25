@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.dto.response.place.PlaceResponseDto;
+import com.danit.finalproject.application.dto.response.place.PlaceResponse;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.service.place.PlaceCategoryService;
@@ -55,7 +55,7 @@ public class PlaceControllerTest {
     MvcResult result = mockMvc.perform(get("/api/places/1").with(csrf()))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    PlaceResponseDto place = objectMapper.readValue(responseBody, PlaceResponseDto.class);
+    PlaceResponse place = objectMapper.readValue(responseBody, PlaceResponse.class);
 
     assertEquals(expectedId, place.getId());
     assertEquals(expectedName, place.getTitle());
@@ -69,8 +69,8 @@ public class PlaceControllerTest {
     MvcResult result = mockMvc.perform(get("/api/places"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<PlaceResponseDto> places
-        = objectMapper.readValue(responseBody, new TypeReference<List<PlaceResponseDto>>(){});
+    List<PlaceResponse> places
+        = objectMapper.readValue(responseBody, new TypeReference<List<PlaceResponse>>(){});
 
     assertEquals(expectedSize, places.size());
     assertEquals(secondCategoryName, places.get(1).getTitle());
@@ -95,7 +95,7 @@ public class PlaceControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    PlaceResponseDto createdPlace = objectMapper.readValue(responseBody, PlaceResponseDto.class);
+    PlaceResponse createdPlace = objectMapper.readValue(responseBody, PlaceResponse.class);
     Long createdPlaceId= createdPlace.getId();
 
     assertEquals(expectedName, createdPlace.getTitle());
@@ -119,7 +119,7 @@ public class PlaceControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    PlaceResponseDto upgatedPlace = objectMapper.readValue(responseBody, PlaceResponseDto.class);
+    PlaceResponse upgatedPlace = objectMapper.readValue(responseBody, PlaceResponse.class);
 
     assertEquals(placeTitle, upgatedPlace.getTitle());
     assertEquals(placeTitle, placeService.getById(placeId).getTitle());
@@ -150,7 +150,7 @@ public class PlaceControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    PlaceResponseDto updatedPlace = objectMapper.readValue(responseBody, PlaceResponseDto.class);
+    PlaceResponse updatedPlace = objectMapper.readValue(responseBody, PlaceResponse.class);
 
     assertTrue(updatedPlace.getPhotos().stream().anyMatch(photo -> photo.getPhoto().equals(expectedName)));
     assertTrue(updatedPlace.getPhotos().stream().anyMatch(photo -> photo.getId().equals(expectedId)));

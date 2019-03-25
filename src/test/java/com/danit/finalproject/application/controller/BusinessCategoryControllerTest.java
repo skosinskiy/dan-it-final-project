@@ -1,9 +1,8 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponseDto;
+import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponse;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.facade.business.BusinessCategoryFacade;
-import com.danit.finalproject.application.facade.business.BusinessFacade;
 import com.danit.finalproject.application.service.business.BusinessCategoryService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,7 +50,7 @@ public class BusinessCategoryControllerTest {
     MvcResult result = mockMvc.perform(get("/api/business-categories/1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    BusinessCategoryResponseDto businessCategory = objectMapper.readValue(responseBody, BusinessCategoryResponseDto.class);
+    BusinessCategoryResponse businessCategory = objectMapper.readValue(responseBody, BusinessCategoryResponse.class);
 
     assertEquals(expectedId, businessCategory.getId());
     assertEquals(expectedName, businessCategory.getName());
@@ -65,8 +64,8 @@ public class BusinessCategoryControllerTest {
     MvcResult result = mockMvc.perform(get("/api/business-categories"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<BusinessCategoryResponseDto> categories =
-        objectMapper.readValue(responseBody, new TypeReference<List<BusinessCategoryResponseDto>>(){});
+    List<BusinessCategoryResponse> categories =
+        objectMapper.readValue(responseBody, new TypeReference<List<BusinessCategoryResponse>>(){});
 
     assertEquals(expectedSize, categories.size());
     assertEquals(secondCategoryName, categories.get(1).getName());
@@ -77,7 +76,7 @@ public class BusinessCategoryControllerTest {
   public void createNewPlaceCategory() throws Exception {
     Long expectedId = 3L;
     String expectedName = "business-category-3";
-    BusinessCategoryResponseDto expectedParent = businessCategoryFacade.getById(2L);
+    BusinessCategoryResponse expectedParent = businessCategoryFacade.getById(2L);
 
     BusinessCategory businessCategory = new BusinessCategory();
     businessCategory.setId(expectedId);
@@ -92,8 +91,8 @@ public class BusinessCategoryControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    BusinessCategoryResponseDto createdBusinessCategory
-        = objectMapper.readValue(responseBody, BusinessCategoryResponseDto.class);
+    BusinessCategoryResponse createdBusinessCategory
+        = objectMapper.readValue(responseBody, BusinessCategoryResponse.class);
     Long createdBusinesCategoryId= createdBusinessCategory.getId();
 
     assertEquals(expectedName, createdBusinessCategory.getName());
@@ -118,8 +117,8 @@ public class BusinessCategoryControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    BusinessCategoryResponseDto updatedBusinessCategory =
-        objectMapper.readValue(responseBody, BusinessCategoryResponseDto.class);
+    BusinessCategoryResponse updatedBusinessCategory =
+        objectMapper.readValue(responseBody, BusinessCategoryResponse.class);
 
     assertEquals(businessCategoryName, updatedBusinessCategory.getName());
     assertEquals(businessCategoryName, businessCategoryService.getById(businessCategoryId).getName());

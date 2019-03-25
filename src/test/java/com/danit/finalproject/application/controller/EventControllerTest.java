@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.dto.response.event.EventResponseDto;
+import com.danit.finalproject.application.dto.response.event.EventResponse;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.event.EventCategory;
 import com.danit.finalproject.application.entity.event.EventPhoto;
@@ -65,7 +65,7 @@ public class EventControllerTest {
     MvcResult result = mockMvc.perform(get("/api/events/1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    EventResponseDto event = objectMapper.readValue(responseBody, EventResponseDto.class);
+    EventResponse event = objectMapper.readValue(responseBody, EventResponse.class);
 
     assertEquals(expectedId, event.getId());
     assertEquals(expectedName, event.getTitle());
@@ -78,7 +78,7 @@ public class EventControllerTest {
     MvcResult result = mockMvc.perform(get("/api/events?place=1&business=1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<EventResponseDto> events = objectMapper.readValue(responseBody, new TypeReference<List<EventResponseDto>>(){});
+    List<EventResponse> events = objectMapper.readValue(responseBody, new TypeReference<List<EventResponse>>(){});
 
     assertEquals(expectedSize, events.size());
   }
@@ -169,7 +169,7 @@ public class EventControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    EventResponseDto updatedEvent = objectMapper.readValue(responseBody, EventResponseDto.class);
+    EventResponse updatedEvent = objectMapper.readValue(responseBody, EventResponse.class);
 
     assertTrue(updatedEvent.getPhotos().stream().anyMatch(photo -> photo.getPhoto().equals(expectedName)));
     assertTrue(updatedEvent.getPhotos().stream().anyMatch(photo -> photo.getId().equals(expectedId)));

@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.service;
 
-import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
 import com.danit.finalproject.application.entity.Gender;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
@@ -199,7 +199,7 @@ public class UserServiceTest {
 
 	@Test
 	public void verifyUserPasswordUpdatedAndTokenReset() {
-		UpdateUserPasswordRequestDto userDto = UpdateUserPasswordRequestDto.builder()
+		UpdateUserPasswordRequest userDto = UpdateUserPasswordRequest.builder()
 				.password("12345678")
 				.token("ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0")
 				.build();

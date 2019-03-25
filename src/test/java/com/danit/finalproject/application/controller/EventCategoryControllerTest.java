@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.dto.response.event.EventCategoryResponseDto;
+import com.danit.finalproject.application.dto.response.event.EventCategoryResponse;
 import com.danit.finalproject.application.entity.event.EventCategory;
 import com.danit.finalproject.application.facade.event.EventCategoryFacade;
 import com.danit.finalproject.application.service.event.EventCategoryService;
@@ -50,7 +50,7 @@ public class EventCategoryControllerTest {
     MvcResult result = mockMvc.perform(get("/api/event-categories/1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    EventCategoryResponseDto eventCategory = objectMapper.readValue(responseBody, EventCategoryResponseDto.class);
+    EventCategoryResponse eventCategory = objectMapper.readValue(responseBody, EventCategoryResponse.class);
 
     assertEquals(expectedId, eventCategory.getId());
     assertEquals(expectedName, eventCategory.getName());
@@ -64,7 +64,7 @@ public class EventCategoryControllerTest {
     MvcResult result = mockMvc.perform(get("/api/event-categories"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<EventCategoryResponseDto> categories = objectMapper.readValue(responseBody, new TypeReference<List<EventCategoryResponseDto>>(){});
+    List<EventCategoryResponse> categories = objectMapper.readValue(responseBody, new TypeReference<List<EventCategoryResponse>>(){});
 
     assertEquals(expectedSize, categories.size());
     assertEquals(secondCategoryName, categories.get(1).getName());
@@ -75,7 +75,7 @@ public class EventCategoryControllerTest {
   public void createNewPlaceCategory() throws Exception {
     Long expectedId = 3L;
     String expectedName = "event-category-3";
-    EventCategoryResponseDto expectedParent = eventCategoryFacade.getById(2L);
+    EventCategoryResponse expectedParent = eventCategoryFacade.getById(2L);
 
     EventCategory eventCategory = new EventCategory();
     eventCategory.setId(expectedId);
@@ -90,7 +90,7 @@ public class EventCategoryControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    EventCategoryResponseDto createdEventCategory = objectMapper.readValue(responseBody, EventCategoryResponseDto.class);
+    EventCategoryResponse createdEventCategory = objectMapper.readValue(responseBody, EventCategoryResponse.class);
     Long createdEventCategoryId= createdEventCategory.getId();
 
     assertEquals(expectedName, createdEventCategory.getName());
@@ -115,7 +115,7 @@ public class EventCategoryControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    EventCategoryResponseDto upgatedEventCategory = objectMapper.readValue(responseBody, EventCategoryResponseDto.class);
+    EventCategoryResponse upgatedEventCategory = objectMapper.readValue(responseBody, EventCategoryResponse.class);
 
     assertEquals(eventCategoryName, upgatedEventCategory.getName());
     assertEquals(eventCategoryName, eventCategoryService.getById(eventCategoryId).getName());

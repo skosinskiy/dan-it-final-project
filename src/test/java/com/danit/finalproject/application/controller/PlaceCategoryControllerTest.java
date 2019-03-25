@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.dto.response.place.PlaceCategoryResponseDto;
+import com.danit.finalproject.application.dto.response.place.PlaceCategoryResponse;
 import com.danit.finalproject.application.entity.place.PlaceCategory;
 import com.danit.finalproject.application.service.place.PlaceCategoryService;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -60,8 +60,8 @@ public class PlaceCategoryControllerTest {
     MvcResult result = mockMvc.perform(get("/api/place-categories"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<PlaceCategoryResponseDto> categories =
-        objectMapper.readValue(responseBody, new TypeReference<List<PlaceCategoryResponseDto>>(){});
+    List<PlaceCategoryResponse> categories =
+        objectMapper.readValue(responseBody, new TypeReference<List<PlaceCategoryResponse>>(){});
 
     assertEquals(expectedSize, categories.size());
     assertEquals(secondCategoryName, categories.get(1).getName());
@@ -84,7 +84,7 @@ public class PlaceCategoryControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    PlaceCategoryResponseDto createdPlaceCategory = objectMapper.readValue(responseBody, PlaceCategoryResponseDto.class);
+    PlaceCategoryResponse createdPlaceCategory = objectMapper.readValue(responseBody, PlaceCategoryResponse.class);
     Long createdPlaceCategoryId= createdPlaceCategory.getId();
 
     assertEquals(expectedName, createdPlaceCategory.getName());
@@ -107,7 +107,7 @@ public class PlaceCategoryControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    PlaceCategoryResponseDto upgatedPlaceCategory = objectMapper.readValue(responseBody, PlaceCategoryResponseDto.class);
+    PlaceCategoryResponse upgatedPlaceCategory = objectMapper.readValue(responseBody, PlaceCategoryResponse.class);
 
     assertEquals(placeCategoryName, upgatedPlaceCategory.getName());
     assertEquals(placeCategoryName, placeCategoryService.getById(placeCategoryId).getName());

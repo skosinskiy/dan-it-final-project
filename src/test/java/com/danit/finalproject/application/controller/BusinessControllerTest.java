@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.dto.response.business.BusinessResponseDto;
+import com.danit.finalproject.application.dto.response.business.BusinessResponse;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.entity.business.BusinessPhoto;
@@ -61,7 +61,7 @@ public class BusinessControllerTest {
     MvcResult result = mockMvc.perform(get("/api/businesses/1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    BusinessResponseDto business = objectMapper.readValue(responseBody, BusinessResponseDto.class);
+    BusinessResponse business = objectMapper.readValue(responseBody, BusinessResponse.class);
 
     assertEquals(expectedId, business.getId());
     assertEquals(expectedName, business.getTitle());
@@ -75,8 +75,8 @@ public class BusinessControllerTest {
     MvcResult result = mockMvc.perform(get("/api/businesses?placeId=1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<BusinessResponseDto> businesses
-        = objectMapper.readValue(responseBody, new TypeReference<List<BusinessResponseDto>>(){});
+    List<BusinessResponse> businesses
+        = objectMapper.readValue(responseBody, new TypeReference<List<BusinessResponse>>(){});
 
     assertEquals(expectedSize, businesses.size());
     assertEquals(secondCategoryName, businesses.get(1).getTitle());
@@ -106,7 +106,7 @@ public class BusinessControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    BusinessResponseDto createdBusiness = objectMapper.readValue(responseBody, BusinessResponseDto.class);
+    BusinessResponse createdBusiness = objectMapper.readValue(responseBody, BusinessResponse.class);
     Long createdBUsinessId= createdBusiness.getId();
 
     assertEquals(expectedName, createdBusiness.getTitle());
@@ -132,7 +132,7 @@ public class BusinessControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    BusinessResponseDto upgatedBusiness = objectMapper.readValue(responseBody, BusinessResponseDto.class);
+    BusinessResponse upgatedBusiness = objectMapper.readValue(responseBody, BusinessResponse.class);
 
     assertEquals(businessTitle, upgatedBusiness.getTitle());
     assertEquals(businessTitle, businessService.getById(businesssId).getTitle());
@@ -164,7 +164,7 @@ public class BusinessControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    BusinessResponseDto updatedBusiness = objectMapper.readValue(responseBody, BusinessResponseDto.class);
+    BusinessResponse updatedBusiness = objectMapper.readValue(responseBody, BusinessResponse.class);
 
     assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getPhoto().equals(expectedName)));
     assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getId().equals(expectedId)));

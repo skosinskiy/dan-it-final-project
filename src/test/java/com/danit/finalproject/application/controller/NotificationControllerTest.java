@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.dto.response.NotificationResponseDto;
+import com.danit.finalproject.application.dto.response.NotificationResponse;
 import com.danit.finalproject.application.entity.Notification;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.service.NotificationService;
@@ -59,8 +59,8 @@ public class NotificationControllerTest {
     MvcResult result = mockMvc.perform(get("/api/notifications?placeId=1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<NotificationResponseDto> notifications =
-        objectMapper.readValue(responseBody, new TypeReference<List<NotificationResponseDto>>(){});
+    List<NotificationResponse> notifications =
+        objectMapper.readValue(responseBody, new TypeReference<List<NotificationResponse>>(){});
 
     assertEquals(expectedSize, notifications.size());
   }
@@ -89,7 +89,7 @@ public class NotificationControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    NotificationResponseDto createdNotification = objectMapper.readValue(responseBody, NotificationResponseDto.class);
+    NotificationResponse createdNotification = objectMapper.readValue(responseBody, NotificationResponse.class);
     Long createdNotificationId= createdNotification.getId();
 
     assertEquals(expectedText, createdNotification.getText());
@@ -119,7 +119,7 @@ public class NotificationControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    NotificationResponseDto upgatedNotification = objectMapper.readValue(responseBody, NotificationResponseDto.class);
+    NotificationResponse upgatedNotification = objectMapper.readValue(responseBody, NotificationResponse.class);
 
     assertEquals(notificationText, upgatedNotification.getText());
     assertEquals(notificationText, notificationService.getById(notificationId).getText());

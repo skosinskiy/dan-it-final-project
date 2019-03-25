@@ -1,7 +1,7 @@
 package com.danit.finalproject.application.controller.business;
 
-import com.danit.finalproject.application.dto.request.business.BusinessCategoryRequestDto;
-import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponseDto;
+import com.danit.finalproject.application.dto.request.business.BusinessCategoryRequest;
+import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponse;
 import com.danit.finalproject.application.facade.business.BusinessCategoryFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,30 +26,30 @@ public class BusinessCategoryController {
   }
 
   @GetMapping("{id}")
-  public BusinessCategoryResponseDto getBusinessCategoryById(@PathVariable("id") Long businessCategoryId) {
+  public BusinessCategoryResponse getBusinessCategoryById(@PathVariable("id") Long businessCategoryId) {
     return businessCategoryFacade.getById(businessCategoryId);
   }
 
   @GetMapping
-  public List<BusinessCategoryResponseDto> getAllBusinessCategories() {
+  public List<BusinessCategoryResponse> getAllBusinessCategories() {
     return businessCategoryFacade.getAll();
   }
 
   @PostMapping
-  public BusinessCategoryResponseDto createNewBusinessCategory(
-      @RequestBody BusinessCategoryRequestDto businessCategoryRequestDto) {
-    return businessCategoryFacade.create(businessCategoryRequestDto);
+  public BusinessCategoryResponse createNewBusinessCategory(
+      @RequestBody BusinessCategoryRequest businessCategoryRequest) {
+    return businessCategoryFacade.create(businessCategoryRequest);
   }
 
   @PutMapping("{id}")
-  public BusinessCategoryResponseDto updateBusinessCategory(
+  public BusinessCategoryResponse updateBusinessCategory(
       @PathVariable Long id,
-      @RequestBody BusinessCategoryRequestDto businessCategoryRequestDto) {
-    return businessCategoryFacade.update(id, businessCategoryRequestDto);
+      @RequestBody BusinessCategoryRequest businessCategoryRequest) {
+    return businessCategoryFacade.update(id, businessCategoryRequest);
   }
 
   @DeleteMapping("{id}")
-  public BusinessCategoryResponseDto deleteBusiness(@PathVariable("id") Long businessCategoryId) {
+  public BusinessCategoryResponse deleteBusiness(@PathVariable("id") Long businessCategoryId) {
     return businessCategoryFacade.delete(businessCategoryId);
   }
 }

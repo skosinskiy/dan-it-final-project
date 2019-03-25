@@ -1,9 +1,9 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.dto.request.RoleRequestDto;
-import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
-import com.danit.finalproject.application.dto.request.UserRequestDto;
-import com.danit.finalproject.application.dto.response.UserResponseDto;
+import com.danit.finalproject.application.dto.request.RoleRequest;
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
+import com.danit.finalproject.application.dto.request.UserRequest;
+import com.danit.finalproject.application.dto.response.UserResponse;
 import com.danit.finalproject.application.facade.UserFacade;
 import com.danit.finalproject.application.service.UserService;
 
@@ -36,37 +36,37 @@ public class UserController {
   }
 
   @GetMapping("{userId}")
-  public UserResponseDto getUserById(@PathVariable Long userId) {
+  public UserResponse getUserById(@PathVariable Long userId) {
     return userFacade.getById(userId);
   }
 
   @GetMapping("current")
-  public UserResponseDto getCurrentUser() {
+  public UserResponse getCurrentUser() {
     return userFacade.getPrincipalUser();
   }
 
   @GetMapping
-  public List<UserResponseDto> getUsersByEmail(@RequestParam String email) {
+  public List<UserResponse> getUsersByEmail(@RequestParam String email) {
     return userFacade.getUsersByEmail(email);
   }
 
   @PostMapping
-  public UserResponseDto createUser(@RequestBody UserRequestDto userRequestDto) {
-    return userFacade.create(userRequestDto);
+  public UserResponse createUser(@RequestBody UserRequest userRequest) {
+    return userFacade.create(userRequest);
   }
 
   @PutMapping("{userId}")
-  public UserResponseDto updateUser(@PathVariable Long userId, @RequestBody UserRequestDto userRequestDto) {
-    return userFacade.update(userId, userRequestDto);
+  public UserResponse updateUser(@PathVariable Long userId, @RequestBody UserRequest userRequest) {
+    return userFacade.update(userId, userRequest);
   }
 
   @DeleteMapping("{userId}")
-  public UserResponseDto deleteUser(@PathVariable Long userId) {
+  public UserResponse deleteUser(@PathVariable Long userId) {
     return userFacade.delete(userId);
   }
 
   @PutMapping("{userId}/roles")
-  public UserResponseDto setUserRoles(@PathVariable Long userId, @RequestBody List<RoleRequestDto> roles) {
+  public UserResponse setUserRoles(@PathVariable Long userId, @RequestBody List<RoleRequest> roles) {
     return userFacade.setUserRoles(userId, roles);
   }
 
@@ -76,8 +76,8 @@ public class UserController {
   }
 
   @PutMapping("forgot-password/update")
-  public UserResponseDto updatePassword(
-      @RequestBody @Valid UpdateUserPasswordRequestDto userDto,
+  public UserResponse updatePassword(
+      @RequestBody @Valid UpdateUserPasswordRequest userDto,
       BindingResult bindingResult) {
     return userFacade.updateUserPassword(userDto, bindingResult);
   }

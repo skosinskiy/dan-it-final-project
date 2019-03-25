@@ -1,8 +1,8 @@
 package com.danit.finalproject.application.facade.event;
 
-import com.danit.finalproject.application.dto.request.event.EventPhotoRequestDto;
-import com.danit.finalproject.application.dto.request.event.EventRequestDto;
-import com.danit.finalproject.application.dto.response.event.EventResponseDto;
+import com.danit.finalproject.application.dto.request.event.EventPhotoRequest;
+import com.danit.finalproject.application.dto.request.event.EventRequest;
+import com.danit.finalproject.application.dto.response.event.EventResponse;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.event.EventPhoto;
 import com.danit.finalproject.application.facade.AbstractDtoFacade;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class EventFacade extends AbstractDtoFacade<Event, EventRequestDto, EventResponseDto> {
+public class EventFacade extends AbstractDtoFacade<Event, EventRequest, EventResponse> {
 
   private EventService eventService;
 
@@ -22,13 +22,13 @@ public class EventFacade extends AbstractDtoFacade<Event, EventRequestDto, Event
     this.eventService = eventService;
   }
 
-  public List<EventResponseDto> getEvents(Long placeId, Long businessId) {
+  public List<EventResponse> getEvents(Long placeId, Long businessId) {
     List<Event> events = eventService.findAllByLocation(placeId, businessId);
     return mapEntityListToResponseDtoList(events);
   }
 
-  public EventResponseDto addPhoto(EventPhotoRequestDto eventPhotoRequestDto, Long eventId) {
-    EventPhoto eventPhoto = modelMapper.map(eventPhotoRequestDto, EventPhoto.class);
+  public EventResponse addPhoto(EventPhotoRequest eventPhotoRequest, Long eventId) {
+    EventPhoto eventPhoto = modelMapper.map(eventPhotoRequest, EventPhoto.class);
     Event updatedEvent = eventService.addPhoto(eventPhoto, eventId);
     return mapEntityToResponseDto(updatedEvent);
   }

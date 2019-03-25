@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.dto.response.RoleResponseDto;
+import com.danit.finalproject.application.dto.response.RoleResponse;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.RoleService;
@@ -52,7 +52,7 @@ public class RoleControllerTest {
     MvcResult result = mockMvc.perform(get("/api/roles"))
          .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<RoleResponseDto> roles = objectMapper.readValue(responseBody, new TypeReference<List<RoleResponseDto>>(){});
+    List<RoleResponse> roles = objectMapper.readValue(responseBody, new TypeReference<List<RoleResponse>>(){});
 
     assertEquals(expectedRolesSize, roles.size());
     assertEquals(expectedName, roles.get(0).getName());
@@ -74,7 +74,7 @@ public class RoleControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    RoleResponseDto createdRole = objectMapper.readValue(responseBody, RoleResponseDto.class);
+    RoleResponse createdRole = objectMapper.readValue(responseBody, RoleResponse.class);
 
     assertEquals(expectedName, createdRole.getName());
     assertEquals(expectedRolesSize, roleService.getAll().size());
@@ -99,7 +99,7 @@ public class RoleControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    RoleResponseDto updatedRole = objectMapper.readValue(responseBody, RoleResponseDto.class);
+    RoleResponse updatedRole = objectMapper.readValue(responseBody, RoleResponse.class);
 
     assertEquals(expectedName, updatedRole.getName());
     assertEquals(expectedName, roleService.getAll().get(0).getName());

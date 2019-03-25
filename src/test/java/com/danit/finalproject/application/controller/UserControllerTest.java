@@ -13,8 +13,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
-import com.danit.finalproject.application.dto.response.UserResponseDto;
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
+import com.danit.finalproject.application.dto.response.UserResponse;
 import com.danit.finalproject.application.entity.Gender;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
@@ -71,7 +71,7 @@ public class UserControllerTest {
 		MvcResult result = mockMvc.perform(get("/api/users/1"))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		UserResponseDto user = objectMapper.readValue(responseBody, UserResponseDto.class);
+		UserResponse user = objectMapper.readValue(responseBody, UserResponse.class);
 		assertEquals(expectedId, user.getId());
 		assertEquals(expectedEmail, user.getEmail());
 	}
@@ -89,8 +89,8 @@ public class UserControllerTest {
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andReturn();
 
-	  UserResponseDto responseUser = objectMapper
-        .readValue(response.getResponse().getContentAsString(), UserResponseDto.class);
+	  UserResponse responseUser = objectMapper
+        .readValue(response.getResponse().getContentAsString(), UserResponse.class);
 
     assertNotNull(responseUser);
     assertEquals(FIRST_NAME, responseUser.getFirstName());
@@ -131,7 +131,7 @@ public class UserControllerTest {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		UserResponseDto createdUser = objectMapper.readValue(responseBody, UserResponseDto.class);
+		UserResponse createdUser = objectMapper.readValue(responseBody, UserResponse.class);
 		Long createdUserId = createdUser.getId();
 
 		assertEquals(userAge, createdUser.getAge());
@@ -155,7 +155,7 @@ public class UserControllerTest {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		UserResponseDto updatedUser = objectMapper.readValue(responseBody, UserResponseDto.class);
+		UserResponse updatedUser = objectMapper.readValue(responseBody, UserResponse.class);
 
 		assertEquals(userFirstName, updatedUser.getFirstName());
 		assertEquals(userFirstName, userService.getById(userId).getFirstName());
@@ -180,7 +180,7 @@ public class UserControllerTest {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		UserResponseDto user = objectMapper.readValue(responseBody, UserResponseDto.class);
+		UserResponse user = objectMapper.readValue(responseBody, UserResponse.class);
 
 		assertEquals(roles.size(), user.getRoles().size());
 		assertEquals(roles.get(0).getName(), user.getRoles().get(0).getName());
@@ -211,7 +211,7 @@ public class UserControllerTest {
 	@Test
 	public void updatePassword() throws Exception {
 		String expectedPassword = "12345678";
-		UpdateUserPasswordRequestDto userDto = UpdateUserPasswordRequestDto.builder()
+		UpdateUserPasswordRequest userDto = UpdateUserPasswordRequest.builder()
 				.token("12b0e9eb-ad60-44ec-81d1-a759313856ce")
 				.password(expectedPassword)
 				.passwordConfirmation(expectedPassword)
@@ -225,7 +225,7 @@ public class UserControllerTest {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		UserResponseDto user = objectMapper.readValue(responseBody, UserResponseDto.class);
+		UserResponse user = objectMapper.readValue(responseBody, UserResponse.class);
 
 		assertNull(user.getToken());
 		assertNull(user.getTokenExpirationDate());

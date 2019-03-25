@@ -1,7 +1,7 @@
 package com.danit.finalproject.application.controller.event;
 
-import com.danit.finalproject.application.dto.request.event.EventCategoryRequestDto;
-import com.danit.finalproject.application.dto.response.event.EventCategoryResponseDto;
+import com.danit.finalproject.application.dto.request.event.EventCategoryRequest;
+import com.danit.finalproject.application.dto.response.event.EventCategoryResponse;
 import com.danit.finalproject.application.facade.event.EventCategoryFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,29 +26,29 @@ public class EventCategoryController {
   }
 
   @GetMapping("{id}")
-  public EventCategoryResponseDto getEventCategoryById(@PathVariable("id") Long eventCategoryId) {
+  public EventCategoryResponse getEventCategoryById(@PathVariable("id") Long eventCategoryId) {
     return eventCategoryFacade.getById(eventCategoryId);
   }
 
   @GetMapping
-  public List<EventCategoryResponseDto> getAllEventCategories() {
+  public List<EventCategoryResponse> getAllEventCategories() {
     return eventCategoryFacade.getAll();
   }
 
   @PostMapping
-  public EventCategoryResponseDto createNewEventCategory(@RequestBody EventCategoryRequestDto eventCategoryRequestDto) {
-    return eventCategoryFacade.create(eventCategoryRequestDto);
+  public EventCategoryResponse createNewEventCategory(@RequestBody EventCategoryRequest eventCategoryRequest) {
+    return eventCategoryFacade.create(eventCategoryRequest);
   }
 
   @PutMapping("{id}")
-  public EventCategoryResponseDto updateEventCategory(
+  public EventCategoryResponse updateEventCategory(
       @PathVariable Long id,
-      @RequestBody EventCategoryRequestDto eventCategoryRequestDto) {
-    return eventCategoryFacade.update(id, eventCategoryRequestDto);
+      @RequestBody EventCategoryRequest eventCategoryRequest) {
+    return eventCategoryFacade.update(id, eventCategoryRequest);
   }
 
   @DeleteMapping("{id}")
-  public EventCategoryResponseDto deleteEvent(@PathVariable("id") Long eventCategoryId) {
+  public EventCategoryResponse deleteEvent(@PathVariable("id") Long eventCategoryId) {
     return eventCategoryFacade.delete(eventCategoryId);
   }
 }

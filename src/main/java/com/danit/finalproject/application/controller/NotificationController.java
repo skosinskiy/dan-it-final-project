@@ -1,7 +1,7 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.dto.request.NotificationRequestDto;
-import com.danit.finalproject.application.dto.response.NotificationResponseDto;
+import com.danit.finalproject.application.dto.request.NotificationRequest;
+import com.danit.finalproject.application.dto.response.NotificationResponse;
 import com.danit.finalproject.application.facade.NotificationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,18 +28,18 @@ public class NotificationController {
   }
 
   @GetMapping
-  public List<NotificationResponseDto> findAllNotificationsByPlace(@RequestParam("placeId") Long id) {
+  public List<NotificationResponse> findAllNotificationsByPlace(@RequestParam("placeId") Long id) {
     return notificationFacade.findAllByPlace(id);
   }
 
   @PostMapping("/places")
-  public NotificationResponseDto createNewNotification(@RequestBody NotificationRequestDto notificationDto) {
+  public NotificationResponse createNewNotification(@RequestBody NotificationRequest notificationDto) {
     return notificationFacade.create(notificationDto);
   }
 
   @PutMapping("/{id}")
-  public NotificationResponseDto updateNotification(
-      @RequestBody NotificationRequestDto notificationDto,
+  public NotificationResponse updateNotification(
+      @RequestBody NotificationRequest notificationDto,
       @PathVariable("id") Long id) {
     return notificationFacade.update(id, notificationDto);
   }

@@ -1,8 +1,8 @@
 package com.danit.finalproject.application.controller.business;
 
-import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequestDto;
-import com.danit.finalproject.application.dto.request.business.BusinessRequestDto;
-import com.danit.finalproject.application.dto.response.business.BusinessResponseDto;
+import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequest;
+import com.danit.finalproject.application.dto.request.business.BusinessRequest;
+import com.danit.finalproject.application.dto.response.business.BusinessResponse;
 import com.danit.finalproject.application.facade.business.BusinessFacade;
 import com.danit.finalproject.application.service.business.BusinessPhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,35 +31,35 @@ public class BusinessController {
   }
 
   @GetMapping("{id}")
-  public BusinessResponseDto getBusinessById(@PathVariable("id") Long businessId) {
+  public BusinessResponse getBusinessById(@PathVariable("id") Long businessId) {
     return businessFacade.getById(businessId);
   }
 
   @GetMapping
-  public List<BusinessResponseDto> getAllBusinesses(@RequestParam("placeId") Long placeId) {
+  public List<BusinessResponse> getAllBusinesses(@RequestParam("placeId") Long placeId) {
     return businessFacade.getAllByPlace(placeId);
   }
 
   @PostMapping
-  public BusinessResponseDto createNewBusiness(@RequestBody BusinessRequestDto businessRequestDto) {
-    return businessFacade.create(businessRequestDto);
+  public BusinessResponse createNewBusiness(@RequestBody BusinessRequest businessRequest) {
+    return businessFacade.create(businessRequest);
   }
 
   @PutMapping("{id}")
-  public BusinessResponseDto updateBusiness(@PathVariable Long id, @RequestBody BusinessRequestDto businessRequestDto) {
-    return businessFacade.update(id, businessRequestDto);
+  public BusinessResponse updateBusiness(@PathVariable Long id, @RequestBody BusinessRequest businessRequest) {
+    return businessFacade.update(id, businessRequest);
   }
 
   @DeleteMapping("{id}")
-  public BusinessResponseDto deleteBusiness(@PathVariable("id") Long businessId) {
+  public BusinessResponse deleteBusiness(@PathVariable("id") Long businessId) {
     return businessFacade.delete(businessId);
   }
 
   @PostMapping("/{businessId}/photos")
-  public BusinessResponseDto addPhotosToBusiness(
-      @RequestBody BusinessPhotoRequestDto businessPhotoRequestDto,
+  public BusinessResponse addPhotosToBusiness(
+      @RequestBody BusinessPhotoRequest businessPhotoRequest,
       @PathVariable("businessId") Long businessId) {
-    return businessFacade.addPhoto(businessPhotoRequestDto, businessId);
+    return businessFacade.addPhoto(businessPhotoRequest, businessId);
   }
 
   @DeleteMapping("/{businessId}/photos/{photoId}")

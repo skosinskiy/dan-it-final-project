@@ -1,7 +1,7 @@
 package com.danit.finalproject.application.controller.place;
 
-import com.danit.finalproject.application.dto.request.place.PlaceCategoryRequestDto;
-import com.danit.finalproject.application.dto.response.place.PlaceCategoryResponseDto;
+import com.danit.finalproject.application.dto.request.place.PlaceCategoryRequest;
+import com.danit.finalproject.application.dto.response.place.PlaceCategoryResponse;
 import com.danit.finalproject.application.facade.place.PlaceCategoryFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,29 +26,29 @@ public class PlaceCategoryController {
   }
 
   @GetMapping("{id}")
-  public PlaceCategoryResponseDto getPlaceCategoryById(@PathVariable("id") Long placeCategoryId) {
+  public PlaceCategoryResponse getPlaceCategoryById(@PathVariable("id") Long placeCategoryId) {
     return placeCategoryFacade.getById(placeCategoryId);
   }
 
   @GetMapping
-  public List<PlaceCategoryResponseDto> getAllPlaceCategories() {
+  public List<PlaceCategoryResponse> getAllPlaceCategories() {
     return placeCategoryFacade.getAll();
   }
 
   @PostMapping
-  public PlaceCategoryResponseDto createNewPlaceCategory(@RequestBody PlaceCategoryRequestDto placeCategoryRequestDto) {
-    return placeCategoryFacade.create(placeCategoryRequestDto);
+  public PlaceCategoryResponse createNewPlaceCategory(@RequestBody PlaceCategoryRequest placeCategoryRequest) {
+    return placeCategoryFacade.create(placeCategoryRequest);
   }
 
   @PutMapping("{id}")
-  public PlaceCategoryResponseDto updatePlaceCategory(
+  public PlaceCategoryResponse updatePlaceCategory(
       @PathVariable Long id,
-      @RequestBody PlaceCategoryRequestDto placeCategoryRequestDto) {
-    return placeCategoryFacade.update(id, placeCategoryRequestDto);
+      @RequestBody PlaceCategoryRequest placeCategoryRequest) {
+    return placeCategoryFacade.update(id, placeCategoryRequest);
   }
 
   @DeleteMapping("{id}")
-  public PlaceCategoryResponseDto deletePlace(@PathVariable("id") Long placeCategoryId) {
+  public PlaceCategoryResponse deletePlace(@PathVariable("id") Long placeCategoryId) {
     return placeCategoryFacade.delete(placeCategoryId);
   }
 }

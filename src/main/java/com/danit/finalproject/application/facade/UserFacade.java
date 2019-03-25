@@ -1,9 +1,9 @@
 package com.danit.finalproject.application.facade;
 
-import com.danit.finalproject.application.dto.request.RoleRequestDto;
-import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
-import com.danit.finalproject.application.dto.request.UserRequestDto;
-import com.danit.finalproject.application.dto.response.UserResponseDto;
+import com.danit.finalproject.application.dto.request.RoleRequest;
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
+import com.danit.finalproject.application.dto.request.UserRequest;
+import com.danit.finalproject.application.dto.response.UserResponse;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.UserService;
@@ -15,7 +15,7 @@ import org.springframework.validation.BindingResult;
 import java.util.List;
 
 @Component
-public class UserFacade extends AbstractDtoFacade<User, UserRequestDto, UserResponseDto> {
+public class UserFacade extends AbstractDtoFacade<User, UserRequest, UserResponse> {
 
   private UserService userService;
 
@@ -24,22 +24,22 @@ public class UserFacade extends AbstractDtoFacade<User, UserRequestDto, UserResp
     this.userService = userService;
   }
 
-  public UserResponseDto getPrincipalUser() {
+  public UserResponse getPrincipalUser() {
     return mapEntityToResponseDto(userService.getPrincipalUser());
   }
 
-  public List<UserResponseDto> getUsersByEmail(String email) {
+  public List<UserResponse> getUsersByEmail(String email) {
     List<User> users = userService.getUsersByEmail(email);
     return mapEntityListToResponseDtoList(users);
   }
 
-  public UserResponseDto setUserRoles(Long userId, List<RoleRequestDto> rolesDto) {
+  public UserResponse setUserRoles(Long userId, List<RoleRequest> rolesDto) {
     List<Role> roles = modelMapper.map(rolesDto, new TypeToken<List<Role>>(){}.getType());
     User user = userService.setUserRoles(userId, roles);
     return mapEntityToResponseDto(user);
   }
 
-  public UserResponseDto updateUserPassword(UpdateUserPasswordRequestDto userDto, BindingResult bindingResult) {
+  public UserResponse updateUserPassword(UpdateUserPasswordRequest userDto, BindingResult bindingResult) {
     User user = userService.updateUserPassword(userDto, bindingResult);
     return mapEntityToResponseDto(user);
   }

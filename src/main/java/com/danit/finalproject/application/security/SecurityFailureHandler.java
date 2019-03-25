@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.security;
 
-import com.danit.finalproject.application.dto.response.AuthResultDto;
+import com.danit.finalproject.application.dto.response.AuthResult;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,12 +28,12 @@ public class SecurityFailureHandler implements AuthenticationFailureHandler {
       HttpServletRequest httpServletRequest,
       HttpServletResponse httpServletResponse,
       AuthenticationException exc) throws IOException {
-    AuthResultDto authResultDto = AuthResultDto.builder()
+    AuthResult authResult = AuthResult.builder()
         .timestamp(new Date(System.currentTimeMillis()))
         .status(HttpStatus.UNAUTHORIZED.value())
         .message(HttpStatus.UNAUTHORIZED.getReasonPhrase())
         .build();
-    httpServletResponse.getWriter().write(objectMapper.writeValueAsString(authResultDto));
+    httpServletResponse.getWriter().write(objectMapper.writeValueAsString(authResult));
     httpServletResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
   }
 }

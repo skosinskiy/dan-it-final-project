@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.service;
 
-import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
 import com.danit.finalproject.application.entity.Permission;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
@@ -118,7 +118,7 @@ public class UserService implements UserDetailsService, CrudService<User> {
     emailService.sendSimpleMessage(userEmail, PASS_RECOVERY_EMAIL_SUBJECT, text);
   }
 
-  public User updateUserPassword(UpdateUserPasswordRequestDto userDto, BindingResult bindingResult) {
+  public User updateUserPassword(UpdateUserPasswordRequest userDto, BindingResult bindingResult) {
     validationService.checkForValidationErrors(bindingResult);
     User user = userRepository.findByToken(userDto.getToken());
     user.setPassword(passwordEncoder.encode(userDto.getPassword()));

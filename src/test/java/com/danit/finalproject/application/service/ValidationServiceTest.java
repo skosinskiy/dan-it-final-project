@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.service;
 
-import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
 import com.danit.finalproject.application.error.PasswordsDontMatchException;
 import com.danit.finalproject.application.error.TokenExpiredException;
 import org.junit.Rule;
@@ -33,7 +33,7 @@ public class ValidationServiceTest {
 
   @Test
   public void successfulValidation() {
-    UpdateUserPasswordRequestDto userDto = UpdateUserPasswordRequestDto.builder()
+    UpdateUserPasswordRequest userDto = UpdateUserPasswordRequest.builder()
         .token("12b0e9eb-ad60-44ec-81d1-a759313856ce")
         .password("12345678")
         .passwordConfirmation("12345678")
@@ -47,7 +47,7 @@ public class ValidationServiceTest {
   public void objectErrorTest() {
     exceptionRule.expect(PasswordsDontMatchException.class);
     exceptionRule.expectMessage("Passwords do not match");
-    UpdateUserPasswordRequestDto userDto = UpdateUserPasswordRequestDto.builder()
+    UpdateUserPasswordRequest userDto = UpdateUserPasswordRequest.builder()
         .token("12b0e9eb-ad60-44ec-81d1-a759313856ce")
         .password("12345678")
         .passwordConfirmation("12345679")
@@ -61,7 +61,7 @@ public class ValidationServiceTest {
   public void fieldErrorTest() {
     exceptionRule.expect(TokenExpiredException.class);
     exceptionRule.expectMessage("Token is expired");
-    UpdateUserPasswordRequestDto userDto = UpdateUserPasswordRequestDto.builder()
+    UpdateUserPasswordRequest userDto = UpdateUserPasswordRequest.builder()
         .token("ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0")
         .password("12345678")
         .passwordConfirmation("12345678")
