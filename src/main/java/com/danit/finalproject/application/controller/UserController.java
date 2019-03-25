@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,18 +48,9 @@ public class UserController {
     return userFacade.getPrincipalUser();
   }
 
-  //  @GetMapping
-  //  public Page<User> getUsersByEmail(@RequestParam String email, Pageable pageable) {
-  //    return userService.getUsersByEmail(email, pageable);
-
-  //  @GetMapping
-  //  public List<UserResponse> getUsersByEmail(@RequestParam String email) {
-  //    return userFacade.getUsersByEmail(email);
-  //  }
-
   @GetMapping
-  public Page<UserResponse> getUsersByEmail(@RequestParam String email, Pageable pageable) {
-    return userFacade.getUsersByEmail(email, pageable);
+  public ResponseEntity<Page<UserResponse>> getUsersByEmail(@RequestParam String email, Pageable pageable) {
+    return ResponseEntity.ok(userFacade.getUsersByEmail(email, pageable));
   }
 
   @PostMapping

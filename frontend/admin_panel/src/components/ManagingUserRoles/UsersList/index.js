@@ -39,7 +39,7 @@ class EnhancedTableHead extends React.Component {
               <TableCell
                 key={row.id}
                 align={row.id === 'roles' ? 'right' : 'left'}
-                padding={row.disablePadding ? 'none' : 'default'}
+                padding='none'
               >
                 <Tooltip
                   title="Sort"
@@ -66,9 +66,10 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3
   },
   table: {
-    minWidth: 1020
+    tableLayout: 'fixed'
   },
   tableWrapper: {
+    padding: '0 20px',
     overflowX: 'auto'
   },
   roles: {
@@ -83,7 +84,7 @@ const styles = theme => ({
     textAlign: 'center'
   },
   tableCell: {
-    paddingLeft: '20px'
+
   }
 })
 
@@ -139,10 +140,10 @@ class UsersList extends React.Component {
                           <ImageIcon />
                         </Avatar>
                       </TableCell>
-                      <TableCell align="left">{user.email}</TableCell>
-                      <TableCell align="left">{user.firstName}</TableCell>
-                      <TableCell align="left">{user.age}</TableCell>
-                      <TableCell align="right" className={classes.roles}><UserItem user={user} key={user.id}/></TableCell>
+                      <TableCell padding="none" align="left" className='text-overflow-ellipsis' title={user.email}>{user.email}</TableCell>
+                      <TableCell padding="none" align="left">{user.firstName}</TableCell>
+                      <TableCell padding="none" align="left">{user.age}</TableCell>
+                      <TableCell padding="none" align="right" className={classes.roles}><UserItem user={user} key={user.id}/></TableCell>
                     </TableRow>
                   )
                 })}
