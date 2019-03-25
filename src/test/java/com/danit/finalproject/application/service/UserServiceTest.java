@@ -11,8 +11,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.BindingResult;
@@ -90,73 +91,28 @@ public class UserServiceTest {
 		assertEquals(expectedEmail, user.getEmail());
 	}
 
-	@Test
-	public void verifyFindAllByEmailCalledOnce() {
-		int expectedUsersSize = 2;
-		String expectedSearchEmail = "FiRst";
-		String expectedSecondUserEmail = "first.user@test2.com";
-		Pageable pageable = new Pageable() {
-			@Override
-			public int getPageNumber() {
-				return 0;
-			}
+  	@Test
+  	public void verifyFindAllByEmailCalledOnce() {
+  		int      expectedUsersSize       = 2;
+  		String   expectedSearchEmail     = "FiRst";
+  		String   expectedSecondUserEmail = "first.user@test2.com";
+  		Pageable pageable = PageRequest.of(0, 25);
 
-			@Override
-			public int getPageSize() {
-				return 25;
-			}
+  		List<User> mockUsers = new ArrayList<>();
+  		mockUsers.add(firstMockUser);
+  		mockUsers.add(secondMockUser);
 
-			@Override
-			public long getOffset() {
-				return 0;
-			}
+  		when(userRepository.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail,  PageRequest.of(0, 25)).getContent
+          ()).thenReturn
+  				(mockUsers);
+  		Page<User> users = userService.getUsersByEmail(expectedSearchEmail, pageable);
 
-			@Override
-			public Sort getSort() {
-				return null;
-			}
+  		verify(userRepository, times(1))
+  				.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail, pageable);
 
-			@Override
-			public Pageable next() {
-				return null;
-			}
-
-			@Override
-			public Pageable previousOrFirst() {
-				return null;
-			}
-
-			@Override
-			public Pageable first() {
-				return null;
-			}
-
-			@Override
-			public boolean hasPrevious() {
-				return false;
-			}
-		};
-
-		List<User> mockUsers = new ArrayList<>();
-		mockUsers.add(firstMockUser);
-		mockUsers.add(secondMockUser);
-
-		when(userRepository.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail, pageable).getContent()).thenReturn
-				(mockUsers);
-		List<User> users = userService.getUsersByEmail(expectedSearchEmail, pageable).getContent();
-
-		verify(userRepository, times(1))
-				.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail, pageable);
-
-//		when(userRepository.findAllByEmailContainingIgnoreCase(expectedSearchEmail)).thenReturn(mockUsers);
-//		List<User> users = userService.getUsersByEmail(expectedSearchEmail);
-//
-//		verify(userRepository, times(1))
-//				.findAllByEmailContainingIgnoreCase(expectedSearchEmail);
-
-		assertEquals(expectedUsersSize, users.size());
-		assertEquals(expectedSecondUserEmail, users.get(1).getEmail());
-	}
+  		assertEquals(expectedUsersSize, users.getContent().size());
+  		assertEquals(expectedSecondUserEmail, users.getContent().get(1).getEmail());
+  	}
 
 	@Test
 	public void verifySaveOnCreateCalledOnce() {

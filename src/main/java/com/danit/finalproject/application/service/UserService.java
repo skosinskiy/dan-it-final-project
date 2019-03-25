@@ -65,10 +65,6 @@ public class UserService implements UserDetailsService, CrudService<User> {
 
   public Page<User> getUsersByEmail(String email, Pageable pageable) {
     return userRepository.findAllByEmailStartingWithIgnoreCase(email, pageable);
-
-  //  public List<User> getUsersByEmail(String email) {
-  //    return userRepository.findAllByEmailContainingIgnoreCase(email);
-
   }
 
   @Override

@@ -47,15 +47,6 @@ public class UserController {
     return userFacade.getPrincipalUser();
   }
 
-  //  @GetMapping
-  //  public Page<User> getUsersByEmail(@RequestParam String email, Pageable pageable) {
-  //    return userService.getUsersByEmail(email, pageable);
-
-  //  @GetMapping
-  //  public List<UserResponse> getUsersByEmail(@RequestParam String email) {
-  //    return userFacade.getUsersByEmail(email);
-  //  }
-
   @GetMapping
   public Page<UserResponse> getUsersByEmail(@RequestParam String email, Pageable pageable) {
     return userFacade.getUsersByEmail(email, pageable);
