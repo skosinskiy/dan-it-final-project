@@ -7,11 +7,13 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 @Component
+@Transactional
 @SuppressWarnings("unchecked")
 public abstract class AbstractDtoFacade<E extends BaseEntity, I, O> {
 

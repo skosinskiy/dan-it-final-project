@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -102,9 +103,11 @@ public class UserServiceTest {
   		mockUsers.add(firstMockUser);
   		mockUsers.add(secondMockUser);
 
-  		when(userRepository.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail,  PageRequest.of(0, 25)).getContent
-          ()).thenReturn
-  				(mockUsers);
+      Page<User> userPageable = new PageImpl<>(mockUsers);
+
+
+      when(userRepository.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail,  PageRequest.of(0, 25)))
+          .thenReturn(userPageable);
   		Page<User> users = userService.getUsersByEmail(expectedSearchEmail, pageable);
 
   		verify(userRepository, times(1))
