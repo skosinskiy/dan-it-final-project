@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class NotificationService {
+public class NotificationService implements CrudService<Notification> {
   private NotificationRepository notificationRepository;
   private PlaceRepository placeRepository;
 
@@ -19,25 +19,36 @@ public class NotificationService {
     this.placeRepository = placeRepository;
   }
 
-  public Notification getNotifivcationById(Long id) {
+  @Override
+  public Notification getById(Long id) {
     return notificationRepository.findById(id).orElse(null);
+  }
+
+  @Override
+  public List<Notification> getAll() {
+    return notificationRepository.findAll();
   }
 
   public List<Notification> findAllByPlace(Long placeId) {
     return notificationRepository.findAllByPlace(placeRepository.findById(placeId).orElse(null));
   }
 
-  public Notification createNewNotification(Notification notification, Long placeId) {
-    notification.setPlace(placeRepository.findById(placeId).orElse(null));
+  @Override
+  public Notification create(Notification notification) {
+    notification.setPlace(placeRepository.findById(notification.getPlace().getId()).orElse(null));
     return notificationRepository.save(notification);
   }
 
-  public Notification updateNotification(Notification notification, Long id) {
+  @Override
+  public Notification update(Long id, Notification notification) {
     notification.setId(id);
     return notificationRepository.saveAndFlush(notification);
   }
 
-  public void deleteNotification(Long id) {
+  @Override
+  public Notification delete(Long id) {
+    Notification notification = notificationRepository.findById(id).orElse(null);
     notificationRepository.deleteById(id);
+    return notification;
   }
 }

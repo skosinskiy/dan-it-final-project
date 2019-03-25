@@ -6,20 +6,17 @@ import Places from '../../SidebarMenu/Places'
 import PlaceForm from '../../SidebarMenu/Places/PLaceForm'
 
 class AppRoutes extends Component {
-    state = {
-      isAuthenticated: true
-    }
-    render () {
-      return (
-        <Switch>
-          <Route path="/admin/business-categories" component={AddBusinessCategory}/>
-          <Route path="/admin/managing-roles" component={ManaginrUserRoles}/>
-          <Route path="/admin/places/add-new" component={PlaceForm}/>
-          <Route path="/admin/places/:placeId" component={PlaceForm}/>
-          <Route path="/admin/places" component={Places}/>
-        </Switch>
-      )
-    }
+  render () {
+    return (
+      <Switch>
+        <Route path="/admin/business-categories" component={AddBusinessCategory}/>
+        <Route path="/admin/managing-roles" component={ManaginrUserRoles}/>
+        <Route path="/admin/places/add-new" component={PlaceForm}/>
+        <Route path="/admin/places/:placeId" component={PlaceForm}/>
+        <Route path="/admin/places" component={Places}/>
+      </Switch>
+    )
+  }
 }
 
 export default AppRoutes
