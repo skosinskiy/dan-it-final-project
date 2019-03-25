@@ -6,6 +6,8 @@ import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,8 +43,8 @@ public class UserController {
   }
 
   @GetMapping
-  public List<User> getUsersByEmail(@RequestParam String email) {
-    return userService.getUsersByEmail(email);
+  public Page<User> getUsersByEmail(@RequestParam String email, Pageable pageable) {
+    return userService.getUsersByEmail(email, pageable);
   }
 
   @PostMapping

@@ -7,9 +7,11 @@ export const getUserRoles = () => dispatch => {
   })
 }
 
-export const getUsersByEmail = (params) => dispatch => {
-  api.get(`/api/users?email=${params}`).then(res => {
-    dispatch({type: Actions.Users.GET_USERS_BY_EMAIL, payload: {users: res}})
+export const getUsersByEmail = (email, page, size) => dispatch => {
+  api.get(`/api/users?email=${email}&page=${page}&size=${size}`).then(res => {
+    dispatch({type: Actions.Users.GET_USERS_BY_EMAIL,
+      payload:
+        {users: res.content, page: res.pageable.pageNumber, totalElements: res.totalElements, email: email}})
   })
 }
 

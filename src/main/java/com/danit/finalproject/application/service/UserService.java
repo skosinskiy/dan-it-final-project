@@ -6,6 +6,8 @@ import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
@@ -39,8 +41,8 @@ public class UserService {
     return userRepository.findById(userId).orElse(null);
   }
 
-  public List<User> getUsersByEmail(String email) {
-    return userRepository.findAllByEmailStartingWithIgnoreCase(email);
+  public Page<User> getUsersByEmail(String email, Pageable pageable) {
+    return userRepository.findAllByEmailStartingWithIgnoreCase(email, pageable);
   }
 
   public User createUser(User user) {
