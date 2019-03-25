@@ -97,7 +97,7 @@ public class MenuItemServiceTest {
       add(MenuItemName.SHOPS);
       add(MenuItemName.SPORT);
     }};
-    assertTrue(Arrays.asList(MenuItemName.values()).stream()
-        .allMatch(name -> expectedMenuItemNames.contains(name)));
+    List<MenuItemName> menuItemNames = Arrays.asList(MenuItemName.values());
+    assertTrue(expectedMenuItemNames.stream().allMatch(name -> menuItemNames.contains(name)));
   }
 }
