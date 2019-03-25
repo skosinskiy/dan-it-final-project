@@ -15,9 +15,10 @@ import Badge from '@material-ui/core/Badge'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
+import PowerSetting from '@material-ui/icons/PowerSettingsNew'
 import Sidebarmenu from '../components/SidebarMenu'
 import AdminRouter from '../components/AppRoutes/AdminRouter'
-import { getUserRoles } from '../actions/users'
+import {getUserRoles, logOutUser} from '../actions/users'
 
 const drawerWidth = 240
 
@@ -115,8 +116,10 @@ class Admin extends React.Component {
     this.setState({ open: false })
   };
 
+
+
   render () {
-    const { classes } = this.props
+    const { classes, logoutUser } = this.props
 
     return (
       <div className={classes.root}>
@@ -150,6 +153,9 @@ class Admin extends React.Component {
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
+            </IconButton>
+            <IconButton color="inherit" alt ="Log out">
+              <PowerSetting onClick={logoutUser}   />
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -190,8 +196,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    logoutUser: ()=> dispatch(logOutUser()),
     getUserRolesList: () => dispatch(getUserRoles())
   }
 }
+
+
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(((withStyles(styles, { withTheme: true })(Admin)))))
