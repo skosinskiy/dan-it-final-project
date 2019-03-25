@@ -6,6 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import PeopleIcon from '@material-ui/icons/People'
+import StoreIcon from '@material-ui/icons/Store'
 import BarChartIcon from '@material-ui/icons/BarChart'
 import LayersIcon from '@material-ui/icons/Layers'
 import './sidebar-menu.scss'
@@ -38,12 +39,14 @@ export default class SidebarMenu extends Component {
             <ListItemText primary="Places" />
           </ListItem>
         </NavLink>
-        <ListItem button>
-          <ListItemIcon>
-            <BarChartIcon />
-          </ListItemIcon>
-          <ListItemText primary="Link 4" />
-        </ListItem>
+        <NavLink to={'/admin/buildings'} className="sidebarItem">
+          <ListItem button>
+            <ListItemIcon>
+              <StoreIcon />
+            </ListItemIcon>
+            <ListItemText primary="Buildings" />
+          </ListItem>
+        </NavLink>
         <ListItem button>
           <ListItemIcon>
             <LayersIcon />

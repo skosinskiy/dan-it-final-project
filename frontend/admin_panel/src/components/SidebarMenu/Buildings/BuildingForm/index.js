@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
@@ -6,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import { getPlacesCategories, saveNewPlace, updatePlace } from '../../../../actions/place/places'
+import { getBuildingsCategories, saveNewBuilding, updateBuilding } from '../../../../actions/building/buildings'
 import { connect } from 'react-redux'
 
 const styles = theme => ({
@@ -31,37 +30,37 @@ const styles = theme => ({
 
 })
 
-const emptyPLace = {
+const emptyBuilding = {
   title: '',
   description: '',
   address: '',
-  placeCategory: {}
+  buildingCategory: {}
 }
 
-class PlaceForm extends React.Component {
+class BuildingForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      place: typeof props.place !== 'undefined' ? props.place : emptyPLace
+      building: typeof props.building !== 'undefined' ? props.building : emptyBuilding
     }
   }
 
   componentDidMount () {
-    const {getPlaceCategories} = this.props
-    getPlaceCategories()
+    const {getBuildingCategories} = this.props
+    getBuildingCategories()
   }
 
-  savePlace = (placeId, place) => {
-    if (placeId) {
-      this.props.updatePlace(placeId, place)
+  saveBuilding = (buildingId, building) => {
+    if (buildingId) {
+      this.props.updateBuilding(buildingId, building)
     } else {
-      this.props.saveNewPlace(place)
+      this.props.saveNewBuilding(building)
     }
   }
 
   handleChange = name => event => {
     let value
-    if (name === 'placeCategory') {
+    if (name === 'buildingCategory') {
       value = this.props.categories.find(category => {
         return category.id === event.target.value
       })
@@ -69,15 +68,15 @@ class PlaceForm extends React.Component {
       value = event.target.value
     }
     this.setState({
-      place: {...this.state.place, [name]: value}
+      building: {...this.state.building, [name]: value}
     })
   };
 
   render () {
-    const { classes, categories, placeId } = this.props
-    const { place } = this.state
+    const { classes, categories, buildingId } = this.props
+    const { building } = this.state
     return (
-      <div className="edit-place-form">
+      <div className="edit-building-form">
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
             label="Title"
@@ -88,7 +87,7 @@ class PlaceForm extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            value={place.title}
+            value={building.title}
             onChange={this.handleChange('title')}
           />
 
@@ -102,7 +101,7 @@ class PlaceForm extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            value={place.description}
+            value={building.description}
             onChange={this.handleChange('description')}
           />
 
@@ -116,7 +115,7 @@ class PlaceForm extends React.Component {
             InputLabelProps={{
               shrink: true
             }}
-            value={place.address}
+            value={building.address}
             onChange={this.handleChange('address')}
           />
 
@@ -133,14 +132,14 @@ class PlaceForm extends React.Component {
             id="outlined-select-currency"
             select
             className={classes.textField}
-            value={place.placeCategory.id}
-            onChange={this.handleChange('placeCategory')}
+            value={building.buildingCategory.id}
+            onChange={this.handleChange('buildingCategory')}
             SelectProps={{
               MenuProps: {
                 className: classes.menu
               }
             }}
-            helperText="select place category"
+            helperText="select building category"
             margin="normal"
             variant="filled"
           >
@@ -151,13 +150,13 @@ class PlaceForm extends React.Component {
             ))}
           </TextField>
         </form>
-        <div className="place-buttons">
-          <NavLink to={'/admin/places'} className={classes.buttonLink}>
-            <Button onClick={() => this.savePlace(placeId, place)} variant="contained" color="primary" className={classes.button}>
+        <div className="building-buttons">
+          <NavLink to={'/admin/buildings'} className={classes.buttonLink}>
+            <Button onClick={() => this.saveBuilding(buildingId, building)} variant="contained" color="primary" className={classes.button}>
             Save
             </Button>
           </NavLink>
-          <NavLink to={'/admin/places'} className={classes.buttonLink}>
+          <NavLink to={'/admin/buildings'} className={classes.buttonLink}>
             <Button variant="contained" color="secondary" className={classes.button}>
             Exit
             </Button>
@@ -168,26 +167,26 @@ class PlaceForm extends React.Component {
   }
 }
 
-PlaceForm.propTypes = {
+BuildingForm.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state, props) => {
   return {
-    categories: [...state.places.placeCategories],
-    placeList: [...state.places.places],
-    place: state.places.places.find(place => place.id === +props.match.params.placeId)
+    categories: [...state.buildings.buildingCategories],
+    buildingList: [...state.buildings.buildings],
+    building: state.buildings.buildings.find(building => building.id === +props.match.params.buildingId)
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveNewPlace: (place) => {
-      dispatch(saveNewPlace(place))
+    saveNewBuilding: (building) => {
+      dispatch(saveNewBuilding(building))
     },
-    getPlaceCategories: () => dispatch(getPlacesCategories()),
-    updatePlace: (placeId, place) => dispatch(updatePlace(placeId, place))
+    getBuildingCategories: () => dispatch(getBuildingsCategories()),
+    updateBuilding: (buildingId, building) => dispatch(updateBuilding(buildingId, building))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PlaceForm))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BuildingForm))

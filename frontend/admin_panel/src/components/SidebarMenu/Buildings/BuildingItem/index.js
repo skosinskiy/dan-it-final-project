@@ -7,7 +7,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
 import ImageIcon from '@material-ui/icons/Image'
-import {deletePlace} from '../../../../actions/place/places'
+import {deleteBuilding} from '../../../../actions/building/buildings'
 
 const styles = theme => ({
   root: {
@@ -22,19 +22,19 @@ const styles = theme => ({
   }
 })
 
-class Places extends Component {
+class Buildings extends Component {
   render () {
-    const {classes, place, deletePlace} = this.props
+    const {classes, building, deleteBuilding} = this.props
     return (
       <ListItem>
         <Avatar>
           <ImageIcon />
         </Avatar>
-        <ListItemText primary={place.title} secondary={place.address} />
-        <NavLink to={`/admin/places/${place.id}`} className={classes.buttons}>
+        <ListItemText primary={building.title} secondary={building.address} />
+        <NavLink to={`/admin/buildings/${building.id}`} className={classes.buttons}>
           <Button variant="contained" color="primary" className={classes.button}>Edit</Button>
         </NavLink>
-        <Button onClick={() => deletePlace(place.id)} variant="contained" color="secondary" className={classes.button}>Delete</Button>
+        <Button onClick={() => deleteBuilding(building.id)} variant="contained" color="secondary" className={classes.button}>Delete</Button>
       </ListItem>
     )
   }
@@ -42,14 +42,14 @@ class Places extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    placeList: state.places.places
+    buildingList: state.pbuildings.buildings
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deletePlace: (placeId) => dispatch(deletePlace(placeId))
+    deleteBuilding: (buildingId) => dispatch(deleteBuilding(buildingId))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Places))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Buildings))
