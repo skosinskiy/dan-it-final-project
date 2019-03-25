@@ -9,19 +9,27 @@ import PeopleIcon from '@material-ui/icons/People'
 import BarChartIcon from '@material-ui/icons/BarChart'
 import LayersIcon from '@material-ui/icons/Layers'
 import './sidebar-menu.scss'
+import {connect} from 'react-redux'
+import {hasGrant} from '../../util/roles'
+import {Grant} from '../../util/constants'
 
-export default class SidebarMenu extends Component {
+class SidebarMenu extends Component {
   render () {
+    const {user} = this.props
+
     return (
       <div>
-        <NavLink to={'/admin/business-categories'} className="sidebarItem">
-          <ListItem button>
-            <ListItemIcon>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText primary={'Business Categories'}/>
-          </ListItem>
-        </NavLink>
+        {
+          hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES) &&
+          <NavLink to={'/admin/business-categories'} className="sidebarItem">
+            <ListItem button>
+              <ListItemIcon>
+                <DashboardIcon/>
+              </ListItemIcon>
+              <ListItemText primary={'Business Categories'}/>
+            </ListItem>
+          </NavLink>
+        }
         <NavLink to={'/admin/managing-roles'} className="sidebarItem">
           <ListItem button>
             <ListItemIcon>
@@ -54,3 +62,11 @@ export default class SidebarMenu extends Component {
     )
   }
 }
+
+const mapStateToProps = ({users}) => {
+  return {
+    user: users.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(SidebarMenu)
