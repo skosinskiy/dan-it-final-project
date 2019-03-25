@@ -62,7 +62,7 @@ public class RoleServiceTest {
     String expectedName = "super-admin";
 
     when(roleRepository.findById(expectedId)).thenReturn(Optional.of(secondMockRole));
-    Role role = roleService.getRoleById(expectedId);
+    Role role = roleService.getById(expectedId);
 
     verify(roleRepository, times(1)).findById(expectedId);
     assertEquals(expectedId, role.getId());
@@ -78,7 +78,7 @@ public class RoleServiceTest {
     mockRoles.add(firstMockRole);
     mockRoles.add(secondMockRole);
     when(roleRepository.findAll()).thenReturn(mockRoles);
-    List<Role> roles = roleService.getAllRoles();
+    List<Role> roles = roleService.getAll();
 
     verify(roleRepository, times(1)).findAll();
     assertEquals(expectedRolesSize, roles.size());
@@ -91,7 +91,7 @@ public class RoleServiceTest {
 
     firstMockRole.setName(expectedRoleName);
     when(roleRepository.save(firstMockRole)).thenReturn(firstMockRole);
-    Role createdRole = roleService.createRole(firstMockRole);
+    Role createdRole = roleService.create(firstMockRole);
 
     verify(roleRepository, times(1)).save(firstMockRole);
     assertEquals(expectedRoleName, createdRole.getName());
@@ -107,7 +107,7 @@ public class RoleServiceTest {
 
     secondMockRole.setName(roleName);
     when(roleRepository.save(secondMockRole)).thenReturn(secondMockRole);
-    Role updatedRole = roleService.updateRole(roleId, secondMockRole);
+    Role updatedRole = roleService.update(roleId, secondMockRole);
 
     verify(roleRepository, times(1)).save(secondMockRole);
     assertEquals(roleName, updatedRole.getName());
@@ -116,7 +116,7 @@ public class RoleServiceTest {
   @Test
   public void verifyDeleteCalledOnce() {
     when(roleRepository.findById(2L)).thenReturn(Optional.of(secondMockRole));
-    roleService.deleteRole(2L);
+    roleService.delete(2L);
 
     verify(roleRepository, times(1)).delete(secondMockRole);
   }

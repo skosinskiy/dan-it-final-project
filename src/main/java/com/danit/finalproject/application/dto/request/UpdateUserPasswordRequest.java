@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Builder
 @PasswordsMatch
-public class UpdateUserPasswordRequestDto {
+public class UpdateUserPasswordRequest {
   @TokenNotExpired
   private String token;
   private String password;

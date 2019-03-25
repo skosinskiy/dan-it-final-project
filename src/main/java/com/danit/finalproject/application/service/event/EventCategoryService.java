@@ -2,13 +2,14 @@ package com.danit.finalproject.application.service.event;
 
 import com.danit.finalproject.application.entity.event.EventCategory;
 import com.danit.finalproject.application.repository.event.EventCategoryRepository;
+import com.danit.finalproject.application.service.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class EventCategoryService {
+public class EventCategoryService implements CrudService<EventCategory> {
   private EventCategoryRepository eventCategoryRepository;
 
   @Autowired
@@ -16,23 +17,31 @@ public class EventCategoryService {
     this.eventCategoryRepository = eventCategoryRepository;
   }
 
-  public EventCategory getEventCategoryById(Long id) {
+  @Override
+  public EventCategory getById(Long id) {
     return eventCategoryRepository.findById(id).orElse(null);
   }
 
-  public List<EventCategory> findAll() {
+  @Override
+  public List<EventCategory> getAll() {
     return eventCategoryRepository.findAll();
   }
 
-  public EventCategory createNewEventCategory(EventCategory eventCategory) {
+  @Override
+  public EventCategory create(EventCategory eventCategory) {
     return eventCategoryRepository.save(eventCategory);
   }
 
-  public EventCategory updateEventCategory(EventCategory eventCategory) {
+  @Override
+  public EventCategory update(Long id, EventCategory eventCategory) {
+    eventCategory.setId(id);
     return eventCategoryRepository.saveAndFlush(eventCategory);
   }
 
-  public void deleteEventCategory(Long id) {
+  @Override
+  public EventCategory delete(Long id) {
+    EventCategory eventCategory = eventCategoryRepository.findById(id).orElse(null);
     eventCategoryRepository.deleteById(id);
+    return eventCategory;
   }
 }
