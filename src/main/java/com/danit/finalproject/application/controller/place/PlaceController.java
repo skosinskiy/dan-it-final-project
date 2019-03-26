@@ -62,7 +62,7 @@ public class PlaceController {
   }
 
   @DeleteMapping("/{placeId}/photos/{photoId}")
-  public void deletePhoto(@PathVariable Long photoId) {
-    placePhotoService.deletePlacePhoto(photoId);
+  public PlaceResponse deletePhoto(@PathVariable Long placeId, @PathVariable Long photoId) {
+    return placeFacade.deletePlacePhoto(placeId, photoId);
   }
 }

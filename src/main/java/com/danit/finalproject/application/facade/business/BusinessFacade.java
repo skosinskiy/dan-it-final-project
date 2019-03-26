@@ -32,4 +32,9 @@ public class BusinessFacade extends AbstractDtoFacade<Business, BusinessRequest,
     Business updatedBusiness = businessService.addPhoto(eventPhoto, businessId);
     return mapEntityToResponseDto(updatedBusiness);
   }
+
+  public BusinessResponse deleteBusinessPhoto(Long businessId, Long photoId) {
+    Business business = businessService.deleteBusinessPhoto(businessId, photoId);
+    return mapEntityToResponseDto(business);
+  }
 }

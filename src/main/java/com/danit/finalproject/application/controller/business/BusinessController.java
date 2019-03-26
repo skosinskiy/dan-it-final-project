@@ -63,7 +63,7 @@ public class BusinessController {
   }
 
   @DeleteMapping("/{businessId}/photos/{photoId}")
-  public void deletePhoto(@PathVariable("photoId") Long photoId) {
-    businessPhotoService.deleteBusinessPhoto(photoId);
+  public BusinessResponse deletePhoto(@PathVariable Long businessId, @PathVariable("photoId") Long photoId) {
+    return businessFacade.deleteBusinessPhoto(businessId, photoId);
   }
 }

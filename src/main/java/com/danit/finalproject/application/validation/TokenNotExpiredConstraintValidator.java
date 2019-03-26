@@ -18,6 +18,7 @@ public class TokenNotExpiredConstraintValidator implements ConstraintValidator<T
     this.userService = userService;
   }
 
+  @Override
   public void initialize(TokenNotExpired constraint) {
   }
 

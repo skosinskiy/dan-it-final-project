@@ -65,8 +65,8 @@ public class EventController {
   }
 
   @DeleteMapping("/{eventId}/photos/{photoId}")
-  public void deletePhoto(@PathVariable("photoId") Long photoId) {
-    eventPhotoService.deleteEventPhoto(photoId);
+  public EventResponse deletePhoto(@PathVariable Long eventId, @PathVariable Long photoId) {
+    return eventFacade.deleteEventPhoto(eventId, photoId);
   }
 
 }

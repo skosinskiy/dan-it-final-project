@@ -107,7 +107,7 @@ public class MenuItemControllerTest {
         .getContentAsString();
     MenuItem updatedMenuItem = objectMapper.readValue(responseBody, MenuItem.class);
     assertEquals(NEW_DISPLAY_NAME, updatedMenuItem.getDisplayName());
-    assertEquals(NEW_DISPLAY_NAME, menuItemService.getAllMenuItems().get(0).getDisplayName());
+    assertEquals(NEW_DISPLAY_NAME, menuItemService.getAll().get(0).getDisplayName());
   }
 
 }

@@ -44,7 +44,7 @@ public class BusinessService implements CrudService<Business> {
   @Override
   public Business update(Long id, Business business) {
     business.setId(id);
-    return businessRepository.saveAndFlush(business);
+    return businessRepository.save(business);
   }
 
   @Override
@@ -60,6 +60,20 @@ public class BusinessService implements CrudService<Business> {
     Business business = optionalBusiness.orElse(null);
     businessRepository.save(business);
     return business;
+  }
+
+  public Business deleteBusinessPhoto(Long businessId, Long photoId) {
+    Optional<Business> optionalBusiness = businessRepository.findById(businessId);
+    if (optionalBusiness.isPresent()) {
+      BusinessPhoto businessPhoto = optionalBusiness.get().getPhotos()
+          .stream()
+          .filter(photo -> photoId.equals(photo.getId()))
+          .findFirst().orElse(null);
+      Business business = optionalBusiness.get();
+      business.getPhotos().remove(businessPhoto);
+      businessRepository.saveAndFlush(business);
+    }
+    return optionalBusiness.orElse(null);
   }
 }
 

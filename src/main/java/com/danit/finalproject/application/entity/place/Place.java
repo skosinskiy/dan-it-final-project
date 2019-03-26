@@ -56,7 +56,7 @@ public class Place extends BaseEntity {
   @JsonIgnore
   private PlacePhoto mainPhoto;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "place")
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "place")
   @ToString.Exclude
   @JsonIgnore
   private List<PlacePhoto> photos;

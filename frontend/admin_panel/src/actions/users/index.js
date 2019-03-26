@@ -45,5 +45,5 @@ export const getCurrentUser = () => dispatch => {
 
 export const logOutUser = () => dispatch => {
   api.post('/logout')
-    .catch(() => window.location.reload())
+    .then(() => window.location.reload())
 }

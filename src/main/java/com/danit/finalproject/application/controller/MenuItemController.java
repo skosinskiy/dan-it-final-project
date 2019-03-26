@@ -1,7 +1,8 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.entity.MenuItem;
-import com.danit.finalproject.application.service.MenuItemService;
+import com.danit.finalproject.application.dto.request.MenuItemRequest;
+import com.danit.finalproject.application.dto.response.MenuItemResponse;
+import com.danit.finalproject.application.facade.MenuItemFacade;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,21 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/menu-items")
 public class MenuItemController {
 
-  private MenuItemService menuItemService;
+  private MenuItemFacade menuItemFacade;
 
   @Autowired
-  public MenuItemController(MenuItemService menuItemService) {
-    this.menuItemService = menuItemService;
+  public MenuItemController(MenuItemFacade menuItemFacade) {
+    this.menuItemFacade = menuItemFacade;
   }
 
   @GetMapping
-  public List<MenuItem> getAllMenuItems() {
-    return menuItemService.getAllMenuItems();
+  public List<MenuItemResponse> getAllMenuItems() {
+    return menuItemFacade.getAll();
   }
 
   @PutMapping("{menuItemId}")
-  public MenuItem updateMenuItem(@PathVariable Long menuItemId, @RequestBody MenuItem menuItem) {
-    return menuItemService.updateMenuItem(menuItemId, menuItem);
+  public MenuItemResponse updateMenuItem(
+      @PathVariable Long menuItemId,
+      @RequestBody MenuItemRequest menuItemRequest) {
+    return menuItemFacade.update(menuItemId, menuItemRequest);
   }
 
 }
