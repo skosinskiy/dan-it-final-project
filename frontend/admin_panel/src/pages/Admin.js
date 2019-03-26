@@ -152,8 +152,8 @@ class Admin extends React.Component {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
-            <IconButton color="inherit" alt ="Log out">
-              <PowerSetting onClick={logoutUser} />
+            <IconButton onClick={logoutUser} color="inherit" alt ="Log out">
+              <PowerSetting />
             </IconButton>
           </Toolbar>
         </AppBar>
