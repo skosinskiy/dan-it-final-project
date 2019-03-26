@@ -5,13 +5,16 @@ import com.danit.finalproject.application.service.CrudService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Transactional
 @SuppressWarnings("unchecked")
 public abstract class AbstractDtoFacade<E extends BaseEntity, I, O> {
 
@@ -69,6 +72,10 @@ public abstract class AbstractDtoFacade<E extends BaseEntity, I, O> {
       return modelMapper.map(entityList, new TypeToken<List<O>>(){}.getType());
     }
     return new ArrayList<>();
+  }
+
+  protected Page<O> mapEntityListToResponseDtoList(Page<E> entityList) {
+    return modelMapper.map(entityList, new TypeToken<Page<O>>(){}.getType());
   }
 
 }

@@ -2,7 +2,37 @@ INSERT INTO users
   (id, date_created, date_modified, age, email, first_name, gender, last_name, password, photo, token, token_expiration_date)
 VALUES
   (1, '2019-03-12 12:00:00', '2019-03-12 12:01:00', 24, 'first.user@test.com', 'Elon', 0, 'Musk', '$2a$10$LsVsLTHNDaJDu8dDbkGEk.4qDE8zIuiqvQ1Kvo99ET.gd.rqUQZjW', 'empty', '12b0e9eb-ad60-44ec-81d1-a759313856ce', '2100-01-01 00:00:00'),
-  (2, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', 'ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0', '2019-03-19 00:00:00');
+  (2, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', 'ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0', '2019-03-19 00:00:00'),
+  (3, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav1.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (4, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav4.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (5, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav5.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (6, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav6.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (7, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav17.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (8, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav18.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (9, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav19.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (10, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav10.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg','secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (11, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav11.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg','secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (12, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav12.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (13, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav13.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (143, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav14.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (153, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav15.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (163, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav16.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (173, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav17.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (183, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav18.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (193, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav19.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (23, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav20.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (213, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav21.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (223, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav122.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (233, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav123.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (243, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav124.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (253, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav125.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (263, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav126.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (273, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav127.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (283, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav128.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (293, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav129.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (30, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav30.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (31, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav31.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (32, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav32.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' );
 
 INSERT INTO roles
   (id, date_created, date_modified, name)
@@ -16,7 +46,7 @@ VALUES
   (1, 1),
   (2, 1),
   (2, 2);
-  
+
 INSERT INTO role_permissions
   (role_id, permission_id)
 VALUES

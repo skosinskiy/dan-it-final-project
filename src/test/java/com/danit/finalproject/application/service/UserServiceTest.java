@@ -11,6 +11,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.BindingResult;
@@ -88,23 +92,30 @@ public class UserServiceTest {
 		assertEquals(expectedEmail, user.getEmail());
 	}
 
-	@Test
-	public void verifyFindAllByEmailCalledOnce() {
-		int expectedUsersSize = 2;
-		String expectedSearchEmail = "FiRst";
-		String expectedSecondUserEmail = "first.user@test2.com";
+  	@Test
+  	public void verifyFindAllByEmailCalledOnce() {
+  		int      expectedUsersSize       = 2;
+  		String   expectedSearchEmail     = "FiRst";
+  		String   expectedSecondUserEmail = "first.user@test2.com";
+  		Pageable pageable = PageRequest.of(0, 25);
 
-		List<User> mockUsers = new ArrayList<>();
-		mockUsers.add(firstMockUser);
-		mockUsers.add(secondMockUser);
-		when(userRepository.findAllByEmailContainingIgnoreCase(expectedSearchEmail)).thenReturn(mockUsers);
-		List<User> users = userService.getUsersByEmail(expectedSearchEmail);
+  		List<User> mockUsers = new ArrayList<>();
+  		mockUsers.add(firstMockUser);
+  		mockUsers.add(secondMockUser);
 
-		verify(userRepository, times(1))
-				.findAllByEmailContainingIgnoreCase(expectedSearchEmail);
-		assertEquals(expectedUsersSize, users.size());
-		assertEquals(expectedSecondUserEmail, users.get(1).getEmail());
-	}
+      Page<User> userPageable = new PageImpl<>(mockUsers);
+
+
+      when(userRepository.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail,  PageRequest.of(0, 25)))
+          .thenReturn(userPageable);
+  		Page<User> users = userService.getUsersByEmail(expectedSearchEmail, pageable);
+
+  		verify(userRepository, times(1))
+  				.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail, pageable);
+
+  		assertEquals(expectedUsersSize, users.getContent().size());
+  		assertEquals(expectedSecondUserEmail, users.getContent().get(1).getEmail());
+  	}
 
 	@Test
 	public void verifySaveOnCreateCalledOnce() {

@@ -51,9 +51,10 @@ public class Place extends BaseEntity {
   @JsonIgnore
   private List<Notification> notifications;
 
-  //  @OneToOne(cascade = CascadeType.ALL)
-  //  @JoinColumn(name = "main_photo")
-  //  private PlacePhoto mainPhoto;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "main_photo")
+  @JsonIgnore
+  private PlacePhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "place")
   @ToString.Exclude
