@@ -19,7 +19,7 @@ export default class SidebarMenu extends Component {
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
-            <ListItemText primary={'Business Categories'}/>
+            <ListItemText primary={'Business Categories'} />
           </ListItem>
         </NavLink>
         <NavLink to={'/admin/managing-roles'} className="sidebarItem">
@@ -27,7 +27,7 @@ export default class SidebarMenu extends Component {
             <ListItemIcon>
               <ShoppingCartIcon />
             </ListItemIcon>
-            <ListItemText primary={'Managing Roles'}/>
+            <ListItemText primary={'Managing Roles'} />
           </ListItem>
         </NavLink>
         <NavLink to={'/admin/places'} className="sidebarItem">
@@ -38,17 +38,19 @@ export default class SidebarMenu extends Component {
             <ListItemText primary="Places" />
           </ListItem>
         </NavLink>
+        <NavLink to={'/admin/MenuItems'} className="sidebarItem">
+          <ListItem button>
+            <ListItemIcon>
+              <LayersIcon />
+            </ListItemIcon>
+            <ListItemText primary="MenuItems" />
+          </ListItem>
+        </NavLink>
         <ListItem button>
           <ListItemIcon>
             <BarChartIcon />
           </ListItemIcon>
           <ListItemText primary="Link 4" />
-        </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <LayersIcon />
-          </ListItemIcon>
-          <ListItemText primary="Link 5" />
         </ListItem>
       </div>
     )

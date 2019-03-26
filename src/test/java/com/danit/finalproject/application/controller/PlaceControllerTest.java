@@ -180,7 +180,6 @@ public class PlaceControllerTest {
         .andReturn()
         .getResponse()
         .getContentAsString();
-    ;
     assertEquals(Arrays.asList(MenuItemName.values()),
         new ObjectMapper().readValue(response, new TypeReference<ArrayList<MenuItemName>>() {}));
   }
