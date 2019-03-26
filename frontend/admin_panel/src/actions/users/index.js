@@ -1,6 +1,5 @@
 import api from '../../components/FetchData'
 import Actions from '../Actions'
-import axios from 'axios'
 
 export const getUserRoles = () => dispatch => {
   api.get(`/api/roles`).then(res => {
