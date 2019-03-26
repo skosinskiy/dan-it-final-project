@@ -204,27 +204,27 @@ public class UserControllerTest {
 				.sendSimpleMessage(eq(userEmail), eq(UserService.PASS_RECOVERY_EMAIL_SUBJECT), anyString());
 	}
 
-	//	@Test
-	//	public void updatePassword() throws Exception {
-	//		String expectedPassword = "12345678";
-	//		UpdateUserPasswordRequest userDto = UpdateUserPasswordRequest.builder()
-	//				.token("12b0e9eb-ad60-44ec-81d1-a759313856ce")
-	//				.password(expectedPassword)
-	//				.passwordConfirmation(expectedPassword)
-	//				.build();
-	//
-	//		String userDtoJson = objectMapper.writeValueAsString(userDto);
-	//		MvcResult result = mockMvc.perform(
-	//				put("/api/users/forgot-password/update")
-	//						.with(csrf())
-	//						.content(userDtoJson)
-	//						.contentType(MediaType.APPLICATION_JSON))
-	//				.andReturn();
-	//		String responseBody = result.getRespons/e().getContentAsString();
-	//		UserResponse user = objectMapper.readValue(responseBody, UserResponse.class);
-	//
-	//		assertNull(user.getToken());
-	//		assertNull(user.getTokenExpirationDate());
-	//		verify(passwordEncoder, times(1)).encode(expectedPassword);
-	//	}
+		@Test
+		public void updatePassword() throws Exception {
+			String expectedPassword = "12345678";
+			UpdateUserPasswordRequest userDto = UpdateUserPasswordRequest.builder()
+					.token("12b0e9eb-ad60-44ec-81d1-a759313856ce")
+					.password(expectedPassword)
+					.passwordConfirmation(expectedPassword)
+					.build();
+
+			String userDtoJson = objectMapper.writeValueAsString(userDto);
+			MvcResult result = mockMvc.perform(
+					put("/api/users/forgot-password/update")
+							.with(csrf())
+							.content(userDtoJson)
+							.contentType(MediaType.APPLICATION_JSON))
+					.andReturn();
+			String responseBody = result.getResponse().getContentAsString();
+			UserResponse user = objectMapper.readValue(responseBody, UserResponse.class);
+
+			assertNull(user.getToken());
+			assertNull(user.getTokenExpirationDate());
+			verify(passwordEncoder, times(1)).encode(expectedPassword);
+		}
 }
