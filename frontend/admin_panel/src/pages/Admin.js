@@ -97,7 +97,7 @@ const styles = theme => ({
   h5: {
     marginBottom: theme.spacing.unit * 2
   }
-});
+})
 
 class Admin extends React.Component {
   state = {
