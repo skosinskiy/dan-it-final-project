@@ -1,5 +1,6 @@
 import api from '../../components/FetchData'
 import Actions from '../Actions'
+import axios from 'axios'
 
 export const getUserRoles = () => dispatch => {
   api.get(`/api/roles`).then(res => {
@@ -41,7 +42,7 @@ export const getCurrentUser = () => dispatch => {
     .catch(() => dispatch({type: Actions.Users.CURRENT_USER_LOADING, payload: false}))
 }
 
-export const logOutUser = () => dispatch =>{
+export const logOutUser = () => dispatch => {
   api.post('/logout')
-      .then(()=> window.location.reload())
+    .catch(() => window.location.reload())
 }
