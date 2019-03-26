@@ -12,7 +12,8 @@ const styles = theme => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
-    paddingTop: 12
+    paddingTop: 12,
+    alignSelf: 'flex-start'
   },
   formControl: {
     margin: theme.spacing.unit,
