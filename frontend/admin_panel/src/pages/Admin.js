@@ -20,7 +20,6 @@ import Sidebarmenu from '../components/SidebarMenu'
 import AdminRouter from '../components/AppRoutes/AdminRouter'
 import {getUserRoles, logOutUser} from '../actions/users'
 
-
 const drawerWidth = 240
 
 const styles = theme => ({
@@ -117,8 +116,6 @@ class Admin extends React.Component {
     this.setState({ open: false })
   };
 
-
-
   render () {
     const { classes, logoutUser } = this.props
 
@@ -156,7 +153,7 @@ class Admin extends React.Component {
               </Badge>
             </IconButton>
             <IconButton color="inherit" alt ="Log out">
-              <PowerSetting onClick={logoutUser}   />
+              <PowerSetting onClick={logoutUser} />
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -197,11 +194,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logoutUser: ()=> dispatch(logOutUser()),
+    logoutUser: ()=>dispatch(logOutUser()),
     getUserRolesList: () => dispatch(getUserRoles())
   }
 }
-
-
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(((withStyles(styles, { withTheme: true })(Admin)))))
