@@ -8,6 +8,7 @@ import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.EmailService;
 import com.danit.finalproject.application.service.RoleService;
 import com.danit.finalproject.application.service.UserService;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -96,19 +99,17 @@ public class UserControllerTest {
     assertEquals(GENDER, responseUser.getGender());
   }
 
-	//	@Test
-	//	public void getUsersByEmail() throws Exception {
-	//		int expectedUsersSize = 1;
-	//		String expectedSecondUserEmail = "first.user@test.com";
-	//
-	//		MvcResult result = mockMvc.perform(get("/api/users?email=first"))
-	//				.andReturn();
-	//		String responseBody = result.getResponse().getContentAsString();
-	//		Page<User> users = objectMapper.readValue(responseBody, new TypeReference<Page<User>>(){});
-	//
-	//		assertEquals(expectedUsersSize, users.getContent().size());
-	//		assertEquals(expectedSecondUserEmail, users.getContent().get(0).getEmail());
-	//	}
+		@Test
+		public void getUsersByEmail() throws Exception {
+			int expectedUsersSize = 1;
+			String expectedSecondUserEmail = "first.user@test.com";
+			MvcResult result = mockMvc.perform(get("/api/users?email=first"))
+																.andReturn();
+			String responseBody = result.getResponse().getContentAsString();
+			HashMap<String, Object> users = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>(){});
+			assertEquals(expectedUsersSize, ((List)users.get("content")).size());
+			assertEquals(expectedSecondUserEmail, ((LinkedHashMap)((List)users.get("content")).get(0)).get("email"));
+		}
 
 	@Test
 	public void createUser() throws Exception {
