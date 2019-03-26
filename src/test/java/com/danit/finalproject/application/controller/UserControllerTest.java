@@ -220,7 +220,7 @@ public class UserControllerTest {
 	//						.content(userDtoJson)
 	//						.contentType(MediaType.APPLICATION_JSON))
 	//				.andReturn();
-	//		String responseBody = result.getResponse().getContentAsString();
+	//		String responseBody = result.getRespons/e().getContentAsString();
 	//		UserResponse user = objectMapper.readValue(responseBody, UserResponse.class);
 	//
 	//		assertNull(user.getToken());
