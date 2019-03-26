@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.service;
 
-import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
 import com.danit.finalproject.application.entity.Gender;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.BindingResult;
 
@@ -29,6 +30,8 @@ public class UserServiceTest {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@MockBean
 	private UserRepository userRepository;
@@ -78,7 +81,7 @@ public class UserServiceTest {
 		String expectedEmail = "first.user@test.com";
 
 		when(userRepository.findById(expectedId)).thenReturn(Optional.of(firstMockUser));
-		User user = userService.getUserById(expectedId);
+		User user = userService.getById(expectedId);
 
 		verify(userRepository, times(1)).findById(expectedId);
 		assertEquals(expectedId, user.getId());
@@ -94,11 +97,11 @@ public class UserServiceTest {
 		List<User> mockUsers = new ArrayList<>();
 		mockUsers.add(firstMockUser);
 		mockUsers.add(secondMockUser);
-		when(userRepository.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail)).thenReturn(mockUsers);
+		when(userRepository.findAllByEmailContainingIgnoreCase(expectedSearchEmail)).thenReturn(mockUsers);
 		List<User> users = userService.getUsersByEmail(expectedSearchEmail);
 
 		verify(userRepository, times(1))
-				.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail);
+				.findAllByEmailContainingIgnoreCase(expectedSearchEmail);
 		assertEquals(expectedUsersSize, users.size());
 		assertEquals(expectedSecondUserEmail, users.get(1).getEmail());
 	}
@@ -111,7 +114,7 @@ public class UserServiceTest {
 		firstMockUser.setAge(expectedUserAge);
 		firstMockUser.setEmail(expectedUserEmail);
 		when(userRepository.save(firstMockUser)).thenReturn(firstMockUser);
-		User createdUser = userService.createUser(firstMockUser);
+		User createdUser = userService.create(firstMockUser);
 
 		Long createdUserId = createdUser.getId();
 
@@ -131,7 +134,7 @@ public class UserServiceTest {
 
 		firstMockUser.setFirstName(userFirstName);
 		when(userRepository.save(firstMockUser)).thenReturn(firstMockUser);
-		User updatedUser = userService.updateUser(userId, firstMockUser);
+		User updatedUser = userService.update(userId, firstMockUser);
 
 		verify(userRepository, times(1)).save(firstMockUser);
 		assertEquals(userFirstName, updatedUser.getFirstName());
@@ -140,7 +143,7 @@ public class UserServiceTest {
 	@Test
 	public void verifyDeleteCalledOnce() {
 		when(userRepository.findById(2L)).thenReturn(Optional.of(secondMockUser));
-		userService.deleteUser(2L);
+		userService.delete(2L);
 
 		verify(userRepository, times(1)).delete(secondMockUser);
 	}
@@ -189,18 +192,20 @@ public class UserServiceTest {
 
 		assertNotNull(user.getToken());
 		assertNotEquals(token, user.getToken());
-		assertTrue(user.getTokenExpirationDate().getTime() - currentTime > UserService.DAY_MILLISECONDS_COUNT);
+		assertTrue(user.getTokenExpirationDate().getTime() - currentTime >= UserService.DAY_MILLISECONDS_COUNT);
 		verify(emailService, times(1))
 				.sendSimpleMessage(eq(email), eq(UserService.PASS_RECOVERY_EMAIL_SUBJECT), anyString());
 	}
 
 	@Test
 	public void verifyUserPasswordUpdatedAndTokenReset() {
-		UpdateUserPasswordRequestDto userDto = UpdateUserPasswordRequestDto.builder()
+		UpdateUserPasswordRequest userDto = UpdateUserPasswordRequest.builder()
+				.password("12345678")
 				.token("ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0")
 				.build();
+		String expectedPassword = passwordEncoder.encode(userDto.getPassword());
 		User expectedUser = new User();
-		expectedUser.setPassword(userDto.getPassword());
+		expectedUser.setPassword(expectedPassword);
 		expectedUser.setToken(null);
 		expectedUser.setTokenExpirationDate(null);
 
@@ -210,6 +215,7 @@ public class UserServiceTest {
 
 		assertNull(user.getToken());
 		assertNull(user.getTokenExpirationDate());
+		assertEquals(expectedPassword, user.getPassword());
 		verify(userRepository, times(1)).findByToken(userDto.getToken());
 		verify(userRepository, times(1)).save(any());
 		verify(validationService, times(1)).checkForValidationErrors(bindingResult);

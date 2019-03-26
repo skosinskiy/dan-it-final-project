@@ -1,21 +1,31 @@
 package com.danit.finalproject.application.service;
 
-import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
+import com.danit.finalproject.application.entity.Permission;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.Set;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService, CrudService<User> {
 
   public static final int DAY_MILLISECONDS_COUNT = 24 * 60 * 60 * 1000;
   public static final String PASS_RECOVERY_EMAIL_SUBJECT = "Password recovery";
@@ -23,36 +33,51 @@ public class UserService {
   private UserRepository userRepository;
   private EmailService emailService;
   private ValidationService validationService;
+  private PasswordEncoder passwordEncoder;
   @Value("${react.server.port}")
   private String applicationPort;
   @Value("${react.server.host}")
   private String applicationHost;
 
   @Autowired
-  public UserService(UserRepository userRepository, EmailService emailService, ValidationService validationService) {
+  public UserService(
+      UserRepository userRepository,
+      EmailService emailService,
+      ValidationService validationService,
+      PasswordEncoder passwordEncoder) {
     this.userRepository = userRepository;
     this.emailService = emailService;
     this.validationService = validationService;
+    this.passwordEncoder = passwordEncoder;
   }
 
-  public User getUserById(Long userId) {
+  @Override
+  public User getById(Long userId) {
     return userRepository.findById(userId).orElse(null);
   }
 
-  public List<User> getUsersByEmail(String email) {
-    return userRepository.findAllByEmailStartingWithIgnoreCase(email);
+  @Override
+  public List<User> getAll() {
+    return userRepository.findAll();
   }
 
-  public User createUser(User user) {
+  public List<User> getUsersByEmail(String email) {
+    return userRepository.findAllByEmailContainingIgnoreCase(email);
+  }
+
+  @Override
+  public User create(User user) {
     return userRepository.save(user);
   }
 
-  public User updateUser(Long userId, User user) {
+  @Override
+  public User update(Long userId, User user) {
     user.setId(userId);
     return userRepository.save(user);
   }
 
-  public User deleteUser(Long userId) {
+  @Override
+  public User delete(Long userId) {
     User user = userRepository.findById(userId).orElse(null);
     userRepository.delete(user);
     return user;
@@ -93,12 +118,40 @@ public class UserService {
     emailService.sendSimpleMessage(userEmail, PASS_RECOVERY_EMAIL_SUBJECT, text);
   }
 
-  public User updateUserPassword(UpdateUserPasswordRequestDto userDto, BindingResult bindingResult) {
+  public User updateUserPassword(UpdateUserPasswordRequest userDto, BindingResult bindingResult) {
     validationService.checkForValidationErrors(bindingResult);
     User user = userRepository.findByToken(userDto.getToken());
-    user.setPassword(userDto.getPassword());
+    user.setPassword(passwordEncoder.encode(userDto.getPassword()));
     user.setTokenExpirationDate(null);
     user.setToken(null);
     return userRepository.save(user);
+  }
+
+  @Override
+  @Transactional
+  public UserDetails loadUserByUsername(String email) {
+    User user = userRepository.findByEmail(email);
+    Set<Permission> permissions = new HashSet<>();
+    user
+        .getRoles()
+        .stream()
+        .map(Role::getPermissions)
+        .forEach(permissions::addAll);
+
+    return org.springframework.security.core.userdetails.User.builder()
+        .username(user.getEmail())
+        .roles(user.getRoles().stream().map(Role::getName).toArray(String[]::new))
+        .authorities(permissions)
+        .password(user.getPassword())
+        .build();
+
+  }
+
+  public User getPrincipalUser() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (!(authentication instanceof AnonymousAuthenticationToken)) {
+      return userRepository.findByEmail(authentication.getName());
+    }
+    return null;
   }
 }

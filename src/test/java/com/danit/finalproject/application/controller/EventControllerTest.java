@@ -1,9 +1,9 @@
 package com.danit.finalproject.application.controller;
 
+import com.danit.finalproject.application.dto.response.event.EventResponse;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.event.EventCategory;
 import com.danit.finalproject.application.entity.event.EventPhoto;
-import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.service.business.BusinessService;
 import com.danit.finalproject.application.service.event.EventCategoryService;
 import com.danit.finalproject.application.service.event.EventPhotoService;
@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -26,12 +27,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
+@WithMockUser(value = "first.user@test.com")
 public class EventControllerTest {
   @Autowired
   private MockMvc mockMvc;
@@ -62,7 +65,7 @@ public class EventControllerTest {
     MvcResult result = mockMvc.perform(get("/api/events/1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    Event event = objectMapper.readValue(responseBody, Event.class);
+    EventResponse event = objectMapper.readValue(responseBody, EventResponse.class);
 
     assertEquals(expectedId, event.getId());
     assertEquals(expectedName, event.getTitle());
@@ -75,7 +78,7 @@ public class EventControllerTest {
     MvcResult result = mockMvc.perform(get("/api/events?place=1&business=1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<Event> events = objectMapper.readValue(responseBody, new TypeReference<List<Place>>(){});
+    List<EventResponse> events = objectMapper.readValue(responseBody, new TypeReference<List<EventResponse>>(){});
 
     assertEquals(expectedSize, events.size());
   }
@@ -90,17 +93,18 @@ public class EventControllerTest {
     event.setTitle(expectedName);
 
     List<EventCategory> eventCategories = new ArrayList<>();
-    eventCategories.add(eventCategoryService.getEventCategoryById(1L));
-    eventCategories.add(eventCategoryService.getEventCategoryById(2L));
+    eventCategories.add(eventCategoryService.getById(1L));
+    eventCategories.add(eventCategoryService.getById(2L));
     event.setCategories(eventCategories);
 
-    event.setBusiness(businessService.getBusinessById(1L));
-    event.setPlace(placeService.getPlaceById(1L));
+    event.setBusiness(businessService.getById(1L));
+    event.setPlace(placeService.getById(1L));
 
     String placeCategoryJson = objectMapper.writeValueAsString(event);
 
     MvcResult result = mockMvc.perform(
         post("/api/events/")
+            .with(csrf())
             .content(placeCategoryJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -109,26 +113,25 @@ public class EventControllerTest {
     Long createdEventId= createdEvent.getId();
 
     assertEquals(expectedName, createdEvent.getTitle());
-    assertNotNull(createdEvent.getCreatedDate());
-    assertNotNull(createdEvent.getModifiedDate());
     assertNotNull(createdEventId);
-    assertEquals(createdEvent.getCategories().get(0).getId(), eventCategoryService.getEventCategoryById(1L).getId());
-    assertEquals(createdEvent.getBusiness().getId(), businessService.getBusinessById(1L).getId());
+    assertEquals(createdEvent.getCategories().get(0).getId(), eventCategoryService.getById(1L).getId());
+    assertEquals(createdEvent.getBusiness().getId(), businessService.getById(1L).getId());
   }
 
   @Test
   public void updateEvent() throws Exception {
     String eventTitle = "Updated";
     Long eventId = 1L;
-    Event event = eventService.getEventById(eventId);
+    Event event = eventService.getById(eventId);
     event.setTitle(eventTitle);
-    event.setBusiness(businessService.getBusinessById(2L));
-    event.setPlace(placeService.getPlaceById(2L));
+    event.setBusiness(businessService.getById(2L));
+    event.setPlace(placeService.getById(2L));
 
     String userJson = objectMapper.writeValueAsString(event);
 
     MvcResult result = mockMvc.perform(
         put("/api/events/1")
+            .with(csrf())
             .content(userJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
@@ -136,16 +139,16 @@ public class EventControllerTest {
     Event upgatedEvent = objectMapper.readValue(responseBody, Event.class);
 
     assertEquals(eventTitle, upgatedEvent.getTitle());
-    assertEquals(eventTitle, eventService.getEventById(eventId).getTitle());
-    assertEquals(businessService.getBusinessById(2L).getId(), upgatedEvent.getBusiness().getId());
-    assertEquals(placeService.getPlaceById(2L).getId(), upgatedEvent.getPlace().getId());
+    assertEquals(eventTitle, eventService.getById(eventId).getTitle());
+    assertEquals(businessService.getById(2L).getId(), upgatedEvent.getBusiness().getId());
+    assertEquals(placeService.getById(2L).getId(), upgatedEvent.getPlace().getId());
   }
 
   @Test
   public void deleteEvent() throws Exception {
-    mockMvc.perform(delete("/api/events/2"));
+    mockMvc.perform(delete("/api/events/2").with(csrf()));
 
-    assertNull(eventService.getEventById(2L));
+    assertNull(eventService.getById(2L));
   }
 
   @Test
@@ -161,23 +164,20 @@ public class EventControllerTest {
 
     MvcResult result = mockMvc.perform(
         post("/api/events/1/photos")
+            .with(csrf())
             .content(placeCategoryJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    EventPhoto createdEventPhoto = objectMapper.readValue(responseBody, EventPhoto.class);
-    Long createdEventPhotoId= createdEventPhoto.getId();
+    EventResponse updatedEvent = objectMapper.readValue(responseBody, EventResponse.class);
 
-    assertEquals(expectedName, createdEventPhoto.getPhoto());
-    assertNotNull(createdEventPhoto.getCreatedDate());
-    assertNotNull(createdEventPhoto.getModifiedDate());
-    assertNotNull(createdEventPhotoId);
-    assertEquals(createdEventPhoto.getEvent().getId(), eventService.getEventById(1L).getId());
+    assertTrue(updatedEvent.getPhotos().stream().anyMatch(photo -> photo.getPhoto().equals(expectedName)));
+    assertTrue(updatedEvent.getPhotos().stream().anyMatch(photo -> photo.getId().equals(expectedId)));
   }
 
   @Test
   public void deleteEventPhoto() throws Exception {
-    mockMvc.perform(delete("/api/events/1/photos/1"));
+    mockMvc.perform(delete("/api/events/1/photos/1").with(csrf()));
 
     assertNull(eventPhotoService.getEventPhotoById(1L));
   }
