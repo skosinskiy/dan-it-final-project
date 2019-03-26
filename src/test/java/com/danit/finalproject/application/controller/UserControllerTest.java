@@ -1,5 +1,18 @@
 package com.danit.finalproject.application.controller;
 
+import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
 import com.danit.finalproject.application.dto.response.UserResponse;
 import com.danit.finalproject.application.entity.Gender;
@@ -10,6 +23,8 @@ import com.danit.finalproject.application.service.RoleService;
 import com.danit.finalproject.application.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,20 +38,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -99,17 +100,19 @@ public class UserControllerTest {
     assertEquals(GENDER, responseUser.getGender());
   }
 
-		@Test
-		public void getUsersByEmail() throws Exception {
-			int expectedUsersSize = 1;
-			String expectedSecondUserEmail = "first.user@test.com";
-			MvcResult result = mockMvc.perform(get("/api/users?email=first"))
-																.andReturn();
-			String responseBody = result.getResponse().getContentAsString();
-			HashMap<String, Object> users = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>(){});
-			assertEquals(expectedUsersSize, ((List)users.get("content")).size());
-			assertEquals(expectedSecondUserEmail, ((LinkedHashMap)((List)users.get("content")).get(0)).get("email"));
-		}
+	@Test
+	public void getUsersByEmail() throws Exception {
+		int expectedUsersSize = 1;
+		String expectedSecondUserEmail = "first.user@test.com";
+
+		MvcResult result = mockMvc.perform(get("/api/users?email=first"))
+				.andReturn();
+		String responseBody = result.getResponse().getContentAsString();
+		List<User> users = objectMapper.readValue(responseBody, new TypeReference<List<User>>(){});
+
+		assertEquals(expectedUsersSize, users.size());
+		assertEquals(expectedSecondUserEmail, users.get(0).getEmail());
+	}
 
 	@Test
 	public void createUser() throws Exception {
@@ -205,27 +208,27 @@ public class UserControllerTest {
 				.sendSimpleMessage(eq(userEmail), eq(UserService.PASS_RECOVERY_EMAIL_SUBJECT), anyString());
 	}
 
-		@Test
-		public void updatePassword() throws Exception {
-			String expectedPassword = "12345678";
-			UpdateUserPasswordRequest userDto = UpdateUserPasswordRequest.builder()
-					.token("12b0e9eb-ad60-44ec-81d1-a759313856ce")
-					.password(expectedPassword)
-					.passwordConfirmation(expectedPassword)
-					.build();
+	@Test
+	public void updatePassword() throws Exception {
+		String expectedPassword = "12345678";
+		UpdateUserPasswordRequest userDto = UpdateUserPasswordRequest.builder()
+				.token("12b0e9eb-ad60-44ec-81d1-a759313856ce")
+				.password(expectedPassword)
+				.passwordConfirmation(expectedPassword)
+				.build();
 
-			String userDtoJson = objectMapper.writeValueAsString(userDto);
-			MvcResult result = mockMvc.perform(
-					put("/api/users/forgot-password/update")
-							.with(csrf())
-							.content(userDtoJson)
-							.contentType(MediaType.APPLICATION_JSON))
-					.andReturn();
-			String responseBody = result.getResponse().getContentAsString();
-			UserResponse user = objectMapper.readValue(responseBody, UserResponse.class);
+		String userDtoJson = objectMapper.writeValueAsString(userDto);
+		MvcResult result = mockMvc.perform(
+				put("/api/users/forgot-password/update")
+						.with(csrf())
+						.content(userDtoJson)
+						.contentType(MediaType.APPLICATION_JSON))
+				.andReturn();
+		String responseBody = result.getResponse().getContentAsString();
+		UserResponse user = objectMapper.readValue(responseBody, UserResponse.class);
 
-			assertNull(user.getToken());
-			assertNull(user.getTokenExpirationDate());
-			verify(passwordEncoder, times(1)).encode(expectedPassword);
-		}
+		assertNull(user.getToken());
+		assertNull(user.getTokenExpirationDate());
+		verify(passwordEncoder, times(1)).encode(expectedPassword);
+	}
 }
