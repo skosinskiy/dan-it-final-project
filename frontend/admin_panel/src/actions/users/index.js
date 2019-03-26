@@ -42,3 +42,8 @@ export const getCurrentUser = () => dispatch => {
     })
     .catch(() => dispatch({type: Actions.Users.CURRENT_USER_LOADING, payload: false}))
 }
+
+export const logOutUser = () => dispatch => {
+  api.post('/logout')
+    .catch(() => window.location.reload())
+}
