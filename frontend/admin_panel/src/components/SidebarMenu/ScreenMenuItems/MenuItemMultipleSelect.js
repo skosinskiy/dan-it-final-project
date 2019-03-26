@@ -30,7 +30,7 @@ const styles = theme => ({
   }
 })
 
-const ITEM_HEIGHT = 8
+const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
 const MenuProps = {
   PaperProps: {
