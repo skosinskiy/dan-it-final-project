@@ -2,13 +2,14 @@ package com.danit.finalproject.application.service.place;
 
 import com.danit.finalproject.application.entity.place.PlaceCategory;
 import com.danit.finalproject.application.repository.place.PlaceCategoryRepository;
+import com.danit.finalproject.application.service.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class PlaceCategoryService {
+public class PlaceCategoryService implements CrudService<PlaceCategory> {
   private PlaceCategoryRepository placeCategoryRepository;
 
   @Autowired
@@ -16,23 +17,31 @@ public class PlaceCategoryService {
     this.placeCategoryRepository = placeCategoryRepository;
   }
 
-  public PlaceCategory getPlaceCategoryById(Long id) {
+  @Override
+  public PlaceCategory getById(Long id) {
     return placeCategoryRepository.findById(id).orElse(null);
   }
 
-  public List<PlaceCategory> findAll() {
+  @Override
+  public List<PlaceCategory> getAll() {
     return placeCategoryRepository.findAll();
   }
 
-  public PlaceCategory createNewPlaceCategory(PlaceCategory placeCategory) {
+  @Override
+  public PlaceCategory create(PlaceCategory placeCategory) {
     return placeCategoryRepository.save(placeCategory);
   }
 
-  public PlaceCategory updatePlaceCategory(PlaceCategory placeCategory) {
+  @Override
+  public PlaceCategory update(Long id, PlaceCategory placeCategory) {
+    placeCategory.setId(id);
     return placeCategoryRepository.saveAndFlush(placeCategory);
   }
 
-  public void deletePlaceCategory(Long id) {
+  @Override
+  public PlaceCategory delete(Long id) {
+    PlaceCategory placeCategory = placeCategoryRepository.findById(id).orElse(null);
     placeCategoryRepository.deleteById(id);
+    return placeCategory;
   }
 }

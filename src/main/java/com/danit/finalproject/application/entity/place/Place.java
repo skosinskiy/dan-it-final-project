@@ -1,11 +1,11 @@
 package com.danit.finalproject.application.entity.place;
 
 import com.danit.finalproject.application.entity.BaseEntity;
+import com.danit.finalproject.application.entity.Notification;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.event.Event;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -16,7 +16,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.util.List;
 
@@ -35,14 +34,26 @@ public class Place extends BaseEntity {
   @Column(name = "address")
   private String address;
 
-  @OneToMany(mappedBy = "place")
+  @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
   @ToString.Exclude
   @JsonIgnore
   private List<Business> businesses;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "main_photo")
-  private PlacePhoto mainPhoto;
+
+  @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
+  @ToString.Exclude
+  @JsonIgnore
+  private List<Event> events;
+
+
+  @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
+  @ToString.Exclude
+  @JsonIgnore
+  private List<Notification> notifications;
+
+  //  @OneToOne(cascade = CascadeType.ALL)
+  //  @JoinColumn(name = "main_photo")
+  //  private PlacePhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "place")
   @ToString.Exclude

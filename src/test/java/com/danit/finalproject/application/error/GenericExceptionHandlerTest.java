@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -32,7 +33,9 @@ public class GenericExceptionHandlerTest {
     HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
 
 
-    ResponseEntity<String> responseEntity = testRestTemplate.exchange(endpoint,
+    ResponseEntity<String> responseEntity = testRestTemplate
+        .withBasicAuth("first.user@test.com", "admin")
+        .exchange(endpoint,
         HttpMethod.GET, requestEntity, String.class);
 
     assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, responseEntity.getStatusCode());
@@ -48,7 +51,9 @@ public class GenericExceptionHandlerTest {
 
     HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
 
-    ResponseEntity<String> responseEntity = testRestTemplate.exchange(endpoint,
+    ResponseEntity<String> responseEntity = testRestTemplate
+        .withBasicAuth("first.user@test.com", "admin")
+        .exchange(endpoint,
         HttpMethod.GET, requestEntity, String.class);
 
     assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());

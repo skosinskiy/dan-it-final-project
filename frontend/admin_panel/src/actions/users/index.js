@@ -17,14 +17,28 @@ export const saveUserRoles = (userId, roles) => dispatch => {
   api.put(`api/users/${userId}/roles`, roles)
 }
 
+export const submitLoginForm = (event) => dispatch => {
+  event.preventDefault()
+  dispatch({type: Actions.Users.CURRENT_USER_LOADING, payload: true})
+  const data = new FormData(event.target)
+  api.post('/auth', data).then(res => {
+    if (res.status === 200) {
+      dispatch(getCurrentUser())
+    }
+  })
+    .catch(() => dispatch({type: Actions.Users.CURRENT_USER_LOADING, payload: false}))
+}
+
 export const getCurrentUser = () => dispatch => {
-  dispatch({type: Actions.Users.CURRENT_USER_LOADING, payload: {loading: true}})
+  dispatch({type: Actions.Users.CURRENT_USER_LOADING, payload: true})
   api.get('/api/users/current')
     .then(user => {
-      dispatch({type: Actions.Users.CURRENT_USER_FETCHED, payload: {currentUser: user}})
-      dispatch({type: Actions.Users.CURRENT_USER_LOADING, payload: {loading: false}})
+      if (user !== '') {
+        dispatch({type: Actions.Users.CURRENT_USER_FETCHED, payload: {currentUser: user}})
+      }
+      dispatch({type: Actions.Users.CURRENT_USER_LOADING, payload: false})
     })
-    .catch(err => console.error(err))
+    .catch(() => dispatch({type: Actions.Users.CURRENT_USER_LOADING, payload: false}))
 }
 
 export const logOutUser = () => dispatch =>{

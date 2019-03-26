@@ -1,7 +1,8 @@
 package com.danit.finalproject.application.controller.business;
 
-import com.danit.finalproject.application.entity.business.BusinessCategory;
-import com.danit.finalproject.application.service.business.BusinessCategoryService;
+import com.danit.finalproject.application.dto.request.business.BusinessCategoryRequest;
+import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponse;
+import com.danit.finalproject.application.facade.business.BusinessCategoryFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,35 +18,38 @@ import java.util.List;
 @RestController
 @RequestMapping("api/business-categories")
 public class BusinessCategoryController {
-  private BusinessCategoryService businessCategoryService;
+  private BusinessCategoryFacade businessCategoryFacade;
 
   @Autowired
-  public BusinessCategoryController(BusinessCategoryService businessCategoryService) {
-    this.businessCategoryService = businessCategoryService;
+  public BusinessCategoryController(BusinessCategoryFacade businessCategoryFacade) {
+    this.businessCategoryFacade = businessCategoryFacade;
   }
 
   @GetMapping("{id}")
-  public BusinessCategory getBusinessCategoryById(@PathVariable("id") Long businessCategoryId) {
-    return businessCategoryService.getBusinessCategoryById(businessCategoryId);
+  public BusinessCategoryResponse getBusinessCategoryById(@PathVariable("id") Long businessCategoryId) {
+    return businessCategoryFacade.getById(businessCategoryId);
   }
 
   @GetMapping
-  public List<BusinessCategory> getAllBusinessCategories() {
-    return businessCategoryService.findAll();
+  public List<BusinessCategoryResponse> getAllBusinessCategories() {
+    return businessCategoryFacade.getAll();
   }
 
   @PostMapping
-  public BusinessCategory createNewBusinessCategory(@RequestBody BusinessCategory businessCategory) {
-    return businessCategoryService.createNewBusinesCategory(businessCategory);
+  public BusinessCategoryResponse createNewBusinessCategory(
+      @RequestBody BusinessCategoryRequest businessCategoryRequest) {
+    return businessCategoryFacade.create(businessCategoryRequest);
   }
 
   @PutMapping("{id}")
-  public BusinessCategory updateBusinessCategory(@RequestBody BusinessCategory businessCategory) {
-    return businessCategoryService.updateBusinessCategory(businessCategory);
+  public BusinessCategoryResponse updateBusinessCategory(
+      @PathVariable Long id,
+      @RequestBody BusinessCategoryRequest businessCategoryRequest) {
+    return businessCategoryFacade.update(id, businessCategoryRequest);
   }
 
   @DeleteMapping("{id}")
-  public void deleteBusiness(@PathVariable("id") Long businessCategoryId) {
-    businessCategoryService.deleteBusinessCategory(businessCategoryId);
+  public BusinessCategoryResponse deleteBusiness(@PathVariable("id") Long businessCategoryId) {
+    return businessCategoryFacade.delete(businessCategoryId);
   }
 }
