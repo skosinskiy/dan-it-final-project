@@ -1,5 +1,3 @@
-// TODO:
-
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
@@ -32,7 +30,7 @@ const styles = theme => ({
   }
 })
 
-const ITEM_HEIGHT = 48
+const ITEM_HEIGHT = 8
 const ITEM_PADDING_TOP = 8
 const MenuProps = {
   PaperProps: {
@@ -79,7 +77,7 @@ class MultipleSelect extends React.Component {
     return (
       <div className={classes.root}>
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="select-multiple-chip">Chip</InputLabel>
+          <InputLabel htmlFor="select-multiple-chip">MenuItem</InputLabel>
           <Select
             multiple
             value={this.state.name}

@@ -3,7 +3,9 @@ import {connect} from 'react-redux'
 import Preloader from '../../Preloader'
 import { withRouter } from 'react-router'
 import {fetchAvailableMenuItemNames} from '../../../actions/menuItem'
-import MultipleSelect from './MultipleSelect'
+import MultipleSelect from './MenuItemMultipleSelect'
+import PlaceCategories from './PlaceCategories'
+import './index.scss'
 
 class ScreenMenuItems extends Component {
   componentDidMount () {
@@ -20,9 +22,10 @@ class ScreenMenuItems extends Component {
       )
     }
     return (
-      <>
+      <div className='ScreenMenuWrapper'>
+        <PlaceCategories />
         <MultipleSelect isMenuItemNamesLoading={isMenuItemNamesLoading} names={availableMenuItemNames}/>
-      </>
+      </div>
     )
   }
 }
