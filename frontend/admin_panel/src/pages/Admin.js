@@ -15,9 +15,10 @@ import Badge from '@material-ui/core/Badge'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
 import NotificationsIcon from '@material-ui/icons/Notifications'
+import PowerSetting from '@material-ui/icons/PowerSettingsNew'
 import Sidebarmenu from '../components/SidebarMenu'
 import AdminRouter from '../components/AppRoutes/AdminRouter'
-import { getUserRoles } from '../actions/users/index'
+import {getUserRoles, logOutUser} from '../actions/users'
 
 const drawerWidth = 240
 
@@ -101,7 +102,7 @@ const styles = theme => ({
 class Admin extends React.Component {
   state = {
     open: true
-  };
+  }
 
   componentDidMount () {
     this.props.getUserRolesList()
@@ -109,14 +110,14 @@ class Admin extends React.Component {
 
   handleDrawerOpen = () => {
     this.setState({ open: true })
-  };
+  }
 
   handleDrawerClose = () => {
     this.setState({ open: false })
-  };
+  }
 
   render () {
-    const { classes } = this.props
+    const { classes, logoutUser } = this.props
 
     return (
       <div className={classes.root}>
@@ -150,6 +151,9 @@ class Admin extends React.Component {
               <Badge badgeContent={4} color="secondary">
                 <NotificationsIcon />
               </Badge>
+            </IconButton>
+            <IconButton onClick={logoutUser} color="inherit" alt ="Log out">
+              <PowerSetting />
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -190,6 +194,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    logoutUser: () => dispatch(logOutUser()),
     getUserRolesList: () => dispatch(getUserRoles())
   }
 }

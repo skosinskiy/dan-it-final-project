@@ -22,7 +22,7 @@ const styles = theme => ({
     width: 'auto',
     margin: '8px'
   }
-})
+});
 
 const ranges = [
   {
@@ -41,7 +41,7 @@ const ranges = [
     value: 'Parent Category 3',
     label: 'Parent Category 3'
   }
-]
+];
 
 class AddBUsinessCategory extends React.Component {
     state = {
@@ -61,7 +61,7 @@ class AddBUsinessCategory extends React.Component {
     };
 
     render () {
-      const { classes } = this.props
+      const { classes } = this.props;
 
       return (
         <div className={classes.root}>
@@ -107,6 +107,6 @@ class AddBUsinessCategory extends React.Component {
 
 AddBUsinessCategory.propTypes = {
   classes: PropTypes.object.isRequired
-}
+};
 
 export default withStyles(styles)(AddBUsinessCategory)
