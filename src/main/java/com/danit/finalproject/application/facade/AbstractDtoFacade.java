@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -50,17 +51,27 @@ public abstract class AbstractDtoFacade<E extends BaseEntity, I, O> {
   }
 
   protected O mapEntityToResponseDto(E entity) {
-    return modelMapper.map(entity, (Class<O>) ((ParameterizedType) getClass()
-        .getGenericSuperclass()).getActualTypeArguments()[2]);
+    if (entity != null) {
+      return modelMapper.map(entity, (Class<O>) ((ParameterizedType) getClass()
+          .getGenericSuperclass()).getActualTypeArguments()[2]);
+    }
+    return null;
   }
 
   protected E mapRequestDtoToEntity(I dto) {
-    return modelMapper.map(dto, (Class<E>) ((ParameterizedType) getClass()
-        .getGenericSuperclass()).getActualTypeArguments()[0]);
+    if (dto != null) {
+      return modelMapper.map(dto, (Class<E>) ((ParameterizedType) getClass()
+          .getGenericSuperclass()).getActualTypeArguments()[0]);
+    }
+    return null;
+
   }
 
   protected List<O> mapEntityListToResponseDtoList(List<E> entityList) {
-    return modelMapper.map(entityList, new TypeToken<List<O>>(){}.getType());
+    if (entityList != null) {
+      return modelMapper.map(entityList, new TypeToken<List<O>>(){}.getType());
+    }
+    return new ArrayList<>();
   }
 
   protected Page<O> mapEntityListToResponseDtoList(Page<E> entityList) {
