@@ -4,10 +4,9 @@ import AddBusinessCategory from '../../AddBusinessCategory'
 import ManaginrUserRoles from '../../ManagingUserRoles'
 import Places from '../../SidebarMenu/Places'
 import PlaceForm from '../../SidebarMenu/Places/PLaceForm'
-import {hasGrant} from '../../../util/roles'
-import {ProtectedRoute} from '../MainRouter'
-import {Grant} from '../../../util/permissions'
-import {connect} from 'react-redux'
+import { hasGrant } from '../../../util/roles'
+import { Grant } from '../../../util/permissions'
+import { connect } from 'react-redux'
 
 class AppRoutes extends Component {
   render () {
