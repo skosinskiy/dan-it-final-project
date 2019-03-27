@@ -52,6 +52,6 @@ public class BusinessCategoryController {
 
   @DeleteMapping("{id}")
   public ResponseEntity<BusinessCategoryResponse> deleteBusiness(@PathVariable("id") Long businessCategoryId) {
-    return new ResponseEntity<>(businessCategoryFacade.delete(businessCategoryId), HttpStatus.OK);
+    return new ResponseEntity<>(businessCategoryFacade.deleteBusinessCategory(businessCategoryId), HttpStatus.OK);
   }
 }

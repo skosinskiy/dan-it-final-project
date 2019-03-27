@@ -1,7 +1,7 @@
 import Actions from '../../actions/Actions'
 
 const initialState = {
-  allBusinessCategories: null,
+  allBusinessCategories: [],
   selectedCategory: ''
 }
 

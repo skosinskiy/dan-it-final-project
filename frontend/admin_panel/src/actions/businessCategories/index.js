@@ -7,14 +7,10 @@ export const getAllBusinessCategories = () => dispatch => {
   )
 }
 
-export const handleChange = event => dispatch => {
-  dispatch({type: Actions.BusinessCategory.GET_ALL_CATEGORIES, payload: event.target.value})
-}
-
-export const handleSubmit = (event, data) => dispatch => {
-  event.preventDefault()
-  console.log(data)
-  api.post('/api/business-categories', data).then(res =>
-    dispatch(getAllBusinessCategories())
-  )
+export const deleteBusinessCategory = (categoryId) => dispatch => {
+  api.deleteApi(`/api/business-categories/${categoryId}`).then(res => {
+    api.get(`/api/business-categories`).then(res => {
+      dispatch({type: Actions.BusinessCategory.GET_ALL_CATEGORIES, payload: res})
+    })
+  })
 }
