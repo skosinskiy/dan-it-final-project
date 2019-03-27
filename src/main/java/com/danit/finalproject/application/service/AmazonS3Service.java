@@ -12,7 +12,7 @@ import java.util.UUID;
 @Service
 public class AmazonS3Service {
 
-  private static final String S3_BUCKET_NAME = "rion-up-project";
+  public static final String S3_BUCKET_NAME = "rion-up-project";
   private AmazonS3 s3;
 
   @Autowired
