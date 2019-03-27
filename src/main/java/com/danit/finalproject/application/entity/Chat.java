@@ -22,7 +22,6 @@ public class Chat extends BaseEntity {
   @ManyToMany(mappedBy = "chats")
   private List<User> users;
 
-  @OneToMany
-  @JoinColumn(name = "message_id")
+  @OneToMany(mappedBy = "chat")
   private List<ChatMessage> chatMessages;
 }
