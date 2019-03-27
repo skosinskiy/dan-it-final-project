@@ -4,10 +4,10 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import DashboardIcon from '@material-ui/icons/Dashboard'
+import EventIcon from '@material-ui/icons/Event'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import PeopleIcon from '@material-ui/icons/People'
 import BarChartIcon from '@material-ui/icons/BarChart'
-import LayersIcon from '@material-ui/icons/Layers'
 import './sidebar-menu.scss'
 
 export default class SidebarMenu extends Component {
@@ -44,12 +44,14 @@ export default class SidebarMenu extends Component {
           </ListItemIcon>
           <ListItemText primary="Link 4" />
         </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <LayersIcon />
-          </ListItemIcon>
-          <ListItemText primary="Link 5" />
-        </ListItem>
+        <NavLink to={'/admin/event-categories'} className="sidebarItem">
+          <ListItem button>
+            <ListItemIcon>
+              <EventIcon />
+            </ListItemIcon>
+            <ListItemText primary={'Event Categories'}/>
+          </ListItem>
+        </NavLink>
       </div>
     )
   }
