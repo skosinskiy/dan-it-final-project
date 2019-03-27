@@ -9,6 +9,8 @@ import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.UserService;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
@@ -28,8 +30,8 @@ public class UserFacade extends AbstractDtoFacade<User, UserRequest, UserRespons
     return mapEntityToResponseDto(userService.getPrincipalUser());
   }
 
-  public List<UserResponse> getUsersByEmail(String email) {
-    List<User> users = userService.getUsersByEmail(email);
+  public Page<UserResponse> getUsersByEmail(String email, Pageable pageable) {
+    Page<User> users = userService.getUsersByEmail(email, pageable);
     return mapEntityListToResponseDtoList(users);
   }
 
