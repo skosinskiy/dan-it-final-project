@@ -4,6 +4,7 @@ import com.danit.finalproject.application.dto.request.business.BusinessCategoryR
 import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponse;
 import com.danit.finalproject.application.facade.business.BusinessCategoryFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,12 +37,14 @@ public class BusinessCategoryController {
   }
 
   @PostMapping
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESS_CATEGORIES')")
   public BusinessCategoryResponse createNewBusinessCategory(
       @RequestBody BusinessCategoryRequest businessCategoryRequest) {
     return businessCategoryFacade.create(businessCategoryRequest);
   }
 
   @PutMapping("{id}")
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESS_CATEGORIES')")
   public BusinessCategoryResponse updateBusinessCategory(
       @PathVariable Long id,
       @RequestBody BusinessCategoryRequest businessCategoryRequest) {
@@ -49,6 +52,7 @@ public class BusinessCategoryController {
   }
 
   @DeleteMapping("{id}")
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESS_CATEGORIES')")
   public BusinessCategoryResponse deleteBusiness(@PathVariable("id") Long businessCategoryId) {
     return businessCategoryFacade.delete(businessCategoryId);
   }

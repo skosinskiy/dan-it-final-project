@@ -6,6 +6,7 @@ import com.danit.finalproject.application.dto.response.event.EventResponse;
 import com.danit.finalproject.application.facade.event.EventFacade;
 import com.danit.finalproject.application.service.event.EventPhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,16 +49,19 @@ public class EventController {
   }
 
   @PutMapping("{id}")
+  @PreAuthorize("hasAuthority('MANAGE_EVENTS')")
   public EventResponse updateEvent(@PathVariable Long id, @RequestBody EventRequest eventRequest) {
     return eventFacade.update(id, eventRequest);
   }
 
   @DeleteMapping("{id}")
+  @PreAuthorize("hasAuthority('MANAGE_EVENTS')")
   public EventResponse deleteEvent(@PathVariable("id") Long eventId) {
     return eventFacade.delete(eventId);
   }
 
   @PostMapping("/{eventId}/photos")
+  @PreAuthorize("hasAuthority('MANAGE_EVENTS')")
   public EventResponse addPhotosToEvent(
       @RequestBody EventPhotoRequest eventPhotoRequest,
       @PathVariable Long eventId) {
@@ -65,6 +69,7 @@ public class EventController {
   }
 
   @DeleteMapping("/{eventId}/photos/{photoId}")
+  @PreAuthorize("hasAuthority('MANAGE_EVENTS')")
   public void deletePhoto(@PathVariable("photoId") Long photoId) {
     eventPhotoService.deleteEventPhoto(photoId);
   }

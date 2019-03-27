@@ -4,6 +4,7 @@ import com.danit.finalproject.application.dto.request.event.EventCategoryRequest
 import com.danit.finalproject.application.dto.response.event.EventCategoryResponse;
 import com.danit.finalproject.application.facade.event.EventCategoryFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,11 +37,13 @@ public class EventCategoryController {
   }
 
   @PostMapping
+  @PreAuthorize("hasAuthority('MANAGE_EVENT_CATEGORIES')")
   public EventCategoryResponse createNewEventCategory(@RequestBody EventCategoryRequest eventCategoryRequest) {
     return eventCategoryFacade.create(eventCategoryRequest);
   }
 
   @PutMapping("{id}")
+  @PreAuthorize("hasAuthority('MANAGE_EVENT_CATEGORIES')")
   public EventCategoryResponse updateEventCategory(
       @PathVariable Long id,
       @RequestBody EventCategoryRequest eventCategoryRequest) {
@@ -48,6 +51,7 @@ public class EventCategoryController {
   }
 
   @DeleteMapping("{id}")
+  @PreAuthorize("hasAuthority('MANAGE_EVENT_CATEGORIES')")
   public EventCategoryResponse deleteEvent(@PathVariable("id") Long eventCategoryId) {
     return eventCategoryFacade.delete(eventCategoryId);
   }
