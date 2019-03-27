@@ -1,8 +1,11 @@
 package com.danit.finalproject.application.controller.place;
 
-import com.danit.finalproject.application.entity.place.PlaceCategory;
-import com.danit.finalproject.application.service.place.PlaceCategoryService;
+import com.danit.finalproject.application.dto.request.place.PlaceCategoryRequest;
+import com.danit.finalproject.application.dto.response.place.PlaceCategoryResponse;
+import com.danit.finalproject.application.facade.place.PlaceCategoryFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,35 +20,38 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/place-categories")
 public class PlaceCategoryController {
-  private PlaceCategoryService placeCategoryService;
+  private PlaceCategoryFacade placeCategoryFacade;
 
   @Autowired
-  public PlaceCategoryController(PlaceCategoryService placeCategoryService) {
-    this.placeCategoryService = placeCategoryService;
+  public PlaceCategoryController(PlaceCategoryFacade placeCategoryFacade) {
+    this.placeCategoryFacade = placeCategoryFacade;
   }
 
   @GetMapping("{id}")
-  public PlaceCategory getPlaceCategoryById(@PathVariable("id") Long placeCategoryId) {
-    return placeCategoryService.getPlaceCategoryById(placeCategoryId);
+  public ResponseEntity<PlaceCategoryResponse> getPlaceCategoryById(@PathVariable("id") Long placeCategoryId) {
+    return new ResponseEntity<>(placeCategoryFacade.getById(placeCategoryId), HttpStatus.OK);
   }
 
   @GetMapping
-  public List<PlaceCategory> getAllPlaceCategories() {
-    return placeCategoryService.findAll();
+  public ResponseEntity<List<PlaceCategoryResponse>> getAllPlaceCategories() {
+    return new ResponseEntity<>(placeCategoryFacade.getAll(), HttpStatus.OK);
   }
 
   @PostMapping
-  public PlaceCategory createNewPlaceCategory(@RequestBody PlaceCategory placeCategory) {
-    return placeCategoryService.createNewPlaceCategory(placeCategory);
+  public ResponseEntity<PlaceCategoryResponse> createNewPlaceCategory(
+      @RequestBody PlaceCategoryRequest placeCategoryRequest) {
+    return new ResponseEntity<>(placeCategoryFacade.create(placeCategoryRequest), HttpStatus.OK);
   }
 
   @PutMapping("{id}")
-  public PlaceCategory updatePlaceCategory(@RequestBody PlaceCategory placeCategory) {
-    return placeCategoryService.updatePlaceCategory(placeCategory);
+  public ResponseEntity<PlaceCategoryResponse> updatePlaceCategory(
+      @PathVariable Long id,
+      @RequestBody PlaceCategoryRequest placeCategoryRequest) {
+    return new ResponseEntity<>(placeCategoryFacade.update(id, placeCategoryRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
-  public void deletePlace(@PathVariable("id") Long placeCategoryId) {
-    placeCategoryService.deletePlaceCategory(placeCategoryId);
+  public ResponseEntity<PlaceCategoryResponse> deletePlace(@PathVariable("id") Long placeCategoryId) {
+    return new ResponseEntity<>(placeCategoryFacade.delete(placeCategoryId), HttpStatus.OK);
   }
 }

@@ -1,12 +1,17 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
-import com.danit.finalproject.application.entity.Role;
-import com.danit.finalproject.application.entity.User;
-import com.danit.finalproject.application.service.UserService;
+import com.danit.finalproject.application.dto.request.RoleRequest;
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
+import com.danit.finalproject.application.dto.request.UserRequest;
+import com.danit.finalproject.application.dto.response.UserResponse;
+import com.danit.finalproject.application.facade.UserFacade;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,56 +29,58 @@ import javax.validation.Valid;
 @RequestMapping("api/users")
 public class UserController {
 
-  private UserService userService;
+  private UserFacade userFacade;
 
   @Autowired
-  public UserController(UserService userService) {
-    this.userService = userService;
+  public UserController(UserFacade userFacade) {
+    this.userFacade = userFacade;
   }
 
   @GetMapping("{userId}")
-  public User getUserById(@PathVariable Long userId) {
-    return userService.getUserById(userId);
+  public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
+    return new ResponseEntity<>(userFacade.getById(userId), HttpStatus.OK);
   }
 
   @GetMapping("current")
-  public User getCurrentUser() {
-    return userService.getPrincipalUser();
+  public ResponseEntity<UserResponse> getCurrentUser() {
+    return new ResponseEntity<>(userFacade.getPrincipalUser(), HttpStatus.OK);
   }
 
   @GetMapping
-  public List<User> getUsersByEmail(@RequestParam String email) {
-    return userService.getUsersByEmail(email);
+  public ResponseEntity<Page<UserResponse>> getUsersByEmail(@RequestParam String email, Pageable pageable) {
+    return new ResponseEntity<>(userFacade.getUsersByEmail(email, pageable), HttpStatus.OK);
   }
 
   @PostMapping
-  public User createUser(@RequestBody User user) {
-    return userService.createUser(user);
+  public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
+    return new ResponseEntity<>(userFacade.create(userRequest), HttpStatus.OK);
   }
 
   @PutMapping("{userId}")
-  public User updateUser(@PathVariable Long userId, @RequestBody User user) {
-    return userService.updateUser(userId, user);
+  public ResponseEntity<UserResponse> updateUser(@PathVariable Long userId, @RequestBody UserRequest userRequest) {
+    return new ResponseEntity<>(userFacade.update(userId, userRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{userId}")
-  public User deleteUser(@PathVariable Long userId) {
-    return userService.deleteUser(userId);
+  public ResponseEntity<UserResponse> deleteUser(@PathVariable Long userId) {
+    return new ResponseEntity<>(userFacade.delete(userId), HttpStatus.OK);
   }
 
   @PutMapping("{userId}/roles")
-  public User setUserRoles(@PathVariable Long userId, @RequestBody List<Role> roles) {
-    return userService.setUserRoles(userId, roles);
+  public ResponseEntity<UserResponse> setUserRoles(@PathVariable Long userId, @RequestBody List<RoleRequest> roles) {
+    return new ResponseEntity<>(userFacade.setUserRoles(userId, roles), HttpStatus.OK);
   }
 
   @PutMapping("forgot-password/token")
   public void generateToken(@RequestParam String email) {
-    userService.generateToken(email);
+    userFacade.generateToken(email);
   }
 
   @PutMapping("forgot-password/update")
-  public User updatePassword(@RequestBody @Valid UpdateUserPasswordRequestDto userDto, BindingResult bindingResult) {
-    return userService.updateUserPassword(userDto, bindingResult);
+  public ResponseEntity<UserResponse> updatePassword(
+      @RequestBody @Valid UpdateUserPasswordRequest userDto,
+      BindingResult bindingResult) {
+    return new ResponseEntity<>(userFacade.updateUserPassword(userDto, bindingResult), HttpStatus.OK);
   }
 
 }

@@ -1,8 +1,11 @@
 package com.danit.finalproject.application.controller.event;
 
-import com.danit.finalproject.application.entity.event.EventCategory;
-import com.danit.finalproject.application.service.event.EventCategoryService;
+import com.danit.finalproject.application.dto.request.event.EventCategoryRequest;
+import com.danit.finalproject.application.dto.response.event.EventCategoryResponse;
+import com.danit.finalproject.application.facade.event.EventCategoryFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,35 +20,38 @@ import java.util.List;
 @RestController
 @RequestMapping("api/event-categories")
 public class EventCategoryController {
-  private EventCategoryService eventCategoryService;
+  private EventCategoryFacade eventCategoryFacade;
 
   @Autowired
-  public EventCategoryController(EventCategoryService eventCategoryService) {
-    this.eventCategoryService = eventCategoryService;
+  public EventCategoryController(EventCategoryFacade eventCategoryFacade) {
+    this.eventCategoryFacade = eventCategoryFacade;
   }
 
   @GetMapping("{id}")
-  public EventCategory getEevenCategoryById(@PathVariable("id") Long eventCategoryId) {
-    return eventCategoryService.getEventCategoryById(eventCategoryId);
+  public ResponseEntity<EventCategoryResponse> getEventCategoryById(@PathVariable("id") Long eventCategoryId) {
+    return new ResponseEntity<>(eventCategoryFacade.getById(eventCategoryId), HttpStatus.OK);
   }
 
   @GetMapping
-  public List<EventCategory> getAllEventCategories() {
-    return eventCategoryService.findAll();
+  public ResponseEntity<List<EventCategoryResponse>> getAllEventCategories() {
+    return new ResponseEntity<>(eventCategoryFacade.getAll(), HttpStatus.OK);
   }
 
   @PostMapping
-  public EventCategory createNewEventCategory(@RequestBody EventCategory eventCategory) {
-    return eventCategoryService.createNewEventCategory(eventCategory);
+  public ResponseEntity<EventCategoryResponse> createNewEventCategory(
+      @RequestBody EventCategoryRequest eventCategoryRequest) {
+    return new ResponseEntity<>(eventCategoryFacade.create(eventCategoryRequest), HttpStatus.OK);
   }
 
   @PutMapping("{id}")
-  public EventCategory updateEventCategory(@RequestBody EventCategory eventCategory) {
-    return eventCategoryService.updateEventCategory(eventCategory);
+  public ResponseEntity<EventCategoryResponse> updateEventCategory(
+      @PathVariable Long id,
+      @RequestBody EventCategoryRequest eventCategoryRequest) {
+    return new ResponseEntity<>(eventCategoryFacade.update(id, eventCategoryRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
-  public void deleteEvent(@PathVariable("id") Long eventCategoryId) {
-    eventCategoryService.deleteEventCategory(eventCategoryId);
+  public ResponseEntity<EventCategoryResponse> deleteEvent(@PathVariable("id") Long eventCategoryId) {
+    return new ResponseEntity<>(eventCategoryFacade.delete(eventCategoryId), HttpStatus.OK);
   }
 }

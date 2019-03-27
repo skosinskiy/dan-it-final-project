@@ -1,46 +1,86 @@
 package com.danit.finalproject.application.service.event;
 
 import com.danit.finalproject.application.entity.event.Event;
+import com.danit.finalproject.application.entity.event.EventPhoto;
 import com.danit.finalproject.application.repository.event.EventRepository;
+import com.danit.finalproject.application.service.CrudService;
 import com.danit.finalproject.application.service.business.BusinessService;
 import com.danit.finalproject.application.service.place.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
-public class EventService {
+public class EventService implements CrudService<Event> {
   private EventRepository eventRepository;
   private BusinessService businessService;
-  private PlaceService    placeService;
+  private PlaceService placeService;
+  private EventPhotoService eventPhotoService;
 
   @Autowired
-  public EventService(EventRepository eventRepository,
-      BusinessService businessService, PlaceService placeService) {
+  public EventService(
+      EventRepository eventRepository,
+      BusinessService businessService,
+      PlaceService placeService,
+      EventPhotoService eventPhotoService) {
     this.eventRepository = eventRepository;
     this.businessService = businessService;
     this.placeService = placeService;
+    this.eventPhotoService = eventPhotoService;
   }
 
-  public Event getEventById(Long id) {
+  @Override
+  public Event getById(Long id) {
     return eventRepository.findById(id).orElse(null);
   }
 
-  public List<Event> findAllByLocation(Long placeId, Long businessId) {
-    return eventRepository.findAllByPlaceAndBusiness(placeService.getPlaceById(placeId), businessService
-        .getBusinessById(businessId));
+  @Override
+  public List<Event> getAll() {
+    return eventRepository.findAll();
   }
 
-  public Event createNewEvent(Event event) {
+  public List<Event> findAllByLocation(Long placeId, Long businessId) {
+    return eventRepository.findAllByPlaceAndBusiness(placeService.getById(placeId), businessService
+        .getById(businessId));
+  }
+
+  @Override
+  public Event create(Event event) {
     return eventRepository.save(event);
   }
 
-  public Event updateEvent(Event event) {
-    return eventRepository.saveAndFlush(event);
+  @Override
+  public Event update(Long id, Event event) {
+    event.setId(id);
+    return eventRepository.save(event);
   }
 
-  public void deleteEvent(Long id) {
+  @Override
+  public Event delete(Long id) {
+    Event event = eventRepository.findById(id).orElse(null);
     eventRepository.deleteById(id);
+    return event;
+  }
+
+  public Event addPhoto(EventPhoto eventPhoto, Long eventId) {
+    Optional<Event> optionalEvent = eventRepository.findById(eventId);
+    optionalEvent.ifPresent(event -> event.getPhotos().add(eventPhoto));
+    Event event = optionalEvent.orElse(null);
+    eventRepository.save(event);
+    return event;
+  }
+
+  public Event deleteEventPhoto(Long eventId, Long photoId) {
+    Optional<Event> optionalEvent = eventRepository.findById(eventId);
+    if (optionalEvent.isPresent()) {
+      Optional<EventPhoto> optionalEventPhoto = optionalEvent.get().getPhotos()
+          .stream()
+          .filter(photo -> photoId.equals(photo.getId()))
+          .findFirst();
+      optionalEventPhoto.ifPresent(photo -> eventPhotoService.deleteEventPhoto(photo));
+    }
+    return optionalEvent.orElse(null);
   }
 }

@@ -1,8 +1,11 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.entity.Role;
-import com.danit.finalproject.application.service.RoleService;
+import com.danit.finalproject.application.dto.request.RoleRequest;
+import com.danit.finalproject.application.dto.response.RoleResponse;
+import com.danit.finalproject.application.facade.RoleFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,31 +21,31 @@ import java.util.List;
 @RequestMapping("api/roles")
 public class RoleController {
 
-  private RoleService roleService;
+  private RoleFacade roleFacade;
 
   @Autowired
-  public RoleController(RoleService roleService) {
-    this.roleService = roleService;
+  public RoleController(RoleFacade roleFacade) {
+    this.roleFacade = roleFacade;
   }
 
   @GetMapping
-  public List<Role> getAllRoles() {
-    return roleService.getAllRoles();
+  public ResponseEntity<List<RoleResponse>> getAllRoles() {
+    return new ResponseEntity<>(roleFacade.getAll(), HttpStatus.OK);
   }
 
   @PostMapping
-  public Role createRole(@RequestBody Role role) {
-    return roleService.createRole(role);
+  public ResponseEntity<RoleResponse> createRole(@RequestBody RoleRequest roleRequest) {
+    return new ResponseEntity<>(roleFacade.create(roleRequest), HttpStatus.OK);
   }
 
   @PutMapping("{roleId}")
-  public Role updateRole(@PathVariable Long roleId, @RequestBody Role role) {
-    return roleService.updateRole(roleId, role);
+  public ResponseEntity<RoleResponse> updateRole(@PathVariable Long roleId, @RequestBody RoleRequest roleRequest) {
+    return new ResponseEntity<>(roleFacade.update(roleId, roleRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{roleId}")
-  public Role deleteRole(@PathVariable Long roleId) {
-    return roleService.deleteRole(roleId);
+  public ResponseEntity<RoleResponse> deleteRole(@PathVariable Long roleId) {
+    return new ResponseEntity<>(roleFacade.delete(roleId), HttpStatus.OK);
   }
 
 }

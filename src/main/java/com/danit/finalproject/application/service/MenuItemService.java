@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MenuItemService {
+public class MenuItemService implements CrudService<MenuItem> {
 
   private MenuItemRepository menuItemRepository;
 
@@ -16,13 +16,31 @@ public class MenuItemService {
     this.menuItemRepository = menuItemRepository;
   }
 
-  public List<MenuItem> getAllMenuItems() {
+  @Override
+  public List<MenuItem> getAll() {
     return menuItemRepository.findAll();
   }
 
-  public MenuItem updateMenuItem(Long menuItemId, MenuItem menuItem) {
+  @Override
+  public MenuItem update(Long menuItemId, MenuItem menuItem) {
     menuItem.setId(menuItemId);
     return menuItemRepository.save(menuItem);
   }
 
+  @Override
+  public MenuItem getById(Long id) {
+    return menuItemRepository.findById(id).orElse(null);
+  }
+
+  @Override
+  public MenuItem create(MenuItem entity) {
+    return menuItemRepository.save(entity);
+  }
+
+  @Override
+  public MenuItem delete(Long id) {
+    MenuItem menuItem = menuItemRepository.findById(id).orElse(null);
+    menuItemRepository.delete(menuItem);
+    return menuItem;
+  }
 }

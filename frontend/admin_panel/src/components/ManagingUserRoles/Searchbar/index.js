@@ -40,7 +40,7 @@ class UserEmailSearchBar extends React.Component {
 
   findUsersByEmail = (e) => {
     if (e.key === 'Enter') {
-      this.props.getUsersByEmail(this.state.email)
+      this.props.getUsersByEmail(this.state.email, 0, 25)
     }
   }
 
@@ -71,7 +71,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUsersByEmail: (params) => dispatch(getUsersByEmail(params))
+    getUsersByEmail: (email, page, size) => dispatch(getUsersByEmail(email, page, size))
   }
 }
 

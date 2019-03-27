@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.service;
 
-import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
 import com.danit.finalproject.application.entity.Gender;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
@@ -11,6 +11,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.BindingResult;
@@ -81,30 +85,37 @@ public class UserServiceTest {
 		String expectedEmail = "first.user@test.com";
 
 		when(userRepository.findById(expectedId)).thenReturn(Optional.of(firstMockUser));
-		User user = userService.getUserById(expectedId);
+		User user = userService.getById(expectedId);
 
 		verify(userRepository, times(1)).findById(expectedId);
 		assertEquals(expectedId, user.getId());
 		assertEquals(expectedEmail, user.getEmail());
 	}
 
-	@Test
-	public void verifyFindAllByEmailCalledOnce() {
-		int expectedUsersSize = 2;
-		String expectedSearchEmail = "FiRst";
-		String expectedSecondUserEmail = "first.user@test2.com";
+  	@Test
+  	public void verifyFindAllByEmailCalledOnce() {
+  		int      expectedUsersSize       = 2;
+  		String   expectedSearchEmail     = "FiRst";
+  		String   expectedSecondUserEmail = "first.user@test2.com";
+  		Pageable pageable = PageRequest.of(0, 25);
 
-		List<User> mockUsers = new ArrayList<>();
-		mockUsers.add(firstMockUser);
-		mockUsers.add(secondMockUser);
-		when(userRepository.findAllByEmailContainingIgnoreCase(expectedSearchEmail)).thenReturn(mockUsers);
-		List<User> users = userService.getUsersByEmail(expectedSearchEmail);
+  		List<User> mockUsers = new ArrayList<>();
+  		mockUsers.add(firstMockUser);
+  		mockUsers.add(secondMockUser);
 
-		verify(userRepository, times(1))
-				.findAllByEmailContainingIgnoreCase(expectedSearchEmail);
-		assertEquals(expectedUsersSize, users.size());
-		assertEquals(expectedSecondUserEmail, users.get(1).getEmail());
-	}
+      Page<User> userPageable = new PageImpl<>(mockUsers);
+
+
+      when(userRepository.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail,  PageRequest.of(0, 25)))
+          .thenReturn(userPageable);
+  		Page<User> users = userService.getUsersByEmail(expectedSearchEmail, pageable);
+
+  		verify(userRepository, times(1))
+  				.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail, pageable);
+
+  		assertEquals(expectedUsersSize, users.getContent().size());
+  		assertEquals(expectedSecondUserEmail, users.getContent().get(1).getEmail());
+  	}
 
 	@Test
 	public void verifySaveOnCreateCalledOnce() {
@@ -114,7 +125,7 @@ public class UserServiceTest {
 		firstMockUser.setAge(expectedUserAge);
 		firstMockUser.setEmail(expectedUserEmail);
 		when(userRepository.save(firstMockUser)).thenReturn(firstMockUser);
-		User createdUser = userService.createUser(firstMockUser);
+		User createdUser = userService.create(firstMockUser);
 
 		Long createdUserId = createdUser.getId();
 
@@ -134,7 +145,7 @@ public class UserServiceTest {
 
 		firstMockUser.setFirstName(userFirstName);
 		when(userRepository.save(firstMockUser)).thenReturn(firstMockUser);
-		User updatedUser = userService.updateUser(userId, firstMockUser);
+		User updatedUser = userService.update(userId, firstMockUser);
 
 		verify(userRepository, times(1)).save(firstMockUser);
 		assertEquals(userFirstName, updatedUser.getFirstName());
@@ -143,7 +154,7 @@ public class UserServiceTest {
 	@Test
 	public void verifyDeleteCalledOnce() {
 		when(userRepository.findById(2L)).thenReturn(Optional.of(secondMockUser));
-		userService.deleteUser(2L);
+		userService.delete(2L);
 
 		verify(userRepository, times(1)).delete(secondMockUser);
 	}
@@ -199,7 +210,7 @@ public class UserServiceTest {
 
 	@Test
 	public void verifyUserPasswordUpdatedAndTokenReset() {
-		UpdateUserPasswordRequestDto userDto = UpdateUserPasswordRequestDto.builder()
+		UpdateUserPasswordRequest userDto = UpdateUserPasswordRequest.builder()
 				.password("12345678")
 				.token("ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0")
 				.build();

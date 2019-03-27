@@ -1,10 +1,12 @@
 package com.danit.finalproject.application.controller.event;
 
-import com.danit.finalproject.application.entity.event.Event;
-import com.danit.finalproject.application.entity.event.EventPhoto;
-import com.danit.finalproject.application.service.event.EventPhotoService;
-import com.danit.finalproject.application.service.event.EventService;
+import com.danit.finalproject.application.dto.request.event.EventPhotoRequest;
+import com.danit.finalproject.application.dto.request.event.EventRequest;
+import com.danit.finalproject.application.dto.response.event.EventResponse;
+import com.danit.finalproject.application.facade.event.EventFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,48 +22,50 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/events")
 public class EventController {
-  private EventService eventService;
-  private EventPhotoService eventPhotoService;
+  private EventFacade eventFacade;
 
   @Autowired
-  public EventController(EventService eventService, EventPhotoService eventPhotoService) {
-    this.eventService = eventService;
-    this.eventPhotoService = eventPhotoService;
+  public EventController(EventFacade eventFacade) {
+    this.eventFacade = eventFacade;
   }
 
   @GetMapping("{id}")
-  public Event getEventById(@PathVariable("id") Long eventId) {
-    return eventService.getEventById(eventId);
+  public ResponseEntity<EventResponse> getEventById(@PathVariable("id") Long eventId) {
+    return new ResponseEntity<>(eventFacade.getById(eventId), HttpStatus.OK);
   }
 
   @GetMapping
-  public List<Event> getAllBusinesses(@RequestParam("place") Long placeId, @RequestParam("business") Long businessId) {
-    return eventService.findAllByLocation(placeId, businessId);
+  public ResponseEntity<List<EventResponse>> getAllEventsByBusinesses(
+      @RequestParam("place") Long placeId,
+      @RequestParam("business") Long businessId) {
+    return new ResponseEntity<>(eventFacade.getEvents(placeId, businessId), HttpStatus.OK);
   }
 
   @PostMapping
-  public Event createNewEvent(@RequestBody Event event) {
-    return eventService.createNewEvent(event);
+  public ResponseEntity<EventResponse> createNewEvent(@RequestBody EventRequest eventRequest) {
+    return new ResponseEntity<>(eventFacade.create(eventRequest), HttpStatus.OK);
   }
 
   @PutMapping("{id}")
-  public Event updateEvent(@RequestBody Event event) {
-    return eventService.updateEvent(event);
+  public ResponseEntity<EventResponse> updateEvent(@PathVariable Long id, @RequestBody EventRequest eventRequest) {
+    return new ResponseEntity<>(eventFacade.update(id, eventRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
-  public void deleteEvent(@PathVariable("id") Long eventId) {
-    eventService.deleteEvent(eventId);
+  public ResponseEntity<EventResponse> deleteEvent(@PathVariable("id") Long eventId) {
+    return new ResponseEntity<>(eventFacade.delete(eventId), HttpStatus.OK);
   }
 
   @PostMapping("/{eventId}/photos")
-  public EventPhoto addPhotosToEvent(@RequestBody EventPhoto eventPhoto, @PathVariable("eventId") Long eventId) {
-    return eventPhotoService.createNewEventPhoto(eventPhoto, eventId);
+  public ResponseEntity<EventResponse> addPhotosToEvent(
+      @RequestBody EventPhotoRequest eventPhotoRequest,
+      @PathVariable Long eventId) {
+    return new ResponseEntity<>(eventFacade.addPhoto(eventPhotoRequest, eventId), HttpStatus.OK);
   }
 
   @DeleteMapping("/{eventId}/photos/{photoId}")
-  public void deletePhoto(@PathVariable("photoId") Long photoId) {
-    eventPhotoService.deleteEventPhoto(photoId);
+  public ResponseEntity<EventResponse> deletePhoto(@PathVariable Long eventId, @PathVariable Long photoId) {
+    return new ResponseEntity<>(eventFacade.deleteEventPhoto(eventId, photoId), HttpStatus.OK);
   }
 
 }

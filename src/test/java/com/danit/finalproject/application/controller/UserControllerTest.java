@@ -13,7 +13,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequestDto;
+import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
+import com.danit.finalproject.application.dto.response.UserResponse;
 import com.danit.finalproject.application.entity.Gender;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
@@ -23,6 +24,8 @@ import com.danit.finalproject.application.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -70,7 +73,7 @@ public class UserControllerTest {
 		MvcResult result = mockMvc.perform(get("/api/users/1"))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		User user = objectMapper.readValue(responseBody, User.class);
+		UserResponse user = objectMapper.readValue(responseBody, UserResponse.class);
 		assertEquals(expectedId, user.getId());
 		assertEquals(expectedEmail, user.getEmail());
 	}
@@ -88,8 +91,8 @@ public class UserControllerTest {
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
         .andReturn();
 
-    User responseUser = objectMapper
-        .readValue(response.getResponse().getContentAsString(), User.class);
+	  UserResponse responseUser = objectMapper
+        .readValue(response.getResponse().getContentAsString(), UserResponse.class);
 
     assertNotNull(responseUser);
     assertEquals(FIRST_NAME, responseUser.getFirstName());
@@ -103,14 +106,12 @@ public class UserControllerTest {
 	public void getUsersByEmail() throws Exception {
 		int expectedUsersSize = 1;
 		String expectedSecondUserEmail = "first.user@test.com";
-
 		MvcResult result = mockMvc.perform(get("/api/users?email=first"))
-				.andReturn();
+															.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		List<User> users = objectMapper.readValue(responseBody, new TypeReference<List<User>>(){});
-
-		assertEquals(expectedUsersSize, users.size());
-		assertEquals(expectedSecondUserEmail, users.get(0).getEmail());
+		HashMap<String, Object> users = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>(){});
+		assertEquals(expectedUsersSize, ((List)users.get("content")).size());
+		assertEquals(expectedSecondUserEmail, ((LinkedHashMap)((List)users.get("content")).get(0)).get("email"));
 	}
 
 	@Test
@@ -130,22 +131,20 @@ public class UserControllerTest {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		User createdUser = objectMapper.readValue(responseBody, User.class);
+		UserResponse createdUser = objectMapper.readValue(responseBody, UserResponse.class);
 		Long createdUserId = createdUser.getId();
 
 		assertEquals(userAge, createdUser.getAge());
 		assertEquals(userEmail, createdUser.getEmail());
-		assertNotNull(createdUser.getCreatedDate());
-		assertNotNull(createdUser.getModifiedDate());
 		assertNotNull(createdUserId);
-		assertNotNull(userService.getUserById(createdUserId));
+		assertNotNull(userService.getById(createdUserId));
 	}
 
 	@Test
 	public void updateUser() throws Exception {
 		String userFirstName = "Updated";
 		Long userId = 2L;
-		User user = userService.getUserById(userId);
+		User user = userService.getById(userId);
 		user.setFirstName(userFirstName);
 		String userJson = objectMapper.writeValueAsString(user);
 
@@ -156,22 +155,22 @@ public class UserControllerTest {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		User updatedUser = objectMapper.readValue(responseBody, User.class);
+		UserResponse updatedUser = objectMapper.readValue(responseBody, UserResponse.class);
 
 		assertEquals(userFirstName, updatedUser.getFirstName());
-		assertEquals(userFirstName, userService.getUserById(userId).getFirstName());
+		assertEquals(userFirstName, userService.getById(userId).getFirstName());
 	}
 
 	@Test
 	public void deleteUser() throws Exception {
 		mockMvc.perform(delete("/api/users/2").with(csrf()));
 
-		assertNull(userService.getUserById(2L));
+		assertNull(userService.getById(2L));
 	}
 
 	@Test
 	public void setUserRoles() throws Exception {
-		List<Role> roles = roleService.getAllRoles();
+		List<Role> roles = roleService.getAll();
 		String rolesJson = objectMapper.writeValueAsString(roles);
 
 		MvcResult result = mockMvc.perform(
@@ -181,7 +180,7 @@ public class UserControllerTest {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		User user = objectMapper.readValue(responseBody, User.class);
+		UserResponse user = objectMapper.readValue(responseBody, UserResponse.class);
 
 		assertEquals(roles.size(), user.getRoles().size());
 		assertEquals(roles.get(0).getName(), user.getRoles().get(0).getName());
@@ -200,7 +199,7 @@ public class UserControllerTest {
 						.param("email", userEmail)
 						.contentType(MediaType.APPLICATION_JSON));
 
-		User user = userService.getUserById(userId);
+		User user = userService.getById(userId);
 
 		assertNotNull(user.getToken());
 		assertNotEquals(token, user.getToken());
@@ -212,7 +211,7 @@ public class UserControllerTest {
 	@Test
 	public void updatePassword() throws Exception {
 		String expectedPassword = "12345678";
-		UpdateUserPasswordRequestDto userDto = UpdateUserPasswordRequestDto.builder()
+		UpdateUserPasswordRequest userDto = UpdateUserPasswordRequest.builder()
 				.token("12b0e9eb-ad60-44ec-81d1-a759313856ce")
 				.password(expectedPassword)
 				.passwordConfirmation(expectedPassword)
@@ -226,7 +225,7 @@ public class UserControllerTest {
 						.contentType(MediaType.APPLICATION_JSON))
 				.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		User user = objectMapper.readValue(responseBody, User.class);
+		UserResponse user = objectMapper.readValue(responseBody, UserResponse.class);
 
 		assertNull(user.getToken());
 		assertNull(user.getTokenExpirationDate());
