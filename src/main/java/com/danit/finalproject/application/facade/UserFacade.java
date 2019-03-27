@@ -45,4 +45,9 @@ public class UserFacade extends AbstractDtoFacade<User, UserRequest, UserRespons
     User user = userService.updateUserPassword(userDto, bindingResult);
     return mapEntityToResponseDto(user);
   }
+
+  public UserResponse generateToken(String email) {
+    User user = userService.generateToken(email);
+    return mapEntityToResponseDto(user);
+  }
 }

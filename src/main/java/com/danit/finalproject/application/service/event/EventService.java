@@ -49,7 +49,7 @@ public class EventService implements CrudService<Event> {
   @Override
   public Event update(Long id, Event event) {
     event.setId(id);
-    return eventRepository.saveAndFlush(event);
+    return eventRepository.save(event);
   }
 
   @Override
@@ -65,5 +65,19 @@ public class EventService implements CrudService<Event> {
     Event event = optionalEvent.orElse(null);
     eventRepository.save(event);
     return event;
+  }
+
+  public Event deleteEventPhoto(Long eventId, Long photoId) {
+    Optional<Event> optionalEvent = eventRepository.findById(eventId);
+    if (optionalEvent.isPresent()) {
+      EventPhoto eventPhoto = optionalEvent.get().getPhotos()
+          .stream()
+          .filter(photo -> photoId.equals(photo.getId()))
+          .findFirst().orElse(null);
+      Event event = optionalEvent.get();
+      event.getPhotos().remove(eventPhoto);
+      eventRepository.saveAndFlush(event);
+    }
+    return optionalEvent.orElse(null);
   }
 }

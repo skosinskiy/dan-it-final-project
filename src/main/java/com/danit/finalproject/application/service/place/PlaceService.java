@@ -37,7 +37,7 @@ public class PlaceService implements CrudService<Place> {
   @Override
   public Place update(Long id, Place place) {
     place.setId(id);
-    return placeRepository.saveAndFlush(place);
+    return placeRepository.save(place);
   }
 
   @Override
@@ -53,5 +53,19 @@ public class PlaceService implements CrudService<Place> {
     Place place = optionalPlace.orElse(null);
     placeRepository.save(place);
     return place;
+  }
+
+  public Place deletePlacePhoto(Long placeId, Long photoId) {
+    Optional<Place> optionalPlace = placeRepository.findById(placeId);
+    if (optionalPlace.isPresent()) {
+      PlacePhoto eventPhoto = optionalPlace.get().getPhotos()
+          .stream()
+          .filter(photo -> photoId.equals(photo.getId()))
+          .findFirst().orElse(null);
+      Place place = optionalPlace.get();
+      place.getPhotos().remove(eventPhoto);
+      placeRepository.saveAndFlush(place);
+    }
+    return optionalPlace.orElse(null);
   }
 }

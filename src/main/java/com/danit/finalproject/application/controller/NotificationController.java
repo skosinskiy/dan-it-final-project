@@ -4,6 +4,8 @@ import com.danit.finalproject.application.dto.request.NotificationRequest;
 import com.danit.finalproject.application.dto.response.NotificationResponse;
 import com.danit.finalproject.application.facade.NotificationFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,24 +30,24 @@ public class NotificationController {
   }
 
   @GetMapping
-  public List<NotificationResponse> findAllNotificationsByPlace(@RequestParam("placeId") Long id) {
-    return notificationFacade.findAllByPlace(id);
+  public ResponseEntity<List<NotificationResponse>> findAllNotificationsByPlace(@RequestParam("placeId") Long id) {
+    return new ResponseEntity<>(notificationFacade.findAllByPlace(id), HttpStatus.OK);
   }
 
   @PostMapping("/places")
-  public NotificationResponse createNewNotification(@RequestBody NotificationRequest notificationDto) {
-    return notificationFacade.create(notificationDto);
+  public ResponseEntity<NotificationResponse> createNewNotification(@RequestBody NotificationRequest notificationDto) {
+    return new ResponseEntity<>(notificationFacade.create(notificationDto), HttpStatus.OK);
   }
 
   @PutMapping("/{id}")
-  public NotificationResponse updateNotification(
+  public ResponseEntity<NotificationResponse> updateNotification(
       @RequestBody NotificationRequest notificationDto,
       @PathVariable("id") Long id) {
-    return notificationFacade.update(id, notificationDto);
+    return new ResponseEntity<>(notificationFacade.update(id, notificationDto), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
-  public void deleteNotification(@PathVariable("id") Long id) {
-    notificationFacade.delete(id);
+  public ResponseEntity<NotificationResponse> deleteNotification(@PathVariable("id") Long id) {
+    return new ResponseEntity<>(notificationFacade.delete(id), HttpStatus.OK);
   }
 }

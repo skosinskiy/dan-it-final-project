@@ -4,6 +4,8 @@ import com.danit.finalproject.application.dto.request.place.PlaceCategoryRequest
 import com.danit.finalproject.application.dto.response.place.PlaceCategoryResponse;
 import com.danit.finalproject.application.facade.place.PlaceCategoryFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,29 +28,30 @@ public class PlaceCategoryController {
   }
 
   @GetMapping("{id}")
-  public PlaceCategoryResponse getPlaceCategoryById(@PathVariable("id") Long placeCategoryId) {
-    return placeCategoryFacade.getById(placeCategoryId);
+  public ResponseEntity<PlaceCategoryResponse> getPlaceCategoryById(@PathVariable("id") Long placeCategoryId) {
+    return new ResponseEntity<>(placeCategoryFacade.getById(placeCategoryId), HttpStatus.OK);
   }
 
   @GetMapping
-  public List<PlaceCategoryResponse> getAllPlaceCategories() {
-    return placeCategoryFacade.getAll();
+  public ResponseEntity<List<PlaceCategoryResponse>> getAllPlaceCategories() {
+    return new ResponseEntity<>(placeCategoryFacade.getAll(), HttpStatus.OK);
   }
 
   @PostMapping
-  public PlaceCategoryResponse createNewPlaceCategory(@RequestBody PlaceCategoryRequest placeCategoryRequest) {
-    return placeCategoryFacade.create(placeCategoryRequest);
+  public ResponseEntity<PlaceCategoryResponse> createNewPlaceCategory(
+      @RequestBody PlaceCategoryRequest placeCategoryRequest) {
+    return new ResponseEntity<>(placeCategoryFacade.create(placeCategoryRequest), HttpStatus.OK);
   }
 
   @PutMapping("{id}")
-  public PlaceCategoryResponse updatePlaceCategory(
+  public ResponseEntity<PlaceCategoryResponse> updatePlaceCategory(
       @PathVariable Long id,
       @RequestBody PlaceCategoryRequest placeCategoryRequest) {
-    return placeCategoryFacade.update(id, placeCategoryRequest);
+    return new ResponseEntity<>(placeCategoryFacade.update(id, placeCategoryRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
-  public PlaceCategoryResponse deletePlace(@PathVariable("id") Long placeCategoryId) {
-    return placeCategoryFacade.delete(placeCategoryId);
+  public ResponseEntity<PlaceCategoryResponse> deletePlace(@PathVariable("id") Long placeCategoryId) {
+    return new ResponseEntity<>(placeCategoryFacade.delete(placeCategoryId), HttpStatus.OK);
   }
 }

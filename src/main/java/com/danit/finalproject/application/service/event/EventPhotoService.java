@@ -17,8 +17,4 @@ public class EventPhotoService {
   public EventPhoto getEventPhotoById(Long photoId) {
     return eventPhotoRepository.findById(photoId).orElse(null);
   }
-
-  public void deleteEventPhoto(Long eventPhotoId) {
-    eventPhotoRepository.deleteById(eventPhotoId);
-  }
 }

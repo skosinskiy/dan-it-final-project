@@ -4,8 +4,9 @@ import com.danit.finalproject.application.dto.request.event.EventPhotoRequest;
 import com.danit.finalproject.application.dto.request.event.EventRequest;
 import com.danit.finalproject.application.dto.response.event.EventResponse;
 import com.danit.finalproject.application.facade.event.EventFacade;
-import com.danit.finalproject.application.service.event.EventPhotoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,51 +23,49 @@ import java.util.List;
 @RequestMapping("/api/events")
 public class EventController {
   private EventFacade eventFacade;
-  private EventPhotoService eventPhotoService;
 
   @Autowired
-  public EventController(EventFacade eventFacade, EventPhotoService eventPhotoService) {
+  public EventController(EventFacade eventFacade) {
     this.eventFacade = eventFacade;
-    this.eventPhotoService = eventPhotoService;
   }
 
   @GetMapping("{id}")
-  public EventResponse getEventById(@PathVariable("id") Long eventId) {
-    return eventFacade.getById(eventId);
+  public ResponseEntity<EventResponse> getEventById(@PathVariable("id") Long eventId) {
+    return new ResponseEntity<>(eventFacade.getById(eventId), HttpStatus.OK);
   }
 
   @GetMapping
-  public List<EventResponse> getAllBusinesses(
+  public ResponseEntity<List<EventResponse>> getAllEventsByBusinesses(
       @RequestParam("place") Long placeId,
       @RequestParam("business") Long businessId) {
-    return eventFacade.getEvents(placeId, businessId);
+    return new ResponseEntity<>(eventFacade.getEvents(placeId, businessId), HttpStatus.OK);
   }
 
   @PostMapping
-  public EventResponse createNewEvent(@RequestBody EventRequest eventRequest) {
-    return eventFacade.create(eventRequest);
+  public ResponseEntity<EventResponse> createNewEvent(@RequestBody EventRequest eventRequest) {
+    return new ResponseEntity<>(eventFacade.create(eventRequest), HttpStatus.OK);
   }
 
   @PutMapping("{id}")
-  public EventResponse updateEvent(@PathVariable Long id, @RequestBody EventRequest eventRequest) {
-    return eventFacade.update(id, eventRequest);
+  public ResponseEntity<EventResponse> updateEvent(@PathVariable Long id, @RequestBody EventRequest eventRequest) {
+    return new ResponseEntity<>(eventFacade.update(id, eventRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
-  public EventResponse deleteEvent(@PathVariable("id") Long eventId) {
-    return eventFacade.delete(eventId);
+  public ResponseEntity<EventResponse> deleteEvent(@PathVariable("id") Long eventId) {
+    return new ResponseEntity<>(eventFacade.delete(eventId), HttpStatus.OK);
   }
 
   @PostMapping("/{eventId}/photos")
-  public EventResponse addPhotosToEvent(
+  public ResponseEntity<EventResponse> addPhotosToEvent(
       @RequestBody EventPhotoRequest eventPhotoRequest,
       @PathVariable Long eventId) {
-    return eventFacade.addPhoto(eventPhotoRequest, eventId);
+    return new ResponseEntity<>(eventFacade.addPhoto(eventPhotoRequest, eventId), HttpStatus.OK);
   }
 
   @DeleteMapping("/{eventId}/photos/{photoId}")
-  public void deletePhoto(@PathVariable("photoId") Long photoId) {
-    eventPhotoService.deleteEventPhoto(photoId);
+  public ResponseEntity<EventResponse> deletePhoto(@PathVariable Long eventId, @PathVariable Long photoId) {
+    return new ResponseEntity<>(eventFacade.deleteEventPhoto(eventId, photoId), HttpStatus.OK);
   }
 
 }
