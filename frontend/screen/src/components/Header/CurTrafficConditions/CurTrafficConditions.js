@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-export default class TrafficConditions extends Component{
+export default class CurTrafficConditions extends Component{
 
     render(){
         return(
