@@ -4,6 +4,8 @@ import com.danit.finalproject.application.dto.request.event.EventCategoryRequest
 import com.danit.finalproject.application.dto.response.event.EventCategoryResponse;
 import com.danit.finalproject.application.facade.event.EventCategoryFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,29 +28,30 @@ public class EventCategoryController {
   }
 
   @GetMapping("{id}")
-  public EventCategoryResponse getEventCategoryById(@PathVariable("id") Long eventCategoryId) {
-    return eventCategoryFacade.getById(eventCategoryId);
+  public ResponseEntity<EventCategoryResponse> getEventCategoryById(@PathVariable("id") Long eventCategoryId) {
+    return new ResponseEntity<>(eventCategoryFacade.getById(eventCategoryId), HttpStatus.OK);
   }
 
   @GetMapping
-  public List<EventCategoryResponse> getAllEventCategories() {
-    return eventCategoryFacade.getAll();
+  public ResponseEntity<List<EventCategoryResponse>> getAllEventCategories() {
+    return new ResponseEntity<>(eventCategoryFacade.getAll(), HttpStatus.OK);
   }
 
   @PostMapping
-  public EventCategoryResponse createNewEventCategory(@RequestBody EventCategoryRequest eventCategoryRequest) {
-    return eventCategoryFacade.create(eventCategoryRequest);
+  public ResponseEntity<EventCategoryResponse> createNewEventCategory(
+      @RequestBody EventCategoryRequest eventCategoryRequest) {
+    return new ResponseEntity<>(eventCategoryFacade.create(eventCategoryRequest), HttpStatus.OK);
   }
 
   @PutMapping("{id}")
-  public EventCategoryResponse updateEventCategory(
+  public ResponseEntity<EventCategoryResponse> updateEventCategory(
       @PathVariable Long id,
       @RequestBody EventCategoryRequest eventCategoryRequest) {
-    return eventCategoryFacade.update(id, eventCategoryRequest);
+    return new ResponseEntity<>(eventCategoryFacade.update(id, eventCategoryRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
-  public EventCategoryResponse deleteEvent(@PathVariable("id") Long eventCategoryId) {
-    return eventCategoryFacade.delete(eventCategoryId);
+  public ResponseEntity<EventCategoryResponse> deleteEvent(@PathVariable("id") Long eventCategoryId) {
+    return new ResponseEntity<>(eventCategoryFacade.delete(eventCategoryId), HttpStatus.OK);
   }
 }

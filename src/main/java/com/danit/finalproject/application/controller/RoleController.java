@@ -4,6 +4,8 @@ import com.danit.finalproject.application.dto.request.RoleRequest;
 import com.danit.finalproject.application.dto.response.RoleResponse;
 import com.danit.finalproject.application.facade.RoleFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,23 +29,23 @@ public class RoleController {
   }
 
   @GetMapping
-  public List<RoleResponse> getAllRoles() {
-    return roleFacade.getAll();
+  public ResponseEntity<List<RoleResponse>> getAllRoles() {
+    return new ResponseEntity<>(roleFacade.getAll(), HttpStatus.OK);
   }
 
   @PostMapping
-  public RoleResponse createRole(@RequestBody RoleRequest roleRequest) {
-    return roleFacade.create(roleRequest);
+  public ResponseEntity<RoleResponse> createRole(@RequestBody RoleRequest roleRequest) {
+    return new ResponseEntity<>(roleFacade.create(roleRequest), HttpStatus.OK);
   }
 
   @PutMapping("{roleId}")
-  public RoleResponse updateRole(@PathVariable Long roleId, @RequestBody RoleRequest roleRequest) {
-    return roleFacade.update(roleId, roleRequest);
+  public ResponseEntity<RoleResponse> updateRole(@PathVariable Long roleId, @RequestBody RoleRequest roleRequest) {
+    return new ResponseEntity<>(roleFacade.update(roleId, roleRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{roleId}")
-  public RoleResponse deleteRole(@PathVariable Long roleId) {
-    return roleFacade.delete(roleId);
+  public ResponseEntity<RoleResponse> deleteRole(@PathVariable Long roleId) {
+    return new ResponseEntity<>(roleFacade.delete(roleId), HttpStatus.OK);
   }
 
 }
