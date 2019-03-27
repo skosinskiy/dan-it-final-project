@@ -16,14 +16,19 @@ import java.util.Optional;
 public class EventService implements CrudService<Event> {
   private EventRepository eventRepository;
   private BusinessService businessService;
-  private PlaceService    placeService;
+  private PlaceService placeService;
+  private EventPhotoService eventPhotoService;
 
   @Autowired
-  public EventService(EventRepository eventRepository,
-      BusinessService businessService, PlaceService placeService) {
+  public EventService(
+      EventRepository eventRepository,
+      BusinessService businessService,
+      PlaceService placeService,
+      EventPhotoService eventPhotoService) {
     this.eventRepository = eventRepository;
     this.businessService = businessService;
     this.placeService = placeService;
+    this.eventPhotoService = eventPhotoService;
   }
 
   @Override
@@ -70,13 +75,11 @@ public class EventService implements CrudService<Event> {
   public Event deleteEventPhoto(Long eventId, Long photoId) {
     Optional<Event> optionalEvent = eventRepository.findById(eventId);
     if (optionalEvent.isPresent()) {
-      EventPhoto eventPhoto = optionalEvent.get().getPhotos()
+      Optional<EventPhoto> optionalEventPhoto = optionalEvent.get().getPhotos()
           .stream()
           .filter(photo -> photoId.equals(photo.getId()))
-          .findFirst().orElse(null);
-      Event event = optionalEvent.get();
-      event.getPhotos().remove(eventPhoto);
-      eventRepository.saveAndFlush(event);
+          .findFirst();
+      optionalEventPhoto.ifPresent(photo -> eventPhotoService.deleteEventPhoto(photo));
     }
     return optionalEvent.orElse(null);
   }
