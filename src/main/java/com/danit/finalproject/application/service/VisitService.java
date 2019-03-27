@@ -5,6 +5,7 @@ import com.danit.finalproject.application.entity.Visit;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.repository.VisitRepository;
 import com.danit.finalproject.application.service.place.PlaceService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ public class VisitService {
   private UserService userService;
   private PlaceService placeService;
 
+  @Autowired
   public VisitService(VisitRepository visitRepository, UserService userService, PlaceService placeService) {
     this.visitRepository = visitRepository;
     this.userService = userService;

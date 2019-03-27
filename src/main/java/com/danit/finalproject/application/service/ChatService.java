@@ -2,6 +2,7 @@ package com.danit.finalproject.application.service;
 
 import com.danit.finalproject.application.entity.Chat;
 import com.danit.finalproject.application.repository.ChatRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 public class ChatService implements CrudService<Chat> {
   private ChatRepository chatRepository;
 
+  @Autowired
   public ChatService(ChatRepository chatRepository) {
     this.chatRepository = chatRepository;
   }
