@@ -44,7 +44,7 @@ public class Event extends BaseEntity {
   @JoinColumn(name = "main_photo")
   private EventPhoto mainPhoto;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "event")
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   @JsonIgnore
