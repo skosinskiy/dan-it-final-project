@@ -7,6 +7,7 @@ import com.danit.finalproject.application.facade.business.BusinessFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,11 +41,13 @@ public class BusinessController {
   }
 
   @PostMapping
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
   public ResponseEntity<BusinessResponse> createNewBusiness(@RequestBody BusinessRequest businessRequest) {
     return new ResponseEntity<>(businessFacade.create(businessRequest), HttpStatus.OK);
   }
 
   @PutMapping("{id}")
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
   public ResponseEntity<BusinessResponse> updateBusiness(
       @PathVariable Long id,
       @RequestBody BusinessRequest businessRequest) {
@@ -52,11 +55,13 @@ public class BusinessController {
   }
 
   @DeleteMapping("{id}")
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
   public ResponseEntity<BusinessResponse> deleteBusiness(@PathVariable("id") Long businessId) {
     return new ResponseEntity<>(businessFacade.delete(businessId), HttpStatus.OK);
   }
 
   @PostMapping("/{businessId}/photos")
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
   public ResponseEntity<BusinessResponse> addPhotosToBusiness(
       @RequestBody BusinessPhotoRequest businessPhotoRequest,
       @PathVariable("businessId") Long businessId) {
@@ -64,6 +69,7 @@ public class BusinessController {
   }
 
   @DeleteMapping("/{businessId}/photos/{photoId}")
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
   public ResponseEntity<BusinessResponse> deletePhoto(
       @PathVariable Long businessId,
       @PathVariable("photoId") Long photoId) {
