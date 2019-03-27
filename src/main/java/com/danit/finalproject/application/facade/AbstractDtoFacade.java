@@ -64,7 +64,6 @@ public abstract class AbstractDtoFacade<E extends BaseEntity, I, O> {
           .getGenericSuperclass()).getActualTypeArguments()[0]);
     }
     return null;
-
   }
 
   protected List<O> mapEntityListToResponseDtoList(List<E> entityList) {
