@@ -45,7 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-@WithMockUser(value = "first.user@test.com")
+@WithMockUser(authorities = "MANGAE_USER_ROLES")
 public class UserControllerTest {
 
 	@Autowired
@@ -79,6 +79,7 @@ public class UserControllerTest {
 	}
 
   @Test
+	@WithMockUser(value = "first.user@test.com")
   public void getCurrentUser() throws Exception {
     final String FIRST_NAME = "Elon";
     final String LAST_NAME = "Musk";
