@@ -27,7 +27,7 @@ public class PlaceController {
   private MenuItemFacade menuItemFacade;
 
   @Autowired
-  public PlaceController(PlaceFacade placeFacade) {
+  public PlaceController(PlaceFacade placeFacade, MenuItemFacade menuItemFacade) {
     this.placeFacade = placeFacade;
     this.menuItemFacade = menuItemFacade;
   }
