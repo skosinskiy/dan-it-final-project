@@ -24,6 +24,10 @@ const Actions = {
     GET_ALL_PLACES: 'GET_ALL_PLACES',
     GET_PLACES_CATEGORIES: 'GET_PLACES_CATEGORIES,',
     GET_PLACE_BY_ID: 'GET_PLACE_BY_ID'
+  },
+
+  BusinessCategory: {
+    GET_ALL_CATEGORIES: 'GET_ALL_CATEGORIES'
   }
 }
 

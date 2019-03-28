@@ -146,7 +146,6 @@ public class UserService implements UserDetailsService, CrudService<User> {
         .authorities(permissions)
         .password(user.getPassword())
         .build();
-
   }
 
   public User getPrincipalUser() {
