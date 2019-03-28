@@ -1,36 +1,23 @@
-
 .menu {
-    height: 51px;
-    width: 658px;
-    margin-left: 0;
-    margin-right: 0;
     display: flex;
+    width: 658px;
+    height: 51px;
+    margin: 0;
 }
 .menu-hamburger{
     display: block;
     margin-right: 102px;
 }
-
-/*.menu > ul{
-    position: absolute;
-    top: 5px;
-}*/
-
-/*.menu li{
-    margin-bottom: 2em;
-    color: black;
-    list-style: none;
-}*/
-
+.menu-hamburger:hover{
+    cursor: pointer;
+}
 a {
-    text-decoration: none;
-    font-family: SF UI Display;
+    color: #1C1C1C;
     font-size: 14px;
     line-height: 16px;
-    letter-spacing: 0.00636364em;
-    color: #1C1C1C;
+    letter-spacing: .00636364em;
+    text-decoration: none;
 }
-
 .menu-visible {
     left: 5px;
     opacity: 1;
@@ -40,23 +27,26 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: center;
-    margin-left: 35px;
     margin-right: 35px;
+    margin-left: 35px;
+    text-align: center;
 }
-
+.menu-item div{
+    display: inline-block;
+    margin-top: 9px;
+    margin-left: auto;
+    margin-right: auto;
+}
 .menu-hidden {
     left: -100%;
     opacity: 0;
     transition: .5s;
 }
-
 $icon_classes: (
     'icon': 'menu-icon', 
     'crossed': 'menu-icon-crossed', 
     'crossed-reverse': 'menu-icon-crossed-reverse'
     );
-
 .menu-icon {
     width: 60px;
     height: 5px;
@@ -65,17 +55,14 @@ $icon_classes: (
     border-radius: 2px;
     transition: .5s;
 }
-
 .menu-icon-crossed {
     transform: rotate(45deg) translate(2px, -5px);
     transform-origin: top left;
-} 
-
+}
 .menu-icon-crossed-reverse {
     transform: rotate(-45grad) translateX(10px) translateY(-29px);
     transform-origin: bottom right;
 }
-
 .menu-icon.menu-visible{
     background: #FEBA00;
 }

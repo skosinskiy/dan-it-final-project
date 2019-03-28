@@ -1,9 +1,9 @@
 
 
 .current-time{
-  padding: 0;
   margin: 0;
   margin-left: 46px;
+  padding: 0;
 }
 
 .current-time{
@@ -15,21 +15,19 @@
 .current-time-main{
   margin-right: 0;
   padding-right: 0;
-  font-family: SF UI Text;
+  color: #000000;
   font-size: 44px;
   line-height: 20px;
+  letter-spacing: .00636364em;
   text-align: right;
-  letter-spacing: 0.00636364em;
-  color: #000000;
 }
 .current-time-day{
   margin-top: 12px;
   margin-right: 0;
   padding-right: 3px;
-  font-family: SF UI Display;
+  color: #303030;
   font-size: 22px;
   line-height: 16px;
+  letter-spacing: .00636364em;
   text-align: right;
-  letter-spacing: 0.00636364em;
-  color: #303030;
 }

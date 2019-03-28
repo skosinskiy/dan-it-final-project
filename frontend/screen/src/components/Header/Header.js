@@ -4,7 +4,6 @@ import MainLogo from "./MainLogo/MainLogo";
 import CurTrafficConditions from './CurTrafficConditions/CurTrafficConditions'
 import CurWeather from './CurWeather/CurWeather'
 import {default as Menu} from '../../components/Menu'
-import HeaderMenu from './HeaderMenu/HeaderMenu.js'
 import './Header.scss'
 
 

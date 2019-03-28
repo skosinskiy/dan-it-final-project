@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import {default as Menu} from './components/Menu'
 import './App.css'
 import AppRoutes from './components/AppRoutes'
 import Header from './components/Header/Header'
