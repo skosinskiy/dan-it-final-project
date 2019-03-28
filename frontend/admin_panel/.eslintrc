@@ -1,9 +1,43 @@
 {
-  "parser": "babel-eslint",
-  "extends": ["standard", "react-app"],
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": [
+    "eslint:recommended",
+    "react-app",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended",
+    "prettier/react"
+  ],
   "rules": {
+    "no-console": "warn",
+    "no-unused-vars": "warn",
+    "react/display-name": false,
     "no-trailing-spaces": ["error", { "skipBlankLines": true } ],
     "no-return-assign": 0,
-    "eol-last": 0
+    "eol-last": 0,
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 80,
+        "tabWidth": 2,
+        "useTabs": false,
+        "semi": false,
+        "singleQuote": true,
+        "jsxSingleQuote": false,
+        "trailingComma": "none",
+        "bracketSpacing": true,
+        "jsxBracketSameLine": false,
+        "arrowParens": "avoid"
+      }
+    ]
   }
 }
