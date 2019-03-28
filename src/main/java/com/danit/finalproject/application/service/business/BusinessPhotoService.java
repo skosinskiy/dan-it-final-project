@@ -17,4 +17,9 @@ public class BusinessPhotoService {
   public BusinessPhoto getBusinessPhotoById(Long photoId) {
     return businessPhotoRepository.findById(photoId).orElse(null);
   }
+
+  public BusinessPhoto deleteBusinessPhoto(BusinessPhoto businessPhoto) {
+    businessPhotoRepository.delete(businessPhoto);
+    return businessPhoto;
+  }
 }
