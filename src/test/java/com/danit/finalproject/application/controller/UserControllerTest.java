@@ -1,14 +1,10 @@
 package com.danit.finalproject.application.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -27,6 +23,9 @@ import com.danit.finalproject.application.service.RoleService;
 import com.danit.finalproject.application.service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -107,14 +106,12 @@ public class UserControllerTest {
 	public void getUsersByEmail() throws Exception {
 		int expectedUsersSize = 1;
 		String expectedSecondUserEmail = "first.user@test.com";
-
 		MvcResult result = mockMvc.perform(get("/api/users?email=first"))
-				.andReturn();
+															.andReturn();
 		String responseBody = result.getResponse().getContentAsString();
-		List<User> users = objectMapper.readValue(responseBody, new TypeReference<List<User>>(){});
-
-		assertEquals(expectedUsersSize, users.size());
-		assertEquals(expectedSecondUserEmail, users.get(0).getEmail());
+		HashMap<String, Object> users = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>(){});
+		assertEquals(expectedUsersSize, ((List)users.get("content")).size());
+		assertEquals(expectedSecondUserEmail, ((LinkedHashMap)((List)users.get("content")).get(0)).get("email"));
 	}
 
 	@Test

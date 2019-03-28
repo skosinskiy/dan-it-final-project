@@ -15,7 +15,7 @@ const styles = theme => ({
   formControl: {
     margin: theme.spacing.unit,
     minWidth: 120,
-    maxWidth: 300
+    maxWidth: 200
   },
   chips: {
     display: 'flex',
@@ -57,32 +57,29 @@ class UserItem extends React.Component {
     const roles = userRoles.filter(role => user.roles.some(userRole => role.id === userRole.id))
 
     return (
-      <li className="user-item">
-        <h4>{user.email}</h4>
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="select-multiple-chip">Select Roles</InputLabel>
-          <Select
-            multiple
-            value={roles}
-            onChange={this.handleChange}
-            input={<Input id="select-multiple-chip" />}
-            renderValue={selected => (
-              <div className={classes.chips}>
-                {selected.map(value => (
-                  <Chip key={value.id} label={value.name} className={classes.chip} />
-                ))}
-              </div>
-            )}
-            MenuProps={MenuProps}
-          >
-            {userRoles.map(role => (
-              <MenuItem key={role.id} value={role} style={getStyles(role, this)}>
-                {role.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </li>
+      <FormControl className={classes.formControl}>
+        <InputLabel htmlFor="select-multiple-chip">Select Roles</InputLabel>
+        <Select
+          multiple
+          value={roles}
+          onChange={this.handleChange}
+          input={<Input id="select-multiple-chip" />}
+          renderValue={selected => (
+            <div className={classes.chips}>
+              {selected.map(value => (
+                <Chip key={value.id} label={value.name} className={classes.chip} />
+              ))}
+            </div>
+          )}
+          MenuProps={MenuProps}
+        >
+          {userRoles.map(role => (
+            <MenuItem key={role.id} value={role} style={getStyles(role, this)}>
+              {role.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
     )
   }
 }
@@ -110,8 +107,21 @@ const mapDispatchToProps = (dispatch) => {
         return item
       })
 
-      let changedUsersList = chengedUsers
-      changedUsersList.add(user.id)
+      let isContain = false
+
+      for (let i = 0; i < chengedUsers.length; i++) {
+        if (chengedUsers[i].id === user.id) {
+          chengedUsers[i] = user
+          isContain = true
+        }
+      }
+
+      if (!isContain) {
+        chengedUsers.push(user)
+      }
+
+      const changedUsersList = chengedUsers
+
       dispatch({type: Actions.Users.SET_USER_ROLES, payload: {updatedUserList, changedUsersList}})
     }
   }

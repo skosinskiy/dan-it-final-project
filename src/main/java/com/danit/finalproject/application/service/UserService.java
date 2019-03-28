@@ -13,6 +13,8 @@ import java.util.Set;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,8 +62,8 @@ public class UserService implements UserDetailsService, CrudService<User> {
     return userRepository.findAll();
   }
 
-  public List<User> getUsersByEmail(String email) {
-    return userRepository.findAllByEmailContainingIgnoreCase(email);
+  public Page<User> getUsersByEmail(String email, Pageable pageable) {
+    return userRepository.findAllByEmailStartingWithIgnoreCase(email, pageable);
   }
 
   @Override
