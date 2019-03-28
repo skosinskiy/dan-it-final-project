@@ -8,24 +8,17 @@ import Map from '../hooks/Map'
 import './index.scss'
 
 const AppRoutes = (props) => {
-    return (
-      <div>
-        <Switch>
-            <Route path="/Services" component={Services}/>
-            <Route path="/Fun" component={Fun}/>
-            <Route path="/Shops" component={Shops}/>
-            <Route path="/Food" component={Food}/>
-            <Route path="/Map" component={Map}/>
-{/*
-          <Route path="/Food" component={Food}/>
-          <Route path="/Shops" component={Shops}/>
-          <Route path="/Lorem" component={Lorem}/>
-          <Route path="/Fun" component={Fun}/>
-          <Route path="/Extra" component={Extra}/>
-          <Route path="/" component={Food}/>*/}
-        </Switch>
-      </div>
-    )
+  return (
+    <div>
+      <Switch>
+        <Route path="/Services" component={Services}/>
+        <Route path="/Fun" component={Fun}/>
+        <Route path="/Shops" component={Shops}/>
+        <Route path="/Food" component={Food}/>
+        <Route path="/Map" component={Map}/>
+      </Switch>
+    </div>
+  )
 }
 
 export default AppRoutes

@@ -9,17 +9,17 @@ import { NavLink } from 'react-router-dom'
 
 const Menu = (props) => (
   <div className="menu">
-      <div onClick={props.onClick} className={'menu-hamburger'}>
-          <div className={`menu-icon ${props.isOpen ? 'menu-icon-crossed' : ''}`}></div>
-          <div className={`menu-icon ${props.isOpen ? 'menu-hidden' : 'menu-visible'}`}></div>
-          <div className={`menu-icon ${props.isOpen ? 'menu-icon-crossed-reverse' : ''}`}></div>
-      </div>
-      <div className={props.isOpen ? 'menu-visible' : 'menu-hidden'}>
-          <div className={'menu-item'}><NavLink to="/Services"><ServicesLogo /><div>Services</div></NavLink></div>
-          <div className={'menu-item'}><NavLink to="/Fun"><FunLogo /><div>Fun</div></NavLink></div>
-          <div className={'menu-item'}><NavLink to="/Shops"><ShopsLogo /><div>Shops</div></NavLink></div>
-          <div className={'menu-item'}><NavLink to="/Food"><FoodLogo /><div>Food</div></NavLink></div>
-          <div className={'menu-item'}><NavLink to="/Map"><MapLogo /><div>Map</div></NavLink></div>
+    <div onClick={props.onClick} className={'menu-hamburger'}>
+      <div className={`menu-icon ${props.isOpen ? 'menu-icon-crossed' : ''}`}></div>
+      <div className={`menu-icon ${props.isOpen ? 'menu-hidden' : 'menu-visible'}`}></div>
+      <div className={`menu-icon ${props.isOpen ? 'menu-icon-crossed-reverse' : ''}`}></div>
+    </div>
+    <div className={props.isOpen ? 'menu-visible' : 'menu-hidden'}>
+      <div className={'menu-item'}><NavLink to="/Services"><ServicesLogo /><div>Services</div></NavLink></div>
+      <div className={'menu-item'}><NavLink to="/Fun"><FunLogo /><div>Fun</div></NavLink></div>
+      <div className={'menu-item'}><NavLink to="/Shops"><ShopsLogo /><div>Shops</div></NavLink></div>
+      <div className={'menu-item'}><NavLink to="/Food"><FoodLogo /><div>Food</div></NavLink></div>
+      <div className={'menu-item'}><NavLink to="/Map"><MapLogo /><div>Map</div></NavLink></div>
     </div>
   </div>
 )
