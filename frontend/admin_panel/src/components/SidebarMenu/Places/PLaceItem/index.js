@@ -48,7 +48,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deletePlace: (placeId) => dispatch(deletePlace(placeId)),
+    deletePlace: (placeId) => dispatch(deletePlace(placeId))
   }
 }
 

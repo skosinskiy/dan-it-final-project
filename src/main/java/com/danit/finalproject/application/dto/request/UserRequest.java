@@ -2,10 +2,9 @@ package com.danit.finalproject.application.dto.request;
 
 import com.danit.finalproject.application.dto.request.place.PlaceRequest;
 import com.danit.finalproject.application.entity.Gender;
-import lombok.Data;
-
 import java.util.Date;
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class UserRequest {

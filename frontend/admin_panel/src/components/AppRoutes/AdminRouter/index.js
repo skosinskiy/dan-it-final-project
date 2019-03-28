@@ -9,6 +9,7 @@ import PlaceForm from '../../SidebarMenu/Places/PLaceForm'
 import { hasGrant } from '../../../utils/roles'
 import { Grant } from '../../../utils/permissions'
 import { connect } from 'react-redux'
+import PlaceCategories from '../../SidebarMenu/PlaceCategories'
 
 class AppRoutes extends Component {
   render () {
@@ -17,6 +18,7 @@ class AppRoutes extends Component {
     return (
       <Switch>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANGAE_USER_ROLES)} path="/admin/managing-roles" component={ManaginrUserRoles}/>
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANGAE_USER_ROLES)} path="/admin/place-categories" component={PlaceCategories}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/add-new" component={PlaceForm}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/:placeId" component={PlaceForm}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places" component={Places}/>

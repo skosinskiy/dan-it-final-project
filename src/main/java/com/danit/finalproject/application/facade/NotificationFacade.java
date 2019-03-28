@@ -4,10 +4,9 @@ import com.danit.finalproject.application.dto.request.NotificationRequest;
 import com.danit.finalproject.application.dto.response.NotificationResponse;
 import com.danit.finalproject.application.entity.Notification;
 import com.danit.finalproject.application.service.NotificationService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class NotificationFacade extends

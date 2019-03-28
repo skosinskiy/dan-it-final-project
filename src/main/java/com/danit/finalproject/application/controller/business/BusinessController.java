@@ -4,6 +4,7 @@ import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequ
 import com.danit.finalproject.application.dto.request.business.BusinessRequest;
 import com.danit.finalproject.application.dto.response.business.BusinessResponse;
 import com.danit.finalproject.application.facade.business.BusinessFacade;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/businesses")
@@ -41,9 +40,8 @@ public class BusinessController {
   }
 
   @PostMapping
-  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
-  public ResponseEntity<BusinessResponse> createNewBusiness(@RequestBody BusinessRequest businessRequest) {
-    return new ResponseEntity<>(businessFacade.create(businessRequest), HttpStatus.OK);
+  public BusinessResponse createNewBusiness(@RequestBody BusinessRequest businessRequest) {
+    return businessFacade.create(businessRequest);
   }
 
   @PutMapping("{id}")

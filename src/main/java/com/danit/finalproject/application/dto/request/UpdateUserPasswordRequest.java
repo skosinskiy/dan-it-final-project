@@ -1,7 +1,7 @@
 package com.danit.finalproject.application.dto.request;
 
-import com.danit.finalproject.application.validation.TokenNotExpired;
 import com.danit.finalproject.application.validation.PasswordsMatch;
+import com.danit.finalproject.application.validation.TokenNotExpired;
 import lombok.Builder;
 import lombok.Data;
 
