@@ -30,8 +30,9 @@ public class FinalProjectApplicationTests {
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<Object> requestEntity = new HttpEntity<>(headers);
 
-		ResponseEntity<String> responseEntity = testRestTemplate.exchange(endpoint,
-				HttpMethod.GET, requestEntity, String.class);
+		ResponseEntity<String> responseEntity = testRestTemplate
+				.withBasicAuth("first.user@test.com", "admin")
+				.exchange(endpoint, HttpMethod.GET, requestEntity, String.class);
 
 		assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 	}

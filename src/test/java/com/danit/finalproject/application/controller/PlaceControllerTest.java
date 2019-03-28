@@ -30,7 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-@WithMockUser(value = "first.user@test.com")
+@WithMockUser(authorities = "MANAGE_PLACES")
 public class PlaceControllerTest {
   @Autowired
   private MockMvc mockMvc;

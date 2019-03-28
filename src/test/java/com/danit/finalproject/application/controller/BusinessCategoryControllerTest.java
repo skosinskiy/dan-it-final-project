@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-@WithMockUser(value = "first.user@test.com")
+@WithMockUser(authorities = "MANAGE_BUSINESS_CATEGORIES")
 public class BusinessCategoryControllerTest {
   @Autowired
   private MockMvc mockMvc;
@@ -58,7 +58,7 @@ public class BusinessCategoryControllerTest {
 
   @Test
   public void getAllCategories() throws Exception {
-    int expectedSize = 2;
+    int expectedSize = 3;
     String secondCategoryName = "business-category-2";
 
     MvcResult result = mockMvc.perform(get("/api/business-categories"))
@@ -73,7 +73,7 @@ public class BusinessCategoryControllerTest {
   }
 
   @Test
-  public void createNewPlaceCategory() throws Exception {
+  public void createNewBusinessCategory() throws Exception {
     Long expectedId = 3L;
     String expectedName = "business-category-3";
     BusinessCategoryResponse expectedParent = businessCategoryFacade.getById(2L);

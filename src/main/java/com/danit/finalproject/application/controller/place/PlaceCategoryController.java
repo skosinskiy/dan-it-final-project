@@ -6,6 +6,7 @@ import com.danit.finalproject.application.facade.place.PlaceCategoryFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,12 +39,14 @@ public class PlaceCategoryController {
   }
 
   @PostMapping
+  @PreAuthorize("hasAuthority('MANAGE_PLACE_CATEGORIES')")
   public ResponseEntity<PlaceCategoryResponse> createNewPlaceCategory(
       @RequestBody PlaceCategoryRequest placeCategoryRequest) {
     return new ResponseEntity<>(placeCategoryFacade.create(placeCategoryRequest), HttpStatus.OK);
   }
 
   @PutMapping("{id}")
+  @PreAuthorize("hasAuthority('MANAGE_PLACE_CATEGORIES')")
   public ResponseEntity<PlaceCategoryResponse> updatePlaceCategory(
       @PathVariable Long id,
       @RequestBody PlaceCategoryRequest placeCategoryRequest) {
@@ -51,6 +54,7 @@ public class PlaceCategoryController {
   }
 
   @DeleteMapping("{id}")
+  @PreAuthorize("hasAuthority('MANAGE_PLACE_CATEGORIES')")
   public ResponseEntity<PlaceCategoryResponse> deletePlace(@PathVariable("id") Long placeCategoryId) {
     return new ResponseEntity<>(placeCategoryFacade.delete(placeCategoryId), HttpStatus.OK);
   }
