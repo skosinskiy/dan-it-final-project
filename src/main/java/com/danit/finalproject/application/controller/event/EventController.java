@@ -4,6 +4,7 @@ import com.danit.finalproject.application.dto.request.event.EventPhotoRequest;
 import com.danit.finalproject.application.dto.request.event.EventRequest;
 import com.danit.finalproject.application.dto.response.event.EventResponse;
 import com.danit.finalproject.application.facade.event.EventFacade;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/events")

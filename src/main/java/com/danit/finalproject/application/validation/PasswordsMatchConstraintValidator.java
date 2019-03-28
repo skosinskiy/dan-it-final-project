@@ -1,10 +1,9 @@
 package com.danit.finalproject.application.validation;
 
 import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
-import org.springframework.stereotype.Component;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import org.springframework.stereotype.Component;
 
 @Component
 public class PasswordsMatchConstraintValidator implements ConstraintValidator<PasswordsMatch, UpdateUserPasswordRequest> {

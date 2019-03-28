@@ -3,10 +3,9 @@ package com.danit.finalproject.application.service.business;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.repository.business.BusinessCategoryRepository;
 import com.danit.finalproject.application.service.CrudService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class BusinessCategoryService implements CrudService<BusinessCategory> {

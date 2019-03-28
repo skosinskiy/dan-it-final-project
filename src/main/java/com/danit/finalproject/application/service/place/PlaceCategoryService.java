@@ -3,10 +3,9 @@ package com.danit.finalproject.application.service.place;
 import com.danit.finalproject.application.entity.place.PlaceCategory;
 import com.danit.finalproject.application.repository.place.PlaceCategoryRepository;
 import com.danit.finalproject.application.service.CrudService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class PlaceCategoryService implements CrudService<PlaceCategory> {
