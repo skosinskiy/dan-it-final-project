@@ -2,8 +2,9 @@ import api from '../../components/FetchData'
 import Actions from '../Actions'
 
 export const getAllBusinessCategories = () => dispatch => {
-  api.get('/api/business-categories').then(
-    res => dispatch({type: Actions.BusinessCategory.GET_ALL_CATEGORIES, payload: res})
+  api.get('/api/business-categories').then(res => {
+      dispatch({type: Actions.BusinessCategory.GET_ALL_CATEGORIES, payload: res})
+    }
   )
 }
 
@@ -13,4 +14,12 @@ export const deleteBusinessCategory = (categoryId) => dispatch => {
       dispatch({type: Actions.BusinessCategory.GET_ALL_CATEGORIES, payload: res})
     })
   })
+}
+
+export const saveCategory = category => dispatch => {
+  if (category.id) {
+    // PUT
+  } else {
+    // POST
+  }
 }

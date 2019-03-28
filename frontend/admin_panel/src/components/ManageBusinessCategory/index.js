@@ -1,11 +1,9 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
-import Button from '@material-ui/core/Button'
-import { getAllBusinessCategories } from '../../actions/businessCategories'
+import {getAllBusinessCategories} from '../../actions/businessCategories'
 import BusinessCategoryItem from './BusinessCategoryItem'
 
 const styles = theme => ({
@@ -21,10 +19,6 @@ const styles = theme => ({
 })
 
 class BusinessCategories extends Component {
-// <NavLink to={'/admin/places/add-new'} className={classes.buttons}>
-  // <Button variant="contained" color="primary" className={classes.button}>Add New PLace</Button>
-  // </NavLink>
-
   componentDidMount () {
     const {getAllBusinessCategories} = this.props
     getAllBusinessCategories()
@@ -32,7 +26,7 @@ class BusinessCategories extends Component {
 
   render () {
     const { classes, businessCategories } = this.props
-    console.log(businessCategories)
+
     const businessCategoryItems = businessCategories.map((category) => {
       return <BusinessCategoryItem key={category.id} category={category}/>
     })

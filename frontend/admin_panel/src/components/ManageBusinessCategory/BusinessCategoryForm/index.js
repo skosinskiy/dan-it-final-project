@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom'
-import { withStyles } from '@material-ui/core/styles'
+import {NavLink} from 'react-router-dom'
+import {withStyles} from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import { connect } from 'react-redux'
-import {getAllBusinessCategories} from '../../../actions/businessCategories'
+import {connect} from 'react-redux'
+import {getAllBusinessCategories, saveCategory} from '../../../actions/businessCategories'
+import Preloader from '../../Preloader'
 
 const styles = theme => ({
   container: {
@@ -38,87 +39,107 @@ const emptyCategory = {
   }
 }
 
-class PlaceForm extends React.Component {
+class BusinessCategoryForm extends React.Component {
   constructor (props) {
     super(props)
+
     this.state = {
-      category: typeof props.category !== 'undefined' ? props.category : emptyCategory
+      editedCategory: props.category !== undefined ? props.category : emptyCategory
     }
   }
 
   componentDidMount () {
-    const {getAllBusinessCategories} = this.props
-    getAllBusinessCategories()
+    const {category, match, getAllBusinessCategories} = this.props
+    const creatingNewCategory = !match.params.categoryId
+
+    if (!creatingNewCategory && !category) {
+      getAllBusinessCategories()
+    }
   }
 
-  // savePlace = (placeId, place) => {
-  //   if (placeId) {
-  //     this.props.updatePlace(placeId, place)
-  //   } else {
-  //     this.props.saveNewPlace(place)
-  //   }
-  // }
-
-  handleChange = name => event => {
-    let value
-    if (name === 'parentCategory') {
-      value = this.props.categories.find(category => category.id === event.target.value)
-    } else {
-      value = event.target.value
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.category && nextProps.category !== this.props.category) {
+      this.setState({editedCategory: nextProps.category})
     }
-    this.setState({
-      category: {...this.state.category, [name]: value}
-    })
-  };
+  }
+
+  saveCategory = () => {
+    const {saveCategory} = this.props
+
+    saveCategory(this.state.editedCategory)
+  }
+
+  handleChange = (event, propName) => {
+    const {categories} = this.props
+
+    const value = propName === 'parentCategory' ?
+      categories.find(category => category.id === event.target.value) :
+      event.target.value
+
+    this.setState({editedCategory: {...this.state.editedCategory, [propName]: value}})
+  }
 
   render () {
-    const { classes, categories } = this.props
-    const { category } = this.state
-    console.log(category.parentCategory.name)
+    const {classes, match, categories, category} = this.props
+    const {editedCategory} = this.state
+    const categoryId = match.params.categoryId
+
+    if (categoryId && !category) {
+      return <Preloader/>
+    }
+
+    const categoryOptions = categories.filter(c => c.id !== categoryId)
+      .map(category => (
+        <MenuItem key={category.id} value={category.id}>
+          {category.name}
+        </MenuItem>
+      ))
+
     return (
       <div>
         <TextField
-          label="Business Category Name"
-          style={{ margin: 8 }}
+          label='Business Category Name'
+          style={{margin: 8}}
           fullWidth
-          margin="normal"
-          variant="outlined"
+          margin='normal'
+          variant='outlined'
           InputLabelProps={{
             shrink: true
           }}
-          value={category.name}
-          onChange={this.handleChange('name')}
+          value={editedCategory.name}
+          onChange={(e) => this.handleChange(e, 'name')}
         />
 
         <TextField
           select
           className={classes.textField}
-          value={category.parentCategory.name}
-          onChange={this.handleChange('parentCategory')}
+          value={editedCategory.parentCategory.id}
+          onChange={(e) => this.handleChange(e, 'parentCategory')}
           SelectProps={{
             MenuProps: {
               className: classes.menu
             }
           }}
-          helperText="Select parent category"
-          margin="normal"
-          variant="filled"
+          helperText='Select parent category'
+          margin='normal'
+          variant='filled'
         >
-          {categories.map(category => (
-            <MenuItem key={category.id} value={category.id}>
-              {category.name}
-            </MenuItem>
-          ))}
+          {categoryOptions}
         </TextField>
-        <div className="place-buttons">
+        <div className='place-buttons'>
           <NavLink to={'/admin/business-categories'} className={classes.buttonLink}>
-            <Button onClick={() => this.savePlace(category)} variant="contained" color="primary" className={classes.button}>
-                Save
+            <Button
+              onClick={this.saveCategory}
+              variant='contained'
+              color='primary'
+              className={classes.button}
+            >
+              Save
             </Button>
           </NavLink>
           <NavLink to={'/admin/business-categories'} className={classes.buttonLink}>
-            <Button variant="contained" color="secondary" className={classes.button}>
-                Exit
+            <Button variant='contained' color='secondary' className={classes.button}>
+              Exit
             </Button>
           </NavLink>
         </div>
@@ -127,21 +148,24 @@ class PlaceForm extends React.Component {
   }
 }
 
-PlaceForm.propTypes = {
+BusinessCategoryForm.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state, props) => {
+  const category = state.businessCategory.allBusinessCategories.find(category => category.id === parseInt(props.match.params.categoryId))
+
   return {
     categories: state.businessCategory.allBusinessCategories,
-    category: state.businessCategory.allBusinessCategories.find(category => category.id === props.match.params.categoryId)
+    category: category
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllBusinessCategories: () => dispatch(getAllBusinessCategories())
+    getAllBusinessCategories: () => dispatch(getAllBusinessCategories()),
+    saveCategory: (category) => dispatch(saveCategory(category))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PlaceForm))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(BusinessCategoryForm))
