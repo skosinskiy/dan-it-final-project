@@ -1,7 +1,6 @@
 import Button from '@material-ui/core/Button'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import './userList.scss'
 import Actions from '../../../actions/Actions'
 import React from 'react'
 import PropTypes from 'prop-types'
