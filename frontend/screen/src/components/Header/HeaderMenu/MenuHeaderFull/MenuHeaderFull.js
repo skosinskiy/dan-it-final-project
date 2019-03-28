@@ -11,9 +11,11 @@ import './MenuHeaderFull.scss'
 const MenuHeaderFull= (props) => {
     return(
         <div className="header-menu" onClick={props.toggleHandler}>
-            <div className={`header-menu-icon ${props.isOpen ? 'header-menu-icon-crossed' : ''}`}></div>
-            <div className={`header-menu-icon ${props.isOpen ? 'header-menu-hidden' : 'menu-visible'}`}></div>
-            <div className={`header-menu-icon ${props.isOpen ? 'header-menu-icon-crossed-reverse' : ''}`}></div>
+            <div className={'header-menu-cross'}>
+                <div className={`header-menu-icon ${props.isOpen ? 'header-menu-icon-crossed' : ''}`}></div>
+                <div className={`header-menu-icon ${props.isOpen ? 'header-menu-hidden' : 'menu-visible'}`}></div>
+                <div className={`header-menu-icon ${props.isOpen ? 'header-menu-icon-crossed-reverse' : ''}`}></div>
+            </div>
             <div className={props.isOpen ? 'header-menu-visible' : 'header-menu-hidden'}>
                 <a href='#'>
                     <div className="header-menu-item">
@@ -36,7 +38,7 @@ const MenuHeaderFull= (props) => {
                 <a href='#'>
                     <div className="header-menu-item">
                         <ShopsLogo />
-                        <div>Food</div>
+                        <div>Shops</div>
                     </div>
                 </a>
                 <a href='#'>

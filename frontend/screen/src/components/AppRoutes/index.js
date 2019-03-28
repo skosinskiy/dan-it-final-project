@@ -1,26 +1,28 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-import Restaurants from '../hooks/Restaurants'
-import Cinema from '../hooks/Cinema'
+import Food from '../hooks/Food'
 import Shops from '../hooks/Shops'
-import Lorem from '../hooks/Lorem'
 import Services from '../hooks/Services'
-import FunnyCats from '../hooks/FunnyCats'
-import Extra from '../hooks/Extra'
+import Fun from '../hooks/Fun'
+import Map from '../hooks/Map'
 import './index.scss'
 
 const AppRoutes = (props) => {
     return (
       <div>
         <Switch>
-          <Route path="/Restaurants" component={Restaurants}/>
-          <Route path="/Cinema" component={Cinema}/>
+            <Route path="/Services" component={Services}/>
+            <Route path="/Fun" component={Fun}/>
+            <Route path="/Shops" component={Shops}/>
+            <Route path="/Food" component={Food}/>
+            <Route path="/Map" component={Map}/>
+{/*
+          <Route path="/Food" component={Food}/>
           <Route path="/Shops" component={Shops}/>
           <Route path="/Lorem" component={Lorem}/>
-          <Route path="/Services" component={Services}/>
-          <Route path="/FunnyCats" component={FunnyCats}/>
+          <Route path="/Fun" component={Fun}/>
           <Route path="/Extra" component={Extra}/>
-          <Route path="/" component={Restaurants}/>
+          <Route path="/" component={Food}/>*/}
         </Switch>
       </div>
     )

@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import MenuHeaderFull from './MenuHeaderFull/MenuHeaderFull'
+import './HeaderMenu.scss'
 
 
 export default class HeaderMenu extends Component{
@@ -15,7 +16,9 @@ export default class HeaderMenu extends Component{
     }
     render(){
         return(
-            <MenuHeaderFull isOpen={this.state.isOpen} toggleHandler={this.toggleHandler}/>
+            <div className={'header-menu'}>
+                <MenuHeaderFull isOpen={this.state.isOpen} toggleHandler={this.toggleHandler}/>
+            </div>
 
         )
     }

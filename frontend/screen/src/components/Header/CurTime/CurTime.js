@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import './CurTime.scss'
 
 
 
@@ -28,9 +29,9 @@ export default class CurTime extends Component {
 
     render(){
         return(
-            <div >
-                <div>{this.state.currentTime.toLocaleTimeString('en-GB', this.timeOptions)}</div>
-                <div>{this.state.currentTime.toLocaleDateString('en-US', this.dayOptions)}</div>
+            <div className='current-time'>
+                <div className={'current-time-main'}>{this.state.currentTime.toLocaleTimeString('en-GB', this.timeOptions)}</div>
+                <div className={'current-time-day'}>{this.state.currentTime.toLocaleDateString('en-US', this.dayOptions)}</div>
             </div>
         )
     }

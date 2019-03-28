@@ -1,0 +1,51 @@
+.header-current-weather{
+  margin: 0;
+  padding: 0;
+}
+
+.header-current-weather-icon {
+  width: 43px;
+  height: 35px;
+  margin-top: 0;
+  margin-right: 12px;
+}
+.header-current-weather-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.header-weather-info-item{
+  margin-left: 0;
+  font-family: SF UI Display;
+  font-size: 18px;
+  line-height: 16px;
+  letter-spacing: 0.00636364em;
+  color: #585858;
+}
+/*
+.header-current-weather{
+
+}
+
+
+}
+.header-current-weather-info{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 84px;
+  height: 56px;
+  font-family: SF UI Display, sans-serif ;
+  font-size: 18px;
+  line-height: 16px;
+  letter-spacing: 0.00636364em;
+  color: #585858;
+}
+.header-weather-info-item{
+  display: block;
+  margin-top: 5px;
+  margin-bottom: 0;
+  margin-left: 12px;
+  padding: 0;
+}
+*/
