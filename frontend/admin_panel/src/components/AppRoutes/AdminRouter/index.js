@@ -10,12 +10,12 @@ class AppRoutes extends Component {
   render () {
     return (
       <Switch>
-        <Route path="/admin/business-categories" component={AddBusinessCategory}/>
         <Route path="/admin/managing-roles" component={ManaginrUserRoles}/>
         <Route path="/admin/places/add-new" component={PlaceForm}/>
         <Route path="/admin/places/:placeId" component={PlaceForm}/>
         <Route path="/admin/business-categories/add-new" component={BusinessCategoryForm}/>
         <Route path="/admin/business-categories/:categoryId" component={BusinessCategoryForm}/>
+        <Route path="/admin/business-categories" component={AddBusinessCategory}/>
         <Route path="/admin/places" component={Places}/>
       </Switch>
     )
