@@ -7,7 +7,6 @@ import DashboardIcon from '@material-ui/icons/Dashboard'
 import EventIcon from '@material-ui/icons/Event'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import PeopleIcon from '@material-ui/icons/People'
-import BarChartIcon from '@material-ui/icons/BarChart'
 import { hasGrant } from '../../utils/roles'
 import { Grant } from '../../utils/permissions'
 import { connect } from 'react-redux'
@@ -54,17 +53,17 @@ class SidebarMenu extends Component {
           </NavLink>
         }
 
-              {
-                hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES) &&
-                  <NavLink to={'/admin/place-categories'} className="sidebarItem">
-                    <ListItem button>
-                      <ListItemIcon>
-                        <LayersIcon />
-                      </ListItemIcon>
-                      <ListItemText primary="PlaceCategories" />
-                    </ListItem>
-                  </NavLink>
-               }
+        {
+          hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES) &&
+            <NavLink to={'/admin/place-categories'} className="sidebarItem">
+              <ListItem button>
+                <ListItemIcon>
+                  <LayersIcon />
+                </ListItemIcon>
+                <ListItemText primary="PlaceCategories" />
+              </ListItem>
+            </NavLink>
+        }
 
         {
           hasGrant(user, Grant.MANAGE_EVENT_CATEGORIES) &&

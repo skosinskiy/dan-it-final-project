@@ -1,10 +1,8 @@
 import Button from '@material-ui/core/Button'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import UserItem from './UserItem/index'
 import './userList.scss'
 import Actions from '../../../actions/Actions'
-import { saveUserRoles, getUsersByEmail } from '../../../actions/users'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
@@ -14,7 +12,6 @@ import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
 import Avatar from '@material-ui/core/Avatar'
 import ImageIcon from '@material-ui/icons/Image'
-import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Paper from '@material-ui/core/Paper'
@@ -179,8 +176,8 @@ const mapDispatchToProps = dispatch => {
     resetListChanges: () => {
       dispatch({type: Actions.PlaceCategories.SET_MENU_ITEMS, payload: {updatedUserList: [], changedUsersList: []}})
     },
-    saveUserRoles: (id, menuItems) => dispatch(savePlaceCategories(id, menuItems)),
-    getAllCategories: () => dispatch(getAllCategories())
+    saveUserRoles: (id, menuItems) => {}, // dispatch(savePlaceCategories(id, menuItems)),
+    getAllCategories: () => {}// dispatch(getAllCategories())
   }
 }
 

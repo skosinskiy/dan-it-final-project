@@ -38,8 +38,8 @@ public class PlaceController {
   }
 
   @GetMapping("/menu-items")
-  public List<MenuItemName> getAvailableMenuItemNames() {
-    return menuItemFacade.getAvailableMenuItemNames();
+  public ResponseEntity<List<MenuItemName>> getAvailableMenuItemNames() {
+    return ResponseEntity.ok(menuItemFacade.getAvailableMenuItemNames());
   }
 
   @GetMapping
