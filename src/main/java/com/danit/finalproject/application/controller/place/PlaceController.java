@@ -3,8 +3,11 @@ package com.danit.finalproject.application.controller.place;
 import com.danit.finalproject.application.dto.request.place.PlacePhotoRequest;
 import com.danit.finalproject.application.dto.request.place.PlaceRequest;
 import com.danit.finalproject.application.dto.response.place.PlaceResponse;
+import com.danit.finalproject.application.entity.menuitem.MenuItemName;
+import com.danit.finalproject.application.facade.MenuItemFacade;
 import com.danit.finalproject.application.facade.place.PlaceFacade;
 import com.danit.finalproject.application.service.place.PlacePhotoService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,23 +18,29 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/places")
 public class PlaceController {
   private PlacePhotoService placePhotoService;
   private PlaceFacade placeFacade;
+  private MenuItemFacade menuItemFacade;
 
   @Autowired
-  public PlaceController(PlacePhotoService placePhotoService, PlaceFacade placeFacade) {
+  public PlaceController(PlacePhotoService placePhotoService, PlaceFacade placeFacade,
+      MenuItemFacade menuItemFacade) {
     this.placePhotoService = placePhotoService;
     this.placeFacade = placeFacade;
+    this.menuItemFacade = menuItemFacade;
   }
 
   @GetMapping("{id}")
   public PlaceResponse getPlaceById(@PathVariable("id") Long placeId) {
     return placeFacade.getById(placeId);
+  }
+
+  @GetMapping("/menu-items")
+  public List<MenuItemName> getAvailableMenuItemNames() {
+    return menuItemFacade.getAvailableMenuItemNames();
   }
 
   @GetMapping

@@ -5,6 +5,7 @@ import buildings from './buildings/index'
 import {reducer as toastrReducer} from 'react-redux-toastr'
 import {forgotPassword} from './forgotPassword/index'
 import {resetPassword} from './resetPassword/index'
+import menuItems from './menuItems'
 
 const rootReducer = combineReducers({
   users: users,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
   buildings: buildings,
   forgotPassword: forgotPassword,
   resetPassword: resetPassword,
-  toastr: toastrReducer
+  toastr: toastrReducer,
+  menuItems: menuItems
 })
 
 export default rootReducer

@@ -1,9 +1,8 @@
 package com.danit.finalproject.application.dto.request;
 
 import com.danit.finalproject.application.entity.Permission;
-import lombok.Data;
-
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class RoleRequest {

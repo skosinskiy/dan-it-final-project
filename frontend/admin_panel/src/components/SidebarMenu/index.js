@@ -6,7 +6,6 @@ import ListItemText from '@material-ui/core/ListItemText'
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import PeopleIcon from '@material-ui/icons/People'
-import StoreIcon from '@material-ui/icons/Store'
 import LayersIcon from '@material-ui/icons/Layers'
 import './sidebar-menu.scss'
 
@@ -19,7 +18,7 @@ export default class SidebarMenu extends Component {
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
-            <ListItemText primary={'Business Categories'}/>
+            <ListItemText primary={'Business Categories'} />
           </ListItem>
         </NavLink>
         <NavLink to={'/admin/managing-roles'} className="sidebarItem">
@@ -27,7 +26,7 @@ export default class SidebarMenu extends Component {
             <ListItemIcon>
               <ShoppingCartIcon />
             </ListItemIcon>
-            <ListItemText primary={'Managing Roles'}/>
+            <ListItemText primary={'Managing Roles'} />
           </ListItem>
         </NavLink>
         <NavLink to={'/admin/places'} className="sidebarItem">
@@ -38,20 +37,14 @@ export default class SidebarMenu extends Component {
             <ListItemText primary="Places" />
           </ListItem>
         </NavLink>
-        <NavLink to={'/admin/buildings'} className="sidebarItem">
+        <NavLink to={'/admin/place-categories'} className="sidebarItem">
           <ListItem button>
             <ListItemIcon>
-              <StoreIcon />
+              <LayersIcon />
             </ListItemIcon>
-            <ListItemText primary="Buildings" />
+            <ListItemText primary="PlaceCategories" />
           </ListItem>
         </NavLink>
-        <ListItem button>
-          <ListItemIcon>
-            <LayersIcon />
-          </ListItemIcon>
-          <ListItemText primary="Link 5" />
-        </ListItem>
       </div>
     )
   }
