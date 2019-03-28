@@ -79,6 +79,7 @@ public class UserControllerTest {
 	}
 
   @Test
+	@WithMockUser(value = "first.user@test.com")
   public void getCurrentUser() throws Exception {
     final String FIRST_NAME = "Elon";
     final String LAST_NAME = "Musk";
