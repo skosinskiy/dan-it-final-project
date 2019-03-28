@@ -7,6 +7,7 @@ import com.danit.finalproject.application.facade.place.PlaceFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,16 +45,19 @@ public class PlaceController {
   }
 
   @PutMapping("{id}")
+  @PreAuthorize("hasAuthority('MANAGE_PLACES')")
   public ResponseEntity<PlaceResponse> updatePlace(@RequestBody PlaceRequest placeRequest, @PathVariable Long id) {
     return new ResponseEntity<>(placeFacade.update(id, placeRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
+  @PreAuthorize("hasAuthority('MANAGE_PLACES')")
   public ResponseEntity<PlaceResponse> deletePlace(@PathVariable("id") Long placeId) {
     return new ResponseEntity<>(placeFacade.delete(placeId), HttpStatus.OK);
   }
 
   @PostMapping("/{placeId}/photos")
+  @PreAuthorize("hasAuthority('MANAGE_PLACES')")
   public ResponseEntity<PlaceResponse> addPhotosToPlace(
       @RequestBody PlacePhotoRequest placePhotoRequest,
       @PathVariable("placeId") Long placeId) {
@@ -61,6 +65,7 @@ public class PlaceController {
   }
 
   @DeleteMapping("/{placeId}/photos/{photoId}")
+  @PreAuthorize("hasAuthority('MANAGE_PLACES')")
   public ResponseEntity<PlaceResponse> deletePhoto(@PathVariable Long placeId, @PathVariable Long photoId) {
     return new ResponseEntity<>(placeFacade.deletePlacePhoto(placeId, photoId), HttpStatus.OK);
   }

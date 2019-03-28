@@ -75,6 +75,7 @@ class PlaceForm extends React.Component {
   render () {
     const { classes, categories, placeId } = this.props
     const { place } = this.state
+    console.log(place)
     return (
       <div className="edit-place-form">
         <form className={classes.container} noValidate autoComplete="off">
