@@ -1,9 +1,13 @@
 package com.danit.finalproject.application.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -20,8 +24,12 @@ public class Chat extends BaseEntity {
   private String name;
 
   @ManyToMany(mappedBy = "chats")
+  @JsonIgnore
+  @ToString.Exclude
   private List<User> users;
 
   @OneToMany(mappedBy = "chat")
+  @JsonIgnore
+  @ToString.Exclude
   private List<ChatMessage> chatMessages;
 }

@@ -1,10 +1,14 @@
 package com.danit.finalproject.application.entity;
 
 import com.danit.finalproject.application.entity.place.Place;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -52,7 +56,7 @@ public class User extends BaseEntity {
       inverseJoinColumns = {@JoinColumn(name = "role_id")})
   private List<Role> roles;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "users_places",
       joinColumns = {@JoinColumn(name = "user_id")},
       inverseJoinColumns = {@JoinColumn(name = "place_id")})
@@ -62,6 +66,8 @@ public class User extends BaseEntity {
   @JoinTable(name = "users_chats",
       joinColumns = {@JoinColumn(name = "user_id")},
       inverseJoinColumns = {@JoinColumn(name = "chat_id")})
+  @JsonIgnore
+  @ToString.Exclude
   private List<Chat> chats;
 
   @OneToMany

@@ -6,9 +6,11 @@ import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.entity.Visit;
 import com.danit.finalproject.application.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+@Component
 public class VisitFacade extends AbstractDtoFacade<Visit, VisitRequest, VisitResponse> {
   private VisitService visitService;
 

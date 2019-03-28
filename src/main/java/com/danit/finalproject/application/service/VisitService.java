@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class VisitService {
+public class VisitService implements CrudService<Visit> {
   private VisitRepository visitRepository;
   private UserService userService;
   private PlaceService placeService;
@@ -27,5 +27,30 @@ public class VisitService {
     User user = userService.getById(userId);
     Place place = placeService.getById(placeId);
     return visitRepository.findAllByUserAndPlace(user, place);
+  }
+
+  @Override
+  public Visit getById(Long id) {
+    return null;
+  }
+
+  @Override
+  public List<Visit> getAll() {
+    return null;
+  }
+
+  @Override
+  public Visit create(Visit entity) {
+    return null;
+  }
+
+  @Override
+  public Visit update(Long id, Visit entity) {
+    return null;
+  }
+
+  @Override
+  public Visit delete(Long id) {
+    return null;
   }
 }

@@ -5,7 +5,9 @@ import com.danit.finalproject.application.dto.response.ChatMessageResponse;
 import com.danit.finalproject.application.entity.ChatMessage;
 import com.danit.finalproject.application.service.ChatMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class ChatMessageFacade extends AbstractDtoFacade<ChatMessage, ChatMessageRequest, ChatMessageResponse> {
   private ChatMessageService chatMessageService;
 
