@@ -18,4 +18,10 @@ public class PlacePhotoService {
   public PlacePhoto getPlacePhotoById(Long placeId) {
     return placePhotoRepository.findById(placeId).orElse(null);
   }
+
+  public PlacePhoto deletePlacePhoto(PlacePhoto placePhoto) {
+    placePhotoRepository.delete(placePhoto);
+    return placePhoto;
+  }
+
 }
