@@ -1,6 +1,9 @@
 # Idea config files
 /.idea
 
+# AWS S3 credentials
+src/main/resources/aws/s3/credentials
+
 # Idea project file
 *.iml
 

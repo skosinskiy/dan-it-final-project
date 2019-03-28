@@ -54,7 +54,7 @@ public class Business extends BaseEntity {
   @JoinColumn(name = "main_photo")
   private BusinessPhoto mainPhoto;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "business")
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "business")
   @ToString.Exclude
   @JsonIgnore
   private List<BusinessPhoto> photos;

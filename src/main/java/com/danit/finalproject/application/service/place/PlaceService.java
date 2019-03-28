@@ -13,10 +13,12 @@ import java.util.Optional;
 @Service
 public class PlaceService implements CrudService<Place> {
   private PlaceRepository placeRepository;
+  private PlacePhotoService placePhotoService;
 
   @Autowired
-  public PlaceService(PlaceRepository placeRepository) {
+  public PlaceService(PlaceRepository placeRepository, PlacePhotoService placePhotoService) {
     this.placeRepository = placeRepository;
+    this.placePhotoService = placePhotoService;
   }
 
   @Override
@@ -58,13 +60,11 @@ public class PlaceService implements CrudService<Place> {
   public Place deletePlacePhoto(Long placeId, Long photoId) {
     Optional<Place> optionalPlace = placeRepository.findById(placeId);
     if (optionalPlace.isPresent()) {
-      PlacePhoto eventPhoto = optionalPlace.get().getPhotos()
+      Optional<PlacePhoto> optionalPlacePhoto = optionalPlace.get().getPhotos()
           .stream()
           .filter(photo -> photoId.equals(photo.getId()))
-          .findFirst().orElse(null);
-      Place place = optionalPlace.get();
-      place.getPhotos().remove(eventPhoto);
-      placeRepository.saveAndFlush(place);
+          .findFirst();
+      optionalPlacePhoto.ifPresent(photo -> placePhotoService.deletePlacePhoto(photo));
     }
     return optionalPlace.orElse(null);
   }
