@@ -6,6 +6,10 @@ import List from '@material-ui/core/List'
 import {getAllBusinessCategories} from '../../actions/businessCategories'
 import BusinessCategoryItem from './BusinessCategoryItem'
 
+import {NavLink} from 'react-router-dom'
+import Button from '@material-ui/core/Button'
+import Preloader from '../Preloader'
+
 const styles = theme => ({
   root: {
     width: '100%',
@@ -14,7 +18,13 @@ const styles = theme => ({
 
   buttons: {
     textDecoration: 'none',
-    marginRight: '10px'
+    marginRight: '10px',
+    display: 'flex',
+    justifyContent: 'center'
+  },
+
+  button: {
+    marginTop: '30px'
   }
 })
 
@@ -27,6 +37,10 @@ class BusinessCategories extends Component {
   render () {
     const { classes, businessCategories } = this.props
 
+    if (businessCategories.length === 0) {
+      return <Preloader/>
+    }
+
     const businessCategoryItems = businessCategories.map((category) => {
       return <BusinessCategoryItem key={category.id} category={category}/>
     })
@@ -35,7 +49,9 @@ class BusinessCategories extends Component {
         <List className={classes.root}>
           {businessCategoryItems}
         </List>
-
+        <NavLink to={'/admin/business-categories/add-new'} className={classes.buttons}>
+          <Button variant="contained" color="primary" className={classes.button}>Add New Business Category</Button>
+        </NavLink>
       </div>
     )
   }

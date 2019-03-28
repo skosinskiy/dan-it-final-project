@@ -27,8 +27,7 @@ const Actions = {
   },
 
   BusinessCategory: {
-    GET_ALL_CATEGORIES: 'GET_ALL_CATEGORIES',
-    CHANGE_CATEGORY: 'CHANGE_CATEGORY'
+    GET_ALL_CATEGORIES: 'GET_ALL_CATEGORIES'
   }
 }
 

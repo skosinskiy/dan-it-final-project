@@ -12,7 +12,9 @@ import Preloader from '../../Preloader'
 const styles = theme => ({
   container: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexDirection: 'column',
+    justifyContent: 'center',
+    width: '20%'
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -26,7 +28,12 @@ const styles = theme => ({
   },
 
   buttonLink: {
+    marginRight: '10px',
     textDecoration: 'none'
+  },
+
+  buttons: {
+    margin: '8px'
   }
 
 })
@@ -72,9 +79,9 @@ class BusinessCategoryForm extends React.Component {
   handleChange = (event, propName) => {
     const {categories} = this.props
 
-    const value = propName === 'parentCategory' ?
-      categories.find(category => category.id === event.target.value) :
-      event.target.value
+    const value = propName === 'parentCategory'
+      ? categories.find(category => category.id === event.target.value)
+      : event.target.value
 
     this.setState({editedCategory: {...this.state.editedCategory, [propName]: value}})
   }
@@ -88,7 +95,10 @@ class BusinessCategoryForm extends React.Component {
       return <Preloader/>
     }
 
-    const categoryOptions = categories.filter(c => c.id !== categoryId)
+    const categoryOptions = categories
+      .filter(c => c.id.toString() !== categoryId)
+      .filter(c => c.parentCategory ? c.parentCategory.id.toString() !== categoryId : true)
+      .concat([emptyCategory])
       .map(category => (
         <MenuItem key={category.id} value={category.id}>
           {category.name}
@@ -96,11 +106,10 @@ class BusinessCategoryForm extends React.Component {
       ))
 
     return (
-      <div>
+      <div className={classes.container}>
         <TextField
           label='Business Category Name'
           style={{margin: 8}}
-          fullWidth
           margin='normal'
           variant='outlined'
           InputLabelProps={{
@@ -113,7 +122,7 @@ class BusinessCategoryForm extends React.Component {
         <TextField
           select
           className={classes.textField}
-          value={editedCategory.parentCategory.id}
+          value={editedCategory.parentCategory && editedCategory.parentCategory.id}
           onChange={(e) => this.handleChange(e, 'parentCategory')}
           SelectProps={{
             MenuProps: {
@@ -126,7 +135,7 @@ class BusinessCategoryForm extends React.Component {
         >
           {categoryOptions}
         </TextField>
-        <div className='place-buttons'>
+        <div className={classes.buttons}>
           <NavLink to={'/admin/business-categories'} className={classes.buttonLink}>
             <Button
               onClick={this.saveCategory}
