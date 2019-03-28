@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-@WithMockUser(value = "first.user@test.com")
+@WithMockUser(authorities = "MANAGE_EVENT_CATEGORIES")
 public class EventCategoryControllerTest {
   @Autowired
   private MockMvc mockMvc;

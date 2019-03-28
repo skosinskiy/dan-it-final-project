@@ -14,11 +14,16 @@ import org.springframework.stereotype.Service;
 public class BusinessService implements CrudService<Business> {
   private BusinessRepository businessRepository;
   private PlaceRepository placeRepository;
+  private BusinessPhotoService businessPhotoService;
 
   @Autowired
-  public BusinessService(BusinessRepository businessRepository, PlaceRepository placeRepository) {
+  public BusinessService(
+      BusinessRepository businessRepository,
+      PlaceRepository placeRepository,
+      BusinessPhotoService businessPhotoService) {
     this.businessRepository = businessRepository;
     this.placeRepository = placeRepository;
+    this.businessPhotoService = businessPhotoService;
   }
 
   @Override
@@ -43,7 +48,7 @@ public class BusinessService implements CrudService<Business> {
   @Override
   public Business update(Long id, Business business) {
     business.setId(id);
-    return businessRepository.saveAndFlush(business);
+    return businessRepository.save(business);
   }
 
   @Override
@@ -59,6 +64,18 @@ public class BusinessService implements CrudService<Business> {
     Business business = optionalBusiness.orElse(null);
     businessRepository.save(business);
     return business;
+  }
+
+  public Business deleteBusinessPhoto(Long businessId, Long photoId) {
+    Optional<Business> optionalBusiness = businessRepository.findById(businessId);
+    if (optionalBusiness.isPresent()) {
+      Optional<BusinessPhoto> optionalBusinessPhoto = optionalBusiness.get().getPhotos()
+          .stream()
+          .filter(photo -> photoId.equals(photo.getId()))
+          .findFirst();
+      optionalBusinessPhoto.ifPresent(photo -> businessPhotoService.deleteBusinessPhoto(photo));
+    }
+    return optionalBusiness.orElse(null);
   }
 }
 

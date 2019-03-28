@@ -31,7 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-@WithMockUser(value = "first.user@test.com")
+@WithMockUser(authorities = "MANAGE_PLACE_CATEGORIES")
 public class PlaceCategoryControllerTest {
   @Autowired
   private MockMvc mockMvc;

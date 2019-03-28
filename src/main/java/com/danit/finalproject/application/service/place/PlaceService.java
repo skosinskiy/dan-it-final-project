@@ -12,10 +12,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class PlaceService implements CrudService<Place> {
   private PlaceRepository placeRepository;
+  private PlacePhotoService placePhotoService;
 
   @Autowired
-  public PlaceService(PlaceRepository placeRepository) {
+  public PlaceService(PlaceRepository placeRepository, PlacePhotoService placePhotoService) {
     this.placeRepository = placeRepository;
+    this.placePhotoService = placePhotoService;
   }
 
   @Override
@@ -36,7 +38,7 @@ public class PlaceService implements CrudService<Place> {
   @Override
   public Place update(Long id, Place place) {
     place.setId(id);
-    return placeRepository.saveAndFlush(place);
+    return placeRepository.save(place);
   }
 
   @Override
@@ -52,5 +54,17 @@ public class PlaceService implements CrudService<Place> {
     Place place = optionalPlace.orElse(null);
     placeRepository.save(place);
     return place;
+  }
+
+  public Place deletePlacePhoto(Long placeId, Long photoId) {
+    Optional<Place> optionalPlace = placeRepository.findById(placeId);
+    if (optionalPlace.isPresent()) {
+      Optional<PlacePhoto> optionalPlacePhoto = optionalPlace.get().getPhotos()
+          .stream()
+          .filter(photo -> photoId.equals(photo.getId()))
+          .findFirst();
+      optionalPlacePhoto.ifPresent(photo -> placePhotoService.deletePlacePhoto(photo));
+    }
+    return optionalPlace.orElse(null);
   }
 }

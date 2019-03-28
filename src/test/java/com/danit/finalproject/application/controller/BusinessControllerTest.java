@@ -38,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-@WithMockUser(value = "first.user@test.com")
+@WithMockUser(authorities = "MANAGE_BUSINESS")
 public class BusinessControllerTest {
   @Autowired
   private MockMvc mockMvc;
@@ -176,7 +176,7 @@ public class BusinessControllerTest {
   }
 
   @Test
-  public void deletePlace() throws Exception {
+  public void deleteBusinessPhoto() throws Exception {
     mockMvc.perform(delete("/api/businesses/1/photos/1").with(csrf()));
 
     assertNull(businessPhotoService.getBusinessPhotoById(1L));

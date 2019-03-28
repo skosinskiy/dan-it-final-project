@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-@WithMockUser(value = "first.user@test.com")
+@WithMockUser(authorities = "MANAGE_BUSINESS_CATEGORIES")
 public class BusinessCategoryControllerTest {
   @Autowired
   private MockMvc mockMvc;
@@ -77,7 +77,7 @@ public class BusinessCategoryControllerTest {
   }
 
   @Test
-  public void createNewPlaceCategory() throws Exception {
+  public void createNewBusinessCategory() throws Exception {
     Long expectedId = 3L;
     String expectedName = "business-category-3";
     BusinessCategoryResponse expectedParent = businessCategoryFacade.getById(2L);

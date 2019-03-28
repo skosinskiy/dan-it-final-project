@@ -26,4 +26,9 @@ public class PlaceFacade extends AbstractDtoFacade<Place, PlaceRequest, PlaceRes
     Place updatedPlace = placeService.addPhoto(placePhoto, placeId);
     return mapEntityToResponseDto(updatedPlace);
   }
+
+  public PlaceResponse deletePlacePhoto(Long placeId, Long photoId) {
+    Place place = placeService.deletePlacePhoto(placeId, photoId);
+    return mapEntityToResponseDto(place);
+  }
 }

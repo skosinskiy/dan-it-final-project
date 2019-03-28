@@ -6,9 +6,10 @@ import com.danit.finalproject.application.dto.response.place.PlaceResponse;
 import com.danit.finalproject.application.entity.menuitem.MenuItemName;
 import com.danit.finalproject.application.facade.MenuItemFacade;
 import com.danit.finalproject.application.facade.place.PlaceFacade;
-import com.danit.finalproject.application.service.place.PlacePhotoService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,21 +22,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/places")
 public class PlaceController {
-  private PlacePhotoService placePhotoService;
   private PlaceFacade placeFacade;
   private MenuItemFacade menuItemFacade;
 
   @Autowired
-  public PlaceController(PlacePhotoService placePhotoService, PlaceFacade placeFacade,
-      MenuItemFacade menuItemFacade) {
-    this.placePhotoService = placePhotoService;
+  public PlaceController(PlaceFacade placeFacade) {
     this.placeFacade = placeFacade;
     this.menuItemFacade = menuItemFacade;
   }
 
   @GetMapping("{id}")
-  public PlaceResponse getPlaceById(@PathVariable("id") Long placeId) {
-    return placeFacade.getById(placeId);
+  public ResponseEntity<PlaceResponse> getPlaceById(@PathVariable("id") Long placeId) {
+    return new ResponseEntity<>(placeFacade.getById(placeId), HttpStatus.OK);
   }
 
   @GetMapping("/menu-items")
@@ -44,34 +42,38 @@ public class PlaceController {
   }
 
   @GetMapping
-  public List<PlaceResponse> getAllPlaces() {
-    return placeFacade.getAll();
+  public ResponseEntity<List<PlaceResponse>> getAllPlaces() {
+    return new ResponseEntity<>(placeFacade.getAll(), HttpStatus.OK);
   }
 
   @PostMapping
-  public PlaceResponse createNewPlace(@RequestBody PlaceRequest placeRequest) {
-    return placeFacade.create(placeRequest);
+  public ResponseEntity<PlaceResponse> createNewPlace(@RequestBody PlaceRequest placeRequest) {
+    return new ResponseEntity<>(placeFacade.create(placeRequest), HttpStatus.OK);
   }
 
   @PutMapping("{id}")
-  public PlaceResponse updatePlace(@RequestBody PlaceRequest placeRequest, @PathVariable Long id) {
-    return placeFacade.update(id, placeRequest);
+  @PreAuthorize("hasAuthority('MANAGE_PLACES')")
+  public ResponseEntity<PlaceResponse> updatePlace(@RequestBody PlaceRequest placeRequest, @PathVariable Long id) {
+    return new ResponseEntity<>(placeFacade.update(id, placeRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
-  public PlaceResponse deletePlace(@PathVariable("id") Long placeId) {
-    return placeFacade.delete(placeId);
+  @PreAuthorize("hasAuthority('MANAGE_PLACES')")
+  public ResponseEntity<PlaceResponse> deletePlace(@PathVariable("id") Long placeId) {
+    return new ResponseEntity<>(placeFacade.delete(placeId), HttpStatus.OK);
   }
 
   @PostMapping("/{placeId}/photos")
-  public PlaceResponse addPhotosToPlace(
+  @PreAuthorize("hasAuthority('MANAGE_PLACES')")
+  public ResponseEntity<PlaceResponse> addPhotosToPlace(
       @RequestBody PlacePhotoRequest placePhotoRequest,
       @PathVariable("placeId") Long placeId) {
-    return placeFacade.addPhoto(placePhotoRequest, placeId);
+    return new ResponseEntity<>(placeFacade.addPhoto(placePhotoRequest, placeId), HttpStatus.OK);
   }
 
   @DeleteMapping("/{placeId}/photos/{photoId}")
-  public void deletePhoto(@PathVariable Long photoId) {
-    placePhotoService.deletePlacePhoto(photoId);
+  @PreAuthorize("hasAuthority('MANAGE_PLACES')")
+  public ResponseEntity<PlaceResponse> deletePhoto(@PathVariable Long placeId, @PathVariable Long photoId) {
+    return new ResponseEntity<>(placeFacade.deletePlacePhoto(placeId, photoId), HttpStatus.OK);
   }
 }

@@ -30,20 +30,20 @@ const ranges = [
     label: ''
   },
   {
-    value: 'Parent Category 1',
-    label: 'Parent Category 1'
+    value: 'Main Category 1',
+    label: 'Main Category 1'
   },
   {
-    value: 'Parent Category 2',
-    label: 'Parent Category 2'
+    value: 'Main Category 2',
+    label: 'Main Category 2'
   },
   {
-    value: 'Parent Category 3',
-    label: 'Parent Category 3'
+    value: 'Main Category 3',
+    label: 'Main Category 3'
   }
 ]
 
-class AddBUsinessCategory extends React.Component {
+class AddEventCategory extends React.Component {
     state = {
       amount: '',
       password: '',
@@ -69,7 +69,7 @@ class AddBUsinessCategory extends React.Component {
             id="outlined-simple-start-adornment"
             className={classNames(classes.margin, classes.textField)}
             variant="outlined"
-            label="Busness Category Title"
+            label="Event Category Title"
             InputProps={{
             }}
           />
@@ -78,7 +78,7 @@ class AddBUsinessCategory extends React.Component {
             select
             className={classNames(classes.margin, classes.textField)}
             variant="outlined"
-            label="Select Parent Category"
+            label="Select Main Category"
             value={this.state.weightRange}
             onChange={this.handleChange('weightRange')}
             InputProps={{
@@ -105,8 +105,8 @@ class AddBUsinessCategory extends React.Component {
     }
 }
 
-AddBUsinessCategory.propTypes = {
+AddEventCategory.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(AddBUsinessCategory)
+export default withStyles(styles)(AddEventCategory)

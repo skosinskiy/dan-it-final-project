@@ -15,14 +15,19 @@ import org.springframework.stereotype.Service;
 public class EventService implements CrudService<Event> {
   private EventRepository eventRepository;
   private BusinessService businessService;
-  private PlaceService    placeService;
+  private PlaceService placeService;
+  private EventPhotoService eventPhotoService;
 
   @Autowired
-  public EventService(EventRepository eventRepository,
-      BusinessService businessService, PlaceService placeService) {
+  public EventService(
+      EventRepository eventRepository,
+      BusinessService businessService,
+      PlaceService placeService,
+      EventPhotoService eventPhotoService) {
     this.eventRepository = eventRepository;
     this.businessService = businessService;
     this.placeService = placeService;
+    this.eventPhotoService = eventPhotoService;
   }
 
   @Override
@@ -48,7 +53,7 @@ public class EventService implements CrudService<Event> {
   @Override
   public Event update(Long id, Event event) {
     event.setId(id);
-    return eventRepository.saveAndFlush(event);
+    return eventRepository.save(event);
   }
 
   @Override
@@ -64,5 +69,17 @@ public class EventService implements CrudService<Event> {
     Event event = optionalEvent.orElse(null);
     eventRepository.save(event);
     return event;
+  }
+
+  public Event deleteEventPhoto(Long eventId, Long photoId) {
+    Optional<Event> optionalEvent = eventRepository.findById(eventId);
+    if (optionalEvent.isPresent()) {
+      Optional<EventPhoto> optionalEventPhoto = optionalEvent.get().getPhotos()
+          .stream()
+          .filter(photo -> photoId.equals(photo.getId()))
+          .findFirst();
+      optionalEventPhoto.ifPresent(photo -> eventPhotoService.deleteEventPhoto(photo));
+    }
+    return optionalEvent.orElse(null);
   }
 }

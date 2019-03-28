@@ -4,9 +4,10 @@ import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequ
 import com.danit.finalproject.application.dto.request.business.BusinessRequest;
 import com.danit.finalproject.application.dto.response.business.BusinessResponse;
 import com.danit.finalproject.application.facade.business.BusinessFacade;
-import com.danit.finalproject.application.service.business.BusinessPhotoService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,26 +18,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/businesses")
 public class BusinessController {
   private BusinessFacade businessFacade;
-  private BusinessPhotoService businessPhotoService;
 
   @Autowired
-  public BusinessController(BusinessFacade businessFacade, BusinessPhotoService businessPhotoService) {
+  public BusinessController(BusinessFacade businessFacade) {
     this.businessFacade = businessFacade;
-    this.businessPhotoService = businessPhotoService;
   }
 
   @GetMapping("{id}")
-  public BusinessResponse getBusinessById(@PathVariable("id") Long businessId) {
-    return businessFacade.getById(businessId);
+  public ResponseEntity<BusinessResponse> getBusinessById(@PathVariable("id") Long businessId) {
+    return new ResponseEntity<>(businessFacade.getById(businessId), HttpStatus.OK);
   }
 
   @GetMapping
-  public List<BusinessResponse> getAllBusinesses(@RequestParam("placeId") Long placeId) {
-    return businessFacade.getAllByPlace(placeId);
+  public ResponseEntity<List<BusinessResponse>> getAllBusinesses(@RequestParam("placeId") Long placeId) {
+    return new ResponseEntity<>(businessFacade.getAllByPlace(placeId), HttpStatus.OK);
   }
 
   @PostMapping
@@ -45,24 +46,32 @@ public class BusinessController {
   }
 
   @PutMapping("{id}")
-  public BusinessResponse updateBusiness(@PathVariable Long id, @RequestBody BusinessRequest businessRequest) {
-    return businessFacade.update(id, businessRequest);
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
+  public ResponseEntity<BusinessResponse> updateBusiness(
+      @PathVariable Long id,
+      @RequestBody BusinessRequest businessRequest) {
+    return new ResponseEntity<>(businessFacade.update(id, businessRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
-  public BusinessResponse deleteBusiness(@PathVariable("id") Long businessId) {
-    return businessFacade.delete(businessId);
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
+  public ResponseEntity<BusinessResponse> deleteBusiness(@PathVariable("id") Long businessId) {
+    return new ResponseEntity<>(businessFacade.delete(businessId), HttpStatus.OK);
   }
 
   @PostMapping("/{businessId}/photos")
-  public BusinessResponse addPhotosToBusiness(
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
+  public ResponseEntity<BusinessResponse> addPhotosToBusiness(
       @RequestBody BusinessPhotoRequest businessPhotoRequest,
       @PathVariable("businessId") Long businessId) {
-    return businessFacade.addPhoto(businessPhotoRequest, businessId);
+    return new ResponseEntity<>(businessFacade.addPhoto(businessPhotoRequest, businessId), HttpStatus.OK);
   }
 
   @DeleteMapping("/{businessId}/photos/{photoId}")
-  public void deletePhoto(@PathVariable("photoId") Long photoId) {
-    businessPhotoService.deleteBusinessPhoto(photoId);
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
+  public ResponseEntity<BusinessResponse> deletePhoto(
+      @PathVariable Long businessId,
+      @PathVariable("photoId") Long photoId) {
+    return new ResponseEntity<>(businessFacade.deleteBusinessPhoto(businessId, photoId), HttpStatus.OK);
   }
 }

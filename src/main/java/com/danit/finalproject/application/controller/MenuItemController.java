@@ -1,10 +1,12 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.dto.request.place.MenuItemRequest;
+import com.danit.finalproject.application.dto.request.MenuItemRequest;
 import com.danit.finalproject.application.dto.response.MenuItemResponse;
 import com.danit.finalproject.application.facade.MenuItemFacade;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -24,14 +26,15 @@ public class MenuItemController {
   }
 
   @GetMapping
-  public List<MenuItemResponse> getAllMenuItems() {
-    return menuItemFacade.getAll();
+  public ResponseEntity<List<MenuItemResponse>> getAllMenuItems() {
+    return new ResponseEntity<>(menuItemFacade.getAll(), HttpStatus.OK);
   }
 
-  @PutMapping("/{id}")
-  public MenuItemResponse updateMenuItem(@PathVariable("id") Long id,
-      @RequestBody MenuItemRequest menuItemRequestDto) {
-    return menuItemFacade.update(id, menuItemRequestDto);
+  @PutMapping("{menuItemId}")
+  public ResponseEntity<MenuItemResponse> updateMenuItem(
+      @PathVariable Long menuItemId,
+      @RequestBody MenuItemRequest menuItemRequest) {
+    return new ResponseEntity<>(menuItemFacade.update(menuItemId, menuItemRequest), HttpStatus.OK);
   }
 
 }

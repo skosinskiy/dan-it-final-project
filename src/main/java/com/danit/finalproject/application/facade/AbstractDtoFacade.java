@@ -64,7 +64,6 @@ public abstract class AbstractDtoFacade<E extends BaseEntity, I, O> {
           .getGenericSuperclass()).getActualTypeArguments()[0]);
     }
     return null;
-
   }
 
   protected List<O> mapEntityListToResponseDtoList(List<E> entityList) {
@@ -75,6 +74,9 @@ public abstract class AbstractDtoFacade<E extends BaseEntity, I, O> {
   }
 
   protected Page<O> mapEntityListToResponseDtoList(Page<E> entityList) {
-    return modelMapper.map(entityList, new TypeToken<Page<O>>(){}.getType());
+    if (entityList != null) {
+      return modelMapper.map(entityList, new TypeToken<Page<O>>(){}.getType());
+    }
+    return null;
   }
 }
