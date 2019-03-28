@@ -12,6 +12,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 @Transactional
 @SuppressWarnings("unchecked")
@@ -67,14 +72,16 @@ public abstract class AbstractDtoFacade<E extends BaseEntity, I, O> {
 
   protected List<O> mapEntityListToResponseDtoList(List<E> entityList) {
     if (entityList != null) {
-      return modelMapper.map(entityList, new TypeToken<List<O>>(){}.getType());
+      return entityList.stream()
+          .map(this::mapEntityToResponseDto)
+          .collect(Collectors.toList());
     }
     return new ArrayList<>();
   }
 
   protected Page<O> mapEntityListToResponseDtoList(Page<E> entityList) {
     if (entityList != null) {
-      return modelMapper.map(entityList, new TypeToken<Page<O>>(){}.getType());
+      return entityList.map(this::mapEntityToResponseDto);
     }
     return null;
   }

@@ -29,6 +29,10 @@ const Actions = {
   MenuItems: {
     FETCH_AVAILABLE: 'FETCH_AVAILABLE',
     IS_LOADING: 'IS_LOADING'
+  },
+
+  BusinessCategory: {
+    GET_ALL_CATEGORIES: 'GET_ALL_CATEGORIES'
   }
 }
 
