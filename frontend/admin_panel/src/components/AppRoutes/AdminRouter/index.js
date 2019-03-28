@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import AddBusinessCategory from '../../AddBusinessCategory'
+import AddEventCategory from '../../AddEventCategory'
 import ManaginrUserRoles from '../../ManagingUserRoles'
 import Places from '../../SidebarMenu/Places'
 import PlaceForm from '../../SidebarMenu/Places/PLaceForm'
@@ -19,6 +20,8 @@ class AppRoutes extends Component {
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/add-new" component={PlaceForm}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/:placeId" component={PlaceForm}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places" component={Places}/>
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES)} path="/admin/business-categories" component={AddBusinessCategory}/>
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_EVENT_CATEGORIES)} path="/admin/event-categories" component={AddEventCategory}/>
       </Switch>
     )
   }

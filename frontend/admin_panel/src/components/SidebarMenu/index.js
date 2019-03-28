@@ -4,13 +4,13 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
 import DashboardIcon from '@material-ui/icons/Dashboard'
+import EventIcon from '@material-ui/icons/Event'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import PeopleIcon from '@material-ui/icons/People'
 import BarChartIcon from '@material-ui/icons/BarChart'
-import LayersIcon from '@material-ui/icons/Layers'
-import {hasGrant} from '../../utils/roles'
-import {Grant} from '../../utils/permissions'
-import {connect} from 'react-redux'
+import { hasGrant } from '../../utils/roles'
+import { Grant } from '../../utils/permissions'
+import { connect } from 'react-redux'
 import './sidebar-menu.scss'
 
 class SidebarMenu extends Component {
@@ -57,12 +57,17 @@ class SidebarMenu extends Component {
           </ListItemIcon>
           <ListItemText primary="Link 4" />
         </ListItem>
-        <ListItem button>
-          <ListItemIcon>
-            <LayersIcon />
-          </ListItemIcon>
-          <ListItemText primary="Link 5" />
-        </ListItem>
+        {
+          hasGrant(user, Grant.MANAGE_EVENT_CATEGORIES) &&
+          <NavLink to={'/admin/event-categories'} className="sidebarItem">
+            <ListItem button>
+              <ListItemIcon>
+                <EventIcon/>
+              </ListItemIcon>
+              <ListItemText primary={'Event Categories'}/>
+            </ListItem>
+          </NavLink>
+        }
       </div>
     )
   }
