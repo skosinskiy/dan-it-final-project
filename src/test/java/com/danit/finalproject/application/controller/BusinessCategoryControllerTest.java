@@ -58,7 +58,7 @@ public class BusinessCategoryControllerTest {
 
   @Test
   public void getAllCategories() throws Exception {
-    int expectedSize = 2;
+    int expectedSize = 3;
     String secondCategoryName = "business-category-2";
 
     MvcResult result = mockMvc.perform(get("/api/business-categories"))

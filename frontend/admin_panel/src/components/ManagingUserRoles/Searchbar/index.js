@@ -45,7 +45,6 @@ class UserEmailSearchBar extends React.Component {
   }
 
   render () {
-    console.log()
     const { classes } = this.props
     return (
       <Paper className={classes.root} elevation={1}>
