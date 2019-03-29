@@ -1,7 +1,9 @@
 package com.danit.finalproject.application.service;
 
-import com.danit.finalproject.application.entity.MenuItem;
+import com.danit.finalproject.application.entity.menuitem.MenuItem;
+import com.danit.finalproject.application.entity.menuitem.MenuItemName;
 import com.danit.finalproject.application.repository.MenuItemRepository;
+import java.util.Arrays;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,14 +24,14 @@ public class MenuItemService implements CrudService<MenuItem> {
   }
 
   @Override
-  public MenuItem update(Long menuItemId, MenuItem menuItem) {
-    menuItem.setId(menuItemId);
-    return menuItemRepository.save(menuItem);
+  public MenuItem update(Long id, MenuItem entity) {
+    entity.setId(id);
+    return menuItemRepository.save(entity);
   }
 
   @Override
   public MenuItem getById(Long id) {
-    return menuItemRepository.findById(id).orElse(null);
+    return menuItemRepository.getOne(id);
   }
 
   @Override
@@ -39,8 +41,12 @@ public class MenuItemService implements CrudService<MenuItem> {
 
   @Override
   public MenuItem delete(Long id) {
-    MenuItem menuItem = menuItemRepository.findById(id).orElse(null);
+    MenuItem menuItem = getById(id);
     menuItemRepository.delete(menuItem);
     return menuItem;
+  }
+
+  public List<MenuItemName> getAvailableMenuItemNames() {
+    return Arrays.asList(MenuItemName.values());
   }
 }

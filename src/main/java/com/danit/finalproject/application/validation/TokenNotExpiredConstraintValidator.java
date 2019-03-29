@@ -2,11 +2,10 @@ package com.danit.finalproject.application.validation;
 
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class TokenNotExpiredConstraintValidator implements ConstraintValidator<TokenNotExpired, String> {

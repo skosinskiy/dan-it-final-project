@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/core/styles'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import './index.scss'
 
@@ -11,10 +11,10 @@ const styles = theme => ({
 })
 
 function Preloader (props) {
-  const { classes } = props
+  const {classes} = props
   return (
     <div className='preloader'>
-      <CircularProgress className={classes.progress} />
+      <CircularProgress className={classes.progress}/>
     </div>
   )
 }

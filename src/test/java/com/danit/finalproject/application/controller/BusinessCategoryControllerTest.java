@@ -1,11 +1,21 @@
 package com.danit.finalproject.application.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+
 import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponse;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.facade.business.BusinessCategoryFacade;
 import com.danit.finalproject.application.service.business.BusinessCategoryService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +27,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
@@ -58,7 +62,7 @@ public class BusinessCategoryControllerTest {
 
   @Test
   public void getAllCategories() throws Exception {
-    int expectedSize = 2;
+    int expectedSize = 3;
     String secondCategoryName = "business-category-2";
 
     MvcResult result = mockMvc.perform(get("/api/business-categories"))

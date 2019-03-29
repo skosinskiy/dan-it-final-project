@@ -1,7 +1,6 @@
 package com.danit.finalproject.application.service;
 
 import com.danit.finalproject.application.entity.BaseEntity;
-
 import java.util.List;
 
 public interface CrudService<E extends BaseEntity> {

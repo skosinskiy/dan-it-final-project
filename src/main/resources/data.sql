@@ -74,8 +74,8 @@ VALUES
 INSERT INTO menu_items
   (id, date_created, date_modified, name, display_name)
 VALUES
-  (1, '2019-03-21 01:15:00', '2019-03-21 02:55:50', 'Shops', 'The Bazar'),
-  (2, '2019-03-22 06:25:00', '2019-03-22 07:05:02', 'Restaurants', 'Healthy food zone');
+  (1, '2019-03-21 01:15:00', '2019-03-21 02:55:50', 'SHOPS', 'The Bazar'),
+  (2, '2019-03-22 06:25:00', '2019-03-22 07:05:02', 'RESTAURANTS', 'Healthy food zone');
 
 -- place
 
@@ -105,7 +105,8 @@ INSERT INTO business_categories
   (id, date_created, date_modified, name, parent_category_id)
 VALUES
   (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-1', null ),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-2', 1 );
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-2', 1 ),
+  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-3', null );
 
 INSERT INTO businesses
   (id, date_created, date_modified, title, description, address, web_site, phone_number, place_id )
