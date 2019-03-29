@@ -2,6 +2,9 @@ package com.danit.finalproject.application.facade;
 
 import com.danit.finalproject.application.entity.BaseEntity;
 import com.danit.finalproject.application.service.CrudService;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Transactional
@@ -64,21 +68,21 @@ public abstract class AbstractDtoFacade<E extends BaseEntity, I, O> {
           .getGenericSuperclass()).getActualTypeArguments()[0]);
     }
     return null;
-
   }
 
   protected List<O> mapEntityListToResponseDtoList(List<E> entityList) {
     if (entityList != null) {
-      return modelMapper.map(entityList, new TypeToken<List<O>>(){}.getType());
+      return entityList.stream()
+          .map(this::mapEntityToResponseDto)
+          .collect(Collectors.toList());
     }
     return new ArrayList<>();
   }
 
   protected Page<O> mapEntityListToResponseDtoList(Page<E> entityList) {
     if (entityList != null) {
-      return modelMapper.map(entityList, new TypeToken<Page<O>>(){}.getType());
+      return entityList.map(this::mapEntityToResponseDto);
     }
     return null;
   }
-
 }

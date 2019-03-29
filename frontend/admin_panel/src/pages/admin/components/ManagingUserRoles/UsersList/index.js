@@ -32,7 +32,6 @@ const rows = [
 ]
 
 class EnhancedTableHead extends React.Component {
-
   render () {
     return (
       <TableHead>
