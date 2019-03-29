@@ -13,31 +13,14 @@
   "extends": [
     "eslint:recommended",
     "react-app",
-    "plugin:react/recommended",
-    "plugin:prettier/recommended",
-    "prettier/react"
+    "plugin:react/recommended"
   ],
   "rules": {
-    "no-console": "warn",
-    "no-unused-vars": "warn",
+    "no-console": "error",
+    "no-unused-vars": "error",
     "react/display-name": false,
     "no-trailing-spaces": ["error", { "skipBlankLines": true } ],
     "no-return-assign": 0,
-    "eol-last": 0,
-    "prettier/prettier": [
-      "error",
-      {
-        "printWidth": 80,
-        "tabWidth": 2,
-        "useTabs": false,
-        "semi": false,
-        "singleQuote": true,
-        "jsxSingleQuote": false,
-        "trailingComma": "none",
-        "bracketSpacing": true,
-        "jsxBracketSameLine": false,
-        "arrowParens": "avoid"
-      }
-    ]
+    "eol-last": 0
   }
 }

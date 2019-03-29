@@ -1,6 +1,6 @@
-import * as resetPasswordOperations from './operations';
-import reducer from './reducer';
+import * as resetPasswordOperations from './operations'
+import reducer from './reducer'
 
-export {resetPasswordOperations};
+export {resetPasswordOperations}
 
-export default reducer;
+export default reducer

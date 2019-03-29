@@ -1,9 +1,9 @@
 import Button from '@material-ui/core/Button'
-import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {NavLink} from 'react-router-dom'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -18,8 +18,8 @@ import Tooltip from '@material-ui/core/Tooltip'
 import {menuItemsActions} from 'store/menuItems'
 
 const rows = [
-  { id: 'placeCategory', numeric: false, disablePadding: false, label: 'Place Category' },
-  { id: 'menuItems', numeric: true, disablePadding: false, label: 'Menu Items' }
+  {id: 'placeCategory', numeric: false, disablePadding: false, label: 'Place Category'},
+  {id: 'menuItems', numeric: true, disablePadding: false, label: 'Menu Items'}
 ]
 
 class EnhancedTableHead extends React.Component {
@@ -76,9 +76,7 @@ const styles = theme => ({
     marginTop: '20px',
     textAlign: 'center'
   },
-  tableCell: {
-
-  }
+  tableCell: {}
 })
 
 class PlaceCategories extends React.Component {
@@ -87,7 +85,7 @@ class PlaceCategories extends React.Component {
     orderBy: 'calories',
     page: 0,
     rowsPerPage: 25
-  };
+  }
 
   componentDidMount () {
     this.props.getAllCategories() // ToDo: implement getAllCategories
@@ -122,7 +120,7 @@ class PlaceCategories extends React.Component {
                     >
                       <TableCell className={classes.tableCell} component="th" scope="row" padding="none">
                         <Avatar>
-                          <ImageIcon />
+                          <ImageIcon/>
                         </Avatar>
                       </TableCell>
                       <TableCell padding="none" align="left">{category.placeCategory}</TableCell>
@@ -176,8 +174,10 @@ const mapDispatchToProps = dispatch => {
     resetListChanges: () => {
       dispatch(menuItemsActions.setMenuItems({updatedUserList: [], changedUsersList: []}))
     },
-    saveUserRoles: (id, menuItems) => {}, // dispatch(savePlaceCategories(id, menuItems)),
-    getAllCategories: () => {}// dispatch(getAllCategories())
+    saveUserRoles: (id, menuItems) => {
+    }, // dispatch(savePlaceCategories(id, menuItems)),
+    getAllCategories: () => {
+    }// dispatch(getAllCategories())
   }
 }
 

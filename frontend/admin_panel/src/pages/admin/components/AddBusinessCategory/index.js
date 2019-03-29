@@ -22,7 +22,7 @@ const styles = theme => ({
     width: 'auto',
     margin: '8px'
   }
-});
+})
 
 const ranges = [
   {
@@ -41,72 +41,69 @@ const ranges = [
     value: 'Parent Category 3',
     label: 'Parent Category 3'
   }
-];
+]
 
 class AddBUsinessCategory extends React.Component {
-    state = {
-      amount: '',
-      password: '',
-      weight: '',
-      weightRange: '',
-      showPassword: false
-    };
+  state = {
+    amount: '',
+    password: '',
+    weight: '',
+    weightRange: '',
+    showPassword: false
+  }
 
-    handleChange = prop => event => {
-      this.setState({ [prop]: event.target.value })
-    };
+  handleChange = prop => event => {
+    this.setState({[prop]: event.target.value})
+  }
 
-    handleClickShowPassword = () => {
-      this.setState(state => ({ showPassword: !state.showPassword }))
-    };
+  handleClickShowPassword = () => {
+    this.setState(state => ({showPassword: !state.showPassword}))
+  }
 
-    render () {
-      const { classes } = this.props;
+  render () {
+    const {classes} = this.props
 
-      return (
-        <div className={classes.root}>
-          <TextField
-            id="outlined-simple-start-adornment"
-            className={classNames(classes.margin, classes.textField)}
-            variant="outlined"
-            label="Busness Category Title"
-            InputProps={{
-            }}
-          />
+    return (
+      <div className={classes.root}>
+        <TextField
+          id="outlined-simple-start-adornment"
+          className={classNames(classes.margin, classes.textField)}
+          variant="outlined"
+          label="Busness Category Title"
+          InputProps={{}}
+        />
 
-          <TextField
-            select
-            className={classNames(classes.margin, classes.textField)}
-            variant="outlined"
-            label="Select Parent Category"
-            value={this.state.weightRange}
-            onChange={this.handleChange('weightRange')}
-            InputProps={{
-
-            }}
-          >
-            {ranges.map(option => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-                Save Category
-          </Button>
-        </div>
-      )
-    }
+        <TextField
+          select
+          className={classNames(classes.margin, classes.textField)}
+          variant="outlined"
+          label="Select Parent Category"
+          value={this.state.weightRange}
+          onChange={this.handleChange('weightRange')}
+          InputProps={{}}
+        >
+          {ranges.map(option => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+        >
+          Save Category
+        </Button>
+      </div>
+    )
+  }
 }
 
 AddBUsinessCategory.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
 export default withStyles(styles)(AddBUsinessCategory)

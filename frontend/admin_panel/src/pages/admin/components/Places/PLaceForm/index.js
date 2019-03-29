@@ -1,15 +1,15 @@
 /* eslint-disable no-undef */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { NavLink } from 'react-router-dom'
-import { connect } from 'react-redux'
+import {NavLink} from 'react-router-dom'
+import {connect} from 'react-redux'
 
-import { withStyles } from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
-import { placesOperations } from 'store/places'
+import {placesOperations} from 'store/places'
 
 const styles = theme => ({
   container: {
@@ -73,18 +73,18 @@ class PlaceForm extends React.Component {
     this.setState({
       place: {...this.state.place, [name]: value}
     })
-  };
+  }
 
   render () {
-    const { classes, categories, placeId } = this.props
-    const { place } = this.state
-    console.log(place)
+    const {classes, categories, placeId} = this.props
+    const {place} = this.state
+
     return (
       <div className="edit-place-form">
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
             label="Title"
-            style={{ margin: 8 }}
+            style={{margin: 8}}
             fullWidth
             margin="normal"
             variant="outlined"
@@ -98,7 +98,7 @@ class PlaceForm extends React.Component {
           <TextField
             id="outlined-required"
             label="Description"
-            style={{ margin: 8 }}
+            style={{margin: 8}}
             fullWidth
             margin="normal"
             variant="outlined"
@@ -112,7 +112,7 @@ class PlaceForm extends React.Component {
           <TextField
             id="outlined-required"
             label="Address"
-            style={{ margin: 8 }}
+            style={{margin: 8}}
             fullWidth
             margin="normal"
             variant="outlined"
@@ -156,13 +156,14 @@ class PlaceForm extends React.Component {
         </form>
         <div className="place-buttons">
           <NavLink to={'/admin/places'} className={classes.buttonLink}>
-            <Button onClick={() => this.savePlace(placeId, place)} variant="contained" color="primary" className={classes.button}>
-            Save
+            <Button onClick={() => this.savePlace(placeId, place)} variant="contained" color="primary"
+                    className={classes.button}>
+              Save
             </Button>
           </NavLink>
           <NavLink to={'/admin/places'} className={classes.buttonLink}>
             <Button variant="contained" color="secondary" className={classes.button}>
-            Exit
+              Exit
             </Button>
           </NavLink>
         </div>

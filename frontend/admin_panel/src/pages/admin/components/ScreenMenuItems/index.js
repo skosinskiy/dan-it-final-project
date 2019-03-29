@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import Preloader from '../../Preloader'
-import { withRouter } from 'react-router'
+import {withRouter} from 'react-router'
 import {fetchAvailableMenuItemNames} from '../../../actions/menuItem'
 import MultipleSelect from './MenuItemMultipleSelect'
 import PlaceCategories from './PlaceCategories'
@@ -24,9 +24,9 @@ class ScreenMenuItems extends Component {
     }
     return (
       <div className='ScreenMenuWrapper'>
-        <PlaceCategories />
+        <PlaceCategories/>
         <MultipleSelect isMenuItemNamesLoading={isMenuItemNamesLoading} names={availableMenuItemNames}/>
-        <SubmitButton />
+        <SubmitButton/>
       </div>
     )
   }

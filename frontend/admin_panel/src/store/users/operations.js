@@ -47,7 +47,6 @@ export const getCurrentUser = () => dispatch => {
         dispatch(ACTIONS.currentUserFetched(user))
       }
     })
-    .catch((err) => {console.log(err)})
     .finally(() => {
       dispatch(ACTIONS.currentUserLoading(false))
     })

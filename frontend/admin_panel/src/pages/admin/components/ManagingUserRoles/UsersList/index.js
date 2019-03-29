@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import {connect} from 'react-redux'
+import {NavLink} from 'react-router-dom'
 
-import { withStyles } from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -17,18 +17,18 @@ import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Paper from '@material-ui/core/Paper'
 import Tooltip from '@material-ui/core/Tooltip'
 
-import { usersOperations, usersActions } from 'store/users'
+import {usersOperations, usersActions} from 'store/users'
 
 import UserItem from './UserItem/index'
 
 import './userList.scss'
 
 const rows = [
-  { id: 'photo', numeric: false, disablePadding: false, label: 'Photo' },
-  { id: 'email', numeric: true, disablePadding: false, label: 'Email' },
-  { id: 'name', numeric: true, disablePadding: false, label: 'Name' },
-  { id: 'age', numeric: true, disablePadding: false, label: 'Age' },
-  { id: 'roles', numeric: true, disablePadding: false, label: 'Roles' }
+  {id: 'photo', numeric: false, disablePadding: false, label: 'Photo'},
+  {id: 'email', numeric: true, disablePadding: false, label: 'Email'},
+  {id: 'name', numeric: true, disablePadding: false, label: 'Name'},
+  {id: 'age', numeric: true, disablePadding: false, label: 'Age'},
+  {id: 'roles', numeric: true, disablePadding: false, label: 'Roles'}
 ]
 
 class EnhancedTableHead extends React.Component {
@@ -85,9 +85,7 @@ const styles = theme => ({
     marginTop: '20px',
     textAlign: 'center'
   },
-  tableCell: {
-
-  }
+  tableCell: {}
 })
 
 class UsersList extends React.Component {
@@ -96,7 +94,7 @@ class UsersList extends React.Component {
     orderBy: 'calories',
     page: 0,
     rowsPerPage: 25
-  };
+  }
 
   componentDidMount () {
     const {page, rowsPerPage} = this.state
@@ -115,11 +113,11 @@ class UsersList extends React.Component {
   handleChangePage = (event, page) => {
     this.props.updatePaginationPage(page)
     this.props.getAllUsers(this.props.email, page, this.state.rowsPerPage)
-  };
+  }
 
   render () {
-    const { classes, usersListByEmail, totalElements, page } = this.props
-    const { rowsPerPage } = this.state
+    const {classes, usersListByEmail, totalElements, page} = this.props
+    const {rowsPerPage} = this.state
     return (
       <div className={classes.root}>
         <Paper className={classes.root}>
@@ -139,13 +137,22 @@ class UsersList extends React.Component {
                     >
                       <TableCell className={classes.tableCell} component="th" scope="row" padding="none">
                         <Avatar>
-                          <ImageIcon />
+                          <ImageIcon/>
                         </Avatar>
                       </TableCell>
-                      <TableCell padding="none" align="left" className='text-overflow-ellipsis' title={user.email}>{user.email}</TableCell>
+                      <TableCell
+                        padding="none"
+                        align="left"
+                        className='text-overflow-ellipsis'
+                        title={user.email}
+                      >
+                        {user.email}
+                      </TableCell>
                       <TableCell padding="none" align="left">{user.firstName}</TableCell>
                       <TableCell padding="none" align="left">{user.age}</TableCell>
-                      <TableCell padding="none" align="right" className={classes.roles}><UserItem user={user} key={user.id}/></TableCell>
+                      <TableCell padding="none" align="right" className={classes.roles}>
+                        <UserItem user={user} key={user.id}/>
+                      </TableCell>
                     </TableRow>
                   )
                 })}
@@ -170,12 +177,14 @@ class UsersList extends React.Component {
           />
         </Paper>
         <div className={classes.userListButtons}>
-          <NavLink className={classes.buttons} to={'/admin'}><Button onClick={this.saveUsersRoles} variant="contained" color="primary" className={classes.button}>
+          <NavLink className={classes.buttons} to={'/admin'}><Button onClick={this.saveUsersRoles} variant="contained"
+                                                                     color="primary" className={classes.button}>
             Save
           </Button>
           </NavLink>
           <NavLink className={classes.buttons} to={'/admin'}>
-            <Button onClick={() => this.props.updateUsersList()} variant="contained" color="secondary" className={classes.button}>
+            <Button onClick={() => this.props.updateUsersList()} variant="contained" color="secondary"
+                    className={classes.button}>
               Exit
             </Button>
           </NavLink>
@@ -202,13 +211,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateUsersList: () => {
-      dispatch(usersActions.setUserRoles({
-        updatedUserList: [],
-        changedUsersList: []
-      }))
-    },
-
+    updateUsersList: () => dispatch(usersActions.setUserRoles({updatedUserList: [], changedUsersList: []})),
     saveUserRoles: (userId, roles) => dispatch(usersOperations.saveUserRoles(userId, roles)),
     getAllUsers: (email, page, size) => dispatch(usersOperations.getUsersByEmail(email, page, size)),
     updatePaginationPage: (page) => dispatch(usersActions.changePaginationPage(page))

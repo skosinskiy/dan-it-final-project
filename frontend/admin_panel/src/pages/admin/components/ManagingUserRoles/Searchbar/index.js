@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux'
-import { withStyles } from '@material-ui/core/styles'
+import {connect} from 'react-redux'
+import {withStyles} from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import InputBase from '@material-ui/core/InputBase'
 import IconButton from '@material-ui/core/IconButton'
@@ -46,11 +46,16 @@ class UserEmailSearchBar extends React.Component {
   }
 
   render () {
-    const { classes } = this.props
+    const {classes} = this.props
     return (
       <Paper className={classes.root} elevation={1}>
-        <InputBase onKeyPress={this.findUsersByEmail} value={this.state.email}
-          onChange={this.handleChange} className={classes.input} placeholder="Search User By email"/>
+        <InputBase
+          onKeyPress={this.findUsersByEmail}
+          value={this.state.email}
+          onChange={this.handleChange}
+          className={classes.input}
+          placeholder="Search User By email"
+        />
         <IconButton className={classes.iconButton} aria-label="Search">
           <SearchIcon/>
         </IconButton>

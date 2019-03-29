@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {NavLink} from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import { withStyles } from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/core/styles'
 import List from '@material-ui/core/List'
 import Button from '@material-ui/core/Button'
 
-import { placesOperations } from 'store/places'
+import {placesOperations} from 'store/places'
 import PlaceItem from './PLaceItem'
 
 const styles = theme => ({
@@ -29,7 +29,7 @@ class Places extends Component {
   }
 
   render () {
-    const { classes, places } = this.props
+    const {classes, places} = this.props
     const placeList = places.map((place) => {
       return <PlaceItem key={place.id} place={place}/>
     })

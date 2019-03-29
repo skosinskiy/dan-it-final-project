@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 
 const styles = () => ({
@@ -13,7 +13,7 @@ const styles = () => ({
 })
 
 const SubmitButton = props => {
-  const { classes } = props
+  const {classes} = props
   return (
     <div>
       <Button variant="contained" color="primary" className={classes.button} type="submit" fullWidth>

@@ -64,16 +64,16 @@ const styles = theme => ({
 
 class ResetPassword extends Component {
   render () {
-    const { classes, isLoading, isFormSubmitted, arePasswordsDifferent } = this.props
+    const {classes, isLoading, isFormSubmitted, arePasswordsDifferent} = this.props
     const token = getToken()
 
     const resetPasswordForm = (
       <div className={classes.wrapper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOutlinedIcon/>
         </Avatar>
         <Typography component="h1" variant="h5">
-        Reset password
+          Reset password
         </Typography>
         <form
           className={classes.form}
@@ -87,11 +87,11 @@ class ResetPassword extends Component {
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="password" error={arePasswordsDifferent}>Password</InputLabel>
-            <Input name="password" type="password" id="password" autoComplete="current-password" />
+            <Input name="password" type="password" id="password" autoComplete="current-password"/>
           </FormControl>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="password" error={arePasswordsDifferent}>Password Confirmation</InputLabel>
-            <Input name="passwordConfirmation" type="password" id="passwordConfirmation" />
+            <Input name="passwordConfirmation" type="password" id="passwordConfirmation"/>
           </FormControl>
           <Button
             type="submit"
@@ -108,18 +108,18 @@ class ResetPassword extends Component {
     const afterSubmitContent = (
       <div className={classes.wrapper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOutlinedIcon/>
         </Avatar>
         <Typography component="h1" variant="h5">
-              Password was changed
+          Password was changed
         </Typography>
         <Button component={NavLink} to={'/login'}
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}>
-              Back to Login
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}>
+          Back to Login
         </Button>
       </div>
     )

@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, {Component} from 'react'
+import {NavLink} from 'react-router-dom'
 
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
@@ -8,9 +8,9 @@ import DashboardIcon from '@material-ui/icons/Dashboard'
 import EventIcon from '@material-ui/icons/Event'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import PeopleIcon from '@material-ui/icons/People'
-import { hasGrant } from '../../utils/roles'
-import { Grant } from '../../constants/permissions'
-import { connect } from 'react-redux'
+import {hasGrant} from '../../utils/roles'
+import {Grant} from '../../constants/permissions'
+import {connect} from 'react-redux'
 import LayersIcon from '@material-ui/icons/Layers'
 import './sidebar-menu.scss'
 
@@ -56,14 +56,14 @@ class SidebarMenu extends Component {
 
         {
           hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES) &&
-            <NavLink to={'/admin/place-categories'} className="sidebarItem">
-              <ListItem button>
-                <ListItemIcon>
-                  <LayersIcon />
-                </ListItemIcon>
-                <ListItemText primary="PlaceCategories" />
-              </ListItem>
-            </NavLink>
+          <NavLink to={'/admin/place-categories'} className="sidebarItem">
+            <ListItem button>
+              <ListItemIcon>
+                <LayersIcon/>
+              </ListItemIcon>
+              <ListItemText primary="PlaceCategories"/>
+            </ListItem>
+          </NavLink>
         }
 
         {

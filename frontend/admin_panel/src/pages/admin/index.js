@@ -1,9 +1,9 @@
 import React from 'react'
-import { withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import {withRouter} from 'react-router-dom'
+import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
-import { withStyles } from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Drawer from '@material-ui/core/Drawer'
 import AppBar from '@material-ui/core/AppBar'
@@ -111,19 +111,19 @@ class Admin extends React.Component {
   }
 
   handleDrawerOpen = () => {
-    this.setState({ open: true })
+    this.setState({open: true})
   }
 
   handleDrawerClose = () => {
-    this.setState({ open: false })
+    this.setState({open: false})
   }
 
   render () {
-    const { classes, logoutUser } = this.props
+    const {classes, logoutUser} = this.props
 
     return (
       <div className={classes.root}>
-        <CssBaseline />
+        <CssBaseline/>
         <AppBar
           position="absolute"
           className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
@@ -138,7 +138,7 @@ class Admin extends React.Component {
                 this.state.open && classes.menuButtonHidden
               )}
             >
-              <MenuIcon />
+              <MenuIcon/>
             </IconButton>
             <Typography
               component="h1"
@@ -151,11 +151,11 @@ class Admin extends React.Component {
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
+                <NotificationsIcon/>
               </Badge>
             </IconButton>
-            <IconButton onClick={logoutUser} color="inherit" alt ="Log out">
-              <PowerSetting />
+            <IconButton onClick={logoutUser} color="inherit" alt="Log out">
+              <PowerSetting/>
             </IconButton>
           </Toolbar>
         </AppBar>
@@ -168,15 +168,15 @@ class Admin extends React.Component {
         >
           <div className={classes.toolbarIcon}>
             <IconButton onClick={this.handleDrawerClose}>
-              <ChevronLeftIcon />
+              <ChevronLeftIcon/>
             </IconButton>
           </div>
-          <Divider />
+          <Divider/>
           <Sidebarmenu/>
-          <Divider />
+          <Divider/>
         </Drawer>
         <main className={classes.content}>
-          <div className={classes.appBarSpacer} />
+          <div className={classes.appBarSpacer}/>
           <AdminRouter/>
         </main>
       </div>
@@ -193,8 +193,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  logoutUser: usersOperations.logOutUser,
-  getUserRolesList: usersOperations.getUserRoles
+  logoutUser: () => dispatch(usersOperations.logOutUser()),
+  getUserRolesList: () => dispatch(usersOperations.getUserRoles())
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(((withStyles(styles, { withTheme: true })(Admin)))))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(((withStyles(styles, {withTheme: true})(Admin)))))

@@ -1,6 +1,6 @@
-import React, { Component } from 'react'
-import { NavLink, Redirect } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {NavLink, Redirect} from 'react-router-dom'
+import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 
 import Avatar from '@material-ui/core/Avatar'
@@ -56,8 +56,8 @@ const styles = theme => ({
 })
 
 class Login extends Component {
-  render() {
-    const { classes, currentUser } = this.props
+  render () {
+    const {classes, currentUser} = this.props
 
     if (currentUser) {
       return <Redirect to={'/'}/>
@@ -65,10 +65,10 @@ class Login extends Component {
 
     return (
       <main className={classes.main}>
-        <CssBaseline />
+        <CssBaseline/>
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
+            <LockOutlinedIcon/>
           </Avatar>
           <Typography component="h1" variant="h5">
             Sign in
@@ -93,7 +93,7 @@ class Login extends Component {
               />
             </FormControl>
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
+              control={<Checkbox value="remember" color="primary"/>}
               label="Remember me"
             />
             <Button
@@ -122,13 +122,13 @@ class Login extends Component {
   }
 }
 
-const mapStateToProps = ({ users }) => ({
+const mapStateToProps = ({users}) => ({
   currentUser: users.currentUser,
   isCurrentUserLoading: users.isCurrentUserLoading
 })
 
 const mapDispatchToProps = dispatch => ({
-  submitLoginForm: event =>  dispatch(usersOperations.submitLoginForm(event))
+  submitLoginForm: event => dispatch(usersOperations.submitLoginForm(event))
 })
 
 Login.propTypes = {

@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
-import { withStyles } from '@material-ui/core/styles/index'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {NavLink} from 'react-router-dom'
+import {withStyles} from '@material-ui/core/styles/index'
 import Button from '@material-ui/core/Button'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -30,13 +30,20 @@ class Places extends Component {
     return (
       <ListItem>
         <Avatar>
-          <ImageIcon />
+          <ImageIcon/>
         </Avatar>
-        <ListItemText primary={category.name} secondary={category.parentCategory && category.parentCategory.name} />
+        <ListItemText primary={category.name} secondary={category.parentCategory && category.parentCategory.name}/>
         <NavLink to={`/admin/business-categories/${category.id}`} className={classes.buttons}>
           <Button variant="contained" color="primary" className={classes.button}>Edit</Button>
         </NavLink>
-        <Button onClick={() => deleteBusinessCategory(category.id)} variant="contained" color="secondary" className={classes.button}>Delete</Button>
+        <Button
+          onClick={() => deleteBusinessCategory(category.id)}
+          variant="contained"
+          color="secondary"
+          className={classes.button}
+        >
+          Delete
+        </Button>
       </ListItem>
     )
   }

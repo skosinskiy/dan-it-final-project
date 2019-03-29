@@ -1,4 +1,4 @@
-import * as TYPES from './types';
+import * as TYPES from './types'
 
 export const getRolesList = (userRoles) => ({
   type: TYPES.GET_ROLES_LIST,

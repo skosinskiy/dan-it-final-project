@@ -16,4 +16,4 @@ export const businessCategory = (state = initialState, action) => {
   }
 }
 
-export default businessCategory;
+export default businessCategory

@@ -65,10 +65,10 @@ class ForgotPassword extends Component {
     const forgotPasswordForm = (
       <div className={classes.wrapper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOutlinedIcon/>
         </Avatar>
         <Typography component="h1" variant="h5">
-            Forgot Password
+          Forgot Password
           <span className={classes.email}>enter your email and we send there your password</span>
         </Typography>
         <form
@@ -76,7 +76,7 @@ class ForgotPassword extends Component {
           onSubmit={this.props.submitForgotPasswordForm}>
           <FormControl margin="normal" required fullWidth>
             <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="email" autoComplete="email" autoFocus />
+            <Input id="email" name="email" autoComplete="email" autoFocus/>
           </FormControl>
           <Button
             type="submit"
@@ -93,17 +93,20 @@ class ForgotPassword extends Component {
     const afterSubmitContent = (
       <div className={classes.wrapper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOutlinedIcon/>
         </Avatar>
         <Typography component="h1" variant="h5">
-              Password recovery
+          Password recovery
           <span className={classes.email}>Link to reset password was sent to your email</span>
         </Typography>
-        <Button component={NavLink} to={'login'}
+        <Button
+          component={NavLink}
+          to={'login'}
           fullWidth
           variant="contained"
           color="primary"
-          className={classes.submit}>
+          className={classes.submit}
+        >
           Back to Login
         </Button>
       </div>

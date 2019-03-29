@@ -35,7 +35,7 @@ class BusinessCategories extends Component {
   }
 
   render () {
-    const { classes, businessCategories } = this.props
+    const {classes, businessCategories} = this.props
 
     if (businessCategories.length === 0) {
       return <Preloader/>

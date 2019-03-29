@@ -1,4 +1,4 @@
-import { toastr } from 'react-redux-toastr'
+import {toastr} from 'react-redux-toastr'
 import axios from 'axios'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/core/styles'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -53,14 +53,14 @@ function getStyles (name, that) {
 class MultipleSelect extends React.Component {
   state = {
     name: []
-  };
+  }
 
   handleChange = event => {
-    this.setState({ name: event.target.value })
-  };
+    this.setState({name: event.target.value})
+  }
 
   handleChangeMultiple = event => {
-    const { options } = event.target
+    const {options} = event.target
     const value = []
     for (let i = 0, l = options.length; i < l; i += 1) {
       if (options[i].selected) {
@@ -73,7 +73,7 @@ class MultipleSelect extends React.Component {
   }
 
   render () {
-    const { classes, names } = this.props
+    const {classes, names} = this.props
     return (
       <div className={classes.root}>
         <FormControl className={classes.formControl}>
@@ -82,11 +82,11 @@ class MultipleSelect extends React.Component {
             multiple
             value={this.state.name}
             onChange={this.handleChange}
-            input={<Input id="select-multiple-chip" />}
+            input={<Input id="select-multiple-chip"/>}
             renderValue={selected => (
               <div className={classes.chips}>
                 {selected.map(value => (
-                  <Chip key={value} label={value} className={classes.chip} />
+                  <Chip key={value} label={value} className={classes.chip}/>
                 ))}
               </div>
             )}
@@ -108,4 +108,4 @@ MultipleSelect.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles, { withTheme: true })(MultipleSelect)
+export default withStyles(styles, {withTheme: true})(MultipleSelect)

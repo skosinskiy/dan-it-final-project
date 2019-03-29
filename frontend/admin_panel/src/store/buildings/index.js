@@ -1,6 +1,6 @@
-import * as buildingsOperations from './operations';
-import reducer from './reducer';
+import * as buildingsOperations from './operations'
+import reducer from './reducer'
 
-export {buildingsOperations};
+export {buildingsOperations}
 
-export default reducer;
+export default reducer

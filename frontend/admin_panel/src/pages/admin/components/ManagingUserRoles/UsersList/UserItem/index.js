@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-import { withStyles } from '@material-ui/core/styles'
+import {withStyles} from '@material-ui/core/styles'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -54,7 +54,7 @@ class UserItem extends React.Component {
   }
 
   render () {
-    const { classes, user, userRoles } = this.props
+    const {classes, user, userRoles} = this.props
     const roles = userRoles.filter(role => user.roles.some(userRole => role.id === userRole.id))
 
     return (
@@ -64,11 +64,11 @@ class UserItem extends React.Component {
           multiple
           value={roles}
           onChange={this.handleChange}
-          input={<Input id="select-multiple-chip" />}
+          input={<Input id="select-multiple-chip"/>}
           renderValue={selected => (
             <div className={classes.chips}>
               {selected.map(value => (
-                <Chip key={value.id} label={value.name} className={classes.chip} />
+                <Chip key={value.id} label={value.name} className={classes.chip}/>
               ))}
             </div>
           )}
@@ -128,4 +128,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, { withTheme: true })(UserItem))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(UserItem))

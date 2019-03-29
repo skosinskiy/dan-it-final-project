@@ -1,15 +1,14 @@
-import React, { Component } from 'react'
-import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
-import { connect } from 'react-redux'
+import React, {Component} from 'react'
+import {Redirect, Route, Switch, withRouter} from 'react-router-dom'
+import {connect} from 'react-redux'
 
-import { hasGrant } from 'utils/roles'
-import { Grant } from 'constants/permissions'
+import {hasGrant} from 'utils/roles'
+import {Grant} from 'constants/permissions'
 
-// import AddBusinessCategory from './components/AddBusinessCategory'
 import AddEventCategory from './components/AddEventCategory'
 import ManageBusinessCategories from './components/ManageBusinessCategory'
 import BusinessCategoryForm from './components/ManageBusinessCategory/BusinessCategoryForm'
-import ManaginrUserRoles from './components/ManagingUserRoles'
+import ManagingUserRoles from './components/ManagingUserRoles'
 import Places from './components/Places'
 import PlaceForm from './components/Places/PLaceForm'
 import PlaceCategories from './components/PlaceCategories'
@@ -20,7 +19,7 @@ class AdminRouter extends Component {
 
     return (
       <Switch>
-        <AuthorizedRoute authorized={hasGrant(user, Grant.MANGAE_USER_ROLES)} path="/admin/managing-roles" component={ManaginrUserRoles}/>
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANGAE_USER_ROLES)} path="/admin/managing-roles" component={ManagingUserRoles}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANGAE_USER_ROLES)} path="/admin/place-categories" component={PlaceCategories}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/add-new" component={PlaceForm}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/:placeId" component={PlaceForm}/>

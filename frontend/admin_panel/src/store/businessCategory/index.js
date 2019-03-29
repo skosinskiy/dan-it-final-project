@@ -1,6 +1,6 @@
-import * as businessCategoryOperations from './operations';
-import reducer from './reducer';
+import * as businessCategoryOperations from './operations'
+import reducer from './reducer'
 
-export {businessCategoryOperations};
+export {businessCategoryOperations}
 
-export default reducer;
+export default reducer
