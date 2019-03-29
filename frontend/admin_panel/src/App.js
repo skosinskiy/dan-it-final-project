@@ -1,10 +1,13 @@
-import React, { Component } from 'react'
-import AppRouter from './components/AppRoutes/MainRouter'
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {getCurrentUser} from './actions/users/index'
-import Preloader from './components/Preloader'
-import { withRouter } from 'react-router'
+import {withRouter} from 'react-router'
+
 import CssBaseline from '@material-ui/core/es/CssBaseline/CssBaseline'
+
+import Preloader from './components/Preloader'
+import {usersOperations} from 'store/users'
+import {default as IndexPage} from './pages/index'
+import ToastrMessage from './components/ToastrMessage'
 
 class App extends Component {
   componentDidMount () {
@@ -12,18 +15,18 @@ class App extends Component {
   }
 
   render () {
-    if (this.props.isCurrentUserLoading) {
-      return (
-        <div className='wrapper'>
-          <Preloader/>
-        </div>
-      )
+    const {isCurrentUserLoading} = this.props
+
+    if (isCurrentUserLoading) {
+      return <div className="wrapper"><Preloader/></div>
     }
+
     return (
-      <div className='App'>
+      <>
         <CssBaseline/>
-        <AppRouter/>
-      </div>
+        <IndexPage/>
+        <ToastrMessage/>
+      </>
     )
   }
 }
@@ -35,10 +38,13 @@ const mapStateToProps = ({users}) => {
   }
 }
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getCurrentUser: () => dispatch(getCurrentUser())
-  }
-}
+const mapDispatchToProps = dispatch => ({
+  getCurrentUser: () => dispatch(usersOperations.getCurrentUser())
+})
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App))
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(App)
+)

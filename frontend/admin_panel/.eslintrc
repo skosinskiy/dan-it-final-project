@@ -1,7 +1,24 @@
 {
-  "parser": "babel-eslint",
-  "extends": ["standard", "react-app"],
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "extends": [
+    "eslint:recommended",
+    "react-app",
+    "plugin:react/recommended"
+  ],
   "rules": {
+    "no-console": "error",
+    "no-unused-vars": "error",
+    "react/display-name": false,
     "no-trailing-spaces": ["error", { "skipBlankLines": true } ],
     "no-return-assign": 0,
     "eol-last": 0
