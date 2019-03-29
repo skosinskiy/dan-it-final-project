@@ -4,8 +4,8 @@ import com.danit.finalproject.application.dto.request.ChatMessageRequest;
 import com.danit.finalproject.application.dto.request.ChatRequest;
 import com.danit.finalproject.application.dto.response.ChatMessageResponse;
 import com.danit.finalproject.application.dto.response.ChatResponse;
+import com.danit.finalproject.application.entity.Chat;
 import com.danit.finalproject.application.facade.ChatFacade;
-import com.danit.finalproject.application.facade.ChatMessageFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +24,9 @@ import java.util.List;
 @RequestMapping("/api/chats")
 public class ChatController {
   private ChatFacade chatFacade;
-  private ChatMessageFacade chatMessageFacade;
 
   @Autowired
-  public ChatController(ChatFacade chatFacade, ChatMessageFacade chatMessageFacade) {
-    this.chatMessageFacade = chatMessageFacade;
+  public ChatController(ChatFacade chatFacade) {
     this.chatFacade = chatFacade;
   }
 
@@ -58,12 +56,12 @@ public class ChatController {
   }
 
   @PostMapping("{chatId}/messages")
-  public ResponseEntity<ChatMessageResponse> createNewMessage(@PathVariable("chatId") Long chatId, ChatMessageRequest chatMessage) {
-    return new ResponseEntity(chatMessageFacade.addChatMessage(chatMessage, chatId), HttpStatus.OK);
+  public ResponseEntity<Chat> createNewMessage(@PathVariable("chatId") Long chatId, ChatMessageRequest chatMessage) {
+    return new ResponseEntity(chatFacade.addChatMessage(chatMessage, chatId), HttpStatus.OK);
   }
 
   @DeleteMapping("{chatId}/messages/id")
-  public ResponseEntity<ChatMessageResponse> deleteMessege(@PathVariable("id") Long charId) {
-    return new ResponseEntity(chatMessageFacade.deleteMessage(charId), HttpStatus.OK);
+  public ResponseEntity<Chat> deleteMessege(@PathVariable("id") Long charId) {
+    return new ResponseEntity(chatFacade.deleteMessage(charId), HttpStatus.OK);
   }
 }

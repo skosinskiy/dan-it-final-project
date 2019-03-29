@@ -67,6 +67,8 @@ public class Place extends BaseEntity {
   private PlaceCategory placeCategory;
 
   @OneToMany(mappedBy = "place")
+  @ToString.Exclude
+  @JsonIgnore
   private List<Visit> visits;
 
 }

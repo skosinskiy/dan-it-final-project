@@ -24,9 +24,9 @@ public class Role extends BaseEntity {
   @Column(name = "name")
   private String name;
 
+  @ManyToMany(mappedBy = "roles")
   @JsonIgnore
   @ToString.Exclude
-  @ManyToMany(mappedBy = "roles")
   private List<User> users;
 
   @ElementCollection

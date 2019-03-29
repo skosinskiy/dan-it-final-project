@@ -50,13 +50,15 @@ public class User extends BaseEntity {
   @Column(name = "token_expiration_date")
   private Date tokenExpirationDate;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "users_roles",
       joinColumns = {@JoinColumn(name = "user_id")},
       inverseJoinColumns = {@JoinColumn(name = "role_id")})
   private List<Role> roles;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @JsonIgnore
+  @ToString.Exclude
+  @ManyToMany
   @JoinTable(name = "users_places",
       joinColumns = {@JoinColumn(name = "user_id")},
       inverseJoinColumns = {@JoinColumn(name = "place_id")})
@@ -72,5 +74,7 @@ public class User extends BaseEntity {
 
   @OneToMany
   @JoinColumn(name = "visit_id")
+  @JsonIgnore
+  @ToString.Exclude
   private List<Visit> visits;
 }

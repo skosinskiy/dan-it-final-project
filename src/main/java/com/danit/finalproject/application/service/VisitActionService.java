@@ -22,26 +22,29 @@ public class VisitActionService implements CrudService<VisitAction>{
 
   @Override
   public VisitAction getById(Long id) {
-    return null;
+    return visitActionRepository.findById(id).orElse(null);
   }
 
   @Override
   public List<VisitAction> getAll() {
-    return null;
+    return visitActionRepository.findAll();
   }
 
   @Override
-  public VisitAction create(VisitAction entity) {
-    return null;
+  public VisitAction create(VisitAction visitAction) {
+    return visitActionRepository.save(visitAction);
   }
 
   @Override
-  public VisitAction update(Long id, VisitAction entity) {
-    return null;
+  public VisitAction update(Long id, VisitAction visitAction) {
+    visitAction.setId(id);
+    return visitActionRepository.save(visitAction);
   }
 
   @Override
   public VisitAction delete(Long id) {
-    return null;
+    VisitAction visitAction = visitActionRepository.findById(id).orElse(null);
+    visitActionRepository.delete(visitAction);
+    return visitAction;
   }
 }

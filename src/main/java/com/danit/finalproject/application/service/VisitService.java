@@ -31,26 +31,29 @@ public class VisitService implements CrudService<Visit> {
 
   @Override
   public Visit getById(Long id) {
-    return null;
+    return visitRepository.findById(id).orElse(null);
   }
 
   @Override
   public List<Visit> getAll() {
-    return null;
+    return visitRepository.findAll();
   }
 
   @Override
-  public Visit create(Visit entity) {
-    return null;
+  public Visit create(Visit visit) {
+    return visitRepository.save(visit);
   }
 
   @Override
-  public Visit update(Long id, Visit entity) {
-    return null;
+  public Visit update(Long id, Visit visit) {
+    visit.setId(id);
+    return visitRepository.save(visit);
   }
 
   @Override
   public Visit delete(Long id) {
-    return null;
+    Visit visit = visitRepository.findById(id).orElse(null);
+    visitRepository.delete(visit);
+    return visit;
   }
 }

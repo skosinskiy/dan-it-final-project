@@ -33,9 +33,6 @@ public class ChatServiceTest {
   protected ChatRepository chatRepository;
 
   @Autowired
-  private ChatMessageService chatMessageService;
-
-  @Autowired
   private ChatMessageRepository chatMessageRepository;
 
   private static Chat firtsMockChat;
@@ -176,13 +173,26 @@ public class ChatServiceTest {
 
   @Test
   public void createNewMessage() {
-    Long exprctedId = 1L;
-    String expectedTitle = "text-1";
+    Long expectedId = 3L;
+    String expectedTitle = "text-3";
+    int expectedSize = 3;
+    ChatMessage chatMessage = new ChatMessage();
+    chatMessage.setId(expectedId);
+    chatMessage.setMessage(expectedTitle);
 
-    when(chatMessageRepository.save(firstMockMessage)).thenReturn(firstMockMessage);
-    ChatMessage chatMessage = chatMessageService.create(firstMockMessage);
+    when(chatRepository.findById(1L)).thenReturn(Optional.ofNullable(firtsMockChat));
+    Chat chat = chatService.addNewMessage(chatMessage, 1L);
 
-    assertEquals(exprctedId, chatMessage.getId());
-    assertEquals(expectedTitle, chatMessage.getMessage());
+    assertEquals(expectedSize, chat.getChatMessages().size());
+    assertEquals(expectedId, chat.getChatMessages().get(2));
+  }
+
+  @Test
+  public void deleteMessage() {
+    int expectedSize = 1;
+    when(chatRepository.findById(1L)).thenReturn(Optional.ofNullable(firtsMockChat));
+    Chat chat = chatService.deleteMessage(1L);
+
+    assertEquals(expectedSize,chat.getChatMessages().size());
   }
 }

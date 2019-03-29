@@ -24,20 +24,17 @@ public class Visit extends BaseEntity {
   @Column(name = "date_finished")
   private Date dateFinish;
 
-  @OneToMany
-  @JoinColumn(name = "action_id")
+  @OneToMany(mappedBy = "visit")
+  @JsonIgnore
+  @ToString.Exclude
   private List<VisitAction> actions;
 
   @ManyToOne
-  @JoinColumn(name = "userId")
-  @JsonIgnore
-  @ToString.Exclude
+  @JoinColumn(name = "user_id")
   private User user;
 
   @ManyToOne
-  @JoinColumn(name = "placeId")
-  @JsonIgnore
-  @ToString.Exclude
+  @JoinColumn(name = "place_id")
   private Place place;
 
 }
