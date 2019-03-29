@@ -15,11 +15,11 @@ const reducers = {
 const reducer = combineReducers(reducers)
 const store = createStore(reducer, composeWithDevTools(applyMiddleware()))
 ReactDOM.render(
-<Provider store={store}>
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
-</Provider>, 
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>,
 document.getElementById('root'))
 
 // If you want your app to work offline and load faster, you can change
