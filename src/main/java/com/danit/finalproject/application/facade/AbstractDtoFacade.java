@@ -2,6 +2,9 @@ package com.danit.finalproject.application.facade;
 
 import com.danit.finalproject.application.entity.BaseEntity;
 import com.danit.finalproject.application.service.CrudService;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,5 +85,4 @@ public abstract class AbstractDtoFacade<E extends BaseEntity, I, O> {
     }
     return null;
   }
-
 }

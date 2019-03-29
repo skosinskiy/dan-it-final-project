@@ -2,10 +2,9 @@ package com.danit.finalproject.application.service;
 
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.repository.RoleRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class RoleService implements CrudService<Role> {
