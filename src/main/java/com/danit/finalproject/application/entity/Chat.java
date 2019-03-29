@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -31,5 +32,5 @@ public class Chat extends BaseEntity {
   @OneToMany(mappedBy = "chat")
   @JsonIgnore
   @ToString.Exclude
-  private List<ChatMessage> chatMessages;
+  private List<ChatMessage> chatMessages = new ArrayList<>();
 }
