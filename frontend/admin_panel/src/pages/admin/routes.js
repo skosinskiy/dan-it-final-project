@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, {Component} from 'react'
 import {Redirect, Route, Switch, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
@@ -5,9 +6,10 @@ import {connect} from 'react-redux'
 import {hasGrant} from 'utils/roles'
 import {Grant} from 'constants/permissions'
 
-import AddEventCategory from './components/AddEventCategory'
 import ManageBusinessCategories from './components/ManageBusinessCategory'
 import BusinessCategoryForm from './components/ManageBusinessCategory/BusinessCategoryForm'
+import ManageEventCategories from './components/ManageEventCategory'
+import EventCategoryForm from './components/ManageEventCategory/EventCategoryForm'
 import ManagingUserRoles from './components/ManagingUserRoles'
 import Places from './components/Places'
 import PlaceForm from './components/Places/PLaceForm'
@@ -27,7 +29,9 @@ class AdminRouter extends Component {
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES)} path="/admin/business-categories/add-new" component={BusinessCategoryForm}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES)} path="/admin/business-categories/:categoryId" component={BusinessCategoryForm}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES)} path="/admin/business-categories" component={ManageBusinessCategories}/>
-        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_EVENT_CATEGORIES)} path="/admin/event-categories" component={AddEventCategory}/>
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_EVENT_CATEGORIES)} path="/admin/event-categories/add-new" component={EventCategoryForm}/>
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_EVENT_CATEGORIES)} path="/admin/event-categories/:categoryId" component={EventCategoryForm}/>
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_EVENT_CATEGORIES)} path="/admin/event-categories" component={ManageEventCategories}/>
       </Switch>
     )
   }
