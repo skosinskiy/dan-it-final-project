@@ -105,7 +105,8 @@ INSERT INTO business_categories
   (id, date_created, date_modified, name, parent_category_id)
 VALUES
   (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-1', null ),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-2', 1 );
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-2', 1 ),
+  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-3', null );
 
 INSERT INTO businesses
   (id, date_created, date_modified, title, description, address, web_site, phone_number, place_id )
