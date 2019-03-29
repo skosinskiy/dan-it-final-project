@@ -23,7 +23,7 @@ a {
     opacity: 1;
     transition: .5s;
 }
-.menu-item{
+.menu__item{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -31,7 +31,7 @@ a {
     margin-left: 35px;
     text-align: center;
 }
-.menu-item div{
+.menu__item div{
     display: inline-block;
     margin-top: 9px;
     margin-right: auto;
@@ -43,11 +43,11 @@ a {
     transition: .5s;
 }
 $icon_classes: (
-    'icon': 'menu-icon', 
-    'crossed': 'menu-icon-crossed', 
-    'crossed-reverse': 'menu-icon-crossed-reverse'
+    'icon': 'menu__icon',
+    'crossed': 'menu__icon-crossed',
+    'crossed-reverse': 'menu__icon-crossed-reverse'
     );
-.menu-icon {
+.menu__icon {
     width: 60px;
     height: 5px;
     margin: 9px 9px;
@@ -55,14 +55,14 @@ $icon_classes: (
     border-radius: 2px;
     transition: .5s;
 }
-.menu-icon-crossed {
+.menu__icon-crossed {
     transform: rotate(45deg) translate(2px, -5px);
     transform-origin: top left;
 }
-.menu-icon-crossed-reverse {
+.menu__icon-crossed-reverse {
     transform: rotate(-45grad) translateX(10px) translateY(-29px);
     transform-origin: bottom right;
 }
-.menu-icon.menu-visible{
+.menu__icon.menu-visible{
     background: #FEBA00;
 }

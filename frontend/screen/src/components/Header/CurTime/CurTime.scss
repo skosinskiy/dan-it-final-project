@@ -1,4 +1,4 @@
-
+@import '../../../variables';
 
 .current-time{
   margin: 0;
@@ -12,20 +12,21 @@
   justify-content: flex-end;
 }
 
-.current-time-main{
+.current-time__main{
   margin-right: 0;
   padding-right: 0;
-  color: #000000;
+  color: $black;
   font-size: 44px;
   line-height: 20px;
   letter-spacing: .00636364em;
   text-align: right;
 }
-.current-time-day{
+
+.current-time__day{
   margin-top: 12px;
   margin-right: 0;
   padding-right: 3px;
-  color: #303030;
+  color: $black;
   font-size: 22px;
   line-height: 16px;
   letter-spacing: .00636364em;

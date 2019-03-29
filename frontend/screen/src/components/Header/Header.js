@@ -12,7 +12,7 @@ export default class Header extends Component {
       <div className='container'>
         <Menu />
         <MainLogo />
-        <div className='header-right-side-info'>
+        <div className='right-side-info'>
           <CurTrafficConditions />
           <CurWeather />
           <CurTime />

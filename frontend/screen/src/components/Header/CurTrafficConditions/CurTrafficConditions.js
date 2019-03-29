@@ -5,13 +5,13 @@ import './CurTrafficConditions.scss'
 export default class CurTrafficConditions extends Component {
   render () {
     return (
-      <div className='header-traffic-condition'>
-        <div className='header-traffic-condition-icon'>
+      <div className='traffic-condition'>
+        <div className='traffic-condition__icon'>
           <TrafCar />
         </div>
-        <div className='header-traffic-condition-info'>
-          <div className='header-traffic-condition-info-item'>Traffic</div>
-          <div className='header-traffic-condition-info-item green'>Low</div>
+        <div className='traffic-condition__info'>
+          <div className='traffic-condition__info-item'>Traffic</div>
+          <div className='traffic-condition__info-item green'>Low</div>
         </div>
       </div>
     )

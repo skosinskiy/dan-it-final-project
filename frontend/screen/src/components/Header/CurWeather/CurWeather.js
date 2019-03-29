@@ -5,13 +5,13 @@ import './CurWeather.scss'
 export default class CurWeather extends Component {
   render () {
     return (
-      <div className='header-current-weather'>
-        <div className='header-current-weather-icon'>
+      <div className='current-weather'>
+        <div className='current-weather__icon'>
           <WeatherCloud />
         </div>
-        <div className='header-current-weather-info'>
-          <div className='header-weather-info-item'>Cloudy</div>
-          <div className='header-weather-info-item'>+7 C</div>
+        <div className='current-weather__info'>
+          <div className='current-weather__info-item'>Cloudy</div>
+          <div className='current-weather__info-item'>+7 C</div>
         </div>
       </div>
     )

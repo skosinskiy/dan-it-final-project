@@ -26,8 +26,12 @@ export default class CurTime extends Component {
   render () {
     return (
       <div className='current-time'>
-        <div className={'current-time-main'}>{this.state.currentTime.toLocaleTimeString('en-GB', this.timeOptions)}</div>
-        <div className={'current-time-day'}>{this.state.currentTime.toLocaleDateString('en-US', this.dayOptions)}</div>
+        <div className={'current-time__main'}>
+          {this.state.currentTime.toLocaleTimeString('en-GB', this.timeOptions)}
+        </div>
+        <div className={'current-time__day'}>
+          {this.state.currentTime.toLocaleDateString('en-US', this.dayOptions)}
+        </div>
       </div>
     )
   }
