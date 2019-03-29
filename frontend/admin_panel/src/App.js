@@ -22,11 +22,11 @@ class App extends Component {
     }
 
     return (
-      <React.Fragment>
+      <>
         <CssBaseline/>
         <IndexPage/>
         <ToastrMessage/>
-      </React.Fragment>
+      </>
     )
   }
 }

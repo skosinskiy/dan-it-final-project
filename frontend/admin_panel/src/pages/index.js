@@ -18,7 +18,7 @@ class AppRoutes extends Component {
         <Route path="/login" component={Login}/>
         <Route path="/forgot-password" component={ForgotPassword}/>
         <Route path="/reset-password" component={ResetPassword}/>
-        <ProtectedRoute path="/" component={Admin} authenticated={currentUser}/>
+        <ProtectedRoute path="/" component={Admin} authenticated={!!currentUser}/>
       </Switch>
     )
   }
@@ -44,7 +44,7 @@ AppRoutes.propTypes = {
 }
 
 ProtectedRoute.propTypes = {
-  component: PropTypes.object.isRequired,
+  component: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired
 }
 
