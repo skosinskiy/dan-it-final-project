@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {default as Menu} from './components/Menu'
-import './App.css'
+import './App.scss'
 import AppRoutes from './components/AppRoutes'
 
 class App extends Component {
