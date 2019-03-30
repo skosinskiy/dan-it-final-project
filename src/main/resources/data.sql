@@ -165,3 +165,31 @@ INSERT INTO notifications
 VALUES
   (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'text-1', 1, 1, 1 ),
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'text-2', 2, 2, 2 );
+
+-- chat
+
+INSERT INTO chats
+  (id, date_created, date_modified, name )
+VALUES
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'chat-1'),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'chat-2');
+
+INSERT INTO chat_messages
+  (id, date_created, date_modified, message, user_id, chat_id )
+VALUES
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'message-1', 1, 1),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'message-2', 2, 1),
+  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'message-3', 1, 2),
+  (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'message-4', 2, 2);
+
+INSERT INTO visits
+  (id, date_created, date_modified, user_id, place_id)
+VALUES
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 1, 2 ),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 2, 1 );
+
+INSERT INTO visits_actions
+  (id, date_created, date_modified, visit_id)
+VALUES
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 1),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 2 );
