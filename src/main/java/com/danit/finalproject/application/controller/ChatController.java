@@ -60,8 +60,8 @@ public class ChatController {
     return new ResponseEntity(chatFacade.addChatMessage(chatMessage, chatId), HttpStatus.OK);
   }
 
-  @DeleteMapping("{chatId}/messages/id")
-  public ResponseEntity<Chat> deleteMessege(@PathVariable("id") Long charId) {
-    return new ResponseEntity(chatFacade.deleteMessage(charId), HttpStatus.OK);
+  @DeleteMapping("{chatId}/messages/{id}")
+  public ResponseEntity<Chat> deleteMessege(@PathVariable("chatId") Long chatId, @PathVariable("id") Long messageId) {
+    return new ResponseEntity(chatFacade.deleteMessage(chatId, messageId), HttpStatus.OK);
   }
 }

@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
@@ -103,12 +104,19 @@ public class ChatServiceTest {
 
     ChatMessage chatMessage2 = new ChatMessage();
     chatMessage2.setId(2L);
+    chatMessage2.setMessage("text-2");
     chatMessage2.setCreatedDate(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
                                     .parse("2019-03-12 12:00:00"));
     chatMessage2.setModifiedDate(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
                                      .parse("2019-03-12 12:00:00"));
     chatMessage2.setUser(secondMockUser);
     chatMessage2.setChat(firtsMockChat);
+
+    List<ChatMessage> messages = new ArrayList<>();
+    messages.add(chatMessage1);
+    messages.add(chatMessage2);
+    firtsMockChat.setChatMessages(messages);
+
     firstMockMessage = chatMessage1;
     secondMockMessage = chatMessage2;
   }
@@ -183,16 +191,19 @@ public class ChatServiceTest {
     when(chatRepository.findById(1L)).thenReturn(Optional.ofNullable(firtsMockChat));
     Chat chat = chatService.addNewMessage(chatMessage, 1L);
 
+    verify(chatRepository, times(1)).save(firtsMockChat);
     assertEquals(expectedSize, chat.getChatMessages().size());
-    assertEquals(expectedId, chat.getChatMessages().get(2));
+    assertEquals(expectedId, chat.getChatMessages().get(2).getId());
   }
 
   @Test
   public void deleteMessage() {
     int expectedSize = 1;
     when(chatRepository.findById(1L)).thenReturn(Optional.ofNullable(firtsMockChat));
-    Chat chat = chatService.deleteMessage(1L);
+    Chat chat = chatService.deleteMessage(1L, 1l);
 
-    assertEquals(expectedSize,chat.getChatMessages().size());
+    verify(chatRepository, times(1)).save(firtsMockChat);
+    assertNull(chatMessageRepository.findById(1L).orElse(null));
+    assertEquals(expectedSize, chat.getChatMessages().size());
   }
 }

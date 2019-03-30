@@ -6,9 +6,11 @@ import com.danit.finalproject.application.repository.ChatMessageRepository;
 import com.danit.finalproject.application.repository.ChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.plugin2.message.Message;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ChatService implements CrudService<Chat> {
@@ -50,21 +52,24 @@ public class ChatService implements CrudService<Chat> {
   }
 
   public Chat addNewMessage(ChatMessage chatMessage, Long chatId) {
-    Optional<Chat> optionalChat = chatRepository.findById(chatId);
-    optionalChat.ifPresent(chat -> chat.getChatMessages().add(chatMessage));
-    Chat chat = optionalChat.orElse(null);
-    return chatRepository.save(chat);
+    Chat chat = chatRepository.findById(chatId).orElse(null);
+    List<ChatMessage> messages = chat.getChatMessages();
+    messages.add(chatMessage);
+    chat.setChatMessages(messages);
+    chatRepository.save(chat);
+    return chat;
   }
 
-  public Chat deleteMessage(Long id) {
-    Optional<Chat> optionalChat = chatRepository.findById(id);
-    if (optionalChat.isPresent()) {
-      Optional<ChatMessage> chatMessage = optionalChat.get().getChatMessages()
-              .stream()
-              .filter(message -> id.equals(message.getId()))
-              .findFirst();
-      chatMessage.ifPresent(message -> chatMessageRepository.delete(message));
-    }
-    return optionalChat.orElse(null);
+  public Chat deleteMessage(Long chatid, Long messageId) {
+    Chat chat = chatRepository.findById(chatid).orElse(null);
+    List<ChatMessage> updatedMessages = chat.getChatMessages()
+        .stream()
+        .filter(message -> message.getId() != messageId)
+        .collect(Collectors.toList());
+    chat.setChatMessages(updatedMessages);
+    ChatMessage chatMessage = chatMessageRepository.findById(messageId).orElse(null);
+    chatMessageRepository.delete(chatMessage);
+    chatRepository.save(chat);
+    return chat;
   }
 }

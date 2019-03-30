@@ -29,7 +29,5 @@ public class Chat extends BaseEntity {
   private List<User> users;
 
   @OneToMany(mappedBy = "chat")
-  @JsonIgnore
-  @ToString.Exclude
   private List<ChatMessage> chatMessages;
 }

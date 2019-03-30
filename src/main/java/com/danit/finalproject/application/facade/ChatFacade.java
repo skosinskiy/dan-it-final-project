@@ -11,22 +11,21 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ChatFacade extends AbstractDtoFacade<Chat, ChatRequest, ChatResponse> {
-    private ChatService chatService;
+  private ChatService chatService;
 
-    @Autowired
-    public ChatFacade(ChatService chatService) {
-        this.chatService = chatService;
-    }
+  @Autowired
+  public ChatFacade(ChatService chatService) {
+    this.chatService = chatService;
+  }
 
-    public ChatResponse addChatMessage(ChatMessageRequest chatMessageRequest, Long chatId) {
-        ChatMessage chatMessage = modelMapper.map(chatMessageRequest, ChatMessage.class);
-        Chat chat = chatService.addNewMessage(chatMessage, chatId);
-        return mapEntityToResponseDto(chat);
-    }
+  public ChatResponse addChatMessage(ChatMessageRequest chatMessageRequest, Long chatId) {
+    ChatMessage chatMessage = modelMapper.map(chatMessageRequest, ChatMessage.class);
+    Chat chat = chatService.addNewMessage(chatMessage, chatId);
+    return mapEntityToResponseDto(chat);
+  }
 
-    public ChatResponse deleteMessage(Long id) {
-        Chat chat = chatService.deleteMessage(id);
-        return mapEntityToResponseDto(chat);
-    }
-
+  public ChatResponse deleteMessage(Long chatId, Long messageId) {
+    Chat chat = chatService.deleteMessage(chatId, messageId);
+    return mapEntityToResponseDto(chat);
+  }
 }

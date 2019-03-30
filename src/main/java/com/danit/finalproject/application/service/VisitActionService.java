@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class VisitActionService implements CrudService<VisitAction>{
+public class VisitActionService implements CrudService<VisitAction> {
   private VisitActionRepository visitActionRepository;
 
   @Autowired

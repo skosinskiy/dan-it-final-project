@@ -156,8 +156,8 @@ public class ChatControllerTest {
   }
 
   @Test
-  public void deleteMrssage() throws Exception {
+  public void deleteMessage() throws Exception {
     mockMvc.perform(delete("/api/chats/1/messages/1").with(csrf()));
-    assertNull(chatMessageRepository.findById(1L));
+    assertNull(chatMessageRepository.findById(1L).orElse(null));
   }
 }

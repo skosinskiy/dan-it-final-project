@@ -29,7 +29,7 @@ public class Role extends BaseEntity {
   @ToString.Exclude
   private List<User> users;
 
-  @ElementCollection
+  @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = "role_permissions", joinColumns = @JoinColumn(name = "role_id"))
   @Column(name = "permission_id")
   private List<Permission> permissions;
