@@ -53,20 +53,11 @@ VALUES
   (1, 0),
   (1, 1),
   (1, 2),
-  (1, 4),
   (1, 3),
-  (1, 5),
-  (1, 6),
-  (1, 7),
-  (1, 8),
   (2, 0),
   (2, 1),
   (2, 2),
   (2, 3),
-  (2, 5),
-  (2, 6),
-  (2, 7),
-  (2, 8),
   (2, 4);
 
 -- menu items
@@ -74,8 +65,8 @@ VALUES
 INSERT INTO menu_items
   (id, date_created, date_modified, name, display_name)
 VALUES
-  (1, '2019-03-21 01:15:00', '2019-03-21 02:55:50', 'SHOPS', 'The Bazar'),
-  (2, '2019-03-22 06:25:00', '2019-03-22 07:05:02', 'RESTAURANTS', 'Healthy food zone');
+  (1, '2019-03-21 01:15:00', '2019-03-21 02:55:50', 'Shops', 'The Bazar'),
+  (2, '2019-03-22 06:25:00', '2019-03-22 07:05:02', 'Restaurants', 'Healthy food zone');
 
 -- place
 
@@ -105,8 +96,7 @@ INSERT INTO business_categories
   (id, date_created, date_modified, name, parent_category_id)
 VALUES
   (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-1', null ),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-2', 1 ),
-  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-3', null );
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-2', 1 );
 
 INSERT INTO businesses
   (id, date_created, date_modified, title, description, address, web_site, phone_number, place_id )
@@ -165,3 +155,31 @@ INSERT INTO notifications
 VALUES
   (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'text-1', 1, 1, 1 ),
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'text-2', 2, 2, 2 );
+
+-- chat
+
+INSERT INTO chats
+  (id, date_created, date_modified, name )
+VALUES
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'chat-1'),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'chat-2');
+
+INSERT INTO chat_messages
+  (id, date_created, date_modified, message, user_id, chat_id )
+VALUES
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'message-1', 1, 1),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'message-2', 2, 1),
+  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'message-3', 1, 2),
+  (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'message-4', 2, 2);
+
+INSERT INTO visits
+  (id, date_created, date_modified, user_id, place_id)
+VALUES
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 1, 2 ),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 2, 1 );
+
+INSERT INTO visits_actions
+  (id, date_created, date_modified, visit_id)
+VALUES
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 1),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 2 );
