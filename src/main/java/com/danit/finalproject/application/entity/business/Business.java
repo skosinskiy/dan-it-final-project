@@ -4,7 +4,11 @@ import com.danit.finalproject.application.entity.BaseEntity;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.place.Place;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,10 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import java.util.List;
 
 @Entity
 @Table(name = "businesses")
@@ -33,7 +34,7 @@ public class Business extends BaseEntity {
   @Column(name = "description")
   private String description;
 
-  @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+  @ManyToMany
   @JoinTable(name = "businesses_categories",
           joinColumns = {@JoinColumn(name = "business_id")},
           inverseJoinColumns = {@JoinColumn(name = "category_id")})
@@ -53,7 +54,7 @@ public class Business extends BaseEntity {
   @JoinColumn(name = "main_photo")
   private BusinessPhoto mainPhoto;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "business")
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "business")
   @ToString.Exclude
   @JsonIgnore
   private List<BusinessPhoto> photos;

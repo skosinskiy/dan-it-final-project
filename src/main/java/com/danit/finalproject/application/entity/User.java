@@ -1,10 +1,14 @@
 package com.danit.finalproject.application.entity;
 
 import com.danit.finalproject.application.entity.place.Place;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -46,12 +50,14 @@ public class User extends BaseEntity {
   @Column(name = "token_expiration_date")
   private Date tokenExpirationDate;
 
-  @ManyToMany
+  @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(name = "users_roles",
       joinColumns = {@JoinColumn(name = "user_id")},
       inverseJoinColumns = {@JoinColumn(name = "role_id")})
   private List<Role> roles;
 
+  @JsonIgnore
+  @ToString.Exclude
   @ManyToMany
   @JoinTable(name = "users_places",
       joinColumns = {@JoinColumn(name = "user_id")},
@@ -62,9 +68,13 @@ public class User extends BaseEntity {
   @JoinTable(name = "users_chats",
       joinColumns = {@JoinColumn(name = "user_id")},
       inverseJoinColumns = {@JoinColumn(name = "chat_id")})
+  @JsonIgnore
+  @ToString.Exclude
   private List<Chat> chats;
 
   @OneToMany
   @JoinColumn(name = "visit_id")
+  @JsonIgnore
+  @ToString.Exclude
   private List<Visit> visits;
 }

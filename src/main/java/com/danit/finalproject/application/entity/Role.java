@@ -9,6 +9,7 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -23,12 +24,12 @@ public class Role extends BaseEntity {
   @Column(name = "name")
   private String name;
 
+  @ManyToMany(mappedBy = "roles")
   @JsonIgnore
   @ToString.Exclude
-  @ManyToMany(mappedBy = "roles")
   private List<User> users;
 
-  @ElementCollection
+  @ElementCollection(fetch = FetchType.EAGER)
   @CollectionTable(name = "role_permissions", joinColumns = @JoinColumn(name = "role_id"))
   @Column(name = "permission_id")
   private List<Permission> permissions;
