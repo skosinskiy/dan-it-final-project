@@ -5,13 +5,14 @@ import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
 import com.danit.finalproject.application.dto.request.UserRequest;
 import com.danit.finalproject.application.dto.response.UserResponse;
 import com.danit.finalproject.application.facade.UserFacade;
-
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping("api/users")
@@ -67,6 +66,7 @@ public class UserController {
   }
 
   @PutMapping("{userId}/roles")
+  @PreAuthorize("hasAuthority('MANGAE_USER_ROLES')")
   public ResponseEntity<UserResponse> setUserRoles(@PathVariable Long userId, @RequestBody List<RoleRequest> roles) {
     return new ResponseEntity<>(userFacade.setUserRoles(userId, roles), HttpStatus.OK);
   }

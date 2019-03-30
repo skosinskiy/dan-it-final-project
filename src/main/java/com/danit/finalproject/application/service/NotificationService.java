@@ -3,10 +3,9 @@ package com.danit.finalproject.application.service;
 import com.danit.finalproject.application.entity.Notification;
 import com.danit.finalproject.application.repository.NotificationRepository;
 import com.danit.finalproject.application.repository.place.PlaceRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class NotificationService implements CrudService<Notification> {

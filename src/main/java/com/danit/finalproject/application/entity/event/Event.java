@@ -4,11 +4,7 @@ import com.danit.finalproject.application.entity.BaseEntity;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.place.Place;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
-
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,7 +15,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import java.util.List;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "events")
@@ -44,7 +43,7 @@ public class Event extends BaseEntity {
   @JoinColumn(name = "main_photo")
   private EventPhoto mainPhoto;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "event")
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   @JsonIgnore

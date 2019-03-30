@@ -5,21 +5,25 @@ import com.danit.finalproject.application.entity.business.BusinessPhoto;
 import com.danit.finalproject.application.repository.business.BusinessRepository;
 import com.danit.finalproject.application.repository.place.PlaceRepository;
 import com.danit.finalproject.application.service.CrudService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class BusinessService implements CrudService<Business> {
   private BusinessRepository businessRepository;
   private PlaceRepository placeRepository;
+  private BusinessPhotoService businessPhotoService;
 
   @Autowired
-  public BusinessService(BusinessRepository businessRepository, PlaceRepository placeRepository) {
+  public BusinessService(
+      BusinessRepository businessRepository,
+      PlaceRepository placeRepository,
+      BusinessPhotoService businessPhotoService) {
     this.businessRepository = businessRepository;
     this.placeRepository = placeRepository;
+    this.businessPhotoService = businessPhotoService;
   }
 
   @Override
@@ -65,13 +69,11 @@ public class BusinessService implements CrudService<Business> {
   public Business deleteBusinessPhoto(Long businessId, Long photoId) {
     Optional<Business> optionalBusiness = businessRepository.findById(businessId);
     if (optionalBusiness.isPresent()) {
-      BusinessPhoto businessPhoto = optionalBusiness.get().getPhotos()
+      Optional<BusinessPhoto> optionalBusinessPhoto = optionalBusiness.get().getPhotos()
           .stream()
           .filter(photo -> photoId.equals(photo.getId()))
-          .findFirst().orElse(null);
-      Business business = optionalBusiness.get();
-      business.getPhotos().remove(businessPhoto);
-      businessRepository.saveAndFlush(business);
+          .findFirst();
+      optionalBusinessPhoto.ifPresent(photo -> businessPhotoService.deleteBusinessPhoto(photo));
     }
     return optionalBusiness.orElse(null);
   }

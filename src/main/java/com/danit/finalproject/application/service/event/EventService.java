@@ -6,24 +6,28 @@ import com.danit.finalproject.application.repository.event.EventRepository;
 import com.danit.finalproject.application.service.CrudService;
 import com.danit.finalproject.application.service.business.BusinessService;
 import com.danit.finalproject.application.service.place.PlaceService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class EventService implements CrudService<Event> {
   private EventRepository eventRepository;
   private BusinessService businessService;
-  private PlaceService    placeService;
+  private PlaceService placeService;
+  private EventPhotoService eventPhotoService;
 
   @Autowired
-  public EventService(EventRepository eventRepository,
-      BusinessService businessService, PlaceService placeService) {
+  public EventService(
+      EventRepository eventRepository,
+      BusinessService businessService,
+      PlaceService placeService,
+      EventPhotoService eventPhotoService) {
     this.eventRepository = eventRepository;
     this.businessService = businessService;
     this.placeService = placeService;
+    this.eventPhotoService = eventPhotoService;
   }
 
   @Override
@@ -70,13 +74,11 @@ public class EventService implements CrudService<Event> {
   public Event deleteEventPhoto(Long eventId, Long photoId) {
     Optional<Event> optionalEvent = eventRepository.findById(eventId);
     if (optionalEvent.isPresent()) {
-      EventPhoto eventPhoto = optionalEvent.get().getPhotos()
+      Optional<EventPhoto> optionalEventPhoto = optionalEvent.get().getPhotos()
           .stream()
           .filter(photo -> photoId.equals(photo.getId()))
-          .findFirst().orElse(null);
-      Event event = optionalEvent.get();
-      event.getPhotos().remove(eventPhoto);
-      eventRepository.saveAndFlush(event);
+          .findFirst();
+      optionalEventPhoto.ifPresent(photo -> eventPhotoService.deleteEventPhoto(photo));
     }
     return optionalEvent.orElse(null);
   }
