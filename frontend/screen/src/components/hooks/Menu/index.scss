@@ -1,25 +1,33 @@
+@import '../../../_variables.scss';
 .menu {
     display: flex;
-    width: 658px;
+    justify-content: space-between;
+   /* width: 658px;*/
+    width: 31%;
     height: 51px;
     margin: 0;
 }
 .menu-hamburger{
     display: block;
-    margin-right: 102px;
+  /*  margin-right: 102px;*/
+    margin-right: 2%;
+    margin-left: 0;
 }
 .menu-hamburger:hover{
     cursor: pointer;
 }
 a {
-    color: #1C1C1C;
+    color: $black;
     font-size: 14px;
     line-height: 16px;
     letter-spacing: .00636364em;
     text-decoration: none;
 }
 .menu-visible {
-    left: 5px;
+    display: flex;
+    justify-content: space-between;
+    width: 75%;
+    margin: 0;
     opacity: 1;
     transition: .5s;
 }
@@ -27,8 +35,8 @@ a {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-right: 35px;
-    margin-left: 35px;
+    margin-right: 7%;
+    margin-left: 7%;
     text-align: center;
 }
 .menu__item div{
@@ -39,6 +47,10 @@ a {
 }
 .menu-hidden {
     left: -100%;
+    display: flex;
+    justify-content: space-between;
+    width: 75%;
+    margin: 0;
     opacity: 0;
     transition: .5s;
 }
