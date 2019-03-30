@@ -102,9 +102,9 @@ public class UserServiceTest {
 
   	@Test
   	public void verifyFindAllByEmailCalledOnce() {
-  		int      expectedUsersSize       = 2;
-  		String   expectedSearchEmail     = "FiRst";
-  		String   expectedSecondUserEmail = "first.user@test2.com";
+  		int expectedUsersSize = 2;
+  		String expectedSearchEmail = "FiRst";
+  		String expectedSecondUserEmail = "first.user@test2.com";
   		Pageable pageable = PageRequest.of(0, 25);
 
   		List<User> mockUsers = new ArrayList<>();
