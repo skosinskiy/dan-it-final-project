@@ -11,7 +11,8 @@ public enum Permission implements GrantedAuthority {
   MANAGE_PLACES,
   MANAGE_BUSINESS,
   MANAGE_EVENT_CATEGORIES,
-  MANAGE_EVENTS;
+  MANAGE_EVENTS,
+  ADMIN_USER;
 
   @Override
   public String getAuthority() {
