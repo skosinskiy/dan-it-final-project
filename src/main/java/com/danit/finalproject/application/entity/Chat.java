@@ -25,8 +25,6 @@ public class Chat extends BaseEntity {
   private String name;
 
   @ManyToMany(mappedBy = "chats")
-  @JsonIgnore
-  @ToString.Exclude
   private List<User> users;
 
   @OneToMany(mappedBy = "chat")

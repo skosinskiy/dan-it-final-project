@@ -195,15 +195,4 @@ public class ChatServiceTest {
     assertEquals(expectedSize, chat.getChatMessages().size());
     assertEquals(expectedId, chat.getChatMessages().get(2).getId());
   }
-
-  @Test
-  public void deleteMessage() {
-    int expectedSize = 1;
-    when(chatRepository.findById(1L)).thenReturn(Optional.ofNullable(firtsMockChat));
-    Chat chat = chatService.deleteMessage(1L, 1l);
-
-    verify(chatRepository, times(1)).save(firtsMockChat);
-    assertNull(chatMessageRepository.findById(1L).orElse(null));
-    assertEquals(expectedSize, chat.getChatMessages().size());
-  }
 }
