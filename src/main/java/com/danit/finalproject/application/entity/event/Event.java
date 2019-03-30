@@ -4,6 +4,7 @@ import com.danit.finalproject.application.entity.BaseEntity;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.place.Place;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -34,8 +36,8 @@ public class Event extends BaseEntity {
 
   @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
   @JoinTable(name = "events_categories",
-          joinColumns = {@JoinColumn(name = "event_id")},
-          inverseJoinColumns = {@JoinColumn(name = "category_id")})
+      joinColumns = {@JoinColumn(name = "event_id")},
+      inverseJoinColumns = {@JoinColumn(name = "category_id")})
   @ToString.Exclude
   private List<EventCategory> categories;
 

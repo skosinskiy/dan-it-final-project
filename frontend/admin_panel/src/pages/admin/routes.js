@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, {Component} from 'react'
 import {Redirect, Route, Switch, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
