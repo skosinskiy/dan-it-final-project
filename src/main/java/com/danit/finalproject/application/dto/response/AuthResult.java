@@ -1,9 +1,8 @@
 package com.danit.finalproject.application.dto.response;
 
+import java.util.Date;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.Date;
 
 @Data
 @Builder

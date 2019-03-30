@@ -3,10 +3,9 @@ package com.danit.finalproject.application.service.event;
 import com.danit.finalproject.application.entity.event.EventCategory;
 import com.danit.finalproject.application.repository.event.EventCategoryRepository;
 import com.danit.finalproject.application.service.CrudService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class EventCategoryService implements CrudService<EventCategory> {

@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.controller;
 
-import com.danit.finalproject.application.dto.request.MenuItemRequest;
+import com.danit.finalproject.application.dto.request.place.MenuItemRequest;
 import com.danit.finalproject.application.dto.response.MenuItemResponse;
 import com.danit.finalproject.application.facade.MenuItemFacade;
 import java.util.List;

@@ -1,9 +1,8 @@
 package com.danit.finalproject.application.dto.request;
 
-import lombok.Data;
-
 import java.util.Date;
 import java.util.List;
+import lombok.Data;
 
 @Data
 public class VisitRequest {

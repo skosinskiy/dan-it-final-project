@@ -8,7 +8,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.danit.finalproject.application.entity.MenuItem;
+import com.danit.finalproject.application.entity.menuitem.MenuItem;
+import com.danit.finalproject.application.entity.menuitem.MenuItemName;
 import com.danit.finalproject.application.service.MenuItemService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,9 +49,9 @@ public class MenuItemControllerTest {
 
   @Before
   public void initMenuItemMocks() throws ParseException {
-    final String MOCK_NAME_1 = "Shops";
+    final MenuItemName MOCK_NAME_1 = MenuItemName.SHOPS;
     final String MOCK_DISPLAY_NAME_1 = "The Bazar";
-    final String MOCK_NAME_2 = "Restaurants";
+    final MenuItemName MOCK_NAME_2 = MenuItemName.RESTAURANTS;
     final String MOCK_DISPLAY_NAME_2 = "Healthy food zone";
     final String SIMPLE_DATE_FORMAT_PATTERN = "YYYY-MM-DD hh:mm:ss";
     mockMenuItem1 = new MenuItem() {{
