@@ -6,10 +6,8 @@ import com.danit.finalproject.application.repository.ChatMessageRepository;
 import com.danit.finalproject.application.repository.ChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.plugin2.message.Message;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
