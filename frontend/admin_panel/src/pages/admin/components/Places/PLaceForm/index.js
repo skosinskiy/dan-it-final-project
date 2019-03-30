@@ -11,6 +11,8 @@ import TextField from '@material-ui/core/TextField'
 
 import {placesOperations} from 'store/places'
 
+import ImageUploader from 'components/ImageUploader'
+
 const styles = theme => ({
   container: {
     display: 'flex',
@@ -44,7 +46,9 @@ class PlaceForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      place: typeof props.place !== 'undefined' ? props.place : emptyPLace
+      place: typeof props.place !== 'undefined' ? props.place : emptyPLace,
+      imagePreviewUrl: '',
+      placeImage: null
     }
   }
 
@@ -75,9 +79,34 @@ class PlaceForm extends React.Component {
     })
   }
 
+  onFileChange = (event) => {
+    const file = event.target.files[0]
+
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      this.setState({
+        ...this.state,
+        imagePreviewUrl: reader.result
+      })
+    }
+    reader.readAsDataURL(file)
+    this.setState({
+      ...this.state,
+      businessCategoryImage: file
+    })
+  }
+
+  onImageReset = () => {
+    this.setState({
+      ...this.state,
+      businessCategoryImage: null,
+      imagePreviewUrl: ''
+    })
+  }
+
   render () {
     const {classes, categories, placeId} = this.props
-    const {place} = this.state
+    const {place, imagePreviewUrl} = this.state
 
     return (
       <div className="edit-place-form">
@@ -153,6 +182,10 @@ class PlaceForm extends React.Component {
               </MenuItem>
             ))}
           </TextField>
+
+          <ImageUploader imagePreviewUrl={imagePreviewUrl}
+          onFileChange={this.onFileChange} onReset={this.onImageReset} />
+
         </form>
         <div className="place-buttons">
           <NavLink to={'/admin/places'} className={classes.buttonLink}>

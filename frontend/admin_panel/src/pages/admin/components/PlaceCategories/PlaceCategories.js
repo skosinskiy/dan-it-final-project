@@ -163,8 +163,8 @@ PlaceCategories.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    placeCategoriesList: store.placeCategories.placeCategoriesList,
-    changedPlaceCategories: store.placeCategories.changedPlaceCategories,
+    placeCategoriesList: store.places.placeCategories,
+    changedPlaceCategories: store.places.changedPlaceCategories,
     menuItems: store.placeCategories.menuItems
   }
 }
