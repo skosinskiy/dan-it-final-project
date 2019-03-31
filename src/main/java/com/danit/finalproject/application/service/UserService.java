@@ -6,7 +6,13 @@ import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.repository.UserRepository;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -179,7 +185,7 @@ public class UserService extends OidcUserService implements UserDetailsService, 
     if (authentication instanceof OAuth2AuthenticationToken) {
       OidcUser auth2UserInfo = (OidcUser)(authentication.getPrincipal());
       return userRepository.findByEmail(auth2UserInfo.getEmail());
-    }else if (!(authentication instanceof AnonymousAuthenticationToken)) {
+    } else if (!(authentication instanceof AnonymousAuthenticationToken)) {
       return userRepository.findByEmail(authentication.getName());
     }
     return null;

@@ -9,8 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
@@ -45,22 +43,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           .httpBasic()
         .and()
           .authorizeRequests()
-          .antMatchers("/h2-console/**", "/api/users/current", "/api/users/forgot-password/**")
+          .antMatchers(
+              "/**.js", "/**.html", "/static/**", "/**.json",
+              "/h2-console/**", "/api/users/current", "/api/users/forgot-password/**")
           .permitAll()
           .anyRequest()
           .authenticated()
         .and()
           .formLogin()
+          .loginPage("/")
           .loginProcessingUrl("/auth")
           .successHandler(successHandler)
           .failureHandler(failureHandler)
           .permitAll()
         .and()
           .oauth2Login()
+          .loginPage("/")
           .userInfoEndpoint().oidcUserService(userService)
             .and()
-            .successHandler(successHandler)
-            .failureHandler(failureHandler)
+            .defaultSuccessUrl("/", true)
         .and()
           .logout()
           .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))

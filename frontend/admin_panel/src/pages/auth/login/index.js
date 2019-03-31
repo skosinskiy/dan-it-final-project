@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
-import CssBaseline from '@material-ui/core/CssBaseline'
 import FormControl from '@material-ui/core/FormControl'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -52,7 +51,17 @@ const styles = theme => ({
   wrapper: {
     height: '100vh',
     width: '100vw'
+  },
+  socialWrapper: {
+    width: '100%',
+    margin: '20px 0',
+    display: 'flex',
+    justifyContent: 'space-around'
+  },
+  googleButton: {
+    width: '45%'
   }
+
 })
 
 class Login extends Component {
@@ -65,14 +74,35 @@ class Login extends Component {
 
     return (
       <main className={classes.main}>
-        <CssBaseline/>
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon/>
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign in with
           </Typography>
+          <div className={classes.socialWrapper}>
+            <Button
+              onClick={this.props.loginWithGoogle}
+              variant="contained"
+              color="primary"
+              className={classes.googleButton}
+            >
+              Google
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.googleButton}
+            >
+              Facebook
+            </Button>
+          </div>
+
+          <Typography component="h1" variant="h5">
+            Or
+          </Typography>
+
           <form className={classes.form} onSubmit={this.props.submitLoginForm}>
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
@@ -128,7 +158,8 @@ const mapStateToProps = ({users}) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  submitLoginForm: event => dispatch(usersOperations.submitLoginForm(event))
+  submitLoginForm: event => dispatch(usersOperations.submitLoginForm(event)),
+  loginWithGoogle: event => dispatch(usersOperations.loginWithGoogle(event))
 })
 
 Login.propTypes = {
