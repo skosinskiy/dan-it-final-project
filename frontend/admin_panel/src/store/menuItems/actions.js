@@ -9,8 +9,3 @@ export const isLoading = (buildingCategories) => ({
   type: TYPES.IS_LOADING,
   payload: {buildingCategories}
 })
-
-export const setMenuItems = ({updatedUserList, changedUsersList}) => ({
-  type: TYPES.SET_MENU_ITEMS,
-  payload: {updatedUserList, changedUsersList}
-})

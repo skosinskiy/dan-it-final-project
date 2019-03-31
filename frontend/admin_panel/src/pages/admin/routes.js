@@ -12,7 +12,7 @@ import EventCategoryForm from './components/ManageEventCategory/EventCategoryFor
 import ManagingUserRoles from './components/ManagingUserRoles'
 import Places from './components/Places'
 import PlaceForm from './components/Places/PLaceForm'
-import PlaceCategories from './components/PlaceCategories'
+import PlaceCategories from './components/ManagePlaceCategories'
 
 class AdminRouter extends Component {
   render () {
