@@ -1,18 +1,25 @@
 package com.danit.finalproject.application.entity.event;
 
 import com.danit.finalproject.application.entity.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.util.List;
 
-@Entity
-@Table(name = "event_categories")
 @Data
 @NoArgsConstructor
+@Entity
+@AllArgsConstructor
+@Table(name = "event_categories")
 public class EventCategory extends BaseEntity {
 
   @Column(name = "name")
@@ -21,4 +28,9 @@ public class EventCategory extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "parent_category_id")
   private EventCategory parentCategory;
+
+  @ManyToMany(mappedBy = "categories")
+  @ToString.Exclude
+  @JsonIgnore
+  private List<Event> events;
 }
