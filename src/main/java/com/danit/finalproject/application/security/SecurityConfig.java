@@ -1,5 +1,7 @@
 package com.danit.finalproject.application.security;
 
+import com.danit.finalproject.application.security.oauth2.CustomOAuthUserService;
+import com.danit.finalproject.application.security.oauth2.CustomOidcUserService;
 import com.danit.finalproject.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -18,15 +20,21 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   private UserService userService;
+  private CustomOidcUserService customOidcUserService;
+  private CustomOAuthUserService customOAuthUserService;
   private SecuritySuccessHandler successHandler;
   private SecurityFailureHandler failureHandler;
 
   @Autowired
   public SecurityConfig(
       UserService userService,
+      CustomOidcUserService customOidcUserService,
+      CustomOAuthUserService customOAuthUserService,
       SecuritySuccessHandler successHandler,
       SecurityFailureHandler failureHandler) {
     this.userService = userService;
+    this.customOidcUserService = customOidcUserService;
+    this.customOAuthUserService = customOAuthUserService;
     this.successHandler = successHandler;
     this.failureHandler = failureHandler;
   }
@@ -51,16 +59,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           .authenticated()
         .and()
           .formLogin()
-          .loginPage("/")
+          .loginPage("/index.html")
           .loginProcessingUrl("/auth")
           .successHandler(successHandler)
           .failureHandler(failureHandler)
           .permitAll()
         .and()
           .oauth2Login()
-          .loginPage("/")
-          .userInfoEndpoint().oidcUserService(userService)
-            .and()
+          .loginPage("/index.html")
+          .userInfoEndpoint()
+            .oidcUserService(customOidcUserService)
+            .userService(customOAuthUserService)
+          .and()
             .defaultSuccessUrl("/", true)
         .and()
           .logout()

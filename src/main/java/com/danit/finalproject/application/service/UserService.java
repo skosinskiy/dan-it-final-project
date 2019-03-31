@@ -25,13 +25,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
-import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -39,7 +39,7 @@ import org.springframework.validation.BindingResult;
 import static com.danit.finalproject.application.entity.Permission.ADMIN_USER;
 
 @Service
-public class UserService extends OidcUserService implements UserDetailsService, CrudService<User> {
+public class UserService implements UserDetailsService, CrudService<User> {
 
   public static final int DAY_MILLISECONDS_COUNT = 24 * 60 * 60 * 1000;
   public static final String PASS_RECOVERY_EMAIL_SUBJECT = "Password recovery";
@@ -95,6 +95,10 @@ public class UserService extends OidcUserService implements UserDetailsService, 
     User user = userRepository.findById(userId).orElse(null);
     userRepository.delete(user);
     return user;
+  }
+
+  public User getByEmail(String email) {
+    return userRepository.findByEmail(email);
   }
 
   public User setUserRoles(Long userId, List<Role> roles) {
@@ -153,23 +157,6 @@ public class UserService extends OidcUserService implements UserDetailsService, 
         .build();
   }
 
-  @Override
-  @Transactional
-  public OidcUser loadUser(OidcUserRequest userRequest) {
-    OidcUser oidcUser = super.loadUser(userRequest);
-    Map<String, Object> attributes = oidcUser.getAttributes();
-    String email = (String) attributes.get("email");
-    User user = userRepository.findByEmail(email);
-    if (user == null) {
-      throw new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT));
-    }
-    Set<Permission> permissions = getAllPermissions(user);
-    if (permissions.isEmpty()) {
-      permissions.add(ADMIN_USER);
-    }
-    return new DefaultOidcUser(permissions, oidcUser.getIdToken());
-  }
-
   private Set<Permission> getAllPermissions(User user) {
     Set<Permission> permissions = new HashSet<>();
     user
@@ -180,11 +167,30 @@ public class UserService extends OidcUserService implements UserDetailsService, 
     return permissions;
   }
 
+  public Set<Permission> getOAuth2UserPermissions(OAuth2User oAuth2User) {
+    Map<String, Object> attributes = oAuth2User.getAttributes();
+    String email = (String) attributes.get("email");
+    User user = getByEmail(email);
+    if (user == null) {
+      throw new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT));
+    }
+    Set<Permission> permissions = getAllPermissions(user);
+    if (permissions.isEmpty()) {
+      permissions.add(ADMIN_USER);
+    }
+    return permissions;
+  }
+
   public User getPrincipalUser() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication instanceof OAuth2AuthenticationToken) {
-      OidcUser auth2UserInfo = (OidcUser)(authentication.getPrincipal());
-      return userRepository.findByEmail(auth2UserInfo.getEmail());
+      if (((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId().equals("facebook")) {
+        OAuth2User oAuth2User = ((OAuth2AuthenticationToken) authentication).getPrincipal();
+        return userRepository.findByEmail((String) oAuth2User.getAttributes().get("email"));
+      } else {
+        OidcUser auth2UserInfo = (OidcUser)(authentication.getPrincipal());
+        return userRepository.findByEmail(auth2UserInfo.getEmail());
+      }
     } else if (!(authentication instanceof AnonymousAuthenticationToken)) {
       return userRepository.findByEmail(authentication.getName());
     }

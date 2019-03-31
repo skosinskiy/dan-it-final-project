@@ -57,6 +57,6 @@ export const logOutUser = () => dispatch => {
     .then(() => window.location.reload())
 }
 
-export const loginWithGoogle = () => dispatch => {
-  window.location.replace("/oauth2/authorization/google")
+export const loginWithOAuth = (client) => dispatch => {
+  window.location.replace(`/oauth2/authorization/${client}`)
 }

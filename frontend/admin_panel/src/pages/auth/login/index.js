@@ -83,7 +83,7 @@ class Login extends Component {
           </Typography>
           <div className={classes.socialWrapper}>
             <Button
-              onClick={this.props.loginWithGoogle}
+              onClick={() => this.props.loginWithOAuth('google')}
               variant="contained"
               color="primary"
               className={classes.googleButton}
@@ -91,6 +91,7 @@ class Login extends Component {
               Google
             </Button>
             <Button
+              onClick={() => this.props.loginWithOAuth('facebook')}
               variant="contained"
               color="primary"
               className={classes.googleButton}
@@ -159,7 +160,7 @@ const mapStateToProps = ({users}) => ({
 
 const mapDispatchToProps = dispatch => ({
   submitLoginForm: event => dispatch(usersOperations.submitLoginForm(event)),
-  loginWithGoogle: event => dispatch(usersOperations.loginWithGoogle(event))
+  loginWithOAuth: event => dispatch(usersOperations.loginWithOAuth(event))
 })
 
 Login.propTypes = {
