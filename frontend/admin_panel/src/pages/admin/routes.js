@@ -12,6 +12,8 @@ import ManagingUserRoles from './components/ManagingUserRoles'
 import Places from './components/Places'
 import PlaceForm from './components/Places/PLaceForm'
 import PlaceCategories from './components/PlaceCategories'
+import ManagingRoles from './components/ManagingRoles'
+import RoleForm from './components/ManagingRoles/RoleForm'
 
 class AdminRouter extends Component {
   render () {
@@ -28,6 +30,9 @@ class AdminRouter extends Component {
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES)} path="/admin/business-categories/:categoryId" component={BusinessCategoryForm}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES)} path="/admin/business-categories" component={ManageBusinessCategories}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_EVENT_CATEGORIES)} path="/admin/event-categories" component={AddEventCategory}/>
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_ROLES)} path="/admin/roles/:roleId" component={RoleForm}/>
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_ROLES)} path="/admin/roles/add-new" component={RoleForm}/>
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_ROLES)} path="/admin/roles" component={ManagingRoles}/>
       </Switch>
     )
   }

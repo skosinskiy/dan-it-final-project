@@ -8,6 +8,7 @@ import resetPassword from './resetPassword'
 import buildings from './buildings'
 import businessCategory from './businessCategory'
 import menuItems from './menuItems'
+import roles from './roles'
 
 const rootReducer = combineReducers({
   users: users,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   resetPassword: resetPassword,
   businessCategory: businessCategory,
   menuItems: menuItems,
+  roles: roles,
   toastr: toastrReducer
 })
 
