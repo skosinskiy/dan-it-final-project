@@ -167,8 +167,8 @@ public class UserService implements UserDetailsService, CrudService<User> {
     return permissions;
   }
 
-  public Set<Permission> getOAuth2UserPermissions(OAuth2User oAuth2User) {
-    Map<String, Object> attributes = oAuth2User.getAttributes();
+  public Set<Permission> getOAuth2UserPermissions(OAuth2User oauth2User) {
+    Map<String, Object> attributes = oauth2User.getAttributes();
     String email = (String) attributes.get("email");
     User user = getByEmail(email);
     if (user == null) {

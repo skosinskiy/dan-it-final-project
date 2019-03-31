@@ -45,7 +45,8 @@ INSERT INTO users_roles
 VALUES
   (1, 1),
   (2, 1),
-  (2, 2);
+  (2, 2),
+  (3, 1);
 
 INSERT INTO role_permissions
   (role_id, permission_id)
