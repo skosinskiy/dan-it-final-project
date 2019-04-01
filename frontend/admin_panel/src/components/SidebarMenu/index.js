@@ -37,6 +37,18 @@ class SidebarMenu extends Component {
               <ListItemIcon>
                 <ShoppingCartIcon/>
               </ListItemIcon>
+              <ListItemText primary={'Managing User Roles'}/>
+            </ListItem>
+          </NavLink>
+        }
+
+        {
+          hasGrant(user, Grant.MANAGE_ROLES) &&
+          <NavLink to={'/admin/roles'} className="sidebarItem">
+            <ListItem button>
+              <ListItemIcon>
+                <ShoppingCartIcon/>
+              </ListItemIcon>
               <ListItemText primary={'Managing Roles'}/>
             </ListItem>
           </NavLink>

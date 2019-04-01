@@ -7,6 +7,7 @@ public class EventCategoryResponse {
 
   private Long id;
   private String name;
+  private String description;
   private EventCategoryResponse parentCategory;
 
 }
