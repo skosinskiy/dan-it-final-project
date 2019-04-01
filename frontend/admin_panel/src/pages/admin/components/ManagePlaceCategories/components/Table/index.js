@@ -198,7 +198,7 @@ const styles = theme => ({
 
 class EnhancedTable extends React.Component {
   componentDidMount() {
-    this.props.fetchAll()
+    this.props.createData()
   }
 
   handleRequestSort = (event, orderBy) => {
@@ -323,13 +323,13 @@ class EnhancedTable extends React.Component {
 
 EnhancedTable.propTypes = {
   classes: PropTypes.object.isRequired,
-  placeCategories: PropTypes.object.isRequired,
+  placeCategories: PropTypes.array.isRequired,
   order: PropTypes.string.isRequired,
   orderBy: PropTypes.string.isRequired,
-  selected: PropTypes.object.isRequired,
+  selected: PropTypes.array.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
-  fetchAll: PropTypes.func.isRequired,
+  createData: PropTypes.func.isRequired,
   updateSelected: PropTypes.func.isRequired,
   toggleOrder: PropTypes.func.isRequired,
   updateOrderBy: PropTypes.func.isRequired,
@@ -347,8 +347,8 @@ const mapStateToProps = ({placeCategories}) => ({
   page: placeCategories.rowsPerPage
 })
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchAll: dispatch(placesCategoriesOperations.fetchAll()),
+const mapDispatchToProps = dispatch => ({
+  createData: dispatch(placesCategoriesOperations.createData()),
   updateSelected: dispatch(placesCategoriesOperations.updateSelected()),
   toggleOrder: dispatch((currentOrder) => placesCategoriesOperations.toggleOrder(currentOrder)),
   updateOrderBy: dispatch((orderBy) => placesCategoriesOperations.updateOrderBy(orderBy)),
@@ -356,4 +356,4 @@ const mapDispatchToProps = (dispatch) => ({
   updateRowsPerPafe: dispatch((rowsPerPafe) => placesCategoriesOperations.updateRowsPerPafe(rowsPerPafe)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)( withStyles(styles)(EnhancedTable))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EnhancedTable))

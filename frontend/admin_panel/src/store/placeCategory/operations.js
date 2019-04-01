@@ -19,7 +19,7 @@ export const updateSelected = placeCategories => dispatch => {
 }
 
 export const toggleOrder = currentOrder => dispatch => {
-  dispatch(ACTIONS.updateSelected(currentOrder === SORTING_ORDER.ASCENDING && 
+  dispatch(ACTIONS.updateSelected(currentOrder === SORTING_ORDER.ASCENDING &&
     SORTING_ORDER.DESCENDING || SORTING_ORDER.ASCENDING))
 }
 
