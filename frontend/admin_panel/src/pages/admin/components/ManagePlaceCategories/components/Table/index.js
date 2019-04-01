@@ -286,10 +286,7 @@ class EnhancedTable extends React.Component {
                       <TableCell component="th" scope="row" padding="none">
                         {n.name}
                       </TableCell>
-                      <TableCell align="right">{n.calories}</TableCell>
-                      <TableCell align="right">{n.fat}</TableCell>
-                      <TableCell align="right">{n.carbs}</TableCell>
-                      <TableCell align="right">{n.protein}</TableCell>
+                      <TableCell align="right">{n.name}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -348,12 +345,12 @@ const mapStateToProps = ({placeCategories}) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  createData: dispatch(placesCategoriesOperations.createData),
-  updateSelected: dispatch(placesCategoriesOperations.updateSelected),
-  toggleOrder: dispatch((currentOrder) => placesCategoriesOperations.toggleOrder(currentOrder)),
-  updateOrderBy: dispatch((orderBy) => placesCategoriesOperations.updateOrderBy(orderBy)),
-  updatePage: dispatch((page) => placesCategoriesOperations.updatePage(page)),
-  updateRowsPerPage: dispatch((rowsPerPage) => placesCategoriesOperations.updateRowsPerPage(rowsPerPage)),
+  createData: () => dispatch(placesCategoriesOperations.createData()),
+  updateSelected: () => dispatch(placesCategoriesOperations.updateSelected()),
+  toggleOrder: () => dispatch((currentOrder) => placesCategoriesOperations.toggleOrder(currentOrder)),
+  updateOrderBy: () => dispatch((orderBy) => placesCategoriesOperations.updateOrderBy(orderBy)),
+  updatePage: (page) => dispatch(placesCategoriesOperations.updatePage(page)),
+  updateRowsPerPage: (rowsPerPage) => dispatch(placesCategoriesOperations.updateRowsPerPage(rowsPerPage)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EnhancedTable))
