@@ -25,6 +25,7 @@ import Preloader from 'components/Preloader';
 import SubmitButton from './components/Buttons/Submit'
 import ResetButton from './components/Buttons/Reset'
 import './index.scss'
+import { debug } from 'util';
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -51,7 +52,7 @@ function getSorting(order, orderBy) {
 }
 
 const rows = [
-  { id: 'multisync', numeric: false, disablePadding: true, label: 'Multisync' },
+  // { id: 'multisync', numeric: false, disablePadding: true, label: 'Multisync' },
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
   { id: 'menuItems', numeric: false, disablePadding: false, label: 'menuItems' },
   { id: 'delete', numeric: false, disablePadding: false, label: 'Delete' },
@@ -69,11 +70,12 @@ class EnhancedTableHead extends React.Component {
       <TableHead>
         <TableRow>
           <TableCell padding="checkbox">
-            <Checkbox
+          Is Multisync?
+            {/* <Checkbox
               indeterminate={numSelected > 0 && numSelected < rowCount}
               checked={numSelected === rowCount}
               onChange={onSelectAllClick}
-            />
+            /> */}
           </TableCell>
           {rows.map(
             row => (
@@ -150,18 +152,12 @@ let EnhancedTableToolbar = props => {
       })}
     >
       <div className={classes.title}>
-        {numSelected > 0 ? (
-          <Typography color="inherit" variant="subtitle1">
-            {numSelected} selected
-          </Typography>
-        ) : (
-          <Typography variant="h6" id="tableTitle">
-            Manage Place Categories
-          </Typography>
-        )}
+        <Typography variant="h6" id="tableTitle">
+          Manage Place Categories
+        </Typography>
       </div>
       <div className={classes.spacer} />
-      <div className={classes.actions}>
+      {/* <div className={classes.actions}>
         {numSelected > 0 ? (
           <Tooltip title="Delete">
             <IconButton aria-label="Delete">
@@ -175,7 +171,7 @@ let EnhancedTableToolbar = props => {
             </IconButton>
           </Tooltip>
         )}
-      </div>
+      </div> */}
     </Toolbar>
   );
 };
@@ -222,6 +218,7 @@ class EnhancedTable extends React.Component {
   };
 
   handleClick = (event, id) => {
+    debugger
     const { selected } = this.props;
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
@@ -238,7 +235,6 @@ class EnhancedTable extends React.Component {
         selected.slice(selectedIndex + 1),
       );
     }
-
     this.props.updateSelected(newSelected);
   };
 
@@ -271,9 +267,8 @@ class EnhancedTable extends React.Component {
             />
             <TableBody>
               {stableSort(placeCategories, getSorting(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map(n => {
-                  const isSelected = this.isSelected(n.id);
+                  const isSelected = this.isSelected(n.id)
                   return (
                     <TableRow
                       hover
@@ -288,9 +283,14 @@ class EnhancedTable extends React.Component {
                         <Checkbox checked={isSelected} />
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
-                        {n.name}
+                         { n.name}
                       </TableCell>
-                      <TableCell align="right">{n.name}</TableCell>
+                      <TableCell component="th" scope="row" padding="none">
+                        {n.menuItems}
+                      </TableCell>
+                      <TableCell component="th" scope="row" padding="none">
+                        {n.delete}
+                      </TableCell>
                     </TableRow>
                   );
                 })}

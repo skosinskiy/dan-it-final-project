@@ -5,10 +5,9 @@ import Button from '@material-ui/core/Button'
 
 const styles = () => ({
   button: {
-    marginTop: 5,
-    marginLeft: 5,
-    width: 112,
-    height: 26,
+    margin: 5,
+    width: 115,
+    height: 40,
   }
 })
 
