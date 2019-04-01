@@ -25,6 +25,9 @@ public class BusinessCategory extends BaseEntity {
   @Column(name = "name")
   private String name;
 
+  @Column(name = "description")
+  private String description;
+
   @ManyToOne
   @JoinColumn(name = "parent_category_id")
   private BusinessCategory parentCategory;
