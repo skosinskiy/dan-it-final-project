@@ -23,6 +23,11 @@ function placeCategories(state = initialState, action) {
         ...state,
         isLoading: action.payload
       }
+    case TYPES.UPDATE_SELECTED:
+      return {
+        ...state,
+        selected: action.payload
+      }
     default:
       return { ...state }
   }

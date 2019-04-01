@@ -20,6 +20,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import {placesCategoriesOperations} from 'store/placeCategory'
 import {connect} from 'react-redux'
+import {SORTING_ORDER} from 'constants/sortingOrder'
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -42,7 +43,7 @@ function stableSort(array, cmp) {
 }
 
 function getSorting(order, orderBy) {
-  return order === 'desc' ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
+  return order === SORTING_ORDER.DESCENDING ? (a, b) => desc(a, b, orderBy) : (a, b) => -desc(a, b, orderBy);
 }
 
 const rows = [
@@ -200,28 +201,24 @@ class EnhancedTable extends React.Component {
     this.props.fetchAll()
   }
 
-  handleRequestSort = (event, property) => {
-    const orderBy = property;
-    let order = 'desc';
-
-    if (this.state.orderBy === property && this.state.order === 'desc') {
-      order = 'asc';
+  handleRequestSort = (event, orderBy) => {
+    if (orderBy === this.props.orderBy){
+      this.props.toggleOrder(this.props.order)
+    } else {
+      this.props.updateOrderBy(orderBy)
     }
-
-    this.setState({ order, orderBy });
   };
 
-  // TODO: move to dispatch to props
   handleSelectAllClick = event => {
     if (event.target.checked) {
-      this.setState(state => ({ selected: state.data.map(n => n.id) }));
-      return;
+      this.props.updateSelected(this.props.placeCategories.map(n => n.id))
+    } else {
+      this.props.updateSelected([])
     }
-    this.setState({ selected: [] });
   };
 
   handleClick = (event, id) => {
-    const { selected } = this.state;
+    const { selected } = this.props;
     const selectedIndex = selected.indexOf(id);
     let newSelected = [];
 
@@ -238,18 +235,18 @@ class EnhancedTable extends React.Component {
       );
     }
 
-    this.setState({ selected: newSelected });
+    this.props.updateSelected(newSelected);
   };
 
   handleChangePage = (event, page) => {
-    this.setState({ page });
+    this.props.updatePage(page)
   };
 
   handleChangeRowsPerPage = event => {
-    this.setState({ rowsPerPage: event.target.value });
+    this.props.updateRowsPerPafe(event.target.value)
   };
 
-  isSelected = id => this.state.selected.indexOf(id) !== -1;
+  isSelected = id => this.props.selected.indexOf(id) !== -1;
 
   render() {
     const {classes, placeCategories, order, orderBy, selected, rowsPerPage, page} = this.props;
@@ -332,7 +329,12 @@ EnhancedTable.propTypes = {
   selected: PropTypes.object.isRequired,
   rowsPerPage: PropTypes.number.isRequired,
   page: PropTypes.number.isRequired,
-  fetchAll: PropTypes.func.isRequired
+  fetchAll: PropTypes.func.isRequired,
+  updateSelected: PropTypes.func.isRequired,
+  toggleOrder: PropTypes.func.isRequired,
+  updateOrderBy: PropTypes.func.isRequired,
+  updatePage: PropTypes.func.isRequired,
+  updateRowsPerPafe: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({placeCategories}) => ({
@@ -346,7 +348,12 @@ const mapStateToProps = ({placeCategories}) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchAll: dispatch(placesCategoriesOperations.fetchAll())
+  fetchAll: dispatch(placesCategoriesOperations.fetchAll()),
+  updateSelected: dispatch(placesCategoriesOperations.updateSelected()),
+  toggleOrder: dispatch((currentOrder) => placesCategoriesOperations.toggleOrder(currentOrder)),
+  updateOrderBy: dispatch((orderBy) => placesCategoriesOperations.updateOrderBy(orderBy)),
+  updatePage: dispatch((page) => placesCategoriesOperations.updatePage(page)),
+  updateRowsPerPafe: dispatch((rowsPerPafe) => placesCategoriesOperations.updateRowsPerPafe(rowsPerPafe)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)( withStyles(styles)(EnhancedTable))
