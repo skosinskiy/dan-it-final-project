@@ -7,6 +7,7 @@ public class EventCategoryRequest {
 
   private Long id;
   private String name;
+  private String description;
   private EventCategoryRequest parentCategory;
 
 }
