@@ -11,6 +11,7 @@ import ManageEventCategories from './components/ManageEventCategory'
 import EventCategoryForm from './components/ManageEventCategory/EventCategoryForm'
 import ManagingUserRoles from './components/ManagingUserRoles'
 import Places from './components/Places'
+import ManageBusinesses from './components/ManageBusinesses'
 import PlaceForm from './components/Places/PLaceForm'
 import PlaceCategories from './components/PlaceCategories'
 
@@ -25,6 +26,7 @@ class AdminRouter extends Component {
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/add-new" component={PlaceForm}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/:placeId" component={PlaceForm}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places" component={Places}/>
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/businesses" component={ManageBusinesses}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES)} path="/admin/business-categories/add-new" component={BusinessCategoryForm}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES)} path="/admin/business-categories/:categoryId" component={BusinessCategoryForm}/>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES)} path="/admin/business-categories" component={ManageBusinessCategories}/>
