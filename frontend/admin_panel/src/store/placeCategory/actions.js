@@ -30,7 +30,7 @@ export const updatePage = page => ({
   payload: {page}
 })
 
-export const updateRowsPerPafe = rowsPerPafe => ({
+export const updateRowsPerPafe = rowsPerPage => ({
   type: TYPES.UPDATE_ROWS_PER_PAGE,
-  payload: {rowsPerPafe}
+  payload: {rowsPerPage}
 })

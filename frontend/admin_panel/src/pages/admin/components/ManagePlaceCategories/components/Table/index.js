@@ -243,7 +243,7 @@ class EnhancedTable extends React.Component {
   };
 
   handleChangeRowsPerPage = event => {
-    this.props.updateRowsPerPafe(event.target.value)
+    this.props.updateRowsPerPage(event.target.value)
   };
 
   isSelected = id => this.props.selected.indexOf(id) !== -1;
@@ -334,7 +334,7 @@ EnhancedTable.propTypes = {
   toggleOrder: PropTypes.func.isRequired,
   updateOrderBy: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
-  updateRowsPerPafe: PropTypes.func.isRequired,
+  updateRowsPerPage: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = ({placeCategories}) => ({
@@ -348,12 +348,12 @@ const mapStateToProps = ({placeCategories}) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  createData: dispatch(placesCategoriesOperations.createData()),
-  updateSelected: dispatch(placesCategoriesOperations.updateSelected()),
+  createData: dispatch(placesCategoriesOperations.createData),
+  updateSelected: dispatch(placesCategoriesOperations.updateSelected),
   toggleOrder: dispatch((currentOrder) => placesCategoriesOperations.toggleOrder(currentOrder)),
   updateOrderBy: dispatch((orderBy) => placesCategoriesOperations.updateOrderBy(orderBy)),
   updatePage: dispatch((page) => placesCategoriesOperations.updatePage(page)),
-  updateRowsPerPafe: dispatch((rowsPerPafe) => placesCategoriesOperations.updateRowsPerPafe(rowsPerPafe)),
+  updateRowsPerPage: dispatch((rowsPerPage) => placesCategoriesOperations.updateRowsPerPage(rowsPerPage)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EnhancedTable))

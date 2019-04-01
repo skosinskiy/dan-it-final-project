@@ -3,6 +3,7 @@ import * as ACTIONS from './actions'
 import {SORTING_ORDER} from 'constants/sortingOrder'
 
 export const createData = () => dispatch => {
+  console.log(dispatch)
   const process = (multisync, name, menuItems) => {
     let counter = 0;
     return () => ({ id: counter++, multisync, name, menuItems, delete: "DELETE" })
@@ -19,18 +20,18 @@ export const updateSelected = placeCategories => dispatch => {
 }
 
 export const toggleOrder = currentOrder => dispatch => {
-  dispatch(ACTIONS.updateSelected(currentOrder === SORTING_ORDER.ASCENDING &&
+  dispatch(ACTIONS.updateOrder(currentOrder === SORTING_ORDER.ASCENDING &&
     SORTING_ORDER.DESCENDING || SORTING_ORDER.ASCENDING))
 }
 
 export const updateOrderBy = orderBy => dispatch => {
-  dispatch(ACTIONS.updateSelected(orderBy))
+  dispatch(ACTIONS.updateOrderBy(orderBy))
 }
 
 export const updatePage = page => dispatch => {
-  dispatch(ACTIONS.updateSelected(page))
+  dispatch(ACTIONS.updatePage(page))
 }
 
-export const updateRowsPerPafe = rowsPerPafe => dispatch => {
-  dispatch(ACTIONS.updateSelected(rowsPerPafe))
+export const updateRowsPerPage = rowsPerPage => dispatch => {
+  dispatch(ACTIONS.updateRowsPerPafe(rowsPerPage))
 }
