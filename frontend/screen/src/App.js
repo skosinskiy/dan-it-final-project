@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
-import './styles.scss'
-import './App.css'
+import './styles/App.scss'
 import AppRoutes from './components/AppRoutes'
 import Header from './components/Header/Header'
 
