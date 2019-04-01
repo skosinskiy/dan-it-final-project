@@ -2,7 +2,7 @@ package com.danit.finalproject.application.config;
 
 import com.amazonaws.auth.PropertiesFileCredentialsProvider;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,8 +28,8 @@ public class ApplicationBeans {
   }
 
   @Bean
-  public AmazonS3 amazonS3() {
-    return AmazonS3ClientBuilder
+  public AmazonS3Client amazonS3() {
+    return (AmazonS3Client) AmazonS3ClientBuilder
         .standard()
         .withRegion(Regions.EU_CENTRAL_1)
         .withCredentials(new PropertiesFileCredentialsProvider(s3CredentialsPath))
