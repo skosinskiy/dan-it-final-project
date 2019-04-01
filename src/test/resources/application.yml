@@ -4,6 +4,13 @@ spring:
       jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     username:
       sa
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 725984848177-a2j2u673nn1gb912mku0k9qe762ikgl6.apps.googleusercontent.com
+            client-secret: JCLQB32uWdgAN6FBepbqqQLe
   mail:
     host:
       smtp.gmail.com
