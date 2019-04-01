@@ -56,3 +56,7 @@ export const logOutUser = () => dispatch => {
   api.post('/logout')
     .then(() => window.location.reload())
 }
+
+export const loginWithOAuth = (client) => dispatch => {
+  window.location.replace(`/oauth2/authorization/${client}`)
+}
