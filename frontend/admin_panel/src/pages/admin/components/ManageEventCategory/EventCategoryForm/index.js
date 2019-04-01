@@ -41,6 +41,7 @@ const styles = theme => ({
 
 const emptyCategory = {
   name: '',
+  description: '',
   parentCategory: {
     name: '',
     parentCategory: null
@@ -119,6 +120,21 @@ class EventCategoryForm extends React.Component {
           value={editedCategory.name}
           onChange={(e) => this.handleChange(e, 'name')}
         />
+
+        <TextField
+          id="outlined-required"
+          label="Description"
+          style={{margin: 8}}
+          fullWidth
+          margin="normal"
+          variant="outlined"
+          InputLabelProps={{
+            shrink: true
+           }}
+          value={editedCategory.description}
+          onChange={(e) => this.handleChange(e, 'description')}
+         />
+
 
         <TextField
           select
