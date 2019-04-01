@@ -21,6 +21,9 @@ import { lighten } from '@material-ui/core/styles/colorManipulator';
 import {placesCategoriesOperations} from 'store/placeCategory'
 import {connect} from 'react-redux'
 import {SORTING_ORDER} from 'constants/sortingOrder'
+import Preloader from 'components/Preloader';
+import SubmitButton from './components/Buttons/Submit'
+import ResetButton from './components/Buttons/Reset'
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -152,7 +155,7 @@ let EnhancedTableToolbar = props => {
           </Typography>
         ) : (
           <Typography variant="h6" id="tableTitle">
-            Nutrition
+            Manage Place Categories
           </Typography>
         )}
       </div>
@@ -249,10 +252,10 @@ class EnhancedTable extends React.Component {
   isSelected = id => this.props.selected.indexOf(id) !== -1;
 
   render() {
-    const {classes, placeCategories, order, orderBy, selected, rowsPerPage, page} = this.props;
+    const {classes, placeCategories, order, orderBy, selected, rowsPerPage, page, isLoading} = this.props;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, placeCategories.length - page * rowsPerPage);
-
-    return (
+    return isLoading ? <Preloader /> :
+    (
       <Paper className={classes.root}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <div className={classes.tableWrapper}>
@@ -313,7 +316,10 @@ class EnhancedTable extends React.Component {
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
         />
+        <SubmitButton />
+        <ResetButton />
       </Paper>
+
     );
   }
 }
@@ -332,6 +338,7 @@ EnhancedTable.propTypes = {
   updateOrderBy: PropTypes.func.isRequired,
   updatePage: PropTypes.func.isRequired,
   updateRowsPerPage: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = ({placeCategories}) => ({
@@ -341,7 +348,8 @@ const mapStateToProps = ({placeCategories}) => ({
   orderBy: placeCategories.orderBy,
   selected: placeCategories.selected,
   rowsPerPage: placeCategories.rowsPerPage,
-  page: placeCategories.rowsPerPage
+  page: placeCategories.rowsPerPage,
+  isLoading: placeCategories.isLoading
 })
 
 const mapDispatchToProps = dispatch => ({

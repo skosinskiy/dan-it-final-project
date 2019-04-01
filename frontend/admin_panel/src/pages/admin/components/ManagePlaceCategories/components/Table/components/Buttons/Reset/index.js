@@ -9,7 +9,6 @@ const styles = () => ({
     marginLeft: 26,
     width: 142,
     height: 56,
-    backgroundColor: "red"
   }
 })
 
@@ -17,7 +16,7 @@ const SubmitButton = props => {
   const {classes} = props
   return (
     <div>
-      <Button variant="contained" color="primary" className={classes.button} type="reset" fullWidth>
+      <Button variant="contained" color="secondary" className={classes.button} type="reset">
         RESET
       </Button>
     </div>

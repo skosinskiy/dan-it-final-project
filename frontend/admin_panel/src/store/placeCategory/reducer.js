@@ -3,7 +3,7 @@ import * as TYPES from './types'
 const initialState = {
   isLoading: true,
   order: 'asc',
-  orderBy: 'calories',
+  orderBy: 'name',
   selected: [],
   placeCategories: [],
   page: 0,

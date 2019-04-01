@@ -16,7 +16,7 @@ const SubmitButton = props => {
   const {classes} = props
   return (
     <div>
-      <Button variant="contained" color="primary" className={classes.button} type="submit" fullWidth>
+      <Button variant="contained" color="primary" className={classes.button} type="submit">
         SAVE
       </Button>
     </div>

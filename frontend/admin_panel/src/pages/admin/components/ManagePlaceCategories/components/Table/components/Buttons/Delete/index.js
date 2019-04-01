@@ -5,26 +5,26 @@ import Button from '@material-ui/core/Button'
 
 const styles = () => ({
   button: {
-    marginTop: 12,
-    marginLeft: 26,
-    width: 142,
-    height: 56
+    marginTop: 5,
+    marginLeft: 5,
+    width: 112,
+    height: 26,
   }
 })
 
-const SubmitButton = props => {
+const DeleteButton = props => {
   const {classes} = props
   return (
     <div>
-      <Button variant="contained" color="primary" className={classes.button} type="submit" fullWidth>
-        SAVE
+      <Button variant="contained" color="secondary" className={classes.button} type="reset">
+        DELETE
       </Button>
     </div>
   )
 }
 
-SubmitButton.propTypes = {
+DeleteButton.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(SubmitButton)
+export default withStyles(styles)(DeleteButton)

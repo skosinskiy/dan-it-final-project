@@ -4,13 +4,13 @@ import {SORTING_ORDER} from 'constants/sortingOrder'
 
 export const createData = () => dispatch => {
   let counter = 0;
-  const process = (multisync, name, menuItems) => {
+  const process = ({multisync, name, menuItems} = {}) => {
     counter++
     return { id: counter, multisync, name, menuItems, delete: "DELETE" }
   }
   dispatch(ACTIONS.isLoading(true))
   api.get(`/api/place-categories`)
-    .then(rawData => rawData.map(placeCategory => process({placeCategory})))
+    .then(rawData => rawData.map(placeCategory => process(placeCategory)))
     .then(placeCategories => dispatch(ACTIONS.createData(placeCategories)))
     .finally(() => dispatch(ACTIONS.isLoading(false)))
 }
