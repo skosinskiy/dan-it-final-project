@@ -4,7 +4,7 @@ import {SORTING_ORDER} from 'constants/sortingOrder'
 
 export const createData = () => dispatch => {
   let counter = 0;
-  const process = ({multisync, name, menuItems} = {}) => {
+  const process = ({multisync, name, menuItems = "No menu items defined"} = {}) => {
     counter++
     return { id: counter, multisync, name, menuItems, delete: "DELETE" }
   }

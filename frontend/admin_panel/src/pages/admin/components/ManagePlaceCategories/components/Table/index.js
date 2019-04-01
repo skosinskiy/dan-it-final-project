@@ -24,6 +24,7 @@ import {SORTING_ORDER} from 'constants/sortingOrder'
 import Preloader from 'components/Preloader';
 import SubmitButton from './components/Buttons/Submit'
 import ResetButton from './components/Buttons/Reset'
+import './index.scss'
 
 function desc(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -316,10 +317,11 @@ class EnhancedTable extends React.Component {
           onChangePage={this.handleChangePage}
           onChangeRowsPerPage={this.handleChangeRowsPerPage}
         />
-        <SubmitButton />
-        <ResetButton />
+        <div className='buttons'>
+          <SubmitButton />
+          <ResetButton />
+        </div>
       </Paper>
-
     );
   }
 }
