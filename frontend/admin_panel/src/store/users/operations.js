@@ -26,6 +26,11 @@ export const getUsersByEmail = (email, page, size) => dispatch => {
   })
 }
 
+/*TODO: export const getCompanyByName = (name, page, size) => dispatch => {
+  dispatch(ACTIONS.getUsersRequest())
+
+}*/
+
 export const submitLoginForm = (event) => dispatch => {
   event.preventDefault()
   dispatch(ACTIONS.currentUserLoading(true))

@@ -30,20 +30,22 @@ const styles = {
   }
 }
 
-class UserEmailSearchBar extends React.Component {
+class SearchBar extends React.Component {
   state = {
-    email: ''
+    input: ''
   }
 
   handleChange = event => {
-    this.setState({email: event.target.value})
+    this.setState({input: event.target.value})
   }
 
   findUsersByEmail = (e) => {
     if (e.key === 'Enter') {
-      this.props.getUsersByEmail(this.state.email, 0, 25)
+      this.props.getUsersByEmail(this.state.input, 0, 25)
     }
   }
+
+  //TODO: add find company by name function; Add it conditionally 'onKeyPress'
 
   render () {
     const {classes} = this.props
@@ -51,10 +53,10 @@ class UserEmailSearchBar extends React.Component {
       <Paper className={classes.root} elevation={1}>
         <InputBase
           onKeyPress={this.findUsersByEmail}
-          value={this.state.email}
+          value={this.state.input}
           onChange={this.handleChange}
           className={classes.input}
-          placeholder="Search User By email"
+          placeholder={this.props.placeholder}
         />
         <IconButton className={classes.iconButton} aria-label="Search">
           <SearchIcon/>
@@ -64,7 +66,7 @@ class UserEmailSearchBar extends React.Component {
   }
 }
 
-UserEmailSearchBar.propTypes = {
+SearchBar.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
@@ -80,4 +82,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(UserEmailSearchBar))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SearchBar))
