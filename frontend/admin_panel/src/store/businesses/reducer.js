@@ -2,7 +2,7 @@ import * as TYPES from './types'
 
 const initialState = {
   businesses: null,
-  description: '',
+  title: '',
 
   businessListByTitle: [],
   changedBusinessList: [],

@@ -17,7 +17,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Paper from '@material-ui/core/Paper'
 import Tooltip from '@material-ui/core/Tooltip'
 
-import {usersOperations, usersActions} from 'store/users'
+import {businessOperations, businessActions} from '../../../../../store/businesses'
 
 import BusinessItem from './BusinessItem/index'
 
@@ -25,10 +25,12 @@ import './businessList.scss'
 
 const rows = [
   {id: 'photo', numeric: false, disablePadding: false, label: 'Photo'},
-  {id: 'email', numeric: true, disablePadding: false, label: 'Email'},
-  {id: 'name', numeric: true, disablePadding: false, label: 'Name'},
-  {id: 'age', numeric: true, disablePadding: false, label: 'Age'},
-  {id: 'roles', numeric: true, disablePadding: false, label: 'Roles'}
+  {id: 'title', numeric: true, disablePadding: false, label: 'Title'},
+  {id: 'description', numeric: true, disablePadding: false, label: 'Description'},
+  {id: 'address', numeric: true, disablePadding: false, label: 'Address'},
+  {id: 'website', numeric: true, disablePadding: false, label: 'Website'},
+  {id: 'phoneNumber', numeric: true, disablePadding: false, label: 'Phone Number'},
+  {id: 'paceId', numeric: true, disablePadding: false, label: 'Place Id'},
 ]
 
 class EnhancedTableHead extends React.Component {
@@ -88,6 +90,11 @@ const styles = theme => ({
   tableCell: {}
 })
 
+const tempBusinessArr = [
+  {id: 1,  title:'SpaceX', description: 'Rockets and stuff', address:'address1', website: 'site1.com.ua', phoneNumber: '023-23-31', placeId: 1},
+  {id: 2,  title:'Umbrella', description: 'Viruses', address:'address2', website: 'site2.com.ua', phoneNumber: '023-23-32', placeId: 2}
+]
+
 class BusinessList extends React.Component {
   state = {
     order: 'asc',
@@ -98,25 +105,25 @@ class BusinessList extends React.Component {
 
   componentDidMount () {
     const {page, rowsPerPage} = this.state
-    this.props.getAllUsers('', page, rowsPerPage)
+    this.props.getAllBusinesses('', page, rowsPerPage)
   }
 
-  saveUsersRoles = () => {
+/*  saveUsersRoles = () => {
     const {changedUsersList, saveUserRoles} = this.props
     changedUsersList.forEach((user) => {
       let roles = user.roles
       saveUserRoles(user.id, roles)
     })
     this.props.updateUsersList()
-  }
+  }*/
 
   handleChangePage = (event, page) => {
     this.props.updatePaginationPage(page)
-    this.props.getAllUsers(this.props.email, page, this.state.rowsPerPage)
+    this.props.getAllBusinesses(this.props.title, page, this.state.rowsPerPage)
   }
 
   render () {
-    const {classes, usersListByEmail, totalElements, page} = this.props
+    const {classes, businessListByTitle, totalElements, page} = this.props
     const {rowsPerPage} = this.state
     return (
       <div className={classes.root}>
@@ -124,17 +131,20 @@ class BusinessList extends React.Component {
           <div className={classes.tableWrapper}>
             <Table className={classes.table} aria-labelledby="tableTitle">
               <EnhancedTableHead
-                rowCount={usersListByEmail.length}
+                // businessListByTitle.length
+                rowCount={10}
               />
               <TableBody>
-                {usersListByEmail.map(user => {
+                {/* businessListByTitle*/}
+                {tempBusinessArr.map(business => {
                   return (
                     <TableRow
                       hover
                       role="checkbox"
                       tabIndex={-1}
-                      key={user.id}
+                      key={business.id}
                     >
+
                       <TableCell className={classes.tableCell} component="th" scope="row" padding="none">
                         <Avatar>
                           <ImageIcon/>
@@ -144,15 +154,16 @@ class BusinessList extends React.Component {
                         padding="none"
                         align="left"
                         className='text-overflow-ellipsis'
-                        title={user.email}
+                        title={business.email}
                       >
-                        {user.email}
+                        {business.title}
                       </TableCell>
-                      <TableCell padding="none" align="left">{user.firstName}</TableCell>
-                      <TableCell padding="none" align="left">{user.age}</TableCell>
-                      <TableCell padding="none" align="right" className={classes.roles}>
-                        <BusinessItem user={user} key={user.id}/>
-                      </TableCell>
+                      <TableCell padding="none" align="left">{business.description}</TableCell>
+                      <TableCell padding="none" align="left">{business.address}</TableCell>
+                      <TableCell padding="none" align="left">{business.website}</TableCell>
+                      <TableCell padding="none" align="left">{business.phoneNumber}</TableCell>
+                      <TableCell padding="none" align="left">{business.placeId}</TableCell>
+
                     </TableRow>
                   )
                 })}
@@ -200,21 +211,20 @@ BusinessList.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    usersListByEmail: state.users.usersListByEmail,
-    changedUsersList: state.users.changedUsersList,
-    userRoles: state.users.userRoles,
-    page: state.users.page,
-    totalElements: state.users.totalElements,
-    email: state.users.email
+    businessListByTitle: state.businesses.businessListByTitle,
+    changedBusinessList: state.businesses.changedBusinessList,
+    page: state.businesses.page,
+    totalElements: state.businesses.totalElements,
+    title: state.businesses.title
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    updateUsersList: () => dispatch(usersActions.setUserRoles({updatedUserList: [], changedUsersList: []})),
-    saveUserRoles: (userId, roles) => dispatch(usersOperations.saveUserRoles(userId, roles)),
-    getAllUsers: (email, page, size) => dispatch(usersOperations.getUsersByEmail(email, page, size)),
-    updatePaginationPage: (page) => dispatch(usersActions.changePaginationPage(page))
+    //updateUsersList: () => dispatch(usersActions.setUserRoles({updatedUserList: [], changedUsersList: []})),
+    //saveUserRoles: (userId, roles) => dispatch(usersOperations.saveUserRoles(userId, roles)),
+    getAllBusinesses: (title, page, size) => dispatch(businessOperations.getBusinessesByTitle(title, page, size)),
+    //updatePaginationPage: (page) => dispatch(usersActions.changePaginationPage(page))
   }
 }
 
