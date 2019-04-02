@@ -6,10 +6,10 @@ import TextField from 'pages/admin/components/ManagePlaceCategories/components/T
 import React from 'react'
 
 export const createData = () => dispatch => {
-  const mapRawDataToTableRowClosure = mapRawDataToTableRow()
+  const rawDataToTableRow = mapRawDataToTableRow()
   dispatch(ACTIONS.isLoading(true))
   api.get(`/api/place-categories`)
-    .then(rawData => rawData.map(placeCategory => mapRawDataToTableRowClosure(placeCategory)))
+    .then(rawData => rawData.map(placeCategory => rawDataToTableRow(placeCategory)))
     .then(placeCategories => dispatch(ACTIONS.createData(placeCategories)))
     .finally(() => dispatch(ACTIONS.isLoading(false)))
 }
@@ -23,7 +23,7 @@ const mapRawDataToTableRow = () => {
     name: <TextField name={name}/>,
     menuItems: <MultiSelect names={['Lorem', 'Upsum', 'Shops']}/>,
     delete: <DeleteButton/>,
-    selected: false
+    selected: false,
   })
 }
 
