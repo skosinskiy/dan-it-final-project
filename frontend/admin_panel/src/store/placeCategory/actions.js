@@ -14,23 +14,3 @@ export const updateSelected = placePategories => ({
   type: TYPES.UPDATE_SELECTED,
   payload: placePategories
 })
-
-export const updateOrder = order => ({
-  type: TYPES.UPDATE_ORDER,
-  payload: order
-})
-
-export const updateOrderBy = orderBy => ({
-  type: TYPES.UPDATE_ORDER_BY,
-  payload: orderBy
-})
-
-export const updatePage = page => ({
-  type: TYPES.UPDATE_PAGE,
-  payload: page
-})
-
-export const updateRowsPerPafe = rowsPerPage => ({
-  type: TYPES.UPDATE_ROWS_PER_PAGE,
-  payload: rowsPerPage
-})

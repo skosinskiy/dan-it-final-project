@@ -1,6 +1,5 @@
 import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
-import {SORTING_ORDER} from 'constants/sortingOrder'
 import DeleteButton from 'pages/admin/components/ManagePlaceCategories/components/Table/components/Buttons/Delete'
 import MultiSelect from 'pages/admin/components/ManagePlaceCategories/components/Table/components/MultiSelect'
 import React from 'react'
@@ -27,23 +26,13 @@ const mapRawDataToTableRow = () => {
   })
 }
 
-export const updateSelected = placeCategories => dispatch => {
-  dispatch(ACTIONS.updateSelected(placeCategories))
-}
-
-export const toggleOrder = currentOrder => dispatch => {
-  dispatch(ACTIONS.updateOrder((currentOrder === SORTING_ORDER.ASCENDING && SORTING_ORDER.DESCENDING) ||
-  SORTING_ORDER.ASCENDING))
-}
-
-export const updateOrderBy = orderBy => dispatch => {
-  dispatch(ACTIONS.updateOrderBy(orderBy))
-}
-
-export const updatePage = page => dispatch => {
-  dispatch(ACTIONS.updatePage(page))
-}
-
-export const updateRowsPerPage = rowsPerPage => dispatch => {
-  dispatch(ACTIONS.updateRowsPerPafe(rowsPerPage))
+export const updateSelected = (id, selected) => dispatch => {
+  const updated = [...selected];
+  const idx = updated.indexOf(id)
+  if (~idx){
+    updated.splice(idx, 1)
+  }else {
+    updated.push(id)
+  }
+  dispatch(ACTIONS.updateSelected(updated))
 }
