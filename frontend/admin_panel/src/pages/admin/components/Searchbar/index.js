@@ -9,6 +9,13 @@ import SearchIcon from '@material-ui/icons/Search'
 
 import {usersOperations} from 'store/users'
 
+/*
+* Search Types that should be passed as props:
+*  - 'user_by_email'
+*  - 'business_by_name'
+*
+* */
+
 const styles = {
   root: {
     padding: '2px 4px',
@@ -80,6 +87,7 @@ class SearchBar extends React.Component {
 }
 
 SearchBar.propTypes = {
+  searchtype: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired
 }
 
