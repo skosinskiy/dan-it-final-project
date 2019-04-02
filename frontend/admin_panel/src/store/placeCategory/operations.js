@@ -2,6 +2,7 @@ import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
 import DeleteButton from 'pages/admin/components/ManagePlaceCategories/components/Table/components/Buttons/Delete'
 import MultiSelect from 'pages/admin/components/ManagePlaceCategories/components/Table/components/MultiSelect'
+import TextField from 'pages/admin/components/ManagePlaceCategories/components/Table/components/TextField'
 import React from 'react'
 
 export const createData = () => dispatch => {
@@ -19,7 +20,7 @@ const mapRawDataToTableRow = () => {
   ({
     id: counter++,
     multisync,
-    name,
+    name: <TextField name={name}/>,
     menuItems: <MultiSelect names={['Lorem', 'Upsum', 'Shops']}/>,
     delete: <DeleteButton/>,
     selected: false
