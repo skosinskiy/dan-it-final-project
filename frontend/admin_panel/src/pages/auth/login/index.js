@@ -124,7 +124,7 @@ class Login extends Component {
               />
             </FormControl>
             <FormControlLabel
-              control={<Checkbox value="remember" color="primary"/>}
+              control={<Checkbox name="remember-me" value="on" color="primary"/>}
               label="Remember me"
             />
             <Button
