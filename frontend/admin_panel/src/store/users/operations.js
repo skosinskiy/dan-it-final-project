@@ -11,6 +11,7 @@ export const saveUserRoles = (userId, roles) => dispatch => {
   api.put(`api/users/${userId}/roles`, roles)
 }
 
+// getAllUsers
 export const getUsersByEmail = (email, page, size) => dispatch => {
   dispatch(ACTIONS.getUsersRequest())
 
@@ -25,11 +26,6 @@ export const getUsersByEmail = (email, page, size) => dispatch => {
     dispatch(ACTIONS.getUsersError(err))
   })
 }
-
-/*TODO: export const getCompanyByName = (name, page, size) => dispatch => {
-  dispatch(ACTIONS.getUsersRequest())
-
-}*/
 
 export const submitLoginForm = (event) => dispatch => {
   event.preventDefault()

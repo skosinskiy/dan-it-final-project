@@ -43,8 +43,3 @@ export const changePaginationPage = (page) => ({
   type: TYPES.CHANGE_PAGINATION_PAGE,
   payload: {page}
 })
-
-
-
-
-

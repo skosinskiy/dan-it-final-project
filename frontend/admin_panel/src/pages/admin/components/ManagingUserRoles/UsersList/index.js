@@ -62,6 +62,8 @@ class EnhancedTableHead extends React.Component {
   }
 }
 
+
+//TODO: extract theme?
 const styles = theme => ({
   root: {
     width: '100%',
