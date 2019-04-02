@@ -5,7 +5,7 @@ class ManagingBusinesses extends Component {
   render () {
     return (
       <div>
-        <SearchBar placeholder='Search by company name'/>
+        <SearchBar searchtype='business_by_name' />
       </div>
     )
   }
