@@ -9,7 +9,6 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import { lighten } from '@material-ui/core/styles/colorManipulator';
 import {placesCategoriesOperations} from 'store/placeCategory'
@@ -144,7 +143,7 @@ class EnhancedTable extends React.Component {
       return <Preloader />
     }
     return (
-      <Paper className={classes.root}>
+      <div className={classes.root}>
         <EnhancedTableToolbar />
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
@@ -192,7 +191,7 @@ class EnhancedTable extends React.Component {
           <SubmitButton />
           <ResetButton />
         </div>
-      </Paper>
+      </div>
     );
   }
 }
