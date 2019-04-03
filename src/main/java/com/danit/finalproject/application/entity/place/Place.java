@@ -2,6 +2,7 @@ package com.danit.finalproject.application.entity.place;
 
 import com.danit.finalproject.application.entity.BaseEntity;
 import com.danit.finalproject.application.entity.Notification;
+import com.danit.finalproject.application.entity.Visit;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.event.Event;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -63,5 +64,10 @@ public class Place extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "place_category", nullable = false)
   private PlaceCategory placeCategory;
+
+  @OneToMany(mappedBy = "place")
+  @ToString.Exclude
+  @JsonIgnore
+  private List<Visit> visits;
 
 }

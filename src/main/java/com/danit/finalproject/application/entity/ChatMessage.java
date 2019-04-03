@@ -1,7 +1,10 @@
 package com.danit.finalproject.application.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -20,5 +23,11 @@ public class ChatMessage extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
+
+  @ManyToOne
+  @JoinColumn(name = "chat_id")
+  @JsonIgnore
+  @ToString.Exclude
+  private Chat chat;
 
 }
