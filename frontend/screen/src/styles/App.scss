@@ -1,0 +1,21 @@
+@import "variables";
+
+div {
+  display: flex;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track-piece {
+  width: 2px;
+  background-color: $light-grey;
+  border-right: 1px solid white;
+  border-left: 4px solid white;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $almost-black;
+  border-radius: 3px;
+}
