@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Menu from '../../components/hooks/Menu'
+import Menu from '../hooks/Menu/menu'
 import onClickOutside from 'react-onclickoutside'
 
 class MenuContainer extends Component {
