@@ -21,6 +21,12 @@ const businessReducer = (state = initialState, action) => {
         businesses: action.payload.businesses,
         totalElements: action.payload.businesses.length
       }
+    case TYPES.GET_ALL_BUSINESSES:
+      return {
+        ...state,
+        businesses: action.payload.businesses,
+        totalElements: action.payload.businesses.length
+      }
     default:
       return state
   }
