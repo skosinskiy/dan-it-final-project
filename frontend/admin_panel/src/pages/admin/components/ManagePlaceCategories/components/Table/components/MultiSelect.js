@@ -7,6 +7,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import Chip from '@material-ui/core/Chip'
+import {placesCategoriesOperations} from 'store/placeCategory'
+import {connect} from 'react-redux'
 
 const styles = theme => ({
   root: {
@@ -57,6 +59,8 @@ class MultipleSelect extends React.Component {
 
   handleChange = event => {
     this.setState({name: event.target.value})
+    const {placeCategoryId, changed} = this.props
+    this.props.updateChanged(placeCategoryId, changed)
   }
 
   handleChangeMultiple = event => {
@@ -76,7 +80,7 @@ class MultipleSelect extends React.Component {
     const {classes, names} = this.props
     return (
       <div className={classes.root}>
-        <FormControl className={classes.formControl}>
+        <FormControl className={classes.formControl} fullWidth>
           <InputLabel htmlFor="select-multiple-chip"></InputLabel>
           <Select
             multiple
@@ -105,7 +109,19 @@ class MultipleSelect extends React.Component {
 }
 
 MultipleSelect.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  names: PropTypes.array.isRequired,
+  placeCategoryId: PropTypes.number.isRequired,
+  updateChanged: PropTypes.func.isRequired,
+  changed: PropTypes.array.isRequired
 }
 
-export default withStyles(styles, {withTheme: true})(MultipleSelect)
+const mapStateToProps = ({placeCategories}) => ({
+  changed: placeCategories.changed
+})
+
+const mapDispatchToProps = dispatch => ({
+  updateChanged: (id, changed) => dispatch(placesCategoriesOperations.updateChanged(id, changed)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(MultipleSelect))

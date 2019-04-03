@@ -5,12 +5,12 @@ export const isLoading = isLoading => ({
   payload: isLoading
 })
 
-export const createData = placePategories => ({
-  type: TYPES.CREATE_DATA,
+export const updatePlaceCategories = placePategories => ({
+  type: TYPES.UPDATE_PLACE_CATEGORIES,
   payload: placePategories
 })
 
-export const updateSelected = placePategories => ({
-  type: TYPES.UPDATE_SELECTED,
-  payload: placePategories
+export const updateChanged = changed => ({
+  type: TYPES.UPDATE_CHANGED,
+  payload: changed
 })

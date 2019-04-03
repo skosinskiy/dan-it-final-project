@@ -1,5 +1,5 @@
 export const IS_LOADING = 'IS_LOADING'
 export const SAVE = 'SAVE'
 export const RESET = 'RESET'
-export const CREATE_DATA = 'CREATE_DATA'
-export const UPDATE_SELECTED = 'UPDATE_SELECTED'
+export const UPDATE_PLACE_CATEGORIES = 'UPDATE_PLACE_CATEGORIES'
+export const UPDATE_CHANGED = 'UPDATE_CHANGED'

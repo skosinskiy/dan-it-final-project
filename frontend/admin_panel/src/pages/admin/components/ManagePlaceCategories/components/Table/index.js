@@ -16,6 +16,10 @@ import {connect} from 'react-redux'
 import Preloader from 'components/Preloader';
 import SubmitButton from './components/Buttons/Submit'
 import ResetButton from './components/Buttons/Reset'
+import TextField from './components/TextField'
+import DeleteButton from './components/Buttons/Delete'
+import MultiSelect from './components/MultiSelect'
+
 import './index.scss'
 
 const rows = [
@@ -122,22 +126,13 @@ class EnhancedTable extends React.Component {
     this.props.createData()
   }
 
-  handleSelectAllClick = event => {
-    if (event.target.checked) {
-      this.props.updateSelected(this.props.placeCategories.map(n => n.id))
-    } else {
-      this.props.updateSelected([])
-    }
+  handleClickCheckBox = (id) => {
+    this.props.updateChanged(id, this.props.changed)
+    this.props.toggleMultisync(id, this.props.placeCategories)
   };
-
-  handleClick = (id) => {
-    this.props.updateSelected(id, this.props.selected)
-  };
-
-  isSelected = id => this.props.selected.indexOf(id) !== -1;
 
   render() {
-    const {classes, placeCategories, isLoading} = this.props;
+    const {classes, placeCategories, isLoading, updateChanged, changed} = this.props;
     const emptyRows = 1;
     if (isLoading){
       return <Preloader />
@@ -153,7 +148,7 @@ class EnhancedTable extends React.Component {
             <TableBody>
               {
                 placeCategories.map(placeCategory => {
-                  const isSelected = this.isSelected(placeCategory.id)
+                  const isSelected = placeCategory.multisync
                   return (
                     <TableRow
                       hover
@@ -164,16 +159,17 @@ class EnhancedTable extends React.Component {
                       selected={isSelected}
                     >
                       <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected} onClick={event => this.handleClick(placeCategory.id)}/>
+                        <Checkbox checked={isSelected} onClick={() => this.handleClickCheckBox(placeCategory.id)}/>
+                      </TableCell>
+                      <TableCell component="th" scope="row" padding="none"
+                      onChange={() => updateChanged(placeCategory.id, changed)}>
+                         <TextField name={placeCategory.name} />
+                      </TableCell>
+                      <TableCell component="th" scope="row" padding="none" >
+                        <MultiSelect names={placeCategory.menuItems} placeCategoryId={placeCategory.id}/>
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
-                         { placeCategory.name}
-                      </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
-                        {placeCategory.menuItems}
-                      </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
-                        {placeCategory.delete}
+                      <DeleteButton />
                       </TableCell>
                     </TableRow>
                   );
@@ -199,22 +195,24 @@ class EnhancedTable extends React.Component {
 EnhancedTable.propTypes = {
   classes: PropTypes.object.isRequired,
   placeCategories: PropTypes.array.isRequired,
-  selected: PropTypes.array.isRequired,
+  changed: PropTypes.array.isRequired,
+  toggleMultisync: PropTypes.func.isRequired,
+  updateChanged: PropTypes.func.isRequired,
   createData: PropTypes.func.isRequired,
-  updateSelected: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = ({placeCategories}) => ({
   classes: placeCategories.classes,
   placeCategories: placeCategories.placeCategories,
-  selected: placeCategories.selected,
+  changed: placeCategories.changed,
   isLoading: placeCategories.isLoading
 })
 
 const mapDispatchToProps = dispatch => ({
   createData: () => dispatch(placesCategoriesOperations.createData()),
-  updateSelected: (id, selected) => dispatch(placesCategoriesOperations.updateSelected(id, selected)),
+  updateChanged: (id, changed) => dispatch(placesCategoriesOperations.updateChanged(id, changed)),
+  toggleMultisync: (id, placeCategories) => dispatch(placesCategoriesOperations.toggleMultisync(id, placeCategories)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EnhancedTable))
