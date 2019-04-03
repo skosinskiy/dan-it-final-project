@@ -1,16 +1,17 @@
 import api from '../../helpers/FetchData'
 import * as ACTIONS from './actions'
 
-export const getBusinessesByTitle = (title, page, size) => dispatch => {
-  dispatch(ACTIONS.getBusinessesRequest())
+export const getBusinessesByTitle = (placeId, page, size) => dispatch => {
+  //dispatch(ACTIONS.getBusinessesRequest())
 
-  api.get(`/api/businesses?title=${title}&page=${page}&size=${size}`).then(res => {
-    console.log(res);
+  api.get(`/api/businesses?placeId=${placeId}&page=${page}&size=${size}`).then(res => {
+    console.log(res)
     dispatch(ACTIONS.getBusinessesByTitle({
-      business: res.content,
+      businesses: res
+      /*business: res.content,
       page: res.pageable.pageNumber,
       totalElements: res.totalElements,
-      title: title
+      title: placeId*/
     }))
   }).catch(err => {
     dispatch(ACTIONS.getBusinessesError(err))

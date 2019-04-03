@@ -34,6 +34,11 @@ public class BusinessController {
     return new ResponseEntity<>(businessFacade.getById(businessId), HttpStatus.OK);
   }
 
+  @GetMapping("{title}")
+  public ResponseEntity<BusinessResponse> getBusinessById(@PathVariable("title") String title) {
+    return new ResponseEntity<>(businessFacade.getById(businessId), HttpStatus.OK);
+  }
+
   @GetMapping
   public ResponseEntity<List<BusinessResponse>> getAllBusinesses(@RequestParam("placeId") Long placeId) {
     return new ResponseEntity<>(businessFacade.getAllByPlace(placeId), HttpStatus.OK);

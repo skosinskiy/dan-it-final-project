@@ -4,13 +4,13 @@ export const getBusinessesRequest = () => ({
   type: TYPES.BUSINESS_REQUEST
 })
 
-export const getBusinessesByTitle = ({business, page, totalElements, title}) => ({
+export const getBusinessesByTitle = ({business}) => ({
   type: TYPES.GET_BUSINESSES_BY_TITLE,
   payload: {
-    business,
-    page,
-    totalElements,
-    title
+    business
+    // page,
+    // totalElements,
+    // title
   }
 })
 

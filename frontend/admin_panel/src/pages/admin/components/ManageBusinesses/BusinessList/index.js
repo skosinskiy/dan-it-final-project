@@ -105,7 +105,7 @@ class BusinessList extends React.Component {
 
   componentDidMount () {
     const {page, rowsPerPage} = this.state
-    this.props.getAllBusinesses('', page, rowsPerPage)
+    this.props.getAllBusinesses( 1, page, rowsPerPage)
   }
 
 /*  saveUsersRoles = () => {
@@ -119,7 +119,7 @@ class BusinessList extends React.Component {
 
   handleChangePage = (event, page) => {
     this.props.updatePaginationPage(page)
-    this.props.getAllBusinesses(this.props.title, page, this.state.rowsPerPage)
+    this.props.getAllBusinesses(1, page, this.state.rowsPerPage)
   }
 
   render () {
@@ -223,7 +223,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     //updateUsersList: () => dispatch(usersActions.setUserRoles({updatedUserList: [], changedUsersList: []})),
     //saveUserRoles: (userId, roles) => dispatch(usersOperations.saveUserRoles(userId, roles)),
-    getAllBusinesses: (title, page, size) => dispatch(businessOperations.getBusinessesByTitle(title, page, size)),
+    getAllBusinesses: (placeId, page, size) => dispatch(businessOperations.getBusinessesByTitle(placeId, page, size)),
     //updatePaginationPage: (page) => dispatch(usersActions.changePaginationPage(page))
   }
 }

@@ -16,10 +16,13 @@ const initialState = {
 
 const businessReducer = (state = initialState, action) => {
   switch (action.type) {
-    case '':
-      return
+    case TYPES.GET_BUSINESSES_BY_TITLE:
+      return {
+        ...state,
+        businesses: action.payload
+      }
     default:
-      return 'hey'
+      return state
   }
 }
 
