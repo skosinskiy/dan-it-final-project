@@ -44,13 +44,23 @@ class PlaceForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      place: typeof props.place !== 'undefined' ? props.place : emptyPLace
+      place: {...emptyPLace}
     }
   }
 
   componentDidMount () {
-    const {getPlaceCategories} = this.props
+    const {getPlaceCategories, match, getAllPlaces, place} = this.props
+    const newPLace = !match.params.placeId
     getPlaceCategories()
+    if (!newPLace && !place) {
+      getAllPlaces()
+    }
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.place) {
+      this.setState({place: {...nextProps.place}})
+    }
   }
 
   savePlace = (placeId, place) => {
@@ -188,7 +198,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     saveNewPlace: (place) => dispatch(placesOperations.saveNewPlace(place)),
     getPlaceCategories: () => dispatch(placesOperations.getPlacesCategories()),
-    updatePlace: (placeId, place) => dispatch(placesOperations.updatePlace(placeId, place))
+    updatePlace: (placeId, place) => dispatch(placesOperations.updatePlace(placeId, place)),
+    getAllPlaces: () => dispatch(placesOperations.getPlaces())
   }
 }
 
