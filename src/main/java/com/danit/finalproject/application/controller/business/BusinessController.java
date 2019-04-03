@@ -4,7 +4,9 @@ import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequ
 import com.danit.finalproject.application.dto.request.business.BusinessRequest;
 import com.danit.finalproject.application.dto.response.business.BusinessResponse;
 import com.danit.finalproject.application.facade.business.BusinessFacade;
+
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +37,10 @@ public class BusinessController {
   }
 
   @GetMapping
-  public ResponseEntity<List<BusinessResponse>> getAllBusinesses(@RequestParam("placeId") Long placeId) {
-    return new ResponseEntity<>(businessFacade.getAllByPlace(placeId), HttpStatus.OK);
+  public ResponseEntity<List<BusinessResponse>> getAllBusinesses(
+      @RequestParam(name = "placeId", required = false) Long placeId,
+      @RequestParam(name = "name", required = false) String name) {
+    return new ResponseEntity<>(businessFacade.findBusinesses(placeId, name), HttpStatus.OK);
   }
 
   @PostMapping

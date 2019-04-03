@@ -8,7 +8,10 @@ import com.danit.finalproject.application.service.CrudService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 public class BusinessService implements CrudService<Business> {
@@ -36,8 +39,8 @@ public class BusinessService implements CrudService<Business> {
     return businessRepository.findAll();
   }
 
-  public List<Business> findAllByPlace(Long placeId) {
-    return businessRepository.findAllByPlace(placeRepository.findById(placeId).orElse(null));
+  public List<Business> findBusinesses(Long placeId, String name) {
+    return businessRepository.findByParams(placeId, name);
   }
 
   @Override

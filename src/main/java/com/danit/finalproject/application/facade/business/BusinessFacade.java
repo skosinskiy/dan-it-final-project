@@ -21,9 +21,8 @@ public class BusinessFacade extends AbstractDtoFacade<Business, BusinessRequest,
     this.businessService = businessService;
   }
 
-  public List<BusinessResponse> getAllByPlace(Long placeId) {
-    List<Business> businesses = businessService.findAllByPlace(placeId);
-    return mapEntityListToResponseDtoList(businesses);
+  public List<BusinessResponse> findBusinesses(Long placeId, String name) {
+    return mapEntityListToResponseDtoList(businessService.findBusinesses(placeId, name));
   }
 
   public BusinessResponse addPhoto(BusinessPhotoRequest businessPhotoRequest, Long businessId) {

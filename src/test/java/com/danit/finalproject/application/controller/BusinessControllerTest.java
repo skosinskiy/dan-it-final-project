@@ -88,6 +88,21 @@ public class BusinessControllerTest {
   }
 
   @Test
+  public void businessesAreFoundByPartOfName() throws Exception {
+    int expectedSize = 1;
+    String titlePart = "ness-1";
+
+    MvcResult result = mockMvc.perform(get("/api/businesses?name=" + titlePart))
+        .andReturn();
+    String responseBody = result.getResponse().getContentAsString();
+    List<BusinessResponse> businesses
+        = objectMapper.readValue(responseBody, new TypeReference<List<BusinessResponse>>(){});
+
+    assertEquals(expectedSize, businesses.size());
+    assertTrue(businesses.get(0).getTitle().contains(titlePart));
+  }
+
+  @Test
   public void createNewBusiness() throws Exception {
     Long expectedId = 4L;
     String expectedName = "business-4";
