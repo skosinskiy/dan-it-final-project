@@ -4,10 +4,10 @@ export const getBusinessesRequest = () => ({
   type: TYPES.BUSINESS_REQUEST
 })
 
-export const getBusinessesByTitle = ({business}) => ({
-  type: TYPES.GET_BUSINESSES_BY_TITLE,
+export const getBusinessesByPlaceID = ({businesses}) => ({
+  type: TYPES.GET_BUSINESSES_BY_PLACE_ID,
   payload: {
-    business
+    businesses
     // page,
     // totalElements,
     // title

@@ -2,7 +2,6 @@ import * as TYPES from './types'
 
 const initialState = {
   businesses: null,
-  title: '',
 
   businessListByTitle: [],
   changedBusinessList: [],
@@ -16,10 +15,11 @@ const initialState = {
 
 const businessReducer = (state = initialState, action) => {
   switch (action.type) {
-    case TYPES.GET_BUSINESSES_BY_TITLE:
+    case TYPES.GET_BUSINESSES_BY_PLACE_ID:
       return {
         ...state,
-        businesses: action.payload
+        businesses: action.payload.businesses,
+        totalElements: action.payload.businesses.length
       }
     default:
       return state
