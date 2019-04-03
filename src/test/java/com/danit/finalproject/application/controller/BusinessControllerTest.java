@@ -88,11 +88,11 @@ public class BusinessControllerTest {
   }
 
   @Test
-  public void businessesAreFoundByPartOfName() throws Exception {
+  public void businessesAreFoundByPartOfTitle() throws Exception {
     int expectedSize = 1;
     String titlePart = "ness-1";
 
-    MvcResult result = mockMvc.perform(get("/api/businesses?name=" + titlePart))
+    MvcResult result = mockMvc.perform(get("/api/businesses?title=" + titlePart))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
     List<BusinessResponse> businesses

@@ -39,8 +39,8 @@ public class BusinessController {
   @GetMapping
   public ResponseEntity<List<BusinessResponse>> getAllBusinesses(
       @RequestParam(name = "placeId", required = false) Long placeId,
-      @RequestParam(name = "name", required = false) String name) {
-    return new ResponseEntity<>(businessFacade.findBusinesses(placeId, name), HttpStatus.OK);
+      @RequestParam(name = "title", required = false) String title) {
+    return new ResponseEntity<>(businessFacade.findBusinesses(placeId, title), HttpStatus.OK);
   }
 
   @PostMapping

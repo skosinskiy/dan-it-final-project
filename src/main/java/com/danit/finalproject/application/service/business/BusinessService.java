@@ -39,8 +39,8 @@ public class BusinessService implements CrudService<Business> {
     return businessRepository.findAll();
   }
 
-  public List<Business> findBusinesses(Long placeId, String name) {
-    return businessRepository.findByParams(placeId, name);
+  public List<Business> findBusinesses(Long placeId, String title) {
+    return businessRepository.findByParams(placeId, title);
   }
 
   @Override

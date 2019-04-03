@@ -11,6 +11,6 @@ import java.util.List;
 public interface BusinessRepository extends JpaRepository<Business, Long> {
   @Query("select b from Business b where "
       + "(:placeId is null or b.place.id = :placeId) and "
-      + "(:name is null or lower(b.title) like lower(CONCAT('%', :name, '%')))")
-  List<Business> findByParams(@Param("placeId") Long placeId, @Param("name") String name);
+      + "(:title is null or lower(b.title) like lower(CONCAT('%', :title, '%')))")
+  List<Business> findByParams(@Param("placeId") Long placeId, @Param("title") String title);
 }
