@@ -2,15 +2,15 @@ import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
 
 export const createData = () => dispatch => {
-  const mapRawDataToRenderObjectCosure = mapRawDataToRenderObject()
   dispatch(ACTIONS.isLoading(true))
+  const mapIdsClosure = mapIds()
   api.get(`/api/place-categories`)
-    .then(rawData => rawData.map(placeCategory => mapRawDataToRenderObjectCosure(placeCategory)))
+    .then(rawData => rawData.map(placeCategory => mapIdsClosure(placeCategory)))
     .then(placeCategories => dispatch(ACTIONS.updatePlaceCategories(placeCategories)))
     .finally(() => dispatch(ACTIONS.isLoading(false)))
 }
 
-const mapRawDataToRenderObject = () => {
+const mapIds = () => {
   let counter = 0
   return ({multisync, name, menuItems = ['Lorem', 'Upsum', 'Shops']} = {}) =>
   ({

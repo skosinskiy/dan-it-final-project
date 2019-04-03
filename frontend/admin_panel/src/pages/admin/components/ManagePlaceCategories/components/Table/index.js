@@ -166,7 +166,7 @@ class EnhancedTable extends React.Component {
                          <TextField name={placeCategory.name} />
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none" >
-                        <MultiSelect names={placeCategory.menuItems} placeCategoryId={placeCategory.id}/>
+                        <MultiSelect selectedNames={placeCategory.menuItems} placeCategoryId={placeCategory.id}/>
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
                       <DeleteButton />

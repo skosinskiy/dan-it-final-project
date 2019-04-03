@@ -6,9 +6,10 @@ import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
-import Chip from '@material-ui/core/Chip'
 import {placesCategoriesOperations} from 'store/placeCategory'
+import {menuItemsOperations} from 'store/menuItems'
 import {connect} from 'react-redux'
+import Preloader from 'components/Preloader';
 
 const styles = theme => ({
   root: {
@@ -53,31 +54,27 @@ function getStyles (name, that) {
 }
 
 class MultipleSelect extends React.Component {
+
+  componentDidMount () {
+    debugger
+    this.props.fetchNames()
+  }
+  
   state = {
     name: []
   }
 
   handleChange = event => {
     this.setState({name: event.target.value})
-    const {placeCategoryId, changed} = this.props
-    this.props.updateChanged(placeCategoryId, changed)
-  }
-
-  handleChangeMultiple = event => {
-    const {options} = event.target
-    const value = []
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        value.push(options[i].value)
-      }
-    }
-    this.setState({
-      name: value
-    })
+    const {placeCategoryId, changed, updateChanged} = this.props
+    updateChanged(placeCategoryId, changed)
   }
 
   render () {
-    const {classes, names} = this.props
+    const {classes, names, isLoading} = this.props
+    if (isLoading) {
+      return <Preloader />
+    }
     return (
       <div className={classes.root}>
         <FormControl className={classes.formControl} fullWidth>
@@ -87,13 +84,13 @@ class MultipleSelect extends React.Component {
             value={this.state.name}
             onChange={this.handleChange}
             input={<Input id="select-multiple-chip"/>}
-            renderValue={selected => (
-              <div className={classes.chips}>
-                {selected.map(value => (
-                  <Chip key={value} label={value} className={classes.chip}/>
-                ))}
-              </div>
-            )}
+            // renderValue={selected => (
+            //   <div className={classes.chips}>
+            //     {selected.map(value => (
+            //       <Chip key={value} label={value} className={classes.chip}/>
+            //     ))}
+            //   </div>
+            // )}
             MenuProps={MenuProps}
           >
             {names.map(name => (
@@ -113,15 +110,21 @@ MultipleSelect.propTypes = {
   names: PropTypes.array.isRequired,
   placeCategoryId: PropTypes.number.isRequired,
   updateChanged: PropTypes.func.isRequired,
-  changed: PropTypes.array.isRequired
+  changed: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  fetchNames: PropTypes.func.isRequired,
+  selectedNames: PropTypes.array.isRequired,
 }
 
-const mapStateToProps = ({placeCategories}) => ({
-  changed: placeCategories.changed
+const mapStateToProps = state => ({
+  changed: state.placeCategories.changed,
+  names: state.menuItems.names,
+  isLoading: state.menuItems.isLoading
 })
 
 const mapDispatchToProps = dispatch => ({
   updateChanged: (id, changed) => dispatch(placesCategoriesOperations.updateChanged(id, changed)),
+  fetchNames: () => dispatch(menuItemsOperations.fetchNames())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(MultipleSelect))
