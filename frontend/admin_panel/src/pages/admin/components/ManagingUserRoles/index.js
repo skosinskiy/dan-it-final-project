@@ -6,8 +6,8 @@ class ManagingUsersRoles extends Component {
   render () {
     return (
       <div>
-        <SearchBar placeholder='Search User By email'/>
-        <UsersList/>
+        <SearchBar searchtype='user_by_email' />
+        <UsersList />
       </div>
     )
   }

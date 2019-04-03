@@ -9,6 +9,13 @@ import SearchIcon from '@material-ui/icons/Search'
 
 import {usersOperations} from 'store/users'
 
+/*
+* Search Types that should be passed as props:
+*  - 'user_by_email'
+*  - 'business_by_name'
+*
+* */
+
 const styles = {
   root: {
     padding: '2px 4px',
@@ -45,10 +52,23 @@ class SearchBar extends React.Component {
     }
   }
 
+  setPlaceholder = (searchType) => {
+    switch (searchType) {
+      case 'user_by_email':
+        return 'Search user by email'
+      case 'business_by_name':
+        return 'Search by company name'
+      default:
+        return 'Search'
+    }
+  }
+
   //TODO: add find company by name function; Add it conditionally 'onKeyPress'
 
   render () {
     const {classes} = this.props
+    const placeholder = this.setPlaceholder(this.props.searchtype)
+
     return (
       <Paper className={classes.root} elevation={1}>
         <InputBase
@@ -56,7 +76,7 @@ class SearchBar extends React.Component {
           value={this.state.input}
           onChange={this.handleChange}
           className={classes.input}
-          placeholder={this.props.placeholder}
+          placeholder={placeholder}
         />
         <IconButton className={classes.iconButton} aria-label="Search">
           <SearchIcon/>
@@ -67,6 +87,7 @@ class SearchBar extends React.Component {
 }
 
 SearchBar.propTypes = {
+  searchtype: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired
 }
 

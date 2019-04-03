@@ -24,7 +24,7 @@ export const getPlacesCategories = () => dispatch => {
 export const deletePlace = (placeId) => dispatch => {
   api.deleteApi(`/api/places/${placeId}`).then(res => {
     api.get(`/api/places`).then(res => {
-      dispatch(ACTIONS.getPlacesCategories(res))
+      dispatch(ACTIONS.getAllPlaces(res))
     })
   })
 }

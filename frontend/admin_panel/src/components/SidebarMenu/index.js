@@ -25,20 +25,32 @@ class SidebarMenu extends Component {
           <NavLink to={'/admin/business-categories'} className="sidebarItem">
             <ListItem button>
               <ListItemIcon>
-                <DashboardIcon/>
+                <DashboardIcon />
               </ListItemIcon>
-              <ListItemText primary={'Business Categories'}/>
+              <ListItemText primary={'Business Categories'} />
             </ListItem>
           </NavLink>
         }
         {
-          hasGrant(user, Grant.MANGAE_USER_ROLES) &&
+          hasGrant(user, Grant.MANAGE_USER_ROLES) &&
           <NavLink to={'/admin/managing-roles'} className="sidebarItem">
             <ListItem button>
               <ListItemIcon>
-                <ShoppingCartIcon/>
+                <ShoppingCartIcon />
               </ListItemIcon>
-              <ListItemText primary={'Managing Roles'}/>
+              <ListItemText primary={'Managing User Roles'} />
+            </ListItem>
+          </NavLink>
+        }
+
+        {
+          hasGrant(user, Grant.MANAGE_ROLES) &&
+          <NavLink to={'/admin/roles'} className="sidebarItem">
+            <ListItem button>
+              <ListItemIcon>
+                <ShoppingCartIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Managing Roles'} />
             </ListItem>
           </NavLink>
         }
@@ -48,33 +60,34 @@ class SidebarMenu extends Component {
           <NavLink to={'/admin/places'} className="sidebarItem">
             <ListItem button>
               <ListItemIcon>
-                <PeopleIcon/>
+                <PeopleIcon />
               </ListItemIcon>
-              <ListItemText primary="Places"/>
+              <ListItemText primary="Places" />
             </ListItem>
           </NavLink>
         }
 
         {
-          hasGrant(user, Grant.MANAGE_BUSINESS) &&
+          hasGrant(user, Grant.MANAGE_BUSINESSES) &&
           <NavLink to={'/admin/businesses'} className="sidebarItem">
             <ListItem button>
               <ListItemIcon>
-                <BusinessIcon/>
+                <BusinessIcon />
               </ListItemIcon>
-              <ListItemText primary="Businesses"/>
+              <ListItemText primary="Businesses" />
             </ListItem>
           </NavLink>
         }
+
 
         {
           hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES) &&
           <NavLink to={'/admin/place-categories'} className="sidebarItem">
             <ListItem button>
               <ListItemIcon>
-                <LayersIcon/>
+                <LayersIcon />
               </ListItemIcon>
-              <ListItemText primary="PlaceCategories"/>
+              <ListItemText primary="PlaceCategories" />
             </ListItem>
           </NavLink>
         }
@@ -84,9 +97,9 @@ class SidebarMenu extends Component {
           <NavLink to={'/admin/event-categories'} className="sidebarItem">
             <ListItem button>
               <ListItemIcon>
-                <EventIcon/>
+                <EventIcon />
               </ListItemIcon>
-              <ListItemText primary={'Event Categories'}/>
+              <ListItemText primary={'Event Categories'} />
             </ListItem>
           </NavLink>
         }

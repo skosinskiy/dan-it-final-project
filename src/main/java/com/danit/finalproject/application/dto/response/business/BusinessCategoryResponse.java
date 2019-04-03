@@ -7,6 +7,7 @@ public class BusinessCategoryResponse {
 
   private Long id;
   private String name;
+  private String description;
   private BusinessCategoryResponse parentCategory;
 
 }
