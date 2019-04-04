@@ -25,7 +25,6 @@ import './businessList.scss'
 import ListItem from "../../ManagingRoles/RoleItem";
 
 const rows = [
-  {id: 'photo', numeric: false, disablePadding: false, label: 'Photo'},
   {id: 'title', numeric: true, disablePadding: false, label: 'Title'},
   {id: 'description', numeric: true, disablePadding: false, label: 'Description'},
   {id: 'address', numeric: true, disablePadding: false, label: 'Address'},
@@ -139,11 +138,6 @@ class BusinessList extends React.Component {
                       key={business.id}
                     >
 
-                      <TableCell className={classes.tableCell} component="th" scope="row" padding="none">
-                        <Avatar>
-                          <ImageIcon/>
-                        </Avatar>
-                      </TableCell>
                       <TableCell
                         padding="none"
                         align="left"
@@ -154,9 +148,9 @@ class BusinessList extends React.Component {
                       </TableCell>
                       <TableCell padding="none" align="left">{business.description}</TableCell>
                       <TableCell padding="none" align="left">{business.address}</TableCell>
-                      <TableCell padding="none" align="left">{business.website}</TableCell>
+                      <TableCell padding="none" align="left">{business.webSite}</TableCell>
                       <TableCell padding="none" align="left">{business.phoneNumber}</TableCell>
-                      <TableCell padding="none" align="left">{business.placeId}</TableCell>
+                      <TableCell padding="none" align="left">{business.place.id}</TableCell>
 
                       <NavLink to={`/admin/businesses/edit/${business.title}`} className={classes.buttons}>
                         <Button variant="contained" color="primary" className={classes.button}>Edit</Button>
