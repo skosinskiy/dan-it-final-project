@@ -49,7 +49,7 @@ public class BusinessController {
   }
 
   @PutMapping("{id}")
-  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
   public ResponseEntity<BusinessResponse> updateBusiness(
           @PathVariable Long id,
           @RequestBody BusinessRequest businessRequest) {
@@ -57,13 +57,13 @@ public class BusinessController {
   }
 
   @DeleteMapping("{id}")
-  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
   public ResponseEntity<BusinessResponse> deleteBusiness(@PathVariable("id") Long businessId) {
     return new ResponseEntity<>(businessFacade.delete(businessId), HttpStatus.OK);
   }
 
   @PostMapping("/{businessId}/photos")
-  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
   public ResponseEntity<BusinessResponse> addPhotosToBusiness(
           @RequestBody BusinessPhotoRequest businessPhotoRequest,
           @PathVariable("businessId") Long businessId) {
@@ -71,7 +71,7 @@ public class BusinessController {
   }
 
   @DeleteMapping("/{businessId}/photos/{photoId}")
-  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
   public ResponseEntity<BusinessResponse> deletePhoto(
           @PathVariable Long businessId,
           @PathVariable("photoId") Long photoId) {

@@ -30,6 +30,7 @@ class AdminRouter extends Component {
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/:placeId" component={PlaceForm} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places" component={Places} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_BUSINESSES)} path="/admin/businesses/add-new" component={BusinessForm} />
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_BUSINESSES)} path="/admin/businesses/edit/:title" component={BusinessForm} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_BUSINESSES)} path="/admin/businesses" component={ManageBusinesses} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES)} path="/admin/business-categories/add-new" component={BusinessCategoryForm} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_BUSINESS_CATEGORIES)} path="/admin/business-categories/:categoryId" component={BusinessCategoryForm} />

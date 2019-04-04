@@ -31,6 +31,8 @@ const rows = [
   {id: 'website', numeric: true, disablePadding: false, label: 'Website'},
   {id: 'phoneNumber', numeric: true, disablePadding: false, label: 'Phone Number'},
   {id: 'paceId', numeric: true, disablePadding: false, label: 'Place Id'},
+  {id: 'editBtn', numeric: false, disablePadding: false, label: ' '},
+  {id: 'deleteBtn', numeric: false, disablePadding: false, label: ' '},
 ]
 
 class EnhancedTableHead extends React.Component {
@@ -118,7 +120,7 @@ class BusinessList extends React.Component {
   }
 
   render () {
-    const {classes, businessList, totalElements, page} = this.props
+    const {classes, businessList, totalElements, page, deleteBusiness} = this.props
     const {rowsPerPage} = this.state
     return (
       <div className={classes.root}>
@@ -152,17 +154,21 @@ class BusinessList extends React.Component {
                       <TableCell padding="none" align="left">{business.phoneNumber}</TableCell>
                       <TableCell padding="none" align="left">{business.place.id}</TableCell>
 
-                      <NavLink to={`/admin/businesses/edit/${business.title}`} className={classes.buttons}>
-                        <Button variant="contained" color="primary" className={classes.button}>Edit</Button>
-                      </NavLink>
-                      <Button
-                        // onClick={() => deleteRole(role.id)}
-                        variant="contained"
-                        color="secondary"
-                        className={classes.button}
-                      >
-                        Delete
-                      </Button>
+                      <TableCell padding="none" align="right">
+                        <NavLink to={`/admin/businesses/edit/${business.title}`} className={classes.buttons} >
+                          <Button variant="contained" color="primary" className={classes.button}>Edit</Button>
+                        </NavLink>
+                      </TableCell>
+                      <TableCell padding="none" align="left">
+                        <Button
+                          onClick={() => deleteBusiness(business.id)}
+                          variant="contained"
+                          color="secondary"
+                          className={classes.button}
+                        >
+                          Delete
+                        </Button>
+                      </TableCell>
 
                     </TableRow>
                   )
@@ -210,7 +216,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     //updateUsersList: () => dispatch(usersActions.setUserRoles({updatedUserList: [], changedUsersList: []})),
-    //saveUserRoles: (userId, roles) => dispatch(usersOperations.saveUserRoles(userId, roles)),
+    deleteBusiness: (businessId) => dispatch(businessOperations.deleteBusiness(businessId)),
     getBusinessesByPlaceID: (placeId) => dispatch(businessOperations.getBusinessesByPlaceID(placeId)),
     getAllBusinesses: () => dispatch(businessOperations.getAllBusinesses()),
     //updatePaginationPage: (page) => dispatch(usersActions.changePaginationPage(page))
