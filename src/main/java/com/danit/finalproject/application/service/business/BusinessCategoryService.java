@@ -43,6 +43,7 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
   @Override
   public BusinessCategory update(Long id, BusinessCategory businessCategory) {
     businessCategory.setId(id);
+
     return businessCategoryRepository.saveAndFlush(businessCategory);
   }
 

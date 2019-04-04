@@ -26,10 +26,10 @@ public class S3Controller {
     this.amazonS3Service = amazonS3Service;
   }
 
-  @PostMapping("upload/image")
-  public ResponseEntity<S3UploadResponse> putObject(@RequestParam MultipartFile file) throws IOException {
-    return new ResponseEntity<>(amazonS3Service.putImage(file), HttpStatus.OK);
-  }
+//  @PostMapping("upload/image")
+//  public ResponseEntity<S3UploadResponse> putObject(@RequestParam MultipartFile file) throws IOException {
+//    return new ResponseEntity<>(amazonS3Service.putImage(file), HttpStatus.OK);
+//  }
 
   @GetMapping("/file-resource")
   public ResponseEntity<String> getUrlFromFileKey(@RequestParam String fileKey) {

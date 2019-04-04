@@ -2,7 +2,8 @@ import * as TYPES from './types'
 
 const initialState = {
   places: [],
-  placeCategories: []
+  placeCategories: [],
+  changedPlaceCategories: []
 }
 
 const placesReducer = (state = initialState, action) => {

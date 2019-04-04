@@ -1,5 +1,6 @@
 import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
+import axios from 'axios'
 
 export const getAllBusinessCategories = () => dispatch => {
   api.get('/api/business-categories').then(res => {
@@ -19,8 +20,50 @@ export const saveCategory = category => dispatch => {
       dispatch(getAllBusinessCategories())
     })
   } else {
-    api.post(`/api/business-categories`, category).then(res => {
-      dispatch(getAllBusinessCategories())
+    const newCategory = {...category, parentCategory: JSON.stringify(category.parentCategory)}
+    let formData = new FormData()
+    Object.entries(newCategory).forEach(([key, value]) => formData.append(key, value))
+
+    // formData.append('imageFile', this.state.businessCategoryImages[0])
+    axios({
+      method: 'post',
+      url: `/api/business-categories`,
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        'Access-Control-Allow-Origin': '*'
+      }
     })
+
+    // api.post(`/api/business-categories`, category).then(res => {
+    //   dispatch(getAllBusinessCategories())
+    // })
   }
+}
+
+function toFormData(obj, form, namespace) {
+  let fd = form || new FormData();
+  let formKey;
+
+  for(let property in obj) {
+    if(obj.hasOwnProperty(property) && obj[property]) {
+      if (namespace) {
+        formKey = namespace + '[' + property + ']';
+      } else {
+        formKey = property;
+      }
+
+      // if the property is an object, but not a File, use recursivity.
+      if (obj[property] instanceof Date) {
+        fd.append(formKey, obj[property].toISOString());
+      }
+      else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+        toFormData(obj[property], fd, formKey);
+      } else { // if it's a string or a File object
+        fd.append(formKey, obj[property]);
+      }
+    }
+  }
+
+  return fd;
 }
