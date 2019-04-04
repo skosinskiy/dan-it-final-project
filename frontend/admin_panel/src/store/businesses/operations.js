@@ -28,3 +28,11 @@ export const deleteBusiness = (businessId) => dispatch => {
     })
   })
 }
+
+export const saveNewBusiness = (business) => dispatch => {
+  api.post(`/api/businesses`, business).then(res => {
+    api.get(`/api/businesses`).then(res => {
+      dispatch(ACTIONS.getAllBusinesses(res))
+    })
+  })
+}

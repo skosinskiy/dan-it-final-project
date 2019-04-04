@@ -6,6 +6,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import {connect} from 'react-redux'
+import {placesOperations} from '../../../../../../store/places'
+import {businessOperations} from "../../../../../../store/businesses";
 
 const styles = theme => ({
   container: {
@@ -36,12 +38,22 @@ const styles = theme => ({
 
 })
 
-const emptyCategory = {
-  /*name: '',
-  parentCategory: {
-    name: '',
-    parentCategory: null
-  }*/
+const emptyBusiness = {
+  title: null,
+  description: null,
+  address: null,
+  webSite: null,
+  phoneNumber: null,
+  mainPhoto: null,
+  photos: null,
+  place: null,
+}
+
+const emptyPlace = {
+  title: 'New empty place',
+  description: 'This place was created by providing non-existent placeID during creation/editing of business profile.',
+  address: 'Unknown address',
+  placeCategory: {}
 }
 
 class BusinessForm extends Component {
@@ -49,12 +61,38 @@ class BusinessForm extends Component {
     super(props)
 
     this.state = {
-      editedCategory: props.category !== undefined ? props.category : emptyCategory
+      editedBusiness: props.business !== undefined ? props.business : emptyBusiness
     }
   }
+
+  getSpecificPlace = (placeID) => {
+    const {getPlaces, saveNewPlace, places} = this.props
+    getPlaces()
+    for (const place of places){
+      if (place.id === placeID){
+        return place
+      }
+    }
+    return saveNewPlace({emptyPlace})
+  }
+
+  saveBusiness = () => {
+    const {saveNewBusiness} = this.props
+
+    saveNewBusiness(this.state.editedBusiness)
+  }
+
+  handleChange = (event, propName) => {
+    /*const value = propName === 'place'
+      ? this.getSpecificPlace(event.target.value)
+      : event.target.value*/
+
+    this.setState({editedCategory: {...this.state.editedCategory, [propName]: event.target.value}})
+  }
+
   render () {
     const {classes} = this.props
-    const {editedCategory} = this.state
+    const {editedBusiness} = this.state
     return (
       <div className={classes.container}>
         <TextField
@@ -65,8 +103,8 @@ class BusinessForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedCategory.name}
-          onChange={(e) => this.handleChange(e, 'name')}
+          value={editedBusiness.name}
+          onChange={(e) => this.handleChange(e, 'title')}
         />
         <TextField
           label='Description'
@@ -76,8 +114,8 @@ class BusinessForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedCategory.name}
-          onChange={(e) => this.handleChange(e, 'name')}
+          value={editedBusiness.name}
+          onChange={(e) => this.handleChange(e, 'description')}
         />
         <TextField
           label='Address'
@@ -87,8 +125,8 @@ class BusinessForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedCategory.name}
-          onChange={(e) => this.handleChange(e, 'name')}
+          value={editedBusiness.name}
+          onChange={(e) => this.handleChange(e, 'address')}
         />
         <TextField
           label='Website'
@@ -98,8 +136,8 @@ class BusinessForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedCategory.name}
-          onChange={(e) => this.handleChange(e, 'name')}
+          value={editedBusiness.name}
+          onChange={(e) => this.handleChange(e, 'webSite')}
         />
         <TextField
           label='Phone Number'
@@ -109,8 +147,8 @@ class BusinessForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedCategory.name}
-          onChange={(e) => this.handleChange(e, 'name')}
+          value={editedBusiness.name}
+          onChange={(e) => this.handleChange(e, 'phoneNumber')}
         />
         <TextField
           label='Place ID'
@@ -120,8 +158,8 @@ class BusinessForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedCategory.name}
-          onChange={(e) => this.handleChange(e, 'name')}
+          value={editedBusiness.name}
+          onChange={(e) => this.handleChange(e, 'place')}
         />
         <div className={classes.buttons}>
           <NavLink to={'/admin/businesses'} className={classes.buttonLink}>
@@ -148,13 +186,15 @@ class BusinessForm extends Component {
 const mapStateToProps = (state, props) => {
 
   return {
-    // categories: state.businessCategory.allBusinessCategories,
+    places: state.places.places,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // saveCategory: (category) => dispatch(businessCategoryOperations.saveCategory(category))
+    getPlaces: () => dispatch(placesOperations.getPlaces()),
+    saveNewPlace: (place) => dispatch(placesOperations.saveNewPlace(place)),
+    saveNewBusiness: (business) => dispatch(businessOperations.saveNewBusiness(business)),
   }
 }
 
