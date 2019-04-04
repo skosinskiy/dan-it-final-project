@@ -16,15 +16,15 @@ const styles = theme => ({
   }
 })
 
-// TODO: proper class names
 class ManagingBusinesses extends Component {
   render () {
+    const {classes} = this.props
     return (
       <div>
-        <div className='temp-search-add-new-business'>
+        <div className='searchbar-flexbox'>
           <SearchBar searchtype='business_by_name' />
-          <NavLink to={'/admin/businesses/add-new'} className='temporary'>
-            <Button size="large" variant="contained" color="primary" className={this.props.classes.button}>Add new business</Button>
+          <NavLink to={'/admin/businesses/add-new'} className={classes.buttonLink}>
+            <Button size="large" variant="contained" color="primary" className={classes.button}>Add new business</Button>
           </NavLink>
         </div>
 

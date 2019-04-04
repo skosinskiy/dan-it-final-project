@@ -3,7 +3,6 @@ import {toastr} from 'react-redux-toastr'
 import PropTypes from 'prop-types'
 import {NavLink} from 'react-router-dom'
 import {withStyles} from '@material-ui/core/styles'
-import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import {connect} from 'react-redux'
@@ -85,7 +84,7 @@ class BusinessForm extends Component {
     const toastrOptions = {timeoOut: 6000}
 
     placeObject !== null
-      ? saveNewBusiness({...this.state.editedBusiness, ['place']: placeObject})
+      ? saveNewBusiness({...this.state.editedBusiness, place: placeObject})
       : toastr.error('Error', 'Provided PlaceID does not exist in DB. Please create a new place first', toastrOptions)
   }
 

@@ -13,7 +13,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Paper from '@material-ui/core/Paper'
 import Tooltip from '@material-ui/core/Tooltip'
 
-import {businessOperations, businessActions} from '../../../../../store/businesses'
+import {businessOperations} from '../../../../../store/businesses'
 
 import './businessList.scss'
 
@@ -94,7 +94,6 @@ class BusinessList extends React.Component {
   }
 
   componentDidMount () {
-    const {page, rowsPerPage} = this.state
     this.props.getAllBusinesses()
   }
 
@@ -104,8 +103,8 @@ class BusinessList extends React.Component {
   }
 
   render () {
-    const {classes, businessList, totalElements, page, deleteBusiness} = this.props
-    const {rowsPerPage} = this.state
+    const {classes, businessList, deleteBusiness} = this.props
+
     return (
       <div className={classes.root}>
         <Paper className={classes.root}>
