@@ -170,7 +170,6 @@ class EnhancedTable extends React.Component {
                           selectedNames={placeCategory.menuItems}
                           placeCategoryId={placeCategory.id}
                           allNames={menuItemNames}
-                          isMultisync={isMultisync}
                         />
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">

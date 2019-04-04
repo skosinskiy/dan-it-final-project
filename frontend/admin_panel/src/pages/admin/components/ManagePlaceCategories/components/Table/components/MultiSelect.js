@@ -52,34 +52,25 @@ function getStyles (name, that) {
 }
 
 class MultipleSelect extends React.Component {
-
-  componentDidUpdate(prevProps) {
-    console.log(this.state)
-    if (prevProps.isMultisync !== this.props.isMultisync) {
-      this.setState({name: []})
-    }
-  }
-   
+  
   state = {
     name: []
   }
 
   handleChange = event => {
-    const value = event.target.value
-    const state = typeof value === 'string' ? {name: value} : {name: [...event.target.value]}
-    this.setState(state)
+    this.setState({name: event.target.value})
     const {placeCategoryId, changed, updateChanged} = this.props
     updateChanged(placeCategoryId, changed)
   }
 
   render () {
-    const {classes, allNames, isMultisync} = this.props
+    const {classes, allNames} = this.props
     return (
       <div className={classes.root}>
         <FormControl className={classes.formControl} fullWidth>
           <InputLabel htmlFor="select-multiple-chip"></InputLabel>
           <Select
-            multiple={isMultisync}
+            multiple
             value={this.state.name}
             onChange={this.handleChange}
             input={<Input id="select-multiple-chip"/>}
@@ -112,7 +103,6 @@ MultipleSelect.propTypes = {
   updateChanged: PropTypes.func.isRequired,
   changed: PropTypes.array.isRequired,
   selectedNames: PropTypes.array.isRequired,
-  isMultisync:  PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = ({placeCategories, menuItems}) => ({

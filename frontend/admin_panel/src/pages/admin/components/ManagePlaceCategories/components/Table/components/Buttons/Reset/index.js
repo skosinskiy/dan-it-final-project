@@ -16,7 +16,13 @@ const SubmitButton = props => {
   const {classes} = props
   return (
     <div>
-      <Button variant="contained" color="secondary" className={classes.button} type="reset">
+      <Button
+      variant="contained"
+      color="secondary"
+      className={classes.button}
+      type="reset"
+      onClick={()=>{}}
+      >
         RESET
       </Button>
     </div>
