@@ -15,7 +15,7 @@ const styles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    width: '20%'
+    width: '45%'
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -34,7 +34,8 @@ const styles = theme => ({
   },
 
   buttons: {
-    margin: '8px'
+    margin: '8px',
+    textDecoration: 'none',
   }
 
 })
@@ -83,11 +84,12 @@ class BusinessForm extends Component {
 
   saveBusiness = () => {
     const {saveNewBusiness} = this.props
-    const key = 'place'
     const placeObject = this.getSpecificPlace(this.state.place)
+    const toastrOptions = {timeoOut: 6000}
+
     placeObject !== null
-      ? saveNewBusiness({...this.state.editedBusiness, [key]: placeObject})
-      : toastr.error('Error', 'Provided PlaceID does not exist in DB. Please create a new place first')
+      ? saveNewBusiness({...this.state.editedBusiness, ['place']: placeObject})
+      : toastr.error('Error', 'Provided PlaceID does not exist in DB. Please create a new place first', toastrOptions)
   }
 
   handleChange = (event, propName) => {
