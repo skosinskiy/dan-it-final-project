@@ -22,6 +22,7 @@ import {businessOperations, businessActions} from '../../../../../store/business
 import BusinessItem from './BusinessItem/index'
 
 import './businessList.scss'
+import ListItem from "../../ManagingRoles/RoleItem";
 
 const rows = [
   {id: 'photo', numeric: false, disablePadding: false, label: 'Photo'},
@@ -129,7 +130,6 @@ class BusinessList extends React.Component {
                 rowCount={businessList.length}
               />
               <TableBody>
-                {console.log(businessList)}
                 {businessList.map(business => {
                   return (
                     <TableRow
@@ -158,42 +158,41 @@ class BusinessList extends React.Component {
                       <TableCell padding="none" align="left">{business.phoneNumber}</TableCell>
                       <TableCell padding="none" align="left">{business.placeId}</TableCell>
 
+                      <NavLink to={`/admin/businesses/edit/${business.title}`} className={classes.buttons}>
+                        <Button variant="contained" color="primary" className={classes.button}>Edit</Button>
+                      </NavLink>
+                      <Button
+                        // onClick={() => deleteRole(role.id)}
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                      >
+                        Delete
+                      </Button>
+
                     </TableRow>
                   )
                 })}
               </TableBody>
             </Table>
           </div>
-          <TablePagination
-            rowsPerPageOptions={[25]}
-            labelRowsPerPage=''
-            component="div"
-            count={totalElements}
-            rowsPerPage={rowsPerPage}
-            page={page}
-            backIconButtonProps={{
-              'aria-label': 'Previous Page'
-            }}
-            nextIconButtonProps={{
-              'aria-label': 'Next Page'
-            }}
-            onChangePage={this.handleChangePage}
+          {/*<TablePagination*/}
+            {/*rowsPerPageOptions={[25]}*/}
+            {/*labelRowsPerPage=''*/}
+            {/*component="div"*/}
+            {/*count={totalElements}*/}
+            {/*rowsPerPage={rowsPerPage}*/}
+            {/*page={page}*/}
+            {/*backIconButtonProps={{*/}
+              {/*'aria-label': 'Previous Page'*/}
+            {/*}}*/}
+            {/*nextIconButtonProps={{*/}
+              {/*'aria-label': 'Next Page'*/}
+            {/*}}*/}
+            {/*onChangePage={this.handleChangePage}*/}
 
-          />
+          {/*/>*/}
         </Paper>
-        <div className={classes.userListButtons}>
-          <NavLink className={classes.buttons} to={'/admin'}><Button onClick={this.saveUsersRoles} variant="contained"
-                                                                     color="primary" className={classes.button}>
-            Save
-          </Button>
-          </NavLink>
-          <NavLink className={classes.buttons} to={'/admin'}>
-            <Button onClick={() => this.props.updateUsersList()} variant="contained" color="secondary"
-                    className={classes.button}>
-              Exit
-            </Button>
-          </NavLink>
-        </div>
       </div>
     )
   }
