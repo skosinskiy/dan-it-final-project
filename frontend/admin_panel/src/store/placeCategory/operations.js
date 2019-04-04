@@ -4,28 +4,41 @@ import * as ACTIONS from './actions'
 export const createData = () => dispatch => {
   dispatch(ACTIONS.isLoading(true))
   api.get(`/api/place-categories`)
-    .then(rawData => rawData.map(placeCategory => addDefaultMocks(placeCategory)))
+    .then(rawData => rawData.map(placeCategory => createNewOrAddDefaults(placeCategory)))
     .then(placeCategories => dispatch(ACTIONS.updatePlaceCategories(placeCategories)))
     .finally(() => dispatch(ACTIONS.isLoading(false)))
 }
 
-const addDefaultMocks = ({id, multisync, name, menuItems=[]} = {}) => ({
+const createNewOrAddDefaults = ({id, multisync=true, name="EnterName", menuItems=[]} = {}) => ({
+  key: Math.random() * new Date().getTime(),
   id: id,
   multisync: multisync,
   name: name,
   menuItems: menuItems
 })
 
-
-export const updateChanged = (id, changed) => dispatch => {
-  if (changed.indexOf(id) === -1){
-    dispatch(ACTIONS.updateChanged([id].concat(changed)))
-  }
+export const updateChanged = (key, placeCategories) => dispatch => {
+  const idx = placeCategories.findIndex(placeCategory => placeCategory.key === key)
+  const newPlaceCategories = [...placeCategories]
+  newPlaceCategories[idx].changed = true
+  dispatch(ACTIONS.updatePlaceCategories(newPlaceCategories))
 }
 
-export const toggleMultisync = (id, placeCategories) => dispatch => {
+export const toggleMultisync = (key, placeCategories) => dispatch => {
   const updated = [...placeCategories]
-  const idx = updated.findIndex(category => category.id === id)
+  const idx = updated.findIndex(category => category.key === key)
   updated[idx].multisync = !updated[idx].multisync
   dispatch(ACTIONS.updatePlaceCategories(updated))
 }
+
+export const addNew = placeCategories => dispatch => {
+  const newPlaceCategories = [...placeCategories]
+  const newCategory = createNewOrAddDefaults();
+  newPlaceCategories.push(newCategory)
+  dispatch(updateChanged(newCategory.key, newPlaceCategories))
+}
+
+export const getAllNew = placeCategories => placeCategories.filter(placeCategory => !placeCategory.id)
+
+export const getAllEdited = placeCategories =>
+  placeCategories.filter(placeCategory => placeCategory.id && placeCategory.changed)
