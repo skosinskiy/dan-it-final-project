@@ -41,14 +41,14 @@ const styles = theme => ({
 })
 
 const emptyBusiness = {
-  title: null,
-  description: null,
-  address: null,
-  webSite: null,
-  phoneNumber: null,
+  title: "",
+  description: "",
+  address: "",
+  webSite: "",
+  phoneNumber: "",
   mainPhoto: null,
   photos: null,
-  place: null,
+  place: undefined,
 }
 
 const emptyPlace = {
@@ -64,7 +64,7 @@ class BusinessForm extends Component {
 
     this.state = {
       editedBusiness: props.business !== undefined ? props.business : emptyBusiness,
-      place: null
+      place: undefined
     }
   }
 
@@ -84,7 +84,9 @@ class BusinessForm extends Component {
 
   saveBusiness = () => {
     const {saveNewBusiness} = this.props
-    const placeObject = this.getSpecificPlace(this.state.place)
+    const {editedBusiness, place} = this.state
+    const placeID = editedBusiness.place !== undefined ? editedBusiness.place.id : place
+    const placeObject = this.getSpecificPlace(placeID)
     const toastrOptions = {timeoOut: 6000}
 
     placeObject !== null
@@ -102,7 +104,7 @@ class BusinessForm extends Component {
 
   render () {
     const {classes} = this.props
-    const {editedBusiness} = this.state
+    const {editedBusiness, place} = this.state
     return (
       <div className={classes.container}>
         <TextField
@@ -113,7 +115,7 @@ class BusinessForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedBusiness.name}
+          value={editedBusiness.title}
           onChange={(e) => this.handleChange(e, 'title')}
         />
         <TextField
@@ -124,7 +126,7 @@ class BusinessForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedBusiness.name}
+          value={editedBusiness.description}
           onChange={(e) => this.handleChange(e, 'description')}
         />
         <TextField
@@ -135,7 +137,7 @@ class BusinessForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedBusiness.name}
+          value={editedBusiness.address}
           onChange={(e) => this.handleChange(e, 'address')}
         />
         <TextField
@@ -146,7 +148,7 @@ class BusinessForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedBusiness.name}
+          value={editedBusiness.webSite}
           onChange={(e) => this.handleChange(e, 'webSite')}
         />
         <TextField
@@ -157,7 +159,7 @@ class BusinessForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedBusiness.name}
+          value={editedBusiness.phoneNumber}
           onChange={(e) => this.handleChange(e, 'phoneNumber')}
         />
         <TextField
@@ -168,7 +170,7 @@ class BusinessForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedBusiness.name}
+          value={editedBusiness.place !== undefined ? editedBusiness.place.id : place}
           onChange={(e) => this.handleChange(e, 'place')}
         />
         <div className={classes.buttons}>
