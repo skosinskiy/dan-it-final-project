@@ -56,8 +56,7 @@ class BusinessCategoryForm extends React.Component {
 
     this.state = {
       editedCategory: props.category !== undefined ? props.category : emptyCategory,
-      imagePreviewUrl: '',
-      businessCategoryImage: null
+      businessCategoryImages: []
     }
   }
 
@@ -79,7 +78,10 @@ class BusinessCategoryForm extends React.Component {
   saveCategory = () => {
     const {saveCategory} = this.props
 
-    saveCategory(this.state.editedCategory)
+    saveCategory({
+      ...this.state.editedCategory,
+      imageFile: this.state.businessCategoryImages[0]
+    })
   }
 
   handleChange = (event, propName) => {
@@ -92,34 +94,29 @@ class BusinessCategoryForm extends React.Component {
     this.setState({editedCategory: {...this.state.editedCategory, [propName]: value}})
   }
 
-  onFileChange = (event) => {
-    const file = event.target.files[0]
-
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      this.setState({
-        ...this.state,
-        imagePreviewUrl: reader.result
-      })
-    }
-    reader.readAsDataURL(file)
-    this.setState({
-      ...this.state,
-      businessCategoryImage: file
+  onFileChange = (images) => {
+    const newBusinessCategoryImages = images.map(file => Object.assign(file, {
+      preview: URL.createObjectURL(file)
+    }))
+    this.setState(state => {
+      return {
+        businessCategoryImages: [...state.businessCategoryImages, ...newBusinessCategoryImages]
+      }
     })
   }
 
-  onImageReset = () => {
+  onImageReset = (image) => {
+    const imageToDeleteId = this.state.businessCategoryImages.findIndex(elem => elem === image)
+    const newBusinessCategoryImage = this.state.businessCategoryImages.slice().splice(imageToDeleteId, 1)
     this.setState({
       ...this.state,
-      businessCategoryImage: null,
-      imagePreviewUrl: ''
+      businessCategoryImages: newBusinessCategoryImage,
     })
   }
 
   render () {
     const {classes, match, categories, category} = this.props
-    const {editedCategory, imagePreviewUrl} = this.state
+    const {editedCategory, businessCategoryImages} = this.state
     const categoryId = match.params.categoryId
 
     if (categoryId && !category) {
@@ -167,7 +164,7 @@ class BusinessCategoryForm extends React.Component {
           {categoryOptions}
         </TextField>
 
-        <ImageUploader imagePreviewUrl={imagePreviewUrl}
+        <ImageUploader images={businessCategoryImages}
           onFileChange={this.onFileChange} onReset={this.onImageReset} />
 
         <div className={classes.buttons}>

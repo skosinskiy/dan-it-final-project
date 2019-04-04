@@ -1,17 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import classNames from 'classnames'
 import {withStyles} from '@material-ui/core/styles'
+import Dropzone from 'react-dropzone';
 
-import Button from '@material-ui/core/Button'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 const styles = () => ({
   input: {
     display: 'none'
-  },
-  previewImageWrapper: {
-    position: 'relative',
   },
   image: {
     width: '100%',
@@ -20,6 +16,28 @@ const styles = () => ({
     borderStyle: 'dashed',
     borderColor: 'rgba(0, 0, 0, 0.23)',
     borderRadius: '4px'
+  },
+  dropzone: {
+    flex: '1',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px',
+    borderWidth: '2px',
+    borderRadius: '2px',
+    borderColor: '#eeeeee',
+    borderStyle: 'dashed',
+    backgroundColor: '#fafafa',
+    color: '#bdbdbd',
+    outline: 'none',
+    transition: 'border .24s ease-in-out'
+  },
+  uploadIcon: {
+    color: 'black',
+    margin: '0 10px'
+  },
+  previewImageWrapper: {
+    position: 'relative',
   },
   resetButton: {
     position: 'absolute',
@@ -36,35 +54,41 @@ const styles = () => ({
 
 const ImageUploader = (props) => {
   const {classes} = props
+  const uploadedImages = props.images && props.images.length > 0 ? props.images.map((image, index) => {
+    return (
+      <div key={`image-${index}`} className={classes.previewImageWrapper}>
+        <img src={image.preview} className={classes.image} alt="logo" />
+        <button className={classes.resetButton} onClick={(image) => props.onReset(image)}>x</button>
+      </div>
+    )
+  }) : null
+
+
   return (
-    <div>
-      <input
-        accept="image/*"
-        className={classes.input}
-        onChange={(e) => props.onFileChange(e)}
-        id="contained-button-file"
-        multiple
-        type="file"
-      />
-      {props.imagePreviewUrl &&
-        <div className={classes.previewImageWrapper}>
-          <img src={props.imagePreviewUrl} className={classes.image} alt="logo" />
-          <button className={classes.resetButton} onClick={props.onReset}>x</button>
-        </div>
-      }
-      <label htmlFor="contained-button-file">
-        <Button variant="contained" component="span" className={classNames(classes.button)}>
-          Select Image
-          <CloudUploadIcon className={classes.rightIcon} />
-        </Button>
-      </label>
-    </div>
+    <Dropzone onDrop={props.onFileChange}>
+      {({getRootProps, getInputProps}) => (
+        <section className="container">
+          <div {...getRootProps({className: classes.dropzone})}>
+            <input accept='image/*' {...getInputProps()} />
+            <p>
+            <CloudUploadIcon className={classes.uploadIcon} />
+              Drag n drop some files here, or click to select files
+            </p>
+          </div>
+          <aside>
+            <h4>Images</h4>
+            <ul>{uploadedImages}</ul>
+          </aside>
+        </section>
+      )}
+    </Dropzone>
   )
 }
 
 ImageUploader.propTypes = {
   classes: PropTypes.object.isRequired,
-  imagePreviewUrl: PropTypes.string,
+  multiple: PropTypes.bool,
+  images: PropTypes.arrayOf(PropTypes.any) ,
   onFileChange: PropTypes.func.isRequired,
   onReset: PropTypes.func.isRequired
 }

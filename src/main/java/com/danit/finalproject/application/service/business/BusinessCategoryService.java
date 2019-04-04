@@ -2,6 +2,7 @@ package com.danit.finalproject.application.service.business;
 
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.repository.business.BusinessCategoryRepository;
+import com.danit.finalproject.application.service.AmazonS3Service;
 import com.danit.finalproject.application.service.CrudService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
   @Override
   public BusinessCategory update(Long id, BusinessCategory businessCategory) {
     businessCategory.setId(id);
+
     return businessCategoryRepository.saveAndFlush(businessCategory);
   }
 
