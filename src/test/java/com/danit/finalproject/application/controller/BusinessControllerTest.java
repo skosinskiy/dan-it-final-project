@@ -38,7 +38,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-@WithMockUser(authorities = "MANAGE_BUSINESS")
+@WithMockUser(authorities = "MANAGE_BUSINESSES")
 public class BusinessControllerTest {
   @Autowired
   private MockMvc mockMvc;

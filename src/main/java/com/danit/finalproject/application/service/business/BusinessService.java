@@ -3,29 +3,23 @@ package com.danit.finalproject.application.service.business;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.business.BusinessPhoto;
 import com.danit.finalproject.application.repository.business.BusinessRepository;
-import com.danit.finalproject.application.repository.place.PlaceRepository;
+import com.danit.finalproject.application.repository.event.EventRepository;
 import com.danit.finalproject.application.service.CrudService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
-import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 public class BusinessService implements CrudService<Business> {
   private BusinessRepository businessRepository;
-  private PlaceRepository placeRepository;
   private BusinessPhotoService businessPhotoService;
 
   @Autowired
   public BusinessService(
       BusinessRepository businessRepository,
-      PlaceRepository placeRepository,
-      BusinessPhotoService businessPhotoService) {
+      BusinessPhotoService businessPhotoService, EventRepository eventRepository) {
     this.businessRepository = businessRepository;
-    this.placeRepository = placeRepository;
     this.businessPhotoService = businessPhotoService;
   }
 
@@ -57,7 +51,9 @@ public class BusinessService implements CrudService<Business> {
   @Override
   public Business delete(Long id) {
     Business business = businessRepository.findById(id).orElse(null);
+
     businessRepository.deleteById(id);
+
     return business;
   }
 
