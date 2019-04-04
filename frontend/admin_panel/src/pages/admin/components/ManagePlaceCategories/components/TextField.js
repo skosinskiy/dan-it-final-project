@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import {placesCategoriesOperations} from 'store/placeCategory'
+import {connect} from 'react-redux'
 
 const styles = theme => ({
   container: {
@@ -26,12 +28,18 @@ class OutlinedTextFields extends React.Component {
     this.setState({isDisabled: false})
   }
 
+  handleBlur = (event) => {
+    const {updateName, placeCategoryKey, placeCategories, updateChanged} = this.props
+    updateName(placeCategoryKey, placeCategories, event.target.value)
+    updateChanged(placeCategoryKey, placeCategories)
+  }
+
   state = {
     isDisabled: true
   };
 
   render() {
-    const { classes } = this.props;
+    const {classes, name} = this.props;
 
     return (
       <form className={classes.container} noValidate autoComplete="off">
@@ -39,10 +47,11 @@ class OutlinedTextFields extends React.Component {
           disabled = {this.state.isDisabled}
           id="outlined-bare"
           className={classes.textField}
-          defaultValue={this.props.name || 'name'}
+          defaultValue={name}
           margin="normal"
           variant="outlined"
           onClick={this.handleOnClick}
+          onBlur={(event) => this.handleBlur(event)}
         />
       </form>
     );
@@ -51,7 +60,22 @@ class OutlinedTextFields extends React.Component {
 
 OutlinedTextFields.propTypes = {
   classes: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired
+  name: PropTypes.string.isRequired,
+  updateName:  PropTypes.func.isRequired,
+  placeCategoryKey:  PropTypes.number.isRequired,
+  placeCategories: PropTypes.array.isRequired,
+  updateChanged: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(OutlinedTextFields);
+const mapStateToProps = ({placeCategories}) => ({
+  placeCategories: placeCategories.placeCategories,
+})
+
+const mapDispatchToProps = dispatch => ({
+  updateName: (placeCategoryKey, placeCategories, name) =>
+    dispatch(placesCategoriesOperations.updateName(placeCategoryKey, placeCategories, name)),
+    updateChanged: (placeCategoryKey, placeCategories) =>
+      dispatch(placesCategoriesOperations.updateChanged(placeCategoryKey, placeCategories)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(OutlinedTextFields));

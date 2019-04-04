@@ -45,7 +45,7 @@ class EnhancedTable extends React.Component {
   };
 
   render() {
-    const { classes, placeCategories, isLoading, updateChanged, menuItemIsLoading, menuItemNames } = this.props;
+    const { classes, placeCategories, isLoading, menuItemIsLoading, menuItemNames } = this.props;
     const emptyRows = 1;
     if (isLoading || menuItemIsLoading) {
       return <Preloader />
@@ -74,9 +74,8 @@ class EnhancedTable extends React.Component {
                       <TableCell padding="checkbox">
                         <Checkbox checked={isMultisync} onClick={() => this.handleClickCheckBox(placeCategory.key)} />
                       </TableCell>
-                      <TableCell component="th" scope="row" padding="none"
-                        onChange={() => updateChanged(placeCategory.key, placeCategories)}>
-                        <TextField name={placeCategory.name} />
+                      <TableCell component="th" scope="row" padding="none">
+                        <TextField name={placeCategory.name} placeCategoryKey={placeCategory.key}/>
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none" >
                         <MultiSelect
