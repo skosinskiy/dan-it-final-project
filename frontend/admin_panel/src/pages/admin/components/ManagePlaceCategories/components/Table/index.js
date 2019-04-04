@@ -148,18 +148,18 @@ class EnhancedTable extends React.Component {
             <TableBody>
               {
                 placeCategories.map(placeCategory => {
-                  const isSelected = placeCategory.multisync
+                  const isMultisync = placeCategory.multisync
                   return (
                     <TableRow
                       hover
                       role="checkbox"
-                      aria-checked={isSelected}
+                      aria-checked={isMultisync}
                       tabIndex={-1}
                       key={placeCategory.id}
-                      selected={isSelected}
+                      selected={isMultisync}
                     >
                       <TableCell padding="checkbox">
-                        <Checkbox checked={isSelected} onClick={() => this.handleClickCheckBox(placeCategory.id)}/>
+                        <Checkbox checked={isMultisync} onClick={() => this.handleClickCheckBox(placeCategory.id)}/>
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none"
                       onChange={() => updateChanged(placeCategory.id, changed)}>
@@ -169,8 +169,9 @@ class EnhancedTable extends React.Component {
                         <MultiSelect
                           selectedNames={placeCategory.menuItems}
                           placeCategoryId={placeCategory.id}
-                          allNames={menuItemNames}/
-                        >
+                          allNames={menuItemNames}
+                          isMultisync={isMultisync}
+                        />
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
                       <DeleteButton />
