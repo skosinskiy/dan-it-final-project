@@ -49,9 +49,9 @@ public class MenuItemControllerTest {
 
   @Before
   public void initMenuItemMocks() throws ParseException {
-    final MenuItemName MOCK_NAME_1 = MenuItemName.SHOPS;
+    final MenuItemName MOCK_NAME_1 = MenuItemName.FOOD;
     final String MOCK_DISPLAY_NAME_1 = "The Bazar";
-    final MenuItemName MOCK_NAME_2 = MenuItemName.RESTAURANTS;
+    final MenuItemName MOCK_NAME_2 = MenuItemName.SERVICES;
     final String MOCK_DISPLAY_NAME_2 = "Healthy food zone";
     final String SIMPLE_DATE_FORMAT_PATTERN = "YYYY-MM-DD hh:mm:ss";
     mockMenuItem1 = new MenuItem() {{

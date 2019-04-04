@@ -32,10 +32,22 @@ export const toggleMultisync = (key, placeCategories) => dispatch => {
 }
 
 export const addNew = placeCategories => dispatch => {
-  const newPlaceCategories = [...placeCategories]
+  const updated = [...placeCategories]
   const newCategory = createNewOrAddDefaults();
-  newPlaceCategories.push(newCategory)
-  dispatch(updateChanged(newCategory.key, newPlaceCategories))
+  updated.push(newCategory)
+  dispatch(updateChanged(newCategory.key, updated))
+}
+
+export const deleteItem = (key, placeCategories, deletedIds) => dispatch => {
+  const idx = placeCategories.findIndex(item => item.key === key)
+  if (placeCategories[idx].id) {
+    const newDeletedIds = new Set (deletedIds)
+    newDeletedIds.add(placeCategories[idx].id)
+    dispatch(ACTIONS.updateDeletedPlaceCategoryIds([...newDeletedIds]))
+  }
+  const updated = [...placeCategories]
+  updated.splice(idx, 1)
+  dispatch(ACTIONS.updatePlaceCategories(updated))
 }
 
 export const getAllNew = placeCategories => placeCategories.filter(placeCategory => !placeCategory.id)

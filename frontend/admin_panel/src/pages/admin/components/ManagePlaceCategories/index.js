@@ -86,7 +86,7 @@ class EnhancedTable extends React.Component {
                         />
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
-                        <DeleteButton />
+                        <DeleteButton placeCategoryKey={placeCategory.key} />
                       </TableCell>
                     </TableRow>
                   );

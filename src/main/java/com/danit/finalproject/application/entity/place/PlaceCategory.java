@@ -28,9 +28,9 @@ public class PlaceCategory extends BaseEntity {
   private boolean multisync;
 
   @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-  @JoinTable(name = "placeCategories_menuItems",
-      joinColumns = {@JoinColumn(name = "placeCategory_id")},
-      inverseJoinColumns = {@JoinColumn(name = "menuItem_id")})
+  @JoinTable(name = "place-categories_menu-items",
+      joinColumns = {@JoinColumn(name = "place-category-id")},
+      inverseJoinColumns = {@JoinColumn(name = "menu-item-id")})
   @ToString.Exclude
   private List<MenuItem> menuItems;
 }
