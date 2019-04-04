@@ -7,9 +7,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import {placesCategoriesOperations} from 'store/placeCategory'
-import {menuItemsOperations} from 'store/menuItems'
 import {connect} from 'react-redux'
-import Preloader from 'components/Preloader';
 
 const styles = theme => ({
   root: {
@@ -54,12 +52,7 @@ function getStyles (name, that) {
 }
 
 class MultipleSelect extends React.Component {
-
-  componentDidMount () {
-    debugger
-    this.props.fetchNames()
-  }
-  
+   
   state = {
     name: []
   }
@@ -71,10 +64,7 @@ class MultipleSelect extends React.Component {
   }
 
   render () {
-    const {classes, names, isLoading} = this.props
-    if (isLoading) {
-      return <Preloader />
-    }
+    const {classes, allNames} = this.props
     return (
       <div className={classes.root}>
         <FormControl className={classes.formControl} fullWidth>
@@ -93,7 +83,7 @@ class MultipleSelect extends React.Component {
             // )}
             MenuProps={MenuProps}
           >
-            {names.map(name => (
+            {allNames.map(name => (
               <MenuItem key={name} value={name} style={getStyles(name, this)}>
                 {name}
               </MenuItem>
@@ -107,24 +97,20 @@ class MultipleSelect extends React.Component {
 
 MultipleSelect.propTypes = {
   classes: PropTypes.object.isRequired,
-  names: PropTypes.array.isRequired,
+  allNames: PropTypes.array.isRequired,
   placeCategoryId: PropTypes.number.isRequired,
   updateChanged: PropTypes.func.isRequired,
   changed: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  fetchNames: PropTypes.func.isRequired,
   selectedNames: PropTypes.array.isRequired,
 }
 
-const mapStateToProps = state => ({
-  changed: state.placeCategories.changed,
-  names: state.menuItems.names,
-  isLoading: state.menuItems.isLoading
+const mapStateToProps = ({placeCategories, menuItems}) => ({
+  changed: placeCategories.changed,
+  allNames: menuItems.names,
 })
 
 const mapDispatchToProps = dispatch => ({
   updateChanged: (id, changed) => dispatch(placesCategoriesOperations.updateChanged(id, changed)),
-  fetchNames: () => dispatch(menuItemsOperations.fetchNames())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(MultipleSelect))

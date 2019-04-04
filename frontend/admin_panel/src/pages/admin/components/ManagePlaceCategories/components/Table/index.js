@@ -19,7 +19,7 @@ import ResetButton from './components/Buttons/Reset'
 import TextField from './components/TextField'
 import DeleteButton from './components/Buttons/Delete'
 import MultiSelect from './components/MultiSelect'
-
+import {menuItemsOperations} from 'store/menuItems'
 import './index.scss'
 
 const rows = [
@@ -31,7 +31,6 @@ const rows = [
 class EnhancedTableHead extends React.Component {
 
   render() {
-
     return (
       <TableHead>
         <TableRow>
@@ -124,6 +123,7 @@ const styles = theme => ({
 class EnhancedTable extends React.Component {
   componentDidMount() {
     this.props.createData()
+    this.props.fetchMenuItemNames()
   }
 
   handleClickCheckBox = (id) => {
@@ -132,9 +132,9 @@ class EnhancedTable extends React.Component {
   };
 
   render() {
-    const {classes, placeCategories, isLoading, updateChanged, changed} = this.props;
+    const {classes, placeCategories, isLoading, updateChanged, changed, menuItemIsLoading, menuItemNames} = this.props;
     const emptyRows = 1;
-    if (isLoading){
+    if (isLoading || menuItemIsLoading){
       return <Preloader />
     }
     return (
@@ -166,7 +166,11 @@ class EnhancedTable extends React.Component {
                          <TextField name={placeCategory.name} />
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none" >
-                        <MultiSelect selectedNames={placeCategory.menuItems} placeCategoryId={placeCategory.id}/>
+                        <MultiSelect
+                          selectedNames={placeCategory.menuItems}
+                          placeCategoryId={placeCategory.id}
+                          allNames={menuItemNames}/
+                        >
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none">
                       <DeleteButton />
@@ -200,19 +204,25 @@ EnhancedTable.propTypes = {
   updateChanged: PropTypes.func.isRequired,
   createData: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
+  fetchMenuItemNames: PropTypes.func.isRequired,
+  menuItemIsLoading: PropTypes.bool.isRequired,
+  menuItemNames: PropTypes.array.isRequired,
 };
 
-const mapStateToProps = ({placeCategories}) => ({
+const mapStateToProps = ({placeCategories, menuItems}) => ({
   classes: placeCategories.classes,
   placeCategories: placeCategories.placeCategories,
   changed: placeCategories.changed,
-  isLoading: placeCategories.isLoading
+  isLoading: placeCategories.isLoading,
+  menuItemNames: menuItems.names,
+  menuItemIsLoading: menuItems.isLoading
 })
 
 const mapDispatchToProps = dispatch => ({
   createData: () => dispatch(placesCategoriesOperations.createData()),
   updateChanged: (id, changed) => dispatch(placesCategoriesOperations.updateChanged(id, changed)),
   toggleMultisync: (id, placeCategories) => dispatch(placesCategoriesOperations.toggleMultisync(id, placeCategories)),
+  fetchMenuItemNames: () => dispatch(menuItemsOperations.fetchNames())
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EnhancedTable))
