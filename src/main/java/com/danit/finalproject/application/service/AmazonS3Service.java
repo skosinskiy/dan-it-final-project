@@ -21,13 +21,16 @@ public class AmazonS3Service {
     this.s3 = s3;
   }
 
-  public S3UploadResponse putImage(MultipartFile file) throws IOException {
-    String fileKey = UUID.randomUUID().toString() + IMAGE_EXTENSION;
+  public S3UploadResponse putImage(MultipartFile file, String fileKey) throws IOException {
     s3.putObject(S3_BUCKET_NAME, fileKey, file.getInputStream(), null);
     return S3UploadResponse.builder()
         .fileKey(fileKey)
         .fileResource(getUrlFromFileKey(fileKey))
         .build();
+  }
+
+  public String generateS3FileKey() {
+    return UUID.randomUUID().toString() + IMAGE_EXTENSION;
   }
 
   public String getUrlFromFileKey(String fileKey) {

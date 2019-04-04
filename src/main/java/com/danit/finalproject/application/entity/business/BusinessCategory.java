@@ -37,4 +37,10 @@ public class BusinessCategory extends BaseEntity {
   @JsonIgnore
   private List<Business> businesses;
 
+  @Column(name = "image_key")
+  private String imageKey;
+
+  @Column(name = "image_url")
+  private String imageUrl;
+
 }
