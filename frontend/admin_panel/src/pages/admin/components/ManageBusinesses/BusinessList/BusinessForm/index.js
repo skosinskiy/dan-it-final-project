@@ -68,6 +68,78 @@ class BusinessForm extends Component {
           value={editedCategory.name}
           onChange={(e) => this.handleChange(e, 'name')}
         />
+        <TextField
+          label='Description'
+          style={{margin: 8}}
+          margin='normal'
+          variant='outlined'
+          InputLabelProps={{
+            shrink: true
+          }}
+          value={editedCategory.name}
+          onChange={(e) => this.handleChange(e, 'name')}
+        />
+        <TextField
+          label='Address'
+          style={{margin: 8}}
+          margin='normal'
+          variant='outlined'
+          InputLabelProps={{
+            shrink: true
+          }}
+          value={editedCategory.name}
+          onChange={(e) => this.handleChange(e, 'name')}
+        />
+        <TextField
+          label='Website'
+          style={{margin: 8}}
+          margin='normal'
+          variant='outlined'
+          InputLabelProps={{
+            shrink: true
+          }}
+          value={editedCategory.name}
+          onChange={(e) => this.handleChange(e, 'name')}
+        />
+        <TextField
+          label='Phone Number'
+          style={{margin: 8}}
+          margin='normal'
+          variant='outlined'
+          InputLabelProps={{
+            shrink: true
+          }}
+          value={editedCategory.name}
+          onChange={(e) => this.handleChange(e, 'name')}
+        />
+        <TextField
+          label='Place ID'
+          style={{margin: 8}}
+          margin='normal'
+          variant='outlined'
+          InputLabelProps={{
+            shrink: true
+          }}
+          value={editedCategory.name}
+          onChange={(e) => this.handleChange(e, 'name')}
+        />
+        <div className={classes.buttons}>
+          <NavLink to={'/admin/businesses'} className={classes.buttonLink}>
+            <Button
+              onClick={this.saveBusiness}
+              variant='contained'
+              color='primary'
+              className={classes.button}
+            >
+              Save
+            </Button>
+          </NavLink>
+          <NavLink to={'/admin/businesses'} className={classes.buttonLink}>
+            <Button variant='contained' color='secondary' className={classes.button}>
+              Exit
+            </Button>
+          </NavLink>
+        </div>
       </div>
     )
   }
