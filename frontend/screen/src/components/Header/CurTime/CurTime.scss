@@ -1,0 +1,34 @@
+@import '../../../styles/variables';
+
+.current-time{
+  margin: 0;
+  margin-left: 46px;
+  padding: 0;
+}
+
+.current-time{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.current-time__main{
+  margin-right: 0;
+  padding-right: 0;
+  color: $black;
+  font-size: 44px;
+  line-height: 20px;
+  letter-spacing: .00636364em;
+  text-align: right;
+}
+
+.current-time__day{
+  margin-top: 12px;
+  margin-right: 0;
+  padding-right: 3px;
+  color: $black;
+  font-size: 22px;
+  line-height: 16px;
+  letter-spacing: .00636364em;
+  text-align: right;
+}

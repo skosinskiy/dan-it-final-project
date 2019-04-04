@@ -1,60 +1,80 @@
-
+@import '../../../styles/variables';
 .menu {
-    position: fixed;
-    top: 5px;
-    left: 5px;
+    display: flex;
+    justify-content: space-between;
+   /* width: 658px;*/
+    width: 31%;
+    height: 51px;
+    margin: 0;
+}
+.menu-hamburger{
     display: block;
-    float: left;
-    text-align: left;
+  /*  margin-right: 102px;*/
+    margin-right: 2%;
+    margin-left: 0;
 }
-
-.menu > ul{
-    position: absolute;
-    top: 5px;
+.menu-hamburger:hover{
+    cursor: pointer;
 }
-
-.menu li{
-    margin-bottom: 2em;
-    color: black;
-    list-style: none;
-}
-
 a {
+    color: $black;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: .00636364em;
     text-decoration: none;
 }
-
 .menu-visible {
-    left: 5px;
+    display: flex;
+    justify-content: space-between;
+    width: 75%;
+    margin: 0;
     opacity: 1;
     transition: .5s;
 }
-
+.menu__item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 7%;
+    margin-left: 7%;
+    text-align: center;
+}
+.menu__item div{
+    display: inline-block;
+    margin-top: 9px;
+    margin-right: auto;
+    margin-left: auto;
+}
 .menu-hidden {
     left: -100%;
+    display: flex;
+    justify-content: space-between;
+    width: 75%;
+    margin: 0;
     opacity: 0;
     transition: .5s;
 }
-
 $icon_classes: (
-    'icon': 'menu-icon', 
-    'crossed': 'menu-icon-crossed', 
-    'crossed-reverse': 'menu-icon-crossed-reverse'
+    'icon': 'menu__icon',
+    'crossed': 'menu__icon-crossed',
+    'crossed-reverse': 'menu__icon-crossed-reverse'
     );
-
-.menu-icon {
-    width: 25px;
-    height: 3px;
-    margin: 3px 3px;
+.menu__icon {
+    width: 60px;
+    height: 5px;
+    margin: 9px 9px;
     background-color: black;
+    border-radius: 2px;
     transition: .5s;
 }
-
-.menu-icon-crossed {
+.menu__icon-crossed {
     transform: rotate(45deg) translate(2px, -5px);
     transform-origin: top left;
-} 
-
-.menu-icon-crossed-reverse {
-    transform: rotate(-45grad) translateX(7px) translateY(-13px);
+}
+.menu__icon-crossed-reverse {
+    transform: rotate(-45grad) translateX(10px) translateY(-29px);
     transform-origin: bottom right;
+}
+.menu__icon.menu-visible{
+    background: #FEBA00;
 }
