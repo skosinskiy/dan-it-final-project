@@ -2,16 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-
 import {withStyles} from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
-import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
-import ImageIcon from '@material-ui/icons/Image'
-import TablePagination from '@material-ui/core/TablePagination'
 import TableRow from '@material-ui/core/TableRow'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Paper from '@material-ui/core/Paper'
@@ -19,10 +15,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 import {businessOperations, businessActions} from '../../../../../store/businesses'
 
-import BusinessItem from './BusinessItem/index'
-
 import './businessList.scss'
-import ListItem from "../../ManagingRoles/RoleItem";
 
 const rows = [
   {id: 'title', numeric: true, disablePadding: false, label: 'Title'},
@@ -105,15 +98,6 @@ class BusinessList extends React.Component {
     this.props.getAllBusinesses()
   }
 
-/*  saveUsersRoles = () => {
-    const {changedUsersList, saveUserRoles} = this.props
-    changedUsersList.forEach((user) => {
-      let roles = user.roles
-      saveUserRoles(user.id, roles)
-    })
-    this.props.updateUsersList()
-  }*/
-
   handleChangePage = (event, page) => {
     this.props.updatePaginationPage(page)
     this.props.getAllBusinesses()
@@ -176,22 +160,6 @@ class BusinessList extends React.Component {
               </TableBody>
             </Table>
           </div>
-          {/*<TablePagination*/}
-            {/*rowsPerPageOptions={[25]}*/}
-            {/*labelRowsPerPage=''*/}
-            {/*component="div"*/}
-            {/*count={totalElements}*/}
-            {/*rowsPerPage={rowsPerPage}*/}
-            {/*page={page}*/}
-            {/*backIconButtonProps={{*/}
-              {/*'aria-label': 'Previous Page'*/}
-            {/*}}*/}
-            {/*nextIconButtonProps={{*/}
-              {/*'aria-label': 'Next Page'*/}
-            {/*}}*/}
-            {/*onChangePage={this.handleChangePage}*/}
-
-          {/*/>*/}
         </Paper>
       </div>
     )
@@ -206,20 +174,14 @@ const mapStateToProps = (state) => {
   return {
     businessList: state.businesses.businessList,
     totalElements: state.businesses.totalElements,
-    //businessListByTitle: state.businesses.businessListByTitle,
-    //changedBusinessList: state.businesses.changedBusinessList,
-    //page: state.businesses.page,
-    //title: state.businesses.title
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    //updateUsersList: () => dispatch(usersActions.setUserRoles({updatedUserList: [], changedUsersList: []})),
     deleteBusiness: (businessId) => dispatch(businessOperations.deleteBusiness(businessId)),
     getBusinessesByPlaceID: (placeId) => dispatch(businessOperations.getBusinessesByPlaceID(placeId)),
     getAllBusinesses: () => dispatch(businessOperations.getAllBusinesses()),
-    //updatePaginationPage: (page) => dispatch(usersActions.changePaginationPage(page))
   }
 }
 

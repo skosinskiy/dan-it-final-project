@@ -194,9 +194,11 @@ class BusinessForm extends Component {
 }
 
 const mapStateToProps = (state, props) => {
+  const business = state.businesses.businessList.find(business => business.title === props.match.params.title)
 
   return {
     places: state.places.places,
+    business
   }
 }
 
