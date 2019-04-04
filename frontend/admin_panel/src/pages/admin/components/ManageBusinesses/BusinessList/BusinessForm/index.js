@@ -51,13 +51,6 @@ const emptyBusiness = {
   place: undefined,
 }
 
-const emptyPlace = {
-  title: 'New empty place',
-  description: 'This place was created by providing non-existent placeID during creation/editing of business profile.',
-  address: 'Unknown address',
-  placeCategory: {}
-}
-
 class BusinessForm extends Component {
   constructor (props) {
     super(props)
@@ -70,6 +63,9 @@ class BusinessForm extends Component {
 
   componentDidMount() {
     this.props.getPlaces()
+    if(this.props.business !== undefined){
+      this.setState({place: this.props.business.place.id})
+    }
   }
 
   getSpecificPlace = (placeID) => {
@@ -84,9 +80,8 @@ class BusinessForm extends Component {
 
   saveBusiness = () => {
     const {saveNewBusiness} = this.props
-    const {editedBusiness, place} = this.state
-    const placeID = editedBusiness.place !== undefined ? editedBusiness.place.id : place
-    const placeObject = this.getSpecificPlace(placeID)
+    const {place} = this.state
+    const placeObject = this.getSpecificPlace(place)
     const toastrOptions = {timeoOut: 6000}
 
     placeObject !== null
@@ -96,6 +91,18 @@ class BusinessForm extends Component {
 
   handleChange = (event, propName) => {
     if (propName === 'place'){
+      // const {editedBusiness} = this.state
+      // if(editedBusiness.place !== undefined){
+      //   this.setState(editedBusiness => ({
+      //       ...editedBusiness,
+      //       place:{
+      //         ...editedBusiness.place,
+      //         id:event.target.value}
+      //     })
+      //   )
+      // } else {
+      //   this.setState({place: event.target.value})
+      // }
       this.setState({place: event.target.value})
     } else {
       this.setState({editedBusiness: {...this.state.editedBusiness, [propName]: event.target.value}})
@@ -170,7 +177,7 @@ class BusinessForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedBusiness.place !== undefined ? editedBusiness.place.id : place}
+          value={place}
           onChange={(e) => this.handleChange(e, 'place')}
         />
         <div className={classes.buttons}>
@@ -193,6 +200,10 @@ class BusinessForm extends Component {
       </div>
     )
   }
+}
+
+BusinessForm.propTypes = {
+  classes: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state, props) => {
