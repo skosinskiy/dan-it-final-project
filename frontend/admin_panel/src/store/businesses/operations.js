@@ -5,7 +5,7 @@ export const getAllBusinesses = () => dispatch => {
   // dispatch(ACTIONS.getBusinessesRequest())
   api.get(`/api/businesses`).then(res => {
     console.log(res)
-    dispatch(ACTIONS.getAllBusinesses({businesses: res}))
+    dispatch(ACTIONS.getAllBusinesses({businessList: res}))
   }).catch(err => {
     dispatch(ACTIONS.getBusinessesError(err))
   })
@@ -14,7 +14,7 @@ export const getAllBusinesses = () => dispatch => {
 export const getBusinessesByPlaceID = (placeId) => dispatch => {
   // dispatch(ACTIONS.getBusinessesRequest())
   api.get(`/api/businesses?placeId=${placeId}`).then(res => {
-    dispatch(ACTIONS.getBusinessesByPlaceID({businesses: res}))
+    dispatch(ACTIONS.getBusinessesByPlaceID({businessList: res}))
   }).catch(err => {
     dispatch(ACTIONS.getBusinessesError(err))
   })

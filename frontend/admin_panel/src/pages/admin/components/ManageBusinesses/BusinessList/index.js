@@ -90,11 +90,6 @@ const styles = theme => ({
   tableCell: {}
 })
 
-const tempBusinessArr = [
-  {id: 1,  title:'SpaceX', description: 'Rockets and stuff', address:'address1', website: 'site1.com.ua', phoneNumber: '023-23-31', placeId: 1},
-  {id: 2,  title:'Umbrella', description: 'Viruses', address:'address2', website: 'site2.com.ua', phoneNumber: '023-23-32', placeId: 2}
-]
-
 class BusinessList extends React.Component {
   state = {
     order: 'asc',
@@ -123,7 +118,7 @@ class BusinessList extends React.Component {
   }
 
   render () {
-    const {classes, businessListByTitle, totalElements, page} = this.props
+    const {classes, businessList, totalElements, page} = this.props
     const {rowsPerPage} = this.state
     return (
       <div className={classes.root}>
@@ -131,12 +126,11 @@ class BusinessList extends React.Component {
           <div className={classes.tableWrapper}>
             <Table className={classes.table} aria-labelledby="tableTitle">
               <EnhancedTableHead
-                // businessListByTitle.length
-                rowCount={10}
+                rowCount={businessList.length}
               />
               <TableBody>
-                {/* businessListByTitle*/}
-                {tempBusinessArr.map(business => {
+                {console.log(businessList)}
+                {businessList.map(business => {
                   return (
                     <TableRow
                       hover
@@ -211,11 +205,12 @@ BusinessList.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
-    businessListByTitle: state.businesses.businessListByTitle,
-    changedBusinessList: state.businesses.changedBusinessList,
-    page: state.businesses.page,
+    businessList: state.businesses.businessList,
     totalElements: state.businesses.totalElements,
-    title: state.businesses.title
+    //businessListByTitle: state.businesses.businessListByTitle,
+    //changedBusinessList: state.businesses.changedBusinessList,
+    //page: state.businesses.page,
+    //title: state.businesses.title
   }
 }
 
