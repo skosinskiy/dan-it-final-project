@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {toastr} from 'react-redux-toastr'
 import PropTypes from 'prop-types'
 import {NavLink} from 'react-router-dom'
 import {withStyles} from '@material-ui/core/styles'
@@ -86,7 +87,7 @@ class BusinessForm extends Component {
     const placeObject = this.getSpecificPlace(this.state.place)
     placeObject !== null
       ? saveNewBusiness({...this.state.editedBusiness, [key]: placeObject})
-      : this.setState({...this.state.editedBusiness, ['place']: 'Place does not exist'})
+      : toastr.error('Error', 'Provided PlaceID does not exist in DB. Please create a new place first')
   }
 
   handleChange = (event, propName) => {
