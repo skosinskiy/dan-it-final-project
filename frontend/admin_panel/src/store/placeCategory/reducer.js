@@ -2,7 +2,6 @@ import * as TYPES from './types'
 
 const initialState = {
   isLoading: true,
-  changed: [],
   placeCategories: [],
 }
 
@@ -17,11 +16,6 @@ function placeCategories(state = initialState, action) {
       return {
         ...state,
         isLoading: action.payload
-      }
-    case TYPES.UPDATE_CHANGED:
-      return {
-        ...state,
-        changed: action.payload
       }
     default:
       return { ...state }

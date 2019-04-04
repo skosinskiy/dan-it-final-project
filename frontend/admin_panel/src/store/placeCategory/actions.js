@@ -9,8 +9,3 @@ export const updatePlaceCategories = placePategories => ({
   type: TYPES.UPDATE_PLACE_CATEGORIES,
   payload: placePategories
 })
-
-export const updateChanged = changed => ({
-  type: TYPES.UPDATE_CHANGED,
-  payload: changed
-})

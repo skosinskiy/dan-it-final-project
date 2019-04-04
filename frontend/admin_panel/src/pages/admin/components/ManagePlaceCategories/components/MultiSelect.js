@@ -59,8 +59,8 @@ class MultipleSelect extends React.Component {
 
   handleChange = event => {
     this.setState({name: event.target.value})
-    const {placeCategoryId, changed, updateChanged} = this.props
-    updateChanged(placeCategoryId, changed)
+    const {placeCategoryKey, placeCategories, updateChanged} = this.props
+    updateChanged(placeCategoryKey, placeCategories)
   }
 
   render () {
@@ -98,19 +98,19 @@ class MultipleSelect extends React.Component {
 MultipleSelect.propTypes = {
   classes: PropTypes.object.isRequired,
   allNames: PropTypes.array.isRequired,
-  placeCategoryId: PropTypes.number.isRequired,
+  placeCategoryKey: PropTypes.number.isRequired,
   updateChanged: PropTypes.func.isRequired,
-  changed: PropTypes.array.isRequired,
+  placeCategories: PropTypes.array.isRequired,
   selectedNames: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = ({placeCategories, menuItems}) => ({
-  changed: placeCategories.changed,
+  placeCategories: placeCategories.placeCategories,
   allNames: menuItems.names,
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateChanged: (id, changed) => dispatch(placesCategoriesOperations.updateChanged(id, changed)),
+  updateChanged: (key, placeCategories) => dispatch(placesCategoriesOperations.updateChanged(key, placeCategories)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(MultipleSelect))
