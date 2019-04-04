@@ -86,12 +86,19 @@ class RoleForm extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      role: typeof props.role !== 'undefined' ? props.role : emptyRole
+      role: {...emptyRole}
     }
   }
 
   componentDidMount () {
+    const {getAllRoles} = this.props
+      getAllRoles()
+  }
 
+  componentWillReceiveProps (nextProps) {
+    if (nextProps.role) {
+      this.setState({role: {...nextProps.role}})
+    }
   }
 
   saveRole = (roleId, role) => {
@@ -183,7 +190,8 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     saveNewRole: (role) => dispatch(roleOperations.saveNewRole(role)),
-    updateRole: (roleId, role) => dispatch(roleOperations.updateRole(roleId, role))
+    updateRole: (roleId, role) => dispatch(roleOperations.updateRole(roleId, role)),
+    getAllRoles: () => dispatch(roleOperations.getRoles())
   }
 }
 
