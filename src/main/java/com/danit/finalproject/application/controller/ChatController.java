@@ -30,7 +30,7 @@ public class ChatController {
 
   @GetMapping("{id}")
   public ResponseEntity<ChatResponse> getPlaceById(@PathVariable("id") Long placeId) {
-    return new ResponseEntity(chatFacade.getById(placeId), HttpStatus.OK);
+    return new ResponseEntity<>(chatFacade.getById(placeId), HttpStatus.OK);
   }
 
   @GetMapping
