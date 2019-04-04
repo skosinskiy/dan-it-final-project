@@ -61,33 +61,40 @@ class BusinessForm extends Component {
     super(props)
 
     this.state = {
-      editedBusiness: props.business !== undefined ? props.business : emptyBusiness
+      editedBusiness: props.business !== undefined ? props.business : emptyBusiness,
+      place: null
     }
   }
 
+  componentDidMount() {
+    this.props.getPlaces()
+  }
+
   getSpecificPlace = (placeID) => {
-    const {getPlaces, saveNewPlace, places} = this.props
-    getPlaces()
+    const {places} = this.props
     for (const place of places){
-      if (place.id === placeID){
+      if (place.id === parseInt(placeID)){
         return place
       }
     }
-    return saveNewPlace({emptyPlace})
+    return null
   }
 
   saveBusiness = () => {
     const {saveNewBusiness} = this.props
-
-    saveNewBusiness(this.state.editedBusiness)
+    const key = 'place'
+    const placeObject = this.getSpecificPlace(this.state.place)
+    placeObject !== null
+      ? saveNewBusiness({...this.state.editedBusiness, [key]: placeObject})
+      : this.setState({...this.state.editedBusiness, ['place']: 'Place does not exist'})
   }
 
   handleChange = (event, propName) => {
-    /*const value = propName === 'place'
-      ? this.getSpecificPlace(event.target.value)
-      : event.target.value*/
-
-    this.setState({editedCategory: {...this.state.editedCategory, [propName]: event.target.value}})
+    if (propName === 'place'){
+      this.setState({place: event.target.value})
+    } else {
+      this.setState({editedBusiness: {...this.state.editedBusiness, [propName]: event.target.value}})
+    }
   }
 
   render () {
@@ -193,7 +200,6 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getPlaces: () => dispatch(placesOperations.getPlaces()),
-    saveNewPlace: (place) => dispatch(placesOperations.saveNewPlace(place)),
     saveNewBusiness: (business) => dispatch(businessOperations.saveNewBusiness(business)),
   }
 }
