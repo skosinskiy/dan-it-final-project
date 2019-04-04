@@ -82,7 +82,6 @@ class MultipleSelect extends React.Component {
             //   </div>
             // )}
             MenuProps={MenuProps}
-            autoWidth
           >
             {allNames.map(name => (
               <MenuItem key={name} value={name} style={getStyles(name, this)}>

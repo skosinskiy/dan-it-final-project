@@ -3,23 +3,19 @@ import * as ACTIONS from './actions'
 
 export const createData = () => dispatch => {
   dispatch(ACTIONS.isLoading(true))
-  const mapIdsClosure = mapIds()
   api.get(`/api/place-categories`)
-    .then(rawData => rawData.map(placeCategory => mapIdsClosure(placeCategory)))
+    .then(rawData => rawData.map(placeCategory => addDefaultMocks(placeCategory)))
     .then(placeCategories => dispatch(ACTIONS.updatePlaceCategories(placeCategories)))
     .finally(() => dispatch(ACTIONS.isLoading(false)))
 }
 
-const mapIds = () => {
-  let counter = 0
-  return ({multisync, name, menuItems = ['Lorem', 'Upsum', 'Shops']} = {}) =>
-  ({
-    id: counter++,
-    multisync: multisync,
-    name: name,
-    menuItems: menuItems,
-  })
-}
+const addDefaultMocks = ({id, multisync, name, menuItems=[]} = {}) => ({
+  id: id,
+  multisync: multisync,
+  name: name,
+  menuItems: menuItems
+})
+
 
 export const updateChanged = (id, changed) => dispatch => {
   if (changed.indexOf(id) === -1){
