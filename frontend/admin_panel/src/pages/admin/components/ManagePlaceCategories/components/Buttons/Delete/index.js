@@ -34,7 +34,7 @@ DeleteButton.propTypes = {
   classes: PropTypes.object.isRequired,
   deleteItem: PropTypes.func.isRequired,
   placeCategories: PropTypes.array.isRequired,
-  deletedIds: PropTypes.object.isRequired,
+  deletedIds: PropTypes.array.isRequired,
   placeCategoryKey: PropTypes.number.isRequired,
 }
 

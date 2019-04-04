@@ -24,6 +24,13 @@ export const updateChanged = (key, placeCategories) => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(newPlaceCategories))
 }
 
+export const updateMenuItems = (key, placeCategories, menuItems) => dispatch => {
+  const idx = placeCategories.findIndex(placeCategory => placeCategory.key === key)
+  const newPlaceCategories = [...placeCategories]
+  newPlaceCategories[idx].menuItems = menuItems
+  dispatch(ACTIONS.updatePlaceCategories(newPlaceCategories))
+}
+
 export const toggleMultisync = (key, placeCategories) => dispatch => {
   const updated = [...placeCategories]
   const idx = updated.findIndex(category => category.key === key)
