@@ -1,9 +1,12 @@
 package com.danit.finalproject.application.entity.business;
 
 import com.danit.finalproject.application.entity.BaseEntity;
+import com.danit.finalproject.application.entity.Notification;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.place.Place;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +20,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
@@ -55,16 +59,24 @@ public class Business extends BaseEntity {
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "business")
   @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @JsonIgnore
-  private List<BusinessPhoto> photos;
+  private List<BusinessPhoto> photos = new ArrayList<>();
 
   @ManyToOne
   @JoinColumn(name = "place_id")
   private Place place;
 
 
-  @OneToMany(mappedBy = "business", cascade = CascadeType.REMOVE)
+  @OneToMany(mappedBy = "business", cascade = CascadeType.ALL)
   @ToString.Exclude
+  @EqualsAndHashCode.Exclude
   @JsonIgnore
-  private List<Event> events;
+  private List<Event> events = new ArrayList<>();
+
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "business")
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
+  @JsonIgnore
+  private List<Notification> notifications;
 }
