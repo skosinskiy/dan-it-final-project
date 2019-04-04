@@ -1,5 +1,6 @@
 package com.danit.finalproject.application.controller;
 
+import com.danit.finalproject.application.dto.request.ChatRequest;
 import com.danit.finalproject.application.dto.response.ChatResponse;
 import com.danit.finalproject.application.dto.response.place.PlaceResponse;
 import com.danit.finalproject.application.entity.Chat;
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,6 +44,9 @@ public class ChatControllerTest {
 
   @Autowired
   private ObjectMapper objectMapper;
+
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Autowired
   private ChatService chatService;
@@ -109,7 +114,7 @@ public class ChatControllerTest {
     Chat chat = chatService.getById(chatId);
     chat.setName(chatTitle);
 
-    String userJson = objectMapper.writeValueAsString(chat);
+    String userJson = objectMapper.writeValueAsString(modelMapper.map(chat, ChatRequest.class));
 
     MvcResult result = mockMvc.perform(
         put("/api/chats/1")

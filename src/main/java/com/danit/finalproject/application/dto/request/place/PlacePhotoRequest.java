@@ -7,6 +7,5 @@ public class PlacePhotoRequest {
 
   private Long id;
   private String photo;
-  private PlaceRequest place;
 
 }

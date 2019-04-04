@@ -2,9 +2,7 @@ package com.danit.finalproject.application.controller;
 
 import com.danit.finalproject.application.dto.request.ChatMessageRequest;
 import com.danit.finalproject.application.dto.request.ChatRequest;
-import com.danit.finalproject.application.dto.response.ChatMessageResponse;
 import com.danit.finalproject.application.dto.response.ChatResponse;
-import com.danit.finalproject.application.entity.Chat;
 import com.danit.finalproject.application.facade.ChatFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,31 +35,31 @@ public class ChatController {
 
   @GetMapping
   public ResponseEntity<List<ChatResponse>> getAllPlaces() {
-    return new ResponseEntity(chatFacade.getAll(), HttpStatus.OK);
+    return new ResponseEntity<>(chatFacade.getAll(), HttpStatus.OK);
   }
 
   @PostMapping
   public ResponseEntity<ChatResponse> createNewPlace(@RequestBody ChatRequest chatRequest) {
-    return new ResponseEntity(chatFacade.create(chatRequest), HttpStatus.OK);
+    return new ResponseEntity<>(chatFacade.create(chatRequest), HttpStatus.OK);
   }
 
   @PutMapping("{id}")
   public ResponseEntity<ChatResponse> updatePlace(@RequestBody ChatRequest chatRequest, @PathVariable Long id) {
-    return new ResponseEntity(chatFacade.update(id, chatRequest), HttpStatus.OK);
+    return new ResponseEntity<>(chatFacade.update(id, chatRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
   public ResponseEntity<ChatResponse> deletePlace(@PathVariable("id") Long placeId) {
-    return new ResponseEntity(chatFacade.delete(placeId), HttpStatus.OK);
+    return new ResponseEntity<>(chatFacade.delete(placeId), HttpStatus.OK);
   }
 
   @PostMapping("{chatId}/messages")
-  public ResponseEntity<Chat> createNewMessage(@PathVariable("chatId") Long chatId, ChatMessageRequest chatMessage) {
-    return new ResponseEntity(chatFacade.addChatMessage(chatMessage, chatId), HttpStatus.OK);
+  public ResponseEntity<ChatResponse> createNewMessage(@PathVariable("chatId") Long chatId, ChatMessageRequest chatMessage) {
+    return new ResponseEntity<>(chatFacade.addChatMessage(chatMessage, chatId), HttpStatus.OK);
   }
 
   @DeleteMapping("{chatId}/messages/{id}")
-  public ResponseEntity<Chat> deleteMessege(@PathVariable("chatId") Long chatId, @PathVariable("id") Long messageId) {
-    return new ResponseEntity(chatFacade.deleteMessage(chatId, messageId), HttpStatus.OK);
+  public ResponseEntity<ChatResponse> deleteMessege(@PathVariable("chatId") Long chatId, @PathVariable("id") Long messageId) {
+    return new ResponseEntity<>(chatFacade.deleteMessage(chatId, messageId), HttpStatus.OK);
   }
 }

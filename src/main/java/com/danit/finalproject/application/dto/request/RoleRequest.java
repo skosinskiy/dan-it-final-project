@@ -9,7 +9,6 @@ public class RoleRequest {
 
   private Long id;
   private String name;
-  private List<UserRequest> users;
   private List<Permission> permissions;
 
 }
