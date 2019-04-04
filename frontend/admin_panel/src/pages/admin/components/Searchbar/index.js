@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
 
 import {usersOperations} from 'store/users'
+import {businessOperations} from '../../../../store/businesses'
 
 /*
 * Search Types that should be passed as props:
@@ -52,27 +53,31 @@ class SearchBar extends React.Component {
     }
   }
 
+  findCompanyByName = (e) => {
+    if (e.key === 'Enter'){
+      this.props.getBusinessesByTile(this.state.input)
+    }
+  }
+
   setPlaceholder = (searchType) => {
     switch (searchType) {
       case 'user_by_email':
-        return 'Search user by email'
+        return {placeholder: 'Search user by email', func: this.findUsersByEmail}
       case 'business_by_name':
-        return 'Search by company name'
+        return {placeholder: 'Search by company name', func: this.findCompanyByName}
       default:
         return 'Search'
     }
   }
 
-  //TODO: add find company by name function; Add it conditionally 'onKeyPress'
-
   render () {
     const {classes} = this.props
-    const placeholder = this.setPlaceholder(this.props.searchtype)
+    const {placeholder, func} = this.setPlaceholder(this.props.searchtype)
 
     return (
       <Paper className={classes.root} elevation={1}>
         <InputBase
-          onKeyPress={this.findUsersByEmail}
+          onKeyPress={func}
           value={this.state.input}
           onChange={this.handleChange}
           className={classes.input}
@@ -99,7 +104,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUsersByEmail: (email, page, size) => dispatch(usersOperations.getUsersByEmail(email, page, size))
+    getUsersByEmail: (email, page, size) => dispatch(usersOperations.getUsersByEmail(email, page, size)),
+    getBusinessesByTile: (title) => dispatch(businessOperations.getBusinessesByTitle(title)),
   }
 }
 

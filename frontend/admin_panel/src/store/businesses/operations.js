@@ -19,6 +19,14 @@ export const getBusinessesByPlaceID = (placeId) => dispatch => {
   })
 }
 
+export const getBusinessesByTitle = (title) => dispatch => {
+  api.get(`/api/businesses?title=${title}`).then(res => {
+    dispatch(ACTIONS.getAllBusinesses({businessList: res}))
+  }).catch(err => {
+    dispatch(ACTIONS.getBusinessesError(err))
+  })
+}
+
 export const deleteBusiness = (businessId) => dispatch => {
   api.deleteApi(`/api/businesses/${businessId}`).then(res => {
     api.get(`/api/businesses`).then(res => {
