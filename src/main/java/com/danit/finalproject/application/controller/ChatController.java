@@ -54,12 +54,14 @@ public class ChatController {
   }
 
   @PostMapping("{chatId}/messages")
-  public ResponseEntity<ChatResponse> createNewMessage(@PathVariable("chatId") Long chatId, ChatMessageRequest chatMessage) {
+  public ResponseEntity<ChatResponse> createNewMessage(
+      @PathVariable("chatId") Long chatId, ChatMessageRequest chatMessage) {
     return new ResponseEntity<>(chatFacade.addChatMessage(chatMessage, chatId), HttpStatus.OK);
   }
 
   @DeleteMapping("{chatId}/messages/{id}")
-  public ResponseEntity<ChatResponse> deleteMessege(@PathVariable("chatId") Long chatId, @PathVariable("id") Long messageId) {
+  public ResponseEntity<ChatResponse> deleteMessage(
+      @PathVariable("chatId") Long chatId, @PathVariable("id") Long messageId) {
     return new ResponseEntity<>(chatFacade.deleteMessage(chatId, messageId), HttpStatus.OK);
   }
 }
