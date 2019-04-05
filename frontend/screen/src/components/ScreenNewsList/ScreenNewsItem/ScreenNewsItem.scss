@@ -1,14 +1,14 @@
 .screenNewsItem {
-  box-sizing: border-box;
   align-items: center;
+  box-sizing: border-box;
   margin: 10px 0;
   border: 4px solid transparent;
 
 
   &:hover {
-    cursor: pointer;
-    border-radius: 5px;
     border: 4px solid #FEBA00;
+    border-radius: 5px;
+    cursor: pointer;
   }
 }
 
