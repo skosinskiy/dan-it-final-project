@@ -99,6 +99,13 @@ VALUES
   (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-3', 2),
   (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-4', 2);
 
+INSERT INTO placecategories_menuitems
+  (place_category_id, menu_item_id)
+VALUES
+  (1,1),
+  (2,1),
+  (2,2);
+
 -- businesses
 
 INSERT INTO business_categories

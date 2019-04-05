@@ -21,6 +21,7 @@ export class FetchData {
   }
 
   deleteApi (url, requestParams) {
+    debugger
     return this.makeRequest(url, METHOD_DELETE, null, requestParams)
   }
 

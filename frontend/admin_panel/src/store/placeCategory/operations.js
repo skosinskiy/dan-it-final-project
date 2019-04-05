@@ -1,15 +1,31 @@
 import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
 
-export const createData = () => dispatch => {
-  dispatch(ACTIONS.isLoading(true))
-  api.get(`/api/place-categories`)
-    .then(rawData => rawData.map(placeCategory => createNewOrAddDefaults(placeCategory)))
-    .then(placeCategories => dispatch(ACTIONS.updatePlaceCategories(placeCategories)))
-    .finally(() => dispatch(ACTIONS.isLoading(false)))
+const endPoint = {
+  URL: '/api/place-categories',
+  get: (params) => api.get(endPoint.URL, {params}),
+  post: (body, params) => api.post(endPoint.URL, body, {params}),
+  put: (body, params) => api.put(endPoint.URL, body, {params}),
+  delete: (id) => api.deleteApi(`${endPoint.URL}/${id}`),
 }
 
-const createNewOrAddDefaults = ({id, multisync=true, name="EnterName", menuItems=[]} = {}) => ({
+const decorateByPreloader = dispatch => request => {
+  dispatch(ACTIONS.isLoading(true))
+  request().finally(() => dispatch(ACTIONS.isLoading(false)))
+}
+
+const preloadDecorator = dispatch => decorateByPreloader(dispatch)
+
+export const createData = () => dispatch => {
+  const request = () => (
+    endPoint.get()
+      .then(rawData => rawData.map(placeCategory => createNewOrAddDefaults(placeCategory)))
+      .then(placeCategories => dispatch(ACTIONS.updatePlaceCategories(placeCategories)))
+  )
+  preloadDecorator(dispatch)(request)
+}
+
+const createNewOrAddDefaults = ({ id, multisync = true, name = "EnterName", menuItems = [] } = {}) => ({
   key: Math.random() * new Date().getTime(),
   id: id,
   multisync: multisync,
@@ -18,7 +34,7 @@ const createNewOrAddDefaults = ({id, multisync=true, name="EnterName", menuItems
 })
 
 const findIndexByKey = (key, container) =>
-   container.findIndex(placeCategory => placeCategory.key === key)
+  container.findIndex(placeCategory => placeCategory.key === key)
 
 /**
  * sets entitie's field to value and returns new container
@@ -84,3 +100,18 @@ export const getAllEdited = placeCategories =>
   placeCategories.filter(placeCategory => placeCategory.id && placeCategory.changed)
 
 export const getAllDeletedIds = placeCategories => placeCategories.deletedIds
+
+export const saveAllChanges = placeCategories => dispatch => {
+  dispatch(requestDelete(placeCategories))
+}
+
+export const requestDelete = (placeCategories) => dispatch => {
+  const request = () => (
+    Promise.all(
+      getAllDeletedIds(placeCategories).reduce((promises, id) => (
+        promises.concat([endPoint.delete(id)])
+      ), [])
+    )
+  )
+  preloadDecorator(dispatch)(request)
+}
