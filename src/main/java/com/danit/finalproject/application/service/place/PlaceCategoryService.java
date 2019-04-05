@@ -3,6 +3,8 @@ package com.danit.finalproject.application.service.place;
 import com.danit.finalproject.application.entity.place.PlaceCategory;
 import com.danit.finalproject.application.repository.place.PlaceCategoryRepository;
 import com.danit.finalproject.application.service.CrudService;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,12 @@ public class PlaceCategoryService implements CrudService<PlaceCategory> {
 
   @Override
   public PlaceCategory delete(Long id) {
-    PlaceCategory placeCategory = placeCategoryRepository.findById(id).orElse(null);
+    PlaceCategory placeCategory = getById(id);
+    placeCategory.getPlaces().forEach(place -> {
+      if (place.getPlaceCategory() != null && place.getPlaceCategory().getId().equals(placeCategory.getId())) {
+        place.setPlaceCategory(null);
+      }
+    });
     placeCategoryRepository.deleteById(id);
     return placeCategory;
   }

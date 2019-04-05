@@ -119,8 +119,9 @@ public class PlaceCategoryControllerTest {
 
   @Test
   public void deletePlaceCategory() throws Exception {
+    int expectedCategorySize = placeCategoryService.getAll().size() - 1;
     mockMvc.perform(delete("/api/place-categories/2").with(csrf()));
 
-    assertNull(placeCategoryService.getById(2L));
+    assertEquals(expectedCategorySize, placeCategoryService.getAll().size());
   }
 }

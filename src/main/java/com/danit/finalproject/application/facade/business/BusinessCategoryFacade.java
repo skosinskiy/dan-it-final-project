@@ -8,23 +8,10 @@ import com.danit.finalproject.application.service.business.BusinessCategoryServi
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class BusinessCategoryFacade extends
     AbstractDtoFacade<BusinessCategory, BusinessCategoryRequest, BusinessCategoryResponse> {
 
-  private BusinessCategoryService businessCategoryService;
-
-  @Autowired
-  public BusinessCategoryFacade(BusinessCategoryService businessCategoryService) {
-    this.businessCategoryService = businessCategoryService;
-  }
-
-  public BusinessCategoryResponse deleteBusinessCategory(Long businessCategoryId) {
-    BusinessCategory businessCategory = businessCategoryService.getById(businessCategoryId);
-    businessCategory
-        .getBusinesses()
-        .forEach(business -> business.getCategories().remove(businessCategory));
-    businessCategoryService.delete(businessCategoryId);
-    return mapEntityToResponseDto(businessCategory);
-  }
 }

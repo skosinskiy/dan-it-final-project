@@ -12,21 +12,4 @@ import org.springframework.stereotype.Component;
 public class EventCategoryFacade
     extends AbstractDtoFacade<EventCategory, EventCategoryRequest, EventCategoryResponse> {
 
-  private EventCategoryService eventCategoryService;
-
-  @Autowired
-  public EventCategoryFacade(EventCategoryService eventCategoryService) {
-    this.eventCategoryService = eventCategoryService;
-  }
-
-  public EventCategoryResponse deleteEventCategory(Long eventCategoryId) {
-    EventCategory eventCategory = eventCategoryService.getById(eventCategoryId);
-    eventCategory
-        .getEvents()
-        .forEach(event -> event.getCategories().remove(eventCategory));
-    eventCategoryService.delete(eventCategoryId);
-    return mapEntityToResponseDto(eventCategory);
-
-  }
-
 }
