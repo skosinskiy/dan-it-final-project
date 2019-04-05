@@ -10,9 +10,11 @@ class App extends Component {
     return (
       <div className='App'>
         <Header />
-        <AppRoutes />
-        <ScreenEventList />
-        <ScreenNewsList />
+	      <div className="container">
+		      <ScreenEventList />
+          <AppRoutes />
+		      <ScreenNewsList />
+	      </div>
       </div>
     )
   }
