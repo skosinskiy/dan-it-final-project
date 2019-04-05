@@ -2,7 +2,6 @@ package com.danit.finalproject.application.facade;
 
 import com.danit.finalproject.application.dto.request.VisitRequest;
 import com.danit.finalproject.application.dto.response.VisitResponse;
-import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.entity.Visit;
 import com.danit.finalproject.application.service.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
