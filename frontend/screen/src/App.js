@@ -3,6 +3,7 @@ import './styles/App.scss'
 import AppRoutes from './components/AppRoutes'
 import Header from './components/Header/Header'
 import ScreenEventList from './components/ScreenEventList/ScreenEventList'
+import ScreenNewsList from './components/ScreenNewsList/'
 
 class App extends Component {
   render () {
@@ -11,6 +12,7 @@ class App extends Component {
         <Header />
         <AppRoutes />
         <ScreenEventList />
+        <ScreenNewsList />
       </div>
     )
   }
