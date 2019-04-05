@@ -1,4 +1,5 @@
 import React from 'react'
+import './shops.scss'
 
 const Shops = (props) => (
   <h1>
