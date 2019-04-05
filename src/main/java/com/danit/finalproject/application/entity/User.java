@@ -1,7 +1,6 @@
 package com.danit.finalproject.application.entity;
 
 import com.danit.finalproject.application.entity.place.Place;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -56,25 +55,22 @@ public class User extends BaseEntity {
       inverseJoinColumns = {@JoinColumn(name = "role_id")})
   private List<Role> roles;
 
-  @JsonIgnore
-  @ToString.Exclude
   @ManyToMany
   @JoinTable(name = "users_places",
       joinColumns = {@JoinColumn(name = "user_id")},
       inverseJoinColumns = {@JoinColumn(name = "place_id")})
+  @ToString.Exclude
   private List<Place> places;
 
   @ManyToMany
   @JoinTable(name = "users_chats",
       joinColumns = {@JoinColumn(name = "user_id")},
       inverseJoinColumns = {@JoinColumn(name = "chat_id")})
-  @JsonIgnore
   @ToString.Exclude
   private List<Chat> chats;
 
   @OneToMany
   @JoinColumn(name = "visit_id")
-  @JsonIgnore
   @ToString.Exclude
   private List<Visit> visits;
 }

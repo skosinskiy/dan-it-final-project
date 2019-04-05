@@ -1,7 +1,6 @@
 package com.danit.finalproject.application.entity.event;
 
 import com.danit.finalproject.application.entity.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +33,5 @@ public class EventCategory extends BaseEntity {
 
   @ManyToMany(mappedBy = "categories")
   @ToString.Exclude
-  @JsonIgnore
   private List<Event> events;
 }
