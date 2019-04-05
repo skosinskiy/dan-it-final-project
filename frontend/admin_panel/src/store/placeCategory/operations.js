@@ -17,54 +17,70 @@ const createNewOrAddDefaults = ({id, multisync=true, name="EnterName", menuItems
   menuItems: menuItems
 })
 
-export const updateChanged = (key, placeCategories) => dispatch => {
-  const idx = placeCategories.findIndex(placeCategory => placeCategory.key === key)
-  const newPlaceCategories = [...placeCategories]
-  newPlaceCategories[idx].changed = true
-  dispatch(ACTIONS.updatePlaceCategories(newPlaceCategories))
+const findIndexByKey = (key, container) =>
+   container.findIndex(placeCategory => placeCategory.key === key)
+
+/**
+ * sets entitie's field to value and returns new container
+ * @param {number} key
+ * @param {object} container
+ * @param {string} field
+ * @param {any} value
+ * @returns {object}
+ */
+const setEntityField = (key, container, field, value) => {
+  const idx = findIndexByKey(key, container)
+  const newContainer = [...container]
+  newContainer[idx][field] = value
+  return newContainer
 }
 
-export const updateMenuItems = (key, placeCategories, menuItems) => dispatch => {
-  const idx = placeCategories.findIndex(placeCategory => placeCategory.key === key)
-  const newPlaceCategories = [...placeCategories]
-  newPlaceCategories[idx].menuItems = menuItems
-  dispatch(ACTIONS.updatePlaceCategories(newPlaceCategories))
+export const updateChanged = (key, container) => dispatch => {
+  dispatch(ACTIONS.updatePlaceCategories(
+    setEntityField(key, container, 'changed', true)
+  ))
 }
 
-export const updateName = (key, placeCategories, name) => dispatch => {
-  const idx = placeCategories.findIndex(placeCategory => placeCategory.key === key)
-  const newPlaceCategories = [...placeCategories]
-  newPlaceCategories[idx].name = name
-  dispatch(ACTIONS.updatePlaceCategories(newPlaceCategories))
+export const updateMenuItems = (key, container, menuItems) => dispatch => {
+  dispatch(ACTIONS.updatePlaceCategories(
+    setEntityField(key, container, 'menuITems', menuItems)
+  ))
 }
 
-export const toggleMultisync = (key, placeCategories) => dispatch => {
-  const updated = [...placeCategories]
-  const idx = updated.findIndex(category => category.key === key)
-  updated[idx].multisync = !updated[idx].multisync
-  dispatch(ACTIONS.updatePlaceCategories(updated))
+export const updateName = (key, container, name) => dispatch => {
+  dispatch(ACTIONS.updatePlaceCategories(
+    setEntityField(key, container, 'name', name)
+  ))
 }
 
-export const addNew = placeCategories => dispatch => {
-  const updated = [...placeCategories]
-  const newCategory = createNewOrAddDefaults();
-  updated.push(newCategory)
-  dispatch(updateChanged(newCategory.key, updated))
+export const toggleMultisync = (key, container) => dispatch => {
+  const idx = findIndexByKey(key, container)
+  dispatch(ACTIONS.updatePlaceCategories(
+    setEntityField(key, container, 'multisync', !container[idx].multisync)
+  ))
 }
 
-export const deleteItem = (key, placeCategories, deletedIds) => dispatch => {
-  const idx = placeCategories.findIndex(item => item.key === key)
-  if (placeCategories[idx].id) {
-    const newDeletedIds = new Set (deletedIds)
-    newDeletedIds.add(placeCategories[idx].id)
+export const addNew = container => dispatch => {
+  const newContainer = [...container]
+  newContainer.push(createNewOrAddDefaults())
+  dispatch(ACTIONS.updatePlaceCategories(newContainer))
+}
+
+export const deleteItem = (key, container, deletedIds) => dispatch => {
+  const idx = findIndexByKey(key, container)
+  if (container[idx].id) {
+    const newDeletedIds = new Set(deletedIds)
+    newDeletedIds.add(container[idx].id)
     dispatch(ACTIONS.updateDeletedPlaceCategoryIds([...newDeletedIds]))
   }
-  const updated = [...placeCategories]
-  updated.splice(idx, 1)
-  dispatch(ACTIONS.updatePlaceCategories(updated))
+  const newContainer = [...container]
+  newContainer.splice(idx, 1)
+  dispatch(ACTIONS.updatePlaceCategories(newContainer))
 }
 
 export const getAllNew = placeCategories => placeCategories.filter(placeCategory => !placeCategory.id)
 
 export const getAllEdited = placeCategories =>
   placeCategories.filter(placeCategory => placeCategory.id && placeCategory.changed)
+
+export const getAllDeletedIds = placeCategories => placeCategories.deletedIds

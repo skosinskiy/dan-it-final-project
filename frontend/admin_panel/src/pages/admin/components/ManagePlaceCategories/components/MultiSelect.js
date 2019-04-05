@@ -59,7 +59,6 @@ class MultipleSelect extends React.Component {
 
   handleChange = event => {
     this.setState({name: event.target.value})
-    //debugger
     const {placeCategoryKey, placeCategories, updateChanged, updateMenuItems} = this.props
     updateChanged(placeCategoryKey, placeCategories)
     updateMenuItems(placeCategoryKey, placeCategories, event.target.value)
