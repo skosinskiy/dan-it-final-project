@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
+import {connect} from 'react-redux'
+import {placesCategoriesOperations} from 'store/placeCategory'
 
 const styles = () => ({
   button: {
@@ -12,8 +14,8 @@ const styles = () => ({
   }
 })
 
-const SubmitButton = props => {
-  const {classes} = props
+const ResetButton = props => {
+  const {classes, realoadData} = props
   return (
     <div>
       <Button
@@ -21,7 +23,7 @@ const SubmitButton = props => {
       color="secondary"
       className={classes.button}
       type="reset"
-      onClick={()=>{}}
+      onClick={() => realoadData()}
       >
         RESET
       </Button>
@@ -29,8 +31,13 @@ const SubmitButton = props => {
   )
 }
 
-SubmitButton.propTypes = {
-  classes: PropTypes.object.isRequired
+ResetButton.propTypes = {
+  classes: PropTypes.object.isRequired,
+  realoadData: PropTypes.func.isRequired
 }
 
-export default withStyles(styles)(SubmitButton)
+const mapDispatchToProps = dispatch => ({
+  realoadData: () => dispatch(placesCategoriesOperations.realoadData()),
+})
+
+export default connect(null, mapDispatchToProps)(withStyles(styles)(ResetButton))

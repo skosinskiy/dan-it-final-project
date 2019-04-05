@@ -2,21 +2,21 @@ import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
 
 const endPoint = {
-  URL: '/api/place-categories',
-  get: (params) => api.get(endPoint.URL, {params}),
+  URL: '/api/place-categories/',
+  get: (id='', params) => api.get(endPoint.URL + id, {params}),
   post: (body, params) => api.post(endPoint.URL, body, {params}),
-  put: (body, params) => api.put(endPoint.URL, body, {params}),
-  delete: (id) => api.deleteApi(`${endPoint.URL}/${id}`),
+  put: (id, body, params) => api.put(endPoint.URL + id, body, {params}),
+  delete: (id, params) => api.deleteApi(endPoint.URL + id, {params}),
 }
 
 const decorateByPreloader = dispatch => request => {
   dispatch(ACTIONS.isLoading(true))
-  request().finally(() => dispatch(ACTIONS.isLoading(false)))
+  request().then(dispatch(ACTIONS.isLoading(false)))
 }
 
 const preloadDecorator = dispatch => decorateByPreloader(dispatch)
 
-export const createData = () => dispatch => {
+export const realoadData = () => dispatch => {
   const request = () => (
     endPoint.get()
       .then(rawData => rawData.map(placeCategory => createNewOrAddDefaults(placeCategory)))
@@ -33,8 +33,9 @@ const createNewOrAddDefaults = ({ id, multisync = true, name = "EnterName", menu
   menuItems: menuItems
 })
 
-const findIndexByKey = (key, container) =>
+const findIndexByKey = (key, container) => (
   container.findIndex(placeCategory => placeCategory.key === key)
+)
 
 /**
  * sets entitie's field to value and returns new container
@@ -44,7 +45,7 @@ const findIndexByKey = (key, container) =>
  * @param {any} value
  * @returns {object}
  */
-const setEntityField = (key, container, field, value) => {
+const setValueToEntityField = (key, container, field, value) => {
   const idx = findIndexByKey(key, container)
   const newContainer = [...container]
   newContainer[idx][field] = value
@@ -53,26 +54,26 @@ const setEntityField = (key, container, field, value) => {
 
 export const updateChanged = (key, container) => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(
-    setEntityField(key, container, 'changed', true)
+    setValueToEntityField(key, container, 'changed', true)
   ))
 }
 
 export const updateMenuItems = (key, container, menuItems) => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(
-    setEntityField(key, container, 'menuITems', menuItems)
+    setValueToEntityField(key, container, 'menuITems', menuItems)
   ))
 }
 
 export const updateName = (key, container, name) => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(
-    setEntityField(key, container, 'name', name)
+    setValueToEntityField(key, container, 'name', name)
   ))
 }
 
 export const toggleMultisync = (key, container) => dispatch => {
   const idx = findIndexByKey(key, container)
   dispatch(ACTIONS.updatePlaceCategories(
-    setEntityField(key, container, 'multisync', !container[idx].multisync)
+    setValueToEntityField(key, container, 'multisync', !container[idx].multisync)
   ))
 }
 
@@ -82,27 +83,34 @@ export const addNew = container => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(newContainer))
 }
 
-export const deleteItem = (key, container, deletedIds) => dispatch => {
-  const idx = findIndexByKey(key, container)
+const updateDeletedIds = (idx, container, deletedIds) => dispatch => {
   if (container[idx].id) {
     const newDeletedIds = new Set(deletedIds)
     newDeletedIds.add(container[idx].id)
     dispatch(ACTIONS.updateDeletedPlaceCategoryIds([...newDeletedIds]))
   }
+}
+
+export const deleteItem = (key, container, deletedIds) => dispatch => {
+  const idx = findIndexByKey(key, container)
   const newContainer = [...container]
+  dispatch(updateDeletedIds(idx, newContainer, deletedIds))
   newContainer.splice(idx, 1)
   dispatch(ACTIONS.updatePlaceCategories(newContainer))
 }
 
-export const getAllNew = placeCategories => placeCategories.filter(placeCategory => !placeCategory.id)
+export const getAllNew = ({placeCategories}) => placeCategories.filter(placeCategory => !placeCategory.id)
 
-export const getAllEdited = placeCategories =>
+export const getAllEdited = ({placeCategories}) =>
   placeCategories.filter(placeCategory => placeCategory.id && placeCategory.changed)
 
-export const getAllDeletedIds = placeCategories => placeCategories.deletedIds
+export const getAllDeletedIds = ({deletedIds}) => deletedIds
 
 export const saveAllChanges = placeCategories => dispatch => {
-  dispatch(requestDelete(placeCategories))
+  new Promise(() => dispatch(requestPost(placeCategories)))
+  //.then (dispatch(requestDelete(placeCategories)))
+  .then(dispatch(requestPut(placeCategories)))
+  .finally(dispatch(realoadData()))
 }
 
 export const requestDelete = (placeCategories) => dispatch => {
@@ -113,5 +121,27 @@ export const requestDelete = (placeCategories) => dispatch => {
       ), [])
     )
   )
-  preloadDecorator(dispatch)(request)
+  return preloadDecorator(dispatch)(request)
+}
+
+export const requestPost = (placeCategories) => dispatch => {
+  const request = () => (
+    Promise.all(
+      getAllNew(placeCategories).reduce((promises, placeCategory) => (
+        promises.concat([endPoint.post(placeCategory)])
+      ), [])
+    )
+  )
+  return preloadDecorator(dispatch)(request)
+}
+
+export const requestPut = (placeCategories) => dispatch => {
+  const request = () => (
+    Promise.all(
+      getAllEdited(placeCategories).reduce((promises, placeCategory) => (
+        promises.concat([endPoint.put(placeCategory.id, placeCategory)])
+      ), [])
+    )
+  )
+  return preloadDecorator(dispatch)(request)
 }

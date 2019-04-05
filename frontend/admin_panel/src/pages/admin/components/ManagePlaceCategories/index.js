@@ -11,7 +11,6 @@ import { connect } from 'react-redux'
 import Preloader from 'components/Preloader';
 import AddButton from './components/Buttons/Add'
 import SubmitButton from './components/Buttons/Submit'
-import ResetButton from './components/Buttons/Reset'
 import TextField from './components/TextField'
 import DeleteButton from './components/Buttons/Delete'
 import MultiSelect from './components/MultiSelect'
@@ -19,6 +18,7 @@ import { menuItemsOperations } from 'store/menuItems'
 import {EnhancedTableHead}  from './components/EnhancedTableHead'
 import EnhancedTableToolbar  from './components/EnhancedTableToolbar'
 import './index.scss'
+import ResetButton from './components/Buttons/Reset'
 
 const styles = theme => ({
   root: {
@@ -35,7 +35,7 @@ const styles = theme => ({
 
 class EnhancedTable extends React.Component {
   componentDidMount() {
-    this.props.createData()
+    this.props.realoadData()
     this.props.fetchMenuItemNames()
   }
 
@@ -114,7 +114,7 @@ EnhancedTable.propTypes = {
   placeCategories: PropTypes.array.isRequired,
   toggleMultisync: PropTypes.func.isRequired,
   updateChanged: PropTypes.func.isRequired,
-  createData: PropTypes.func.isRequired,
+  realoadData: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   fetchMenuItemNames: PropTypes.func.isRequired,
   menuItemIsLoading: PropTypes.bool.isRequired,
@@ -130,7 +130,7 @@ const mapStateToProps = ({ placeCategories, menuItems }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  createData: () => dispatch(placesCategoriesOperations.createData()),
+  realoadData: () => dispatch(placesCategoriesOperations.realoadData()),
   updateChanged: (key, placeCategories) => dispatch(placesCategoriesOperations.updateChanged(key, placeCategories)),
   toggleMultisync: (key, placeCategories) => dispatch(placesCategoriesOperations.toggleMultisync(key, placeCategories)),
   fetchMenuItemNames: () => dispatch(menuItemsOperations.fetchNames())
