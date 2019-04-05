@@ -107,10 +107,13 @@ export const getAllEdited = ({placeCategories}) =>
 export const getAllDeletedIds = ({deletedIds}) => deletedIds
 
 export const saveAllChanges = placeCategories => dispatch => {
-  new Promise(() => dispatch(requestPost(placeCategories)))
-  //.then (dispatch(requestDelete(placeCategories)))
-  .then(dispatch(requestPut(placeCategories)))
-  .finally(dispatch(realoadData()))
+  new Promise (resolve => {
+    setTimeout(() => resolve(dispatch(requestPost(placeCategories))), 0)
+  })
+  .then(() => new Promise (resolve => {
+    setTimeout(() => resolve(dispatch(requestPut(placeCategories))), 0)
+  }))
+  //.then(() => requestDelete(placeCategories))
 }
 
 export const requestDelete = (placeCategories) => dispatch => {
