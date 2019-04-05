@@ -47,7 +47,9 @@ class Places extends Component {
 }
 
 Places.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  getAllPlaces: PropTypes.func.isRequired,
+  places: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = (state) => {

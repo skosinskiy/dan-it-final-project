@@ -1,9 +1,7 @@
-/* eslint-disable no-undef */
 import React from 'react'
 import PropTypes from 'prop-types'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
-
 import {withStyles} from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
@@ -173,7 +171,13 @@ class PlaceForm extends React.Component {
 }
 
 PlaceForm.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  place: PropTypes.object.isRequired,
+  getPlaceCategories: PropTypes.func.isRequired,
+  saveNewPlace: PropTypes.func.isRequired,
+  updatePlace: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
+  placeId: PropTypes.number.isRequired,
 }
 
 const mapStateToProps = (state, props) => {

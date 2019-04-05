@@ -1,10 +1,8 @@
 import React, {Component} from 'react'
 import {Redirect, Route, Switch, withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-
 import {hasGrant} from 'utils/roles'
 import {Grant} from 'constants/permissions'
-
 import ManageBusinessCategories from './components/ManageBusinessCategory'
 import BusinessCategoryForm from './components/ManageBusinessCategory/BusinessCategoryForm'
 import ManageEventCategories from './components/ManageEventCategory'
@@ -13,6 +11,7 @@ import ManagingUserRoles from './components/ManagingUserRoles'
 import Places from './components/Places'
 import PlaceForm from './components/Places/PLaceForm'
 import PlaceCategories from './components/ManagePlaceCategories'
+import PropTypes from 'prop-types'
 
 class AdminRouter extends Component {
   render () {
@@ -36,11 +35,22 @@ class AdminRouter extends Component {
   }
 }
 
+AdminRouter.propTypes = {
+  user: PropTypes.object.isRequired,
+}
+
+
 export const AuthorizedRoute = ({component: Component, authenticated, authorized, ...rest}) => (
   <Route {...rest} render={(props) => authorized
     ? <Route component={Component} {...props}/>
     : <Redirect to='/login'/>}/>
 )
+
+AuthorizedRoute.propTypes = {
+  component: PropTypes.object.isRequired,
+  authenticated: PropTypes.bool.isRequired,
+  authorized: PropTypes.bool.isRequired,
+}
 
 const mapStateToProps = ({users}) => {
   return {

@@ -122,6 +122,12 @@ class Login extends Component {
   }
 }
 
+Login.propTypes = {
+  classes: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
+  submitLoginForm: PropTypes.func.isRequired,
+}
+
 const mapStateToProps = ({users}) => ({
   currentUser: users.currentUser,
   isCurrentUserLoading: users.isCurrentUserLoading
@@ -130,10 +136,6 @@ const mapStateToProps = ({users}) => ({
 const mapDispatchToProps = dispatch => ({
   submitLoginForm: event => dispatch(usersOperations.submitLoginForm(event))
 })
-
-Login.propTypes = {
-  classes: PropTypes.object.isRequired
-}
 
 export default connect(
   mapStateToProps,

@@ -7,6 +7,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
 import ImageIcon from '@material-ui/icons/Image'
+import PropTypes from 'prop-types'
 
 import {eventCategoryOperations} from 'store/eventCategory'
 
@@ -47,6 +48,12 @@ class Events extends Component {
       </ListItem>
     )
   }
+}
+
+Events.propTypes = {
+  classes: PropTypes.object.isRequired,
+  category: PropTypes.object.isRequired,
+  deleteEventCategory: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = ({eventCategory}) => {

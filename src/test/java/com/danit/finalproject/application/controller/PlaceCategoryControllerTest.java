@@ -120,7 +120,6 @@ public class PlaceCategoryControllerTest {
   @Test
   public void deletePlaceCategory() throws Exception {
     mockMvc.perform(delete("/api/place-categories/2").with(csrf()));
-
     assertNull(placeCategoryService.getById(2L));
   }
 }

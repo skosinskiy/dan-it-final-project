@@ -65,7 +65,8 @@ class UserEmailSearchBar extends React.Component {
 }
 
 UserEmailSearchBar.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  getUsersByEmail: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => {

@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import {NavLink} from 'react-router-dom'
-
 import ListItem from '@material-ui/core/ListItem'
 import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
@@ -13,6 +12,7 @@ import {Grant} from '../../constants/permissions'
 import {connect} from 'react-redux'
 import LayersIcon from '@material-ui/icons/Layers'
 import './sidebar-menu.scss'
+import PropTypes from 'prop-types'
 
 class SidebarMenu extends Component {
   render () {
@@ -80,6 +80,10 @@ class SidebarMenu extends Component {
       </div>
     )
   }
+}
+
+SidebarMenu.propTypes = {
+  user: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = ({users}) => {
