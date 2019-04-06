@@ -12,10 +12,9 @@ class App extends Component {
       <div className='App'>
         <Header />
         <div className="grid-wrapper">
-          <aside className="left-sidebar">Stocks</aside>
+          <aside className="left-sidebar"><ScreenEventList /></aside>
           <main className="main-section">
             <AppRoutes />
-            <ScreenEventList />
             <Footer />
           </main>
         </div>
