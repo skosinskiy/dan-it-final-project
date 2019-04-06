@@ -11,7 +11,6 @@ const Message = (props) => {
   }
   return (
     <li onClick={openDialog} className={'messages__item'}>
-      {/* <img src={image} className={'messages__item__photo'} /> */}
       <BoyImg className={'messages__item__photo'}/>
       <a href={link} className={'messages__item__text'}>{shortify(text)}</a>
     </li>

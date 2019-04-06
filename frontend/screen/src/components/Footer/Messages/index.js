@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Message from './Message'
 import Modal from 'react-modal'
 import {ReactComponent as BoyImg} from '../../../img/icons/boy.svg'
@@ -44,7 +45,6 @@ export default class Messages extends Component {
             shouldCloseOnOverlayClick={true}
           >
             <div className={'messages__item'}>
-              {/* <img src={activeMessage.image} className={'messages__item__photo'} /> */}
               <BoyImg className={'messages__item__photo'}/>
               <p href={activeMessage.link} className={'messages__item__text'}>{activeMessage.text}</p>
             </div>
