@@ -1,0 +1,32 @@
+@import '../../styles/variables';
+
+.qrCode{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 170px;
+  height: 170px;
+  background: white;
+  border-radius: 50%;
+  bottom: 0;
+  right: 0;
+}
+
+.qrCode-title{
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: 0.00636364em;
+  color: $black;
+}
+
+.qrCode-img{
+  width: 80px;
+  height: 80px;
+  background: url('../../img/DummyImg/QR_code.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  border-radius: 5px;
+}

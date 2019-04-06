@@ -4,6 +4,7 @@
   margin: 0;
   margin-left: 46px;
   padding: 0;
+  padding-bottom: 12px;
 }
 
 .current-time{
@@ -30,5 +31,5 @@
   font-size: 22px;
   line-height: 16px;
   letter-spacing: .00636364em;
-  text-align: right;
+  justify-content: flex-end;
 }
