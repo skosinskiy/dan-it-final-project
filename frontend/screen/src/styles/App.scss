@@ -1,7 +1,22 @@
+@import 'reset';
 @import "variables";
 
-div {
+.App {
+  flex-direction: column;
+}
+.grid-wrapper {
   display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.left-sidebar {
+  width: 20%;
+}
+.main-section {
+  width: 80%;
+}
+.tempopary {
+  width: 100%;
 }
 
 ::-webkit-scrollbar {
