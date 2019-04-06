@@ -1,8 +1,8 @@
 @import '../../../styles/variables';
 .messages {
     display: flex;
-    padding: 13px 23px;
     justify-content: space-between;
+    padding: 13px 23px;
     height: 123px;
     margin-bottom: 0;
 }
@@ -21,8 +21,8 @@
 .messages__item__text {
     width: 261px;
     margin-left: 10px;
-    padding: 18px 20px;
     box-sizing: border-box;
+    padding: 18px 20px;
     height: 100%;
     font-size: 16px;
     line-height: 1.4;
@@ -32,11 +32,11 @@
 }
 .messages__button {
     padding:13px 39px; 
-    text-align:center; 
     color:#a9e8e8; 
+    text-align:center; 
     border:solid 1px #720013; 
-    border-radius: 17px; 
     background-color:#3bb7c7; 
+    border-radius: 17px; 
     box-shadow:0px 0px 2px #bababa, inset 0px 0px 1px #ffffff;  
 }
 .messages__button:hover {
