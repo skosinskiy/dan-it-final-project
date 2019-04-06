@@ -10,6 +10,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import com.danit.finalproject.application.dto.request.event.EventPhotoRequest;
+import com.danit.finalproject.application.dto.request.event.EventRequest;
 import com.danit.finalproject.application.dto.response.event.EventResponse;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.event.EventCategory;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,6 +49,9 @@ public class EventControllerTest {
 
   @Autowired
   private ObjectMapper objectMapper;
+
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Autowired
   private EventService eventService;
@@ -105,7 +111,7 @@ public class EventControllerTest {
     event.setBusiness(businessService.getById(1L));
     event.setPlace(placeService.getById(1L));
 
-    String placeCategoryJson = objectMapper.writeValueAsString(event);
+    String placeCategoryJson = objectMapper.writeValueAsString(modelMapper.map(event, EventRequest.class));
 
     MvcResult result = mockMvc.perform(
         post("/api/events/")
@@ -132,7 +138,7 @@ public class EventControllerTest {
     event.setBusiness(businessService.getById(2L));
     event.setPlace(placeService.getById(2L));
 
-    String userJson = objectMapper.writeValueAsString(event);
+    String userJson = objectMapper.writeValueAsString(modelMapper.map(event, EventRequest.class));
 
     MvcResult result = mockMvc.perform(
         put("/api/events/1")
@@ -162,10 +168,9 @@ public class EventControllerTest {
     String expectedName = "photo-5";
 
     EventPhoto eventPhoto = new EventPhoto();
-    eventPhoto.setId(expectedId);
     eventPhoto.setPhoto(expectedName);
 
-    String placeCategoryJson = objectMapper.writeValueAsString(eventPhoto);
+    String placeCategoryJson = objectMapper.writeValueAsString(modelMapper.map(eventPhoto, EventPhotoRequest.class));
 
     MvcResult result = mockMvc.perform(
         post("/api/events/1/photos")

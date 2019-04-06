@@ -1,7 +1,6 @@
 package com.danit.finalproject.application.entity;
 
 import com.danit.finalproject.application.entity.place.Place;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -25,7 +24,6 @@ public class Visit extends BaseEntity {
   private Date dateFinish;
 
   @OneToMany(mappedBy = "visit")
-  @JsonIgnore
   @ToString.Exclude
   private List<VisitAction> actions;
 

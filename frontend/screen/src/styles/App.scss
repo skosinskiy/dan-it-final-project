@@ -1,9 +1,11 @@
 @import 'reset';
 @import "variables";
 
-.App {
+.App{
+  display: flex;
   flex-direction: column;
 }
+
 .grid-wrapper {
   display: flex;
   flex-wrap: nowrap;
