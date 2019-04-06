@@ -1,8 +1,8 @@
-import React, { Component } from 'react'
+import React from 'react'
 import {ReactComponent as BoyImg} from '../../../../img/icons/boy.svg'
 
 const Message = (props) => {
-  const {link, image, text, openDialog} = props
+  const {link, text, openDialog} = props
   const shortify = (text, maxlength = 100) => {
     if (text.length < maxlength) {
       return text
