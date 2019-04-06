@@ -1,15 +1,21 @@
-import React from 'react'
-import {ReactComponent as QRCodeImg} from '../../img/DummyImg/QR_code.svg';
+import React, {Component} from 'react'
 import './QRCode.scss'
 
-const QRCode = () =>{
-  return(
-      <div className={'qrCode'}>
+export default class QRCode extends Component {
+  state = {
+    modalIsOpen: false
+  }
+
+  render () {
+    const modalClassName = this.state.modalIsOpen ? 'qrCodeModal qrCode' : 'qrCode'
+    return (
+      <div
+        className= { modalClassName }
+        onClick = {() => { this.setState({ modalIsOpen: !this.state.modalIsOpen }) }}>
         <div className={'qrCode-title'}>Scan me</div>
         <div className={'qrCode-img'}>
         </div>
       </div>
-  )
+    )
+  }
 }
-
-export default QRCode

@@ -1,32 +1,63 @@
 @import '../../styles/variables';
+@import '../MainVideo/MainVideo';
 
 .qrCode{
+  position: absolute;
+  right: -1.1vw;
+  bottom: -1.1vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  width: 170px;
-  height: 170px;
+  width: 8vw;
+  height: 8vw;
   background: white;
   border-radius: 50%;
-  bottom: 0;
-  right: 0;
+  -webkit-transition: all 1s linear;
+  -moz-transition: all 1s linear;
+  -o-transition: all 1s linear;
+  transition: all 1s linear;
 }
 
 .qrCode-title{
+  color: $black;
   font-size: 14px;
   line-height: 16px;
-  letter-spacing: 0.00636364em;
-  color: $black;
+  letter-spacing: .00636364em;
+  -webkit-transition: all 1s linear;
+  -moz-transition: all 1s linear;
+  -o-transition: all 1s linear;
+  transition: all 1s linear;
 }
 
 .qrCode-img{
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   background: url('../../img/DummyImg/QR_code.svg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
   border-radius: 5px;
+  -webkit-transition: all 1s linear;
+  -moz-transition: all 1s linear;
+  -o-transition: all 1s linear;
+  transition: all 1s linear;
+}
+
+.qrCodeModal.qrCode{
+  right: 33vw;
+  bottom: 13vw;
+  width: 16vw;
+  height: 16vw;
+}
+
+.qrCodeModal>.qrCode-img{
+  width: 210px;
+  height: 210px;
+}
+
+.qrCodeModal>.qrCode-title{
+  font-size: 30px;
+  line-height: 35px;
+  letter-spacing: .014em;
 }
