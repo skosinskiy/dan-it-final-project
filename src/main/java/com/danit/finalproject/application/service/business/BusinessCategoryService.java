@@ -49,18 +49,20 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
   @Transactional
   public BusinessCategory update(Long id, BusinessCategory businessCategory, MultipartFile imageFile) throws IOException {
     String currentImageKey = businessCategory.getImageKey();
+    BusinessCategory updatedBusinessCategory;
     if (imageFile == null) {
       businessCategory.setImageUrl(null);
       businessCategory.setImageKey(null);
-      return update(id, businessCategory);
+      updatedBusinessCategory = update(id, businessCategory);
+      amazonS3Service.deleteObject(currentImageKey);
+    } else {
+      String imageKey = amazonS3Service.generateS3FileKey();
+      String imageUrl = amazonS3Service.getUrlFromFileKey(imageKey);
+      businessCategory.setImageKey(imageKey);
+      businessCategory.setImageUrl(imageUrl);
+      updatedBusinessCategory = update(id, businessCategory);
+      amazonS3Service.putImage(imageFile, imageKey);
     }
-    String imageKey = amazonS3Service.generateS3FileKey();
-    String imageUrl = amazonS3Service.getUrlFromFileKey(imageKey);
-    businessCategory.setImageKey(imageKey);
-    businessCategory.setImageUrl(imageUrl);
-    BusinessCategory updatedBusinessCategory = update(id, businessCategory);
-    amazonS3Service.putImage(imageFile, imageKey);
-    amazonS3Service.deleteObject(currentImageKey);
     return updatedBusinessCategory;
   }
 
