@@ -1,6 +1,5 @@
 import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
-import axios from 'axios'
 
 export const getAllBusinessCategories = () => dispatch => {
   api.get('/api/business-categories').then(res => {

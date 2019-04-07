@@ -55,8 +55,9 @@ public class BusinessCategoryController {
   @PreAuthorize("hasAuthority('MANAGE_BUSINESS_CATEGORIES')")
   public ResponseEntity<BusinessCategoryResponse> updateBusinessCategory(
       @PathVariable Long id,
-      @RequestBody BusinessCategoryRequest businessCategoryRequest) {
-    return new ResponseEntity<>(businessCategoryFacade.update(id, businessCategoryRequest), HttpStatus.OK);
+      @RequestPart("json") BusinessCategoryRequest businessCategoryRequest,
+      @RequestPart("file") MultipartFile imageFile) throws IOException {
+    return new ResponseEntity<>(businessCategoryFacade.update(id, businessCategoryRequest, imageFile), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")

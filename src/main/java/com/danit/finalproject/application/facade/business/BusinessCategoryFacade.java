@@ -30,4 +30,18 @@ public class BusinessCategoryFacade extends
         businessCategoryService.createAndPutS3Image(imageFile, businessCategory);
     return mapEntityToResponseDto(createdBusinessCategory);
   }
+
+  public BusinessCategoryResponse update(
+      Long id,
+      BusinessCategoryRequest businessCategoryRequest,
+      MultipartFile imageFile) throws IOException {
+    BusinessCategory businessCategory = mapRequestDtoToEntity(businessCategoryRequest);
+    BusinessCategory updatedBusinessCategory;
+    if (businessCategoryRequest.getImageKey() == null) {
+      updatedBusinessCategory = businessCategoryService.update(id, businessCategory, imageFile);
+    } else {
+      updatedBusinessCategory = businessCategoryService.update(id, businessCategory);
+    }
+    return mapEntityToResponseDto(updatedBusinessCategory);
+  }
 }

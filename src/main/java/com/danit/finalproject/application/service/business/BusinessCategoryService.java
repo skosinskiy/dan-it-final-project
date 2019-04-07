@@ -43,8 +43,25 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
   @Override
   public BusinessCategory update(Long id, BusinessCategory businessCategory) {
     businessCategory.setId(id);
-
     return businessCategoryRepository.saveAndFlush(businessCategory);
+  }
+
+  @Transactional
+  public BusinessCategory update(Long id, BusinessCategory businessCategory, MultipartFile imageFile) throws IOException {
+    String currentImageKey = businessCategory.getImageKey();
+    amazonS3Service.deleteObject(currentImageKey);
+    if (imageFile == null) {
+      businessCategory.setImageUrl(null);
+      businessCategory.setImageKey(null);
+      return update(id, businessCategory);
+    }
+    String imageKey = amazonS3Service.generateS3FileKey();
+    String imageUrl = amazonS3Service.getUrlFromFileKey(imageKey);
+    businessCategory.setImageKey(imageKey);
+    businessCategory.setImageUrl(imageUrl);
+    BusinessCategory updatedBusinessCategory = update(id, businessCategory);
+    amazonS3Service.putImage(imageFile, imageKey);
+    return updatedBusinessCategory;
   }
 
   @Override
