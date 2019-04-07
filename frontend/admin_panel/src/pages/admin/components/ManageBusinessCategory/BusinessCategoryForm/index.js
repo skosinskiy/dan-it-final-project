@@ -76,12 +76,9 @@ class BusinessCategoryForm extends React.Component {
   }
 
   saveCategory = () => {
-    // const {saveCategory} = this.props
+    const {saveCategory} = this.props
 
-    this.props.saveCategory({
-      ...this.state.editedCategory,
-      imageFile: this.state.businessCategoryImages[0]
-    })
+    saveCategory(this.state.editedCategory, this.state.businessCategoryImages[0])
   }
 
   handleChange = (event, propName) => {
@@ -220,7 +217,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllBusinessCategories: () => dispatch(businessCategoryOperations.getAllBusinessCategories()),
-    saveCategory: (category) => dispatch(businessCategoryOperations.saveCategory(category))
+    saveCategory: (category, file) => dispatch(businessCategoryOperations.saveCategory(category, file))
   }
 }
 

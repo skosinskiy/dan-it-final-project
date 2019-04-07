@@ -5,6 +5,7 @@ import com.danit.finalproject.application.dto.response.business.BusinessCategory
 import com.danit.finalproject.application.facade.business.BusinessCategoryFacade;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,8 +37,11 @@ public class BusinessCategoryController {
   @PostMapping
   @PreAuthorize("hasAuthority('MANAGE_BUSINESS_CATEGORIES')")
   public ResponseEntity<BusinessCategoryResponse> createNewBusinessCategory(
-      @ModelAttribute BusinessCategoryRequest businessCategoryRequest) throws IOException {
-    return new ResponseEntity<>(businessCategoryFacade.createAndPutS3Image(businessCategoryRequest), HttpStatus.OK);
+      @RequestPart("json") BusinessCategoryRequest businessCategoryRequest,
+      @RequestPart("file") MultipartFile imageFile
+  ) throws IOException {
+    return new ResponseEntity<>(
+        businessCategoryFacade.createAndPutS3Image(businessCategoryRequest, imageFile), HttpStatus.OK);
   }
 
   @PutMapping("{id}")

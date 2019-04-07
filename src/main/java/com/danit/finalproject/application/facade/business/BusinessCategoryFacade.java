@@ -4,11 +4,10 @@ import com.danit.finalproject.application.dto.request.business.BusinessCategoryR
 import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponse;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.facade.AbstractDtoFacade;
-import com.danit.finalproject.application.service.AmazonS3Service;
 import com.danit.finalproject.application.service.business.BusinessCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -33,11 +32,11 @@ public class BusinessCategoryFacade extends
   }
 
   public BusinessCategoryResponse createAndPutS3Image(
-      BusinessCategoryRequest businessCategoryRequest) throws IOException {
+      BusinessCategoryRequest businessCategoryRequest, MultipartFile imageFile) throws IOException {
 
     BusinessCategory businessCategory = mapRequestDtoToEntity(businessCategoryRequest);
     BusinessCategory createdBusinessCategory =
-        businessCategoryService.createAndPutS3Image(businessCategoryRequest.getImageFile(), businessCategory);
+        businessCategoryService.createAndPutS3Image(imageFile, businessCategory);
     return mapEntityToResponseDto(createdBusinessCategory);
   }
 }
