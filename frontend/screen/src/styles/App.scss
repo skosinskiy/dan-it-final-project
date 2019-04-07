@@ -1,13 +1,25 @@
+@import 'reset';
 @import "variables";
-
 
 .App{
   display: flex;
   flex-direction: column;
 }
 
-div {
+.grid-wrapper {
   display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.left-sidebar {
+  width: 20%;
+  height: calc(100vh - 71px);
+}
+.main-section {
+  width: 80%;
+}
+.tempopary {
+  width: 100%;
 }
 
 ::-webkit-scrollbar {
