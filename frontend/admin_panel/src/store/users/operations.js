@@ -11,6 +11,7 @@ export const saveUserRoles = (userId, roles) => dispatch => {
   api.put(`api/users/${userId}/roles`, roles)
 }
 
+// getAllUsers
 export const getUsersByEmail = (email, page, size) => dispatch => {
   dispatch(ACTIONS.getUsersRequest())
 

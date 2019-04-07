@@ -7,7 +7,7 @@ const withRoot = ({store, theme}) => Component => (
   <ReduxProvider store={store}>
     <Router>
       <ThemeProvider theme={theme}>
-        <Component/>
+        <Component />
       </ThemeProvider>
     </Router>
   </ReduxProvider>

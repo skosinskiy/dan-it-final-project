@@ -41,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-@WithMockUser(authorities = "MANAGE_BUSINESS")
+@WithMockUser(authorities = "MANAGE_BUSINESSES")
 public class BusinessControllerTest {
   @Autowired
   private MockMvc mockMvc;
@@ -91,6 +91,21 @@ public class BusinessControllerTest {
 
     assertEquals(expectedSize, businesses.size());
     assertEquals(secondCategoryName, businesses.get(1).getTitle());
+  }
+
+  @Test
+  public void businessesAreFoundByPartOfTitle() throws Exception {
+    int expectedSize = 1;
+    String titlePart = "ness-1";
+
+    MvcResult result = mockMvc.perform(get("/api/businesses?title=" + titlePart))
+        .andReturn();
+    String responseBody = result.getResponse().getContentAsString();
+    List<BusinessResponse> businesses
+        = objectMapper.readValue(responseBody, new TypeReference<List<BusinessResponse>>(){});
+
+    assertEquals(expectedSize, businesses.size());
+    assertTrue(businesses.get(0).getTitle().contains(titlePart));
   }
 
   @Test
