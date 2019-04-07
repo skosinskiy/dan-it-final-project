@@ -54,7 +54,7 @@ public class PlaceCategoryController {
 
   @DeleteMapping("{id}")
   @PreAuthorize("hasAuthority('MANAGE_PLACE_CATEGORIES')")
-  public ResponseEntity<PlaceCategoryResponse> deletePlace(@PathVariable("id") Long placeCategoryId) {
+  public ResponseEntity<PlaceCategoryResponse> deletePlaceCategory(@PathVariable("id") Long placeCategoryId) {
     return new ResponseEntity<>(placeCategoryFacade.delete(placeCategoryId), HttpStatus.OK);
   }
 }
