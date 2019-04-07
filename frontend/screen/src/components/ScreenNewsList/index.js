@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import ScreenEventItem from './ScreenNewsItem/'
 import './ScreenNewsList.scss'
 
-export default class ScreenEventList extends Component {
+export default class ScreenNewsList extends Component {
 	state = {
 		listOfNews: [
 			{ id: 1,
