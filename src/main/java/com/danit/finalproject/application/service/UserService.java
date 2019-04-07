@@ -5,12 +5,15 @@ import com.danit.finalproject.application.entity.Permission;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.repository.UserRepository;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -21,9 +24,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
+
+import static com.danit.finalproject.application.entity.Permission.ADMIN_USER;
 
 @Service
 public class UserService implements UserDetailsService, CrudService<User> {
@@ -84,6 +95,10 @@ public class UserService implements UserDetailsService, CrudService<User> {
     return user;
   }
 
+  public User getByEmail(String email) {
+    return userRepository.findByEmail(email);
+  }
+
   public User setUserRoles(Long userId, List<Role> roles) {
     Optional<User> optionalUser = userRepository.findById(userId);
     optionalUser.ifPresent(user -> user.setRoles(roles));
@@ -132,24 +147,49 @@ public class UserService implements UserDetailsService, CrudService<User> {
   @Transactional
   public UserDetails loadUserByUsername(String email) {
     User user = userRepository.findByEmail(email);
+    return org.springframework.security.core.userdetails.User.builder()
+        .username(user.getEmail())
+        .roles(user.getRoles().stream().map(Role::getName).toArray(String[]::new))
+        .authorities(getAllPermissions(user))
+        .password(user.getPassword())
+        .build();
+  }
+
+  private Set<Permission> getAllPermissions(User user) {
     Set<Permission> permissions = new HashSet<>();
     user
         .getRoles()
         .stream()
         .map(Role::getPermissions)
         .forEach(permissions::addAll);
+    return permissions;
+  }
 
-    return org.springframework.security.core.userdetails.User.builder()
-        .username(user.getEmail())
-        .roles(user.getRoles().stream().map(Role::getName).toArray(String[]::new))
-        .authorities(permissions)
-        .password(user.getPassword())
-        .build();
+  public Set<Permission> getOAuth2UserPermissions(OAuth2User oauth2User) {
+    Map<String, Object> attributes = oauth2User.getAttributes();
+    String email = (String) attributes.get("email");
+    User user = getByEmail(email);
+    if (user == null) {
+      throw new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT));
+    }
+    Set<Permission> permissions = getAllPermissions(user);
+    if (permissions.isEmpty()) {
+      permissions.add(ADMIN_USER);
+    }
+    return permissions;
   }
 
   public User getPrincipalUser() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (!(authentication instanceof AnonymousAuthenticationToken)) {
+    if (authentication instanceof OAuth2AuthenticationToken) {
+      if (((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId().equals("facebook")) {
+        OAuth2User oAuth2User = ((OAuth2AuthenticationToken) authentication).getPrincipal();
+        return userRepository.findByEmail((String) oAuth2User.getAttributes().get("email"));
+      } else {
+        OidcUser auth2UserInfo = (OidcUser)(authentication.getPrincipal());
+        return userRepository.findByEmail(auth2UserInfo.getEmail());
+      }
+    } else if (!(authentication instanceof AnonymousAuthenticationToken)) {
       return userRepository.findByEmail(authentication.getName());
     }
     return null;

@@ -1,6 +1,5 @@
 package com.danit.finalproject.application.dto.request;
 
-import com.danit.finalproject.application.dto.request.place.PlaceRequest;
 import com.danit.finalproject.application.entity.Gender;
 import java.util.Date;
 import java.util.List;
@@ -20,8 +19,5 @@ public class UserRequest {
   private String token;
   private Date tokenExpirationDate;
   private List<RoleRequest> roles;
-  private List<PlaceRequest> places;
-  private List<ChatRequest> chats;
-  private List<VisitRequest> visits;
 
 }

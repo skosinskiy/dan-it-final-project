@@ -83,7 +83,7 @@ class BusinessCategoryForm extends React.Component {
     const value = propName === 'parentCategory'
       ? categories.find(category => category.id === event.target.value)
       : event.target.value
-
+    
     this.setState({editedCategory: {...this.state.editedCategory, [propName]: value}})
   }
 
@@ -119,7 +119,22 @@ class BusinessCategoryForm extends React.Component {
           value={editedCategory.name}
           onChange={(e) => this.handleChange(e, 'name')}
         />
-
+  
+  
+        <TextField
+          id="outlined-required"
+          label="Description"
+          style={{margin: 8}}
+          fullWidth
+          margin="normal"
+          variant="outlined"
+          InputLabelProps={{
+            shrink: true
+          }}
+          value={editedCategory.description}
+          onChange={(e) => this.handleChange(e, 'description')}
+        />
+        
         <TextField
           select
           className={classes.textField}

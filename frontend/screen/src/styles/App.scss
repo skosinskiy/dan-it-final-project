@@ -1,0 +1,43 @@
+@import 'reset';
+@import "variables";
+
+.App{
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.left-sidebar {
+  width: 20%;
+  height: calc(100vh - 71px);
+}
+.right-sidebar {
+  width: 20%;
+  height: calc(100vh - 71px);
+}
+.main-section {
+  width: 80%;
+}
+.tempopary {
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track-piece {
+  width: 2px;
+  background-color: $light-grey;
+  border-right: 1px solid white;
+  border-left: 4px solid white;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $almost-black;
+  border-radius: 3px;
+}

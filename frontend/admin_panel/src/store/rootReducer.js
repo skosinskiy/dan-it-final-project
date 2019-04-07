@@ -10,6 +10,7 @@ import businessCategory from './businessCategory'
 import eventCategory from './eventCategory'
 import menuItems from './menuItems'
 import placeCategories from './placeCategory'
+import roles from './roles'
 
 const rootReducer = combineReducers({
   users: users,
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   eventCategory: eventCategory,
   menuItems: menuItems,
   toastr: toastrReducer,
-  placeCategories: placeCategories
+  placeCategories: placeCategories,
+  roles: roles,
 })
 
 export default rootReducer

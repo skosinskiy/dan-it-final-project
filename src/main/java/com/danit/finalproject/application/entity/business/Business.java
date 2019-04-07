@@ -3,7 +3,6 @@ package com.danit.finalproject.application.entity.business;
 import com.danit.finalproject.application.entity.BaseEntity;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.place.Place;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -55,7 +54,6 @@ public class Business extends BaseEntity {
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "business")
   @ToString.Exclude
-  @JsonIgnore
   private List<BusinessPhoto> photos;
 
   @ManyToOne
@@ -65,6 +63,5 @@ public class Business extends BaseEntity {
 
   @OneToMany(mappedBy = "business", cascade = CascadeType.REMOVE)
   @ToString.Exclude
-  @JsonIgnore
   private List<Event> events;
 }

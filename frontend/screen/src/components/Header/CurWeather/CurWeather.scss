@@ -1,0 +1,27 @@
+@import '../../../styles/variables';
+.current-weather{
+  margin: 0;
+  padding: 0;
+}
+
+.current-weather__icon {
+  width: 43px;
+  height: 35px;
+  margin-top: 0;
+  margin-right: 12px;
+}
+
+.current-weather__info{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.current-weather__info-item{
+  margin-left: 0;
+  color: $off-black;
+  font-size: 18px;
+  line-height: 16px;
+  letter-spacing: .00636364em;
+}
+
