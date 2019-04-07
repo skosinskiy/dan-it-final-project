@@ -14,7 +14,6 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
   @Autowired
   public BusinessCategoryService(BusinessCategoryRepository businessCategoryRepository) {
     this.businessCategoryRepository = businessCategoryRepository;
-
   }
 
   @Override
@@ -49,6 +48,7 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
         category.setParentCategory(null);
       }
     });
+    businessCategoryRepository.delete(businessCategory);
     return businessCategory;
   }
 }

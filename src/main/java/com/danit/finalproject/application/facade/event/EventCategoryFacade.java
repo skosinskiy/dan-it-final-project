@@ -4,8 +4,6 @@ import com.danit.finalproject.application.dto.request.event.EventCategoryRequest
 import com.danit.finalproject.application.dto.response.event.EventCategoryResponse;
 import com.danit.finalproject.application.entity.event.EventCategory;
 import com.danit.finalproject.application.facade.AbstractDtoFacade;
-import com.danit.finalproject.application.service.event.EventCategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component

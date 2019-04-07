@@ -2,13 +2,13 @@ package com.danit.finalproject.application.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import com.danit.finalproject.application.dto.request.place.PlaceCategoryRequest;
 import com.danit.finalproject.application.dto.response.place.PlaceCategoryResponse;
 import com.danit.finalproject.application.entity.place.PlaceCategory;
 import com.danit.finalproject.application.service.place.PlaceCategoryService;
@@ -17,6 +17,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,6 +39,9 @@ public class PlaceCategoryControllerTest {
 
   @Autowired
   private ObjectMapper objectMapper;
+
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Autowired
   private PlaceCategoryService placeCategoryService;
@@ -79,7 +83,8 @@ public class PlaceCategoryControllerTest {
     PlaceCategory placeCategory = new PlaceCategory();
     placeCategory.setId(expectedId);
     placeCategory.setName(expectedName);
-    String placeCategoryJson = objectMapper.writeValueAsString(placeCategory);
+    String placeCategoryJson = objectMapper.writeValueAsString(
+        modelMapper.map(placeCategory, PlaceCategoryRequest.class));
 
     MvcResult result = mockMvc.perform(
         post("/api/place-categories/")
@@ -102,7 +107,7 @@ public class PlaceCategoryControllerTest {
     Long placeCategoryId = 1L;
     PlaceCategory placeCategory = placeCategoryService.getById(placeCategoryId);
     placeCategory.setName(placeCategoryName);
-    String userJson = objectMapper.writeValueAsString(placeCategory);
+    String userJson = objectMapper.writeValueAsString(modelMapper.map(placeCategory, PlaceCategoryRequest.class));
 
     MvcResult result = mockMvc.perform(
         put("/api/place-categories/1")
