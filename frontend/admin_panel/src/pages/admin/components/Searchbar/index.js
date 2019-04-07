@@ -8,6 +8,14 @@ import IconButton from '@material-ui/core/IconButton'
 import SearchIcon from '@material-ui/icons/Search'
 
 import {usersOperations} from 'store/users'
+import {businessOperations} from '../../../../store/businesses'
+
+/*
+* Search Types that should be passed as props:
+*  - 'user_by_email'
+*  - 'business_by_name'
+*
+* */
 
 const styles = {
   root: {
@@ -30,31 +38,50 @@ const styles = {
   }
 }
 
-class UserEmailSearchBar extends React.Component {
+class SearchBar extends React.Component {
   state = {
-    email: ''
+    input: ''
   }
 
   handleChange = event => {
-    this.setState({email: event.target.value})
+    this.setState({input: event.target.value})
   }
 
   findUsersByEmail = (e) => {
     if (e.key === 'Enter') {
-      this.props.getUsersByEmail(this.state.email, 0, 25)
+      this.props.getUsersByEmail(this.state.input, 0, 25)
+    }
+  }
+
+  findCompanyByName = (e) => {
+    if (e.key === 'Enter'){
+      this.props.getBusinessesByTile(this.state.input)
+    }
+  }
+
+  setPlaceholder = (searchType) => {
+    switch (searchType) {
+      case 'user_by_email':
+        return {placeholder: 'Search user by email', func: this.findUsersByEmail}
+      case 'business_by_name':
+        return {placeholder: 'Search by company name', func: this.findCompanyByName}
+      default:
+        return 'Search'
     }
   }
 
   render () {
     const {classes} = this.props
+    const {placeholder, func} = this.setPlaceholder(this.props.searchtype)
+
     return (
       <Paper className={classes.root} elevation={1}>
         <InputBase
-          onKeyPress={this.findUsersByEmail}
-          value={this.state.email}
+          onKeyPress={func}
+          value={this.state.input}
           onChange={this.handleChange}
           className={classes.input}
-          placeholder="Search User By email"
+          placeholder={placeholder}
         />
         <IconButton className={classes.iconButton} aria-label="Search">
           <SearchIcon/>
@@ -64,7 +91,9 @@ class UserEmailSearchBar extends React.Component {
   }
 }
 
-UserEmailSearchBar.propTypes = {
+
+SearchBar.propTypes = {
+  searchtype: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   getUsersByEmail: PropTypes.func.isRequired,
 }
@@ -77,8 +106,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUsersByEmail: (email, page, size) => dispatch(usersOperations.getUsersByEmail(email, page, size))
+    getUsersByEmail: (email, page, size) => dispatch(usersOperations.getUsersByEmail(email, page, size)),
+    getBusinessesByTile: (title) => dispatch(businessOperations.getBusinessesByTitle(title)),
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(UserEmailSearchBar))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SearchBar))

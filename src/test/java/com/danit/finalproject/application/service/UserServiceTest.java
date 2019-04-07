@@ -1,10 +1,6 @@
 package com.danit.finalproject.application.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.anyString;
 import static org.mockito.Mockito.eq;
@@ -14,16 +10,18 @@ import static org.mockito.Mockito.when;
 
 import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
 import com.danit.finalproject.application.entity.Gender;
+import com.danit.finalproject.application.entity.Permission;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.repository.UserRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -32,7 +30,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.BindingResult;
 
@@ -57,9 +59,21 @@ public class UserServiceTest {
 	private static User firstMockUser;
 	private static User secondMockUser;
 
+	@Rule
+	public ExpectedException exception = ExpectedException.none();
+
 	@Before
 	public void initializeMockUsers() throws ParseException {
 		User firstUser = new User();
+
+		ArrayList<Role> roles = new ArrayList<>();
+		Role role = new Role();
+		role.setName("test");
+		role.setPermissions(new ArrayList<>());
+		role.getPermissions().add(Permission.ADMIN_USER);
+		role.getPermissions().add(Permission.MANAGE_BUILDING_TYPES);
+		roles.add(role);
+
 		firstUser.setId(1L);
 		firstUser.setCreatedDate(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
 				.parse("2019-03-12 12:00:00"));
@@ -71,6 +85,8 @@ public class UserServiceTest {
 		firstUser.setLastName("Musk");
 		firstUser.setGender(Gender.MALE);
 		firstUser.setToken("ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0");
+		firstUser.setRoles(roles);
+		firstUser.setPassword("password");
 		firstMockUser = firstUser;
 
 		User secondUser = new User();
@@ -98,6 +114,23 @@ public class UserServiceTest {
 		verify(userRepository, times(1)).findById(expectedId);
 		assertEquals(expectedId, user.getId());
 		assertEquals(expectedEmail, user.getEmail());
+	}
+
+	@Test
+	public void verifyFindAllCalledOnce() {
+		when(userRepository.findAll()).thenReturn(new ArrayList<>());
+		List<User> result = userService.getAll();
+		verify(userRepository, times(1)).findAll();
+		assertNotNull(result);
+	}
+
+	@Test
+	public void verifyFindByEmailCalledOnce() {
+		String email = "test";
+		when(userRepository.findByEmail(email)).thenReturn(new User());
+		User result = userService.getByEmail(email);
+		verify(userRepository, times(1)).findByEmail(email);
+		assertNotNull(result);
 	}
 
   	@Test
@@ -238,5 +271,49 @@ public class UserServiceTest {
 		verify(userRepository, times(1)).findByToken(userDto.getToken());
 		verify(userRepository, times(1)).save(any());
 		verify(validationService, times(1)).checkForValidationErrors(bindingResult);
+	}
+
+	@Test
+	public void verifyUserDetailsMatchUser() {
+		String email = "first.user@test.com";
+		when(userRepository.findByEmail(email)).thenReturn(firstMockUser);
+		UserDetails userDetails = userService.loadUserByUsername(email);
+
+		assertEquals(firstMockUser.getEmail(), userDetails.getUsername());
+		assertEquals(2, userDetails.getAuthorities().size());
+		assertTrue(userDetails.getAuthorities().contains(Permission.ADMIN_USER));
+		assertNotNull(userDetails.getPassword());
+	}
+
+	@Test
+	public void verifyOAuthUserExistAndPermissionsFilled() {
+		String email = "first.user@test.com";
+		List<Permission> permissions = firstMockUser.getRoles().get(0).getPermissions();
+		HashMap<String, Object> attributes = new HashMap<>();
+		attributes.put("email", email);
+		attributes.put("id", email);
+		DefaultOAuth2User defaultOAuth2User = new DefaultOAuth2User(permissions, attributes, "id");
+
+		when(userRepository.findByEmail(email)).thenReturn(firstMockUser);
+
+		Set<Permission> result = userService.getOAuth2UserPermissions(defaultOAuth2User);
+
+		assertEquals(2, result.size());
+		assertTrue(result.contains(Permission.ADMIN_USER));
+	}
+
+	@Test
+	public void verifyExceptionThrownIfOAuthUserNotExist() {
+		String email = "first.user@test.com";
+		List<Permission> permissions = firstMockUser.getRoles().get(0).getPermissions();
+		HashMap<String, Object> attributes = new HashMap<>();
+		attributes.put("email", email);
+		attributes.put("id", email);
+		DefaultOAuth2User defaultOAuth2User = new DefaultOAuth2User(permissions, attributes, "id");
+
+		exception.expect(OAuth2AuthenticationException.class);
+		when(userRepository.findByEmail(email)).thenReturn(null);
+
+		userService.getOAuth2UserPermissions(defaultOAuth2User);
 	}
 }

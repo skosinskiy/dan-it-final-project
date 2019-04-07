@@ -56,7 +56,7 @@ public class Place extends BaseEntity {
   private List<PlacePhoto> photos;
 
   @ManyToOne
-  @JoinColumn(name = "place_category", nullable = false)
+  @JoinColumn(name = "place_category")
   private PlaceCategory placeCategory;
 
   @OneToMany(mappedBy = "place")

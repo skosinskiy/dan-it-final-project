@@ -36,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @WithMockUser(authorities = "MANAGE_BUSINESS_CATEGORIES")
 public class BusinessCategoryControllerTest {
+
   @Autowired
   private MockMvc mockMvc;
 
@@ -138,8 +139,9 @@ public class BusinessCategoryControllerTest {
 
   @Test
   public void deleteBusinessCategory() throws Exception {
-    mockMvc.perform(delete("/api/business-categories/2").with(csrf()));
+    int expectedCategorySize = businessCategoryService.getAll().size() - 1;
+    mockMvc.perform(delete("/api/business-categories/1").with(csrf()));
 
-    assertNull(businessCategoryService.getById(2L));
+    assertEquals(expectedCategorySize, businessCategoryService.getAll().size());
   }
 }

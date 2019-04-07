@@ -9,11 +9,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.ToString;
+import java.util.List;
 
 @Entity
 @Table(name = "places_categories")
@@ -33,4 +36,8 @@ public class PlaceCategory extends BaseEntity {
       inverseJoinColumns = {@JoinColumn(name = "menu_item_id")})
   @ToString.Exclude
   private List<MenuItem> menuItems;
+  
+  @OneToMany(mappedBy = "placeCategory")
+  @ToString.Exclude
+  private List<Place> places;
 }
