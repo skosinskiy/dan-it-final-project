@@ -59,9 +59,7 @@ public class Business extends BaseEntity {
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "business")
   @ToString.Exclude
-  @EqualsAndHashCode.Exclude
-  @JsonIgnore
-  private List<BusinessPhoto> photos = new ArrayList<>();
+  private List<BusinessPhoto> photos;
 
   @ManyToOne
   @JoinColumn(name = "place_id")
@@ -70,13 +68,5 @@ public class Business extends BaseEntity {
 
   @OneToMany(mappedBy = "business", cascade = CascadeType.ALL)
   @ToString.Exclude
-  @EqualsAndHashCode.Exclude
-  @JsonIgnore
-  private List<Event> events = new ArrayList<>();
-
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "business")
-  @ToString.Exclude
-  @EqualsAndHashCode.Exclude
-  @JsonIgnore
-  private List<Notification> notifications;
+  private List<Event> events;
 }

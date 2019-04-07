@@ -10,6 +10,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequest;
+import com.danit.finalproject.application.dto.request.business.BusinessRequest;
 import com.danit.finalproject.application.dto.response.business.BusinessResponse;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,6 +48,9 @@ public class BusinessControllerTest {
 
   @Autowired
   private ObjectMapper objectMapper;
+
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Autowired
   private BusinessCategoryService businessCategoryService;
@@ -117,7 +123,7 @@ public class BusinessControllerTest {
     businessCategories.add(businessCategoryService.getById(2L));
     business.setCategories(businessCategories);
 
-    String businessJson = objectMapper.writeValueAsString(business);
+    String businessJson = objectMapper.writeValueAsString(modelMapper.map(business, BusinessRequest.class));
 
     MvcResult result = mockMvc.perform(
         post("/api/businesses")
@@ -143,7 +149,7 @@ public class BusinessControllerTest {
     business.setTitle(businessTitle);
     business.setPlace(placeService.getById(2L));
 
-    String userJson = objectMapper.writeValueAsString(business);
+    String userJson = objectMapper.writeValueAsString(modelMapper.map(business, BusinessRequest.class));
 
     MvcResult result = mockMvc.perform(
         put("/api/businesses/1")
@@ -172,10 +178,11 @@ public class BusinessControllerTest {
     String expectedName = "photo-5";
 
     BusinessPhoto businessPhoto = new BusinessPhoto();
-    businessPhoto.setId(expectedId);
     businessPhoto.setPhoto(expectedName);
 
-    String businessPhotoJson = objectMapper.writeValueAsString(businessPhoto);
+    String businessPhotoJson = objectMapper.writeValueAsString(
+        modelMapper.map(businessPhoto, BusinessPhotoRequest.class)
+    );
 
     MvcResult result = mockMvc.perform(
         post("/api/businesses/2/photos")

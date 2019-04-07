@@ -7,6 +7,5 @@ public class BusinessPhotoRequest {
 
   private Long id;
   private String photo;
-  private BusinessRequest business;
 
 }

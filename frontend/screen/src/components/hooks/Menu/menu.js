@@ -4,7 +4,7 @@ import {ReactComponent as FunLogo} from '../../../img/icons/fun.svg'
 import {ReactComponent as FoodLogo} from '../../../img/icons/food.svg'
 import {ReactComponent as ShopsLogo} from '../../../img/icons/shops.svg'
 import {ReactComponent as MapLogo} from '../../../img/icons/map.svg'
-import './index.scss'
+import './menu.scss'
 import { NavLink } from 'react-router-dom'
 
 const Menu = (props) => (

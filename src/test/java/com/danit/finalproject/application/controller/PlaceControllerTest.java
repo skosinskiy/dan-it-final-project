@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.danit.finalproject.application.dto.request.place.PlaceRequest;
 import com.danit.finalproject.application.dto.response.place.PlaceResponse;
 import com.danit.finalproject.application.entity.menuitem.MenuItemName;
 import com.danit.finalproject.application.entity.place.Place;
@@ -26,6 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -47,6 +49,9 @@ public class PlaceControllerTest {
 
   @Autowired
   private ObjectMapper objectMapper;
+
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Autowired
   private PlaceService placeService;
@@ -92,11 +97,10 @@ public class PlaceControllerTest {
     String expectedName = "place-3";
 
     Place place = new Place();
-    place.setId(expectedId);
     place.setTitle(expectedName);
     place.setPlaceCategory(placeCategoryService.getById(1L));
 
-    String placeCategoryJson = objectMapper.writeValueAsString(place);
+    String placeCategoryJson = objectMapper.writeValueAsString(modelMapper.map(place, PlaceRequest.class));
 
     MvcResult result = mockMvc.perform(
         post("/api/places")
@@ -109,7 +113,7 @@ public class PlaceControllerTest {
     Long createdPlaceId= createdPlace.getId();
 
     assertEquals(expectedName, createdPlace.getTitle());
-    assertNotNull(createdPlaceId);
+    assertEquals(expectedId, createdPlaceId);
     assertEquals(createdPlace.getPlaceCategory().getId(), placeCategoryService.getById(1L).getId());
   }
 
@@ -120,7 +124,7 @@ public class PlaceControllerTest {
     Place place = placeService.getById(placeId);
     place.setTitle(placeTitle);
 
-    String userJson = objectMapper.writeValueAsString(place);
+    String userJson = objectMapper.writeValueAsString(modelMapper.map(place, PlaceRequest.class));
 
     MvcResult result = mockMvc.perform(
         put("/api/places/1")
@@ -148,7 +152,6 @@ public class PlaceControllerTest {
     String expectedName = "photo-5";
 
     PlacePhoto placePhoto = new PlacePhoto();
-    placePhoto.setId(expectedId);
     placePhoto.setPhoto(expectedName);
 
     String placePhotoJson = objectMapper.writeValueAsString(placePhoto);

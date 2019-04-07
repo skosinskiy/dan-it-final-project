@@ -1,0 +1,50 @@
+@import "./../../../styles/variables";
+
+.sceenEventItem{
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  margin: auto;
+  margin-bottom: 5px;
+}
+.sceenEventItem:hover{
+  border: solid $orange 4px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.sceenEventItem-title{
+  display: block;
+  width: 126px;
+  height: 31px;
+  margin-top: 10px;
+  margin-bottom: 0;
+  margin-left: 20px;
+  font-weight: 500;
+  font-size: 22px;
+  font-family: $roboto;
+  font-style: normal;
+  line-height: 31px;
+}
+
+.sceenEventItem-img{
+  display: block;
+  width: auto;
+  height: 200px;
+  margin: 0;
+  background: url("./../../../img/DummyImg/manufactura.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+}
+
+.sceenEventItem-description{
+  display: block;
+  margin-left: 26px;
+  font-weight: normal;
+  font-size: 18px;
+  font-family: $roboto;
+  font-style: normal;
+  line-height: 25px;
+}
