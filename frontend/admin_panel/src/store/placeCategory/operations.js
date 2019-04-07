@@ -113,7 +113,9 @@ export const saveAllChanges = placeCategories => dispatch => {
   .then(() => new Promise (resolve => {
     setTimeout(() => resolve(dispatch(requestPut(placeCategories))), 0)
   }))
-  //.then(() => requestDelete(placeCategories))
+  .then(() => new Promise (resolve => {
+    setTimeout(() => resolve (dispatch(requestDelete(placeCategories))),0)
+  }))
 }
 
 export const requestDelete = (placeCategories) => dispatch => {
