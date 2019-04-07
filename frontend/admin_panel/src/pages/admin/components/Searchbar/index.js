@@ -91,9 +91,11 @@ class SearchBar extends React.Component {
   }
 }
 
+
 SearchBar.propTypes = {
   searchtype: PropTypes.string.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  getUsersByEmail: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => {

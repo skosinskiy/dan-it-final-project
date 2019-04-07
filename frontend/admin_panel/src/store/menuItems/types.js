@@ -1,3 +1,2 @@
 export const FETCH_AVAILABLE = 'FETCH_AVAILABLE'
 export const IS_LOADING = 'IS_LOADING'
-export const SET_MENU_ITEMS = 'SET_MENU_ITEMS'

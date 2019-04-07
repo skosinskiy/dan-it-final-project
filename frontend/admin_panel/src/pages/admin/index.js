@@ -185,7 +185,9 @@ class Admin extends React.Component {
 }
 
 Admin.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+  getUserRolesList: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({

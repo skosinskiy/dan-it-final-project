@@ -4,8 +4,6 @@ import lombok.Data;
 
 @Data
 public class PlacePhotoResponse {
-
   private Long id;
   private String photo;
-
 }

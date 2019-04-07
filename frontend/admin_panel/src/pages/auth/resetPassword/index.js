@@ -141,6 +141,14 @@ const getToken = () => {
   return tokenArray[tokenArray.length - 1]
 }
 
+ResetPassword.propTypes = {
+  classes: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  isFormSubmitted: PropTypes.bool.isRequired,
+  arePasswordsDifferent: PropTypes.bool.isRequired,
+  submitResetPasswordForm: PropTypes.func.isRequired,
+}
+
 const mapStateToProps = ({resetPassword}) => ({
   isFormSubmitted: resetPassword.isFormSubmitted,
   isLoading: resetPassword.isLoading,
@@ -150,9 +158,5 @@ const mapStateToProps = ({resetPassword}) => ({
 const mapDispatchToProps = (dispatch) => ({
   submitResetPasswordForm: (event) => dispatch(resetPasswordOperations.submitResetPasswordForm(event))
 })
-
-ResetPassword.propTypes = {
-  classes: PropTypes.object.isRequired
-}
 
 export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles))(ResetPassword))

@@ -175,7 +175,12 @@ class EventCategoryForm extends React.Component {
 }
 
 EventCategoryForm.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  category: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
+  categories: PropTypes.array.isRequired,
+  getAllEventCategories: PropTypes.func.isRequired,
+  saveCategory: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state, props) => {
