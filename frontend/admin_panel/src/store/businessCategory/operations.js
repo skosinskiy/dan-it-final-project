@@ -20,7 +20,6 @@ export const saveCategory = (category, file) => dispatch => {
       dispatch(getAllBusinessCategories())
     })
   } else {
-    console.log(file)
     const json = JSON.stringify(category);
     const blob = new Blob([json], {
       type: 'application/json'
@@ -30,7 +29,7 @@ export const saveCategory = (category, file) => dispatch => {
     formData.append("json", blob)
     formData.append('file', file)
 
-    axios.post(`/api/business-categories`, formData).then(res => {
+    api.post(`/api/business-categories`, formData).then(res => {
       dispatch(getAllBusinessCategories())
     })
   }
