@@ -1,7 +1,6 @@
 package com.danit.finalproject.application.entity.business;
 
 import com.danit.finalproject.application.entity.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,7 +33,6 @@ public class BusinessCategory extends BaseEntity {
 
   @ManyToMany(mappedBy = "categories")
   @ToString.Exclude
-  @JsonIgnore
   private List<Business> businesses;
 
   @Column(name = "image_key")

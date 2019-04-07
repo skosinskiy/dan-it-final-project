@@ -49,13 +49,23 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
 
   @Override
   public BusinessCategory delete(Long id) {
-    BusinessCategory businessCategory = businessCategoryRepository.findById(id).orElse(null);
-    businessCategoryRepository.deleteById(id);
+    BusinessCategory businessCategory = getById(id);
+    businessCategory
+            .getBusinesses()
+            .forEach(business -> business.getCategories().remove(businessCategory));
+    getAll().forEach(category -> {
+      if (category.getParentCategory() == businessCategory) {
+        category.setParentCategory(null);
+      }
+    });
+    businessCategoryRepository.delete(businessCategory);
     return businessCategory;
   }
 
   @Transactional
-  public BusinessCategory createAndPutS3Image(MultipartFile imageFile, BusinessCategory businessCategory) throws IOException {
+  public BusinessCategory createAndPutS3Image(
+      MultipartFile imageFile,
+      BusinessCategory businessCategory) throws IOException {
     String imageKey = amazonS3Service.generateS3FileKey();
     String imageUrl = amazonS3Service.getUrlFromFileKey(imageKey);
     businessCategory.setImageKey(imageKey);

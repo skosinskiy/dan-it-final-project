@@ -17,7 +17,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.danit.finalproject.application.dto.request.RoleRequest;
 import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
+import com.danit.finalproject.application.dto.request.UserRequest;
 import com.danit.finalproject.application.dto.response.UserResponse;
 import com.danit.finalproject.application.entity.Gender;
 import com.danit.finalproject.application.entity.Role;
@@ -32,6 +34,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,6 +66,9 @@ public class UserControllerTest {
 
 	@Autowired
 	private ObjectMapper objectMapper;
+
+	@Autowired
+	private ModelMapper modelMapper;
 
 	@MockBean
 	private PasswordEncoder passwordEncoder;
@@ -150,7 +157,7 @@ public class UserControllerTest {
 		Long userId = 2L;
 		User user = userService.getById(userId);
 		user.setFirstName(userFirstName);
-		String userJson = objectMapper.writeValueAsString(user);
+		String userJson = objectMapper.writeValueAsString(modelMapper.map(user, UserRequest.class));
 
 		MvcResult result = mockMvc.perform(
 				put("/api/users/2")
@@ -175,7 +182,8 @@ public class UserControllerTest {
 	@Test
 	public void setUserRoles() throws Exception {
 		List<Role> roles = roleService.getAll();
-		String rolesJson = objectMapper.writeValueAsString(roles);
+		String rolesJson = objectMapper.writeValueAsString(
+				modelMapper.map(roles, new TypeToken<List<RoleRequest>>(){}.getType()));
 
 		MvcResult result = mockMvc.perform(
 				put("/api/users/1/roles")

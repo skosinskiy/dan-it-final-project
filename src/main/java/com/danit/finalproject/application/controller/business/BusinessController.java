@@ -4,7 +4,9 @@ import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequ
 import com.danit.finalproject.application.dto.request.business.BusinessRequest;
 import com.danit.finalproject.application.dto.response.business.BusinessResponse;
 import com.danit.finalproject.application.facade.business.BusinessFacade;
+
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +37,10 @@ public class BusinessController {
   }
 
   @GetMapping
-  public ResponseEntity<List<BusinessResponse>> getAllBusinesses(@RequestParam("placeId") Long placeId) {
-    return new ResponseEntity<>(businessFacade.getAllByPlace(placeId), HttpStatus.OK);
+  public ResponseEntity<List<BusinessResponse>> getAllBusinesses(
+      @RequestParam(name = "placeId", required = false) Long placeId,
+      @RequestParam(name = "title", required = false) String title) {
+    return new ResponseEntity<>(businessFacade.findBusinesses(placeId, title), HttpStatus.OK);
   }
 
   @PostMapping
@@ -45,32 +49,32 @@ public class BusinessController {
   }
 
   @PutMapping("{id}")
-  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
   public ResponseEntity<BusinessResponse> updateBusiness(
-      @PathVariable Long id,
-      @RequestBody BusinessRequest businessRequest) {
+          @PathVariable Long id,
+          @RequestBody BusinessRequest businessRequest) {
     return new ResponseEntity<>(businessFacade.update(id, businessRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
-  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
   public ResponseEntity<BusinessResponse> deleteBusiness(@PathVariable("id") Long businessId) {
     return new ResponseEntity<>(businessFacade.delete(businessId), HttpStatus.OK);
   }
 
   @PostMapping("/{businessId}/photos")
-  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
   public ResponseEntity<BusinessResponse> addPhotosToBusiness(
-      @RequestBody BusinessPhotoRequest businessPhotoRequest,
-      @PathVariable("businessId") Long businessId) {
+          @RequestBody BusinessPhotoRequest businessPhotoRequest,
+          @PathVariable("businessId") Long businessId) {
     return new ResponseEntity<>(businessFacade.addPhoto(businessPhotoRequest, businessId), HttpStatus.OK);
   }
 
   @DeleteMapping("/{businessId}/photos/{photoId}")
-  @PreAuthorize("hasAuthority('MANAGE_BUSINESS')")
+  @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
   public ResponseEntity<BusinessResponse> deletePhoto(
-      @PathVariable Long businessId,
-      @PathVariable("photoId") Long photoId) {
+          @PathVariable Long businessId,
+          @PathVariable("photoId") Long photoId) {
     return new ResponseEntity<>(businessFacade.deleteBusinessPhoto(businessId, photoId), HttpStatus.OK);
   }
 }

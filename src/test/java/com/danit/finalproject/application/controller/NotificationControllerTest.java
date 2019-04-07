@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import com.danit.finalproject.application.dto.request.NotificationRequest;
 import com.danit.finalproject.application.dto.response.NotificationResponse;
 import com.danit.finalproject.application.entity.Notification;
 import com.danit.finalproject.application.entity.place.Place;
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,6 +44,9 @@ public class NotificationControllerTest {
 
   @Autowired
   private ObjectMapper objectMapper;
+
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Autowired
   private EventService eventService;
@@ -84,7 +89,7 @@ public class NotificationControllerTest {
     notification.setBusiness(businessService.getById(1L));
     notification.setEvent(eventService.getById(1L));
 
-    String notificationJson = objectMapper.writeValueAsString(notification);
+    String notificationJson = objectMapper.writeValueAsString(modelMapper.map(notification, NotificationRequest.class));
 
     MvcResult result = mockMvc.perform(
         post("/api/notifications/places")
@@ -114,7 +119,7 @@ public class NotificationControllerTest {
     notification.setEvent(eventService.getById(2L));
     notification.setPlace(placeService.getById(2L));
 
-    String userJson = objectMapper.writeValueAsString(notification);
+    String userJson = objectMapper.writeValueAsString(modelMapper.map(notification, NotificationRequest.class));
 
     MvcResult result = mockMvc.perform(
         put("/api/notifications/1")

@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import com.danit.finalproject.application.dto.request.business.BusinessCategoryRequest;
 import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponse;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.facade.business.BusinessCategoryFacade;
@@ -18,14 +19,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringRunner.class)
@@ -34,11 +38,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @WithMockUser(authorities = "MANAGE_BUSINESS_CATEGORIES")
 public class BusinessCategoryControllerTest {
+
   @Autowired
   private MockMvc mockMvc;
 
   @Autowired
   private ObjectMapper objectMapper;
+
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Autowired
   private BusinessCategoryService businessCategoryService;
@@ -86,13 +94,15 @@ public class BusinessCategoryControllerTest {
     businessCategory.setId(expectedId);
     businessCategory.setName(expectedName);
     businessCategory.setParentCategory(businessCategoryService.getById(2L));
-    String businessCategoryJson = objectMapper.writeValueAsString(businessCategory);
+    String businessCategoryJson = objectMapper.writeValueAsString(
+        modelMapper.map(businessCategory, BusinessCategoryRequest.class));
 
     MvcResult result = mockMvc.perform(
-        post("/api/business-categories/")
+        MockMvcRequestBuilders.multipart("/api/business-categories/")
+            .file(new MockMultipartFile("json", "", "application/json", businessCategoryJson.getBytes()))
+            .file(new MockMultipartFile("file", new byte[0]))
             .with(csrf())
-            .content(businessCategoryJson)
-            .contentType(MediaType.APPLICATION_JSON))
+            .contentType(MediaType.MULTIPART_FORM_DATA_VALUE))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
     BusinessCategoryResponse createdBusinessCategory
@@ -112,7 +122,8 @@ public class BusinessCategoryControllerTest {
     BusinessCategory businessCategory = businessCategoryService.getById(businessCategoryId);
     businessCategory.setName(businessCategoryName);
     businessCategory.setParentCategory(null);
-    String userJson = objectMapper.writeValueAsString(businessCategory);
+    String userJson = objectMapper.writeValueAsString(
+        modelMapper.map(businessCategory, BusinessCategoryRequest.class));
 
     MvcResult result = mockMvc.perform(
         put("/api/business-categories/1")
@@ -131,8 +142,9 @@ public class BusinessCategoryControllerTest {
 
   @Test
   public void deleteBusinessCategory() throws Exception {
-    mockMvc.perform(delete("/api/business-categories/2").with(csrf()));
+    int expectedCategorySize = businessCategoryService.getAll().size() - 1;
+    mockMvc.perform(delete("/api/business-categories/1").with(csrf()));
 
-    assertNull(businessCategoryService.getById(2L));
+    assertEquals(expectedCategorySize, businessCategoryService.getAll().size());
   }
 }

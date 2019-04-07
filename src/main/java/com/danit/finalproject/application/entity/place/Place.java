@@ -5,7 +5,6 @@ import com.danit.finalproject.application.entity.Notification;
 import com.danit.finalproject.application.entity.Visit;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.event.Event;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,38 +35,32 @@ public class Place extends BaseEntity {
 
   @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
   @ToString.Exclude
-  @JsonIgnore
   private List<Business> businesses;
 
 
   @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
   @ToString.Exclude
-  @JsonIgnore
   private List<Event> events;
 
 
   @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
   @ToString.Exclude
-  @JsonIgnore
   private List<Notification> notifications;
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "main_photo")
-  @JsonIgnore
   private PlacePhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "place")
   @ToString.Exclude
-  @JsonIgnore
   private List<PlacePhoto> photos;
 
   @ManyToOne
-  @JoinColumn(name = "place_category", nullable = false)
+  @JoinColumn(name = "place_category")
   private PlaceCategory placeCategory;
 
   @OneToMany(mappedBy = "place")
   @ToString.Exclude
-  @JsonIgnore
   private List<Visit> visits;
 
 }

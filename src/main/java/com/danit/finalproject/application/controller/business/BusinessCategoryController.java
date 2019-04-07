@@ -5,13 +5,20 @@ import com.danit.finalproject.application.dto.response.business.BusinessCategory
 import com.danit.finalproject.application.facade.business.BusinessCategoryFacade;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
@@ -55,6 +62,6 @@ public class BusinessCategoryController {
   @DeleteMapping("{id}")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESS_CATEGORIES')")
   public ResponseEntity<BusinessCategoryResponse> deleteBusiness(@PathVariable("id") Long businessCategoryId) {
-    return new ResponseEntity<>(businessCategoryFacade.deleteBusinessCategory(businessCategoryId), HttpStatus.OK);
+    return new ResponseEntity<>(businessCategoryFacade.delete(businessCategoryId), HttpStatus.OK);
   }
 }

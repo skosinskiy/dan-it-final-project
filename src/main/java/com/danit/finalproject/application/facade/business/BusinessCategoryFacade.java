@@ -22,15 +22,6 @@ public class BusinessCategoryFacade extends
     this.businessCategoryService = businessCategoryService;
   }
 
-  public BusinessCategoryResponse deleteBusinessCategory(Long businessCategoryId) {
-    BusinessCategory businessCategory = businessCategoryService.getById(businessCategoryId);
-    businessCategory
-        .getBusinesses()
-        .forEach(business -> business.getCategories().remove(businessCategory));
-    businessCategoryService.delete(businessCategoryId);
-    return mapEntityToResponseDto(businessCategory);
-  }
-
   public BusinessCategoryResponse createAndPutS3Image(
       BusinessCategoryRequest businessCategoryRequest, MultipartFile imageFile) throws IOException {
 
