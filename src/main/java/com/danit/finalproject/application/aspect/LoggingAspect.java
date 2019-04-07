@@ -8,6 +8,7 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 @Aspect
 @Component
@@ -28,9 +29,10 @@ public class LoggingAspect {
 
   private void logBeforeMethodExecution(Object[] args, String methodName) {
     String argsString = Arrays.stream(args)
-            .map(arg -> String.format("%s: {%s}", arg.getClass(), arg.toString()))
-            .reduce((arg1, arg2) -> String.format("%s; %s", arg1, arg2))
-            .orElse("");
+        .filter(Objects::nonNull)
+        .map(arg -> String.format("%s: {%s}", arg.getClass(), arg.toString()))
+        .reduce((arg1, arg2) -> String.format("%s; %s", arg1, arg2))
+        .orElse("");
     log.info(String.format("%s method execution started with arguments [%s]", methodName, argsString));
   }
 
