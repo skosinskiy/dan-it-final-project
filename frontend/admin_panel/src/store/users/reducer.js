@@ -18,6 +18,7 @@ const initialState = {
 }
 
 const usersReducer = (state = initialState, action) => {
+  
   switch (action.type) {
     case TYPES.GET_ROLES_LIST:
       return {
@@ -25,13 +26,12 @@ const usersReducer = (state = initialState, action) => {
         userRoles: action.payload.userRoles
       }
     case TYPES.GET_USERS_BY_EMAIL:
-      const {users, page, totalElements, email} = action.payload
       return {
         ...state,
-        usersListByEmail: users,
-        page: page,
-        totalElements: totalElements,
-        email: email
+        usersListByEmail: action.payload.users,
+        page: action.payload.page,
+        totalElements: action.payload.totalElements,
+        email: action.payload.email
       }
     case TYPES.CHANGE_PAGINATION_PAGE:
       return {

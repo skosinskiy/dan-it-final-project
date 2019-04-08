@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router'
+import PropTypes from 'prop-types';
 
 import CssBaseline from '@material-ui/core/es/CssBaseline/CssBaseline'
 
@@ -29,6 +30,11 @@ class App extends Component {
       </>
     )
   }
+}
+
+App.propTypes = {
+  getCurrentUser: PropTypes.func.isRequired,
+  isCurrentUserLoading: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = ({users}) => {

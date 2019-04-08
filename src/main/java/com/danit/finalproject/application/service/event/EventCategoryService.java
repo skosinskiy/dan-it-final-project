@@ -39,7 +39,15 @@ public class EventCategoryService implements CrudService<EventCategory> {
 
   @Override
   public EventCategory delete(Long id) {
-    EventCategory eventCategory = eventCategoryRepository.findById(id).orElse(null);
+    EventCategory eventCategory = getById(id);
+    eventCategory
+            .getEvents()
+            .forEach(event -> event.getCategories().remove(eventCategory));
+    getAll().forEach(category -> {
+      if (category.getParentCategory() == eventCategory) {
+        category.setParentCategory(null);
+      }
+    });
     eventCategoryRepository.deleteById(id);
     return eventCategory;
   }

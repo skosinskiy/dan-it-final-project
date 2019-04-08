@@ -37,9 +37,9 @@ public class MenuItemServiceTest {
 
   @Before
   public void initMenuItemMocks() throws ParseException {
-    final MenuItemName MOCK_NAME_1 = MenuItemName.SHOPS;
+    final MenuItemName MOCK_NAME_1 = MenuItemName.SHOP;
     final String MOCK_DISPLAY_NAME_1 = "The Bazar";
-    final MenuItemName MOCK_NAME_2 = MenuItemName.RESTAURANTS;
+    final MenuItemName MOCK_NAME_2 = MenuItemName.FOOD;
     final String MOCK_DISPLAY_NAME_2 = "Healthy food zone";
     final String SIMPLE_DATE_FORMAT_PATTERN = "YYYY-MM-DD hh:mm:ss";
     mockMenuItem1 = new MenuItem() {{
@@ -90,11 +90,11 @@ public class MenuItemServiceTest {
   @Test
   public void getAvailableMenuItemNames() {
     final ArrayList<MenuItemName> expectedMenuItemNames = new ArrayList<MenuItemName>() {{
-      add(MenuItemName.KIDS);
-      add(MenuItemName.RESTAURANTS);
       add(MenuItemName.SERVICES);
-      add(MenuItemName.SHOPS);
-      add(MenuItemName.SPORT);
+      add(MenuItemName.FOOD);
+      add(MenuItemName.FUN);
+      add(MenuItemName.SHOP);
+      add(MenuItemName.MAP);
     }};
     List<MenuItemName> menuItemNames = menuItemService.getAvailableMenuItemNames();
     assertTrue(expectedMenuItemNames.size() == menuItemNames.size()

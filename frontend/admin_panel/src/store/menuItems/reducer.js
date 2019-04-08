@@ -1,8 +1,8 @@
 import * as TYPES from './types'
 
 const initialState = {
-  availableMenuItemNames: [],
-  isMenuItemNamesLoading: true
+  names: [],
+  isLoading: true
 }
 
 function menuItems (state = initialState, action) {
@@ -10,12 +10,12 @@ function menuItems (state = initialState, action) {
     case TYPES.FETCH_AVAILABLE:
       return {
         ...state,
-        availableMenuItemNames: [...action.payload]
+        names: action.payload
       }
     case TYPES.IS_LOADING:
       return {
         ...state,
-        isMenuItemNamesLoading: action.payload
+        isLoading: action.payload
       }
     default:
       return {...state}

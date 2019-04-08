@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import com.danit.finalproject.application.dto.request.business.BusinessCategoryRequest;
 import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponse;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.facade.business.BusinessCategoryFacade;
@@ -18,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,11 +36,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @WithMockUser(authorities = "MANAGE_BUSINESS_CATEGORIES")
 public class BusinessCategoryControllerTest {
+
   @Autowired
   private MockMvc mockMvc;
 
   @Autowired
   private ObjectMapper objectMapper;
+
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Autowired
   private BusinessCategoryService businessCategoryService;
@@ -86,7 +92,8 @@ public class BusinessCategoryControllerTest {
     businessCategory.setId(expectedId);
     businessCategory.setName(expectedName);
     businessCategory.setParentCategory(businessCategoryService.getById(2L));
-    String businessCategoryJson = objectMapper.writeValueAsString(businessCategory);
+    String businessCategoryJson = objectMapper.writeValueAsString(
+        modelMapper.map(businessCategory, BusinessCategoryRequest.class));
 
     MvcResult result = mockMvc.perform(
         post("/api/business-categories/")
@@ -112,7 +119,8 @@ public class BusinessCategoryControllerTest {
     BusinessCategory businessCategory = businessCategoryService.getById(businessCategoryId);
     businessCategory.setName(businessCategoryName);
     businessCategory.setParentCategory(null);
-    String userJson = objectMapper.writeValueAsString(businessCategory);
+    String userJson = objectMapper.writeValueAsString(
+        modelMapper.map(businessCategory, BusinessCategoryRequest.class));
 
     MvcResult result = mockMvc.perform(
         put("/api/business-categories/1")
@@ -131,8 +139,9 @@ public class BusinessCategoryControllerTest {
 
   @Test
   public void deleteBusinessCategory() throws Exception {
-    mockMvc.perform(delete("/api/business-categories/2").with(csrf()));
+    int expectedCategorySize = businessCategoryService.getAll().size() - 1;
+    mockMvc.perform(delete("/api/business-categories/1").with(csrf()));
 
-    assertNull(businessCategoryService.getById(2L));
+    assertEquals(expectedCategorySize, businessCategoryService.getAll().size());
   }
 }

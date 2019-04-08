@@ -7,6 +7,5 @@ public class EventPhotoRequest {
 
   private Long id;
   private String photo;
-  private EventRequest event;
 
 }

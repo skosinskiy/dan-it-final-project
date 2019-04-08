@@ -9,6 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import com.danit.finalproject.application.dto.request.event.EventCategoryRequest;
 import com.danit.finalproject.application.dto.response.event.EventCategoryResponse;
 import com.danit.finalproject.application.entity.event.EventCategory;
 import com.danit.finalproject.application.facade.event.EventCategoryFacade;
@@ -18,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,6 +41,9 @@ public class EventCategoryControllerTest {
 
   @Autowired
   private ObjectMapper objectMapper;
+
+  @Autowired
+  private ModelMapper modelMapper;
 
   @Autowired
   private EventCategoryService eventCategoryService;
@@ -85,7 +90,7 @@ public class EventCategoryControllerTest {
     eventCategory.setId(expectedId);
     eventCategory.setName(expectedName);
     eventCategory.setParentCategory(eventCategoryService.getById(2L));
-    String eventCategoryJson = objectMapper.writeValueAsString(eventCategory);
+    String eventCategoryJson = objectMapper.writeValueAsString(modelMapper.map(eventCategory, EventCategoryRequest.class));
 
     MvcResult result = mockMvc.perform(
         post("/api/event-categories/")
@@ -110,7 +115,7 @@ public class EventCategoryControllerTest {
     EventCategory eventCategory = eventCategoryService.getById(eventCategoryId);
     eventCategory.setName(eventCategoryName);
     eventCategory.setParentCategory(null);
-    String userJson = objectMapper.writeValueAsString(eventCategory);
+    String userJson = objectMapper.writeValueAsString(modelMapper.map(eventCategory, EventCategoryRequest.class));
 
     MvcResult result = mockMvc.perform(
         put("/api/event-categories/1")
@@ -128,8 +133,9 @@ public class EventCategoryControllerTest {
 
   @Test
   public void deleteEventCategory() throws Exception {
+    int expectedCategorySize = eventCategoryService.getAll().size() - 1;
     mockMvc.perform(delete("/api/event-categories/2").with(csrf()));
 
-    assertNull(eventCategoryService.getById(2L));
+    assertEquals(expectedCategorySize, eventCategoryService.getAll().size());
   }
 }

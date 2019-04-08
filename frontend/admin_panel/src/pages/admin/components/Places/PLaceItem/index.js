@@ -7,6 +7,7 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
 import ImageIcon from '@material-ui/icons/Image'
+import PropTypes from 'prop-types'
 
 import {placesOperations} from 'store/places'
 
@@ -46,6 +47,12 @@ class Places extends Component {
       </ListItem>
     )
   }
+}
+
+Places.propTypes = {
+  classes: PropTypes.object.isRequired,
+  deletePlace: PropTypes.func.isRequired,
+  place: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = (state) => {

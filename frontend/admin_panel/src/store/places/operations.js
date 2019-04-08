@@ -12,6 +12,7 @@ export const saveNewPlace = (place) => dispatch => {
     api.get(`/api/places`).then(res => {
       dispatch(ACTIONS.getAllPlaces(res))
     })
+    return res
   })
 }
 

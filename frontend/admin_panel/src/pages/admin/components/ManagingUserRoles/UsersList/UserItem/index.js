@@ -86,7 +86,13 @@ class UserItem extends React.Component {
 }
 
 UserItem.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  user:  PropTypes.object.isRequired,
+  usersActions: PropTypes.array.isRequired,
+  changedUsersList: PropTypes.array.isRequired,
+  updateUsersList: PropTypes.func.isRequired,
+  usersListByEmail: PropTypes.array.isRequired,
+  userRoles: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = (state) => {
