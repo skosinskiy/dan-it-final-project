@@ -87,9 +87,9 @@ class MultipleSelect extends React.Component {
           >
             {allNames.map(name => (
               <MenuItem
-              key={name}
-              value={name}
-              style={getStyles(name, this)}
+                key={name}
+                value={name}
+                style={getStyles(name, this)}
               >
                 {name}
               </MenuItem>
