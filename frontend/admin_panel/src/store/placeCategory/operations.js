@@ -60,7 +60,7 @@ export const updateChanged = (key, container) => dispatch => {
 
 export const updateMenuItems = (key, container, menuItems) => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(
-    setValueToEntityField(key, container, 'menuITems', menuItems)
+    setValueToEntityField(key, container, 'menuItems', menuItems)
   ))
 }
 
@@ -89,6 +89,10 @@ const updateDeletedIds = (idx, container, deletedIds) => dispatch => {
     newDeletedIds.add(container[idx].id)
     dispatch(ACTIONS.updateDeletedPlaceCategoryIds([...newDeletedIds]))
   }
+}
+
+const flushDeletedIds = () => dispatch => {
+    dispatch(ACTIONS.updateDeletedPlaceCategoryIds([]))
 }
 
 export const deleteItem = (key, container, deletedIds) => dispatch => {
@@ -125,6 +129,7 @@ export const requestDelete = (placeCategories) => dispatch => {
         promises.concat([endPoint.delete(id)])
       ), [])
     )
+    .then(dispatch(flushDeletedIds()))
   )
   return preloadDecorator(dispatch)(request)
 }
