@@ -6,7 +6,8 @@ import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
-import Chip from '@material-ui/core/Chip'
+import {placesCategoriesOperations} from 'store/placeCategory'
+import {connect} from 'react-redux'
 
 const styles = theme => ({
   root: {
@@ -51,48 +52,32 @@ function getStyles (name, that) {
 }
 
 class MultipleSelect extends React.Component {
+  
   state = {
     name: []
   }
 
   handleChange = event => {
     this.setState({name: event.target.value})
-  }
-
-  handleChangeMultiple = event => {
-    const {options} = event.target
-    const value = []
-    for (let i = 0, l = options.length; i < l; i += 1) {
-      if (options[i].selected) {
-        value.push(options[i].value)
-      }
-    }
-    this.setState({
-      name: value
-    })
+    const {placeCategoryKey, placeCategories, updateChanged, updateMenuItems} = this.props
+    updateChanged(placeCategoryKey, placeCategories)
+    updateMenuItems(placeCategoryKey, placeCategories, event.target.value)
   }
 
   render () {
-    const {classes, names} = this.props
+    const {classes, allNames} = this.props
     return (
       <div className={classes.root}>
-        <FormControl className={classes.formControl}>
-          <InputLabel htmlFor="select-multiple-chip">MenuItem</InputLabel>
+        <FormControl className={classes.formControl} fullWidth>
+          <InputLabel htmlFor="select-multiple-chip"></InputLabel>
           <Select
             multiple
             value={this.state.name}
             onChange={this.handleChange}
             input={<Input id="select-multiple-chip"/>}
-            renderValue={selected => (
-              <div className={classes.chips}>
-                {selected.map(value => (
-                  <Chip key={value} label={value} className={classes.chip}/>
-                ))}
-              </div>
-            )}
             MenuProps={MenuProps}
           >
-            {names.map(name => (
+            {allNames.map(name => (
               <MenuItem key={name} value={name} style={getStyles(name, this)}>
                 {name}
               </MenuItem>
@@ -105,7 +90,24 @@ class MultipleSelect extends React.Component {
 }
 
 MultipleSelect.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  allNames: PropTypes.array.isRequired,
+  placeCategoryKey: PropTypes.number.isRequired,
+  updateChanged: PropTypes.func.isRequired,
+  placeCategories: PropTypes.array.isRequired,
+  updateMenuItems: PropTypes.func.isRequired,
+  selectedNames: PropTypes.array.isRequired,
 }
 
-export default withStyles(styles, {withTheme: true})(MultipleSelect)
+const mapStateToProps = ({placeCategories, menuItems}) => ({
+  placeCategories: placeCategories.placeCategories,
+  allNames: menuItems.names,
+})
+
+const mapDispatchToProps = dispatch => ({
+  updateChanged: (key, placeCategories) => dispatch(placesCategoriesOperations.updateChanged(key, placeCategories)),
+  updateMenuItems: (key, placeCategories, menuItems) =>
+    dispatch(placesCategoriesOperations.updateMenuItems(key, placeCategories, menuItems)),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(MultipleSelect))

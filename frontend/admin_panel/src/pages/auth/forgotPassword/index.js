@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
-
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import FormControl from '@material-ui/core/FormControl'
@@ -136,7 +135,10 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 ForgotPassword.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  isFormSubmitted: PropTypes.bool.isRequired,
+  isLoading: PropTypes.object.isRequired,
+  submitForgotPasswordForm: PropTypes.func.isRequired,
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)((withStyles(styles))(ForgotPassword))

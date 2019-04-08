@@ -57,6 +57,6 @@ public class EventCategoryController {
   @DeleteMapping("{id}")
   @PreAuthorize("hasAuthority('MANAGE_EVENT_CATEGORIES')")
   public ResponseEntity<EventCategoryResponse> deleteEvent(@PathVariable("id") Long eventCategoryId) {
-    return new ResponseEntity<>(eventCategoryFacade.deleteEventCategory(eventCategoryId), HttpStatus.OK);
+    return new ResponseEntity<>(eventCategoryFacade.delete(eventCategoryId), HttpStatus.OK);
   }
 }

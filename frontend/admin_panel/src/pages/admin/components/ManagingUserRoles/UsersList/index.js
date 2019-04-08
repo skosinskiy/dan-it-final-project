@@ -195,7 +195,16 @@ class UsersList extends React.Component {
 }
 
 UsersList.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  getAllUsers: PropTypes.func.isRequired,
+  changedUsersList: PropTypes.func.isRequired,
+  saveUserRoles: PropTypes.func.isRequired,
+  updateUsersList: PropTypes.func.isRequired,
+  updatePaginationPage: PropTypes.func.isRequired,
+  usersListByEmail: PropTypes.array.isRequired,
+  totalElements: PropTypes.number.isRequired,
+  page: PropTypes.number.isRequired,
+  email: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = (state) => {

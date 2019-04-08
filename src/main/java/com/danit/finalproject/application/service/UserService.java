@@ -5,15 +5,6 @@ import com.danit.finalproject.application.entity.Permission;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.repository.UserRepository;
-
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -33,6 +24,14 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 import static com.danit.finalproject.application.entity.Permission.ADMIN_USER;
 

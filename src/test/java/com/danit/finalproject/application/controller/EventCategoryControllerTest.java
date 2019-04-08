@@ -133,8 +133,9 @@ public class EventCategoryControllerTest {
 
   @Test
   public void deleteEventCategory() throws Exception {
+    int expectedCategorySize = eventCategoryService.getAll().size() - 1;
     mockMvc.perform(delete("/api/event-categories/2").with(csrf()));
 
-    assertNull(eventCategoryService.getById(2L));
+    assertEquals(expectedCategorySize, eventCategoryService.getAll().size());
   }
 }

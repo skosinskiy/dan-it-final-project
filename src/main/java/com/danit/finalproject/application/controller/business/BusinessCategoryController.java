@@ -55,6 +55,6 @@ public class BusinessCategoryController {
   @DeleteMapping("{id}")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESS_CATEGORIES')")
   public ResponseEntity<BusinessCategoryResponse> deleteBusiness(@PathVariable("id") Long businessCategoryId) {
-    return new ResponseEntity<>(businessCategoryFacade.deleteBusinessCategory(businessCategoryId), HttpStatus.OK);
+    return new ResponseEntity<>(businessCategoryFacade.delete(businessCategoryId), HttpStatus.OK);
   }
 }

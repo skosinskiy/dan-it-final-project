@@ -1,16 +1,11 @@
 import * as TYPES from './types'
 
-export const fetchAvailable = (buildings) => ({
+export const fetchAvailable = (menuItems) => ({
   type: TYPES.FETCH_AVAILABLE,
-  payload: {buildings}
+  payload: menuItems
 })
 
-export const isLoading = (buildingCategories) => ({
+export const isLoading = isLoading => ({
   type: TYPES.IS_LOADING,
-  payload: {buildingCategories}
-})
-
-export const setMenuItems = ({updatedUserList, changedUsersList}) => ({
-  type: TYPES.SET_MENU_ITEMS,
-  payload: {updatedUserList, changedUsersList}
+  payload: isLoading
 })
