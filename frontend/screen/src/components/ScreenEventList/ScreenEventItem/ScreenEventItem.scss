@@ -7,11 +7,11 @@
   width: 100%;
   margin: auto;
   margin-bottom: 15px;
-  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, .15);
 }
 .sceenEventItem:hover{
-  box-shadow: 0px 0px 4px #FEBA00;
   border-radius: 5px;
+  box-shadow: 0px 0px 4px #FEBA00;
   cursor: pointer;
 }
 .sceenEventItem-title{
