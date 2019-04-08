@@ -8,6 +8,8 @@ body {
 .App{
   display: flex;
   flex-direction: column;
+  height: 100vh;
+  max-height: 100vh;
 }
 
 .grid-wrapper {
@@ -17,14 +19,16 @@ body {
 }
 .left-sidebar {
   width: 20%;
-  height: calc(100vh - 71px);
+  padding: 0px 20px 0px 20px; 
+  height: 100%;
 }
 .right-sidebar {
   width: 20%;
-  height: calc(100vh - 71px);
+  padding: 0px 15px 0px 20px; 
+  height: 100%;
 }
 .main-section {
-  width: 80%;
+  width: 60%;
 }
 .tempopary {
   width: 100%;
