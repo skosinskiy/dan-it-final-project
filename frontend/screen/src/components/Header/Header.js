@@ -9,7 +9,7 @@ import './Header.scss'
 export default class Header extends Component {
   render () {
     return (
-      <div className='container'>
+      <div className='header'>
         <Menu />
         <MainLogo />
         <div className='right-side-info'>

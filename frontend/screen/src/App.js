@@ -7,8 +7,10 @@ class App extends Component {
   render () {
     return (
       <div className='App'>
-        <Header />
-        <AppRoutes />
+        <div className="container">
+          <Header />
+          <AppRoutes />
+        </div>
       </div>
     )
   }

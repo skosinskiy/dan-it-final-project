@@ -1,9 +1,5 @@
 @import "variables";
 
-div {
-  display: flex;
-}
-
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -18,4 +14,9 @@ div {
 ::-webkit-scrollbar-thumb {
   background-color: $almost-black;
   border-radius: 3px;
+}
+
+.container {
+  width: 98vw;
+  margin: auto;
 }

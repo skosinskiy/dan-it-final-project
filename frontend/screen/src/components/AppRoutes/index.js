@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, withRouter } from 'react-router-dom'
 import Food from '../hooks/Food'
 import Shops from '../hooks/Shops'
 import Services from '../hooks/Services'
@@ -21,4 +21,4 @@ const AppRoutes = (props) => {
   )
 }
 
-export default AppRoutes
+export default withRouter((AppRoutes))
