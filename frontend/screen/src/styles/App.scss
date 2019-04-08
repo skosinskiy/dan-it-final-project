@@ -1,6 +1,10 @@
 @import 'reset';
 @import "variables";
 
+html,
+body {
+   height: 100%;
+}
 .App{
   display: flex;
   flex-direction: column;
