@@ -7,6 +7,7 @@ import Fun from '../hooks/Fun/fun'
 import Map from '../hooks/Map/map'
 import MainPage from '../../pages/MainPage/MainPage'
 import './index.scss'
+import BusinessesItem from "../../pages/BussinessItem";
 
 const AppRoutes = (props) => {
   return (
@@ -18,6 +19,7 @@ const AppRoutes = (props) => {
         <Route path="/shops" component={Shops}/>
         <Route path="/food" component={Food}/>
         <Route path="/map" component={Map}/>
+        <Route path="/businesses/:id" component={BusinessesItem}/>
       </Switch>
     </div>
   )
