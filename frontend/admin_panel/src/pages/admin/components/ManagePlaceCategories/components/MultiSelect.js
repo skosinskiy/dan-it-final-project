@@ -61,7 +61,15 @@ class MultipleSelect extends React.Component {
     this.setState({name: event.target.value})
     const {placeCategoryKey, placeCategories, updateChanged, updateMenuItems} = this.props
     updateChanged(placeCategoryKey, placeCategories)
-    updateMenuItems(placeCategoryKey, placeCategories, event.target.value)
+    const newMenuItems = event.target.value.map(menuItemName => ({
+      name: menuItemName,
+      displayName: ''
+    }))
+    updateMenuItems(placeCategoryKey, placeCategories, newMenuItems)
+  }
+
+  componentDidMount(){
+    this.setState({name: this.props.selectedMenuItems.map(menuItem => menuItem.name)})
   }
 
   render () {
@@ -78,7 +86,11 @@ class MultipleSelect extends React.Component {
             MenuProps={MenuProps}
           >
             {allNames.map(name => (
-              <MenuItem key={name} value={name} style={getStyles(name, this)}>
+              <MenuItem
+              key={name}
+              value={name}
+              style={getStyles(name, this)}
+              >
                 {name}
               </MenuItem>
             ))}
@@ -96,7 +108,7 @@ MultipleSelect.propTypes = {
   updateChanged: PropTypes.func.isRequired,
   placeCategories: PropTypes.array.isRequired,
   updateMenuItems: PropTypes.func.isRequired,
-  selectedNames: PropTypes.array.isRequired,
+  selectedMenuItems: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = ({placeCategories, menuItems}) => ({

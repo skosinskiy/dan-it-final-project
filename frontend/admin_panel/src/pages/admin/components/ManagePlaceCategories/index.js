@@ -79,7 +79,7 @@ class EnhancedTable extends React.Component {
                       </TableCell>
                       <TableCell component="th" scope="row" padding="none" >
                         <MultiSelect
-                          selectedNames={placeCategory.menuItems}
+                          selectedMenuItems={placeCategory.menuItems}
                           placeCategoryKey={placeCategory.key}
                           allNames={menuItemNames}
                         />

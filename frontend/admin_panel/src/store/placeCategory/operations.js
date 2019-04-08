@@ -60,7 +60,7 @@ export const updateChanged = (key, container) => dispatch => {
 
 export const updateMenuItems = (key, container, menuItems) => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(
-    setValueToEntityField(key, container, 'menuITems', menuItems)
+    setValueToEntityField(key, container, 'menuItems', menuItems)
   ))
 }
 
