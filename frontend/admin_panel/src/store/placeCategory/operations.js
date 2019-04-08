@@ -91,6 +91,10 @@ const updateDeletedIds = (idx, container, deletedIds) => dispatch => {
   }
 }
 
+const flushDeletedIds = () => dispatch => {
+    dispatch(ACTIONS.updateDeletedPlaceCategoryIds([]))
+}
+
 export const deleteItem = (key, container, deletedIds) => dispatch => {
   const idx = findIndexByKey(key, container)
   const newContainer = [...container]
@@ -125,6 +129,7 @@ export const requestDelete = (placeCategories) => dispatch => {
         promises.concat([endPoint.delete(id)])
       ), [])
     )
+    .then(dispatch(flushDeletedIds()))
   )
   return preloadDecorator(dispatch)(request)
 }
