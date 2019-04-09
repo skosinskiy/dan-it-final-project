@@ -11,7 +11,9 @@ const endPoint = {
 
 const decorateByPreloader = dispatch => request => {
   dispatch(ACTIONS.isLoading(true))
-  request().then(dispatch(ACTIONS.isLoading(false)))
+  const req = request()
+  req.then(() => dispatch(ACTIONS.isLoading(false)))
+  return Promise.resolve(true)
 }
 
 const preloadDecorator = dispatch => decorateByPreloader(dispatch)
@@ -111,15 +113,10 @@ export const getAllEdited = ({placeCategories}) =>
 export const getAllDeletedIds = ({deletedIds}) => deletedIds
 
 export const saveAllChanges = placeCategories => dispatch => {
-  new Promise (resolve => {
-    setTimeout(() => resolve(dispatch(requestPost(placeCategories))), 0)
-  })
-  .then(() => new Promise (resolve => {
-    setTimeout(() => resolve(dispatch(requestPut(placeCategories))), 0)
-  }))
-  .then(() => new Promise (resolve => {
-    setTimeout(() => resolve (dispatch(requestDelete(placeCategories))),0)
-  }))
+  Promise.all([dispatch(requestPost(placeCategories)),
+    dispatch(requestPut(placeCategories)),
+    dispatch(requestDelete(placeCategories))])
+    .then(dispatch(realoadData()))
 }
 
 export const requestDelete = (placeCategories) => dispatch => {
