@@ -11,7 +11,7 @@ class BussinessItem extends Component {
 				<NavLink to="/businesses/">
 					Back
 				</NavLink>
-				
+				<button onClick={this.props.getAllBusinesses}>gogi</button>
 			</div>
 		);
 	}
@@ -20,7 +20,7 @@ class BussinessItem extends Component {
 
 const mapStateToProps = (state, props) => {
 	return {
-		businessList: state.businesses
+		businessList: state.businesses.businessList
 	}
 }
 
