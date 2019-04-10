@@ -20,7 +20,7 @@ class BussinessItem extends Component {
 
 const mapStateToProps = (state, props) => {
 	return {
-		businessList: state.businesses.businessList
+		businessList: state.businesses
 	}
 }
 
