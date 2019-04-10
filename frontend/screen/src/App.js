@@ -20,7 +20,6 @@ class App extends Component {
           </main>
           <aside className="right-sidebar"><ScreenNewsList /></aside>
         </div>
-        
       </div>
       
     )
