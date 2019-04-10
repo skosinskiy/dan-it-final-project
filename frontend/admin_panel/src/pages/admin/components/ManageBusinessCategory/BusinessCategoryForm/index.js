@@ -1,14 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {NavLink} from 'react-router-dom'
+import {connect} from 'react-redux'
+
 import {withStyles} from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
-import {connect} from 'react-redux'
 
 import {businessCategoryOperations} from 'store/businessCategory'
 import Preloader from '../../../../../components/Preloader'
+import ImageUploader from '../../../../../components/ImageUploader'
 
 const styles = theme => ({
   container: {
@@ -35,7 +37,8 @@ const styles = theme => ({
 
   buttons: {
     margin: '8px'
-  }
+  },
+
 
 })
 
@@ -51,8 +54,12 @@ class BusinessCategoryForm extends React.Component {
   constructor (props) {
     super(props)
 
+    const imageUrl = props.category !== undefined ? props.category.imageUrl : null
+    const imageKey = props.category !== undefined ? props.category.imageKey : null
+
     this.state = {
-      editedCategory: props.category !== undefined ? props.category : emptyCategory
+      editedCategory: props.category !== undefined ? props.category : emptyCategory,
+      businessCategoryImages: props.category !== undefined && imageUrl !== null ? [{ imageUrl, imageKey, isMainImage: true }] : []
     }
   }
 
@@ -72,9 +79,9 @@ class BusinessCategoryForm extends React.Component {
   }
 
   saveCategory = () => {
-    const {saveCategory} = this.props
+    const {saveCategory, category} = this.props
 
-    saveCategory(this.state.editedCategory)
+    saveCategory(this.state.editedCategory, this.state.businessCategoryImages[0])
   }
 
   handleChange = (event, propName) => {
@@ -83,13 +90,48 @@ class BusinessCategoryForm extends React.Component {
     const value = propName === 'parentCategory'
       ? categories.find(category => category.id === event.target.value)
       : event.target.value
-    
+
     this.setState({editedCategory: {...this.state.editedCategory, [propName]: value}})
+  }
+
+  onFileChange = (images) => {
+    const newBusinessCategoryImages = images.map((file, index) => Object.assign(file, {
+      imageUrl: URL.createObjectURL(file),
+      imageKey: null,
+      isMainImage: false
+    }))
+    this.setState(state => {
+      return {
+        // businessCategoryImages: [...state.businessCategoryImages, ...newBusinessCategoryImages]
+        businessCategoryImages: [newBusinessCategoryImages[0]]
+      }
+    })
+  }
+
+  onMainPhotoSelect = (selectedImage) => {
+    const newBusinessCategoryImages = this.state.businessCategoryImages.map(image => {
+      image.isMainImage = image === selectedImage
+      return image
+    })
+
+    this.setState(state => {
+      return {
+        businessCategoryImages: newBusinessCategoryImages
+      }
+    })
+  }
+
+  onImageReset = (image) => {
+    const newBusinessCategoryImage = this.state.businessCategoryImages.filter(elem => elem !== image)
+    this.setState({
+      ...this.state,
+      businessCategoryImages: newBusinessCategoryImage,
+    })
   }
 
   render () {
     const {classes, match, categories, category} = this.props
-    const {editedCategory} = this.state
+    const {editedCategory, businessCategoryImages} = this.state
     const categoryId = match.params.categoryId
 
     if (categoryId && !category) {
@@ -119,8 +161,8 @@ class BusinessCategoryForm extends React.Component {
           value={editedCategory.name}
           onChange={(e) => this.handleChange(e, 'name')}
         />
-  
-  
+
+
         <TextField
           id="outlined-required"
           label="Description"
@@ -134,7 +176,7 @@ class BusinessCategoryForm extends React.Component {
           value={editedCategory.description}
           onChange={(e) => this.handleChange(e, 'description')}
         />
-        
+
         <TextField
           select
           className={classes.textField}
@@ -151,6 +193,12 @@ class BusinessCategoryForm extends React.Component {
         >
           {categoryOptions}
         </TextField>
+
+        <ImageUploader  images={businessCategoryImages}
+                        onFileChange={this.onFileChange}
+                        onReset={this.onImageReset}
+                        onMainPhotoSelect={this.onMainPhotoSelect} />
+
         <div className={classes.buttons}>
           <NavLink to={'/admin/business-categories'} className={classes.buttonLink}>
             <Button
@@ -194,7 +242,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllBusinessCategories: () => dispatch(businessCategoryOperations.getAllBusinessCategories()),
-    saveCategory: (category) => dispatch(businessCategoryOperations.saveCategory(category))
+    saveCategory: (category, file) => dispatch(businessCategoryOperations.saveCategory(category, file))
   }
 }
 

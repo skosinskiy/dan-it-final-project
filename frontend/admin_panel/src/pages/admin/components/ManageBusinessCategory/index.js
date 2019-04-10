@@ -58,9 +58,7 @@ class BusinessCategories extends Component {
 }
 
 BusinessCategories.propTypes = {
-  classes: PropTypes.object.isRequired,
-  getAllBusinessCategories: PropTypes.func.isRequired,
-  businessCategories:  PropTypes.array.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
 const mapStateToProps = ({businessCategory}) => {

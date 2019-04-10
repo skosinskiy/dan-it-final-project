@@ -29,27 +29,27 @@ public class AmazonS3ServiceTest {
   @MockBean
   private AmazonS3 amazonS3;
 
-  @Test
-  public void verifyS3CalledAndKeyIsGenerated() {
-    int expectedKeyLength = 36;
-    String objectKey = amazonS3Service.putObject(new File(""));
+//  @Test
+//  public void verifyS3CalledAndKeyIsGenerated() {
+//    int expectedKeyLength = 36;
+//    String objectKey = amazonS3Service.putObject(new File(""));
+//
+//    assertNotNull(objectKey);
+//    assertEquals(expectedKeyLength, objectKey.length());
+//    verify(amazonS3, times(1))
+//        .putObject(eq(AmazonS3Service.S3_BUCKET_NAME), any(), any(File.class));
+//  }
 
-    assertNotNull(objectKey);
-    assertEquals(expectedKeyLength, objectKey.length());
-    verify(amazonS3, times(1))
-        .putObject(eq(AmazonS3Service.S3_BUCKET_NAME), any(), any(File.class));
-  }
-
-  @Test
-  public void verifyS3GetCalled() {
-    when(amazonS3.getObject(eq(AmazonS3Service.S3_BUCKET_NAME), anyString()))
-        .thenReturn(new S3Object());
-
-    amazonS3Service.getObject("");
-
-    verify(amazonS3, times(1))
-        .getObject(eq(AmazonS3Service.S3_BUCKET_NAME), anyString());
-  }
+//  @Test
+//  public void verifyS3GetCalled() {
+//    when(amazonS3.getObject(eq(AmazonS3Service.S3_BUCKET_NAME), anyString()))
+//        .thenReturn(new S3Object());
+//
+//    amazonS3Service.getObject("");
+//
+//    verify(amazonS3, times(1))
+//        .getObject(eq(AmazonS3Service.S3_BUCKET_NAME), anyString());
+//  }
 
   @Test
   public void verifyS3DeleteCalled() {

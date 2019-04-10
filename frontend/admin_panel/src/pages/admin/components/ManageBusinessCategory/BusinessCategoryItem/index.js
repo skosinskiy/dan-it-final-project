@@ -7,7 +7,6 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
 import ImageIcon from '@material-ui/icons/Image'
-import PropTypes from 'prop-types'
 
 import {businessCategoryOperations} from 'store/businessCategory'
 
@@ -48,12 +47,6 @@ class Places extends Component {
       </ListItem>
     )
   }
-}
-
-Places.propTypes = {
-  classes: PropTypes.object.isRequired,
-  category: PropTypes.object.isRequired,
-  deleteBusinessCategory: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = ({businessCategory}) => {
