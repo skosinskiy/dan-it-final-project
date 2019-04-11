@@ -1,17 +1,10 @@
 package com.danit.finalproject.application.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.S3Object;
-import java.io.File;
+import com.amazonaws.services.s3.AmazonS3Client;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +20,7 @@ public class AmazonS3ServiceTest {
   private AmazonS3Service amazonS3Service;
 
   @MockBean
-  private AmazonS3 amazonS3;
+  private AmazonS3Client amazonS3Client;
 
 //  @Test
 //  public void verifyS3CalledAndKeyIsGenerated() {
@@ -54,7 +47,7 @@ public class AmazonS3ServiceTest {
   @Test
   public void verifyS3DeleteCalled() {
     amazonS3Service.deleteObject("");
-    verify(amazonS3, times(1))
+    verify(amazonS3Client, times(1))
         .deleteObject(eq(AmazonS3Service.S3_BUCKET_NAME), anyString());
   }
 

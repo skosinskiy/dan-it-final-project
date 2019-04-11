@@ -79,7 +79,7 @@ class BusinessCategoryForm extends React.Component {
   }
 
   saveCategory = () => {
-    const {saveCategory, category} = this.props
+    const {saveCategory} = this.props
 
     saveCategory(this.state.editedCategory, this.state.businessCategoryImages[0])
   }
@@ -221,14 +221,14 @@ class BusinessCategoryForm extends React.Component {
   }
 }
 
-BusinessCategoryForm.propTypes = {
-  classes: PropTypes.object.isRequired,
-  category: PropTypes.object.isRequired,
-  match:  PropTypes.object.isRequired,
-  categories: PropTypes.object.isRequired,
-  getAllBusinessCategories:PropTypes.func.isRequired,
-  saveCategory: PropTypes.func.isRequired,
-}
+// BusinessCategoryForm.propTypes = {
+//   classes: PropTypes.object.isRequired,
+//   category: PropTypes.object.isRequired,
+//   match:  PropTypes.object.isRequired,
+//   categories: PropTypes.object.isRequired,
+//   getAllBusinessCategories:PropTypes.func.isRequired,
+//   saveCategory: PropTypes.func.isRequired,
+// }
 
 const mapStateToProps = (state, props) => {
   const category = state.businessCategory.allBusinessCategories.find(category => category.id === parseInt(props.match.params.categoryId))
