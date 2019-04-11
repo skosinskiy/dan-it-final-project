@@ -1,6 +1,5 @@
 package com.danit.finalproject.application.controller;
 
-import com.amazonaws.services.s3.AmazonS3Client;
 import com.danit.finalproject.application.dto.response.S3UploadResponse;
 import com.danit.finalproject.application.service.AmazonS3Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +15,12 @@ import java.io.IOException;
 
 @RestController
 @RequestMapping("api/s3")
-public class S3Controller {
+public class AmazonS3Controller {
 
   private AmazonS3Service s3Service;
 
   @Autowired
-  public S3Controller(AmazonS3Service s3Service) {
+  public AmazonS3Controller(AmazonS3Service s3Service) {
     this.s3Service = s3Service;
   }
 
