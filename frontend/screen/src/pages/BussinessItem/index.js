@@ -5,13 +5,16 @@ import * as businessOperations from "../../store/businesses/operations";
 
 
 class BussinessItem extends Component {
+	componentDidMount () {
+		const {getAllBusinesses} = this.props
+		getAllBusinesses()
+	}
 	render() {
 		return (
 			<div>
 				<NavLink to="/businesses/">
 					Back
 				</NavLink>
-				<button onClick={this.props.getAllBusinesses}>gogi</button>
 			</div>
 		);
 	}

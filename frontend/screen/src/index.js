@@ -8,6 +8,7 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 import {createStore, applyMiddleware, combineReducers} from 'redux'
 import { BrowserRouter } from 'react-router-dom'
 import businesses from "./store/businesses";
+import thunk from 'redux-thunk';
 
 const reducers = {
 	menuReducer,
@@ -15,7 +16,7 @@ const reducers = {
 }
 
 const reducer = combineReducers(reducers)
-const store = createStore(reducer, composeWithDevTools(applyMiddleware()))
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
