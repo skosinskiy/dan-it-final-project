@@ -44,10 +44,7 @@ const styles = theme => ({
 
 const emptyCategory = {
   name: '',
-  parentCategory: {
-    name: '',
-    parentCategory: null
-  }
+  parentCategory: null
 }
 
 class BusinessCategoryForm extends React.Component {
