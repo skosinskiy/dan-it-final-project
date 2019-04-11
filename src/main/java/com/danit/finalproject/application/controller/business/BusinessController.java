@@ -8,6 +8,8 @@ import com.danit.finalproject.application.facade.business.BusinessFacade;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,10 +39,11 @@ public class BusinessController {
   }
 
   @GetMapping
-  public ResponseEntity<List<BusinessResponse>> getAllBusinesses(
+  public ResponseEntity<Page<BusinessResponse>> getAllBusinesses(
       @RequestParam(name = "placeId", required = false) Long placeId,
-      @RequestParam(name = "title", required = false) String title) {
-    return new ResponseEntity<>(businessFacade.findBusinesses(placeId, title), HttpStatus.OK);
+      @RequestParam(name = "title", required = false) String title,
+      Pageable pageable) {
+    return new ResponseEntity<>(businessFacade.findBusinesses(placeId, title, pageable), HttpStatus.OK);
   }
 
   @PostMapping
