@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Preloader from './components/Preloader'
-import TestComponent from './components/TestComponent'
+import ParallaxContainer from './components/ParallaxContainer'
 import './App.css'
 
 class App extends Component {
@@ -21,7 +21,7 @@ class App extends Component {
         {/* Learn React */}
         {/* </a> */}
         {/* </header> */}
-        <TestComponent />
+        <ParallaxContainer />
       </div>
     )
   }
