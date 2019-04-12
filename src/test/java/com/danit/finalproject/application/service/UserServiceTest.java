@@ -23,6 +23,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -32,8 +33,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.BindingResult;
@@ -303,17 +302,32 @@ public class UserServiceTest {
 	}
 
 	@Test
-	public void verifyExceptionThrownIfOAuthUserNotExist() {
+	public void verifyUserCreatedIfOAuthUserNotExist() {
 		String email = "first.user@test.com";
+		String name = "First User";
 		List<Permission> permissions = firstMockUser.getRoles().get(0).getPermissions();
 		HashMap<String, Object> attributes = new HashMap<>();
 		attributes.put("email", email);
 		attributes.put("id", email);
+		attributes.put("name", name);
 		DefaultOAuth2User defaultOAuth2User = new DefaultOAuth2User(permissions, attributes, "id");
+		User createdUser = new User();
+		createdUser.setFirstName(name.split(" ")[0]);
+		createdUser.setLastName(name.split(" ")[1]);
+		createdUser.setEmail(email);
+		createdUser.setRoles(new ArrayList<>());
+		int expectedUserPermissionsSize = 1;
+		when(userRepository.save(any())).thenReturn(createdUser);
 
-		exception.expect(OAuth2AuthenticationException.class);
-		when(userRepository.findByEmail(email)).thenReturn(null);
+		Set<Permission> userPermissions = userService.getOAuth2UserPermissions(defaultOAuth2User);
 
-		userService.getOAuth2UserPermissions(defaultOAuth2User);
+		ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
+		verify(userRepository, times(1)).save(captor.capture());
+		userRepository.save(captor.capture());
+
+		assertEquals(createdUser, captor.getValue());
+		assertEquals(expectedUserPermissionsSize, userPermissions.size());
+		assertTrue(userPermissions.contains(Permission.ADMIN_USER));
+
 	}
 }
