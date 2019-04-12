@@ -18,11 +18,9 @@ class ParallaxContainer extends Component {
   render () {
     return (
       <div className='parallax-container'>
-        <div className='parallax__group'>
-          <ParallaxHeader bgImage={parallaxHeaderImg1} />
-          <div className='parallax__layer parallax__layer--static'>
-            <p>static section</p>
-          </div>
+        <ParallaxHeader bgImage={parallaxHeaderImg1} />
+        <div className='parallax__layer parallax__layer--static'>
+          <p>static section</p>
         </div>
       </div>
     )

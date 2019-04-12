@@ -9,21 +9,17 @@
   perspective: 1px;
 }
 
-.parallax__group{
-  position: relative;
-  height: 2000px;
-  transform-style: preserve-3d;
-}
-
 .parallax__layer {
   position: absolute;
-}
-
-.parallax__layer--static {
-  top: 224px;
+  top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+}
+
+.parallax__layer--static {
+  padding: 555px 0;
+  top: 224px;
   background-color: #bcbcbc;
   transform: translateZ(0);
 }
@@ -32,9 +28,6 @@
   // scale factor calculation (to maintain original element size):
   // 1 + (translateZ * -1) / perspective
   height: 224px;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  top: -256px;
   transform: translateZ(-1px) scale(2);
 }
