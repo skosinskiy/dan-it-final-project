@@ -9,27 +9,22 @@ const endPoint = {
   delete: (id, params) => api.deleteApi(endPoint.URL + id, { params }),
 }
 
-const decorateByPreloader = dispatch => request => {
+const decorateByPreloader = dispatch => async request => {
   dispatch(ACTIONS.isLoading(true))
-  if (!Array.isArray(request)) {
-    request = [request]
-  }
-  return Promise.all(request)
-    .then(result => {
-      dispatch(ACTIONS.isLoading(false))
-      return result.flat()
-    })
+  request = Array.isArray(request) ? request.flatMap(r => r) : [request]
+  const result = await Promise.all(request)
+  dispatch(ACTIONS.isLoading(false))
+  return result.flat()
 }
 
 const preloadDecorator = dispatch => decorateByPreloader(dispatch)
 
-export const realoadData = () => dispatch => {
-  preloadDecorator(dispatch)(endPoint.get())
-    .then(rawData => {
-      const placeCategories = rawData.map(placeCategory => createNewOrAddDefaults(placeCategory))
-      dispatch(ACTIONS.updatePlaceCategories(placeCategories))
-      dispatch(flushDeletedIds())
-    })
+export const realoadData = () => async dispatch => {
+  dispatch(flushDeletedIds())
+  const rawData = await preloadDecorator(dispatch)(endPoint.get())
+  dispatch(ACTIONS.updatePlaceCategories(
+    rawData.map(placeCategory => createNewOrAddDefaults(placeCategory))
+  ))
 }
 
 const createNewOrAddDefaults = ({ id, multisync = true, name = "EnterName", menuItems = [] } = {}) => ({
@@ -117,13 +112,14 @@ export const getAllEdited = ({ placeCategories }) =>
 
 export const getAllDeletedIds = ({ deletedIds }) => deletedIds
 
-export const saveAllChanges = placeCategories => dispatch => {
+export const saveAllChanges = placeCategories => async dispatch => {
   const requests = Array.of(
     requestPost(placeCategories),
     requestPut(placeCategories),
     requestDelete(placeCategories)
-  ).flat()
-  preloadDecorator(dispatch)(requests).then(() => dispatch(realoadData()))
+  )
+  await preloadDecorator(dispatch)(requests)
+  dispatch(realoadData())
 }
 
 export const requestDelete = placeCategories =>
