@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import Preloader from './components/Preloader'
 import withHeader from './components/withHeaderHOC'
-import TestComponent from './components/testComponent'
-import header1 from './img/header-bg1.png'
 import './App.css'
 
 class App extends Component {
   render () {
-    const Content1 = withHeader(TestComponent, header1)
+    // const Content1 = withHeader(anyComponent, image)
     return (
       <div className='App'>
         {/* <header className="App-header"> */}
@@ -24,7 +22,9 @@ class App extends Component {
         {/* Learn React */}
         {/* </a> */}
         {/* </header> */}
-        <Content1 />
+        {/* <-----------------------> */}
+        {/* <Content1 /> */}
+        <Preloader />
       </div>
     )
   }

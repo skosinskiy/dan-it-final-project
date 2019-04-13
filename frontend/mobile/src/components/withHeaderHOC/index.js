@@ -2,6 +2,11 @@ import React, {Component} from 'react'
 import './parallaxContainer.scss'
 
 function withHeader (WrappedComponent, headerImage) {
+  /* Parallax header HOC
+  * arg1: any component that requires header
+  * arg2: image to be used in header background
+  * currently hardcoded for parallax container width of 375px
+  * */
   class ParallaxHeader extends Component {
     render () {
       const style = {
