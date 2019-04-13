@@ -1,4 +1,4 @@
-package com.danit.finalproject.application.controller;
+package com.danit.finalproject.application.controller.place;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

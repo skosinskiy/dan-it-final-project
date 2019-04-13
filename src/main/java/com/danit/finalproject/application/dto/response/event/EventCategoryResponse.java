@@ -9,5 +9,7 @@ public class EventCategoryResponse {
   private String name;
   private String description;
   private EventCategoryResponse parentCategory;
+  private String imageKey;
+  private String imageUrl;
 
 }

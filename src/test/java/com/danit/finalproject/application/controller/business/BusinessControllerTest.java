@@ -1,4 +1,4 @@
-package com.danit.finalproject.application.controller;
+package com.danit.finalproject.application.controller.business;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -23,6 +23,8 @@ import com.danit.finalproject.application.service.place.PlaceService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -86,11 +88,11 @@ public class BusinessControllerTest {
     MvcResult result = mockMvc.perform(get("/api/businesses?placeId=1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<BusinessResponse> businesses
-        = objectMapper.readValue(responseBody, new TypeReference<List<BusinessResponse>>(){});
+    HashMap<String, Object> businesses
+        = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>(){});
 
-    assertEquals(expectedSize, businesses.size());
-    assertEquals(secondCategoryName, businesses.get(1).getTitle());
+    assertEquals(expectedSize, ((List)businesses.get("content")).size());
+    assertEquals(secondCategoryName, ((LinkedHashMap)((List)businesses.get("content")).get(1)).get("title"));
   }
 
   @Test
@@ -101,11 +103,11 @@ public class BusinessControllerTest {
     MvcResult result = mockMvc.perform(get("/api/businesses?title=" + titlePart))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<BusinessResponse> businesses
-        = objectMapper.readValue(responseBody, new TypeReference<List<BusinessResponse>>(){});
+    HashMap<String, Object> businesses
+        = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>(){});
 
-    assertEquals(expectedSize, businesses.size());
-    assertTrue(businesses.get(0).getTitle().contains(titlePart));
+    assertEquals(expectedSize, ((List)businesses.get("content")).size());
+    assertTrue(((String)(((LinkedHashMap)((List)businesses.get("content")).get(0)).get("title"))).contains(titlePart));
   }
 
   @Test

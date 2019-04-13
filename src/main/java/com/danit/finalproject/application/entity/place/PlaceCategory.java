@@ -15,8 +15,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import lombok.ToString;
-import java.util.List;
 
 @Entity
 @Table(name = "places_categories")
