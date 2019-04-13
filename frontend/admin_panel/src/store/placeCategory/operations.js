@@ -105,34 +105,34 @@ export const deleteItem = (key, container, deletedIds) => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(newContainer))
 }
 
-export const getAllNew = ({ placeCategories }) => placeCategories.filter(placeCategory => !placeCategory.id)
+const getAllNew = ({ placeCategories }) => (
+  placeCategories.filter(placeCategory => !placeCategory.id)
+)
 
-export const getAllEdited = ({ placeCategories }) =>
+const getAllEdited = ({ placeCategories }) => (
   placeCategories.filter(placeCategory => placeCategory.id && placeCategory.changed)
+)
 
-export const getAllDeletedIds = ({ deletedIds }) => deletedIds
+const getAllDeletedIds = ({ deletedIds }) => deletedIds
 
-export const saveAllChanges = placeCategories => async dispatch => {
+export const saveAllChanges = placeCategories => dispatch => {
   const requests = Array.of(
     requestPost(placeCategories),
     requestPut(placeCategories),
     requestDelete(placeCategories)
   )
-  await preloadDecorator(dispatch)(requests)
-  dispatch(realoadData())
+  preloadDecorator(dispatch)(requests)
+    .then(() => dispatch(realoadData()))
 }
 
-export const requestDelete = placeCategories =>
-  getAllDeletedIds(placeCategories).reduce((promises, id) => (
-    promises.concat([endPoint.delete(id)])
-  ), [])
+const requestDelete = placeCategories => (
+  getAllDeletedIds(placeCategories).map(id => endPoint.delete(id))
+)
 
-export const requestPost = placeCategories =>
-  getAllNew(placeCategories).reduce((promises, placeCategory) => (
-    promises.concat([endPoint.post(placeCategory)])
-  ), [])
+const requestPost = placeCategories => (
+  getAllNew(placeCategories).map(placeCategory => endPoint.post(placeCategory))
+)
 
-export const requestPut = placeCategories =>
-  getAllEdited(placeCategories).reduce((promises, placeCategory) => (
-    promises.concat([endPoint.put(placeCategory.id, placeCategory)])
-  ), [])
+const requestPut = placeCategories => (
+  getAllEdited(placeCategories).map(placeCategory => endPoint.put(placeCategory.id, placeCategory))
+)
