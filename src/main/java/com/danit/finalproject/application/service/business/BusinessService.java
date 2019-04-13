@@ -8,6 +8,8 @@ import com.danit.finalproject.application.service.CrudService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,7 +20,7 @@ public class BusinessService implements CrudService<Business> {
   @Autowired
   public BusinessService(
       BusinessRepository businessRepository,
-      BusinessPhotoService businessPhotoService, EventRepository eventRepository) {
+      BusinessPhotoService businessPhotoService) {
     this.businessRepository = businessRepository;
     this.businessPhotoService = businessPhotoService;
   }
@@ -33,8 +35,8 @@ public class BusinessService implements CrudService<Business> {
     return businessRepository.findAll();
   }
 
-  public List<Business> findBusinesses(Long placeId, String title) {
-    return businessRepository.findByParams(placeId, title);
+  public Page<Business> findBusinesses(Long placeId, String title, Pageable pageable) {
+    return businessRepository.findByParams(placeId, title, pageable);
   }
 
   @Override

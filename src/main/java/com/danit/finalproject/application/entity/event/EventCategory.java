@@ -34,4 +34,7 @@ public class EventCategory extends BaseEntity {
   @ManyToMany(mappedBy = "categories")
   @ToString.Exclude
   private List<Event> events;
+
+  @Column(name = "image_key")
+  private String imageKey;
 }
