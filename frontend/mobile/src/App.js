@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
 import Preloader from './components/Preloader'
-import ParallaxContainer from './components/ParallaxContainer'
+import withHeader from './components/withHeaderHOC'
 import TestComponent from './components/testComponent'
 import header1 from './img/header-bg1.png'
 import './App.css'
 
 class App extends Component {
   render () {
+    const Content1 = withHeader(TestComponent, header1)
     return (
       <div className='App'>
         {/* <header className="App-header"> */}
@@ -23,7 +24,7 @@ class App extends Component {
         {/* Learn React */}
         {/* </a> */}
         {/* </header> */}
-        <ParallaxContainer content={TestComponent} headerImage={header1} />
+        <Content1 />
       </div>
     )
   }
