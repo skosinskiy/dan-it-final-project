@@ -9,5 +9,6 @@ public class EventCategoryRequest {
   private String name;
   private String description;
   private EventCategoryRequest parentCategory;
+  private String imageKey;
 
 }

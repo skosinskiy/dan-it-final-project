@@ -56,7 +56,7 @@ class BusinessCategoryForm extends React.Component {
 
     this.state = {
       editedCategory: props.category !== undefined ? props.category : emptyCategory,
-      businessCategoryImage: props.category !== undefined && imageUrl !== null ? [{ imageUrl, imageKey}] : []
+      businessCategoryImage: props.category !== undefined && imageUrl !== null ? [{ imageUrl, imageKey }] : []
     }
   }
 
@@ -95,10 +95,10 @@ class BusinessCategoryForm extends React.Component {
     const newBusinessCategoryImage = images.map((file) => Object.assign(file, {
       imageUrl: URL.createObjectURL(file),
       imageKey: null
-    }))[0]
+    }))
     this.setState(() => {
       return {
-        businessCategoryImage: [newBusinessCategoryImage]
+        businessCategoryImage: newBusinessCategoryImage
       }
     })
   }

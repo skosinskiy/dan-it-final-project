@@ -13,14 +13,44 @@ export const deleteEventCategory = (categoryId) => dispatch => {
   })
 }
 
-export const saveCategory = category => dispatch => {
+const uploadFile = (file) => {
+  const formData = new FormData()
+  formData.append("imageFile", file)
+  return api.post('/api/s3/upload/image', formData)
+}
+
+const createBusinessCategory = (category) => {
+  return api.post('/api/event-categories', category)
+}
+
+const updateBusinessCategory = (category) => {
+  return api.put(`/api/event-categories/${category.id}`, category)
+}
+
+export const saveCategory = (category, file) => dispatch => {
   if (category.id) {
-    api.put(`/api/event-categories/${category.id}`, category).then(res => {
-      dispatch(getAllEventCategories())
-    })
+    if (file && !file.imageKey) {
+      uploadFile(file).then(uploadResult => {
+        category.imageKey = uploadResult.fileKey
+        updateBusinessCategory(category).then( () => dispatch( getAllEventCategories()) )
+      })
+    } else {
+      if (!file) {
+        category.imageKey = null
+      }
+      updateBusinessCategory(category).then( () => dispatch(getAllEventCategories()) )
+    }
   } else {
-    api.post(`/api/event-categories`, category).then(res => {
-      dispatch(getAllEventCategories())
-    })
+    if (file) {
+      createBusinessCategory(category).then(createResponse => {
+        uploadFile(file).then(uploadResult => {
+          const {...createdCategory} = createResponse
+          createdCategory.imageKey = uploadResult.fileKey
+          updateBusinessCategory(createdCategory).then( () => dispatch(getAllEventCategories()))
+        })
+      })
+    } else {
+      createBusinessCategory(category).then( () => dispatch(getAllEventCategories()) )
+    }
   }
 }

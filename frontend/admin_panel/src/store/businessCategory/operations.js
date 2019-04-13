@@ -13,40 +13,44 @@ export const deleteBusinessCategory = (categoryId) => dispatch => {
   })
 }
 
+const uploadFile = (file) => {
+  const formData = new FormData()
+  formData.append("imageFile", file)
+  return api.post('/api/s3/upload/image', formData)
+}
+
+const createBusinessCategory = (category) => {
+  return api.post('/api/business-categories', category)
+}
+
+const updateBusinessCategory = (category) => {
+  return api.put(`/api/business-categories/${category.id}`, category)
+}
+
 export const saveCategory = (category, file) => dispatch => {
   if (category.id) {
-    if (file) {
-      const formData = new FormData()
-      formData.append("imageFile", file)
-      api.post('/api/s3/upload/image', formData).then(uploadResult => {
+    if (file && !file.imageKey) {
+      uploadFile(file).then(uploadResult => {
         category.imageKey = uploadResult.fileKey
-        api.put(`/api/business-categories/${category.id}`, category).then(() => {
-          dispatch(getAllBusinessCategories())
-        })
+        updateBusinessCategory(category).then( () => dispatch( getAllBusinessCategories()) )
       })
     } else {
-      category.imageKey = null
-      api.put(`/api/business-categories/${category.id}`, category).then(() => {
-        dispatch(getAllBusinessCategories())
-      })
+      if (!file) {
+        category.imageKey = null
+      }
+      updateBusinessCategory(category).then( () => dispatch(getAllBusinessCategories()) )
     }
   } else {
     if (file) {
-      api.post('/api/business-categories', category).then(createResponse => {
-        const formData = new FormData()
-        formData.append("imageFile", file)
-        api.post('/api/s3/upload/image', formData).then(uploadResult => {
+      createBusinessCategory(category).then(createResponse => {
+        uploadFile(file).then(uploadResult => {
           const {...createdCategory} = createResponse
           createdCategory.imageKey = uploadResult.fileKey
-          api.put(`/api/business-categories/${createdCategory.id}`, createdCategory).then(() => {
-            dispatch(getAllBusinessCategories())
-          })
+          updateBusinessCategory(createdCategory).then( () => dispatch(getAllBusinessCategories()))
         })
       })
     } else {
-      api.post('/api/business-categories', category).then(res => {
-        dispatch(getAllBusinessCategories())
-      })
+      createBusinessCategory(category).then( () => dispatch(getAllBusinessCategories()) )
     }
   }
 }
