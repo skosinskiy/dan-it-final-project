@@ -56,7 +56,7 @@ class BusinessCategoryForm extends React.Component {
 
     this.state = {
       editedCategory: props.category !== undefined ? props.category : emptyCategory,
-      businessCategoryImages: props.category !== undefined && imageUrl !== null ? [{ imageUrl, imageKey, isMainImage: true }] : []
+      businessCategoryImage: props.category !== undefined && imageUrl !== null ? [{ imageUrl, imageKey}] : []
     }
   }
 
@@ -78,7 +78,7 @@ class BusinessCategoryForm extends React.Component {
   saveCategory = () => {
     const {saveCategory} = this.props
 
-    saveCategory(this.state.editedCategory, this.state.businessCategoryImages[0])
+    saveCategory(this.state.editedCategory, this.state.businessCategoryImage[0])
   }
 
   handleChange = (event, propName) => {
@@ -92,43 +92,41 @@ class BusinessCategoryForm extends React.Component {
   }
 
   onFileChange = (images) => {
-    const newBusinessCategoryImages = images.map((file, index) => Object.assign(file, {
+    const newBusinessCategoryImage = images.map((file) => Object.assign(file, {
       imageUrl: URL.createObjectURL(file),
-      imageKey: null,
-      isMainImage: false
-    }))
-    this.setState(state => {
+      imageKey: null
+    }))[0]
+    this.setState(() => {
       return {
-        // businessCategoryImages: [...state.businessCategoryImages, ...newBusinessCategoryImages]
-        businessCategoryImages: [newBusinessCategoryImages[0]]
+        businessCategoryImage: [newBusinessCategoryImage]
       }
     })
   }
 
   onMainPhotoSelect = (selectedImage) => {
-    const newBusinessCategoryImages = this.state.businessCategoryImages.map(image => {
+    const newBusinessCategoryImage = this.state.businessCategoryImage.map(image => {
       image.isMainImage = image === selectedImage
       return image
     })
 
-    this.setState(state => {
+    this.setState(() => {
       return {
-        businessCategoryImages: newBusinessCategoryImages
+        businessCategoryImage: newBusinessCategoryImage
       }
     })
   }
 
   onImageReset = (image) => {
-    const newBusinessCategoryImage = this.state.businessCategoryImages.filter(elem => elem !== image)
+    const newBusinessCategoryImage = this.state.businessCategoryImage.filter(elem => elem !== image)
     this.setState({
       ...this.state,
-      businessCategoryImages: newBusinessCategoryImage,
+      businessCategoryImage: newBusinessCategoryImage,
     })
   }
 
   render () {
     const {classes, match, categories, category} = this.props
-    const {editedCategory, businessCategoryImages} = this.state
+    const {editedCategory, businessCategoryImage} = this.state
     const categoryId = match.params.categoryId
 
     if (categoryId && !category) {
@@ -191,7 +189,7 @@ class BusinessCategoryForm extends React.Component {
           {categoryOptions}
         </TextField>
 
-        <ImageUploader  images={businessCategoryImages}
+        <ImageUploader  images={businessCategoryImage}
                         onFileChange={this.onFileChange}
                         onReset={this.onImageReset}
                         onMainPhotoSelect={this.onMainPhotoSelect} />
