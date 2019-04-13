@@ -1,28 +1,34 @@
-package com.danit.finalproject.application.controller;
+package com.danit.finalproject.application.controller.event;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.danit.finalproject.application.dto.request.event.EventCategoryRequest;
 import com.danit.finalproject.application.dto.response.event.EventCategoryResponse;
 import com.danit.finalproject.application.entity.event.EventCategory;
 import com.danit.finalproject.application.facade.event.EventCategoryFacade;
+import com.danit.finalproject.application.service.AmazonS3Service;
 import com.danit.finalproject.application.service.event.EventCategoryService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import java.util.UUID;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -50,6 +56,9 @@ public class EventCategoryControllerTest {
 
   @Autowired
   private EventCategoryFacade eventCategoryFacade;
+
+  @MockBean
+  private AmazonS3Client amazonS3Client;
 
   @Test
   public void getEventCategoryById() throws Exception {
@@ -109,13 +118,18 @@ public class EventCategoryControllerTest {
   }
 
   @Test
-  public void updateBusinessCategory() throws Exception {
-    String eventCategoryName = "Updated";
+  public void updateEventCategory() throws Exception {
     Long eventCategoryId = 2L;
+    String eventCategoryName = "Updated";
+    String expectedImageKey = UUID.randomUUID().toString() + AmazonS3Service.IMAGE_EXTENSION;
+    String expectedImageUrl = "https://rion-up-project.s3.eu-central-1.amazonaws.com/" + expectedImageKey;
     EventCategory eventCategory = eventCategoryService.getById(eventCategoryId);
     eventCategory.setName(eventCategoryName);
     eventCategory.setParentCategory(null);
+    eventCategory.setImageKey(expectedImageKey);
     String userJson = objectMapper.writeValueAsString(modelMapper.map(eventCategory, EventCategoryRequest.class));
+
+    when(amazonS3Client.getResourceUrl(AmazonS3Service.S3_BUCKET_NAME, expectedImageKey)).thenReturn(expectedImageUrl);
 
     MvcResult result = mockMvc.perform(
         put("/api/event-categories/1")
@@ -124,18 +138,24 @@ public class EventCategoryControllerTest {
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    EventCategoryResponse upgatedEventCategory = objectMapper.readValue(responseBody, EventCategoryResponse.class);
+    EventCategoryResponse updatedEventCategory = objectMapper.readValue(responseBody, EventCategoryResponse.class);
 
-    assertEquals(eventCategoryName, upgatedEventCategory.getName());
+    assertEquals(eventCategoryName, updatedEventCategory.getName());
     assertEquals(eventCategoryName, eventCategoryService.getById(eventCategoryId).getName());
-    assertNull(upgatedEventCategory.getParentCategory());
+    assertEquals(expectedImageKey, updatedEventCategory.getImageKey());
+    assertEquals(expectedImageUrl, updatedEventCategory.getImageUrl());
+    assertNull(updatedEventCategory.getParentCategory());
+    verify(amazonS3Client, times(1))
+        .deleteObject(AmazonS3Service.S3_BUCKET_NAME, "imageKey");
   }
 
   @Test
   public void deleteEventCategory() throws Exception {
     int expectedCategorySize = eventCategoryService.getAll().size() - 1;
-    mockMvc.perform(delete("/api/event-categories/2").with(csrf()));
+    mockMvc.perform(delete("/api/event-categories/1").with(csrf()));
 
     assertEquals(expectedCategorySize, eventCategoryService.getAll().size());
+    verify(amazonS3Client, times(1))
+        .deleteObject(AmazonS3Service.S3_BUCKET_NAME, "imageKey");
   }
 }

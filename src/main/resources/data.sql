@@ -161,10 +161,10 @@ VALUES
 -- events
 
 INSERT INTO event_categories
-  (id, date_created, date_modified, name, parent_category_id)
+  (id, date_created, date_modified, name, parent_category_id, image_key)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'event-category-1', null ),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'event-category-2', 1 );
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'event-category-1', null, 'imageKey' ),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'event-category-2', 1, null );
 
 INSERT INTO events
   (id, date_created, date_modified, title, description, business_id, place_id, address )

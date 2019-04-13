@@ -1,6 +1,5 @@
 package com.danit.finalproject.application.service.event;
 
-import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.entity.event.EventCategory;
 import com.danit.finalproject.application.repository.event.EventCategoryRepository;
 import com.danit.finalproject.application.service.AmazonS3Service;

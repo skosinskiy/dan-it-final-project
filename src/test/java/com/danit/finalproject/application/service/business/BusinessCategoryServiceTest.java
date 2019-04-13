@@ -31,7 +31,7 @@ public class BusinessCategoryServiceTest {
   private AmazonS3Service amazonS3Service;
 
   @Test
-  public void getById() {
+  public void verifyFindByIdCalledOnce() {
     Long expectedId = 1L;
     when(businessCategoryRepository.findById(expectedId)).thenReturn(Optional.of(new BusinessCategory()));
 
@@ -42,7 +42,7 @@ public class BusinessCategoryServiceTest {
   }
 
   @Test
-  public void getAll() {
+  public void verifyFindAllCalledOnce() {
     when(businessCategoryRepository.findAll()).thenReturn(new ArrayList<>());
 
     List<BusinessCategory> businessCategories = businessCategoryService.getAll();
@@ -52,7 +52,7 @@ public class BusinessCategoryServiceTest {
   }
 
   @Test
-  public void create() {
+  public void verifySaveCalledOnce() {
     String expectedName = "testName";
     BusinessCategory businessCategory = new BusinessCategory();
     businessCategory.setName(expectedName);
@@ -64,7 +64,7 @@ public class BusinessCategoryServiceTest {
   }
 
   @Test
-  public void update() {
+  public void verifySaveCalledOnceAndS3ServiceDeleteCalledOnce() {
     Long expectedId = 2L;
     String expectedName = "testName";
     String expectedImageKey = "imageKey";
@@ -88,7 +88,7 @@ public class BusinessCategoryServiceTest {
   }
 
   @Test
-  public void delete() {
+  public void verifyDeleteCalledOnceAndS3ServiceDeleteCalledOnce() {
     Long expectedId = 2L;
     String expectedName = "testName";
     String expectedImageKey = "imageKey";
