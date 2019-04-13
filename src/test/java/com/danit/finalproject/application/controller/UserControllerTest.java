@@ -52,7 +52,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-@WithMockUser(authorities = "MANGAE_USER_ROLES")
+@WithMockUser(authorities = "MANAGE_USER_ROLES")
 public class UserControllerTest {
 
 	@Autowired
