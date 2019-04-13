@@ -20,7 +20,7 @@ public class BusinessService implements CrudService<Business> {
   @Autowired
   public BusinessService(
       BusinessRepository businessRepository,
-      BusinessPhotoService businessPhotoService, EventRepository eventRepository) {
+      BusinessPhotoService businessPhotoService) {
     this.businessRepository = businessRepository;
     this.businessPhotoService = businessPhotoService;
   }
