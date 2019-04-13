@@ -11,7 +11,7 @@ const endPoint = {
 
 const decorateByPreloader = dispatch => async request => {
   dispatch(ACTIONS.isLoading(true))
-  request = Array.isArray(request) ? request.flatMap(r => r) : [request]
+  request = Array.isArray(request) ? request.flat() : [request]
   const result = await Promise.all(request)
   dispatch(ACTIONS.isLoading(false))
   return result.flat()
