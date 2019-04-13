@@ -4,7 +4,6 @@
   margin: 0 auto;
   overflow-x: hidden;
   overflow-y: auto;
-  background-color: #7d7d7d;
   perspective: 1px;
 }
 
@@ -23,16 +22,15 @@
 }
 
 .parallax__layer--content {
-  padding: 555px 0;
   top: 224px;
   background-color: #bcbcbc;
   transform: translateZ(0);
 }
 
 .parallax__layer--parallax-header{
+  top: -256px;
+  height: 224px;
   // scale factor calculation (to maintain original element size):
   // 1 + (translateZ * -1) / perspective
-  height: 224px;
-  top: -256px;
   transform: translateZ(-1px) scale(2);
 }

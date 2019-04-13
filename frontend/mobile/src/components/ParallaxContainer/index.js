@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 import './parallaxContainer.scss'
-import parallaxHeaderImg1 from '../../img/header-bg1.png'
 
 class ParallaxHeader extends Component {
   render () {
@@ -16,12 +15,13 @@ class ParallaxHeader extends Component {
 
 class ParallaxContainer extends Component {
   render () {
+    const Content = this.props.content
     return (
       <div className='parallax-container'>
         <div className='parallax-group'>
-          <ParallaxHeader bgImage={parallaxHeaderImg1} />
+          <ParallaxHeader bgImage={this.props.headerImage} />
           <div className='parallax__layer parallax__layer--content'>
-            <p>static section</p>
+            <Content />
           </div>
         </div>
       </div>
