@@ -1,28 +1,32 @@
-package com.danit.finalproject.application.controller;
+package com.danit.finalproject.application.controller.business;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.danit.finalproject.application.dto.request.business.BusinessCategoryRequest;
 import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponse;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.facade.business.BusinessCategoryFacade;
+import com.danit.finalproject.application.service.AmazonS3Service;
 import com.danit.finalproject.application.service.business.BusinessCategoryService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import java.util.UUID;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -51,6 +55,9 @@ public class BusinessCategoryControllerTest {
 
   @Autowired
   private BusinessCategoryFacade businessCategoryFacade;
+
+  @MockBean
+  private AmazonS3Client amazonS3Client;
 
   @Test
   public void getBusinessCategoryById() throws Exception {
@@ -114,13 +121,18 @@ public class BusinessCategoryControllerTest {
 
   @Test
   public void updateBusinessCategory() throws Exception {
-    String businessCategoryName = "Updated";
     Long businessCategoryId = 2L;
+    String expectedBusinessCategoryName = "Updated";
+    String expectedImageKey = UUID.randomUUID().toString() + AmazonS3Service.IMAGE_EXTENSION;
+    String expectedImageUrl = "https://rion-up-project.s3.eu-central-1.amazonaws.com/" + expectedImageKey;
     BusinessCategory businessCategory = businessCategoryService.getById(businessCategoryId);
-    businessCategory.setName(businessCategoryName);
+    businessCategory.setName(expectedBusinessCategoryName);
     businessCategory.setParentCategory(null);
+    businessCategory.setImageKey(expectedImageKey);
     String userJson = objectMapper.writeValueAsString(
         modelMapper.map(businessCategory, BusinessCategoryRequest.class));
+
+    when(amazonS3Client.getResourceUrl(AmazonS3Service.S3_BUCKET_NAME, expectedImageKey)).thenReturn(expectedImageUrl);
 
     MvcResult result = mockMvc.perform(
         put("/api/business-categories/1")
@@ -132,9 +144,13 @@ public class BusinessCategoryControllerTest {
     BusinessCategoryResponse updatedBusinessCategory =
         objectMapper.readValue(responseBody, BusinessCategoryResponse.class);
 
-    assertEquals(businessCategoryName, updatedBusinessCategory.getName());
-    assertEquals(businessCategoryName, businessCategoryService.getById(businessCategoryId).getName());
+    assertEquals(expectedBusinessCategoryName, updatedBusinessCategory.getName());
+    assertEquals(expectedBusinessCategoryName, businessCategoryService.getById(businessCategoryId).getName());
+    assertEquals(expectedImageKey, updatedBusinessCategory.getImageKey());
+    assertEquals(expectedImageUrl, updatedBusinessCategory.getImageUrl());
     assertNull(updatedBusinessCategory.getParentCategory());
+    verify(amazonS3Client, times(1))
+        .deleteObject(AmazonS3Service.S3_BUCKET_NAME, "imageKey");
   }
 
   @Test
@@ -143,5 +159,7 @@ public class BusinessCategoryControllerTest {
     mockMvc.perform(delete("/api/business-categories/1").with(csrf()));
 
     assertEquals(expectedCategorySize, businessCategoryService.getAll().size());
+    verify(amazonS3Client, times(1))
+        .deleteObject(AmazonS3Service.S3_BUCKET_NAME, "imageKey");
   }
 }

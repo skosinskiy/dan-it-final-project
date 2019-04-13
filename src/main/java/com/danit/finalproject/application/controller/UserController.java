@@ -66,7 +66,7 @@ public class UserController {
   }
 
   @PutMapping("{userId}/roles")
-  @PreAuthorize("hasAuthority('MANGAE_USER_ROLES')")
+  @PreAuthorize("hasAuthority('MANAGE_USER_ROLES')")
   public ResponseEntity<UserResponse> setUserRoles(@PathVariable Long userId, @RequestBody List<RoleRequest> roles) {
     return new ResponseEntity<>(userFacade.setUserRoles(userId, roles), HttpStatus.OK);
   }

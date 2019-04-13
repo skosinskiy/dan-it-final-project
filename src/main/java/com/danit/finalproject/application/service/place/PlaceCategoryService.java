@@ -1,6 +1,5 @@
 package com.danit.finalproject.application.service.place;
 
-import com.danit.finalproject.application.entity.menuitem.MenuItem;
 import com.danit.finalproject.application.entity.place.PlaceCategory;
 import com.danit.finalproject.application.repository.place.PlaceCategoryRepository;
 import com.danit.finalproject.application.service.CrudService;
