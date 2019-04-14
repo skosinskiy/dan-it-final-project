@@ -56,6 +56,8 @@ class SelectBuildings extends Component {
       <div className="container">
         <div className="header">
           <div className="header-icon">
+            <h2 className="header-title">Malls</h2>
+            <h3 className="header-description">Sky Mall</h3>
           </div>
         </div>
         <div className="content">
@@ -66,12 +68,32 @@ class SelectBuildings extends Component {
             </div>
           </div>
           <div className="places">
-            {places}
-          </div>
-          <div className="add-place">
+            {places.length ? places : <h3 className="content-title">You have no places</h3>}
             <button className="add-place_button">+</button>
           </div>
           <div className="footer">
+            <ul className="footer-menu">
+              <li className="menu-item">
+                <div className="menu-item_icon"></div>
+                <div className="menu-icon_text">Places</div>
+              </li>
+              <li className="menu-item">
+                <div className="menu-item_icon"></div>
+                <div className="menu-icon_text">News</div>
+              </li>
+              <li className="menu-item">
+                <div className="menu-item_icon"></div>
+                <div className="menu-icon_text">Messages</div>
+              </li>
+              <li className="menu-item">
+                <div className="menu-item_icon"></div>
+                <div className="menu-icon_text">Favourites</div>
+              </li>
+              <li className="menu-item">
+                <div className="menu-item_icon"></div>
+                <div className="menu-icon_text">More</div>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

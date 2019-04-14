@@ -16,9 +16,26 @@ $header-height: 230px;
 
 .header-icon {
   position: absolute;
-  bottom: 10px;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: 40%;
-  height: 60%;
+  height: 50%;
+  padding-left: 20px;
+  background-color: #fcfcfc;
+  opacity: .6;
+
+  .header-title {
+    font-size: 32px;
+    text-align: left;
+  }
+
+  .header-description {
+    color: #979797;
+    font-size: 16px;
+    text-align: left;
+  }
 }
 
 .content {
@@ -28,6 +45,10 @@ $header-height: 230px;
   padding: 13px 0 0;
   background-color: #FFFFFF;
   border-radius: 16px;
+
+  .content-title {
+    padding-left: 20px;
+  }
 }
 
 .options {
@@ -57,20 +78,39 @@ $header-height: 230px;
 
 .places {
   position: relative;
-  margin: 15px 0;
+  min-height: 30vh;
+  margin-top: 15px;
   color: #363636;
   text-align: left;
+
+  .add-place_button {
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    color: #7D7878;
+    font-size: 36px;
+    background: rgba(233, 240, 249, .5);
+    border: none;
+    border-radius: 50px;
+  }
 }
 
-.add-place_button {
-  position: absolute;
-  right: 20px;
-  bottom: 20px;
-  width: 40px;
-  height: 40px;
-  color: #7D7878;
-  font-size: 36px;
-  background: rgba(233, 240, 249, .5);
-  border: none;
-  border-radius: 50px;
+.footer {
+  margin-top: 20px;
+  border-top: .5px solid #BDBDBD;
+}
+
+.footer-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px 34px;
+}
+
+.menu-item {
+  color: #787878;
+  font-size: 10px;
+  list-style: none;
 }
