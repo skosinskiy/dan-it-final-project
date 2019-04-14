@@ -1,0 +1,22 @@
+.business {
+  &-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+  &_back-btn {
+    font-size: 24px;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+
+    &::before {
+      display: inline-block;
+      content: '';
+      width: 15px;
+      height: 15px;
+      vertical-align: middle;
+      border-top: 3px solid #FEBA00;
+      border-left: 3px solid #FEBA00;
+      transform: rotate(-45deg);
+    }
+  }
+}
