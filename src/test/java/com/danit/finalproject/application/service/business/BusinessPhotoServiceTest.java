@@ -32,12 +32,16 @@ public class BusinessPhotoServiceTest {
   @Test
   public void verifyFindByIdCalledOnce() {
     Long expectedId = 1L;
-    when(businessRepository.findById(expectedId)).thenReturn(Optional.of(new BusinessPhoto()));
+    String expectedImageKey = "imageKey";
+    BusinessPhoto businessPhoto = new BusinessPhoto();
+    businessPhoto.setImageKey(expectedImageKey);
+    when(businessRepository.findById(expectedId)).thenReturn(Optional.of(businessPhoto));
 
-    BusinessPhoto businessPhoto = businessPhotoService.getBusinessPhotoById(expectedId);
+    BusinessPhoto createdBusinessPhoto = businessPhotoService.getBusinessPhotoById(expectedId);
 
     verify(businessRepository, times(1)).findById(expectedId);
-    assertNotNull(businessPhoto);
+    assertNotNull(createdBusinessPhoto);
+    assertEquals(expectedImageKey, createdBusinessPhoto.getImageKey());
   }
 
   @Test

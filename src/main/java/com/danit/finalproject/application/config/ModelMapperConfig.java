@@ -3,9 +3,11 @@ package com.danit.finalproject.application.config;
 import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponse;
 import com.danit.finalproject.application.dto.response.business.BusinessPhotoResponse;
 import com.danit.finalproject.application.dto.response.event.EventCategoryResponse;
+import com.danit.finalproject.application.dto.response.place.PlacePhotoResponse;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.entity.business.BusinessPhoto;
 import com.danit.finalproject.application.entity.event.EventCategory;
+import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.service.AmazonS3Service;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -28,6 +30,7 @@ public class ModelMapperConfig {
     addBusinessCategoryMapping();
     addEventCategoryMapping();
     addBusinessPhotoMapping();
+    addPlacePhotoMapping();
   }
 
   private void addBusinessCategoryMapping() {
@@ -73,6 +76,23 @@ public class ModelMapperConfig {
         .setPostConverter(context -> {
           BusinessPhotoResponse destination = context.getDestination();
           BusinessPhoto source = context.getSource();
+          String imageKey = source.getImageKey();
+          if (imageKey != null) {
+            destination.setImageUrl(amazonS3Service.getUrlFromFileKey(imageKey));
+          }
+          return destination;
+        });
+  }
+
+  private void addPlacePhotoMapping() {
+    modelMapper.addMappings(new PropertyMap<PlacePhoto, PlacePhotoResponse>() {
+      @Override
+      protected void configure() { }
+    });
+    modelMapper.getTypeMap(PlacePhoto.class, PlacePhotoResponse.class)
+        .setPostConverter(context -> {
+          PlacePhotoResponse destination = context.getDestination();
+          PlacePhoto source = context.getSource();
           String imageKey = source.getImageKey();
           if (imageKey != null) {
             destination.setImageUrl(amazonS3Service.getUrlFromFileKey(imageKey));

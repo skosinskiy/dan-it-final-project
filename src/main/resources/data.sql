@@ -93,7 +93,7 @@ VALUES
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-2', 'description-2', 'address-2', 2 );
 
 INSERT INTO places_photos
-  (id, date_created, date_modified, photo, place_id)
+  (id, date_created, date_modified, image_key, place_id)
 VALUES
   (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-1', 1),
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-2', 1),
