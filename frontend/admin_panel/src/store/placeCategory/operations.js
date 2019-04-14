@@ -3,29 +3,31 @@ import * as ACTIONS from './actions'
 
 const endPoint = {
   URL: '/api/place-categories/',
-  get: (id='', params) => api.get(endPoint.URL + id, {params}),
-  post: (body, params) => api.post(endPoint.URL, body, {params}),
-  put: (id, body, params) => api.put(endPoint.URL + id, body, {params}),
-  delete: (id, params) => api.deleteApi(endPoint.URL + id, {params}),
+  get: (id = '', params) => api.get(endPoint.URL + id, { params }),
+  post: (body, params) => api.post(endPoint.URL, body, { params }),
+  put: (id, body, params) => api.put(endPoint.URL + id, body, { params }),
+  delete: (id, params) => api.deleteApi(endPoint.URL + id, { params }),
 }
 
-const decorateByPreloader = dispatch => request => {
+const decorateByPreloader = dispatch => async request => {
   dispatch(ACTIONS.isLoading(true))
-  request().then(dispatch(ACTIONS.isLoading(false)))
+  request = Array.isArray(request) ? request.flat() : [request]
+  const result = await Promise.all(request)
+  dispatch(ACTIONS.isLoading(false))
+  return result.flat()
 }
 
 const preloadDecorator = dispatch => decorateByPreloader(dispatch)
 
-export const realoadData = () => dispatch => {
-  const request = () => (
-    endPoint.get()
-      .then(rawData => rawData.map(placeCategory => createNewOrAddDefaults(placeCategory)))
-      .then(placeCategories => dispatch(ACTIONS.updatePlaceCategories(placeCategories)))
-  )
-  preloadDecorator(dispatch)(request)
+export const realoadData = () => async dispatch => {
+  dispatch(flushDeletedIds())
+  const rawData = await preloadDecorator(dispatch)(endPoint.get())
+  dispatch(ACTIONS.updatePlaceCategories(
+    rawData.map(placeCategory => createNewOrAddDefaults(placeCategory))
+  ))
 }
 
-const createNewOrAddDefaults = ({ id, multisync = true, name = "EnterName", menuItems = [] } = {}) => ({
+const createNewOrAddDefaults = ({ id, multisync = false, name = "EnterName", menuItems = [] } = {}) => ({
   key: Math.random() * new Date().getTime(),
   id: id,
   multisync: multisync,
@@ -92,7 +94,7 @@ const updateDeletedIds = (idx, container, deletedIds) => dispatch => {
 }
 
 const flushDeletedIds = () => dispatch => {
-    dispatch(ACTIONS.updateDeletedPlaceCategoryIds([]))
+  dispatch(ACTIONS.updateDeletedPlaceCategoryIds([]))
 }
 
 export const deleteItem = (key, container, deletedIds) => dispatch => {
@@ -103,55 +105,34 @@ export const deleteItem = (key, container, deletedIds) => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(newContainer))
 }
 
-export const getAllNew = ({placeCategories}) => placeCategories.filter(placeCategory => !placeCategory.id)
+const getAllNew = ({ placeCategories }) => (
+  placeCategories.filter(placeCategory => !placeCategory.id)
+)
 
-export const getAllEdited = ({placeCategories}) =>
+const getAllEdited = ({ placeCategories }) => (
   placeCategories.filter(placeCategory => placeCategory.id && placeCategory.changed)
+)
 
-export const getAllDeletedIds = ({deletedIds}) => deletedIds
+const getAllDeletedIds = ({ deletedIds }) => deletedIds
 
 export const saveAllChanges = placeCategories => dispatch => {
-  new Promise (resolve => {
-    setTimeout(() => resolve(dispatch(requestPost(placeCategories))), 0)
-  })
-  .then(() => new Promise (resolve => {
-    setTimeout(() => resolve(dispatch(requestPut(placeCategories))), 0)
-  }))
-  .then(() => new Promise (resolve => {
-    setTimeout(() => resolve (dispatch(requestDelete(placeCategories))),0)
-  }))
+  const requests = Array.of(
+    requestPost(placeCategories),
+    requestPut(placeCategories),
+    requestDelete(placeCategories)
+  )
+  preloadDecorator(dispatch)(requests)
+    .then(() => dispatch(realoadData()))
 }
 
-export const requestDelete = (placeCategories) => dispatch => {
-  const request = () => (
-    Promise.all(
-      getAllDeletedIds(placeCategories).reduce((promises, id) => (
-        promises.concat([endPoint.delete(id)])
-      ), [])
-    )
-    .then(dispatch(flushDeletedIds()))
-  )
-  return preloadDecorator(dispatch)(request)
-}
+const requestDelete = placeCategories => (
+  getAllDeletedIds(placeCategories).map(id => endPoint.delete(id))
+)
 
-export const requestPost = (placeCategories) => dispatch => {
-  const request = () => (
-    Promise.all(
-      getAllNew(placeCategories).reduce((promises, placeCategory) => (
-        promises.concat([endPoint.post(placeCategory)])
-      ), [])
-    )
-  )
-  return preloadDecorator(dispatch)(request)
-}
+const requestPost = placeCategories => (
+  getAllNew(placeCategories).map(placeCategory => endPoint.post(placeCategory))
+)
 
-export const requestPut = (placeCategories) => dispatch => {
-  const request = () => (
-    Promise.all(
-      getAllEdited(placeCategories).reduce((promises, placeCategory) => (
-        promises.concat([endPoint.put(placeCategory.id, placeCategory)])
-      ), [])
-    )
-  )
-  return preloadDecorator(dispatch)(request)
-}
+const requestPut = placeCategories => (
+  getAllEdited(placeCategories).map(placeCategory => endPoint.put(placeCategory.id, placeCategory))
+)
