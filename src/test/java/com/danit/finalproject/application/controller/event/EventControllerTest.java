@@ -165,7 +165,7 @@ public class EventControllerTest {
   @Test
   public void createNewEventPhoto() throws Exception {
     Long expectedId = 5L;
-    String expectedName = "photo-5";
+    String expectedName = "imageKey-5";
 
     EventPhoto eventPhoto = new EventPhoto();
     eventPhoto.setPhoto(expectedName);

@@ -16,19 +16,20 @@ import com.danit.finalproject.application.dto.response.business.BusinessResponse
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.entity.business.BusinessPhoto;
+import com.danit.finalproject.application.service.AmazonS3Service;
 import com.danit.finalproject.application.service.business.BusinessCategoryService;
 import com.danit.finalproject.application.service.business.BusinessPhotoService;
 import com.danit.finalproject.application.service.business.BusinessService;
 import com.danit.finalproject.application.service.place.PlaceService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+
+import java.util.*;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -177,13 +178,16 @@ public class BusinessControllerTest {
   @Test
   public void createNewBusinessPhoto() throws Exception {
     Long expectedId = 5L;
-    String expectedName = "photo-5";
+    String expectedImageKey = UUID.randomUUID().toString() + AmazonS3Service.IMAGE_EXTENSION;
+    String expectedImageUrl = "https://rion-up-project.s3.eu-central-1.amazonaws.com/" + expectedImageKey;
 
     BusinessPhoto businessPhoto = new BusinessPhoto();
-    businessPhoto.setPhoto(expectedName);
+    businessPhoto.setImageKey(expectedImageKey);
+    List<BusinessPhoto> businessPhotos = new ArrayList<>();
+    businessPhotos.add(businessPhoto);
 
     String businessPhotoJson = objectMapper.writeValueAsString(
-        modelMapper.map(businessPhoto, BusinessPhotoRequest.class)
+        modelMapper.map(businessPhotos, new TypeToken<List<BusinessPhotoRequest>>(){}.getType())
     );
 
     MvcResult result = mockMvc.perform(
@@ -195,8 +199,9 @@ public class BusinessControllerTest {
     String responseBody = result.getResponse().getContentAsString();
     BusinessResponse updatedBusiness = objectMapper.readValue(responseBody, BusinessResponse.class);
 
-    assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getPhoto().equals(expectedName)));
+    assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getImageKey().equals(expectedImageKey)));
     assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getId().equals(expectedId)));
+    assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getImageUrl().equals(expectedImageUrl)));
   }
 
   @Test
