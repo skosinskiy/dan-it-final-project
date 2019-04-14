@@ -29,6 +29,7 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -177,13 +178,15 @@ public class BusinessControllerTest {
   @Test
   public void createNewBusinessPhoto() throws Exception {
     Long expectedId = 5L;
-    String expectedName = "photo-5";
+    String expectedName = "imageKey-5";
 
     BusinessPhoto businessPhoto = new BusinessPhoto();
-    businessPhoto.setPhoto(expectedName);
+    businessPhoto.setImageKey(expectedName);
+    List<BusinessPhoto> businessPhotos = new ArrayList<>();
+    businessPhotos.add(businessPhoto);
 
     String businessPhotoJson = objectMapper.writeValueAsString(
-        modelMapper.map(businessPhoto, BusinessPhotoRequest.class)
+        modelMapper.map(businessPhotos, new TypeToken<List<BusinessPhotoRequest>>(){}.getType())
     );
 
     MvcResult result = mockMvc.perform(
@@ -195,7 +198,7 @@ public class BusinessControllerTest {
     String responseBody = result.getResponse().getContentAsString();
     BusinessResponse updatedBusiness = objectMapper.readValue(responseBody, BusinessResponse.class);
 
-    assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getPhoto().equals(expectedName)));
+    assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getImageKey().equals(expectedName)));
     assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getId().equals(expectedId)));
   }
 

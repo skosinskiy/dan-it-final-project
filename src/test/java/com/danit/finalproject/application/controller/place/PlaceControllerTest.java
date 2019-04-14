@@ -149,7 +149,7 @@ public class PlaceControllerTest {
   @Test
   public void createNewPlacePhoto() throws Exception {
     Long expectedId = 5L;
-    String expectedName = "photo-5";
+    String expectedName = "imageKey-5";
 
     PlacePhoto placePhoto = new PlacePhoto();
     placePhoto.setPhoto(expectedName);
