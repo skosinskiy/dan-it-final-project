@@ -13,9 +13,9 @@ const NewsItem = (props) => {
   return (
     <div className={'news__item'}>
       <div className={'news__item__top'}>
-        <div className={'news__item__top__photo'}><NewsItemPhoto1 /><a href='#' className="folder-btn"></a></div>
+        <div className={'news__item__top__photo'}><NewsItemPhoto1 /><a href=' ' className="folder-btn"> </a></div>
         <div className={'news__item__top__text'}>
-          <a href={link} className={'news__item__top__text__title'}>{(title)}</a><a href='#' className="save-btn"></a>
+          <a href={link} className={'news__item__top__text__title'}>{(title)}</a><a href=' ' className="save-btn"> </a>
           <a href={link} className={'news__item__top__text__description'}>{shortify(description)}</a>
         </div>
       </div>
