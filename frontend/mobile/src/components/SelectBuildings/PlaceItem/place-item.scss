@@ -1,0 +1,26 @@
+.place-category {
+  margin-bottom: 34px;
+}
+
+.place-category_title {
+  margin-bottom: 10px;
+  padding: 0 20px;
+  font-size: 32px;
+  text-align: left;
+}
+
+.place-item {
+  margin-bottom: 20px;
+  padding: 0 20px;
+  font-size: 16px;
+  list-style: none;
+
+  &:hover {
+    background: rgba(233, 240, 249, .5);
+  }
+}
+
+.place-address {
+  color: #7D7878;
+  font-size: 14px;
+}
