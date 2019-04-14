@@ -16,16 +16,16 @@ import com.danit.finalproject.application.dto.response.business.BusinessResponse
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.entity.business.BusinessPhoto;
+import com.danit.finalproject.application.service.AmazonS3Service;
 import com.danit.finalproject.application.service.business.BusinessCategoryService;
 import com.danit.finalproject.application.service.business.BusinessPhotoService;
 import com.danit.finalproject.application.service.business.BusinessService;
 import com.danit.finalproject.application.service.place.PlaceService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
+
+import java.util.*;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -178,10 +178,11 @@ public class BusinessControllerTest {
   @Test
   public void createNewBusinessPhoto() throws Exception {
     Long expectedId = 5L;
-    String expectedName = "imageKey-5";
+    String expectedImageKey = UUID.randomUUID().toString() + AmazonS3Service.IMAGE_EXTENSION;
+    String expectedImageUrl = "https://rion-up-project.s3.eu-central-1.amazonaws.com/" + expectedImageKey;
 
     BusinessPhoto businessPhoto = new BusinessPhoto();
-    businessPhoto.setImageKey(expectedName);
+    businessPhoto.setImageKey(expectedImageKey);
     List<BusinessPhoto> businessPhotos = new ArrayList<>();
     businessPhotos.add(businessPhoto);
 
@@ -198,8 +199,9 @@ public class BusinessControllerTest {
     String responseBody = result.getResponse().getContentAsString();
     BusinessResponse updatedBusiness = objectMapper.readValue(responseBody, BusinessResponse.class);
 
-    assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getImageKey().equals(expectedName)));
+    assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getImageKey().equals(expectedImageKey)));
     assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getId().equals(expectedId)));
+    assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getImageUrl().equals(expectedImageUrl)));
   }
 
   @Test
