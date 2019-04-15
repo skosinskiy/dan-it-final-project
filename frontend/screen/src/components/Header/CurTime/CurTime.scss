@@ -1,10 +1,10 @@
 @import '../../../styles/variables';
 
 .current-time{
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   margin-left: 46px;
-  padding: 0;
-  padding-bottom: 18px;
 }
 
 .current-time{
@@ -16,7 +16,7 @@
 .current-time__main{
   margin-right: 0;
   padding-right: 0;
-  color: $black;
+  color: #000000;
   font-size: 44px;
   line-height: 20px;
   letter-spacing: .00636364em;
@@ -26,8 +26,6 @@
 .current-time__day{
   justify-content: flex-end;
   margin-top: 12px;
-  margin-right: 0;
-  padding-right: 3px;
   color: $black;
   font-size: 22px;
   line-height: 16px;

@@ -9,6 +9,7 @@ import {connect} from 'react-redux'
 
 import {eventCategoryOperations} from 'store/eventCategory'
 import Preloader from '../../../../../components/Preloader'
+import ImageUploader from '../../../../../components/ImageUploader'
 
 const styles = theme => ({
   container: {
@@ -42,18 +43,19 @@ const styles = theme => ({
 const emptyCategory = {
   name: '',
   description: '',
-  parentCategory: {
-    name: '',
-    parentCategory: null
-  }
+  parentCategory: null
 }
 
 class EventCategoryForm extends React.Component {
   constructor (props) {
     super(props)
 
+    const imageUrl = props.category !== undefined ? props.category.imageUrl : null
+    const imageKey = props.category !== undefined ? props.category.imageKey : null
+
     this.state = {
-      editedCategory: props.category !== undefined ? props.category : emptyCategory
+      editedCategory: props.category !== undefined ? props.category : emptyCategory,
+      eventCategoryImage: props.category !== undefined && imageUrl !== null ? [{ imageUrl, imageKey}] : []
     }
   }
 
@@ -75,7 +77,7 @@ class EventCategoryForm extends React.Component {
   saveCategory = () => {
     const {saveCategory} = this.props
 
-    saveCategory(this.state.editedCategory)
+    saveCategory(this.state.editedCategory, this.state.eventCategoryImage[0])
   }
 
   handleChange = (event, propName) => {
@@ -88,9 +90,29 @@ class EventCategoryForm extends React.Component {
     this.setState({editedCategory: {...this.state.editedCategory, [propName]: value}})
   }
 
+  onFileChange = (images) => {
+    const newEventCategoryImage = images.map((file) => Object.assign(file, {
+      imageUrl: URL.createObjectURL(file),
+      imageKey: null
+    }))
+    this.setState(() => {
+      return {
+        eventCategoryImage: newEventCategoryImage
+      }
+    })
+  }
+
+  onImageReset = (image) => {
+    const newEventCategoryImage = this.state.eventCategoryImage.filter(elem => elem !== image)
+    this.setState({
+      ...this.state,
+      eventCategoryImage: newEventCategoryImage,
+    })
+  }
+
   render () {
     const {classes, match, categories, category} = this.props
-    const {editedCategory} = this.state
+    const {editedCategory, eventCategoryImage} = this.state
     const categoryId = match.params.categoryId
 
     if (categoryId && !category) {
@@ -152,6 +174,11 @@ class EventCategoryForm extends React.Component {
         >
           {categoryOptions}
         </TextField>
+
+        <ImageUploader  images={eventCategoryImage}
+                        onFileChange={this.onFileChange}
+                        onReset={this.onImageReset} />
+
         <div className={classes.buttons}>
           <NavLink to={'/admin/event-categories'} className={classes.buttonLink}>
             <Button
@@ -180,7 +207,7 @@ EventCategoryForm.propTypes = {
   match: PropTypes.object.isRequired,
   categories: PropTypes.array.isRequired,
   getAllEventCategories: PropTypes.func.isRequired,
-  saveCategory: PropTypes.func.isRequired,
+  saveCategory: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, props) => {
@@ -195,7 +222,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllEventCategories: () => dispatch(eventCategoryOperations.getAllEventCategories()),
-    saveCategory: (category) => dispatch(eventCategoryOperations.saveCategory(category))
+    saveCategory: (category, file) => dispatch(eventCategoryOperations.saveCategory(category, file))
   }
 }
 

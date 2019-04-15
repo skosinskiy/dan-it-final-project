@@ -6,11 +6,12 @@
   box-sizing: border-box;
   width: 100%;
   margin: auto;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, .15);
 }
 .sceenEventItem:hover{
-  border: solid $orange 4px;
   border-radius: 5px;
+  box-shadow: 0px 0px 4px #FEBA00;
   cursor: pointer;
 }
 .sceenEventItem-title{

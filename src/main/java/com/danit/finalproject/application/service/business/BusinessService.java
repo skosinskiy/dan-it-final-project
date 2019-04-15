@@ -3,12 +3,15 @@ package com.danit.finalproject.application.service.business;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.business.BusinessPhoto;
 import com.danit.finalproject.application.repository.business.BusinessRepository;
-import com.danit.finalproject.application.repository.event.EventRepository;
 import com.danit.finalproject.application.service.CrudService;
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BusinessService implements CrudService<Business> {
@@ -18,7 +21,7 @@ public class BusinessService implements CrudService<Business> {
   @Autowired
   public BusinessService(
       BusinessRepository businessRepository,
-      BusinessPhotoService businessPhotoService, EventRepository eventRepository) {
+      BusinessPhotoService businessPhotoService) {
     this.businessRepository = businessRepository;
     this.businessPhotoService = businessPhotoService;
   }
@@ -33,8 +36,8 @@ public class BusinessService implements CrudService<Business> {
     return businessRepository.findAll();
   }
 
-  public List<Business> findBusinesses(Long placeId, String title) {
-    return businessRepository.findByParams(placeId, title);
+  public Page<Business> findBusinesses(Long placeId, String title, Pageable pageable) {
+    return businessRepository.findByParams(placeId, title, pageable);
   }
 
   @Override
@@ -44,25 +47,38 @@ public class BusinessService implements CrudService<Business> {
 
   @Override
   public Business update(Long id, Business business) {
+    List<BusinessPhoto> updatedBusinessPhotos = business.getPhotos();
+    deleteBusinessPhotos(getById(id).getPhotos(), updatedBusinessPhotos);
+    updatedBusinessPhotos.forEach(businessPhoto -> businessPhoto.setBusiness(business));
     business.setId(id);
     return businessRepository.save(business);
+  }
+
+  private void deleteBusinessPhotos(
+      List<BusinessPhoto> currentBusinessPhotos,
+      List<BusinessPhoto> updatedBusinessPhotos) {
+    currentBusinessPhotos
+        .stream()
+        .filter(currentBusinessPhoto -> updatedBusinessPhotos
+                .stream()
+                .noneMatch(businessPhoto -> currentBusinessPhoto.getImageKey().equals(businessPhoto.getImageKey())))
+        .forEach(businessPhoto -> businessPhotoService.deleteBusinessPhoto(businessPhoto));
   }
 
   @Override
   public Business delete(Long id) {
     Business business = businessRepository.findById(id).orElse(null);
-
+    if (business != null) {
+      business.getPhotos().forEach(businessPhoto -> businessPhotoService.deleteBusinessPhoto(businessPhoto));
+    }
     businessRepository.deleteById(id);
-
     return business;
   }
 
-  public Business addPhoto(BusinessPhoto businessPhoto, Long businessId) {
-    Optional<Business> optionalBusiness = businessRepository.findById(businessId);
-    optionalBusiness.ifPresent(business -> business.getPhotos().add(businessPhoto));
-    Business business = optionalBusiness.orElse(null);
-    businessRepository.save(business);
-    return business;
+  public Business createBusinessPhotos(List<BusinessPhoto> businessPhotos, Long businessId) {
+    Business business = getById(businessId);
+    business.setPhotos(businessPhotos);
+    return businessRepository.save(business);
   }
 
   public Business deleteBusinessPhoto(Long businessId, Long photoId) {

@@ -15,8 +15,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PlacePhoto extends BaseEntity {
 
-  @Column(name = "photo")
-  private String photo;
+  @Column(name = "image_key")
+  private String imageKey;
 
   @ManyToOne
   @JoinColumn(name = "place_id")

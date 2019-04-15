@@ -1,13 +1,14 @@
 @import '../../../styles/variables';
 .current-weather{
+  display: flex;
+  align-items: center;
   margin: 0;
   padding: 0;
 }
 
 .current-weather__icon {
-  width: 43px;
-  height: 35px;
-  margin-top: 0;
+  width: 50px;
+  height: 50px;
   margin-right: 12px;
 }
 

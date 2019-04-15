@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import Preloader from './components/Preloader'
+import NewsPage from './pages/NewsPage'
 import './App.css'
 
 class App extends Component {
@@ -20,7 +20,8 @@ class App extends Component {
         {/* Learn React */}
         {/* </a> */}
         {/* </header> */}
-        <Preloader />
+        {/* <Preloader /> */}
+        <NewsPage />
       </div>
     )
   }

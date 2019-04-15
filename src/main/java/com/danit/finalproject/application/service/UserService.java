@@ -16,15 +16,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2Error;
-import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -161,6 +159,9 @@ public class UserService implements UserDetailsService, CrudService<User> {
         .stream()
         .map(Role::getPermissions)
         .forEach(permissions::addAll);
+    if (permissions.isEmpty()) {
+      permissions.add(ADMIN_USER);
+    }
     return permissions;
   }
 
@@ -169,13 +170,26 @@ public class UserService implements UserDetailsService, CrudService<User> {
     String email = (String) attributes.get("email");
     User user = getByEmail(email);
     if (user == null) {
-      throw new OAuth2AuthenticationException(new OAuth2Error(OAuth2ErrorCodes.UNAUTHORIZED_CLIENT));
+      user = registerOAuth2User(attributes);
     }
-    Set<Permission> permissions = getAllPermissions(user);
-    if (permissions.isEmpty()) {
-      permissions.add(ADMIN_USER);
+    return getAllPermissions(user);
+  }
+
+  private User registerOAuth2User(Map<String, Object> attributes) {
+    String email = (String) attributes.get("email");
+    User user = new User();
+    user.setEmail(email);
+    user.setRoles(new ArrayList<>());
+    setUserFirstAndLastName((String) attributes.get("name"), user);
+    return create(user);
+  }
+
+  private void setUserFirstAndLastName(String fullName, User user) {
+    String[] names = fullName.split(" ");
+    user.setFirstName(names[0]);
+    if (names.length > 1) {
+      user.setLastName(names[1]);
     }
-    return permissions;
   }
 
   public User getPrincipalUser() {
