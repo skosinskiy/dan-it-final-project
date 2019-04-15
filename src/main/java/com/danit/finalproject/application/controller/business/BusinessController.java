@@ -5,8 +5,6 @@ import com.danit.finalproject.application.dto.request.business.BusinessRequest;
 import com.danit.finalproject.application.dto.response.business.BusinessResponse;
 import com.danit.finalproject.application.facade.business.BusinessFacade;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/businesses")
@@ -67,14 +67,15 @@ public class BusinessController {
 
   @PostMapping("/{businessId}/photos")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
-  public ResponseEntity<BusinessResponse> addPhotosToBusiness(
-          @RequestBody BusinessPhotoRequest businessPhotoRequest,
+  public ResponseEntity<BusinessResponse> createBusinessPhotos(
+          @RequestBody List<BusinessPhotoRequest> businessPhotos,
           @PathVariable("businessId") Long businessId) {
-    return new ResponseEntity<>(businessFacade.addPhoto(businessPhotoRequest, businessId), HttpStatus.OK);
+    return new ResponseEntity<>(businessFacade.createBusinessPhotos(businessPhotos, businessId), HttpStatus.OK);
   }
 
   @DeleteMapping("/{businessId}/photos/{photoId}")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
+  //TODO research is this method necessary
   public ResponseEntity<BusinessResponse> deletePhoto(
           @PathVariable Long businessId,
           @PathVariable("photoId") Long photoId) {
