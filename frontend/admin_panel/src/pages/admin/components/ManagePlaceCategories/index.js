@@ -15,10 +15,11 @@ import TextField from './components/TextField'
 import DeleteButton from './components/Buttons/Delete'
 import MultiSelect from './components/MultiSelect'
 import { menuItemsOperations } from 'store/menuItems'
-import {EnhancedTableHead}  from './components/EnhancedTableHead'
-import EnhancedTableToolbar  from './components/EnhancedTableToolbar'
+import { EnhancedTableHead } from './components/EnhancedTableHead'
+import EnhancedTableToolbar from './components/EnhancedTableToolbar'
 import './index.scss'
 import ResetButton from './components/Buttons/Reset'
+import { default as FullWidthTextField } from '@material-ui/core/TextField';
 
 const styles = theme => ({
   root: {
@@ -63,31 +64,49 @@ class EnhancedTable extends React.Component {
                 placeCategories.map(placeCategory => {
                   const isMultisync = placeCategory.multisync
                   return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      aria-checked={isMultisync}
-                      tabIndex={-1}
-                      key={placeCategory.key}
-                      selected={isMultisync}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={isMultisync} onClick={() => this.handleClickCheckBox(placeCategory.key)} />
-                      </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
-                        <TextField name={placeCategory.name} placeCategoryKey={placeCategory.key}/>
-                      </TableCell>
-                      <TableCell component="th" scope="row" padding="none" >
-                        <MultiSelect
-                          selectedMenuItems={placeCategory.menuItems}
-                          placeCategoryKey={placeCategory.key}
-                          allNames={menuItemNames}
-                        />
-                      </TableCell>
-                      <TableCell component="th" scope="row" padding="none">
-                        <DeleteButton placeCategoryKey={placeCategory.key} />
-                      </TableCell>
-                    </TableRow>
+                    <>
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={placeCategory.key}
+                        style={{borderBottomStyle: "hidden"}}
+                      >
+                        <TableCell padding="checkbox">
+                          <Checkbox checked={isMultisync} onClick={() => this.handleClickCheckBox(placeCategory.key)} />
+                        </TableCell>
+                        <TableCell scope="row" padding="none">
+                          <TextField placeholder="DisplayName" name={placeCategory.name} placeCategoryKey={placeCategory.key} />
+                        </TableCell>
+                        <TableCell scope="row" padding="none">
+                          <MultiSelect
+                            selectedMenuItems={placeCategory.menuItems}
+                            placeCategoryKey={placeCategory.key}
+                            allNames={menuItemNames}
+                          />
+                        </TableCell>
+                        <TableCell scope="row" padding="none">
+                          <DeleteButton placeCategoryKey={placeCategory.key} />
+                        </TableCell>
+                      </TableRow>
+                      <TableRow key={placeCategory.key + 'descriptionCell'}>
+                        <TableCell colSpan={4} scope="row" padding="none">
+                          <FullWidthTextField
+                            id="outlined-full-width"
+                            label="Desciption"
+                            style={{ margin: 0, marginTop: 10 }}
+                            placeholder={placeCategory.description || "Enter your desription here"}
+                            helperText=" "
+                            fullWidth
+                            margin="normal"
+                            variant="outlined"
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    </>
                   );
                 })
               }
