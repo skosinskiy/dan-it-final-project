@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
-import NewsPage from './pages/NewsPage'
+import Preloader from './components/Preloader'
+import withHeader from './components/withHeaderHOC'
 import './App.css'
 
 class App extends Component {
   render () {
+    // const Content1 = withHeader(anyComponent, image)
     return (
       <div className='App'>
         {/* <header className="App-header"> */}
@@ -20,8 +22,9 @@ class App extends Component {
         {/* Learn React */}
         {/* </a> */}
         {/* </header> */}
-        {/* <Preloader /> */}
-        <NewsPage />
+        {/* <-----------------------> */}
+        {/* <Content1 /> */}
+        <Preloader />
       </div>
     )
   }
