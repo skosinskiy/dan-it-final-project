@@ -68,6 +68,12 @@ export const updateMenuItems = (key, container, menuItems) => dispatch => {
   ))
 }
 
+export const updateDescription = (key, container, description) => dispatch => {
+  dispatch(ACTIONS.updatePlaceCategories(
+    setValueToEntityField(key, container, 'description', description)
+  ))
+}
+
 export const updateName = (key, container, name) => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(
     setValueToEntityField(key, container, 'name', name)
