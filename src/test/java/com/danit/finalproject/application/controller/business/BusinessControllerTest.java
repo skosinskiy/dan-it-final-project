@@ -4,12 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequest;
 import com.danit.finalproject.application.dto.request.business.BusinessRequest;
 import com.danit.finalproject.application.dto.response.business.BusinessResponse;
@@ -33,6 +35,7 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -66,6 +69,9 @@ public class BusinessControllerTest {
 
   @Autowired
   private BusinessPhotoService businessPhotoService;
+
+  @MockBean
+  private AmazonS3Client amazonS3Client;
 
   @Test
   public void getBusinessById() throws Exception {
@@ -172,6 +178,10 @@ public class BusinessControllerTest {
   public void deleteBusiness() throws Exception {
     mockMvc.perform(delete("/api/businesses/2").with(csrf()));
 
+    verify(amazonS3Client, times(1))
+        .deleteObject(AmazonS3Service.S3_BUCKET_NAME, "imageKey-3");
+    verify(amazonS3Client, times(1))
+        .deleteObject(AmazonS3Service.S3_BUCKET_NAME, "imageKey-4");
     assertNull(businessService.getById(2L));
   }
 
@@ -185,6 +195,10 @@ public class BusinessControllerTest {
     businessPhoto.setImageKey(expectedImageKey);
     List<BusinessPhoto> businessPhotos = new ArrayList<>();
     businessPhotos.add(businessPhoto);
+
+    when(amazonS3Client.getResourceUrl(AmazonS3Service.S3_BUCKET_NAME, expectedImageKey))
+        .thenReturn(expectedImageUrl);
+    when(amazonS3Client.getResourceUrl(AmazonS3Service.S3_BUCKET_NAME, "imageKey")).thenReturn("imageUrl");
 
     String businessPhotoJson = objectMapper.writeValueAsString(
         modelMapper.map(businessPhotos, new TypeToken<List<BusinessPhotoRequest>>(){}.getType())

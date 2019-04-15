@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BusinessService implements CrudService<Business> {
@@ -67,6 +68,9 @@ public class BusinessService implements CrudService<Business> {
   @Override
   public Business delete(Long id) {
     Business business = businessRepository.findById(id).orElse(null);
+    if (business != null) {
+      business.getPhotos().forEach(businessPhoto -> businessPhotoService.deleteBusinessPhoto(businessPhoto));
+    }
     businessRepository.deleteById(id);
     return business;
   }

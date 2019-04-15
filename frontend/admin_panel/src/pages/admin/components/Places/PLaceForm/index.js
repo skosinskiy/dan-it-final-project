@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 
 import {placesOperations} from 'store/places'
+import ImageUploader from '../../../../../components/ImageUploader'
 
 const styles = theme => ({
   container: {
@@ -35,14 +36,16 @@ const emptyPLace = {
   title: '',
   description: '',
   address: '',
-  placeCategory: {}
+  placeCategory: null
 }
 
 class PlaceForm extends React.Component {
   constructor (props) {
     super(props)
+    console.log(props)
     this.state = {
-      place: {...emptyPLace}
+      place: {...emptyPLace},
+      placeImages: props.place !== undefined ? props.place.photos : []
     }
   }
 
@@ -62,11 +65,9 @@ class PlaceForm extends React.Component {
   }
 
   savePlace = (placeId, place) => {
-    if (placeId) {
-      this.props.updatePlace(placeId, place)
-    } else {
-      this.props.saveNewPlace(place)
-    }
+    const {savePlace} = this.props
+    const {placeImages} = this.state
+    savePlace(place, placeImages)
   }
 
   handleChange = name => event => {
@@ -83,9 +84,43 @@ class PlaceForm extends React.Component {
     })
   }
 
+  onFileChange = (images) => {
+    const newPlaceImage = images.map((file) => Object.assign(file, {
+      imageUrl: URL.createObjectURL(file),
+      imageKey: null
+    }))
+
+    this.setState((state) => {
+      return {
+        placeImages: [...state.placeImages, ...newPlaceImage]
+      }
+    })
+  }
+
+  onMainPhotoSelect = (selectedImage) => {
+    const newPlaceImages = this.state.placeImages.map(image => {
+      image.isMainImage = image === selectedImage
+      return image
+    })
+
+    this.setState(() => {
+      return {
+        placeImages: newPlaceImages
+      }
+    })
+  }
+
+  onImageReset = (image) => {
+    const newPlaceImages = this.state.placeImages.filter(elem => elem !== image)
+    this.setState({
+      ...this.state,
+      placeImages: newPlaceImages,
+    })
+  }
+
   render () {
     const {classes, categories, placeId} = this.props
-    const {place} = this.state
+    const {place, placeImages} = this.state
 
     return (
       <div className="edit-place-form">
@@ -132,19 +167,10 @@ class PlaceForm extends React.Component {
           />
 
           <TextField
-            disabled
-            id="outlined-disabled"
-            label="Photo"
-            className={classes.textField}
-            margin="normal"
-            variant="outlined"
-          />
-
-          <TextField
             id="outlined-select-currency"
             select
             className={classes.textField}
-            value={place.placeCategory.id}
+            value={place.placeCategory && place.placeCategory.id}
             onChange={this.handleChange('placeCategory')}
             SelectProps={{
               MenuProps: {
@@ -162,6 +188,14 @@ class PlaceForm extends React.Component {
             ))}
           </TextField>
         </form>
+        <div style={{width: '50%'}}>
+          <ImageUploader  images={placeImages}
+                          onFileChange={this.onFileChange}
+                          onReset={this.onImageReset}
+                          onMainPhotoSelect={this.onMainPhotoSelect} />
+        </div>
+
+
         <div className="place-buttons">
           <NavLink to={'/admin/places'} className={classes.buttonLink}>
             <Button onClick={() => this.savePlace(placeId, place)} variant="contained" color="primary"
@@ -184,8 +218,8 @@ PlaceForm.propTypes = {
   classes: PropTypes.object.isRequired,
   place: PropTypes.object.isRequired,
   getPlaceCategories: PropTypes.func.isRequired,
-  saveNewPlace: PropTypes.func.isRequired,
-  updatePlace: PropTypes.func.isRequired,
+  savePlace: PropTypes.func.isRequired,
+  getAllPlaces: PropTypes.func.isRequired,
   categories: PropTypes.array.isRequired,
   placeId: PropTypes.number.isRequired,
 }
@@ -200,9 +234,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveNewPlace: (place) => dispatch(placesOperations.saveNewPlace(place)),
     getPlaceCategories: () => dispatch(placesOperations.getPlacesCategories()),
-    updatePlace: (placeId, place) => dispatch(placesOperations.updatePlace(placeId, place)),
+    savePlace: (placeId, place) => dispatch(placesOperations.savePlace(placeId, place)),
     getAllPlaces: () => dispatch(placesOperations.getPlaces())
   }
 }

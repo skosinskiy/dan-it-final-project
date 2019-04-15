@@ -55,11 +55,6 @@ class BusinessForm extends Component {
   constructor (props) {
     super(props)
 
-    // const imageUrl = props.business !== undefined ? props.business.imageUrl : null
-    // const imageKey = props.business !== undefined ? props.business.imageKey : null
-    // const imageUrl = null
-    // const imageKey = null
-
     this.state = {
       editedBusiness: props.business !== undefined ? props.business : emptyBusiness,
       place: undefined,
@@ -105,36 +100,36 @@ class BusinessForm extends Component {
   }
 
   onFileChange = (images) => {
-    const newBusinessCategoryImage = images.map((file) => Object.assign(file, {
+    const newBusinessImages = images.map((file) => Object.assign(file, {
       imageUrl: URL.createObjectURL(file),
       imageKey: null
     }))
 
     this.setState((state) => {
       return {
-        businessImages: [...state.businessImages, ...newBusinessCategoryImage]
+        businessImages: [...state.businessImages, ...newBusinessImages]
       }
     })
   }
 
   onMainPhotoSelect = (selectedImage) => {
-    const newBusinessCategoryImages = this.state.businessImages.map(image => {
+    const newBusinessImages = this.state.businessImages.map(image => {
       image.isMainImage = image === selectedImage
       return image
     })
 
     this.setState(() => {
       return {
-        businessImages: newBusinessCategoryImages
+        businessImages: newBusinessImages
       }
     })
   }
 
   onImageReset = (image) => {
-    const newBusinessCategoryImages = this.state.businessImages.filter(elem => elem !== image)
+    const newBusinessImages = this.state.businessImages.filter(elem => elem !== image)
     this.setState({
       ...this.state,
-      businessImages: newBusinessCategoryImages,
+      businessImages: newBusinessImages,
     })
   }
 
@@ -238,11 +233,11 @@ class BusinessForm extends Component {
 }
 
 BusinessForm.propTypes = {
-  classes: PropTypes.object.isRequired
-  // business: PropTypes.object.isRequired,
-  // places: PropTypes.object.isRequired,
-  // saveNewBusiness: PropTypes.func.isRequired,
-  // getPlaces: PropTypes.func.isRequired
+  classes: PropTypes.object.isRequired,
+  business: PropTypes.object.isRequired,
+  places: PropTypes.object.isRequired,
+  saveNewBusiness: PropTypes.func.isRequired,
+  getPlaces: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, props) => {
