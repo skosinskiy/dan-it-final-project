@@ -24,14 +24,17 @@ const styles = theme => ({
 
 class OutlinedTextFields extends React.Component {
   
-  handleOnClick = () => {
+  handleOnClick = (event) => {
+    event.target.oldValue = event.target.value
     this.setState({isDisabled: false})
   }
 
   handleBlur = (event) => {
-    const {updateName, placeCategoryKey, placeCategories, updateChanged} = this.props
-    updateName(placeCategoryKey, placeCategories, event.target.value)
-    updateChanged(placeCategoryKey, placeCategories)
+    if (event.target.oldValue !== event.target.value){
+      const {updateName, placeCategoryKey, placeCategories, updateChanged} = this.props
+      updateName(placeCategoryKey, placeCategories, event.target.value)
+      updateChanged(placeCategoryKey, placeCategories)
+    }
   }
 
   state = {
