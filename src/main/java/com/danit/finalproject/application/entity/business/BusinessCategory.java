@@ -35,4 +35,7 @@ public class BusinessCategory extends BaseEntity {
   @ToString.Exclude
   private List<Business> businesses;
 
+  @Column(name = "image_key")
+  private String imageKey;
+
 }

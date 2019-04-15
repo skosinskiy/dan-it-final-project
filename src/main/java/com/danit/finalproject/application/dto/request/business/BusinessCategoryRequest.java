@@ -9,5 +9,6 @@ public class BusinessCategoryRequest {
   private String name;
   private String description;
   private BusinessCategoryRequest parentCategory;
+  private String imageKey;
 
 }

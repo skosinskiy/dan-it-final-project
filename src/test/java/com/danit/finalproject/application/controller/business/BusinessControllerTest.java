@@ -1,35 +1,41 @@
-package com.danit.finalproject.application.controller;
+package com.danit.finalproject.application.controller.business;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequest;
 import com.danit.finalproject.application.dto.request.business.BusinessRequest;
 import com.danit.finalproject.application.dto.response.business.BusinessResponse;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.entity.business.BusinessPhoto;
+import com.danit.finalproject.application.service.AmazonS3Service;
 import com.danit.finalproject.application.service.business.BusinessCategoryService;
 import com.danit.finalproject.application.service.business.BusinessPhotoService;
 import com.danit.finalproject.application.service.business.BusinessService;
 import com.danit.finalproject.application.service.place.PlaceService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -64,6 +70,9 @@ public class BusinessControllerTest {
   @Autowired
   private BusinessPhotoService businessPhotoService;
 
+  @MockBean
+  private AmazonS3Client amazonS3Client;
+
   @Test
   public void getBusinessById() throws Exception {
     Long expectedId = 1L;
@@ -86,11 +95,11 @@ public class BusinessControllerTest {
     MvcResult result = mockMvc.perform(get("/api/businesses?placeId=1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<BusinessResponse> businesses
-        = objectMapper.readValue(responseBody, new TypeReference<List<BusinessResponse>>(){});
+    HashMap<String, Object> businesses
+        = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>(){});
 
-    assertEquals(expectedSize, businesses.size());
-    assertEquals(secondCategoryName, businesses.get(1).getTitle());
+    assertEquals(expectedSize, ((List)businesses.get("content")).size());
+    assertEquals(secondCategoryName, ((LinkedHashMap)((List)businesses.get("content")).get(1)).get("title"));
   }
 
   @Test
@@ -101,11 +110,11 @@ public class BusinessControllerTest {
     MvcResult result = mockMvc.perform(get("/api/businesses?title=" + titlePart))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<BusinessResponse> businesses
-        = objectMapper.readValue(responseBody, new TypeReference<List<BusinessResponse>>(){});
+    HashMap<String, Object> businesses
+        = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>(){});
 
-    assertEquals(expectedSize, businesses.size());
-    assertTrue(businesses.get(0).getTitle().contains(titlePart));
+    assertEquals(expectedSize, ((List)businesses.get("content")).size());
+    assertTrue(((String)(((LinkedHashMap)((List)businesses.get("content")).get(0)).get("title"))).contains(titlePart));
   }
 
   @Test
@@ -169,19 +178,30 @@ public class BusinessControllerTest {
   public void deleteBusiness() throws Exception {
     mockMvc.perform(delete("/api/businesses/2").with(csrf()));
 
+    verify(amazonS3Client, times(1))
+        .deleteObject(AmazonS3Service.S3_BUCKET_NAME, "imageKey-3");
+    verify(amazonS3Client, times(1))
+        .deleteObject(AmazonS3Service.S3_BUCKET_NAME, "imageKey-4");
     assertNull(businessService.getById(2L));
   }
 
   @Test
   public void createNewBusinessPhoto() throws Exception {
     Long expectedId = 5L;
-    String expectedName = "photo-5";
+    String expectedImageKey = UUID.randomUUID().toString() + AmazonS3Service.IMAGE_EXTENSION;
+    String expectedImageUrl = "https://rion-up-project.s3.eu-central-1.amazonaws.com/" + expectedImageKey;
 
     BusinessPhoto businessPhoto = new BusinessPhoto();
-    businessPhoto.setPhoto(expectedName);
+    businessPhoto.setImageKey(expectedImageKey);
+    List<BusinessPhoto> businessPhotos = new ArrayList<>();
+    businessPhotos.add(businessPhoto);
+
+    when(amazonS3Client.getResourceUrl(AmazonS3Service.S3_BUCKET_NAME, expectedImageKey))
+        .thenReturn(expectedImageUrl);
+    when(amazonS3Client.getResourceUrl(AmazonS3Service.S3_BUCKET_NAME, "imageKey")).thenReturn("imageUrl");
 
     String businessPhotoJson = objectMapper.writeValueAsString(
-        modelMapper.map(businessPhoto, BusinessPhotoRequest.class)
+        modelMapper.map(businessPhotos, new TypeToken<List<BusinessPhotoRequest>>(){}.getType())
     );
 
     MvcResult result = mockMvc.perform(
@@ -193,8 +213,9 @@ public class BusinessControllerTest {
     String responseBody = result.getResponse().getContentAsString();
     BusinessResponse updatedBusiness = objectMapper.readValue(responseBody, BusinessResponse.class);
 
-    assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getPhoto().equals(expectedName)));
+    assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getImageKey().equals(expectedImageKey)));
     assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getId().equals(expectedId)));
+    assertTrue(updatedBusiness.getPhotos().stream().anyMatch(photo -> photo.getImageUrl().equals(expectedImageUrl)));
   }
 
   @Test
