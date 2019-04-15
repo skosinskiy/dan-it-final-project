@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -22,7 +22,7 @@ const styles = theme => ({
   },
 });
 
-class OutlinedTextFields extends React.Component {
+class OutlinedTextFields extends Component {
   
   handleOnClick = (event) => {
     event.target.oldValue = event.target.value
@@ -42,7 +42,7 @@ class OutlinedTextFields extends React.Component {
   };
 
   render() {
-    const {classes, name} = this.props;
+    const {classes, name} = this.props
 
     return (
       <form className={classes.container} noValidate autoComplete="off">
@@ -50,25 +50,25 @@ class OutlinedTextFields extends React.Component {
           disabled = {this.state.isDisabled}
           id="outlined-bare"
           className={classes.textField}
-          defaultValue={name}
+          defaultValue={name || "Enter name"}
           margin="normal"
           variant="outlined"
           onClick={this.handleOnClick}
           onBlur={(event) => this.handleBlur(event)}
         />
       </form>
-    );
+    )
   }
 }
 
 OutlinedTextFields.propTypes = {
   classes: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   updateName:  PropTypes.func.isRequired,
   placeCategoryKey:  PropTypes.number.isRequired,
   placeCategories: PropTypes.array.isRequired,
   updateChanged: PropTypes.func.isRequired,
-};
+}
 
 const mapStateToProps = ({placeCategories}) => ({
   placeCategories: placeCategories.placeCategories,

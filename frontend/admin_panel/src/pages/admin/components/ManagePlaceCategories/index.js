@@ -19,7 +19,7 @@ import { EnhancedTableHead } from './components/EnhancedTableHead'
 import EnhancedTableToolbar from './components/EnhancedTableToolbar'
 import './index.scss'
 import ResetButton from './components/Buttons/Reset'
-import { default as FullWidthTextField } from '@material-ui/core/TextField';
+import Desciption from './components/Description';
 
 const styles = theme => ({
   root: {
@@ -49,17 +49,6 @@ class EnhancedTable extends React.Component {
     this.props.toggleMultisync(key, this.props.placeCategories)
   }
 
-  handleClickDescription = (event) => {
-     event.target.oldValue = event.target.value
-  }
-
-  handleChangedDescription = (event, key) => {
-    if (event.target.oldValue !== event.target.value){
-      this.handleChange(key)
-      this.props.updateDescription(key, this.props.placeCategories, event.target.value)
-    }
-  }
-
   render() {
     const { classes, placeCategories, isLoading, menuItemIsLoading, menuItemNames } = this.props;
     const emptyRows = 1;
@@ -72,12 +61,12 @@ class EnhancedTable extends React.Component {
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead
-              rowCount={placeCategories.length}
+              rowCount={placeCategories.length * 2}
             />
             <TableBody>
               {
                 placeCategories.map(placeCategory => {
-                  const {isMultisync, name, menuItems, key, description} = placeCategory
+                  const {multisync, name, menuItems, key, description} = placeCategory
                   return (
                     <Fragment key={key * Math.random()}>
                       <TableRow
@@ -88,7 +77,7 @@ class EnhancedTable extends React.Component {
                         style={{borderBottomStyle: "hidden"}}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox checked={isMultisync} onClick={() => this.handleClickCheckBox(key)} />
+                          <Checkbox checked={multisync} onClick={() => this.handleClickCheckBox(key)} />
                         </TableCell>
                         <TableCell scope="row" padding="none">
                           <Name placeholder="DisplayName" name={name} placeCategoryKey={key} />
@@ -104,26 +93,7 @@ class EnhancedTable extends React.Component {
                           <DeleteButton placeCategoryKey={key} />
                         </TableCell>
                       </TableRow>
-                      <TableRow key={key * Math.random()}>
-                        <TableCell colSpan={4} scope="row" padding="none">
-                          <FullWidthTextField
-                            id="outlined-full-width"
-                            label="Desciption"
-                            style={{ margin: 0, marginTop: 10 }}
-                            placeholder={description || "Enter your desription here"}
-                            helperText=" "
-                            fullWidth
-                            onClick={(event) => this.handleClickDescription(event)}
-                            onBlur={(event) => this.handleChangedDescription(event, key)}
-                            margin="normal"
-                            variant="outlined"
-                            autoComplete="off"
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
-                          />
-                        </TableCell>
-                      </TableRow>
+                      <Desciption _Key={key} description={description}/>
                     </Fragment>
                   );
                 })
@@ -170,7 +140,8 @@ const mapStateToProps = ({ placeCategories, menuItems }) => ({
 const mapDispatchToProps = dispatch => ({
   realoadData: () => dispatch(placesCategoriesOperations.realoadData()),
   updateChanged: (key, placeCategories) => dispatch(placesCategoriesOperations.updateChanged(key, placeCategories)),
-  toggleMultisync: (key, placeCategories) => dispatch(placesCategoriesOperations.toggleMultisync(key, placeCategories)),
+  toggleMultisync: (key, placeCategories) =>
+    dispatch(placesCategoriesOperations.toggleMultisync(key, placeCategories)),
   fetchMenuItemNames: () => dispatch(menuItemsOperations.fetchNames()),
   updateDescription: (key, placeCategories, value) =>
     dispatch(placesCategoriesOperations.updateDescription(key, placeCategories, value))
