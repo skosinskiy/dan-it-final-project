@@ -21,38 +21,21 @@ export const deletePlace = (placeId) => dispatch => {
   })
 }
 
-// export const savePlace = (placeId, place) => dispatch => {
-//   if (placeId) {
-//     api.put(`/api/places/${placeId}`, place).then(res => {
-//       api.get(`/api/places`).then(res => {
-//         dispatch(ACTIONS.getPlacesCategories(res))
-//       })
-//     })
-//   } else {
-//     api.post(`/api/places`, place).then(res => {
-//       api.get(`/api/places`).then(res => {
-//         dispatch(ACTIONS.getAllPlaces(res))
-//       })
-//       return res
-//     })
-//   }
-// }
-
 export const savePlace = (place, images) => dispatch => {
   if (place.id) {
     const imagesToUpload = images.filter(image => !image.id)
     const existingImages = images.filter(image => image.id)
     uploadImagesToS3(imagesToUpload)
-      .then(uploadedImages => createBusinessPhotos(uploadedImages, place.id)
-        .then(createdPhotos => updateBusiness(existingImages, place, createdPhotos)
+      .then(uploadedImages => createPlacePhotos(uploadedImages, place.id)
+        .then(createdPhotos => updatePlace(existingImages, place, createdPhotos)
           .then(() => dispatch(getPlaces()))
         )
       )
   } else {
-    createBusiness(place)
+    createPlace(place)
       .then(createdBusiness => uploadImagesToS3(images)
-        .then(uploadedImages => createBusinessPhotos(uploadedImages, createdBusiness.id)
-          .then(createdPhotos => updateBusiness(null, createdBusiness, createdPhotos)
+        .then(uploadedImages => createPlacePhotos(uploadedImages, createdBusiness.id)
+          .then(createdPhotos => updatePlace(null, createdBusiness, createdPhotos)
             .then(() => dispatch(getPlaces()))
           )
         )
@@ -69,17 +52,17 @@ const uploadImagesToS3 = (imagesToUpload) => {
     }))
 }
 
-const createBusinessPhotos = (s3UploadResponse, placeId) => {
+const createPlacePhotos = (s3UploadResponse, placeId) => {
   const array = []
   s3UploadResponse.forEach(file => array.push({imageKey: file.fileKey}))
   return api.post(`/api/places/${placeId}/photos`, array)
 }
 
-const updateBusiness = (existingImages, place, createdPhotos) => {
+const updatePlace = (existingImages, place, createdPhotos) => {
   place.photos = existingImages ? existingImages.concat(createdPhotos.photos) : createdPhotos.photos
   return api.put(`/api/places/${place.id}`, place)
 }
 
-const createBusiness = (place) => {
+const createPlace = (place) => {
   return api.post(`/api/places`, place)
 }
