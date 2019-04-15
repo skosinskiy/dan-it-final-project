@@ -6,6 +6,17 @@ function withHeader (WrappedComponent, headerImage) {
   * arg1: any component that requires header
   * arg2: image to be used in header background
   * currently hardcoded for parallax container width of 375px
+  *
+  * example:
+  * import Component from './components/Component'
+  * import image from './images/some-image.jpg'
+  * const Content1 = withHeader(Component, image)
+  *
+  * return(){
+  *   render(
+  *     <Content1 />
+  * )}
+  *
   * */
   class ParallaxHeader extends Component {
     render () {

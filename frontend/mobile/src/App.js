@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Preloader from './components/Preloader'
-import withHeader from './components/withHeaderHOC'
+// import withHeader from './components/withHeaderHOC'
 import './App.css'
 
 class App extends Component {
