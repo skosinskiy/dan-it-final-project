@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import NewsPage from './pages/NewsPage'
+// import NewsPage from './pages/NewsPage'
+import BusinessesEvents from './pages/BusinessesEvents'
 import './App.css'
 
 class App extends Component {
@@ -21,7 +22,8 @@ class App extends Component {
         {/* </a> */}
         {/* </header> */}
         {/* <Preloader /> */}
-        <NewsPage />
+        {/* <NewsPage /> */}
+        <BusinessesEvents/>
       </div>
     )
   }
