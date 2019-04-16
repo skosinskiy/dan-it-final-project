@@ -3,8 +3,10 @@ package com.danit.finalproject.application.controller.business;
 import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequest;
 import com.danit.finalproject.application.dto.request.business.BusinessRequest;
 import com.danit.finalproject.application.dto.response.business.BusinessResponse;
+import com.danit.finalproject.application.dto.view.View;
 import com.danit.finalproject.application.facade.business.BusinessFacade;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +34,7 @@ public class BusinessController {
   }
 
   @GetMapping("{id}")
+  @JsonView(View.Business.class)
   public ResponseEntity<BusinessResponse> getBusinessById(@PathVariable("id") Long businessId) {
     return new ResponseEntity<>(businessFacade.getById(businessId), HttpStatus.OK);
   }

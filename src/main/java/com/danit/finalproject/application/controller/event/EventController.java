@@ -3,8 +3,11 @@ package com.danit.finalproject.application.controller.event;
 import com.danit.finalproject.application.dto.request.event.EventPhotoRequest;
 import com.danit.finalproject.application.dto.request.event.EventRequest;
 import com.danit.finalproject.application.dto.response.event.EventResponse;
+import com.danit.finalproject.application.dto.view.View;
 import com.danit.finalproject.application.facade.event.EventFacade;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/events")
+@JsonView(View.Event.class)
 public class EventController {
   private EventFacade eventFacade;
 

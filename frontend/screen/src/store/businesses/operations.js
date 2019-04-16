@@ -10,6 +10,14 @@ export const getAllBusinesses = () => dispatch => {
   })
 }
 
+export const getBusinessById = (id) => dispatch => {
+  api.get(`/api/businesses/${id}`).then(res => {
+    dispatch(ACTIONS.getBusinessesByID({businessList: res}))
+  }).catch(err => {
+    dispatch(ACTIONS.getBusinessesError(err))
+  })
+}
+
 export const getBusinessesByPlaceID = (placeId) => dispatch => {
   // dispatch(ACTIONS.getBusinessesRequest())
   api.get(`/api/businesses?placeId=${placeId}`).then(res => {

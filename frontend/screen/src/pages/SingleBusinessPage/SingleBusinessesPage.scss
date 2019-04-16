@@ -21,6 +21,24 @@
     }
   }
   &-title {
+    font-family: 'Roboto', sans-serif;
     font-size: 24px;
+    text-transform: uppercase;
+  }
+  &-description {
+    font-family: 'Roboto', sans-serif;
+
+    &::before {
+      content: 'Description:';
+      margin-right: 10px;
+    }
+  }
+  &-address {
+    font-family: 'Roboto', sans-serif;
+
+    &::before {
+      content: 'Address:';
+      margin-right: 10px;
+    }
   }
 }

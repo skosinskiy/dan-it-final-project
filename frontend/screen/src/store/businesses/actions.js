@@ -13,6 +13,13 @@ export const getAllBusinesses = ({businessList}) => ({
   }
 })
 
+export const getBusinessesByID = ({businessItem}) => ({
+  type: TYPES.GET_ALL_BUSINESS_BY_ID,
+  payload: {
+    businessItem
+  }
+})
+
 export const getBusinessesByPlaceID = ({businessList}) => ({
   type: TYPES.GET_BUSINESSES_BY_PLACE_ID,
   payload: {

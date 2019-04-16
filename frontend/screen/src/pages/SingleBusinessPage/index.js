@@ -8,8 +8,8 @@ import Preloader from '../../components/Preloader'
 
 class SingleBusinessPage extends Component {
 	componentDidMount () {
-		const {getAllBusinesses} = this.props
-		getAllBusinesses()
+		const {getBusinessById} = this.props
+    getBusinessById()
 	}
 	render() {
 	  const {businessItems} = this.props
@@ -27,16 +27,19 @@ class SingleBusinessPage extends Component {
           Back
 				</NavLink>
         <p className="bp-title">{businessItem.title}</p>
-        <p className="bp-description">{businessItem.address}</p>
+        <p className="bp-address">{businessItem.address}</p>
         <p className="bp-description">{businessItem.description}</p>
-        <p className="bp-description">{businessItem.webSite}</p>
-        <p className="bp-description">{businessItem.phoneNumber}</p>
-        <p className="bp-description">{businessItem.mainPhoto}</p>
+        <p className="bp-site">{businessItem.webSite}</p>
+        <p className="bp-phone">{businessItem.phoneNumber}</p>
+        <p className="bp-main-photo">{businessItem.mainPhoto}</p>
         <div className="bp-categories">
           {[...businessItem.categories.map(item => <p className="bp-categories-info__text">{item.name}</p>)]}
         </div>
         <div className="bp-photos">
           {[...businessItem.photos.map(item => <p className="bp-photo__item">{item.photo}</p>)]}
+        </div>
+        <div className="bp-places">
+          <p className="bp-places__item">{businessItem.place.title}</p>
         </div>
 			</div>
 		);
@@ -53,7 +56,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		getAllBusinesses: () => dispatch(businessOperations.getAllBusinesses()),
+		getBusinessById: () => dispatch(businessOperations.getBusinessById()),
 	}
 }
 
