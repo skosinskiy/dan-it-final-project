@@ -66,15 +66,6 @@ const MenuProps = {
   }
 }
 
-// function getStyles (name, that) {
-//   return {
-//     fontWeight:
-//       that.props.user.roles.indexOf(name) === -1
-//         ? that.props.theme.typography.fontWeightRegular
-//         : that.props.theme.typography.fontWeightMedium
-//   }
-// }
-
 const permissions = Object.values(Grant)
 
 const emptyRole = {
@@ -178,7 +169,12 @@ class RoleForm extends React.Component {
 }
 
 RoleForm.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  getAllRoles: PropTypes.func.isRequired,
+  role: PropTypes.object.isRequired,
+  updateRole: PropTypes.func.isRequired,
+  saveNewRole: PropTypes.func.isRequired,
+  roleId: PropTypes.number.isRequired,
 }
 
 const mapStateToProps = (state, props) => {
