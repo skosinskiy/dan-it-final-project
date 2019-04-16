@@ -66,10 +66,10 @@ public class PlaceController {
 
   @PostMapping("/{placeId}/photos")
   @PreAuthorize("hasAuthority('MANAGE_PLACES')")
-  public ResponseEntity<PlaceResponse> addPhotosToPlace(
-      @RequestBody PlacePhotoRequest placePhotoRequest,
+  public ResponseEntity<PlaceResponse> createPlacePhotos(
+      @RequestBody List<PlacePhotoRequest> placePhotosRequest,
       @PathVariable("placeId") Long placeId) {
-    return new ResponseEntity<>(placeFacade.addPhoto(placePhotoRequest, placeId), HttpStatus.OK);
+    return new ResponseEntity<>(placeFacade.createPlacePhotos(placePhotosRequest, placeId), HttpStatus.OK);
   }
 
   @DeleteMapping("/{placeId}/photos/{photoId}")
