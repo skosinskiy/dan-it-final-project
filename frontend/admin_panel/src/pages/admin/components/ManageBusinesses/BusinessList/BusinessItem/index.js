@@ -86,7 +86,13 @@ class BusinessItem extends React.Component {
 }
 
 BusinessItem.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  usersListByEmail: PropTypes.array.isRequired,
+  changedUsersList: PropTypes.array.isRequired,
+  userRoles: PropTypes.array.isRequired,
+  updateUsersList: PropTypes.func.isRequired,
+
 }
 
 const mapStateToProps = (state) => {
