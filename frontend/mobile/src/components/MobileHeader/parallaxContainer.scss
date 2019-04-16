@@ -1,36 +1,42 @@
-.parallax-container{
-  width: 375px;
-  height: 100vh;
-  margin: 0 auto;
-  overflow-x: hidden;
-  overflow-y: auto;
-  perspective: 1px;
+@import '../../styles/variables';
+
+.parallax-header__items {
+  display: flex;
+  justify-content: space-between;
 }
 
-.parallax-group{
+.parallax-header__items__menu {
   position: relative;
-  height: 100vh;
-  transform-style: preserve-3d;
+  width: 5px;
+  height: 5px;
+  background-color: $white;
+  border-radius: 50%;
 }
 
-.parallax__layer {
+.parallax-header__items__menu:before, .parallax-header__items__menu:after {
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
   left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: inherit;
+  border-radius: inherit;
+  content: "";
 }
 
-.parallax__layer--content {
-  top: 223px;
-  background-color: #bcbcbc;
-  transform: translateZ(0);
+.parallax-header__items__menu:before {
+  top: 10px;
 }
 
-.parallax__layer--parallax-header{
-  top: -256px;
-  height: 224px;
-  // scale factor calculation (to maintain original element size):
-  // 1 + (translateZ * -1) / perspective
-  transform: translateZ(-1px) scale(2);
+.parallax-header__items__menu:after {
+  top: 20px;
+}
+
+.parallax-header__text__link {
+  margin: 0;
+  padding-bottom: 8px;
+  color: $dark-grey;
+  font-weight: 600;
+  font-size: 32px;
+  font-family: 'SF Compact Text';
+  text-align: left;
 }

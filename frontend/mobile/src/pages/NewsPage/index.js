@@ -1,6 +1,5 @@
 /* eslint-disable indent */
 import React, {Component} from 'react'
-import {ReactComponent as Camera} from '../../img/NewsPage/camera.svg'
 import NewsList from './NewsList'
 import MobileHeader from '../../components/MobileHeader'
 import headerImage from '../../img/NewsPage/news-menu-bg.svg'
@@ -39,8 +38,8 @@ class NewsPage extends Component {
   render () {
     return (
       <div className="newsPage parallax-container">
-        <div className="parallax-group">
-            <MobileHeader bgImage={headerImage}/>
+
+            <MobileHeader bgImage={headerImage} text='All news'/>
             <div className='parallax__layer parallax__layer--content'>
               <div className="newsPage__menu">
                 <div className="newsPage__menu__buttons">
@@ -52,7 +51,7 @@ class NewsPage extends Component {
               </div>
               <NewsList news={this.state.news} />
             </div>
-        </div>
+
       </div>
         
     )
