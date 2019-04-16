@@ -31,3 +31,42 @@
     transform: rotate(360deg);
   }
 }
+
+/* PARALLAX HEADER STYLES */
+
+.parallax-container{
+  width: 375px;
+  height: 100vh;
+  margin: 0 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  perspective: 1px;
+}
+
+.parallax-group{
+  position: relative;
+  height: 100vh;
+  transform-style: preserve-3d;
+}
+
+.parallax__layer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.parallax__layer--content {
+  background-color: #fff;
+  top: 223px;
+  transform: translateZ(0);
+}
+
+.parallax__layer--parallax-header{
+  top: -256px;
+  height: 224px;
+ /*scale factor calculation (to maintain original element size):
+   1 + (translateZ * -1) / perspective*/
+  transform: translateZ(-1px) scale(2);
+}

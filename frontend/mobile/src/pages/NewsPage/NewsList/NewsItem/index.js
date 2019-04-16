@@ -13,18 +13,21 @@ const NewsItem = (props) => {
   return (
     <div className={'news__item'}>
       <div className={'news__item__top'}>
-        <div className={'news__item__top__photo'}><NewsItemPhoto1 /><a href=' ' className="folder-btn"> </a></div>
+        <div className={'news__item__top__photo'}>
+          <NewsItemPhoto1 /><a href=' ' className='folder-btn' />
+        </div>
         <div className={'news__item__top__text'}>
-          <a href={link} className={'news__item__top__text__title'}>{(title)}</a><a href=' ' className="save-btn"> </a>
+          <a href={link} className={'news__item__top__text__title'}>{(title)}</a>
+          <a href=' ' className='save-btn' />
           <a href={link} className={'news__item__top__text__description'}>{shortify(description)}</a>
         </div>
       </div>
       <div className={'news__item__bottom'}>
-        <input className="news__item__bottom__input" type='text' placeholder='Comment'/>
-        <button className="news__item__bottom__btn"></button>
+        <input className='news__item__bottom__input' type='text' placeholder='Comment' />
+        <button className='news__item__bottom__btn' />
       </div>
     </div>
   )
 }
-  
+
 export default NewsItem
