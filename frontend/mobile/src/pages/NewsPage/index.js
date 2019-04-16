@@ -5,7 +5,6 @@ import MobileHeader from '../../components/MobileHeader'
 import headerImage from '../../img/NewsPage/news-menu-bg.svg'
 import './index.scss'
 
-
 class NewsPage extends Component {
   state = {
     news: [

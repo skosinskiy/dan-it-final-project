@@ -66,13 +66,13 @@
 
 .parallax__layer--parallax-header{
   position: absolute;
+  top: -256px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  padding: 44px 20px 15px;
-  top: -256px;
   height: 224px;
+  padding: 44px 20px 15px;
  /*scale factor calculation (to maintain original element size):
    1 + (translateZ * -1) / perspective*/
   transform: translateZ(-1px) scale(2);
