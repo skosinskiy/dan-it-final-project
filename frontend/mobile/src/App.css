@@ -31,3 +31,24 @@
     transform: rotate(360deg);
   }
 }
+
+/* PARALLAX HEADER STYLES ------------------------------------- */
+
+.parallax-container{
+  height: 100vh;
+  margin: 0 auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  perspective: 1px;
+
+}
+
+.parallax-section {
+  position: sticky;
+  top: -26vh;
+  width: 100vw;
+  height: 30vh;
+  margin: 0 auto;
+  background-color: red;
+  transform: translateZ(-1px) translateY(-117%) scale(2);
+}
