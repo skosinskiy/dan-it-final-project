@@ -9,5 +9,4 @@ const NewsList = ({news}) => {
     </ul>
   )
 }
-  
 export default NewsList
