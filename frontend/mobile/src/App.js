@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import AppRoutes from './components/AppRoutes'
-import NewsPage from './pages/NewsPage'
 import BottomMenu from './components/BottomMenu'
 import './App.css'
 
@@ -10,7 +9,6 @@ class App extends Component {
     return (
       <div className='App'>
         <AppRoutes />
-        <NewsPage />
         <BottomMenu />
       </div>
     )

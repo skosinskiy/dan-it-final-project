@@ -15,40 +15,34 @@ class BottomMenu extends Component {
 
     return (
       <div className="bottom__menu">
-        <div className="bottom__menu__item">
-          <NavLink
-            to="/places"
-            className={'bottom__menu__item__link'}
-          >
-            <PlacesLogo className="bottom__menu__item__logo"/>
-            <p className="bottom__menu__item__text">Places</p>
+        <div className="item">
+          <NavLink to="/places" className={`link ${path.startsWith('/places') && 'fill'}`}>
+            <PlacesLogo className="logo"/>
+            <p className="text">Places</p>
           </NavLink>
         </div>
-        <div className="bottom__menu__item">
-          <NavLink
-            to="/news"
-            className={`bottom__menu__item__link ${path.startsWith('/news') && 'bottom__menu__item__logo__fill'}`}
-          >
-            <NewsLogo className="bottom__menu__item__logo"/>
-            <p className="bottom__menu__item__text">News</p>
+        <div className="item">
+          <NavLink to="/news" className={`link ${path.startsWith('/news') && 'fill'}`}>
+            <NewsLogo className="logo"/>
+            <p className="text">News</p>
           </NavLink>
         </div>
-        <div className="bottom__menu__item">
-          <NavLink to="/messages" className="bottom__menu__item__link">
-            <MessagesLogo className="bottom__menu__item__logo"/>
-            <p className="bottom__menu__item__text">Messages</p>
+        <div className="item">
+          <NavLink to="/messages" className={`link ${path.startsWith('/messages') && 'fill'}`}>
+            <MessagesLogo className="logo"/>
+            <p className="text">Messages</p>
           </NavLink>
         </div>
-        <div className="bottom__menu__item">
-          <NavLink to="/favourites" className="bottom__menu__item__link">
-            <FavouritesLogo className="bottom__menu__item__logo"/>
-            <p className="bottom__menu__item__text">Favourites</p>
+        <div className="item">
+          <NavLink to="/favourites" className={`link ${path.startsWith('/favourites') && 'fill'}`}>
+            <FavouritesLogo className="logo"/>
+            <p className="text">Favourites</p>
           </NavLink>
         </div>
-        <div className="bottom__menu__item">
-          <NavLink to="/more" className="bottom__menu__item__link">
-            <MoreLogo className="bottom__menu__item__logo"/>
-            <p className="bottom__menu__item__text">More</p>
+        <div className="item">
+          <NavLink to="/more" className={`link ${path.startsWith('/more') && 'fill'}`}>
+            <MoreLogo className="logo"/>
+            <p className="text">More</p>
           </NavLink>
         </div>
       </div>
