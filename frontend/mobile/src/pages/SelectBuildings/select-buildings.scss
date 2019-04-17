@@ -1,0 +1,116 @@
+$header-height: 230px;
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  position: relative;
+  width: 100%;
+  height: $header-height;
+  background: linear-gradient(0deg, rgba(229, 241, 211, .2), rgba(229, 241, 211, .2)), url("https://i.lb.ua/121/60/5b1501c46a520.jpeg");
+  background-position: center;
+  background-size: cover;
+}
+
+.header-icon {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40%;
+  height: 50%;
+  padding-left: 20px;
+  background-color: #fcfcfc;
+  opacity: .6;
+
+  .header-title {
+    font-size: 32px;
+    text-align: left;
+  }
+
+  .header-description {
+    color: #979797;
+    font-size: 16px;
+    text-align: left;
+  }
+}
+
+.content {
+  position: absolute;
+  top: 220px;
+  width: 100%;
+  padding: 13px 0 0;
+  background-color: #FFFFFF;
+  border-radius: 16px;
+
+  .content-title {
+    padding-left: 20px;
+  }
+}
+
+.options {
+  padding: 0 20px;
+
+  &:before {
+    content: "";
+    display: block;
+    width: 31px;
+    height: 5px;
+    margin: 0 auto 13px;
+    background: #808080;
+    border-radius: 4px;
+  }
+}
+
+.options-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-weight: 700;
+
+  .options-title {
+    font-size: 22px;
+  }
+}
+
+.places {
+  position: relative;
+  min-height: 30vh;
+  margin-top: 15px;
+  color: #363636;
+  text-align: left;
+
+  .add-place_button {
+    position: absolute;
+    right: 20px;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    color: #7D7878;
+    font-size: 36px;
+    background: rgba(233, 240, 249, .5);
+    border: none;
+    border-radius: 50px;
+  }
+}
+
+.footer {
+  margin-top: 20px;
+  border-top: .5px solid #BDBDBD;
+}
+
+.footer-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px 34px;
+}
+
+.menu-item {
+  color: #787878;
+  font-size: 10px;
+  list-style: none;
+}

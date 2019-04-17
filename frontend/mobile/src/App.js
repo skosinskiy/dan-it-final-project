@@ -1,29 +1,16 @@
 import React, { Component } from 'react'
 import AppRoutes from './components/AppRoutes'
+import NewsPage from './pages/NewsPage'
 import BottomMenu from './components/BottomMenu'
 import './App.css'
 
 class App extends Component {
   render () {
+    // const Content1 = withHeader(anyComponent, image)
     return (
       <div className='App'>
-        {/* <header className="App-header"> */}
-        {/* <img src={logo} className="App-logo" alt="logo" /> */}
-        {/* <p> */}
-        {/* Edit <code>src/App.js</code> and save to reload. */}
-        {/* </p> */}
-        {/* <a */}
-        {/* className="App-link" */}
-        {/* href="https://reactjs.org" */}
-        {/* target="_blank" */}
-        {/* rel="noopener noreferrer" */}
-        {/* > */}
-        {/* Learn React */}
-        {/* </a> */}
-        {/* </header> */}
-        {/* <Preloader /> */}
-        {/* <NewsPage /> */}
         <AppRoutes />
+        <NewsPage />
         <BottomMenu />
       </div>
     )

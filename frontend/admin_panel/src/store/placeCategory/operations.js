@@ -27,10 +27,13 @@ export const realoadData = () => async dispatch => {
   ))
 }
 
-const createNewOrAddDefaults = ({ id, multisync = false, name = "EnterName", menuItems = [] } = {}) => ({
+const createNewOrAddDefaults = ({ id, multisync = false, name = "Display Name",
+  description = "Enter your desription here", menuItems = [] } = {}) =>
+({
   key: Math.random() * new Date().getTime(),
   id: id,
   multisync: multisync,
+  description: description,
   name: name,
   menuItems: menuItems
 })
@@ -63,6 +66,12 @@ export const updateChanged = (key, container) => dispatch => {
 export const updateMenuItems = (key, container, menuItems) => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(
     setValueToEntityField(key, container, 'menuItems', menuItems)
+  ))
+}
+
+export const updateDescription = (key, container, description) => dispatch => {
+  dispatch(ACTIONS.updatePlaceCategories(
+    setValueToEntityField(key, container, 'description', description)
   ))
 }
 

@@ -42,7 +42,6 @@ const emptyPLace = {
 class PlaceForm extends React.Component {
   constructor (props) {
     super(props)
-    console.log(props)
     this.state = {
       place: {...emptyPLace},
       placeImages: props.place !== undefined ? props.place.photos : []
@@ -222,6 +221,7 @@ PlaceForm.propTypes = {
   getAllPlaces: PropTypes.func.isRequired,
   categories: PropTypes.array.isRequired,
   placeId: PropTypes.number.isRequired,
+  match:  PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = (state, props) => {

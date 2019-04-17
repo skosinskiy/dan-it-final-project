@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 
 const rows = [
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
-  { id: 'menuItems', numeric: false, disablePadding: false, label: 'menuItems' },
+  { id: 'menuItems', numeric: false, disablePadding: false, label: 'MenuItems' },
   { id: 'delete', numeric: false, disablePadding: false, label: 'Delete' },
 ];
 
