@@ -173,7 +173,7 @@ VALUES
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'event-2', 'description-2', 2, 2, 'address2' );
 
 INSERT INTO event_photos
-  (id, date_created, date_modified, photo, event_id)
+  (id, date_created, date_modified, image_key, event_id)
 VALUES
   (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-1', 1 ),
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-2', 1 ),

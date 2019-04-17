@@ -1,0 +1,4 @@
+export const EVENT_REQUEST = 'EVENT_REQUEST'
+export const GET_ALL_EVENTS = 'GET_ALL_EVENTS'
+export const GET_EVENTS_BY_PLACE_ID = 'GET_EVENTS_BY_PLACE_ID'
+export const EVENT_ERROR = 'EVENT_ERROR'

@@ -1,5 +1,6 @@
 package com.danit.finalproject.application.service.event;
 
+import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.event.EventPhoto;
 import com.danit.finalproject.application.repository.event.EventRepository;
@@ -41,8 +42,7 @@ public class EventService implements CrudService<Event> {
   }
 
   public List<Event> findAllByLocation(Long placeId, Long businessId) {
-    return eventRepository.findAllByPlaceAndBusiness(placeService.getById(placeId), businessService
-        .getById(businessId));
+    return eventRepository.findByParams(placeId, businessId);
   }
 
   @Override
@@ -52,8 +52,22 @@ public class EventService implements CrudService<Event> {
 
   @Override
   public Event update(Long id, Event event) {
+    List<EventPhoto> updatedEventPhotos = event.getPhotos();
+    deleteEventPhotos(getById(id).getPhotos(), updatedEventPhotos);
+    updatedEventPhotos.forEach(eventPhoto -> eventPhoto.setEvent(event));
     event.setId(id);
     return eventRepository.save(event);
+  }
+
+  private void deleteEventPhotos(
+      List<EventPhoto> currentEventPhotos,
+      List<EventPhoto> updatedEventPhotos) {
+    currentEventPhotos
+        .stream()
+        .filter(currentEventPhoto -> updatedEventPhotos
+            .stream()
+            .noneMatch(businessPhoto -> currentEventPhoto.getImageKey().equals(businessPhoto.getImageKey())))
+        .forEach(businessPhoto -> eventPhotoService.deleteEventPhoto(businessPhoto));
   }
 
   @Override
@@ -81,5 +95,11 @@ public class EventService implements CrudService<Event> {
       optionalEventPhoto.ifPresent(photo -> eventPhotoService.deleteEventPhoto(photo));
     }
     return optionalEvent.orElse(null);
+  }
+
+  public Event createEventPhotos(List<EventPhoto> eventPhotos, Long eventId) {
+    Event event = getById(eventId);
+    event.setPhotos(eventPhotos);
+    return eventRepository.save(event);
   }
 }

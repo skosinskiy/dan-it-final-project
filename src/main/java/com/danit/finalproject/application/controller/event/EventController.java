@@ -1,5 +1,6 @@
 package com.danit.finalproject.application.controller.event;
 
+import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequest;
 import com.danit.finalproject.application.dto.request.event.EventPhotoRequest;
 import com.danit.finalproject.application.dto.request.event.EventRequest;
 import com.danit.finalproject.application.dto.response.event.EventResponse;
@@ -36,8 +37,8 @@ public class EventController {
 
   @GetMapping
   public ResponseEntity<List<EventResponse>> getAllEventsByBusinesses(
-      @RequestParam("place") Long placeId,
-      @RequestParam("business") Long businessId) {
+      @RequestParam(required = false, name = "place") Long placeId,
+      @RequestParam(required = false, name = "business") Long businessId) {
     return new ResponseEntity<>(eventFacade.getEvents(placeId, businessId), HttpStatus.OK);
   }
 
@@ -62,9 +63,9 @@ public class EventController {
   @PostMapping("/{eventId}/photos")
   @PreAuthorize("hasAuthority('MANAGE_EVENTS')")
   public ResponseEntity<EventResponse> addPhotosToEvent(
-      @RequestBody EventPhotoRequest eventPhotoRequest,
-      @PathVariable Long eventId) {
-    return new ResponseEntity<>(eventFacade.addPhoto(eventPhotoRequest, eventId), HttpStatus.OK);
+      @RequestBody List<EventPhotoRequest> eventPhotos,
+      @PathVariable("eventId") Long eventId) {
+    return new ResponseEntity<>(eventFacade.createEventPhotos(eventPhotos, eventId), HttpStatus.OK);
   }
 
   @DeleteMapping("/{eventId}/photos/{photoId}")

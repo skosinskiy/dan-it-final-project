@@ -8,6 +8,8 @@ import com.danit.finalproject.application.entity.event.EventPhoto;
 import com.danit.finalproject.application.facade.AbstractDtoFacade;
 import com.danit.finalproject.application.service.event.EventService;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,9 +28,12 @@ public class EventFacade extends AbstractDtoFacade<Event, EventRequest, EventRes
     return mapEntityListToResponseDtoList(events);
   }
 
-  public EventResponse addPhoto(EventPhotoRequest eventPhotoRequest, Long eventId) {
-    EventPhoto eventPhoto = modelMapper.map(eventPhotoRequest, EventPhoto.class);
-    Event updatedEvent = eventService.addPhoto(eventPhoto, eventId);
+  public EventResponse createEventPhotos(List<EventPhotoRequest> eventPhotosRequest, Long eventId) {
+    List<EventPhoto> eventPhotos = eventPhotosRequest
+        .stream()
+        .map(eventPhotoRequest -> modelMapper.map(eventPhotoRequest, EventPhoto.class))
+        .collect(Collectors.toList());
+    Event updatedEvent = eventService.createEventPhotos(eventPhotos, eventId);
     return mapEntityToResponseDto(updatedEvent);
   }
 

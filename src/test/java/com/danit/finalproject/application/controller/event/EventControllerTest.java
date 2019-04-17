@@ -168,7 +168,7 @@ public class EventControllerTest {
     String expectedName = "imageKey-5";
 
     EventPhoto eventPhoto = new EventPhoto();
-    eventPhoto.setPhoto(expectedName);
+    eventPhoto.setImageKey(expectedName);
 
     String placeCategoryJson = objectMapper.writeValueAsString(modelMapper.map(eventPhoto, EventPhotoRequest.class));
 
