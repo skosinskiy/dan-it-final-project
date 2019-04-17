@@ -9,6 +9,11 @@ import {connect} from 'react-redux'
 import {placesOperations} from '../../../../../../store/places'
 import {eventOperations} from "../../../../../../store/events";
 import ImageUploader from '../../../../../../components/ImageUploader'
+import {businessOperations} from "../../../../../../store/businesses";
+import MenuItem from '@material-ui/core/MenuItem'
+import Select from "@material-ui/core/Select";
+import Chip from "@material-ui/core/Chip";
+import Input from "@material-ui/core/Input";
 
 const styles = theme => ({
   container: {
@@ -59,8 +64,10 @@ class EventForm extends Component {
   }
 
   componentDidMount() {
-    const {getAllEvents} = this.props
+    const {getAllEvents, getAllBusinesses, getAllPlaces} = this.props
     getAllEvents()
+    getAllBusinesses()
+    getAllPlaces()
   }
 
   componentWillReceiveProps (nextProps) {
@@ -77,8 +84,11 @@ class EventForm extends Component {
   }
 
   handleChange = (event, propName) => {
-    if (propName === 'place'){
-      this.setState({place: event.target.value})
+    const {businesses, places} = this.props
+    if (propName === 'business'){
+      this.setState({editedEvent:{...this.state.editedEvent, business: businesses.find(business => business.id === event.target.value)}})
+    } else if (propName === 'place') {
+      this.setState({editedEvent:{...this.state.editedEvent, place: places.find(place => place.id === event.target.value)}})
     } else {
       this.setState({editedEvent: {...this.state.editedEvent, [propName]: event.target.value}})
     }
@@ -119,9 +129,25 @@ class EventForm extends Component {
   }
 
   render () {
-    console.log(this.state)
-    const {classes} = this.props
+    const {classes, businesses, places} = this.props
     const {editedEvent, eventImages} = this.state
+
+    const businessOptions = businesses
+      .concat([{}])
+      .map(business => (
+        <MenuItem key={business.id} value={business.id}>
+          {business.title}
+        </MenuItem>
+      ))
+
+    const placeOptions = places
+      .concat([{}])
+      .map(place => (
+        <MenuItem key={place.id} value={place.id}>
+          {place.title}
+        </MenuItem>
+      ))
+
     return (
       <div className={classes.container}>
         <TextField
@@ -157,7 +183,28 @@ class EventForm extends Component {
           value={editedEvent.address}
           onChange={(e) => this.handleChange(e, 'address')}
         />
+        <Select
+          multiple
+          value={places}
+          onChange={this.handleChange}
+          input={<Input id="select-multiple-chip"/>}
+          renderValue={selected => (
+            <div className={classes.chips}>
+              {selected.map(value => (
+                <Chip key={value.id} label={value.name} className={classes.chip}/>
+              ))}
+            </div>
+          )}
+          // MenuProps={MenuProps}
+        >
+          {places.map(role => (
+            <MenuItem key={role.id} value={role}>
+              {role.name}
+            </MenuItem>
+          ))}
+        </Select>
         <TextField
+          select
           label='Business'
           style={{margin: 8}}
           margin='normal'
@@ -165,10 +212,13 @@ class EventForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedEvent.business && editedEvent.business.title}
+          value={editedEvent.business && editedEvent.business.id}
           onChange={(e) => this.handleChange(e, 'business')}
-        />
+        >
+          {businessOptions}
+        </TextField>
         <TextField
+          select
           label='Place'
           style={{margin: 8}}
           margin='normal'
@@ -176,9 +226,11 @@ class EventForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedEvent.place && editedEvent.place.title}
+          value={editedEvent.place && editedEvent.place.id}
           onChange={(e) => this.handleChange(e, 'place')}
-        />
+        >
+          {placeOptions}
+        </TextField>
 
         <ImageUploader  images={eventImages}
                         onFileChange={this.onFileChange}
@@ -219,6 +271,8 @@ EventForm.propTypes = {
 const mapStateToProps = (state, props) => {
   const event = state.events.eventList.find(event => event.id.toString() === props.match.params.eventId)
   return {
+    businesses: state.businesses.businessList,
+    places: state.places.places,
     event: event
   }
 }
@@ -227,6 +281,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllEvents: () => dispatch(eventOperations.getAllEvents()),
     saveNewEvent: (event, images) => dispatch(eventOperations.saveNewEvent(event, images)),
+    getAllBusinesses: () => dispatch(businessOperations.getAllBusinesses()),
+    getAllPlaces: () => dispatch(placesOperations.getPlaces())
   }
 }
 

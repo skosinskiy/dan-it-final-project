@@ -21,6 +21,7 @@ const rows = [
   {id: 'title', numeric: true, disablePadding: false, label: 'Title'},
   {id: 'description', numeric: true, disablePadding: false, label: 'Description'},
   {id: 'address', numeric: true, disablePadding: false, label: 'Address'},
+  {id: 'category', numeric: true, disablePadding: false, label: 'Event Categories'},
   {id: 'business', numeric: true, disablePadding: false, label: 'Business'},
   {id: 'place', numeric: true, disablePadding: false, label: 'Place'},
   {id: 'editBtn', numeric: false, disablePadding: false, label: ' '},
@@ -94,7 +95,7 @@ class EventList extends React.Component {
 
   render () {
     const {classes, eventList, deleteEvent} = this.props
-
+    console.log(eventList)
     return (
       <div className={classes.root}>
         <Paper className={classes.root}>
@@ -123,6 +124,9 @@ class EventList extends React.Component {
                       </TableCell>
                       <TableCell padding="none" align="left">{event.description}</TableCell>
                       <TableCell padding="none" align="left">{event.address}</TableCell>
+                      <TableCell padding="none" align="left">
+                        {event.categories.map(category => category.name).join(", ")}
+                      </TableCell>
                       <TableCell padding="none" align="left">{event.business && event.business.title}</TableCell>
                       <TableCell padding="none" align="left">{event.place && event.place.title}</TableCell>
 
