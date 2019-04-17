@@ -45,11 +45,10 @@ class NewsPage extends Component {
     )
     return (
       <div className="newsPage parallax-container">
-            <MobileHeader bgImage={headerImage} text='All news' extra={menu}/>
+            <MobileHeader bgImage={headerImage} text='All news' extraComponent={menu}/>
             <div className='newsPage__content'>
               <NewsList news={this.state.news} />
             </div>
-
       </div>
         
     )

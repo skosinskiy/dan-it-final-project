@@ -8,7 +8,8 @@ class ParallaxHeader extends Component {
       backgroundImage: `url("${this.props.bgImage}")`,
       backgroundRepeat: 'no-repeat'
     }
-    const optionalComponent = this.props.extra
+    const optionalComponent = this.props.extraComponent
+    //const optionalIcon = this.props.extraIcon
     return (
       <div className='parallax-section header' style={style} >
         <div className='header-outer-container'>
