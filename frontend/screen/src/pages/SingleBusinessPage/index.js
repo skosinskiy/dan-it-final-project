@@ -9,17 +9,14 @@ import Preloader from '../../components/Preloader'
 class SingleBusinessPage extends Component {
 	componentDidMount () {
 		const {getBusinessById} = this.props
-    getBusinessById()
+    getBusinessById(this.props.match.params.id)
 	}
 	render() {
-	  const {businessItems} = this.props
-   
-    if (!businessItems) {
+	  const {businessItem} = this.props
+    debugger
+    if (!businessItem) {
       return <Preloader/>
     }
-    const businessItem = businessItems.find((item)=> {
-      return item.id === Number(this.props.match.params.id)
-    });
     
     return (
 			<div className="bp-wrapper">
@@ -49,14 +46,13 @@ class SingleBusinessPage extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    ...props,
-		businessItems: state.businesses.businessList.content
+		businessItem: state.businesses.businessItem
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		getBusinessById: () => dispatch(businessOperations.getBusinessById()),
+		getBusinessById: (id) => dispatch(businessOperations.getBusinessById(id)),
 	}
 }
 

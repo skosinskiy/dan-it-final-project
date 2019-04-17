@@ -20,6 +20,11 @@ const businessReducer = (state = initialState, action) => {
         ...state,
         businessList: action.payload.businessList,
       }
+    case TYPES.GET_ALL_BUSINESS_BY_ID:
+      return {
+        ...state,
+        businessItem: action.payload.businessItem,
+      }
     default:
       return state
   }

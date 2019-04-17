@@ -12,7 +12,7 @@ export const getAllBusinesses = () => dispatch => {
 
 export const getBusinessById = (id) => dispatch => {
   api.get(`/api/businesses/${id}`).then(res => {
-    dispatch(ACTIONS.getBusinessesByID({businessList: res}))
+    dispatch(ACTIONS.getBusinessesByID({businessItem: res}))
   }).catch(err => {
     dispatch(ACTIONS.getBusinessesError(err))
   })
