@@ -4,7 +4,6 @@ import './business-item.scss'
 class BusinessItem extends Component {
   render () {
     const {business} = this.props
-    console.log(business)
     return (
       <div className="business-item">
         <div className="photo" style={{backgroundImage: `url(${business.photo})`}}></div>

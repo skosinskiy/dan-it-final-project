@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import NewsPage from './pages/NewsPage'
+import AppRoute from './components/Router'
 import './App.css'
 
 class App extends Component {
@@ -21,7 +21,7 @@ class App extends Component {
         {/* </a> */}
         {/* </header> */}
         {/* <Preloader /> */}
-        <NewsPage />
+        <AppRoute />
       </div>
     )
   }
