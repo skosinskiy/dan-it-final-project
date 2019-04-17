@@ -96,6 +96,7 @@ SearchBar.propTypes = {
   searchtype: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   getUsersByEmail: PropTypes.func.isRequired,
+  getBusinessesByTile: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => {

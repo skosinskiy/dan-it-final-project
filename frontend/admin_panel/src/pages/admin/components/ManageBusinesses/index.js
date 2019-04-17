@@ -4,6 +4,8 @@ import BusinessList from './BusinessList'
 import Button from '@material-ui/core/Button'
 import {NavLink} from 'react-router-dom'
 import {withStyles} from '@material-ui/core/styles'
+import PropTypes from 'prop-types'
+
 
 import './manageBusinesses.scss'
 
@@ -32,6 +34,10 @@ class ManagingBusinesses extends Component {
       </div>
     )
   }
+}
+
+ManagingBusinesses.propTypes = {
+  classes: PropTypes.object.isRequired,
 }
 
 export default withStyles(styles)(ManagingBusinesses)
