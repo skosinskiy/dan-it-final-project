@@ -4,6 +4,10 @@
     flex-direction: column;
     height: 60vh;
   }
+  &-place-photo-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
   &_back-btn {
     font-size: 24px;
     font-family: 'Roboto', sans-serif;
@@ -20,25 +24,67 @@
       transform: rotate(-45deg);
     }
   }
-  &-title {
-    font-family: 'Roboto', sans-serif;
+
+  &__title {
     font-size: 24px;
+    font-family: 'Roboto', sans-serif;
     text-transform: uppercase;
+    margin-top: 20px;
   }
-  &-description {
-    font-family: 'Roboto', sans-serif;
 
-    &::before {
-      content: 'Description:';
-      margin-right: 10px;
+  &-info {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 20px;
+    &_text {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      &__description {
+        font-family: 'Roboto', sans-serif;
+
+        &::before {
+          content: 'Description:';
+          margin-right: 10px;
+        }
+      }
+      &__address {
+        font-family: 'Roboto', sans-serif;
+
+        &::before {
+          content: 'Address:';
+          margin-right: 10px;
+        }
+      }
+      &__phone {
+        margin-right: 20px;
+        &::before {
+          content: "☎";
+        }
+      }
+    }
+    &__photo {
+      object-fit: cover;
+      width: 200px;
+      height: 200px;
+    }
+    &__categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
     }
   }
-  &-address {
-    font-family: 'Roboto', sans-serif;
-
-    &::before {
-      content: 'Address:';
-      margin-right: 10px;
-    }
+  &-places {
+    display: flex;
+    flex-basis: 45%;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  &-photos {
+    display: flex;
+    flex-basis: 45%;
+    justify-content: space-between;
+    align-items: center;
   }
 }
