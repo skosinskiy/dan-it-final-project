@@ -32,10 +32,9 @@
   }
 }
 
-/* PARALLAX HEADER STYLES */
+/* PARALLAX HEADER STYLES ------------------------------------- */
 
 .parallax-container{
-  width: 375px;
   height: 100vh;
   margin: 0 auto;
   overflow-x: hidden;
@@ -50,32 +49,36 @@
   transform-style: preserve-3d;
 }*/
 
-.parallax__layer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+.parallax-section {
+  position: sticky;
+  top: -16vh;
+  width: 100vw;
+  height: 23vh;
+  margin: 0 auto;
+  background-color: red;
+  transform: translateZ(-1px) translateY(-168%) scale(2);
 }
 
-.parallax__layer--content {
+/*.newsPage__content {
   top: 223px;
   background-color: #fff;
   transform: translateZ(0);
-}
+}*/
 
-.parallax__layer--parallax-header{
+/*
+.header{
   position: absolute;
-  top: -256px;
+  top: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
   height: 224px;
   padding: 44px 20px 15px;
- /*scale factor calculation (to maintain original element size):
-   1 + (translateZ * -1) / perspective*/
+ !*scale factor calculation (to maintain original element size):
+   1 + (translateZ * -1) / perspective*!
   transform: translateZ(-1px) scale(2);
 }
+*/
 
 /* ---------------*/

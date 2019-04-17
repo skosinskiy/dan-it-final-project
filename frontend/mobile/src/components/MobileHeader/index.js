@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import './parallaxContainer.scss'
+import './mobileHeader.scss'
 import {ReactComponent as Camera} from '../../img/NewsPage/camera.svg'
 
 class ParallaxHeader extends Component {
@@ -9,13 +9,13 @@ class ParallaxHeader extends Component {
       backgroundRepeat: 'no-repeat'
     }
     return (
-      <div className='parallax__layer parallax__layer--parallax-header' style={style} >
-        <div className='parallax-header__items'>
+      <div className='parallax-section header' style={style} >
+        <div className='header-container'>
           <Camera />
-          <a href=' ' className='parallax-header__items__menu' > </a>
+          <a href=' ' className='header-menu' > </a>
         </div>
-        <div className='parallax-header__text'>
-          <p className='parallax-header__text__link'>{this.props.text}</p>
+        <div className='header-container__text-box'>
+          <p className='header-container__text-box--link'>{this.props.text}</p>
         </div>
       </div>
     )

@@ -1,11 +1,11 @@
 @import '../../styles/variables';
 
-.parallax-header__items {
+.header-container {
   display: flex;
   justify-content: space-between;
 }
 
-.parallax-header__items__menu {
+.header-menu {
   position: relative;
   width: 5px;
   height: 5px;
@@ -13,7 +13,7 @@
   border-radius: 50%;
 }
 
-.parallax-header__items__menu:before, .parallax-header__items__menu:after {
+.header-menu:before, .header-menu:after {
   position: absolute;
   left: 0;
   width: 100%;
@@ -23,15 +23,15 @@
   content: "";
 }
 
-.parallax-header__items__menu:before {
+.header-menu:before {
   top: 10px;
 }
 
-.parallax-header__items__menu:after {
+.header-menu:after {
   top: 20px;
 }
 
-.parallax-header__text__link {
+.header-container__text-box--link {
   margin: 0;
   padding-bottom: 8px;
   color: $dark-grey;
