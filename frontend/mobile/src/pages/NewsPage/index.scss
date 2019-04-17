@@ -1,9 +1,8 @@
 @import '../../styles/variables';
 
 .news-menu {
-    position: sticky;
-    top: 54px;
-   // z-index: 10;
+    position: relative;
+    
     display: flex;
     justify-content: space-around;
     margin-top: -15px;

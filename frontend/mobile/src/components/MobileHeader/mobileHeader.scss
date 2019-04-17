@@ -1,8 +1,21 @@
 @import '../../styles/variables';
+.header{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.header-outer-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+}
 
 .header-container {
   display: flex;
   justify-content: space-between;
+  margin: 50px 20px 0;
 }
 
 .header-menu {
@@ -32,11 +45,11 @@
 }
 
 .header-container__text-box--link {
-  margin: 0;
+  margin: 0 20px 20px;
   padding-bottom: 8px;
   color: $dark-grey;
   font-weight: 600;
   font-size: 32px;
-  font-family: 'SF Compact Text';
+  font-family: 'SF Compact Text', sans-serif;
   text-align: left;
 }
