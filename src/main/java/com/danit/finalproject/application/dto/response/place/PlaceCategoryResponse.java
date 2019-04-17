@@ -11,5 +11,5 @@ public class PlaceCategoryResponse {
   private String name;
   private boolean multisync;
   private List<MenuItem> menuItems;
-
+  private String description;
 }
