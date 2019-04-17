@@ -27,7 +27,8 @@ export const realoadData = () => async dispatch => {
   ))
 }
 
-const createNewOrAddDefaults = ({ id, multisync = false, name, description, menuItems = [] } = {}) =>
+const createNewOrAddDefaults = ({ id, multisync = false, name = "Display Name",
+  description = "Enter your desription here", menuItems = [] } = {}) =>
 ({
   key: Math.random() * new Date().getTime(),
   id: id,

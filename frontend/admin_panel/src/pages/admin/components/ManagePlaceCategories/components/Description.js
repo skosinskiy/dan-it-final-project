@@ -29,7 +29,7 @@ class Desciption extends Component {
             id="outlined-full-width"
             label="Desciption"
             style={{ margin: 0, marginTop: 10 }}
-            placeholder={description || "Enter your desription here"}
+            placeholder={ description }
             helperText=" "
             fullWidth
             onClick={(event) => this.handleClickDescription(event)}

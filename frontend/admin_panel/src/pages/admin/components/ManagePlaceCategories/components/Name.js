@@ -50,7 +50,7 @@ class OutlinedTextFields extends Component {
           disabled = {this.state.isDisabled}
           id="outlined-bare"
           className={classes.textField}
-          defaultValue={name || "Enter name"}
+          defaultValue={name}
           margin="normal"
           variant="outlined"
           onClick={this.handleOnClick}

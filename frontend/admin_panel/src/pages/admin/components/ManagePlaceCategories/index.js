@@ -80,7 +80,7 @@ class EnhancedTable extends React.Component {
                           <Checkbox checked={multisync} onClick={() => this.handleClickCheckBox(key)} />
                         </TableCell>
                         <TableCell scope="row" padding="none">
-                          <Name placeholder="DisplayName" name={name} placeCategoryKey={key} />
+                          <Name name={name} placeCategoryKey={key} />
                         </TableCell>
                         <TableCell scope="row" padding="none">
                           <MultiSelect
