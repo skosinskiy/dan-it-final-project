@@ -1,8 +1,8 @@
 .contact-list__list-item {
   display: flex;
-  padding: 0 20px;
   height: 70px;
   margin: 5px 0;
+  padding: 0 20px;
   border-radius: 8px;
   -webkit-box-shadow: 6px 4px 4px 0px rgba(0,0,0,.1);
   -moz-box-shadow: 6px 4px 4px 0px rgba(0,0,0,.1);
@@ -16,8 +16,8 @@
 
   .list-item__text-container {
     display: flex;
-    flex-direction: column;
     flex-grow: 1;
+    flex-direction: column;
     margin: 15px 0;
     padding-left: 20px;
     font-family: "SF Compact Text", sans-serif;
@@ -34,9 +34,9 @@
 
     .text-container__location{
       align-self: start;
+      color: #979797;
       font-weight: bold;
       font-size: 15px;
-      color: #979797;
     }
   }
 }

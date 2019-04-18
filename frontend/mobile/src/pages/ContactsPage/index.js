@@ -24,7 +24,7 @@ class ContactsPage extends Component {
       {name: 'Leto', surname: 'Atreides', location: 'Silver Breeze', image: contactIcon1},
       {name: 'Leto', surname: 'Atreides', location: 'Silver Breeze', image: contactIcon1},
       {name: 'Leto', surname: 'Atreides', location: 'Silver Breeze', image: contactIcon1},
-      {name: 'Leto', surname: 'Atreides', location: 'Silver Breeze', image: contactIcon1},
+      {name: 'Leto', surname: 'Atreides', location: 'Silver Breeze', image: contactIcon1}
     ]
   }
 

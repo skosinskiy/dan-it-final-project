@@ -3,7 +3,6 @@ import ContactItem from './ContactItem'
 import './contact-list.scss'
 
 class ContactList extends Component {
-
   render () {
     return (
       <ul className='contact-list'>
