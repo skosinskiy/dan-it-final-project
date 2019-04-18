@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import ContactItem from './ContactItem'
+import './contact-list.scss'
 
 class ContactList extends Component {
 
