@@ -1,5 +1,6 @@
 package com.danit.finalproject.application.service.place;
 
+import com.danit.finalproject.application.entity.business.BusinessPhoto;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.repository.place.PlaceRepository;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PlaceService implements CrudService<Place> {
@@ -37,23 +39,38 @@ public class PlaceService implements CrudService<Place> {
 
   @Override
   public Place update(Long id, Place place) {
+    List<PlacePhoto> updatedPlacePhotos = place.getPhotos();
+    deletePlacePhotos(getById(id).getPhotos(), updatedPlacePhotos);
+    updatedPlacePhotos.forEach(businessPhoto -> businessPhoto.setPlace(place));
     place.setId(id);
     return placeRepository.save(place);
+  }
+
+  private void deletePlacePhotos(
+      List<PlacePhoto> currentPlacePhotos,
+      List<PlacePhoto> updatedPlacePhotos) {
+    currentPlacePhotos
+        .stream()
+        .filter(currentBusinessPhoto -> updatedPlacePhotos
+            .stream()
+            .noneMatch(businessPhoto -> currentBusinessPhoto.getImageKey().equals(businessPhoto.getImageKey())))
+        .forEach(businessPhoto -> placePhotoService.deletePlacePhoto(businessPhoto));
   }
 
   @Override
   public Place delete(Long id) {
     Place place = placeRepository.findById(id).orElse(null);
+    if (place != null) {
+      place.getPhotos().forEach(placePhoto -> placePhotoService.deletePlacePhoto(placePhoto));
+    }
     placeRepository.deleteById(id);
     return place;
   }
 
-  public Place addPhoto(PlacePhoto placePhoto, Long placeId) {
-    Optional<Place> optionalPlace = placeRepository.findById(placeId);
-    optionalPlace.ifPresent(place -> place.getPhotos().add(placePhoto));
-    Place place = optionalPlace.orElse(null);
-    placeRepository.save(place);
-    return place;
+  public Place createPlacePhotos(List<PlacePhoto> placePhotos, Long placeId) {
+    Place place = getById(placeId);
+    place.setPhotos(placePhotos);
+    return placeRepository.save(place);
   }
 
   public Place deletePlacePhoto(Long placeId, Long photoId) {

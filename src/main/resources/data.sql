@@ -81,10 +81,10 @@ VALUES
 -- place
 
 INSERT INTO places_categories
-  (id, date_created, date_modified, name, multisync)
+  (id, date_created, date_modified, name, description, multisync)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-1', 1),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-2', 0 );
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-1', 'this is test description for cat 1', 1),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-2', 'this is test description for cat 2', 0 );
 
 INSERT INTO places
   (id, date_created, date_modified, title, description, address, place_category)
@@ -93,12 +93,12 @@ VALUES
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-2', 'description-2', 'address-2', 2 );
 
 INSERT INTO places_photos
-  (id, date_created, date_modified, photo, place_id)
+  (id, date_created, date_modified, image_key, place_id)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-1', 1),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-2', 1),
-  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-3', 2),
-  (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-4', 2);
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-1', 1),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-2', 1),
+  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-3', 2),
+  (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-4', 2);
 
 INSERT INTO placecategories_menuitems
   (place_category_id, menu_item_id)
@@ -144,12 +144,12 @@ VALUES
   (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-3', 'description-3', 'address3', 'site3.com.ua', '067-123-12-49', 1 );
 
 INSERT INTO business_photos
-  (id, date_created, date_modified, photo, business_id)
+  (id, date_created, date_modified, image_key, business_id)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-1', 1 ),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-2', 1 ),
-  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-3', 2 ),
-  (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-4', 2 );
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-1', 1 ),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-2', 1 ),
+  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-3', 2 ),
+  (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-4', 2 );
 
 INSERT INTO businesses_categories
   (business_id, category_id)
@@ -175,10 +175,10 @@ VALUES
 INSERT INTO event_photos
   (id, date_created, date_modified, photo, event_id)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-1', 1 ),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-2', 1 ),
-  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-3', 2 ),
-  (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'photo-4', 2 );
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-1', 1 ),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-2', 1 ),
+  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-3', 2 ),
+  (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-4', 2 );
 INSERT INTO events_categories
   (event_id, category_id)
 VALUES

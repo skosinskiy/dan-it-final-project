@@ -45,7 +45,7 @@
     "stylelint-build": "stylelint \"src/**/*.*css\"",
     "watch-styles-sass": "npm-watch",
     "stylelint-fix-sass": "stylelint --fix \"src/**/*.scss\"",
-    "eslint-build": "eslint src/**/*.js"
+    "eslint-build": "eslint \"src/**/*.js\""
   },
   "eslintConfig": {
     "extends": "react-app"

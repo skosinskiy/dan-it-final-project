@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField'
 import {connect} from 'react-redux'
 import {placesOperations} from '../../../../../../store/places'
 import {businessOperations} from "../../../../../../store/businesses";
+import ImageUploader from '../../../../../../components/ImageUploader'
 
 const styles = theme => ({
   container: {
@@ -56,8 +57,10 @@ class BusinessForm extends Component {
 
     this.state = {
       editedBusiness: props.business !== undefined ? props.business : emptyBusiness,
-      place: undefined
+      place: undefined,
+      businessImages: props.business !== undefined ? props.business.photos : []
     }
+
   }
 
   componentDidMount() {
@@ -79,38 +82,60 @@ class BusinessForm extends Component {
 
   saveBusiness = () => {
     const {saveNewBusiness} = this.props
-    const {place} = this.state
+    const {place, businessImages} = this.state
     const placeObject = this.getSpecificPlace(place)
     const toastrOptions = {timeoOut: 6000}
 
     placeObject !== null
-      ? saveNewBusiness({...this.state.editedBusiness, place: placeObject})
+      ? saveNewBusiness({...this.state.editedBusiness, place: placeObject}, businessImages)
       : toastr.error('Error', 'Provided PlaceID does not exist in DB. Please create a new place first', toastrOptions)
   }
 
   handleChange = (event, propName) => {
     if (propName === 'place'){
-      // const {editedBusiness} = this.state
-      // if(editedBusiness.place !== undefined){
-      //   this.setState(editedBusiness => ({
-      //       ...editedBusiness,
-      //       place:{
-      //         ...editedBusiness.place,
-      //         id:event.target.value}
-      //     })
-      //   )
-      // } else {
-      //   this.setState({place: event.target.value})
-      // }
       this.setState({place: event.target.value})
     } else {
       this.setState({editedBusiness: {...this.state.editedBusiness, [propName]: event.target.value}})
     }
   }
 
+  onFileChange = (images) => {
+    const newBusinessImages = images.map((file) => Object.assign(file, {
+      imageUrl: URL.createObjectURL(file),
+      imageKey: null
+    }))
+
+    this.setState((state) => {
+      return {
+        businessImages: [...state.businessImages, ...newBusinessImages]
+      }
+    })
+  }
+
+  onMainPhotoSelect = (selectedImage) => {
+    const newBusinessImages = this.state.businessImages.map(image => {
+      image.isMainImage = image === selectedImage
+      return image
+    })
+
+    this.setState(() => {
+      return {
+        businessImages: newBusinessImages
+      }
+    })
+  }
+
+  onImageReset = (image) => {
+    const newBusinessImages = this.state.businessImages.filter(elem => elem !== image)
+    this.setState({
+      ...this.state,
+      businessImages: newBusinessImages,
+    })
+  }
+
   render () {
     const {classes} = this.props
-    const {editedBusiness, place} = this.state
+    const {editedBusiness, place, businessImages} = this.state
     return (
       <div className={classes.container}>
         <TextField
@@ -179,6 +204,12 @@ class BusinessForm extends Component {
           value={place}
           onChange={(e) => this.handleChange(e, 'place')}
         />
+
+        <ImageUploader  images={businessImages}
+                        onFileChange={this.onFileChange}
+                        onReset={this.onImageReset}
+                        onMainPhotoSelect={this.onMainPhotoSelect} />
+
         <div className={classes.buttons}>
           <NavLink to={'/admin/businesses'} className={classes.buttonLink}>
             <Button
@@ -202,7 +233,11 @@ class BusinessForm extends Component {
 }
 
 BusinessForm.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  business: PropTypes.object.isRequired,
+  places: PropTypes.object.isRequired,
+  saveNewBusiness: PropTypes.func.isRequired,
+  getPlaces: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, props) => {
@@ -217,7 +252,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getPlaces: () => dispatch(placesOperations.getPlaces()),
-    saveNewBusiness: (business) => dispatch(businessOperations.saveNewBusiness(business)),
+    saveNewBusiness: (business, images) => dispatch(businessOperations.saveNewBusiness(business, images)),
   }
 }
 

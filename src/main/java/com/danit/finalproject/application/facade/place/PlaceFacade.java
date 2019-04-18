@@ -10,6 +10,9 @@ import com.danit.finalproject.application.service.place.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class PlaceFacade extends AbstractDtoFacade<Place, PlaceRequest, PlaceResponse> {
 
@@ -21,9 +24,12 @@ public class PlaceFacade extends AbstractDtoFacade<Place, PlaceRequest, PlaceRes
     this.placeService = placeService;
   }
 
-  public PlaceResponse addPhoto(PlacePhotoRequest placePhotoRequest, Long placeId) {
-    PlacePhoto placePhoto = modelMapper.map(placePhotoRequest, PlacePhoto.class);
-    Place updatedPlace = placeService.addPhoto(placePhoto, placeId);
+  public PlaceResponse createPlacePhotos(List<PlacePhotoRequest> placePhotosRequest, Long placeId) {
+    List<PlacePhoto> placePhotos = placePhotosRequest
+        .stream()
+        .map(placePhotoRequest -> modelMapper.map(placePhotoRequest, PlacePhoto.class))
+        .collect(Collectors.toList());
+    Place updatedPlace = placeService.createPlacePhotos(placePhotos, placeId);
     return mapEntityToResponseDto(updatedPlace);
   }
 

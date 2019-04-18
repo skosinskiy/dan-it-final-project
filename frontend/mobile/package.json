@@ -5,6 +5,7 @@
   "dependencies": {
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.5"
   },
   "devDependencies": {
@@ -34,7 +35,7 @@
     "stylelint-build": "stylelint \"src/**/*.*css\"",
     "watch-styles-sass": "npm-watch",
     "stylelint-fix-sass": "stylelint --fix \"src/**/*.scss\"",
-    "eslint-build": "eslint src/**/*.js"
+    "eslint-build": "eslint \"src/**/*.js\""
   },
   "eslintConfig": {
     "extends": "react-app"

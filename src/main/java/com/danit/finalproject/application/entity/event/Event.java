@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -43,7 +44,7 @@ public class Event extends BaseEntity {
   @JoinColumn(name = "main_photo")
   private EventPhoto mainPhoto;
 
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "event")
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "event")
   @ToString.Exclude
   private List<EventPhoto> photos;
 

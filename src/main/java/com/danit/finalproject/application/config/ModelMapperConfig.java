@@ -1,17 +1,16 @@
 package com.danit.finalproject.application.config;
 
 import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponse;
+import com.danit.finalproject.application.dto.response.business.BusinessPhotoResponse;
 import com.danit.finalproject.application.dto.response.event.EventCategoryResponse;
+import com.danit.finalproject.application.dto.response.place.PlacePhotoResponse;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
-import com.danit.finalproject.application.entity.event.Event;
+import com.danit.finalproject.application.entity.business.BusinessPhoto;
 import com.danit.finalproject.application.entity.event.EventCategory;
+import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.service.AmazonS3Service;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
-import org.modelmapper.TypeMap;
-import org.modelmapper.spi.DestinationSetter;
-import org.modelmapper.spi.SourceGetter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,19 +27,17 @@ public class ModelMapperConfig {
   }
 
   public void initializeModelMapper() {
+    addBusinessCategoryMapping();
+    addEventCategoryMapping();
+    addBusinessPhotoMapping();
+    addPlacePhotoMapping();
+  }
+
+  private void addBusinessCategoryMapping() {
     modelMapper.addMappings(new PropertyMap<BusinessCategory, BusinessCategoryResponse>() {
       @Override
       protected void configure() { }
     });
-    modelMapper.addMappings(new PropertyMap<EventCategory, EventCategoryResponse>() {
-      @Override
-      protected void configure() { }
-    });
-    addBusinessCategoryMapping();
-    addEventCategoryMapping();
-  }
-
-  private void addBusinessCategoryMapping() {
     modelMapper.getTypeMap(BusinessCategory.class, BusinessCategoryResponse.class)
         .setPostConverter(context -> {
           BusinessCategoryResponse destination = context.getDestination();
@@ -54,10 +51,48 @@ public class ModelMapperConfig {
   }
 
   private void addEventCategoryMapping() {
+    modelMapper.addMappings(new PropertyMap<EventCategory, EventCategoryResponse>() {
+      @Override
+      protected void configure() { }
+    });
     modelMapper.getTypeMap(EventCategory.class, EventCategoryResponse.class)
         .setPostConverter(context -> {
           EventCategoryResponse destination = context.getDestination();
           EventCategory source = context.getSource();
+          String imageKey = source.getImageKey();
+          if (imageKey != null) {
+            destination.setImageUrl(amazonS3Service.getUrlFromFileKey(imageKey));
+          }
+          return destination;
+        });
+  }
+
+  private void addBusinessPhotoMapping() {
+    modelMapper.addMappings(new PropertyMap<BusinessPhoto, BusinessPhotoResponse>() {
+      @Override
+      protected void configure() { }
+    });
+    modelMapper.getTypeMap(BusinessPhoto.class, BusinessPhotoResponse.class)
+        .setPostConverter(context -> {
+          BusinessPhotoResponse destination = context.getDestination();
+          BusinessPhoto source = context.getSource();
+          String imageKey = source.getImageKey();
+          if (imageKey != null) {
+            destination.setImageUrl(amazonS3Service.getUrlFromFileKey(imageKey));
+          }
+          return destination;
+        });
+  }
+
+  private void addPlacePhotoMapping() {
+    modelMapper.addMappings(new PropertyMap<PlacePhoto, PlacePhotoResponse>() {
+      @Override
+      protected void configure() { }
+    });
+    modelMapper.getTypeMap(PlacePhoto.class, PlacePhotoResponse.class)
+        .setPostConverter(context -> {
+          PlacePhotoResponse destination = context.getDestination();
+          PlacePhoto source = context.getSource();
           String imageKey = source.getImageKey();
           if (imageKey != null) {
             destination.setImageUrl(amazonS3Service.getUrlFromFileKey(imageKey));

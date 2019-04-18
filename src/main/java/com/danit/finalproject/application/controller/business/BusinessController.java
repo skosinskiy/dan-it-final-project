@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/businesses")
 public class BusinessController {
@@ -68,14 +70,15 @@ public class BusinessController {
 
   @PostMapping("/{businessId}/photos")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
-  public ResponseEntity<BusinessResponse> addPhotosToBusiness(
-          @RequestBody BusinessPhotoRequest businessPhotoRequest,
+  public ResponseEntity<BusinessResponse> createBusinessPhotos(
+          @RequestBody List<BusinessPhotoRequest> businessPhotos,
           @PathVariable("businessId") Long businessId) {
-    return new ResponseEntity<>(businessFacade.addPhoto(businessPhotoRequest, businessId), HttpStatus.OK);
+    return new ResponseEntity<>(businessFacade.createBusinessPhotos(businessPhotos, businessId), HttpStatus.OK);
   }
 
   @DeleteMapping("/{businessId}/photos/{photoId}")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
+  //TODO research is this method necessary
   public ResponseEntity<BusinessResponse> deletePhoto(
           @PathVariable Long businessId,
           @PathVariable("photoId") Long photoId) {

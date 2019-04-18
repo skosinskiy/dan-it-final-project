@@ -215,7 +215,7 @@ public class UserControllerTest {
 
 		assertNotNull(user.getToken());
 		assertNotEquals(token, user.getToken());
-		assertTrue(user.getTokenExpirationDate().getTime() - currentTime > UserService.DAY_MILLISECONDS_COUNT);
+		assertTrue(user.getTokenExpirationDate().getTime() - currentTime >= UserService.DAY_MILLISECONDS_COUNT);
 		verify(emailService, times(1))
 				.sendSimpleMessage(eq(userEmail), eq(UserService.PASS_RECOVERY_EMAIL_SUBJECT), anyString());
 	}
