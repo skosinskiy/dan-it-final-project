@@ -2,7 +2,7 @@ import api from '../../helpers/FetchData'
 import * as ACTIONS from './actions'
 
 export const getAllBusinesses = () => dispatch => {
-  api.get(`/api/businesses`).then(res => {
+  return api.get(`/api/businesses`).then(res => {
     dispatch(ACTIONS.getAllBusinesses({businessList: res.content}))
   }).catch(err => {
     dispatch(ACTIONS.getBusinessesError(err))

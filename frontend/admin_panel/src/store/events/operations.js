@@ -16,7 +16,7 @@ export const fetchEventFormData = () => dispatch => {
 }
 
 export const getAllEvents = () => dispatch => {
-  api.get(`/api/events`).then(res => {
+  return api.get(`/api/events`).then(res => {
     dispatch(ACTIONS.getAllEvents({eventList: res}))
   }).catch(err => {
     dispatch(ACTIONS.getEventsError(err))
