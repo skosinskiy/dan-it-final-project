@@ -44,10 +44,10 @@
 
 .parallax-section {
   position: sticky;
-  top: -26vh;
+  top: -310px;
   width: 100vw;
-  height: 30vh;
+  height: 237px;
   margin: 0 auto;
   background-color: red;
-  transform: translateZ(-1px) translateY(-117%) scale(2);
+  transform: translateZ(-1px) translateY(-135%) scale(2);
 }
