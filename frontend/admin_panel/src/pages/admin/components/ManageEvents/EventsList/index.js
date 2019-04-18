@@ -11,11 +11,8 @@ import Button from '@material-ui/core/Button'
 import TableRow from '@material-ui/core/TableRow'
 import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Paper from '@material-ui/core/Paper'
-import Tooltip from '@material-ui/core/Tooltip'
 
 import {eventOperations} from '../../../../../store/events'
-
-// import './eventList.scss'
 
 const rows = [
   {id: 'title', numeric: true, disablePadding: false, label: 'Title'},
@@ -34,23 +31,19 @@ class EnhancedTableHead extends React.Component {
       <TableHead>
         <TableRow>
           {rows.map(
-            row => (
+            row => {
+              return (
               <TableCell
                 key={row.id}
                 align={row.id === 'roles' ? 'right' : 'left'}
                 padding='none'
               >
-                <Tooltip
-                  title="Sort"
-                  placement={row.numeric ? 'bottom-end' : 'bottom-start'}
-                  enterDelay={300}
-                >
                   <TableSortLabel>
                     {row.label}
                   </TableSortLabel>
-                </Tooltip>
+
               </TableCell>
-            ),
+            )},
             this
           )}
         </TableRow>
@@ -86,21 +79,25 @@ const styles = theme => ({
 })
 
 class EventList extends React.Component {
-  state = {
-  }
-
-  componentDidMount () {
-    this.props.getAllEvents()
-  }
 
   render () {
     const {classes, eventList, deleteEvent} = this.props
-    console.log(eventList)
+
     return (
       <div className={classes.root}>
         <Paper className={classes.root}>
           <div className={classes.tableWrapper}>
             <Table className={classes.table} aria-labelledby="tableTitle">
+              <colgroup>
+                <col style={{width:'6%'}}/>
+                <col style={{width:'6%'}}/>
+                <col style={{width:'6%'}}/>
+                <col style={{width:'12%'}}/>
+                <col style={{width:'6%'}}/>
+                <col style={{width:'6%'}}/>
+                <col style={{width:'5%'}}/>
+                <col style={{width:'5%'}}/>
+              </colgroup>
               <EnhancedTableHead
                 rowCount={eventList.length}
               />
@@ -160,23 +157,20 @@ class EventList extends React.Component {
 
 EventList.propTypes = {
   classes: PropTypes.object.isRequired,
-  getAllEvents: PropTypes.func.isRequired,
   deleteEvent: PropTypes.func.isRequired,
-  updatePaginationPage: PropTypes.func.isRequired,
-  eventList: PropTypes.array.isRequired,
+  eventList: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
     eventList: state.events.eventList,
-    totalElements: state.events.totalElements,
+    totalElements: state.events.totalElements
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteEvent: (eventId) => dispatch(eventOperations.deleteEvent(eventId)),
-    getAllEvents: () => dispatch(eventOperations.getAllEvents()),
+    deleteEvent: (eventId) => dispatch(eventOperations.deleteEvent(eventId))
   }
 }
 

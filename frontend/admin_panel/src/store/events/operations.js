@@ -5,26 +5,27 @@ import {getAllEventCategories} from "../eventCategory/operations";
 import {getPlaces} from "../places/operations";
 
 export const fetchEventFormData = () => dispatch => {
-  dispatch(ACTIONS.isLoading(true))
+  dispatch(ACTIONS.isEventFormDataLoading(true))
   Promise.all([
     dispatch(getAllEvents()),
     dispatch(getAllEventCategories()),
     dispatch(getAllBusinesses()),
     dispatch(getPlaces())
-  ])
-    .then(dispatch(ACTIONS.isLoading(false)))
+  ]).then(() => dispatch(ACTIONS.isEventFormDataLoading(false)))
 }
 
 export const getAllEvents = () => dispatch => {
+  dispatch(ACTIONS.isEventDataLoading(true))
   return api.get(`/api/events`).then(res => {
+    console.log(res)
     dispatch(ACTIONS.getAllEvents({eventList: res}))
+    dispatch(ACTIONS.isEventDataLoading(false))
   }).catch(err => {
     dispatch(ACTIONS.getEventsError(err))
   })
 }
 
 export const getEventsByPlaceID = (placeId) => dispatch => {
-  // dispatch(ACTIONS.getEventsRequest())
   api.get(`/api/events?place=${placeId}`).then(res => {
     dispatch(ACTIONS.getEventsByPlaceID({eventList: res}))
   }).catch(err => {
@@ -32,15 +33,7 @@ export const getEventsByPlaceID = (placeId) => dispatch => {
   })
 }
 
-export const getEventsByTitle = (title) => dispatch => {
-  api.get(`/api/events?title=${title}`).then(res => {
-    dispatch(ACTIONS.getAllEvents({eventList: res}))
-  }).catch(err => {
-    dispatch(ACTIONS.getEventsError(err))
-  })
-}
-
-export const deleteBusiness = (eventId) => dispatch => {
+export const deleteEvent = (eventId) => dispatch => {
   api.deleteApi(`/api/events/${eventId}`).then(res => {
     api.get(`/api/events`).then(res => {
       dispatch(ACTIONS.getAllEvents({eventList: res}))
@@ -51,20 +44,21 @@ export const deleteBusiness = (eventId) => dispatch => {
 }
 
 export const saveNewEvent = (event, images) => dispatch => {
+  dispatch(ACTIONS.isEventFormDataLoading(true))
   if (event.id) {
     const imagesToUpload = images.filter(image => !image.id)
     const existingImages = images.filter(image => image.id)
-    uploadImagesToS3(imagesToUpload)
-      .then(uploadedImages => createBusinessPhotos(uploadedImages, event.id)
-          .then(createdPhotos => updateBusiness(existingImages, event, createdPhotos)
+    return uploadImagesToS3(imagesToUpload)
+      .then(uploadedImages => createEventPhotos(uploadedImages, event.id)
+          .then(createdPhotos => updateEvent(existingImages, event, createdPhotos)
             .then(() => dispatch(getAllEvents()))
           )
       )
   } else {
-    createBusiness(event)
+    return createEvent(event)
       .then(createdBusiness => uploadImagesToS3(images)
-        .then(uploadedImages => createBusinessPhotos(uploadedImages, createdBusiness.id)
-          .then(createdPhotos => updateBusiness(null, createdBusiness, createdPhotos)
+        .then(uploadedImages => createEventPhotos(uploadedImages, createdBusiness.id)
+          .then(createdPhotos => updateEvent(null, createdBusiness, createdPhotos)
             .then(() => dispatch(getAllEvents()))
           )
         )
@@ -81,17 +75,17 @@ const uploadImagesToS3 = (imagesToUpload) => {
     }))
 }
 
-const createBusinessPhotos = (s3UploadResponse, eventId) => {
+const createEventPhotos = (s3UploadResponse, eventId) => {
   const array = []
   s3UploadResponse.forEach(file => array.push({imageKey: file.fileKey}))
   return api.post(`/api/events/${eventId}/photos`, array)
 }
 
-const updateBusiness = (existingImages, event, createdPhotos) => {
+const updateEvent = (existingImages, event, createdPhotos) => {
   event.photos = existingImages ? existingImages.concat(createdPhotos.photos) : createdPhotos.photos
   return api.put(`/api/events/${event.id}`, event)
 }
 
-const createBusiness = (event) => {
+const createEvent = (event) => {
   return api.post(`/api/events`, event)
 }

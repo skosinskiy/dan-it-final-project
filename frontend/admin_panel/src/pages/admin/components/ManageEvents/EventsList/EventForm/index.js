@@ -5,13 +5,10 @@ import {withStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import {connect} from 'react-redux'
-import {placesOperations} from '../../../../../../store/places'
 import {eventOperations} from "../../../../../../store/events";
 import ImageUploader from '../../../../../../components/ImageUploader'
-import {businessOperations} from "../../../../../../store/businesses"
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from "@material-ui/core/Select";
-import {eventCategoryOperations} from "../../../../../../store/eventCategory"
 import FormControl from "@material-ui/core/FormControl"
 import InputLabel from "@material-ui/core/InputLabel"
 import OutlinedInput from "@material-ui/core/OutlinedInput"
@@ -73,15 +70,15 @@ class EventForm extends Component {
 
   }
 
-
-
   componentDidMount() {
     const {fetchEventFormData} = this.props
     fetchEventFormData()
 
-    this.setState({
-      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
-    });
+    if (ReactDOM.findDOMNode(this.InputLabelRef)) {
+      this.setState({
+        labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
+      });
+    }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -90,11 +87,12 @@ class EventForm extends Component {
     }
   }
 
-  saveEvent = () => {
+  saveEvent = (event) => {
+    event.preventDefault()
     const {saveNewEvent} = this.props
     const {eventImages} = this.state
 
-    saveNewEvent({...this.state.editedEvent}, eventImages)
+    saveNewEvent({...this.state.editedEvent}, eventImages).then(() => window.location.replace('/admin/events'))
   }
 
   handleChange = (event, propName) => {
@@ -144,19 +142,18 @@ class EventForm extends Component {
 
   render () {
     console.log(this.props)
-    const {classes, event, businesses, places, eventCategories, isLoading} = this.props
+    const {classes, match, businesses, places, eventCategories, isLoading} = this.props
     const {editedEvent, eventImages} = this.state
 
     const eventCategoriesValue = eventCategories.filter(category => editedEvent.categories.some(currentCategory => category.id === currentCategory.id))
-
-    if (isLoading) {
+    if (isLoading || (editedEvent === emptyEvent && match.path !== '/admin/events/add-new')) {
       return <Preloader/>
     }
 
     const businessOptions = businesses
       .concat([{}])
       .map(business => (
-        <MenuItem key={business.id} value={business.id}>
+        <MenuItem key={0 && business.id} value={business.id}>
           {business.title}
         </MenuItem>
       ))
@@ -164,7 +161,7 @@ class EventForm extends Component {
     const placeOptions = places
       .concat([{}])
       .map(place => (
-        <MenuItem key={place.id} value={place.id}>
+        <MenuItem key={0 && place.id} value={place.id}>
           {place.title}
         </MenuItem>
       ))
@@ -245,7 +242,7 @@ class EventForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedEvent.business && editedEvent.business.id}
+          value={editedEvent.business ? editedEvent.business.id : ''}
           onChange={(e) => this.handleChange(e, 'business')}
         >
           {businessOptions}
@@ -259,7 +256,7 @@ class EventForm extends Component {
           InputLabelProps={{
             shrink: true
           }}
-          value={editedEvent.place && editedEvent.place.id}
+          value={editedEvent.place ? editedEvent.place.id : ''}
           onChange={(e) => this.handleChange(e, 'place')}
         >
           {placeOptions}
@@ -275,7 +272,7 @@ class EventForm extends Component {
         <div className={classes.buttons}>
           <NavLink to={'/admin/events'} className={classes.buttonLink}>
             <Button
-              onClick={this.saveEvent}
+              onClick={(e) => this.saveEvent(e)}
               variant='contained'
               color='primary'
               className={classes.button}
@@ -310,17 +307,13 @@ const mapStateToProps = (state, props) => {
     places: state.places.places,
     eventCategories: state.eventCategory.allEventCategories,
     event: event,
-    isLoading: state.events.isLoading
+    isLoading: state.events.isEventFormDataLoading
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // getAllEvents: () => dispatch(eventOperations.getAllEvents()),
-    // saveNewEvent: (event, images) => dispatch(eventOperations.saveNewEvent(event, images)),
-    // getAllEventCategories: () => dispatch(eventCategoryOperations.getAllEventCategories()),
-    // getAllBusinesses: () => dispatch(businessOperations.getAllBusinesses()),
-    // getAllPlaces: () => dispatch(placesOperations.getPlaces()),
+    saveNewEvent: (event, images) => dispatch(eventOperations.saveNewEvent(event, images)),
     fetchEventFormData: () => dispatch(eventOperations.fetchEventFormData())
   }
 }

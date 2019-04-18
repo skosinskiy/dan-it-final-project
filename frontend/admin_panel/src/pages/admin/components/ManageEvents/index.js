@@ -4,6 +4,9 @@ import EventsList from './EventsList'
 import Button from '@material-ui/core/Button'
 import {NavLink} from 'react-router-dom'
 import {withStyles} from '@material-ui/core/styles'
+import {eventOperations} from "../../../../store/events";
+import {connect} from "react-redux";
+import Preloader from "../../../../components/Preloader";
 //
 // import './manageEvents.scss'
 
@@ -16,17 +19,25 @@ const styles = theme => ({
   }
 })
 
-class ManagingBusinesses extends Component {
+class ManagingEvents extends Component {
+
+  componentDidMount () {
+    this.props.getAllEvents()
+  }
+
   render () {
 
-    const {classes} = this.props
+    const {classes, isLoading} = this.props
+    if (isLoading) {
+      return <Preloader/>
+    }
 
     return (
       <div>
         <div className='searchbar-flexbox'>
           <SearchBar searchtype='event_by_title' />
           <NavLink to={'/admin/events/add-new'} className={classes.buttonLink}>
-            <Button size="large" variant="contained" color="primary" className={classes.button}>Add new business</Button>
+            <Button size="large" variant="contained" color="primary" className={classes.button}>Add new event</Button>
           </NavLink>
         </div>
 
@@ -36,4 +47,16 @@ class ManagingBusinesses extends Component {
   }
 }
 
-export default withStyles(styles)(ManagingBusinesses)
+const mapStateToProps = (state) => {
+  return {
+    isLoading: state.events.isEventDataLoading
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAllEvents: () => dispatch(eventOperations.getAllEvents())
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ManagingEvents))
