@@ -5,16 +5,16 @@ class ContactItem extends Component {
   render () {
     const {item} = this.props
     return (
-      <li className='list-item'>
-        <div className='list-item__img-container'>
+      <li className='contact-list__item'>
+        <div className='contact-list__img-container'>
           <img src={item.image} alt=' ' />
         </div>
-        <div className='list-item__text-container'>
-          <div className='list-item__text-container--names'>
+        <div className='contact-list__text-container'>
+          <div className='contact-list__names'>
             <p>{item.name}</p>
             <p>{item.surname}</p>
           </div>
-          <div className='list-item__text-container--location' >
+          <div className='contact-list__location' >
             <p>{item.location}</p>
           </div>
         </div>

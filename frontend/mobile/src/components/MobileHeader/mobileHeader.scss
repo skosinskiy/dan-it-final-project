@@ -56,18 +56,18 @@
     text-align: left;
     background-repeat: no-repeat;
     background-position-y: 1px;
+  }
 
-    &--title {
-      margin: 0 20px 0 20px;
-      color: $dark-grey;
-      font-size: 32px;
-    }
+  &__title {
+    margin: 0 20px 0 20px;
+    color: $dark-grey;
+    font-size: 32px;
+  }
 
-    &--location{
-      margin: 0 20px 0 20px;
-      color: $medium-grey;
-      font-size: 14px;
-    }
+  &__location{
+    margin: 0 20px 0 20px;
+    color: $medium-grey;
+    font-size: 14px;
   }
 }
 

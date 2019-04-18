@@ -22,8 +22,8 @@ class ParallaxHeader extends Component {
             <a href=' ' className='header__menu' > </a>
           </div>
           <div className='header__text-container' style={iconStyle}>
-            <p className='header__text-container--title'>{this.props.header}</p>
-            <p className='header__text-container--location'>{this.props.location}</p>
+            <p className='header__title'>{this.props.header}</p>
+            <p className='header__location'>{this.props.location}</p>
           </div>
         </div>
         {optionalComponent}
