@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {toastr} from 'react-redux-toastr'
 import PropTypes from 'prop-types'
 import {NavLink} from 'react-router-dom'
 import {withStyles} from '@material-ui/core/styles'
@@ -9,11 +8,15 @@ import {connect} from 'react-redux'
 import {placesOperations} from '../../../../../../store/places'
 import {eventOperations} from "../../../../../../store/events";
 import ImageUploader from '../../../../../../components/ImageUploader'
-import {businessOperations} from "../../../../../../store/businesses";
+import {businessOperations} from "../../../../../../store/businesses"
 import MenuItem from '@material-ui/core/MenuItem'
 import Select from "@material-ui/core/Select";
-import Chip from "@material-ui/core/Chip";
-import Input from "@material-ui/core/Input";
+import {eventCategoryOperations} from "../../../../../../store/eventCategory"
+import FormControl from "@material-ui/core/FormControl"
+import InputLabel from "@material-ui/core/InputLabel"
+import OutlinedInput from "@material-ui/core/OutlinedInput"
+import * as ReactDOM from "react-dom"
+import Preloader from "../../../../../../components/Preloader";
 
 const styles = theme => ({
   container: {
@@ -41,6 +44,11 @@ const styles = theme => ({
   buttons: {
     margin: '8px',
     textDecoration: 'none',
+  },
+
+  inputField: {
+    margin: theme.spacing.unit,
+    minWidth: 120,
   }
 
 })
@@ -49,6 +57,7 @@ const emptyEvent = {
   title: "",
   description: "",
   address: "",
+  categories: [],
   business: null,
   place: null
 }
@@ -58,16 +67,21 @@ class EventForm extends Component {
     super(props)
     this.state = {
       editedEvent: props.event !== undefined ? props.event : emptyEvent,
-      eventImages: props.event !== undefined ? props.event.photos : []
+      eventImages: props.event !== undefined ? props.event.photos : [],
+      labelWidth: 0
     }
 
   }
 
+
+
   componentDidMount() {
-    const {getAllEvents, getAllBusinesses, getAllPlaces} = this.props
-    getAllEvents()
-    getAllBusinesses()
-    getAllPlaces()
+    const {fetchEventFormData, getAllBusinesses, getAllPlaces, getAllEventCategories} = this.props
+    fetchEventFormData()
+
+    this.setState({
+      labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
+    });
   }
 
   componentWillReceiveProps (nextProps) {
@@ -129,8 +143,15 @@ class EventForm extends Component {
   }
 
   render () {
-    const {classes, businesses, places} = this.props
+    console.log(this.props)
+    const {classes, event, businesses, places, eventCategories} = this.props
     const {editedEvent, eventImages} = this.state
+
+    const eventCategoriesValue = eventCategories.filter(category => editedEvent.categories.some(currentCategory => category.id === currentCategory.id))
+
+    // if (!event || businesses.length === 0 || places.length === 0 || eventCategories === 0) {
+    //   return <Preloader/>
+    // }
 
     const businessOptions = businesses
       .concat([{}])
@@ -148,11 +169,18 @@ class EventForm extends Component {
         </MenuItem>
       ))
 
+    const eventCategoriesOptions = eventCategories
+      .map(category => (
+      <MenuItem key={category.id} value={category}>
+        {category.name}
+      </MenuItem>
+    ))
+
     return (
       <div className={classes.container}>
         <TextField
           label='Event name'
-          style={{margin: 8}}
+          className={classes.inputField}
           margin='normal'
           variant='outlined'
           InputLabelProps={{
@@ -163,7 +191,7 @@ class EventForm extends Component {
         />
         <TextField
           label='Description'
-          style={{margin: 8}}
+          className={classes.inputField}
           margin='normal'
           variant='outlined'
           InputLabelProps={{
@@ -174,7 +202,7 @@ class EventForm extends Component {
         />
         <TextField
           label='Address'
-          style={{margin: 8}}
+          className={classes.inputField}
           margin='normal'
           variant='outlined'
           InputLabelProps={{
@@ -183,30 +211,35 @@ class EventForm extends Component {
           value={editedEvent.address}
           onChange={(e) => this.handleChange(e, 'address')}
         />
-        <Select
-          multiple
-          value={places}
-          onChange={this.handleChange}
-          input={<Input id="select-multiple-chip"/>}
-          renderValue={selected => (
-            <div className={classes.chips}>
-              {selected.map(value => (
-                <Chip key={value.id} label={value.name} className={classes.chip}/>
-              ))}
-            </div>
-          )}
-          // MenuProps={MenuProps}
-        >
-          {places.map(role => (
-            <MenuItem key={role.id} value={role}>
-              {role.name}
-            </MenuItem>
-          ))}
-        </Select>
+
+        <FormControl variant="outlined" className={classes.inputField}>
+          <InputLabel
+            ref={ref => {
+              this.InputLabelRef = ref;
+            }}
+            htmlFor="outlined-age-simple"
+          >
+            Event Categories
+          </InputLabel>
+          <Select
+            multiple
+            value={eventCategoriesValue}
+            onChange={(e) => this.handleChange(e, 'categories')}
+            input={
+              <OutlinedInput
+                labelWidth={this.state.labelWidth}
+                name="age"
+                id="outlined-age-simple"
+              />
+            }
+          >
+            {eventCategoriesOptions}
+          </Select>
+        </FormControl>
         <TextField
           select
           label='Business'
-          style={{margin: 8}}
+          className={classes.inputField}
           margin='normal'
           variant='outlined'
           InputLabelProps={{
@@ -220,7 +253,7 @@ class EventForm extends Component {
         <TextField
           select
           label='Place'
-          style={{margin: 8}}
+          className={classes.inputField}
           margin='normal'
           variant='outlined'
           InputLabelProps={{
@@ -232,10 +265,12 @@ class EventForm extends Component {
           {placeOptions}
         </TextField>
 
-        <ImageUploader  images={eventImages}
-                        onFileChange={this.onFileChange}
-                        onReset={this.onImageReset}
-                        onMainPhotoSelect={this.onMainPhotoSelect} />
+        <ImageUploader
+          className={classes.inputField}
+          images={eventImages}
+          onFileChange={this.onFileChange}
+          onReset={this.onImageReset}
+          onMainPhotoSelect={this.onMainPhotoSelect} />
 
         <div className={classes.buttons}>
           <NavLink to={'/admin/events'} className={classes.buttonLink}>
@@ -260,12 +295,12 @@ class EventForm extends Component {
 }
 
 EventForm.propTypes = {
-  classes: PropTypes.object.isRequired,
-  event: PropTypes.object.isRequired,
-  places: PropTypes.object.isRequired,
-  saveNewEvent: PropTypes.func.isRequired,
-  getPlaces: PropTypes.func.isRequired,
-  getAllEvents: PropTypes.func.isRequired
+  classes: PropTypes.object,
+  event: PropTypes.object,
+  places: PropTypes.array,
+  saveNewEvent: PropTypes.func,
+  getPlaces: PropTypes.func,
+  getAllEvents: PropTypes.func
 }
 
 const mapStateToProps = (state, props) => {
@@ -273,6 +308,7 @@ const mapStateToProps = (state, props) => {
   return {
     businesses: state.businesses.businessList,
     places: state.places.places,
+    eventCategories: state.eventCategory.allEventCategories,
     event: event
   }
 }
@@ -281,8 +317,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllEvents: () => dispatch(eventOperations.getAllEvents()),
     saveNewEvent: (event, images) => dispatch(eventOperations.saveNewEvent(event, images)),
+    getAllEventCategories: () => dispatch(eventCategoryOperations.getAllEventCategories()),
     getAllBusinesses: () => dispatch(businessOperations.getAllBusinesses()),
-    getAllPlaces: () => dispatch(placesOperations.getPlaces())
+    getAllPlaces: () => dispatch(placesOperations.getPlaces()),
+    fetchEventFormData: () => dispatch(eventOperations.fetchEventFormData())
   }
 }
 

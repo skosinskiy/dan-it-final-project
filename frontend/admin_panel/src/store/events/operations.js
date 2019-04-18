@@ -1,7 +1,22 @@
 import api from '../../helpers/FetchData'
 import * as ACTIONS from './actions'
+import {getAllBusinesses} from "../businesses/operations";
+import {getAllEventCategories} from "../eventCategory/actions";
+import {getAllPlaces} from "../places/actions";
+
+export const fetchEventFormData = () => dispatch => {
+  // dispatch(startLoading)
+  Promise.all([
+    dispatch(getAllEvents()),
+    dispatch(getAllEventCategories()),
+    dispatch(getAllBusinesses()),
+    // dispatch(getAllPlaces())
+  ])
+    .then(alert("fetched"))
+}
 
 export const getAllEvents = () => dispatch => {
+  alert("allevents")
   api.get(`/api/events`).then(res => {
     dispatch(ACTIONS.getAllEvents({eventList: res}))
   }).catch(err => {
