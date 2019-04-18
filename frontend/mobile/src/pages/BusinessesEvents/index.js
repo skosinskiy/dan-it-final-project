@@ -39,19 +39,25 @@ class BusinessesEvents extends Component {
   componentDidMount () {
     const {getBusinessesByPlace} = this.props
     getBusinessesByPlace(1)
-    this.getBusinenessesByCategory(1)
   }
 
   getBusinenessesByCategory = (id) => {
     const {allBusinesses} = this.props
-    const businessesByCategory = allBusinesses.filter(business => {
-      return business.categoty.id === id
+    const businessesByCategory = []
+    allBusinesses.forEach(business => {
+      business.categories.forEach(category => {
+        if (category.id === id) {
+          businessesByCategory.push(business)
+        }
+      })
     })
     this.setState({businesses: [...businessesByCategory]})
   }
 
   render () {
+    const {businesses} = this.state
     const {allBusinesses} = this.props
+    console.log(businesses)
     const businessesList = items.map(item => {
       return <SectionItem key={item.id} item={item}/>
     })
@@ -120,7 +126,7 @@ class BusinessesEvents extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    allBusinesses: [...state.businesses.businessesByPlace]
+    allBusinesses: state.businesses.businessesByPlace
   }
 }
 
