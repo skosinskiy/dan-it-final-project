@@ -6,68 +6,67 @@
   justify-content: space-between;
   color: $dark-grey;
 
-  .header-outer-container{
+  &__outer-wrapper{
     display: flex;
     flex-grow: 1;
     flex-direction: column;
     justify-content: space-between;
+  }
 
-    .header-container {
-      display: flex;
-      justify-content: space-between;
-      margin: 50px 20px 0;
+  &__cam-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 20px 0;
+  }
 
-      .header-menu {
-        position: relative;
-        width: 5px;
-        height: 5px;
-        background-color: $white;
-        border-radius: 50%;
-      }
+  &__menu {
+    position: relative;
+    width: 5px;
+    height: 5px;
+    background-color: $white;
+    border-radius: 50%;
 
-      .header-menu:before, .header-menu:after {
-        position: absolute;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: inherit;
-        border-radius: inherit;
-        content: "";
-      }
-
-      .header-menu:before {
-        top: 10px;
-      }
-
-      .header-menu:after {
-        top: 20px;
-      }
+    &:before, &:after {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: inherit;
+      border-radius: inherit;
+      content: "";
     }
 
-    .header-container__text-box{
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      height: 85px;
-      padding-top: 30px;
-      font-weight: 600;
-      font-family: 'SF Compact Text', sans-serif;
-      text-align: left;
-      background-repeat: no-repeat;
-      background-position-y: 1px;
+    &:before {
+      top: 10px;
+    }
 
+    &:after {
+      top: 20px;
+    }
+  }
 
-      .text-box__header {
-        margin: 0 20px 0 20px;
-        color: $dark-grey;
-        font-size: 32px;
-      }
+  &__text-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 85px;
+    padding-top: 30px;
+    font-weight: 600;
+    font-family: 'SF Compact Text', sans-serif;
+    text-align: left;
+    background-repeat: no-repeat;
+    background-position-y: 1px;
 
-      .text-box__location{
-        margin: 0 20px 0 20px;
-        color: $medium-grey;
-        font-size: 14px;
-      }
+    &--title {
+      margin: 0 20px 0 20px;
+      color: $dark-grey;
+      font-size: 32px;
+    }
+
+    &--location{
+      margin: 0 20px 0 20px;
+      color: $medium-grey;
+      font-size: 14px;
     }
   }
 }

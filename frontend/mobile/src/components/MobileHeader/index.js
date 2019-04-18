@@ -16,14 +16,14 @@ class ParallaxHeader extends Component {
     // const optionalIcon = this.props.extraIcon
     return (
       <div className='parallax-section header' style={style} >
-        <div className='header-outer-container'>
-          <div className='header-container'>
+        <div className='header__outer-wrapper'>
+          <div className='header__cam-container'>
             <Camera />
-            <a href=' ' className='header-menu' > </a>
+            <a href=' ' className='header__menu' > </a>
           </div>
-          <div className='header-container__text-box' style={iconStyle}>
-            <p className='text-box__header'>{this.props.header}</p>
-            <p className='text-box__location'>{this.props.location}</p>
+          <div className='header__text-container' style={iconStyle}>
+            <p className='header__text-container--title'>{this.props.header}</p>
+            <p className='header__text-container--location'>{this.props.location}</p>
           </div>
         </div>
         {optionalComponent}
