@@ -95,8 +95,8 @@ class EventList extends React.Component {
                 <col style={{width:'12%'}}/>
                 <col style={{width:'6%'}}/>
                 <col style={{width:'6%'}}/>
-                <col style={{width:'5%'}}/>
-                <col style={{width:'5%'}}/>
+                <col style={{width:'4%'}}/>
+                <col style={{width:'4%'}}/>
               </colgroup>
               <EnhancedTableHead
                 rowCount={eventList.length}

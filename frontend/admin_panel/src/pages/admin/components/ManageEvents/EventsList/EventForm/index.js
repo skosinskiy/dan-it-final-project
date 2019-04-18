@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {NavLink} from 'react-router-dom'
+import {NavLink, Redirect} from 'react-router-dom'
 import {withStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -65,7 +65,8 @@ class EventForm extends Component {
     this.state = {
       editedEvent: props.event !== undefined ? props.event : emptyEvent,
       eventImages: props.event !== undefined ? props.event.photos : [],
-      labelWidth: 0
+      labelWidth: 0,
+      isDataSubmitted: false
     }
 
   }
@@ -92,7 +93,9 @@ class EventForm extends Component {
     const {saveNewEvent} = this.props
     const {eventImages} = this.state
 
-    saveNewEvent({...this.state.editedEvent}, eventImages).then(() => window.location.replace('/admin/events'))
+    saveNewEvent({...this.state.editedEvent}, eventImages).then(() => {
+      this.setState({isDataSubmitted: true})
+    })
   }
 
   handleChange = (event, propName) => {
@@ -141,11 +144,16 @@ class EventForm extends Component {
   }
 
   render () {
-    console.log(this.props)
+
     const {classes, match, businesses, places, eventCategories, isLoading} = this.props
-    const {editedEvent, eventImages} = this.state
+    const {editedEvent, eventImages, isDataSubmitted} = this.state
 
     const eventCategoriesValue = eventCategories.filter(category => editedEvent.categories.some(currentCategory => category.id === currentCategory.id))
+
+    if (isDataSubmitted) {
+      return <Redirect to={'/admin/events'} />
+    }
+
     if (isLoading || (editedEvent === emptyEvent && match.path !== '/admin/events/add-new')) {
       return <Preloader/>
     }
@@ -270,16 +278,14 @@ class EventForm extends Component {
           onMainPhotoSelect={this.onMainPhotoSelect} />
 
         <div className={classes.buttons}>
-          <NavLink to={'/admin/events'} className={classes.buttonLink}>
-            <Button
-              onClick={(e) => this.saveEvent(e)}
-              variant='contained'
-              color='primary'
-              className={classes.button}
-            >
-              Save
-            </Button>
-          </NavLink>
+          <Button
+            onClick={(e) => this.saveEvent(e)}
+            variant='contained'
+            color='primary'
+            className={classes.button}
+          >
+            Save
+          </Button>
           <NavLink to={'/admin/events'} className={classes.buttonLink}>
             <Button variant='contained' color='secondary' className={classes.button}>
               Exit
