@@ -1,20 +1,20 @@
-.contact-list__list-item {
+.list-item {
   display: flex;
   height: 70px;
   margin: 5px 0;
   padding: 0 20px;
   border-radius: 8px;
-  -webkit-box-shadow: 6px 4px 4px 0px rgba(0,0,0,.1);
-  -moz-box-shadow: 6px 4px 4px 0px rgba(0,0,0,.1);
-  box-shadow: 6px 4px 4px 0px rgba(0,0,0,.1);
+  -webkit-box-shadow: 6px 4px 4px 0 rgba(0,0,0,.1);
+  -moz-box-shadow: 6px 4px 4px 0 rgba(0,0,0,.1);
+  box-shadow: 6px 4px 4px 0 rgba(0,0,0,.1);
 
-  .list-item__img-container{
+  &__img-container{
     align-self: center;
     width: 40px;
     height: 40px;
   }
 
-  .list-item__text-container {
+  &__text-container {
     display: flex;
     flex-grow: 1;
     flex-direction: column;
@@ -26,13 +26,13 @@
       margin: 0 5px 0 0;
     }
 
-    .text-container__names{
+    &--names{
       display: flex;
       font-weight: bold;
       font-size: 18px;
     }
 
-    .text-container__location{
+    &--location{
       align-self: start;
       color: #979797;
       font-weight: bold;
@@ -40,4 +40,7 @@
     }
   }
 }
+
+
+
 
