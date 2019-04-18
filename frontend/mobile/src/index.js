@@ -8,18 +8,6 @@ import * as serviceWorker from './serviceWorker'
 import './index.css'
 import {Provider} from 'react-redux'
 
-// const rootDecorator = RootProviders({
-//   store
-// })
-
-// const root = document.getElementById('root')
-
-// ReactDOM.render(
-//   rootDecorator(<BrowserRouter>
-//       <App/>
-//     </BrowserRouter>
-//   ), root)
-
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
