@@ -8,7 +8,7 @@ import {ReactComponent as Useful} from '../../img/icons/useful.svg'
 import {ReactComponent as Bee} from '../../img/icons/bee.svg'
 import SectionItem from './SectionItem'
 import './businesses-events.scss'
-import {getBusinessesByCategory} from '../../actions/businesses'
+import {getAllBusinessesByPlace} from '../../actions/businesses'
 
 const items = [
   {
@@ -32,18 +32,26 @@ const items = [
 ]
 
 class BusinessesEvents extends Component {
-  componentDidMount () {
-    const {getBusinessesByCategory} = this.props
-    getBusinessesByCategory(1)
+  state = {
+    businesses: []
   }
 
-  getBusinenesses = (id) => {
-    const {getBusinessesByCategory} = this.props
-    getBusinessesByCategory(id)
+  componentDidMount () {
+    const {getBusinessesByPlace} = this.props
+    getBusinessesByPlace(1)
+    this.getBusinenessesByCategory(1)
+  }
+
+  getBusinenessesByCategory = (id) => {
+    const {allBusinesses} = this.props
+    const businessesByCategory = allBusinesses.filter(business => {
+      return business.categoty.id === id
+    })
+    this.setState({businesses: [...businessesByCategory]})
   }
 
   render () {
-    const {businesses} = this.props
+    const {allBusinesses} = this.props
     const businessesList = items.map(item => {
       return <SectionItem key={item.id} item={item}/>
     })
@@ -64,7 +72,7 @@ class BusinessesEvents extends Component {
           <div className="navbar">
             <h2 className="section-title">Explore</h2>
             <ul className="menu">
-              <li className="menu-item" onClick={() => this.getBusinenesses(1)}>
+              <li className="menu-item" onClick={() => this.getBusinenessesByCategory(1)}>
                 <div className="menu-item_icon"><Shops/></div>
                 <div className="menu-item_text">Shops</div>
               </li>
@@ -112,13 +120,13 @@ class BusinessesEvents extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    businesses: [...state.businesses.businessesByCategory]
+    allBusinesses: [...state.businesses.businessesByPlace]
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getBusinessesByCategory: (categoryId) => dispatch(getBusinessesByCategory(categoryId))
+    getBusinessesByPlace: (placeId) => dispatch(getAllBusinessesByPlace(placeId))
   }
 }
 
