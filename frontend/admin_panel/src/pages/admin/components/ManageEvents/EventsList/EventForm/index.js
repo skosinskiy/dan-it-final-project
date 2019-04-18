@@ -76,7 +76,7 @@ class EventForm extends Component {
 
 
   componentDidMount() {
-    const {fetchEventFormData, getAllBusinesses, getAllPlaces, getAllEventCategories} = this.props
+    const {fetchEventFormData} = this.props
     fetchEventFormData()
 
     this.setState({
@@ -144,14 +144,14 @@ class EventForm extends Component {
 
   render () {
     console.log(this.props)
-    const {classes, event, businesses, places, eventCategories} = this.props
+    const {classes, event, businesses, places, eventCategories, isLoading} = this.props
     const {editedEvent, eventImages} = this.state
 
     const eventCategoriesValue = eventCategories.filter(category => editedEvent.categories.some(currentCategory => category.id === currentCategory.id))
 
-    // if (!event || businesses.length === 0 || places.length === 0 || eventCategories === 0) {
-    //   return <Preloader/>
-    // }
+    if (isLoading) {
+      return <Preloader/>
+    }
 
     const businessOptions = businesses
       .concat([{}])
@@ -309,17 +309,18 @@ const mapStateToProps = (state, props) => {
     businesses: state.businesses.businessList,
     places: state.places.places,
     eventCategories: state.eventCategory.allEventCategories,
-    event: event
+    event: event,
+    isLoading: state.events.isLoading
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getAllEvents: () => dispatch(eventOperations.getAllEvents()),
-    saveNewEvent: (event, images) => dispatch(eventOperations.saveNewEvent(event, images)),
-    getAllEventCategories: () => dispatch(eventCategoryOperations.getAllEventCategories()),
-    getAllBusinesses: () => dispatch(businessOperations.getAllBusinesses()),
-    getAllPlaces: () => dispatch(placesOperations.getPlaces()),
+    // getAllEvents: () => dispatch(eventOperations.getAllEvents()),
+    // saveNewEvent: (event, images) => dispatch(eventOperations.saveNewEvent(event, images)),
+    // getAllEventCategories: () => dispatch(eventCategoryOperations.getAllEventCategories()),
+    // getAllBusinesses: () => dispatch(businessOperations.getAllBusinesses()),
+    // getAllPlaces: () => dispatch(placesOperations.getPlaces()),
     fetchEventFormData: () => dispatch(eventOperations.fetchEventFormData())
   }
 }

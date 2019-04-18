@@ -14,18 +14,19 @@ const initialState = {
 }
 
 const eventReducer = (state = initialState, action) => {
+  console.log(action)
   switch (action.type) {
     case TYPES.GET_EVENTS_BY_PLACE_ID:
-      return {
-        ...state,
-        eventList: action.payload.eventList,
-        totalElements: action.payload.eventList.length
-      }
     case TYPES.GET_ALL_EVENTS:
       return {
         ...state,
         eventList: action.payload.eventList,
         totalElements: action.payload.eventList.length
+      }
+    case TYPES.EVENT_FORM_DATA_IS_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload.isLoading
       }
     default:
       return state
