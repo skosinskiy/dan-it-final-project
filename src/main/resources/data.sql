@@ -92,21 +92,21 @@ VALUES
   (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-3', 2),
   (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-4', 2);
 
+-- businesses
+
+INSERT INTO business_categories
+  (id, date_created, date_modified, name, parent_category_id, image_key)
+VALUES
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-1', null, 'imageKey'),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-2', 1, null ),
+  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-3', null, 'imageKey2');
+
 INSERT INTO placecategories_businesscategories
   (place_category_id, business_category_id)
 VALUES
   (1,1),
   (2,1),
   (2,2);
-
--- businesses
-
-INSERT INTO business_categories
-  (id, date_created, date_modified, name, parent_category_id, image_key)
-VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-1', null, 'imageKey' ),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-2', 1, null ),
-  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-3', null, null );
 
 INSERT INTO businesses
   (id, date_created, date_modified, title, description, address, web_site, phone_number, place_id )

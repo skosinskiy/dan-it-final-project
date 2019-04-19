@@ -182,10 +182,10 @@ public class BusinessCategoryControllerTest {
   @Test
   public void deleteBusinessCategory() throws Exception {
     int expectedCategorySize = businessCategoryService.getAll().size() - 1;
-    mockMvc.perform(delete("/api/business-categories/1").with(csrf()));
+    mockMvc.perform(delete("/api/business-categories/3").with(csrf()));
 
     assertEquals(expectedCategorySize, businessCategoryService.getAll().size());
     verify(amazonS3Client, times(1))
-        .deleteObject(AmazonS3Service.S3_BUCKET_NAME, "imageKey");
+        .deleteObject(AmazonS3Service.S3_BUCKET_NAME, "imageKey2");
   }
 }
