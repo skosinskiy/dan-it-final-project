@@ -4,18 +4,21 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.danit.finalproject.application.dto.request.event.EventPhotoRequest;
 import com.danit.finalproject.application.dto.request.event.EventRequest;
 import com.danit.finalproject.application.dto.response.event.EventResponse;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.event.EventCategory;
 import com.danit.finalproject.application.entity.event.EventPhoto;
+import com.danit.finalproject.application.service.AmazonS3Service;
 import com.danit.finalproject.application.service.business.BusinessService;
 import com.danit.finalproject.application.service.event.EventCategoryService;
 import com.danit.finalproject.application.service.event.EventPhotoService;
@@ -25,12 +28,16 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -67,6 +74,9 @@ public class EventControllerTest {
 
   @Autowired
   private PlaceService placeService;
+
+  @MockBean
+  private AmazonS3Client amazonS3Client;
 
   @Test
   public void getEventById() throws Exception {
@@ -165,12 +175,20 @@ public class EventControllerTest {
   @Test
   public void createNewEventPhoto() throws Exception {
     Long expectedId = 5L;
-    String expectedName = "imageKey-5";
+    String expectedImageKey = UUID.randomUUID().toString() + AmazonS3Service.IMAGE_EXTENSION;
+    String expectedImageUrl = "https://rion-up-project.s3.eu-central-1.amazonaws.com/" + expectedImageKey;
 
     EventPhoto eventPhoto = new EventPhoto();
-    eventPhoto.setImageKey(expectedName);
+    eventPhoto.setImageKey(expectedImageKey);
+    List<EventPhoto> eventPhotos = new ArrayList<>();
+    eventPhotos.add(eventPhoto);
 
-    String placeCategoryJson = objectMapper.writeValueAsString(modelMapper.map(eventPhoto, EventPhotoRequest.class));
+    when(amazonS3Client.getResourceUrl(AmazonS3Service.S3_BUCKET_NAME, expectedImageKey))
+            .thenReturn(expectedImageUrl);
+    when(amazonS3Client.getResourceUrl(AmazonS3Service.S3_BUCKET_NAME, "imageKey")).thenReturn("imageUrl");
+
+    String placeCategoryJson = objectMapper.writeValueAsString(
+            modelMapper.map(eventPhotos, new TypeToken<List<EventPhotoRequest>>(){}.getType()));
 
     MvcResult result = mockMvc.perform(
         post("/api/events/1/photos")
@@ -181,8 +199,9 @@ public class EventControllerTest {
     String responseBody = result.getResponse().getContentAsString();
     EventResponse updatedEvent = objectMapper.readValue(responseBody, EventResponse.class);
 
-    assertTrue(updatedEvent.getPhotos().stream().anyMatch(photo -> photo.getPhoto().equals(expectedName)));
+    assertTrue(updatedEvent.getPhotos().stream().anyMatch(photo -> photo.getImageKey().equals(expectedImageKey)));
     assertTrue(updatedEvent.getPhotos().stream().anyMatch(photo -> photo.getId().equals(expectedId)));
+    assertTrue(updatedEvent.getPhotos().stream().anyMatch(photo -> photo.getImageUrl().equals(expectedImageUrl)));
   }
 
   @Test

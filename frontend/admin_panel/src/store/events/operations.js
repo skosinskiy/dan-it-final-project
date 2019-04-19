@@ -34,9 +34,11 @@ export const getEventsByPlaceID = (placeId) => dispatch => {
 }
 
 export const deleteEvent = (eventId) => dispatch => {
+  dispatch(ACTIONS.isEventDataLoading(true))
   api.deleteApi(`/api/events/${eventId}`).then(res => {
     api.get(`/api/events`).then(res => {
       dispatch(ACTIONS.getAllEvents({eventList: res}))
+      dispatch(ACTIONS.isEventDataLoading(false))
     }).catch(err => {
       dispatch(ACTIONS.getEventsError(err))
     })

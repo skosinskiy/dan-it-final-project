@@ -73,7 +73,10 @@ public class EventService implements CrudService<Event> {
   @Override
   public Event delete(Long id) {
     Event event = eventRepository.findById(id).orElse(null);
-    eventRepository.deleteById(id);
+    if (event != null) {
+      event.getPhotos().forEach(businessPhoto -> eventPhotoService.deleteEventPhoto(businessPhoto));
+    }
+    eventRepository.delete(event);
     return event;
   }
 
