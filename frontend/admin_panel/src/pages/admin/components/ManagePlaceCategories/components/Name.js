@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -22,16 +22,19 @@ const styles = theme => ({
   },
 });
 
-class OutlinedTextFields extends React.Component {
+class OutlinedTextFields extends Component {
   
-  handleOnClick = () => {
+  handleOnClick = (event) => {
+    event.target.oldValue = event.target.value
     this.setState({isDisabled: false})
   }
 
   handleBlur = (event) => {
-    const {updateName, placeCategoryKey, placeCategories, updateChanged} = this.props
-    updateName(placeCategoryKey, placeCategories, event.target.value)
-    updateChanged(placeCategoryKey, placeCategories)
+    if (event.target.oldValue !== event.target.value){
+      const {updateName, placeCategoryKey, placeCategories, updateChanged} = this.props
+      updateName(placeCategoryKey, placeCategories, event.target.value)
+      updateChanged(placeCategoryKey, placeCategories)
+    }
   }
 
   state = {
@@ -39,7 +42,7 @@ class OutlinedTextFields extends React.Component {
   };
 
   render() {
-    const {classes, name} = this.props;
+    const {classes, name} = this.props
 
     return (
       <form className={classes.container} noValidate autoComplete="off">
@@ -54,18 +57,18 @@ class OutlinedTextFields extends React.Component {
           onBlur={(event) => this.handleBlur(event)}
         />
       </form>
-    );
+    )
   }
 }
 
 OutlinedTextFields.propTypes = {
   classes: PropTypes.object.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
   updateName:  PropTypes.func.isRequired,
   placeCategoryKey:  PropTypes.number.isRequired,
   placeCategories: PropTypes.array.isRequired,
   updateChanged: PropTypes.func.isRequired,
-};
+}
 
 const mapStateToProps = ({placeCategories}) => ({
   placeCategories: placeCategories.placeCategories,
