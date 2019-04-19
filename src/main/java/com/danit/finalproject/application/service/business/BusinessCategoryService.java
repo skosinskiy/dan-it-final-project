@@ -75,4 +75,9 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
       amazonS3Service.deleteObject(currentImageKey);
     }
   }
+
+  public List<BusinessCategory> findByParentCategoryIsNull(){
+    return businessCategoryRepository.findByParentCategoryIsNull();
+  }
+
 }

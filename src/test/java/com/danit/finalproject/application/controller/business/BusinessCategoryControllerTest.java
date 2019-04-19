@@ -1,7 +1,11 @@
 package com.danit.finalproject.application.controller.business;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -17,9 +21,9 @@ import com.danit.finalproject.application.service.AmazonS3Service;
 import com.danit.finalproject.application.service.business.BusinessCategoryService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -67,7 +71,8 @@ public class BusinessCategoryControllerTest {
     MvcResult result = mockMvc.perform(get("/api/business-categories/1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    BusinessCategoryResponse businessCategory = objectMapper.readValue(responseBody, BusinessCategoryResponse.class);
+    BusinessCategoryResponse businessCategory = objectMapper
+        .readValue(responseBody, BusinessCategoryResponse.class);
 
     assertEquals(expectedId, businessCategory.getId());
     assertEquals(expectedName, businessCategory.getName());
@@ -82,11 +87,29 @@ public class BusinessCategoryControllerTest {
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
     List<BusinessCategoryResponse> categories =
-        objectMapper.readValue(responseBody, new TypeReference<List<BusinessCategoryResponse>>(){});
+        objectMapper.readValue(responseBody, new TypeReference<List<BusinessCategoryResponse>>() {
+        });
 
     assertEquals(expectedSize, categories.size());
     assertEquals(secondCategoryName, categories.get(1).getName());
-    assertEquals(businessCategoryService.getById(1L).getId(), categories.get(1).getParentCategory().getId());
+    assertEquals(businessCategoryService.getById(1L).getId(),
+        categories.get(1).getParentCategory().getId());
+  }
+
+  @Test
+  public void getAllParentCategories() throws Exception {
+    int expectedSize = 2;
+    String firstParentBusinessCategoryName = "business-category-1";
+
+    MvcResult result = mockMvc.perform(get("/api/business-categories/all-parent"))
+        .andReturn();
+    String responseBody = result.getResponse().getContentAsString();
+    List<BusinessCategoryResponse> parentCategories =
+        objectMapper.readValue(responseBody, new TypeReference<List<BusinessCategoryResponse>>() {
+        });
+
+    assertEquals(expectedSize, parentCategories.size());
+    assertEquals(firstParentBusinessCategoryName, parentCategories.get(0).getName());
   }
 
   @Test
@@ -111,7 +134,7 @@ public class BusinessCategoryControllerTest {
     String responseBody = result.getResponse().getContentAsString();
     BusinessCategoryResponse createdBusinessCategory
         = objectMapper.readValue(responseBody, BusinessCategoryResponse.class);
-    Long createdBusinesCategoryId= createdBusinessCategory.getId();
+    Long createdBusinesCategoryId = createdBusinessCategory.getId();
 
     assertEquals(expectedName, createdBusinessCategory.getName());
     assertEquals(expectedParent, createdBusinessCategory.getParentCategory());
@@ -124,7 +147,8 @@ public class BusinessCategoryControllerTest {
     Long businessCategoryId = 2L;
     String expectedBusinessCategoryName = "Updated";
     String expectedImageKey = UUID.randomUUID().toString() + AmazonS3Service.IMAGE_EXTENSION;
-    String expectedImageUrl = "https://rion-up-project.s3.eu-central-1.amazonaws.com/" + expectedImageKey;
+    String expectedImageUrl =
+        "https://rion-up-project.s3.eu-central-1.amazonaws.com/" + expectedImageKey;
     BusinessCategory businessCategory = businessCategoryService.getById(businessCategoryId);
     businessCategory.setName(expectedBusinessCategoryName);
     businessCategory.setParentCategory(null);
@@ -132,7 +156,8 @@ public class BusinessCategoryControllerTest {
     String userJson = objectMapper.writeValueAsString(
         modelMapper.map(businessCategory, BusinessCategoryRequest.class));
 
-    when(amazonS3Client.getResourceUrl(AmazonS3Service.S3_BUCKET_NAME, expectedImageKey)).thenReturn(expectedImageUrl);
+    when(amazonS3Client.getResourceUrl(AmazonS3Service.S3_BUCKET_NAME, expectedImageKey))
+        .thenReturn(expectedImageUrl);
 
     MvcResult result = mockMvc.perform(
         put("/api/business-categories/1")
@@ -145,7 +170,8 @@ public class BusinessCategoryControllerTest {
         objectMapper.readValue(responseBody, BusinessCategoryResponse.class);
 
     assertEquals(expectedBusinessCategoryName, updatedBusinessCategory.getName());
-    assertEquals(expectedBusinessCategoryName, businessCategoryService.getById(businessCategoryId).getName());
+    assertEquals(expectedBusinessCategoryName,
+        businessCategoryService.getById(businessCategoryId).getName());
     assertEquals(expectedImageKey, updatedBusinessCategory.getImageKey());
     assertEquals(expectedImageUrl, updatedBusinessCategory.getImageUrl());
     assertNull(updatedBusinessCategory.getParentCategory());
