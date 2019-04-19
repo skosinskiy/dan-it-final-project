@@ -1,0 +1,32 @@
+.dialogue-list{
+
+  &__item{
+    display: flex;
+    justify-content: space-between;
+    height: 43px;
+  }
+
+  &__dialogue-list__img-content-flexb{
+  }
+
+  &__img-container{
+    align-self: center;
+  }
+
+  &__content-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 3px 0 3px 12px;
+    text-align: left;
+    flex-grow: 1;
+  }
+
+  &__info-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+
+}
