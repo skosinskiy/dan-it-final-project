@@ -33,13 +33,17 @@ const styles = theme => ({
   },
 
   buttonLink: {
-    marginRight: '10px',
     textDecoration: 'none'
   },
 
   buttons: {
-    margin: '8px',
+    textAlign: 'center',
+    margin: theme.spacing.unit,
     textDecoration: 'none',
+  },
+
+  button: {
+    margin: theme.spacing.unit
   },
 
   inputField: {

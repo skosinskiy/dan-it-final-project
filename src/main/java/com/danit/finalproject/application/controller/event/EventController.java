@@ -35,9 +35,9 @@ public class EventController {
   }
 
   @GetMapping
-  public ResponseEntity<List<EventResponse>> getAllEventsByParam(
+  public ResponseEntity<List<EventResponse>> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(
       @RequestParam(required = false) String searchParam) {
-    return new ResponseEntity<>(eventFacade.getAllEventsByParams(searchParam), HttpStatus.OK);
+    return new ResponseEntity<>(eventFacade.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(searchParam), HttpStatus.OK);
   }
 
   @PostMapping

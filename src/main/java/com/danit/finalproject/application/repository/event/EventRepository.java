@@ -13,5 +13,5 @@ public interface EventRepository extends JpaRepository<Event, Long> {
           + "(:searchParam is null or lower(e.title) like lower(CONCAT('%', :searchParam, '%'))) or "
           + "(:searchParam is null or lower(e.place.title) like lower(CONCAT('%', :searchParam, '%'))) or "
           + "(:searchParam is null or lower(e.business.title) like lower(CONCAT('%', :searchParam, '%')))")
-  List<Event> findByParams(@Param("searchParam") String searchParam);
+  List<Event> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(@Param("searchParam") String searchParam);
 }

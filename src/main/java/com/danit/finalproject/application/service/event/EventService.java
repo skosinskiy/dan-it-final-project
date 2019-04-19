@@ -1,6 +1,5 @@
 package com.danit.finalproject.application.service.event;
 
-import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.event.EventPhoto;
 import com.danit.finalproject.application.repository.event.EventRepository;
@@ -41,8 +40,8 @@ public class EventService implements CrudService<Event> {
     return eventRepository.findAll();
   }
 
-  public List<Event> getAllEventsByParams(String searchParam) {
-    return eventRepository.findByParams(searchParam);
+  public List<Event> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(String searchParam) {
+    return eventRepository.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(searchParam);
   }
 
   @Override

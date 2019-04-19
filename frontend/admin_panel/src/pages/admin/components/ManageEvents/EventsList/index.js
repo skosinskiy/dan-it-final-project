@@ -69,7 +69,7 @@ const styles = theme => ({
   },
   buttons: {
     textDecoration: 'none',
-    margin: '10px'
+    margin: theme.spacing.unit
   },
   userListButtons: {
     marginTop: '20px',

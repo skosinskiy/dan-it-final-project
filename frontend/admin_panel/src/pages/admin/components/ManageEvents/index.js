@@ -8,13 +8,11 @@ import {eventOperations} from "../../../../store/events";
 import {connect} from "react-redux";
 import Preloader from "../../../../components/Preloader";
 import PropTypes from "prop-types";
-//
-// import './manageEvents.scss'
 
 const styles = theme => ({
   buttons: {
     textDecoration: 'none',
-    margin: '10px',
+    margin: theme.spacing.unit,
     'min-width': '227px',
     height: '100%'
   }
