@@ -1,14 +1,13 @@
 import * as TYPES from '../../actions/businesses/types'
 
 const initialState = {
-  businessesByPlace: [],
-  defaultBusinesses: []
+  businessesByCategory: []
 }
 
 const businessesReducer = (state = initialState, action) => {
   switch (action.type) {
-    case TYPES.GET_BUSINESSES_BY_PLACE:
-      return {...state, businessesByPlace: action.payload.businesses}
+    case TYPES.GET_BUSINESSES_BY_CATEGORY:
+      return {...state, businessesByCategory: action.payload.businesses}
     default:
       return {...state}
   }

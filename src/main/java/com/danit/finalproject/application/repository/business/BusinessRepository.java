@@ -10,8 +10,8 @@ import org.springframework.data.repository.query.Param;
 public interface BusinessRepository extends JpaRepository<Business, Long> {
   @Query("select b from Business b where "
       + "(:placeId is null or b.place.id = :placeId) and "
-      + "(:categoryId is null or b.categories.id = :categoryId) and "
+      + "(:categoryId is null or :categoryId in (select bc.id from Business bs join bs.categories bc where bs.id = b.id)) and "
       + "(:title is null or lower(b.title) like lower(CONCAT('%', :title, '%')))")
-  Page<Business> findByParams(@Param("placeId") Long placeId, @Param("placeId") Long categoryId, @Param("title") String
+  Page<Business> findByParams(@Param("placeId") Long placeId, @Param("categoryId") Long categoryId, @Param("title") String
       title, Pageable pageable);
 }

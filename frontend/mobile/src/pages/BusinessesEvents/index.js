@@ -8,7 +8,7 @@ import {ReactComponent as Useful} from '../../img/icons/useful.svg'
 import {ReactComponent as Bee} from '../../img/icons/bee.svg'
 import SectionItem from './SectionItem'
 import './businesses-events.scss'
-import {getAllBusinessesByPlace} from '../../actions/businesses'
+import {getBusinessesByCategory} from '../../actions/businesses'
 
 const items = [
   {
@@ -32,33 +32,20 @@ const items = [
 ]
 
 class BusinessesEvents extends Component {
-  state = {
-    businesses: []
-  }
 
   componentDidMount () {
-    const {getBusinessesByPlace} = this.props
-    getBusinessesByPlace(1)
+    const {getBusinessesByCategory} = this.props
+    getBusinessesByCategory(1)
   }
 
-  getBusinenessesByCategory = (id) => {
-    const {allBusinesses} = this.props
-    const businessesByCategory = []
-    allBusinesses.forEach(business => {
-      business.categories.forEach(category => {
-        if (category.id === id) {
-          businessesByCategory.push(business)
-        }
-      })
-    })
-    this.setState({businesses: [...businessesByCategory]})
+  getBusinenessesByCategory (id) {
+    const {getBusinessesByCategory} = this.props
+    getBusinessesByCategory(id)
   }
 
   render () {
-    const {businesses} = this.state
-    const {allBusinesses} = this.props
-    console.log(businesses)
-    const businessesList = items.map(item => {
+    const {businesses} = this.props
+    const businessesList = businesses.map(item => {
       return <SectionItem key={item.id} item={item}/>
     })
 
@@ -82,7 +69,7 @@ class BusinessesEvents extends Component {
                 <div className="menu-item_icon"><Shops/></div>
                 <div className="menu-item_text">Shops</div>
               </li>
-              <li className="menu-item">
+              <li className="menu-item" onClick={() => this.getBusinenessesByCategory(2)}>
                 <div className="menu-item_icon"><Food/></div>
                 <div className="menu-item_text">Food</div>
               </li>
@@ -126,13 +113,13 @@ class BusinessesEvents extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    allBusinesses: state.businesses.businessesByPlace
+    businesses: state.businesses.businessesByCategory
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getBusinessesByPlace: (placeId) => dispatch(getAllBusinessesByPlace(placeId))
+    getBusinessesByCategory: (categoryId) => dispatch(getBusinessesByCategory(categoryId))
   }
 }
 

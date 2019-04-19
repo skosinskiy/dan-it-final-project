@@ -36,8 +36,8 @@ public class EventController {
 
   @GetMapping
   public ResponseEntity<List<EventResponse>> getAllEventsByBusinesses(
-      @RequestParam("place") Long placeId,
-      @RequestParam("business") Long businessId) {
+      @RequestParam(value = "placeId", required = false) Long placeId,
+      @RequestParam(value = "businessId", required = false) Long businessId) {
     return new ResponseEntity<>(eventFacade.getEvents(placeId, businessId), HttpStatus.OK);
   }
 
