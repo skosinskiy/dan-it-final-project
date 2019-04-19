@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-// import Preloader from './components/Preloader'
-import NewsPage from './pages/NewsPage'
+import AppRoutes from './components/AppRoutes'
+import BottomMenu from './components/BottomMenu'
 import './App.css'
 
 class App extends Component {
@@ -8,7 +8,8 @@ class App extends Component {
     // const Content1 = withHeader(anyComponent, image)
     return (
       <div className='App'>
-        <NewsPage />
+        <AppRoutes />
+        <BottomMenu />
       </div>
     )
   }
