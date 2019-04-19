@@ -5,8 +5,8 @@ import './MainLogo.scss'
 
 const MainLogo = () => {
   return (
-    <NavLink to="/services">
-      <div className='main-logo' onClick={()=>{}}>
+    <NavLink to="/">
+      <div className='main-logo'>
         <Logo />
       </div>
     </NavLink>
