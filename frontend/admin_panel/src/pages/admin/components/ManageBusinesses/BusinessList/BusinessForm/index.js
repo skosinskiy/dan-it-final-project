@@ -208,7 +208,9 @@ class BusinessForm extends Component {
         <ImageUploader  images={businessImages}
                         onFileChange={this.onFileChange}
                         onReset={this.onImageReset}
-                        onMainPhotoSelect={this.onMainPhotoSelect} />
+                        onMainPhotoSelect={this.onMainPhotoSelect}
+                        multiple={true}
+        />
 
         <div className={classes.buttons}>
           <NavLink to={'/admin/businesses'} className={classes.buttonLink}>

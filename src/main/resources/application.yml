@@ -37,6 +37,10 @@ spring:
           starttls:
             enable:
               true
+  servlet:
+    multipart:
+      max-file-size:
+        3MB
 server:
   port:
     9000

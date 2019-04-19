@@ -2,7 +2,7 @@ import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
 
 export const getPlaces = () => dispatch => {
-  api.get(`/api/places`).then(res => {
+  return api.get(`/api/places`).then(res => {
     dispatch(ACTIONS.getAllPlaces(res))
   })
 }
