@@ -12,7 +12,6 @@ import lombok.ToString;
 
 @Data
 public class EventResponse {
-
   private Long id;
   private String title;
   private String description;

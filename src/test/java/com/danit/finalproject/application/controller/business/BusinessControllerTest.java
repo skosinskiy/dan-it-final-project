@@ -15,6 +15,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequest;
 import com.danit.finalproject.application.dto.request.business.BusinessRequest;
 import com.danit.finalproject.application.dto.response.business.BusinessResponse;
+import com.danit.finalproject.application.dto.view.View;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.entity.business.BusinessPhoto;
@@ -132,7 +133,9 @@ public class BusinessControllerTest {
     businessCategories.add(businessCategoryService.getById(2L));
     business.setCategories(businessCategories);
 
-    String businessJson = objectMapper.writeValueAsString(modelMapper.map(business, BusinessRequest.class));
+    String businessJson = objectMapper
+        .writerWithView(View.Business.class)
+        .writeValueAsString(modelMapper.map(business, BusinessRequest.class));
 
     MvcResult result = mockMvc.perform(
         post("/api/businesses")
