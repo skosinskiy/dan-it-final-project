@@ -8,17 +8,22 @@ class ParallaxHeader extends Component {
       backgroundImage: `url("${this.props.bgImage}")`,
       backgroundRepeat: 'no-repeat'
     }
+
+    const iconStyle = {
+      backgroundImage: `url("${this.props.icon}")`
+    }
     const optionalComponent = this.props.extraComponent
     // const optionalIcon = this.props.extraIcon
     return (
       <div className='parallax-section header' style={style} >
-        <div className='header-outer-container'>
-          <div className='header-container'>
+        <div className='header__outer-wrapper'>
+          <div className='header__cam-container'>
             <Camera />
-            <a href=' ' className='header-menu' > </a>
+            <a href=' ' className='header__menu' > </a>
           </div>
-          <div className='header-container__text-box'>
-            <p className='header-container__text-box--link'>{this.props.text}</p>
+          <div className='header__text-container' style={iconStyle}>
+            <p className='header__title'>{this.props.header}</p>
+            <p className='header__location'>{this.props.location}</p>
           </div>
         </div>
         {optionalComponent}

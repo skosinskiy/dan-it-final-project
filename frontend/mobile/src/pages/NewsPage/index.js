@@ -50,9 +50,8 @@ class NewsPage extends Component {
               <NewsList news={this.state.news} />
             </div>
       </div>
-        
     )
   }
 }
-  
+
 export default NewsPage
