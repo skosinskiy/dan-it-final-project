@@ -13,17 +13,17 @@ const businessReducer = (state = initialState, action) => {
     case TYPES.GET_BUSINESSES_BY_PLACE_ID:
       return {
         ...state,
-        businessList: action.payload.businessList,
+        businessList: action.payload.businessList
       }
     case TYPES.GET_ALL_BUSINESSES:
       return {
         ...state,
-        businessList: action.payload.businessList,
+        businessList: action.payload.businessList
       }
     case TYPES.GET_ALL_BUSINESS_BY_ID:
       return {
         ...state,
-        businessItem: action.payload.businessItem,
+        businessItem: action.payload.businessItem
       }
     default:
       return state

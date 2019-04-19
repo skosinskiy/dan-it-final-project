@@ -1,28 +1,27 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-import * as businessOperations from "../../store/businesses/operations";
+import * as businessOperations from '../../store/businesses/operations'
 import './SingleBusinessesPage.scss'
 import Preloader from '../../components/Preloader'
 
-
 class SingleBusinessPage extends Component {
-	componentDidMount () {
-		const {getBusinessById} = this.props
+  componentDidMount () {
+    const {getBusinessById} = this.props
     getBusinessById(this.props.match.params.id)
-	}
-	render() {
-	  const {businessItem} = this.props
+  }
+  render () {
+    const {businessItem} = this.props
     // debugger
     if (!businessItem) {
       return <Preloader/>
     }
     
     return (
-			<div className="bp-wrapper">
-				<NavLink to="/businesses/" className="bp_back-btn">
+      <div className="bp-wrapper">
+        <NavLink to="/businesses/" className="bp_back-btn">
           Back
-				</NavLink>
+        </NavLink>
         <h2 className="bp__title">{businessItem.title}</h2>
         <div className="bp-info">
           <img src={businessItem.mainPhoto} alt="business logo" className="bp-info__photo"/>
@@ -44,22 +43,21 @@ class SingleBusinessPage extends Component {
             {[...businessItem.photos.map(item => <p key={Math.random()} className="bp-photo__item">{item.photo}</p>)]}
           </div>
         </div>
-			</div>
-		);
-	}
+      </div>
+    )
+  }
 }
-
 
 const mapStateToProps = (state, props) => {
   return {
-		businessItem: state.businesses.businessItem
-	}
+    businessItem: state.businesses.businessItem
+  }
 }
 
 const mapDispatchToProps = (dispatch) => {
-	return {
-		getBusinessById: (id) => dispatch(businessOperations.getBusinessById(id)),
-	}
+  return {
+    getBusinessById: (id) => dispatch(businessOperations.getBusinessById(id))
+  }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SingleBusinessPage);
+export default connect(mapStateToProps, mapDispatchToProps)(SingleBusinessPage)
