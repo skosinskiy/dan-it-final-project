@@ -79,14 +79,6 @@ public class EventService implements CrudService<Event> {
     return event;
   }
 
-  public Event addPhoto(EventPhoto eventPhoto, Long eventId) {
-    Optional<Event> optionalEvent = eventRepository.findById(eventId);
-    optionalEvent.ifPresent(event -> event.getPhotos().add(eventPhoto));
-    Event event = optionalEvent.orElse(null);
-    eventRepository.save(event);
-    return event;
-  }
-
   public Event deleteEventPhoto(Long eventId, Long photoId) {
     Optional<Event> optionalEvent = eventRepository.findById(eventId);
     if (optionalEvent.isPresent()) {
