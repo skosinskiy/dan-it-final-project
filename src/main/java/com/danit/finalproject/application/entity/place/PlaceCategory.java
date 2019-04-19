@@ -1,7 +1,7 @@
 package com.danit.finalproject.application.entity.place;
 
 import com.danit.finalproject.application.entity.BaseEntity;
-import com.danit.finalproject.application.entity.menuitem.MenuItem;
+import com.danit.finalproject.application.entity.business.BusinessCategory;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
@@ -29,11 +29,11 @@ public class PlaceCategory extends BaseEntity {
   private boolean multisync;
 
   @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-  @JoinTable(name = "placecategories_menuitems",
+  @JoinTable(name = "placecategories_businesscategories",
       joinColumns = {@JoinColumn(name = "place_category_id")},
-      inverseJoinColumns = {@JoinColumn(name = "menu_item_id")})
+      inverseJoinColumns = {@JoinColumn(name = "business_category_id")})
   @ToString.Exclude
-  private List<MenuItem> menuItems;
+  private List<BusinessCategory> businessCategories;
   
   @OneToMany(mappedBy = "placeCategory")
   @ToString.Exclude

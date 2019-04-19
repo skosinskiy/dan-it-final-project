@@ -76,7 +76,7 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
     }
   }
 
-  public List<BusinessCategory> findByParentCategoryIsNull(){
+  public List<BusinessCategory> findByParentCategoryIsNull() {
     return businessCategoryRepository.findByParentCategoryIsNull();
   }
 

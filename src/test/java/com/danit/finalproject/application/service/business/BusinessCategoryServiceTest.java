@@ -124,11 +124,12 @@ public class BusinessCategoryServiceTest {
   @Test
   public void verifyFindByParentCategoryIsNullCalledOnce() {
     BusinessCategory parentBusinessCategory = new BusinessCategory("business-category-1",
-        null,null, null,"imageKey");
+        null,null, null,"imageKey", null);
     when(businessCategoryRepository.findByParentCategoryIsNull())
         .thenReturn(new ArrayList<BusinessCategory>() {{
           add(parentBusinessCategory);
-          add(new BusinessCategory("business-category-3", null, null, null, null));
+          add(new BusinessCategory("business-category-3", null,
+              null, null, null, null));
         }});
 
     List<BusinessCategory> parentBusinessCategories = businessCategoryService.findByParentCategoryIsNull();

@@ -70,14 +70,6 @@ VALUES
   (2, 8),
   (2, 4);
 
--- menu items
-
-INSERT INTO menu_items
-  (id, date_created, date_modified, name, display_name)
-VALUES
-  (1, '2019-03-21 01:15:00', '2019-03-21 02:55:50', 'SHOP', 'The Bazar'),
-  (2, '2019-03-22 06:25:00', '2019-03-22 07:05:02', 'FOOD', 'Healthy food zone');
-
 -- place
 
 INSERT INTO places_categories
@@ -100,8 +92,8 @@ VALUES
   (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-3', 2),
   (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-4', 2);
 
-INSERT INTO placecategories_menuitems
-  (place_category_id, menu_item_id)
+INSERT INTO placecategories_businesscategories
+  (place_category_id, business_category_id)
 VALUES
   (1,1),
   (2,1),

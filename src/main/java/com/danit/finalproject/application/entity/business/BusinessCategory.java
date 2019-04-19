@@ -1,6 +1,8 @@
 package com.danit.finalproject.application.entity.business;
 
 import com.danit.finalproject.application.entity.BaseEntity;
+import com.danit.finalproject.application.entity.place.PlaceCategory;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -38,4 +40,7 @@ public class BusinessCategory extends BaseEntity {
   @Column(name = "image_key")
   private String imageKey;
 
+  @ManyToMany(mappedBy = "businessCategories")
+  @ToString.Exclude
+  private List<PlaceCategory> placeCategories;
 }
