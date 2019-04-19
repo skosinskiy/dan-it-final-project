@@ -187,13 +187,13 @@ public class EventControllerTest {
             .thenReturn(expectedImageUrl);
     when(amazonS3Client.getResourceUrl(AmazonS3Service.S3_BUCKET_NAME, "imageKey")).thenReturn("imageUrl");
 
-    String placeCategoryJson = objectMapper.writeValueAsString(
+    String eventPhotosJson = objectMapper.writeValueAsString(
             modelMapper.map(eventPhotos, new TypeToken<List<EventPhotoRequest>>(){}.getType()));
 
     MvcResult result = mockMvc.perform(
         post("/api/events/1/photos")
             .with(csrf())
-            .content(placeCategoryJson)
+            .content(eventPhotosJson)
             .contentType(MediaType.APPLICATION_JSON))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();

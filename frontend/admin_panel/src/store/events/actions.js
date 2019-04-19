@@ -16,7 +16,7 @@ export const getAllEvents = ({eventList}) => ({
   payload: {eventList}
 })
 
-export const getEventsByPlaceID = ({eventList}) => ({
+export const getEventsByParam = ({eventList}) => ({
   type: TYPES.GET_EVENTS_BY_PLACE_ID,
   payload: {eventList}
 })

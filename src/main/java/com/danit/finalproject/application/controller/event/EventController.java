@@ -1,6 +1,5 @@
 package com.danit.finalproject.application.controller.event;
 
-import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequest;
 import com.danit.finalproject.application.dto.request.event.EventPhotoRequest;
 import com.danit.finalproject.application.dto.request.event.EventRequest;
 import com.danit.finalproject.application.dto.response.event.EventResponse;
@@ -36,10 +35,9 @@ public class EventController {
   }
 
   @GetMapping
-  public ResponseEntity<List<EventResponse>> getAllEventsByBusinesses(
-      @RequestParam(required = false, name = "place") Long placeId,
-      @RequestParam(required = false, name = "business") Long businessId) {
-    return new ResponseEntity<>(eventFacade.getEvents(placeId, businessId), HttpStatus.OK);
+  public ResponseEntity<List<EventResponse>> getAllEventsByParam(
+      @RequestParam(required = false) String searchParam) {
+    return new ResponseEntity<>(eventFacade.getAllEventsByParams(searchParam), HttpStatus.OK);
   }
 
   @PostMapping

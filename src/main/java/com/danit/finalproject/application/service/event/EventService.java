@@ -41,8 +41,8 @@ public class EventService implements CrudService<Event> {
     return eventRepository.findAll();
   }
 
-  public List<Event> findAllByLocation(Long placeId, Long businessId) {
-    return eventRepository.findByParams(placeId, businessId);
+  public List<Event> getAllEventsByParams(String searchParam) {
+    return eventRepository.findByParams(searchParam);
   }
 
   @Override

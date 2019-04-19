@@ -17,7 +17,6 @@ export const fetchEventFormData = () => dispatch => {
 export const getAllEvents = () => dispatch => {
   dispatch(ACTIONS.isEventDataLoading(true))
   return api.get(`/api/events`).then(res => {
-    console.log(res)
     dispatch(ACTIONS.getAllEvents({eventList: res}))
     dispatch(ACTIONS.isEventDataLoading(false))
   }).catch(err => {
@@ -25,9 +24,9 @@ export const getAllEvents = () => dispatch => {
   })
 }
 
-export const getEventsByPlaceID = (placeId) => dispatch => {
-  api.get(`/api/events?place=${placeId}`).then(res => {
-    dispatch(ACTIONS.getEventsByPlaceID({eventList: res}))
+export const getEventsByParam = (param) => dispatch => {
+  api.get(`/api/events?searchParam=${param}`).then(res => {
+    dispatch(ACTIONS.getEventsByParam({eventList: res}))
   }).catch(err => {
     dispatch(ACTIONS.getEventsError(err))
   })
@@ -45,7 +44,7 @@ export const deleteEvent = (eventId) => dispatch => {
   })
 }
 
-export const saveNewEvent = (event, images) => dispatch => {
+export const saveEvent = (event, images) => dispatch => {
   dispatch(ACTIONS.isEventFormDataLoading(true))
   if (event.id) {
     const imagesToUpload = images.filter(image => !image.id)

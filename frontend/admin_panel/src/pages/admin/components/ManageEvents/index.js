@@ -7,6 +7,7 @@ import {withStyles} from '@material-ui/core/styles'
 import {eventOperations} from "../../../../store/events";
 import {connect} from "react-redux";
 import Preloader from "../../../../components/Preloader";
+import PropTypes from "prop-types";
 //
 // import './manageEvents.scss'
 
@@ -47,9 +48,15 @@ class ManagingEvents extends Component {
   }
 }
 
+ManagingEvents.propTypes = {
+  classes: PropTypes.object.isRequired,
+  getAllEvents: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired
+}
+
 const mapStateToProps = (state) => {
   return {
-    isLoading: state.events.isEventDataLoading
+    isLoading: state.events.isEventDataLoading,
   }
 }
 

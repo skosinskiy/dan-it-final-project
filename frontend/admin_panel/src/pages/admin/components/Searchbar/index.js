@@ -60,10 +60,9 @@ class SearchBar extends React.Component {
     }
   }
 
-  findEventByTitle = (e) => {
-    console.log(this.props)
+  findEventByParams = (e) => {
     if (e.key === 'Enter'){
-      this.props.getEventsByPlaceID(this.state.input)
+      this.props.getEventsByParam(this.state.input)
     }
   }
 
@@ -74,7 +73,7 @@ class SearchBar extends React.Component {
       case 'business_by_name':
         return {placeholder: 'Search by company name', func: this.findCompanyByName}
       case 'event_by_title':
-        return {placeholder: 'Search by event title', func: this.findEventByTitle}
+        return {placeholder: 'Search events', func: this.findEventByParams}
       default:
         return 'Search'
     }
@@ -107,7 +106,7 @@ SearchBar.propTypes = {
   classes: PropTypes.object.isRequired,
   getUsersByEmail: PropTypes.func.isRequired,
   getBusinessesByTile: PropTypes.func.isRequired,
-  getEventsByPlaceID: PropTypes.func.isRequired
+  getEventsByParam: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -120,7 +119,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getUsersByEmail: (email, page, size) => dispatch(usersOperations.getUsersByEmail(email, page, size)),
     getBusinessesByTile: (title) => dispatch(businessOperations.getBusinessesByTitle(title)),
-    getEventsByPlaceID: (id) => dispatch(eventOperations.getEventsByPlaceID(id))
+    getEventsByParam: (param) => dispatch(eventOperations.getEventsByParam(param))
   }
 }
 

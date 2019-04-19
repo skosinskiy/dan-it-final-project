@@ -12,7 +12,6 @@ import Select from "@material-ui/core/Select";
 import FormControl from "@material-ui/core/FormControl"
 import InputLabel from "@material-ui/core/InputLabel"
 import OutlinedInput from "@material-ui/core/OutlinedInput"
-import * as ReactDOM from "react-dom"
 import Preloader from "../../../../../../components/Preloader";
 
 const styles = theme => ({
@@ -65,7 +64,6 @@ class EventForm extends Component {
     this.state = {
       editedEvent: props.event !== undefined ? props.event : emptyEvent,
       eventImages: props.event !== undefined ? props.event.photos : [],
-      labelWidth: 0,
       isDataSubmitted: false
     }
 
@@ -74,12 +72,6 @@ class EventForm extends Component {
   componentDidMount() {
     const {fetchEventFormData} = this.props
     fetchEventFormData()
-
-    if (ReactDOM.findDOMNode(this.InputLabelRef)) {
-      this.setState({
-        labelWidth: ReactDOM.findDOMNode(this.InputLabelRef).offsetWidth,
-      });
-    }
   }
 
   componentWillReceiveProps (nextProps) {
@@ -88,12 +80,12 @@ class EventForm extends Component {
     }
   }
 
-  saveEvent = (event) => {
+  updateEvent = (event) => {
     event.preventDefault()
-    const {saveNewEvent} = this.props
+    const {saveEvent} = this.props
     const {eventImages} = this.state
 
-    saveNewEvent({...this.state.editedEvent}, eventImages).then(() => {
+    saveEvent({...this.state.editedEvent}, eventImages).then(() => {
       this.setState({isDataSubmitted: true})
     })
   }
@@ -219,10 +211,7 @@ class EventForm extends Component {
 
         <FormControl variant="outlined" className={classes.inputField}>
           <InputLabel
-            ref={ref => {
-              this.InputLabelRef = ref;
-            }}
-            htmlFor="outlined-age-simple"
+            htmlFor="outlined"
           >
             Event Categories
           </InputLabel>
@@ -232,9 +221,9 @@ class EventForm extends Component {
             onChange={(e) => this.handleChange(e, 'categories')}
             input={
               <OutlinedInput
-                labelWidth={this.state.labelWidth}
+                labelWidth={125}
                 name="age"
-                id="outlined-age-simple"
+                id="outlined"
               />
             }
           >
@@ -279,7 +268,7 @@ class EventForm extends Component {
 
         <div className={classes.buttons}>
           <Button
-            onClick={(e) => this.saveEvent(e)}
+            onClick={(e) => this.updateEvent(e)}
             variant='contained'
             color='primary'
             className={classes.button}
@@ -299,11 +288,14 @@ class EventForm extends Component {
 
 EventForm.propTypes = {
   classes: PropTypes.object,
+  match: PropTypes.object.isRequired,
+  businesses: PropTypes.array.isRequired,
+  eventCategories: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   event: PropTypes.object,
   places: PropTypes.array,
-  saveNewEvent: PropTypes.func,
-  getPlaces: PropTypes.func,
-  getAllEvents: PropTypes.func
+  saveEvent: PropTypes.func,
+  fetchEventFormData: PropTypes.func
 }
 
 const mapStateToProps = (state, props) => {
@@ -319,7 +311,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveNewEvent: (event, images) => dispatch(eventOperations.saveNewEvent(event, images)),
+    saveEvent: (event, images) => dispatch(eventOperations.saveEvent(event, images)),
     fetchEventFormData: () => dispatch(eventOperations.fetchEventFormData())
   }
 }
