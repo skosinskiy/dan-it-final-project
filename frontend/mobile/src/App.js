@@ -5,7 +5,6 @@ import './App.css'
 
 class App extends Component {
   render () {
-    // const Content1 = withHeader(anyComponent, image)
     return (
       <div className='App'>
         <AppRoutes />
