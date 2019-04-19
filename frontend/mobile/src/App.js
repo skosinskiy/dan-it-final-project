@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
-// import NewsPage from './pages/NewsPage'
-import ContactsPage from './pages/ContactsPage'
+import AppRoutes from './components/AppRoutes'
+import BottomMenu from './components/BottomMenu'
 import './App.css'
 
 class App extends Component {
   render () {
     return (
       <div className='App'>
-        <ContactsPage />
+        <AppRoutes />
+        <BottomMenu />
       </div>
     )
   }

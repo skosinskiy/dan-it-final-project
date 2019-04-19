@@ -12,6 +12,7 @@ import eventCategory from './eventCategory'
 import menuItems from './menuItems'
 import placeCategories from './placeCategory'
 import roles from './roles'
+import events from './events'
 
 const rootReducer = combineReducers({
   users: users,
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   toastr: toastrReducer,
   placeCategories: placeCategories,
   roles: roles,
+  events: events
 })
 
 export default rootReducer

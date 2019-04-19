@@ -35,10 +35,9 @@ public class EventController {
   }
 
   @GetMapping
-  public ResponseEntity<List<EventResponse>> getAllEventsByBusinesses(
-      @RequestParam("place") Long placeId,
-      @RequestParam("business") Long businessId) {
-    return new ResponseEntity<>(eventFacade.getEvents(placeId, businessId), HttpStatus.OK);
+  public ResponseEntity<List<EventResponse>> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(
+      @RequestParam(required = false) String searchParam) {
+    return new ResponseEntity<>(eventFacade.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(searchParam), HttpStatus.OK);
   }
 
   @PostMapping
@@ -62,9 +61,9 @@ public class EventController {
   @PostMapping("/{eventId}/photos")
   @PreAuthorize("hasAuthority('MANAGE_EVENTS')")
   public ResponseEntity<EventResponse> addPhotosToEvent(
-      @RequestBody EventPhotoRequest eventPhotoRequest,
-      @PathVariable Long eventId) {
-    return new ResponseEntity<>(eventFacade.addPhoto(eventPhotoRequest, eventId), HttpStatus.OK);
+      @RequestBody List<EventPhotoRequest> eventPhotos,
+      @PathVariable("eventId") Long eventId) {
+    return new ResponseEntity<>(eventFacade.createEventPhotos(eventPhotos, eventId), HttpStatus.OK);
   }
 
   @DeleteMapping("/{eventId}/photos/{photoId}")
