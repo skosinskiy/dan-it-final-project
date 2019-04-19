@@ -7,6 +7,8 @@ import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import Avatar from '@material-ui/core/Avatar'
 import ImageIcon from '@material-ui/icons/Image'
+import PropTypes from 'prop-types'
+
 
 import {roleOperations} from 'store/roles'
 
@@ -48,10 +50,11 @@ class RoleItem extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-
-  }
+RoleItem.propTypes = {
+  classes: PropTypes.object.isRequired,
+  propTypes: PropTypes.array.isRequired,
+  role: PropTypes.object.isRequired,
+  deleteRole: PropTypes.func.isRequired,
 }
 
 const mapDispatchToProps = (dispatch) => {
@@ -60,4 +63,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(RoleItem))
+export default connect(null, mapDispatchToProps)(withStyles(styles)(RoleItem))

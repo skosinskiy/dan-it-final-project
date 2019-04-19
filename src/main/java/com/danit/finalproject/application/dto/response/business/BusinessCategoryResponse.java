@@ -9,5 +9,6 @@ public class BusinessCategoryResponse {
   private String name;
   private String description;
   private BusinessCategoryResponse parentCategory;
-
+  private String imageKey;
+  private String imageUrl;
 }

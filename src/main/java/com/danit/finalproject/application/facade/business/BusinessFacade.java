@@ -12,6 +12,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Component
 public class BusinessFacade extends AbstractDtoFacade<Business, BusinessRequest, BusinessResponse> {
 
@@ -26,9 +29,12 @@ public class BusinessFacade extends AbstractDtoFacade<Business, BusinessRequest,
     return mapEntityListToResponseDtoList(businessService.findBusinesses(placeId, title, pageable));
   }
 
-  public BusinessResponse addPhoto(BusinessPhotoRequest businessPhotoRequest, Long businessId) {
-    BusinessPhoto eventPhoto = modelMapper.map(businessPhotoRequest, BusinessPhoto.class);
-    Business updatedBusiness = businessService.addPhoto(eventPhoto, businessId);
+  public BusinessResponse createBusinessPhotos(List<BusinessPhotoRequest> businessPhotosRequest, Long businessId) {
+    List<BusinessPhoto> businessPhotos = businessPhotosRequest
+        .stream()
+        .map(businessPhotoRequest -> modelMapper.map(businessPhotoRequest, BusinessPhoto.class))
+        .collect(Collectors.toList());
+    Business updatedBusiness = businessService.createBusinessPhotos(businessPhotos, businessId);
     return mapEntityToResponseDto(updatedBusiness);
   }
 

@@ -53,7 +53,9 @@ class Roles extends Component {
 }
 
 Roles.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  getAllRoles: PropTypes.func.isRequired,
+  roles: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = (state) => {

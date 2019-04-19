@@ -1,3 +1,5 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
+/* eslint-disable no-tabs */
 import React, {Component} from 'react'
 import ScreenEventItem from './ScreenNewsItem/'
 import './ScreenNewsList.scss'

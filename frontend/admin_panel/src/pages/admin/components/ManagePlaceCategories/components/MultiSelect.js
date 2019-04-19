@@ -61,10 +61,12 @@ class MultipleSelect extends React.Component {
     this.setState({name: event.target.value})
     const {placeCategoryKey, placeCategories, updateChanged, updateMenuItems} = this.props
     updateChanged(placeCategoryKey, placeCategories)
-    const newMenuItems = event.target.value.map(menuItemName => ({
+    const newMenuItems = event.target.value.map(
+      menuItemName => ({
       name: menuItemName,
       displayName: ''
-    }))
+      })
+    )
     updateMenuItems(placeCategoryKey, placeCategories, newMenuItems)
   }
 

@@ -166,7 +166,11 @@ class BusinessList extends React.Component {
 }
 
 BusinessList.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  getAllBusinesses: PropTypes.func.isRequired,
+  deleteBusiness: PropTypes.func.isRequired,
+  updatePaginationPage: PropTypes.func.isRequired,
+  businessList: PropTypes.array.isRequired,
 }
 
 const mapStateToProps = (state) => {
