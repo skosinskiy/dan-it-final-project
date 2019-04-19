@@ -268,7 +268,9 @@ class EventForm extends Component {
           images={eventImages}
           onFileChange={this.onFileChange}
           onReset={this.onImageReset}
-          onMainPhotoSelect={this.onMainPhotoSelect} />
+          onMainPhotoSelect={this.onMainPhotoSelect}
+          multiple={true}
+        />
 
         <div className={classes.buttons}>
           <Button

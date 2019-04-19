@@ -177,7 +177,8 @@ class EventCategoryForm extends React.Component {
 
         <ImageUploader  images={eventCategoryImage}
                         onFileChange={this.onFileChange}
-                        onReset={this.onImageReset} />
+                        onReset={this.onImageReset}
+                        multiple={false}/>
 
         <div className={classes.buttons}>
           <NavLink to={'/admin/event-categories'} className={classes.buttonLink}>
