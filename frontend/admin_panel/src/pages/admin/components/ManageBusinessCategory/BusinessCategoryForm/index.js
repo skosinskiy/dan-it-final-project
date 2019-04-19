@@ -192,7 +192,8 @@ class BusinessCategoryForm extends React.Component {
         <ImageUploader  images={businessCategoryImage}
                         onFileChange={this.onFileChange}
                         onReset={this.onImageReset}
-                        onMainPhotoSelect={this.onMainPhotoSelect} />
+                        onMainPhotoSelect={this.onMainPhotoSelect}
+                        multiple={false}/>
 
         <div className={classes.buttons}>
           <NavLink to={'/admin/business-categories'} className={classes.buttonLink}>

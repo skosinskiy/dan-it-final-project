@@ -2,7 +2,7 @@ import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
 
 export const getAllEventCategories = () => dispatch => {
-  api.get('/api/event-categories').then(res => {
+  return api.get('/api/event-categories').then(res => {
     dispatch(ACTIONS.getAllEventCategories(res))
   })
 }
