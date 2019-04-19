@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import './dialogue-item.scss'
+import circle from '../../../../img/DialoguesPage/circle.png'
 
 class DialoguesItem extends Component {
   render () {
@@ -18,7 +19,7 @@ class DialoguesItem extends Component {
         </div>
         <div className='dialogue-list__info-container'>
           <div className='dialogue-list__time'>{time}</div>
-          <div className='dialogue-list__notifier'>{newMSG ? 'X' : null}</div>
+          <div className='dialogue-list__notifier'>{newMSG ? circle : null}</div>
         </div>
       </li>
     )

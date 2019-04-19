@@ -18,7 +18,10 @@ class DialoguesPage extends Component {
 
   render () {
     return (
-      <div className='dialogues-page'>
+      <div className='dialogue-page'>
+        <div className='dialogue-page__header'>
+          <div className='dialogue-page__title'>Messages</div>
+        </div>
         <DialogueList dialogues={this.state.dialogues} />
       </div>
     )
