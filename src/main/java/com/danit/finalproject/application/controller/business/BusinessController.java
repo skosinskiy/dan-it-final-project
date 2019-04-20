@@ -42,6 +42,7 @@ public class BusinessController {
   }
 
   @GetMapping
+  @JsonView(View.Empty.class)
   public ResponseEntity<Page<BusinessResponse>> getAllBusinesses(
       @RequestParam(name = "placeId", required = false) Long placeId,
       @RequestParam(name = "title", required = false) String title,
@@ -50,12 +51,14 @@ public class BusinessController {
   }
 
   @PostMapping
+  @JsonView(View.Business.class)
   public BusinessResponse createNewBusiness(@RequestBody BusinessRequest businessRequest) {
     return businessFacade.create(businessRequest);
   }
 
   @PutMapping("{id}")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
+  @JsonView(View.Business.class)
   public ResponseEntity<BusinessResponse> updateBusiness(
           @PathVariable Long id,
           @RequestBody BusinessRequest businessRequest) {
@@ -64,12 +67,14 @@ public class BusinessController {
 
   @DeleteMapping("{id}")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
+  @JsonView(View.Business.class)
   public ResponseEntity<BusinessResponse> deleteBusiness(@PathVariable("id") Long businessId) {
     return new ResponseEntity<>(businessFacade.delete(businessId), HttpStatus.OK);
   }
 
   @PostMapping("/{businessId}/photos")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
+  @JsonView(View.Business.class)
   public ResponseEntity<BusinessResponse> createBusinessPhotos(
           @RequestBody List<BusinessPhotoRequest> businessPhotos,
           @PathVariable("businessId") Long businessId) {
@@ -78,6 +83,7 @@ public class BusinessController {
 
   @DeleteMapping("/{businessId}/photos/{photoId}")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
+  @JsonView(View.Business.class)
   //TODO research is this method necessary
   public ResponseEntity<BusinessResponse> deletePhoto(
           @PathVariable Long businessId,

@@ -34,11 +34,13 @@ public class EventController {
   }
 
   @GetMapping("{id}")
+  @JsonView(View.Event.class)
   public ResponseEntity<EventResponse> getEventById(@PathVariable("id") Long eventId) {
     return new ResponseEntity<>(eventFacade.getById(eventId), HttpStatus.OK);
   }
 
   @GetMapping
+  @JsonView(View.Empty.class)
   public ResponseEntity<List<EventResponse>> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(
       @RequestParam(required = false) String searchParam) {
     return new ResponseEntity<>(eventFacade.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(searchParam), HttpStatus.OK);
@@ -46,24 +48,28 @@ public class EventController {
 
   @PostMapping
   @PreAuthorize("hasAuthority('MANAGE_EVENTS')")
+  @JsonView(View.Event.class)
   public ResponseEntity<EventResponse> createNewEvent(@RequestBody EventRequest eventRequest) {
     return new ResponseEntity<>(eventFacade.create(eventRequest), HttpStatus.OK);
   }
 
   @PutMapping("{id}")
   @PreAuthorize("hasAuthority('MANAGE_EVENTS')")
+  @JsonView(View.Event.class)
   public ResponseEntity<EventResponse> updateEvent(@PathVariable Long id, @RequestBody EventRequest eventRequest) {
     return new ResponseEntity<>(eventFacade.update(id, eventRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
   @PreAuthorize("hasAuthority('MANAGE_EVENTS')")
+  @JsonView(View.Event.class)
   public ResponseEntity<EventResponse> deleteEvent(@PathVariable("id") Long eventId) {
     return new ResponseEntity<>(eventFacade.delete(eventId), HttpStatus.OK);
   }
 
   @PostMapping("/{eventId}/photos")
   @PreAuthorize("hasAuthority('MANAGE_EVENTS')")
+  @JsonView(View.Event.class)
   public ResponseEntity<EventResponse> addPhotosToEvent(
       @RequestBody List<EventPhotoRequest> eventPhotos,
       @PathVariable("eventId") Long eventId) {
@@ -72,6 +78,7 @@ public class EventController {
 
   @DeleteMapping("/{eventId}/photos/{photoId}")
   @PreAuthorize("hasAuthority('MANAGE_EVENTS')")
+  @JsonView(View.Event.class)
   public ResponseEntity<EventResponse> deletePhoto(@PathVariable Long eventId, @PathVariable Long photoId) {
     return new ResponseEntity<>(eventFacade.deleteEventPhoto(eventId, photoId), HttpStatus.OK);
   }

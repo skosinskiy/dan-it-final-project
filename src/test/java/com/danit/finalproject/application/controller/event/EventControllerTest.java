@@ -151,7 +151,9 @@ public class EventControllerTest {
     event.setBusiness(businessService.getById(2L));
     event.setPlace(placeService.getById(2L));
 
-    String userJson = objectMapper.writeValueAsString(modelMapper.map(event, EventRequest.class));
+    String userJson = objectMapper
+        .writerWithView(View.Event.class)
+        .writeValueAsString(modelMapper.map(event, EventRequest.class));
 
     MvcResult result = mockMvc.perform(
         put("/api/events/1")

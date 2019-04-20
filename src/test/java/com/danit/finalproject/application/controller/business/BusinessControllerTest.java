@@ -19,10 +19,12 @@ import com.danit.finalproject.application.dto.view.View;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.entity.business.BusinessPhoto;
+import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.service.AmazonS3Service;
 import com.danit.finalproject.application.service.business.BusinessCategoryService;
 import com.danit.finalproject.application.service.business.BusinessPhotoService;
 import com.danit.finalproject.application.service.business.BusinessService;
+import com.danit.finalproject.application.service.event.EventService;
 import com.danit.finalproject.application.service.place.PlaceService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -97,10 +99,11 @@ public class BusinessControllerTest {
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
     HashMap<String, Object> businesses
-        = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>(){});
+        = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>() {
+    });
 
-    assertEquals(expectedSize, ((List)businesses.get("content")).size());
-    assertEquals(secondCategoryName, ((LinkedHashMap)((List)businesses.get("content")).get(1)).get("title"));
+    assertEquals(expectedSize, ((List) businesses.get("content")).size());
+    assertEquals(secondCategoryName, ((LinkedHashMap) ((List) businesses.get("content")).get(1)).get("title"));
   }
 
   @Test
@@ -112,10 +115,11 @@ public class BusinessControllerTest {
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
     HashMap<String, Object> businesses
-        = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>(){});
+        = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>() {
+    });
 
-    assertEquals(expectedSize, ((List)businesses.get("content")).size());
-    assertTrue(((String)(((LinkedHashMap)((List)businesses.get("content")).get(0)).get("title"))).contains(titlePart));
+    assertEquals(expectedSize, ((List) businesses.get("content")).size());
+    assertTrue(((String) (((LinkedHashMap) ((List) businesses.get("content")).get(0)).get("title"))).contains(titlePart));
   }
 
   @Test
@@ -145,13 +149,13 @@ public class BusinessControllerTest {
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
     BusinessResponse createdBusiness = objectMapper.readValue(responseBody, BusinessResponse.class);
-    Long createdBUsinessId= createdBusiness.getId();
+    Long createdBUsinessId = createdBusiness.getId();
 
     assertEquals(expectedName, createdBusiness.getTitle());
     assertNotNull(createdBUsinessId);
     assertEquals(createdBusiness.getCategories().get(0).getId(), businessCategoryService.getById(1L).getId());
     assertEquals(createdBusiness.getPlace().getId(), placeService.getById(2L).getId());
- }
+  }
 
   @Test
   public void updateBusiness() throws Exception {
@@ -161,7 +165,9 @@ public class BusinessControllerTest {
     business.setTitle(businessTitle);
     business.setPlace(placeService.getById(2L));
 
-    String userJson = objectMapper.writeValueAsString(modelMapper.map(business, BusinessRequest.class));
+    String userJson = objectMapper
+        .writerWithView(View.Business.class)
+        .writeValueAsString(modelMapper.map(business, BusinessRequest.class));
 
     MvcResult result = mockMvc.perform(
         put("/api/businesses/1")
@@ -203,9 +209,10 @@ public class BusinessControllerTest {
         .thenReturn(expectedImageUrl);
     when(amazonS3Client.getResourceUrl(AmazonS3Service.S3_BUCKET_NAME, "imageKey")).thenReturn("imageUrl");
 
-    String businessPhotoJson = objectMapper.writeValueAsString(
-        modelMapper.map(businessPhotos, new TypeToken<List<BusinessPhotoRequest>>(){}.getType())
-    );
+    String businessPhotoJson = objectMapper
+        .writerWithView(View.Business.class)
+        .writeValueAsString(modelMapper.map(businessPhotos, new TypeToken<List<BusinessPhotoRequest>>() {
+        }.getType()));
 
     MvcResult result = mockMvc.perform(
         post("/api/businesses/2/photos")

@@ -4,4 +4,6 @@ public class View {
   public static class Business {}
 
   public static class Event {}
+
+  public static class Empty {}
 }
