@@ -46,8 +46,12 @@ public class ModelMapperConfig {
           BusinessCategoryResponse destination = context.getDestination();
           BusinessCategory source = context.getSource();
           String imageKey = source.getImageKey();
+          String iconKey = source.getIconKey();
           if (imageKey != null) {
             destination.setImageUrl(amazonS3Service.getUrlFromFileKey(imageKey));
+          }
+          if (iconKey != null) {
+            destination.setIconUrl(amazonS3Service.getUrlFromFileKey(iconKey));
           }
           return destination;
         });
