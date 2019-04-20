@@ -16,19 +16,19 @@
   }
 
   &__img-container{
-    margin: 0;
+    align-self: center;
     width: 40px;
     height: 40px;
-    align-self: center;
+    margin: 0;
   }
 
   &__content-container{
     display: flex;
+    flex-grow: 1;
     flex-direction: column;
     justify-content: space-between;
     padding: 3px 0 3px 12px;
     text-align: left;
-    flex-grow: 1;
   }
 
   &__name{
@@ -51,7 +51,4 @@
     color: $grey;
     font-size: 13px;
   }
-
-
-
 }
