@@ -81,7 +81,7 @@ public class EventControllerTest {
   @Test
   public void getEventById() throws Exception {
     Long expectedId = 1L;
-    String expectedName = "event-1";
+    String expectedName = "Event-1";
 
     MvcResult result = mockMvc.perform(get("/api/events/1"))
         .andReturn();
