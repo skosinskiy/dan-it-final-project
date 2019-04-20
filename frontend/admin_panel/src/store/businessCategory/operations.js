@@ -28,9 +28,6 @@ const updateBusinessCategory = (category) => {
 }
 
 export const saveCategory = (category, image, icon) => dispatch => {
-  console.log(image)
-  console.log(icon)
-
   if (category.id) {
     if ((image && !image.imageKey)) {
       uploadFile(image).then(uploadResult => {
