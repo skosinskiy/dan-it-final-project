@@ -21,6 +21,7 @@ class DialoguesPage extends Component {
       <div className='dialogue-page'>
         <div className='dialogue-page__header'>
           <div className='dialogue-page__title'>Messages</div>
+          <a href=' ' className='dialogue-page__header-menu' />
         </div>
         <DialogueList dialogues={this.state.dialogues} />
       </div>
