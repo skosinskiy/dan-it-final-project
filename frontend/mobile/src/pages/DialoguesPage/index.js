@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import DialogueList from './DialogueList'
+import BlueButton from '../../components/BlueButton'
 import icon1 from '../../img/DialoguesPage/dialogue-icon1.jpg'
 import './dialogue-page.scss'
 
@@ -22,6 +23,7 @@ class DialoguesPage extends Component {
           <a href=' ' className='dialogue-page__header-menu' > </a>
         </div>
         <DialogueList dialogues={this.state.dialogues} />
+        <BlueButton />
       </div>
     )
   }
