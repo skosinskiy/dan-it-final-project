@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import NewsPage from '../../pages/NewsPage/index'
+import BusinessesEvents from '../../pages/BusinessesEvents'
 
 const AppRoutes = (props) => {
   return (
@@ -11,6 +12,7 @@ const AppRoutes = (props) => {
         <Route path="/messages" />
         <Route path="/favourites"/>
         <Route path="/more"/>
+        <Route path="/businesses-events" component={BusinessesEvents}/>
       </Switch>
     </div>
   )
