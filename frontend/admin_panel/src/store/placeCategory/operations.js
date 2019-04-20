@@ -22,21 +22,22 @@ const preloadDecorator = dispatch => decorateByPreloader(dispatch)
 export const realoadData = () => async dispatch => {
   dispatch(flushDeletedIds())
   const rawData = await preloadDecorator(dispatch)(endPoint.get())
-  dispatch(ACTIONS.updatePlaceCategories(
-    rawData.map(placeCategory => createNewOrAddDefaults(placeCategory))
-  ))
+  dispatch(ACTIONS.updatePlaceCategories(rawData.map(placeCategory => createOrSetKey(placeCategory))))
+  const businessCategories = await preloadDecorator(dispatch)(api.get(`/api/business-categories/all-parent`))
+  dispatch(ACTIONS.updateBusinessCategories(businessCategories))
 }
 
-const createNewOrAddDefaults = ({ id, multisync = false, name = "Display Name",
-  description = "Enter your desription here", menuItems = [] } = {}) =>
-({
-  key: Math.random() * new Date().getTime(),
-  id: id,
-  multisync: multisync,
-  description: description,
-  name: name,
-  menuItems: menuItems
-})
+const createOrSetKey = placeCategory => {
+  if (!placeCategory) {
+    placeCategory = {
+      multisync: false,
+      name: "Display Name",
+      description: "Enter your desription here",
+      businessCategories: []
+    }
+  }
+  return Object.assign(placeCategory, { key: Math.random() * new Date().getTime(), })
+}
 
 const findIndexByKey = (key, container) => (
   container.findIndex(placeCategory => placeCategory.key === key)
@@ -69,6 +70,12 @@ export const updateMenuItems = (key, container, menuItems) => dispatch => {
   ))
 }
 
+export const updateBusinessCategories = (key, container, selectedBusinessCategories) =>dispatch => {
+  dispatch(ACTIONS.updateBusinessCategories(
+    setValueToEntityField(key, container, 'businessCategories', selectedBusinessCategories)
+  ))
+}
+
 export const updateDescription = (key, container, description) => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(
     setValueToEntityField(key, container, 'description', description)
@@ -90,7 +97,7 @@ export const toggleMultisync = (key, container) => dispatch => {
 
 export const addNew = container => dispatch => {
   const newContainer = [...container]
-  newContainer.push(createNewOrAddDefaults())
+  newContainer.push(createOrSetKey())
   dispatch(ACTIONS.updatePlaceCategories(newContainer))
 }
 
