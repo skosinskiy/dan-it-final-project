@@ -25,12 +25,6 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
   },
-  dense: {
-    marginTop: 16
-  },
-  menu: {
-    width: 200
-  },
 
   buttonLink: {
     textDecoration: 'none'
@@ -47,8 +41,7 @@ const styles = theme => ({
   },
 
   inputField: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
+    margin: theme.spacing.unit
   }
 
 })
@@ -59,7 +52,9 @@ const emptyEvent = {
   address: "",
   categories: [],
   business: null,
-  place: null
+  place: null,
+  startDate: null,
+  endDate: null
 }
 
 class EventForm extends Component {
@@ -80,7 +75,10 @@ class EventForm extends Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.event && nextProps.event !== this.props.event) {
-      this.setState({editedEvent: nextProps.event})
+      this.setState({
+        editedEvent: nextProps.event,
+        eventImages: nextProps.event.photos
+      })
     }
   }
 
@@ -262,15 +260,41 @@ class EventForm extends Component {
         >
           {placeOptions}
         </TextField>
-
-        <ImageUploader
-          className={classes.inputField}
-          images={eventImages}
-          onFileChange={this.onFileChange}
-          onReset={this.onImageReset}
-          onMainPhotoSelect={this.onMainPhotoSelect}
-          multiple={true}
+        <TextField
+          variant='outlined'
+          label="Start date"
+          type="datetime-local"
+          className={classes.textField}
+          value={editedEvent.startDate && editedEvent.startDate.substring(0, 16)}
+          onChange={(e) => this.handleChange(e, 'startDate')}
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
+
+        <TextField
+          variant='outlined'
+          label="End date"
+          type="datetime-local"
+          className={classes.textField}
+          value={editedEvent.endDate && editedEvent.endDate.substring(0, 16)}
+          onChange={(e) => this.handleChange(e, 'endDate')}
+          margin="normal"
+          InputLabelProps={{
+            shrink: true,
+          }}
+        />
+
+        <div className={classes.textField}>
+          <ImageUploader
+            images={eventImages}
+            onFileChange={this.onFileChange}
+            onReset={this.onImageReset}
+            onMainPhotoSelect={this.onMainPhotoSelect}
+            multiple={true}
+          />
+        </div>
 
         <div className={classes.buttons}>
           <Button

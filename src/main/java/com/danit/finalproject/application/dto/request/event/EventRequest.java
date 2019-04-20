@@ -2,6 +2,8 @@ package com.danit.finalproject.application.dto.request.event;
 
 import com.danit.finalproject.application.dto.request.business.BusinessRequest;
 import com.danit.finalproject.application.dto.request.place.PlaceRequest;
+
+import java.util.Date;
 import java.util.List;
 import lombok.Data;
 
@@ -17,5 +19,7 @@ public class EventRequest {
   private BusinessRequest business;
   private PlaceRequest place;
   private String address;
+  private Date startDate;
+  private Date endDate;
 
 }

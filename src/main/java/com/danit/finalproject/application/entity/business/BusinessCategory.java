@@ -38,4 +38,7 @@ public class BusinessCategory extends BaseEntity {
   @Column(name = "image_key")
   private String imageKey;
 
+  @Column(name = "icon_key")
+  private String iconKey;
+
 }
