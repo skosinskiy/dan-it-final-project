@@ -144,8 +144,6 @@ class EventForm extends Component {
 
     const eventCategoriesValue = eventCategories.filter(category => editedEvent.categories.some(currentCategory => category.id === currentCategory.id))
 
-    console.log(editedEvent)
-
     if (isDataSubmitted) {
       return <Redirect to={'/admin/events'} />
     }
