@@ -1,6 +1,7 @@
 package com.danit.finalproject.application.entity.event;
 
 import com.danit.finalproject.application.entity.BaseEntity;
+import com.danit.finalproject.application.entity.Notification;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.place.Place;
 
@@ -58,4 +59,8 @@ public class Event extends BaseEntity {
 
   @Column(name = "address")
   private String address;
+
+  @OneToOne(mappedBy = "event", cascade = CascadeType.ALL)
+  @ToString.Exclude
+  private Notification notification;
 }

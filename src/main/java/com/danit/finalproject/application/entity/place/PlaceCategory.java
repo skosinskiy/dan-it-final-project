@@ -38,4 +38,7 @@ public class PlaceCategory extends BaseEntity {
   @OneToMany(mappedBy = "placeCategory")
   @ToString.Exclude
   private List<Place> places;
+
+  @Column(name = "description")
+  private String description;
 }

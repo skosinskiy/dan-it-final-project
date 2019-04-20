@@ -6,6 +6,7 @@ import lombok.Data;
 public class EventPhotoResponse {
 
   private Long id;
-  private String photo;
+  private String imageKey;
+  private String imageUrl;
 
 }

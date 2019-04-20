@@ -9,6 +9,7 @@ import SearchIcon from '@material-ui/icons/Search'
 
 import {usersOperations} from 'store/users'
 import {businessOperations} from '../../../../store/businesses'
+import {eventOperations} from "../../../../store/events";
 
 /*
 * Search Types that should be passed as props:
@@ -59,12 +60,20 @@ class SearchBar extends React.Component {
     }
   }
 
+  findEventByParams = (e) => {
+    if (e.key === 'Enter'){
+      this.props.getEventsByParam(this.state.input)
+    }
+  }
+
   setPlaceholder = (searchType) => {
     switch (searchType) {
       case 'user_by_email':
         return {placeholder: 'Search user by email', func: this.findUsersByEmail}
       case 'business_by_name':
         return {placeholder: 'Search by company name', func: this.findCompanyByName}
+      case 'event_by_title':
+        return {placeholder: 'Search events', func: this.findEventByParams}
       default:
         return 'Search'
     }
@@ -97,6 +106,7 @@ SearchBar.propTypes = {
   classes: PropTypes.object.isRequired,
   getUsersByEmail: PropTypes.func.isRequired,
   getBusinessesByTile: PropTypes.func.isRequired,
+  getEventsByParam: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -109,6 +119,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getUsersByEmail: (email, page, size) => dispatch(usersOperations.getUsersByEmail(email, page, size)),
     getBusinessesByTile: (title) => dispatch(businessOperations.getBusinessesByTitle(title)),
+    getEventsByParam: (param) => dispatch(eventOperations.getEventsByParam(param))
   }
 }
 

@@ -81,10 +81,10 @@ VALUES
 -- place
 
 INSERT INTO places_categories
-  (id, date_created, date_modified, name, multisync)
+  (id, date_created, date_modified, name, description, multisync)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-1', 1),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-2', 0 );
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-1', 'this is test description for cat 1', 1),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-2', 'this is test description for cat 2', 0 );
 
 INSERT INTO places
   (id, date_created, date_modified, title, description, address, place_category)
@@ -182,7 +182,7 @@ VALUES
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'event-2', 'description-2', 2, 2, 'address2' );
 
 INSERT INTO event_photos
-  (id, date_created, date_modified, photo, event_id)
+  (id, date_created, date_modified, image_key, event_id)
 VALUES
   (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-1', 1 ),
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-2', 1 ),

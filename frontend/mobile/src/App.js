@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import AppRoute from './components/Router'
+import AppRoutes from './components/AppRoutes'
+import BottomMenu from './components/BottomMenu'
 import './App.css'
 
 class App extends Component {
@@ -21,7 +22,8 @@ class App extends Component {
         {/* </a> */}
         {/* </header> */}
         {/* <Preloader /> */}
-        <AppRoute />
+        <AppRoutes />
+        <BottomMenu />
       </div>
     )
   }
