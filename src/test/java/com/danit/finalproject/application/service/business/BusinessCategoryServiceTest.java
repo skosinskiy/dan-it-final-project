@@ -94,7 +94,7 @@ public class BusinessCategoryServiceTest {
   }
 
   @Test
-  public void verifyDeleteCalledOnceAndS3ServiceDeleteCalledOnce() {
+  public void verifyDeleteCalledOnceAndS3ServiceDeleteCalledTwice() {
     Long expectedId = 2L;
     String expectedName = "testName";
     String expectedImageKey = "imageKey";
