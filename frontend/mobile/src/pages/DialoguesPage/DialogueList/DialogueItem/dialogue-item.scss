@@ -51,4 +51,32 @@
     color: $grey;
     font-size: 13px;
   }
+
+  &__circle{
+    position: relative;
+    width: 21px;
+    height: 21px;
+    background-image: url('../../../../img/DialoguesPage/circle.png');
+
+    &:before, &:after{
+      position: absolute;
+      content: ' ';
+      height: 2px;
+      background-color: white;
+    }
+
+    &:before{
+      top: 10px;
+      left: 7px;
+      width: 11.3px;
+      transform: rotate(-45deg);
+    }
+
+    &:after{
+      top: 11px;
+      left: 3px;
+      width: 8.49px;
+      transform: rotate(-135deg);
+    }
+  }
 }
