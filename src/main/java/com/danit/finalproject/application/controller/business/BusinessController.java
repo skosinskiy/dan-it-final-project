@@ -42,8 +42,9 @@ public class BusinessController {
   public ResponseEntity<Page<BusinessResponse>> getAllBusinesses(
       @RequestParam(name = "placeId", required = false) Long placeId,
       @RequestParam(name = "title", required = false) String title,
+      @RequestParam(name = "categoryId", required = false) Long categoryId,
       Pageable pageable) {
-    return new ResponseEntity<>(businessFacade.findBusinesses(placeId, title, pageable), HttpStatus.OK);
+    return new ResponseEntity<>(businessFacade.findBusinesses(placeId, categoryId, title, pageable), HttpStatus.OK);
   }
 
   @PostMapping

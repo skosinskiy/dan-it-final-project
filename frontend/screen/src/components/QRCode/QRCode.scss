@@ -13,6 +13,9 @@
   height: 8vw;
   background: white;
   border-radius: 50%;
+  -webkit-box-shadow: 3px 7px 31px 1px rgba(0,0,0,1);
+  -moz-box-shadow: 3px 7px 31px 1px rgba(0,0,0,1);
+  box-shadow: 3px 7px 31px 1px rgba(0,0,0,1);
   -webkit-transition: all 1s linear;
   -moz-transition: all 1s linear;
   -o-transition: all 1s linear;
@@ -45,15 +48,15 @@
 }
 
 .qrCodeModal.qrCode{
-  right: 33vw;
-  bottom: 13vw;
+  right: 42%;
+  bottom: 38%;
   width: 16vw;
   height: 16vw;
 }
 
 .qrCodeModal>.qrCode-img{
-  width: 210px;
-  height: 210px;
+  width: 65%;
+  height: 55%;
 }
 
 .qrCodeModal>.qrCode-title{

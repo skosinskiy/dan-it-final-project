@@ -5,6 +5,7 @@ import Header from './components/Header/Header'
 import Footer from './components/Footer/Footer'
 import ScreenEventList from './components/ScreenEventList/ScreenEventList'
 import ScreenNewsList from './components/ScreenNewsList'
+import QRCode from './components/QRCode/QRCode'
 
 class App extends Component {
   render () {
@@ -20,6 +21,7 @@ class App extends Component {
           </main>
           <aside className="right-sidebar"><ScreenNewsList /></aside>
         </div>
+        <QRCode />
       </div>
       
     )
