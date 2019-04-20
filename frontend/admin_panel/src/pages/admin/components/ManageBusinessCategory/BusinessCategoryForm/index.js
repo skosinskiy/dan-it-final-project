@@ -20,7 +20,7 @@ const styles = theme => ({
     justifyContent: 'center',
   },
 
-  raw: {
+  row: {
     display: 'flex',
     justifyContent: 'space-between',
     margin: theme.spacing.unit
@@ -151,11 +151,11 @@ class BusinessCategoryForm extends React.Component {
 
   render () {
 
-    const {classes, match, categories, category} = this.props
+    const {classes, match, categories, isLoading} = this.props
     const {editedCategory, businessCategoryImage, businessCategoryIcon} = this.state
     const categoryId = match.params.categoryId
 
-    if (categoryId && !category) {
+    if (isLoading) {
       return <Preloader/>
     }
 
@@ -171,7 +171,7 @@ class BusinessCategoryForm extends React.Component {
 
     return (
       <div className={classes.container}>
-        <div className={classes.raw}>
+        <div className={classes.row}>
           <TextField
             label='Business Category Name'
             className={classes.inputField}
@@ -214,7 +214,7 @@ class BusinessCategoryForm extends React.Component {
             {categoryOptions}
           </TextField>
         </div>
-        <div className={classes.raw}>
+        <div className={classes.row}>
 
           <Typography className={classes.dropzone} variant="h6">
             Select image to be shown as category background
@@ -267,6 +267,7 @@ BusinessCategoryForm.propTypes = {
   categories: PropTypes.array.isRequired,
   getAllBusinessCategories:PropTypes.func.isRequired,
   saveCategory: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = (state, props) => {
@@ -274,7 +275,8 @@ const mapStateToProps = (state, props) => {
 
   return {
     categories: state.businessCategory.allBusinessCategories,
-    category: category
+    category: category,
+    isLoading: state.businessCategory.isBusinessCategoryFormDataLoading
   }
 }
 

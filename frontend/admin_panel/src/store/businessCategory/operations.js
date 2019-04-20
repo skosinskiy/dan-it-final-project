@@ -2,8 +2,12 @@ import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
 
 export const getAllBusinessCategories = () => dispatch => {
+  dispatch(ACTIONS.isBusinessCategoryDataLoading(true))
+  dispatch(ACTIONS.isBusinessCategoryFormDataLoading(true))
   api.get('/api/business-categories').then(res => {
     dispatch(ACTIONS.getAllBusinessCategories(res))
+    dispatch(ACTIONS.isBusinessCategoryDataLoading(false))
+    dispatch(ACTIONS.isBusinessCategoryFormDataLoading(false))
   })
 }
 
@@ -82,6 +86,7 @@ const createNewCategory = (category, image, icon) => dispatch => {
 }
 
 export const saveCategory = (category, image, icon) => dispatch => {
+  dispatch(ACTIONS.isBusinessCategoryDataLoading(true))
   if (category.id) {
     dispatch(updateExistingCategory(category, image, icon))
   } else {
