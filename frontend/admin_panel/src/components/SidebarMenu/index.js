@@ -103,6 +103,18 @@ class SidebarMenu extends Component {
             </ListItem>
           </NavLink>
         }
+
+        {
+          hasGrant(user, Grant.MANAGE_EVENTS) &&
+          <NavLink to={'/admin/events'} className="sidebarItem">
+            <ListItem button>
+              <ListItemIcon>
+                <EventIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Events'} />
+            </ListItem>
+          </NavLink>
+        }
       </div>
     )
   }

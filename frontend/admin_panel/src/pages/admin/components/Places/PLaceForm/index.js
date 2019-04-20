@@ -191,7 +191,8 @@ class PlaceForm extends React.Component {
           <ImageUploader  images={placeImages}
                           onFileChange={this.onFileChange}
                           onReset={this.onImageReset}
-                          onMainPhotoSelect={this.onMainPhotoSelect} />
+                          onMainPhotoSelect={this.onMainPhotoSelect}
+                          multiple={true}/>
         </div>
 
 
