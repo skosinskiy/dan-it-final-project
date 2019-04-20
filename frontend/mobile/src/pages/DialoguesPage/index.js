@@ -11,7 +11,7 @@ class DialoguesPage extends Component {
       {name: 'Parking', lastMessage: {from: 'Bill', content: 'How did it happen?', time: 'Now', newMSG: true}, image: icon1},
       {name: 'Parking', lastMessage: {from: 'Bill', content: 'How did it happen?', time: 'Now', newMSG: false}, image: icon1},
       {name: 'Parking', lastMessage: {from: 'Bill', content: 'How did it happen?', time: 'Now', newMSG: false}, image: icon1},
-      {name: 'Parking', lastMessage: {from: 'Bill', content: 'How did it happen?', time: 'Now', newMSG: true}, image: icon1},
+      {name: 'Parking', lastMessage: {from: 'Bill', content: 'How did it happen?', time: 'Now', newMSG: true}, image: icon1}
     ]
   }
 
