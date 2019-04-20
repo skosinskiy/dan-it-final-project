@@ -36,7 +36,7 @@ const createOrSetKey = placeCategory => {
       businessCategories: []
     }
   }
-  return Object.assign(placeCategory, { key: Math.random() * new Date().getTime(), })
+  return Object.assign(placeCategory, { key: Math.random() * new Date().getTime()})
 }
 
 const findIndexByKey = (key, container) => (

@@ -83,7 +83,7 @@ class EnhancedTable extends React.Component {
                         </TableCell>
                         <TableCell scope="row" padding="none">
                           <MultiSelect
-                            selectedBusinessCategories={selectedBusinessCategories || []}
+                            selectedBusinessCategories={selectedBusinessCategories}
                             placeCategoryKey={key}
                           />
                         </TableCell>
