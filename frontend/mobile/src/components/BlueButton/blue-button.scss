@@ -1,0 +1,29 @@
+.blue-button{
+  position: fixed;
+  right: 20px;
+  bottom: 97px;
+  content: ' ';
+  width: 48px;
+  height: 48px;
+  background-color: #10ADF7;
+  border-radius: 50%;
+
+  &:before, &:after{
+    position: absolute;
+    content: ' ';
+    width: 20px;
+    height: 2px;
+    background-color: white;
+  }
+
+  &:before{
+    top: 23px;
+    right: 14px;
+    transform: rotate(90deg);
+  }
+
+  &:after{
+    top: 23px;
+    right: 14px;
+  }
+}

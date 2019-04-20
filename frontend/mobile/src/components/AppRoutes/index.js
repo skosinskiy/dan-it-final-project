@@ -1,6 +1,8 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import NewsPage from '../../pages/NewsPage/index'
+import DialoguesPage from '../../pages/DialoguesPage/index'
+import ContactsPage from '../../pages/ContactsPage'
 import Login from '../../pages/LoginPage/index'
 import BusinessesEvents from '../../pages/BusinessesEvents'
 
@@ -10,11 +12,10 @@ const AppRoutes = (props) => {
       <Switch>
         <Route path="/login" component={Login}/>
         <Route path="/places" />
-        <Route path="/news" component={NewsPage}/>
-        <Route path="/messages" />
-        <Route path="/favourites"/>
-        <Route path="/more"/>
-        <Route path="/businesses-events" component={BusinessesEvents}/>
+        <Route path="/news" component={NewsPage} />
+        <Route path="/messages" component={DialoguesPage} />
+        <Route path="/favourites" component={BusinessesEvents} />
+        <Route path="/more" component={ContactsPage} />
       </Switch>
     </div>
   )
