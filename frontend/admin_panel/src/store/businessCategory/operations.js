@@ -27,27 +27,49 @@ const updateBusinessCategory = (category) => {
   return api.put(`/api/business-categories/${category.id}`, category)
 }
 
-export const saveCategory = (category, file) => dispatch => {
+export const saveCategory = (category, image, icon) => dispatch => {
+  console.log(image)
+  console.log(icon)
+
   if (category.id) {
-    if (file && !file.imageKey) {
-      uploadFile(file).then(uploadResult => {
+    if ((image && !image.imageKey)) {
+      uploadFile(image).then(uploadResult => {
         category.imageKey = uploadResult.fileKey
         updateBusinessCategory(category).then( () => dispatch( getAllBusinessCategories()) )
       })
-    } else {
-      if (!file) {
+    }
+    if ((icon && !icon.imageKey)) {
+      uploadFile(icon).then(uploadResult => {
+        category.iconKey = uploadResult.fileKey
+        updateBusinessCategory(category).then( () => dispatch( getAllBusinessCategories()) )
+      })
+    }
+    if (!(image && !image.imageKey) && !(icon && !icon.imageKey)) {
+      if (!image) {
         category.imageKey = null
+      }
+      if (!icon) {
+        category.iconKey = null
       }
       updateBusinessCategory(category).then( () => dispatch(getAllBusinessCategories()) )
     }
   } else {
-    if (file) {
+    if (image || icon) {
       createBusinessCategory(category).then(createResponse => {
-        uploadFile(file).then(uploadResult => {
-          const {...createdCategory} = createResponse
-          createdCategory.imageKey = uploadResult.fileKey
-          updateBusinessCategory(createdCategory).then( () => dispatch(getAllBusinessCategories()))
-        })
+        const {...createdCategory} = createResponse
+        if (image) {
+          uploadFile(image).then(uploadResult => {
+            createdCategory.imageKey = uploadResult.fileKey
+            updateBusinessCategory(createdCategory).then( () => dispatch(getAllBusinessCategories()))
+          })
+        }
+        if (icon) {
+          uploadFile(icon).then(uploadResult => {
+            createdCategory.iconKey = uploadResult.fileKey
+            updateBusinessCategory(createdCategory).then( () => dispatch(getAllBusinessCategories()))
+          })
+        }
+
       })
     } else {
       createBusinessCategory(category).then( () => dispatch(getAllBusinessCategories()) )

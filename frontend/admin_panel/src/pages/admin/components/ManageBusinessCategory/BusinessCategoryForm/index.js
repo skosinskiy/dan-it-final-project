@@ -51,12 +51,17 @@ class BusinessCategoryForm extends React.Component {
   constructor (props) {
     super(props)
 
-    const imageUrl = props.category !== undefined ? props.category.imageUrl : null
-    const imageKey = props.category !== undefined ? props.category.imageKey : null
+    const isCategoryPresent = props.category !== undefined
+
+    const imageUrl = isCategoryPresent ? props.category.imageUrl : null
+    const imageKey = isCategoryPresent ? props.category.imageKey : null
+    const iconUrl = isCategoryPresent ? props.category.iconUrl : null
+    const iconKey = isCategoryPresent ? props.category.iconKey : null
 
     this.state = {
-      editedCategory: props.category !== undefined ? props.category : emptyCategory,
-      businessCategoryImage: props.category !== undefined && imageUrl !== null ? [{ imageUrl, imageKey }] : []
+      editedCategory: isCategoryPresent ? props.category : emptyCategory,
+      businessCategoryImage: imageUrl ? [{ imageUrl, imageKey }] : [],
+      businessCategoryIcon: iconUrl ? [{ 'imageUrl': iconUrl, 'imageKey': iconKey }] : []
     }
   }
 
@@ -71,14 +76,26 @@ class BusinessCategoryForm extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.category && nextProps.category !== this.props.category) {
-      this.setState({editedCategory: nextProps.category})
+
+      const imageUrl = nextProps.category.imageUrl
+      const imageKey = nextProps.category.imageKey
+      const iconUrl = nextProps.category.iconUrl
+      const iconKey = nextProps.category.iconKey
+
+      this.setState({
+        editedCategory: nextProps.category,
+        businessCategoryImage: imageUrl ? [{ imageUrl, imageKey }] : [],
+        businessCategoryIcon: iconUrl ? [{ 'imageUrl': iconUrl, 'imageKey': iconKey }] : []
+      })
     }
   }
 
   saveCategory = () => {
     const {saveCategory} = this.props
-
-    saveCategory(this.state.editedCategory, this.state.businessCategoryImage[0])
+    saveCategory(
+      this.state.editedCategory,
+      this.state.businessCategoryImage[0],
+      this.state.businessCategoryIcon[0])
   }
 
   handleChange = (event, propName) => {
@@ -91,16 +108,30 @@ class BusinessCategoryForm extends React.Component {
     this.setState({editedCategory: {...this.state.editedCategory, [propName]: value}})
   }
 
-  onFileChange = (images) => {
-    const newBusinessCategoryImage = images.map((file) => Object.assign(file, {
-      imageUrl: URL.createObjectURL(file),
-      imageKey: null
-    }))
-    this.setState(() => {
-      return {
-        businessCategoryImage: newBusinessCategoryImage
-      }
-    })
+  onFileChange = (images, type) => {
+    if (type === 'image') {
+      const newBusinessCategoryImage = images.map((file) => Object.assign(file, {
+        imageUrl: URL.createObjectURL(file),
+        imageKey: null
+      }))
+      this.setState(() => {
+        return {
+          businessCategoryImage: newBusinessCategoryImage
+        }
+      })
+    }
+    if (type === 'icon') {
+      const newBusinessCategoryIcon = images.map((file) => Object.assign(file, {
+        imageUrl: URL.createObjectURL(file),
+        imageKey: null
+      }))
+      this.setState(() => {
+        return {
+          businessCategoryIcon: newBusinessCategoryIcon
+        }
+      })
+    }
+
   }
 
   onMainPhotoSelect = (selectedImage) => {
@@ -116,18 +147,28 @@ class BusinessCategoryForm extends React.Component {
     })
   }
 
-  onImageReset = (image) => {
-    const newBusinessCategoryImage = this.state.businessCategoryImage.filter(elem => elem !== image)
-    this.setState({
-      ...this.state,
-      businessCategoryImage: newBusinessCategoryImage,
-    })
+  onImageReset = (type) => {
+    if (type === 'image') {
+      this.setState({
+        ...this.state,
+        businessCategoryImage: [],
+      })
+    }
+    if (type === 'icon') {
+      this.setState({
+        ...this.state,
+        businessCategoryIcon: [],
+      })
+    }
   }
 
   render () {
+
     const {classes, match, categories, category} = this.props
-    const {editedCategory, businessCategoryImage} = this.state
+    const {editedCategory, businessCategoryImage, businessCategoryIcon} = this.state
     const categoryId = match.params.categoryId
+
+    console.log(editedCategory)
 
     if (categoryId && !category) {
       return <Preloader/>
@@ -190,8 +231,14 @@ class BusinessCategoryForm extends React.Component {
         </TextField>
 
         <ImageUploader  images={businessCategoryImage}
-                        onFileChange={this.onFileChange}
-                        onReset={this.onImageReset}
+                        onFileChange={ (images) => this.onFileChange(images, 'image')}
+                        onReset={() => this.onImageReset('image')}
+                        onMainPhotoSelect={this.onMainPhotoSelect}
+                        multiple={false}/>
+
+        <ImageUploader  images={businessCategoryIcon}
+                        onFileChange={ (images) => this.onFileChange(images, 'icon')}
+                        onReset={() => this.onImageReset('icon')}
                         onMainPhotoSelect={this.onMainPhotoSelect}
                         multiple={false}/>
 
@@ -238,7 +285,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllBusinessCategories: () => dispatch(businessCategoryOperations.getAllBusinessCategories()),
-    saveCategory: (category, file) => dispatch(businessCategoryOperations.saveCategory(category, file))
+    saveCategory: (category, image, icon) => dispatch(businessCategoryOperations.saveCategory(category, image, icon))
   }
 }
 
