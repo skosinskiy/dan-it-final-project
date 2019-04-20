@@ -12,7 +12,6 @@ import {getBusinessesByCategory} from '../../actions/businesses'
 import {getEventsByPLace} from '../../actions/events'
 
 class BusinessesEvents extends Component {
-
   componentDidMount () {
     const {getBusinessesByCategory, getEventsByPLace} = this.props
     getBusinessesByCategory(1)

@@ -35,16 +35,12 @@ public class EventController {
   }
 
   @GetMapping
-  public ResponseEntity<List<EventResponse>> getAllEventsByBusinesses(
-      @RequestParam(value = "placeId", required = false) Long placeId,
-      @RequestParam(value = "businessId", required = false) Long businessId) {
-    return new ResponseEntity<>(eventFacade.getEventsByPlaceIdOrBusinessId(placeId, businessId), HttpStatus.OK);
-  }
-
-  @GetMapping
   public ResponseEntity<List<EventResponse>> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(
+      @RequestParam(value = "placeId", required = false) Long placeId,
+      @RequestParam(value = "businessId", required = false) Long businessId,
       @RequestParam(required = false) String searchParam) {
-    return new ResponseEntity<>(eventFacade.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(searchParam), HttpStatus.OK);
+    return new ResponseEntity<>(eventFacade.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(
+        placeId, businessId, searchParam), HttpStatus.OK);
   }
 
   @PostMapping
