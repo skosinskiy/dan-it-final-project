@@ -27,49 +27,64 @@ const updateBusinessCategory = (category) => {
   return api.put(`/api/business-categories/${category.id}`, category)
 }
 
+const uploadImage = (category, image) => dispatch => {
+  uploadFile(image).then(uploadResult => {
+    category.imageKey = uploadResult.fileKey
+    updateBusinessCategory(category).then( () => dispatch( getAllBusinessCategories()) )
+  })
+}
+
+const uploadIcon = (category, icon) => dispatch => {
+  if (icon && !icon.imageKey) {
+    uploadFile(icon).then(uploadResult => {
+      category.iconKey = uploadResult.fileKey
+      updateBusinessCategory(category).then( () => dispatch( getAllBusinessCategories()) )
+    })
+  }
+}
+
+const removeDeletedImages = (category, image, icon) => dispatch => {
+  if (!(image && !image.imageKey) || !(icon && !icon.imageKey)) {
+    if (!image) {
+      category.imageKey = null
+    }
+    if (!icon) {
+      category.iconKey = null
+    }
+    updateBusinessCategory(category).then( () => dispatch(getAllBusinessCategories()) )
+  }
+}
+
+const updateExistingCategory = (category, image, icon) => dispatch => {
+  if (image && !image.imageKey) {
+    dispatch(uploadImage(category, image))
+  }
+  if (icon && !icon.imageKey) {
+    dispatch(uploadIcon(category, icon))
+  }
+  dispatch(removeDeletedImages(category, image, icon))
+}
+
+const createNewCategory = (category, image, icon) => dispatch => {
+  if (image || icon) {
+    createBusinessCategory(category).then(createResponse => {
+      const {...createdCategory} = createResponse
+      if (image) {
+        dispatch(uploadImage(createdCategory, image))
+      }
+      if (icon) {
+        dispatch(uploadIcon(createdCategory, icon))
+      }
+    })
+  } else {
+    createBusinessCategory(category).then( () => dispatch(getAllBusinessCategories()) )
+  }
+}
+
 export const saveCategory = (category, image, icon) => dispatch => {
   if (category.id) {
-    if ((image && !image.imageKey)) {
-      uploadFile(image).then(uploadResult => {
-        category.imageKey = uploadResult.fileKey
-        updateBusinessCategory(category).then( () => dispatch( getAllBusinessCategories()) )
-      })
-    }
-    if ((icon && !icon.imageKey)) {
-      uploadFile(icon).then(uploadResult => {
-        category.iconKey = uploadResult.fileKey
-        updateBusinessCategory(category).then( () => dispatch( getAllBusinessCategories()) )
-      })
-    }
-    if (!(image && !image.imageKey) && !(icon && !icon.imageKey)) {
-      if (!image) {
-        category.imageKey = null
-      }
-      if (!icon) {
-        category.iconKey = null
-      }
-      updateBusinessCategory(category).then( () => dispatch(getAllBusinessCategories()) )
-    }
+    dispatch(updateExistingCategory(category, image, icon))
   } else {
-    if (image || icon) {
-      createBusinessCategory(category).then(createResponse => {
-        const {...createdCategory} = createResponse
-        if (image) {
-          uploadFile(image).then(uploadResult => {
-            createdCategory.imageKey = uploadResult.fileKey
-            updateBusinessCategory(createdCategory).then( () => dispatch(getAllBusinessCategories()))
-          })
-        }
-        if (icon) {
-          uploadFile(icon).then(uploadResult => {
-            createdCategory.iconKey = uploadResult.fileKey
-            updateBusinessCategory(createdCategory).then( () => dispatch(getAllBusinessCategories()))
-          })
-        }
-
-      })
-    } else {
-      createBusinessCategory(category).then( () => dispatch(getAllBusinessCategories()) )
-    }
+    dispatch(createNewCategory(category, image, icon))
   }
 }

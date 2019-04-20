@@ -125,14 +125,18 @@ public class BusinessCategoryControllerTest {
     String expectedBusinessCategoryName = "Updated";
     String expectedImageKey = UUID.randomUUID().toString() + AmazonS3Service.IMAGE_EXTENSION;
     String expectedImageUrl = "https://rion-up-project.s3.eu-central-1.amazonaws.com/" + expectedImageKey;
+    String expectedIconKey = UUID.randomUUID().toString() + AmazonS3Service.IMAGE_EXTENSION;
+    String expectedIconUrl = "https://rion-up-project.s3.eu-central-1.amazonaws.com/" + expectedIconKey;
     BusinessCategory businessCategory = businessCategoryService.getById(businessCategoryId);
     businessCategory.setName(expectedBusinessCategoryName);
     businessCategory.setParentCategory(null);
     businessCategory.setImageKey(expectedImageKey);
+    businessCategory.setIconKey(expectedIconKey);
     String userJson = objectMapper.writeValueAsString(
         modelMapper.map(businessCategory, BusinessCategoryRequest.class));
 
     when(amazonS3Client.getResourceUrl(AmazonS3Service.S3_BUCKET_NAME, expectedImageKey)).thenReturn(expectedImageUrl);
+    when(amazonS3Client.getResourceUrl(AmazonS3Service.S3_BUCKET_NAME, expectedIconKey)).thenReturn(expectedIconUrl);
 
     MvcResult result = mockMvc.perform(
         put("/api/business-categories/1")
@@ -148,6 +152,8 @@ public class BusinessCategoryControllerTest {
     assertEquals(expectedBusinessCategoryName, businessCategoryService.getById(businessCategoryId).getName());
     assertEquals(expectedImageKey, updatedBusinessCategory.getImageKey());
     assertEquals(expectedImageUrl, updatedBusinessCategory.getImageUrl());
+    assertEquals(expectedIconKey, updatedBusinessCategory.getIconKey());
+    assertEquals(expectedIconUrl, updatedBusinessCategory.getIconUrl());
     assertNull(updatedBusinessCategory.getParentCategory());
     verify(amazonS3Client, times(1))
         .deleteObject(AmazonS3Service.S3_BUCKET_NAME, "imageKey");
