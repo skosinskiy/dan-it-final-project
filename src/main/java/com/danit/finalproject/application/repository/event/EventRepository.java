@@ -10,9 +10,9 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
-  @Query("select b from Events b where "
-         + "(:placeId is null or b.place.id = :placeId) and "
-         + "(:businessId is null or b.business.id = :businessId)"
+  @Query("select e from Event e where "
+         + "(:placeId is null or e.place.id = :placeId) and "
+         + "(:businessId is null or e.business.id = :businessId)"
          )
   List<Event> findByParams(@Param("placeId") Long placeId, @Param("businessId") Long businessId);
 }

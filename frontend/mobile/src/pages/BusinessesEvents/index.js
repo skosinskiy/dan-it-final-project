@@ -9,33 +9,14 @@ import {ReactComponent as Bee} from '../../img/icons/bee.svg'
 import SectionItem from './SectionItem'
 import './businesses-events.scss'
 import {getBusinessesByCategory} from '../../actions/businesses'
-
-const items = [
-  {
-    id: 1,
-    title: 'Cupcake',
-    address: 'Lva Tolstogo str, 56',
-    photo: 'https://images.unsplash.com/photo-1519869325930-281384150729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'
-  },
-  {
-    id: 2,
-    title: 'Cupcake',
-    address: 'Lva Tolstogo str, 56',
-    photo: 'https://images.unsplash.com/photo-1519869325930-281384150729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'
-  },
-  {
-    id: 3,
-    title: 'Cupcake',
-    address: 'Lva Tolstogo str, 56',
-    photo: 'https://images.unsplash.com/photo-1519869325930-281384150729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'
-  }
-]
+import {getEventsByPLace} from '../../actions/events'
 
 class BusinessesEvents extends Component {
 
   componentDidMount () {
-    const {getBusinessesByCategory} = this.props
+    const {getBusinessesByCategory, getEventsByPLace} = this.props
     getBusinessesByCategory(1)
+    getEventsByPLace(1)
   }
 
   getBusinenessesByCategory (id) {
@@ -44,12 +25,11 @@ class BusinessesEvents extends Component {
   }
 
   render () {
-    const {businesses} = this.props
+    const {businesses, events} = this.props
     const businessesList = businesses.map(item => {
       return <SectionItem key={item.id} item={item}/>
     })
-
-    const eventsList = items.map(item => {
+    const eventsList = events.map(item => {
       return <SectionItem key={item.id} item={item}/>
     })
 
@@ -113,13 +93,15 @@ class BusinessesEvents extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    businesses: state.businesses.businessesByCategory
+    businesses: state.businesses.businessesByCategory,
+    events: state.events.events
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getBusinessesByCategory: (categoryId) => dispatch(getBusinessesByCategory(categoryId))
+    getBusinessesByCategory: (categoryId) => dispatch(getBusinessesByCategory(categoryId)),
+    getEventsByPLace: (placeId) => dispatch(getEventsByPLace(placeId))
   }
 }
 

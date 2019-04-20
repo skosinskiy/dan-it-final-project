@@ -177,8 +177,8 @@ VALUES
 INSERT INTO events
   (id, date_created, date_modified, title, description, business_id, place_id, address )
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'event-1', 'description-1', 1, 1, 'address1' ),
-  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'event-2', 'description-1', 1, 1, 'address2' ),
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Event-1', 'description-1', 1, 1, 'Address, 36' ),
+  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Event-2', 'description-1', 1, 1, 'Address, 22' ),
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'event-2', 'description-2', 2, 2, 'address2' );
 
 INSERT INTO event_photos
