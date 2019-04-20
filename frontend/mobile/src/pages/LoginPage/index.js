@@ -13,39 +13,39 @@ import './index.scss'
 class Login extends Component {
   render () {
     const {currentUser} = this.props
-  
+
     if (currentUser) {
       return <Redirect to={'/'}/>
     }
 
     return (
-      <div className="login-page">
+      <form className="login-page" onSubmit={this.props.submitLoginForm}>
         <div className="login-page__header container">
           <div className="header__logo"><HeaderLogo /></div>
           <p className="header__title">RionUp</p>
           <p className="header__text">A window to your life</p>
         </div>
         <div className="login-page__body container">
-          <form className="search-form body__form" onSubmit={this.props.submitLoginForm}>
+          <div className="search-form body__form">
             <div className="email__field">
               <div><PeopleIcon /></div>
-              <input className="email__field-text" type="text" placeholder="Email" />
+              <input className="email__field-text" name="username" type="text" placeholder="Email" />
             </div>
             <div className="password__field bottom-line">
               <div><PhoneIcon /></div>
-              <input className="password__field-text" type="password" placeholder="Password"/>
+              <input className="password__field-text" name="password" type="password" placeholder="Password"/>
             </div>
-          </form>
+          </div>
         </div>
         <div className="login-page__bottom container">
           <div className="bottom__social-media">
             <div className="facebook-link"><a href=' ' onClick={() => this.props.loginWithOAuth('facebook')}><FacebookIcon /></a></div>
             <div className="google-link"><a href=' ' onClick={() => this.props.loginWithOAuth('google')}><GoogleIcon /></a></div>
           </div>
-          <div className="bottom__button"><a href=' 'className="bottom__button-link">Sign up</a></div>
+          <div className="bottom__button"><input type="submit" className="bottom__button-link" value="Sign up" /></div>
           <p className="bottom__text">Already signed up?</p>
         </div>
-      </div>
+      </form>
     )
   }
 }
