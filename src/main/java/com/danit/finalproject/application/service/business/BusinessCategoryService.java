@@ -51,9 +51,6 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
     BusinessCategory businessCategory = getById(id);
     deleteCategoryImage(businessCategory);
     deleteCategoryIcon(businessCategory);
-    businessCategory
-            .getBusinesses()
-            .forEach(business -> business.getCategories().remove(businessCategory));
     businessCategory.getBusinesses()
         .forEach(business -> business.getCategories().remove(businessCategory));
     businessCategory.getPlaceCategories()
