@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.danit.finalproject.application.entity.business.BusinessCategory;
+import com.danit.finalproject.application.entity.place.PlaceCategory;
 import com.danit.finalproject.application.repository.business.BusinessCategoryRepository;
 import com.danit.finalproject.application.service.AmazonS3Service;
 import java.util.ArrayList;
@@ -95,8 +96,8 @@ public class BusinessCategoryServiceTest {
 
   @Test
   public void verifyDeleteCalledOnceAndS3ServiceDeleteCalledOnce() {
-    Long expectedId = 2L;
-    String expectedName = "testName";
+    Long expectedId = 1L;
+    String expectedName = "business-category-1";
     String expectedImageKey = "imageKey";
 
     BusinessCategory businessCategory = new BusinessCategory();
@@ -104,6 +105,7 @@ public class BusinessCategoryServiceTest {
     businessCategory.setImageKey(expectedImageKey);
     businessCategory.setId(expectedId);
     businessCategory.setBusinesses(new ArrayList<>());
+    businessCategory.setPlaceCategories(new ArrayList<>());
 
     List<BusinessCategory> businessCategories = new ArrayList<>();
     BusinessCategory childBusinessCategory = new BusinessCategory();
