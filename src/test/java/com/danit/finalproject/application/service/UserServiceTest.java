@@ -1,12 +1,7 @@
 package com.danit.finalproject.application.service;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyString;
-import static org.mockito.Mockito.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
 import com.danit.finalproject.application.entity.Gender;
@@ -161,6 +156,7 @@ public class UserServiceTest {
 	public void verifySaveOnCreateCalledOnce() {
 		Integer expectedUserAge = 30;
 		String expectedUserEmail = "createdUser@gmail.com";
+		String notExpectedPassword = firstMockUser.getPassword();
 
 		firstMockUser.setAge(expectedUserAge);
 		firstMockUser.setEmail(expectedUserEmail);
@@ -173,6 +169,7 @@ public class UserServiceTest {
 				.save(firstMockUser);
 		assertEquals(expectedUserAge, createdUser.getAge());
 		assertEquals(expectedUserEmail, createdUser.getEmail());
+		assertNotEquals(notExpectedPassword, createdUser.getPassword());
 		assertNotNull(createdUser.getCreatedDate());
 		assertNotNull(createdUser.getModifiedDate());
 		assertNotNull(createdUserId);
@@ -315,7 +312,6 @@ public class UserServiceTest {
 		createdUser.setFirstName(name.split(" ")[0]);
 		createdUser.setLastName(name.split(" ")[1]);
 		createdUser.setEmail(email);
-		createdUser.setRoles(new ArrayList<>());
 		int expectedUserPermissionsSize = 1;
 		when(userRepository.save(any())).thenReturn(createdUser);
 
@@ -325,7 +321,11 @@ public class UserServiceTest {
 		verify(userRepository, times(1)).save(captor.capture());
 		userRepository.save(captor.capture());
 
-		assertEquals(createdUser, captor.getValue());
+		User userCapture = captor.getValue();
+
+		assertEquals(createdUser.getFirstName(), userCapture.getFirstName());
+		assertEquals(createdUser.getLastName(), userCapture.getLastName());
+		assertEquals(createdUser.getEmail(), userCapture.getEmail());
 		assertEquals(expectedUserPermissionsSize, userPermissions.size());
 		assertTrue(userPermissions.contains(Permission.ADMIN_USER));
 
