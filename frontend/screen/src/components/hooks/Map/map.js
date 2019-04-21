@@ -34,7 +34,6 @@ const mapStateToProps = ({map}) => {
   }
 }
 
-
 const mapDispatchToProps = (dispatch) => {
   return {
     loadMap: () => dispatch(loadMap())
