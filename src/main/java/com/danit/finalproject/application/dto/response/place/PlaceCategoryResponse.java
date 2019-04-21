@@ -1,5 +1,6 @@
 package com.danit.finalproject.application.dto.response.place;
 
+import com.danit.finalproject.application.entity.LayoutItem;
 import com.danit.finalproject.application.entity.menuitem.MenuItem;
 import java.util.List;
 import lombok.Data;
@@ -12,4 +13,5 @@ public class PlaceCategoryResponse {
   private boolean multisync;
   private List<MenuItem> menuItems;
   private String description;
+  private List<LayoutItem> layoutItems;
 }

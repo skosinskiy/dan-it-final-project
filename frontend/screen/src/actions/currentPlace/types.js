@@ -1,0 +1,1 @@
+export const GET_CURRENT_PLACE = 'GET_CURRENT_PLACE'

@@ -8,6 +8,7 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import {placesCategoriesOperations} from 'store/placeCategory'
 import {connect} from 'react-redux'
+import layoutItems from '../../../../../constants/layoutItems'
 
 const styles = theme => ({
   root: {
@@ -51,31 +52,49 @@ function getStyles (name, that) {
   }
 }
 
+const allLayoutItems = Object.values(layoutItems)
+
 class MultipleSelect extends React.Component {
-  
+
   state = {
     name: []
   }
 
   handleChange = event => {
     this.setState({name: event.target.value})
-    const {placeCategoryKey, placeCategories, updateChanged, updateMenuItems} = this.props
+    const {placeCategoryKey, placeCategories, updateChanged, updateMenuItems, flag, updateLayoutItems} = this.props
     updateChanged(placeCategoryKey, placeCategories)
-    const newMenuItems = event.target.value.map(
-      menuItemName => ({
-      name: menuItemName,
-      displayName: ''
-      })
-    )
-    updateMenuItems(placeCategoryKey, placeCategories, newMenuItems)
+
+    if (flag === 'menuItem') {
+      const newMenuItems = event.target.value.map(
+        menuItemName => ({
+          name: menuItemName,
+          displayName: ''
+        })
+      )
+      updateMenuItems(placeCategoryKey, placeCategories, newMenuItems)
+    } else {
+      updateLayoutItems(placeCategoryKey, placeCategories,  event.target.value)
+    }
   }
 
   componentDidMount(){
-    this.setState({name: this.props.selectedMenuItems.map(menuItem => menuItem.name)})
+    const {flag} = this.props
+    if (flag === 'menuItem') {
+      this.setState({name: this.props.selectedMenuItems.map(menuItem => menuItem.name)})
+    } else {
+      this.setState({name: this.props.selectedMenuItems.map(menuItem => menuItem)})
+    }
   }
 
   render () {
-    const {classes, allNames} = this.props
+    const {classes, allNames, flag} = this.props
+    let names;
+    if (flag === 'menuItem') {
+      names = allNames
+    } else {
+      names = allLayoutItems
+    }
     return (
       <div className={classes.root}>
         <FormControl className={classes.formControl} fullWidth>
@@ -87,7 +106,7 @@ class MultipleSelect extends React.Component {
             input={<Input id="select-multiple-chip"/>}
             MenuProps={MenuProps}
           >
-            {allNames.map(name => (
+            {names.map(name => (
               <MenuItem
                 key={name}
                 value={name}
@@ -122,6 +141,8 @@ const mapDispatchToProps = dispatch => ({
   updateChanged: (key, placeCategories) => dispatch(placesCategoriesOperations.updateChanged(key, placeCategories)),
   updateMenuItems: (key, placeCategories, menuItems) =>
     dispatch(placesCategoriesOperations.updateMenuItems(key, placeCategories, menuItems)),
+  updateLayoutItems: (key, placeCategories, layoutItems) =>
+    dispatch(placesCategoriesOperations.updateLayoutItems(key, placeCategories, layoutItems))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(MultipleSelect))

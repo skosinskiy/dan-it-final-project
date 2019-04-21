@@ -28,14 +28,15 @@ export const realoadData = () => async dispatch => {
 }
 
 const createNewOrAddDefaults = ({ id, multisync = false, name = "Display Name",
-  description = "Enter your desription here", menuItems = [] } = {}) =>
+  description = "Enter your desription here", menuItems = [], layoutItems = []} = {}) =>
 ({
   key: Math.random() * new Date().getTime(),
   id: id,
   multisync: multisync,
   description: description,
   name: name,
-  menuItems: menuItems
+  menuItems: menuItems,
+  layoutItems: layoutItems
 })
 
 const findIndexByKey = (key, container) => (
@@ -66,6 +67,12 @@ export const updateChanged = (key, container) => dispatch => {
 export const updateMenuItems = (key, container, menuItems) => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(
     setValueToEntityField(key, container, 'menuItems', menuItems)
+  ))
+}
+
+export const updateLayoutItems = (key, container, layoutItems) => dispatch => {
+  dispatch(ACTIONS.updatePlaceCategories(
+    setValueToEntityField(key, container, 'layoutItems', layoutItems)
   ))
 }
 

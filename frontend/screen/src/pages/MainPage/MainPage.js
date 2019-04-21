@@ -1,13 +1,33 @@
 import React from 'react'
 import MainVideo from '../../components/MainVideo/MainVideo'
+import {connect} from 'react-redux'
+import {hasLayuot} from '../../utils/hasLayout'
+import LayoutItems from '../../constants/layoutItems'
 import './MainPage.scss'
 
-const MainPage = () => {
-  return (
-    <div className={'mainPage'}>
-      <MainVideo />
-    </div>
-  )
+class MainPage extends React.Component {
+  render () {
+    const {currentPlace} = this.props
+    return (
+      <div className={'mainPage'}>
+        {
+          hasLayuot(currentPlace, LayoutItems.VIDEO) &&
+          <MainVideo/>
+        }
+      </div>
+    )
+  }
 }
 
-export default MainPage
+const mapStateToProps = (state) => {
+  return {
+    currentPlace: state.currentPlace.currentPlace
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainPage)

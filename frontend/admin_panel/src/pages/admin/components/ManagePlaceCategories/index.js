@@ -20,6 +20,7 @@ import EnhancedTableToolbar from './components/EnhancedTableToolbar'
 import './index.scss'
 import ResetButton from './components/Buttons/Reset'
 import Desciption from './components/Description';
+import layoutItems from '../../../../constants/layoutItems'
 
 const styles = theme => ({
   root: {
@@ -33,6 +34,8 @@ const styles = theme => ({
     overflowX: 'auto',
   },
 });
+
+const allLayoutItems = Object.values(layoutItems)
 
 class EnhancedTable extends React.Component {
   componentDidMount() {
@@ -66,7 +69,7 @@ class EnhancedTable extends React.Component {
             <TableBody>
               {
                 placeCategories.map(placeCategory => {
-                  const {multisync, name, menuItems, key, description} = placeCategory
+                  const {multisync, name, menuItems, key, description, layoutItems} = placeCategory
                   return (
                     <Fragment key={key * Math.random()}>
                       <TableRow
@@ -87,6 +90,15 @@ class EnhancedTable extends React.Component {
                             selectedMenuItems={menuItems}
                             placeCategoryKey={key}
                             allNames={menuItemNames}
+                            flag={'menuItem'}
+                          />
+                        </TableCell>
+                        <TableCell scope="row" padding="none">
+                          <MultiSelect
+                            selectedMenuItems={layoutItems}
+                            placeCategoryKey={key}
+                            allNames={allLayoutItems}
+                            flag={'layoutItem'}
                           />
                         </TableCell>
                         <TableCell scope="row" padding="none">

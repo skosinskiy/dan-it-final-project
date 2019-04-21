@@ -1,9 +1,12 @@
 package com.danit.finalproject.application.entity.place;
 
 import com.danit.finalproject.application.entity.BaseEntity;
+import com.danit.finalproject.application.entity.LayoutItem;
 import com.danit.finalproject.application.entity.menuitem.MenuItem;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -13,6 +16,7 @@ import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -41,4 +45,9 @@ public class PlaceCategory extends BaseEntity {
 
   @Column(name = "description")
   private String description;
+
+  @ElementCollection
+  @CollectionTable(name = "place_category_layout_items", joinColumns = @JoinColumn(name = "place_category_id"))
+  @Column(name = "layout_item_id")
+  private List<LayoutItem> layoutItems;
 }
