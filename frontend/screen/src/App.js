@@ -11,6 +11,7 @@ import {getCurrentPlace} from './actions/currentPlace'
 import {hasLayuot} from './utils/hasLayout'
 import LayoutItems from './constants/layoutItems'
 import Preloader from './components/Preloader'
+import QRCode from './components/QRCode/QRCode'
 
 class App extends Component {
   componentDidMount () {
@@ -39,6 +40,7 @@ class App extends Component {
             <aside className="right-sidebar"><ScreenNewsList/></aside>
           }
         </div>
+        <QRCode />
       </div>
     )
   }

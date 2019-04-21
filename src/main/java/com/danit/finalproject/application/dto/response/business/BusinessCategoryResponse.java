@@ -11,4 +11,6 @@ public class BusinessCategoryResponse {
   private BusinessCategoryResponse parentCategory;
   private String imageKey;
   private String imageUrl;
+  private String iconKey;
+  private String iconUrl;
 }

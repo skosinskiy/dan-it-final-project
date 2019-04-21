@@ -11,39 +11,48 @@ import TextField from '@material-ui/core/TextField'
 import {businessCategoryOperations} from 'store/businessCategory'
 import Preloader from '../../../../../components/Preloader'
 import ImageUploader from '../../../../../components/ImageUploader'
+import Typography from '@material-ui/core/Typography'
 
 const styles = theme => ({
   container: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    width: '20%'
   },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
+
+  row: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    margin: theme.spacing.unit
   },
-  dense: {
-    marginTop: 16
+
+  dropzone: {
+    textAlign: 'center',
+    width: '49%'
   },
-  menu: {
-    width: 200
+
+  inputField: {
+    width: '33%'
   },
 
   buttonLink: {
-    marginRight: '10px',
     textDecoration: 'none'
   },
 
+  button: {
+    margin: theme.spacing.unit
+  },
+
   buttons: {
-    margin: '8px'
+    display: 'flex',
+    justifyContent: 'center'
   },
 
 
 })
 
 const emptyCategory = {
-  name: '',
+  name: null,
   parentCategory: null
 }
 
@@ -51,12 +60,17 @@ class BusinessCategoryForm extends React.Component {
   constructor (props) {
     super(props)
 
-    const imageUrl = props.category !== undefined ? props.category.imageUrl : null
-    const imageKey = props.category !== undefined ? props.category.imageKey : null
+    const isCategoryPresent = props.category !== undefined
+
+    const imageUrl = isCategoryPresent ? props.category.imageUrl : null
+    const imageKey = isCategoryPresent ? props.category.imageKey : null
+    const iconUrl = isCategoryPresent ? props.category.iconUrl : null
+    const iconKey = isCategoryPresent ? props.category.iconKey : null
 
     this.state = {
-      editedCategory: props.category !== undefined ? props.category : emptyCategory,
-      businessCategoryImage: props.category !== undefined && imageUrl !== null ? [{ imageUrl, imageKey }] : []
+      editedCategory: isCategoryPresent ? props.category : emptyCategory,
+      businessCategoryImage: imageUrl ? [{ imageUrl, imageKey }] : [],
+      businessCategoryIcon: iconUrl ? [{ 'imageUrl': iconUrl, 'imageKey': iconKey }] : []
     }
   }
 
@@ -71,14 +85,26 @@ class BusinessCategoryForm extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.category && nextProps.category !== this.props.category) {
-      this.setState({editedCategory: nextProps.category})
+
+      const imageUrl = nextProps.category.imageUrl
+      const imageKey = nextProps.category.imageKey
+      const iconUrl = nextProps.category.iconUrl
+      const iconKey = nextProps.category.iconKey
+
+      this.setState({
+        editedCategory: nextProps.category,
+        businessCategoryImage: imageUrl ? [{ imageUrl, imageKey }] : [],
+        businessCategoryIcon: iconUrl ? [{ 'imageUrl': iconUrl, 'imageKey': iconKey }] : []
+      })
     }
   }
 
   saveCategory = () => {
     const {saveCategory} = this.props
-
-    saveCategory(this.state.editedCategory, this.state.businessCategoryImage[0])
+    saveCategory(
+      this.state.editedCategory,
+      this.state.businessCategoryImage[0],
+      this.state.businessCategoryIcon[0])
   }
 
   handleChange = (event, propName) => {
@@ -91,16 +117,16 @@ class BusinessCategoryForm extends React.Component {
     this.setState({editedCategory: {...this.state.editedCategory, [propName]: value}})
   }
 
-  onFileChange = (images) => {
-    const newBusinessCategoryImage = images.map((file) => Object.assign(file, {
-      imageUrl: URL.createObjectURL(file),
-      imageKey: null
-    }))
-    this.setState(() => {
-      return {
-        businessCategoryImage: newBusinessCategoryImage
-      }
-    })
+  onFileChange = (images, propName) => {
+      const newBusinessCategoryImage = images.map((file) => Object.assign(file, {
+        imageUrl: URL.createObjectURL(file),
+        imageKey: null
+      }))
+      this.setState(() => {
+        return {
+          [propName]: newBusinessCategoryImage
+        }
+      })
   }
 
   onMainPhotoSelect = (selectedImage) => {
@@ -116,20 +142,20 @@ class BusinessCategoryForm extends React.Component {
     })
   }
 
-  onImageReset = (image) => {
-    const newBusinessCategoryImage = this.state.businessCategoryImage.filter(elem => elem !== image)
+  onImageReset = (propName) => {
     this.setState({
       ...this.state,
-      businessCategoryImage: newBusinessCategoryImage,
+      [propName]: []
     })
   }
 
   render () {
-    const {classes, match, categories, category} = this.props
-    const {editedCategory, businessCategoryImage} = this.state
+
+    const {classes, match, categories, isLoading} = this.props
+    const {editedCategory, businessCategoryImage, businessCategoryIcon} = this.state
     const categoryId = match.params.categoryId
 
-    if (categoryId && !category) {
+    if (isLoading) {
       return <Preloader/>
     }
 
@@ -138,62 +164,79 @@ class BusinessCategoryForm extends React.Component {
       .filter(c => c.parentCategory ? c.parentCategory.id.toString() !== categoryId : true)
       .concat([emptyCategory])
       .map(category => (
-        <MenuItem key={category.id} value={category.id}>
+        <MenuItem key={0 && category.id} value={category.id}>
           {category.name}
         </MenuItem>
       ))
 
     return (
       <div className={classes.container}>
-        <TextField
-          label='Business Category Name'
-          style={{margin: 8}}
-          margin='normal'
-          variant='outlined'
-          InputLabelProps={{
-            shrink: true
-          }}
-          value={editedCategory.name}
-          onChange={(e) => this.handleChange(e, 'name')}
-        />
+        <div className={classes.row}>
+          <TextField
+            label='Business Category Name'
+            className={classes.inputField}
+            variant='outlined'
+            InputLabelProps={{
+              shrink: true
+            }}
+            value={editedCategory.name ? editedCategory.name : ''}
+            onChange={(e) => this.handleChange(e, 'name')}
+          />
 
 
-        <TextField
-          id="outlined-required"
-          label="Description"
-          style={{margin: 8}}
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true
-          }}
-          value={editedCategory.description}
-          onChange={(e) => this.handleChange(e, 'description')}
-        />
+          <TextField
+            id="outlined-required"
+            label="Description"
+            className={classes.inputField}
+            variant="outlined"
+            InputLabelProps={{
+              shrink: true
+            }}
+            value={editedCategory.description ? editedCategory.description : ''}
+            onChange={(e) => this.handleChange(e, 'description')}
+          />
 
-        <TextField
-          select
-          className={classes.textField}
-          value={editedCategory.parentCategory && editedCategory.parentCategory.id}
-          onChange={(e) => this.handleChange(e, 'parentCategory')}
-          SelectProps={{
-            MenuProps: {
-              className: classes.menu
-            }
-          }}
-          helperText='Select parent category'
-          margin='normal'
-          variant='filled'
-        >
-          {categoryOptions}
-        </TextField>
+          <TextField
+            select
+            className={classes.inputField}
+            value={editedCategory.parentCategory && editedCategory.parentCategory.id
+              ? editedCategory.parentCategory.id
+              : 0}
+            onChange={(e) => this.handleChange(e, 'parentCategory')}
+            SelectProps={{
+              MenuProps: {
+                className: classes.menu
+              }
+            }}
+            helperText='Select parent category'
+            variant='filled'
+          >
+            {categoryOptions}
+          </TextField>
+        </div>
+        <div className={classes.row}>
 
-        <ImageUploader  images={businessCategoryImage}
-                        onFileChange={this.onFileChange}
-                        onReset={this.onImageReset}
-                        onMainPhotoSelect={this.onMainPhotoSelect}
-                        multiple={false}/>
+          <Typography className={classes.dropzone} variant="h6">
+            Select image to be shown as category background
+          <ImageUploader
+            images={businessCategoryImage}
+            onFileChange={ (images) => this.onFileChange(images, 'businessCategoryImage')}
+            onReset={() => this.onImageReset('businessCategoryImage')}
+            onMainPhotoSelect={this.onMainPhotoSelect}
+            multiple={false}/>
+          </Typography>
+
+          <Typography className={classes.dropzone} variant="h6">
+            Select image to be shown as category icon
+            <ImageUploader
+              images={businessCategoryIcon}
+              onFileChange={ (images) => this.onFileChange(images, 'businessCategoryIcon')}
+              onReset={() => this.onImageReset('businessCategoryIcon')}
+              onMainPhotoSelect={this.onMainPhotoSelect}
+              multiple={false}/>
+          </Typography>
+
+        </div>
 
         <div className={classes.buttons}>
           <NavLink to={'/admin/business-categories'} className={classes.buttonLink}>
@@ -219,11 +262,12 @@ class BusinessCategoryForm extends React.Component {
 
 BusinessCategoryForm.propTypes = {
   classes: PropTypes.object.isRequired,
-  category: PropTypes.object.isRequired,
+  category: PropTypes.object,
   match:  PropTypes.object.isRequired,
-  categories: PropTypes.object.isRequired,
+  categories: PropTypes.array.isRequired,
   getAllBusinessCategories:PropTypes.func.isRequired,
   saveCategory: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = (state, props) => {
@@ -231,14 +275,15 @@ const mapStateToProps = (state, props) => {
 
   return {
     categories: state.businessCategory.allBusinessCategories,
-    category: category
+    category: category,
+    isLoading: state.businessCategory.isBusinessCategoryFormDataLoading
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllBusinessCategories: () => dispatch(businessCategoryOperations.getAllBusinessCategories()),
-    saveCategory: (category, file) => dispatch(businessCategoryOperations.saveCategory(category, file))
+    saveCategory: (category, image, icon) => dispatch(businessCategoryOperations.saveCategory(category, image, icon))
   }
 }
 

@@ -163,7 +163,7 @@ VALUES
 
 INSERT INTO businesses_categories
   (business_id, category_id)
-VALUES
+VALUESgi
   (1, 1),
   (4, 1),
   (5, 2),

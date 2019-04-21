@@ -7,6 +7,7 @@
     "react": "^16.8.3",
     "react-dialog": "^1.0.2",
     "react-dom": "^16.8.3",
+    "react-iframe": "^1.8.0",
     "react-modal": "^3.8.1",
     "react-onclickoutside": "^6.8.0",
     "react-redux": "^6.0.1",
