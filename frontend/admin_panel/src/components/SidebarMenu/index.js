@@ -32,7 +32,7 @@ class SidebarMenu extends Component {
           </NavLink>
         }
         {
-          hasGrant(user, Grant.MANAGE_USER_ROLES) &&
+          hasGrant(user, Grant.MANAGE_USERS) &&
           <NavLink to={'/admin/managing-roles'} className="sidebarItem">
             <ListItem button>
               <ListItemIcon>
