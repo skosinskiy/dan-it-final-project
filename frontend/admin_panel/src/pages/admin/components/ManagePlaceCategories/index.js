@@ -35,7 +35,7 @@ const styles = theme => ({
 
 class EnhancedTable extends React.Component {
   componentDidMount() {
-    this.props.realoadData()
+    this.props.reloadData()
   }
 
   handleChange = (key) => {
@@ -119,7 +119,7 @@ EnhancedTable.propTypes = {
   placeCategories: PropTypes.array.isRequired,
   toggleMultisync: PropTypes.func.isRequired,
   updateChanged: PropTypes.func.isRequired,
-  realoadData: PropTypes.func.isRequired,
+  reloadData: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
   fetchParentBusinessCategories: PropTypes.func.isRequired,
   updateDescription: PropTypes.func.isRequired,
@@ -132,7 +132,7 @@ const mapStateToProps = ({ placeCategories }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  realoadData: () => dispatch(placesCategoriesOperations.realoadData()),
+  reloadData: () => dispatch(placesCategoriesOperations.reloadData()),
   updateChanged: (key, placeCategories) =>
     dispatch(placesCategoriesOperations.updateChanged(key, placeCategories)),
   toggleMultisync: (key, placeCategories) =>

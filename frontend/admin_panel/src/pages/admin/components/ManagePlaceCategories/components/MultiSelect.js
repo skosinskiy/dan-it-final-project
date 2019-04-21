@@ -55,7 +55,7 @@ class MultipleSelect extends React.Component {
   
   state = {
     name: [],
-    namesToBusinessCategories: []
+    namesToBusinessCategories: {}
   }
 
   handleChange = event => {
@@ -63,8 +63,8 @@ class MultipleSelect extends React.Component {
     this.setState({name: event.target.value})
     const {placeCategoryKey, placeCategories, updateChanged, updateBusinessCategories} = this.props
     updateChanged(placeCategoryKey, placeCategories)
-    const newBusinessCategories = event.target.value.map(businessCategoryName =>
-      (this.state.namesToBusinessCategories[businessCategoryName]))
+    const newBusinessCategories =
+      event.target.value.map(businessCategoryName => this.state.namesToBusinessCategories[businessCategoryName])
     updateBusinessCategories(placeCategoryKey, placeCategories, newBusinessCategories)
   }
 
@@ -74,10 +74,11 @@ class MultipleSelect extends React.Component {
       Object.assign(accum, {
         [businessCategory.name]: businessCategory
       }), {})
-    this.setState({
+    const newState = {
       name: selectedBusinessCategories.map(category => category.name),
       namesToBusinessCategories: namesToBusinessCategories,
-    })
+    }
+    this.setState(newState)
   }
 
   render () {

@@ -19,12 +19,12 @@ const decorateByPreloader = dispatch => async request => {
 
 const preloadDecorator = dispatch => decorateByPreloader(dispatch)
 
-export const realoadData = () => async dispatch => {
+export const reloadData = () => async dispatch => {
+  const businessCategories = await preloadDecorator(dispatch)(api.get(`/api/business-categories/all-parent`))
+  dispatch(ACTIONS.updateBusinessCategories(businessCategories))
   dispatch(flushDeletedIds())
   const rawData = await preloadDecorator(dispatch)(endPoint.get())
   dispatch(ACTIONS.updatePlaceCategories(rawData.map(placeCategory => createOrSetKey(placeCategory))))
-  const businessCategories = await preloadDecorator(dispatch)(api.get(`/api/business-categories/all-parent`))
-  dispatch(ACTIONS.updateBusinessCategories(businessCategories))
 }
 
 const createOrSetKey = placeCategory => {
@@ -64,14 +64,8 @@ export const updateChanged = (key, container) => dispatch => {
   ))
 }
 
-export const updateMenuItems = (key, container, menuItems) => dispatch => {
-  dispatch(ACTIONS.updatePlaceCategories(
-    setValueToEntityField(key, container, 'menuItems', menuItems)
-  ))
-}
-
 export const updateBusinessCategories = (key, container, selectedBusinessCategories) =>dispatch => {
-  dispatch(ACTIONS.updateBusinessCategories(
+  dispatch(ACTIONS.updatePlaceCategories(
     setValueToEntityField(key, container, 'businessCategories', selectedBusinessCategories)
   ))
 }
@@ -138,7 +132,7 @@ export const saveAllChanges = placeCategories => dispatch => {
     requestDelete(placeCategories)
   )
   preloadDecorator(dispatch)(requests)
-    .then(() => dispatch(realoadData()))
+    .then(() => dispatch(reloadData()))
 }
 
 const requestDelete = placeCategories => (

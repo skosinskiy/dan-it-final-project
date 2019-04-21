@@ -15,7 +15,7 @@ const styles = () => ({
 })
 
 const ResetButton = props => {
-  const {classes, realoadData} = props
+  const {classes, reloadData} = props
   return (
     <div>
       <Button
@@ -23,7 +23,7 @@ const ResetButton = props => {
       color="secondary"
       className={classes.button}
       type="reset"
-      onClick={() => realoadData()}
+      onClick={() => reloadData()}
       >
         RESET
       </Button>
@@ -33,11 +33,11 @@ const ResetButton = props => {
 
 ResetButton.propTypes = {
   classes: PropTypes.object.isRequired,
-  realoadData: PropTypes.func.isRequired
+  reloadData: PropTypes.func.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
-  realoadData: () => dispatch(placesCategoriesOperations.realoadData()),
+  reloadData: () => dispatch(placesCategoriesOperations.reloadData()),
 })
 
 export default connect(null, mapDispatchToProps)(withStyles(styles)(ResetButton))

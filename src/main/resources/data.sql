@@ -106,15 +106,7 @@ INSERT INTO placecategories_businesscategories
 VALUES
   (1,1),
   (2,1),
-  (2,2);
-
-INSERT INTO placecategories_businesscategories
-  (place_category_id, business_category_id)
-VALUES
-  (1,1),
-  (2,1),
-  (2,2);
-
+  (2,3);
 
 INSERT INTO businesses
   (id, date_created, date_modified, title, description, address, web_site, phone_number, place_id )
