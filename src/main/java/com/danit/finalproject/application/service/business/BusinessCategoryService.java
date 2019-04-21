@@ -5,6 +5,7 @@ import com.danit.finalproject.application.repository.business.BusinessCategoryRe
 import com.danit.finalproject.application.service.AmazonS3Service;
 import com.danit.finalproject.application.service.CrudService;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,11 +51,19 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
     BusinessCategory businessCategory = getById(id);
     deleteCategoryImage(businessCategory);
     deleteCategoryIcon(businessCategory);
-    businessCategory
-            .getBusinesses()
-            .forEach(business -> business.getCategories().remove(businessCategory));
+    businessCategory.getBusinesses()
+        .forEach(business -> business.getCategories().remove(businessCategory));
+    businessCategory.getPlaceCategories()
+        .forEach(placeCategory -> {
+          placeCategory.setBusinessCategories(
+              placeCategory.getBusinessCategories()
+                  .stream()
+                  .filter(
+                      nestedBusinessCategory -> !nestedBusinessCategory.equals(businessCategory))
+                  .collect(Collectors.toList()));
+        });
     getAll().forEach(category -> {
-      if (category.getParentCategory() == businessCategory) {
+      if (businessCategory.equals(category.getParentCategory())) {
         category.setParentCategory(null);
       }
     });
@@ -92,5 +101,9 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
     if (currentIconKey != null && !currentIconKey.equals(updatedIconKey)) {
       amazonS3Service.deleteObject(currentIconKey);
     }
+  }
+
+  public List<BusinessCategory> findByParentCategoryIsNull() {
+    return businessCategoryRepository.findByParentCategoryIsNull();
   }
 }
