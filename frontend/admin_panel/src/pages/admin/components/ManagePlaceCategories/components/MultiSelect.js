@@ -130,6 +130,8 @@ MultipleSelect.propTypes = {
   placeCategories: PropTypes.array.isRequired,
   updateMenuItems: PropTypes.func.isRequired,
   selectedMenuItems: PropTypes.array.isRequired,
+  flag: PropTypes.string.isRequired,
+  updateLayoutItems: PropTypes.func.isRequired
 }
 
 const mapStateToProps = ({placeCategories, menuItems}) => ({
