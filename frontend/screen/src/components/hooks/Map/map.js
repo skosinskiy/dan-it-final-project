@@ -26,9 +26,9 @@ class Map extends Component {
     const content = isLoaded ? map : <Preloader />;
 
     return (
-        <div className={'map'}>
-          {content}
-        </div>
+      <div className={'map'}>
+        {content}
+      </div>
     )
   }
 }
