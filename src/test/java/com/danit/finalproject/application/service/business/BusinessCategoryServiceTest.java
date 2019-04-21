@@ -68,17 +68,21 @@ public class BusinessCategoryServiceTest {
   }
 
   @Test
-  public void verifySaveCalledOnceAndS3ServiceDeleteCalledOnce() {
+  public void verifySaveCalledOnceAndS3ServiceDeleteCalledTwice() {
     Long expectedId = 2L;
     String expectedName = "testName";
     String expectedImageKey = "imageKey";
+    String expectedIconKey = "iconKey";
     String currentImageKey = "currentImageKey";
+    String currentIconKey = "currentIconKey";
     BusinessCategory updateBusinessCategory = new BusinessCategory();
+    updateBusinessCategory.setId(expectedId);
     updateBusinessCategory.setName(expectedName);
     updateBusinessCategory.setImageKey(expectedImageKey);
-    updateBusinessCategory.setId(expectedId);
+    updateBusinessCategory.setIconKey(expectedIconKey);
     BusinessCategory currentBusinessCategory = new BusinessCategory();
     currentBusinessCategory.setImageKey(currentImageKey);
+    currentBusinessCategory.setIconKey(currentIconKey);
 
     when(businessCategoryRepository.findById(expectedId))
         .thenReturn(Optional.of(currentBusinessCategory));
@@ -89,20 +93,24 @@ public class BusinessCategoryServiceTest {
 
     verify(businessCategoryRepository, times(1)).saveAndFlush(updateBusinessCategory);
     verify(amazonS3Service, times(1)).deleteObject(currentImageKey);
+    verify(amazonS3Service, times(1)).deleteObject(currentIconKey);
     assertEquals(expectedId, updatedBusinessCategory.getId());
     assertEquals(expectedName, updatedBusinessCategory.getName());
     assertEquals(expectedImageKey, updatedBusinessCategory.getImageKey());
+    assertEquals(expectedIconKey, updatedBusinessCategory.getIconKey());
   }
 
   @Test
-  public void verifyDeleteCalledOnceAndS3ServiceDeleteCalledOnce() {
+  public void verifyDeleteCalledOnceAndS3ServiceDeleteCalledTwice() {
     Long expectedId = 1L;
     String expectedName = "business-category-1";
     String expectedImageKey = "imageKey";
+    String expectedIconKey = "iconKey";
 
     BusinessCategory businessCategory = new BusinessCategory();
     businessCategory.setName(expectedName);
     businessCategory.setImageKey(expectedImageKey);
+    businessCategory.setIconKey(expectedIconKey);
     businessCategory.setId(expectedId);
     businessCategory.setBusinesses(new ArrayList<>());
     businessCategory.setPlaceCategories(new ArrayList<>());
@@ -118,6 +126,7 @@ public class BusinessCategoryServiceTest {
     BusinessCategory deletedBusinessCategory = businessCategoryService.delete(expectedId);
 
     verify(amazonS3Service, times(1)).deleteObject(expectedImageKey);
+    verify(amazonS3Service, times(1)).deleteObject(expectedIconKey);
     verify(businessCategoryRepository, times(1)).findAll();
     verify(businessCategoryRepository, times(1)).delete(businessCategory);
     assertEquals(businessCategory, deletedBusinessCategory);
@@ -126,12 +135,12 @@ public class BusinessCategoryServiceTest {
   @Test
   public void verifyFindByParentCategoryIsNullCalledOnce() {
     BusinessCategory parentBusinessCategory = new BusinessCategory("business-category-1",
-        null,null, null,"imageKey", null);
+        null,null, null,"imageKey", null, null);
     when(businessCategoryRepository.findByParentCategoryIsNull())
         .thenReturn(new ArrayList<BusinessCategory>() {{
           add(parentBusinessCategory);
           add(new BusinessCategory("business-category-3", null,
-              null, null, null, null));
+              null, null, null, null, null));
         }});
 
     List<BusinessCategory> parentBusinessCategories = businessCategoryService.findByParentCategoryIsNull();

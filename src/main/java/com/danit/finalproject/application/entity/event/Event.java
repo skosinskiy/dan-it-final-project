@@ -1,9 +1,11 @@
 package com.danit.finalproject.application.entity.event;
 
 import com.danit.finalproject.application.entity.BaseEntity;
+import com.danit.finalproject.application.entity.Notification;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.place.Place;
 
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -58,4 +60,13 @@ public class Event extends BaseEntity {
 
   @Column(name = "address")
   private String address;
+
+  @OneToOne(mappedBy = "event", cascade = CascadeType.ALL)
+  @ToString.Exclude
+  private Notification notification;
+
+  @Column(name = "start_date")
+  private Date startDate;
+  @Column(name = "end_date")
+  private Date endDate;
 }

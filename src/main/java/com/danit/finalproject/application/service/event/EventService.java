@@ -40,9 +40,9 @@ public class EventService implements CrudService<Event> {
     return eventRepository.findAll();
   }
 
-  public List<Event> findAllByLocation(Long placeId, Long businessId) {
-    return eventRepository.findAllByPlaceAndBusiness(placeService.getById(placeId), businessService
-        .getById(businessId));
+  public List<Event> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(Long placeId, Long businessId, String
+      searchParam) {
+    return eventRepository.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(placeId, businessId, searchParam);
   }
 
   @Override
@@ -52,22 +52,31 @@ public class EventService implements CrudService<Event> {
 
   @Override
   public Event update(Long id, Event event) {
+    List<EventPhoto> updatedEventPhotos = event.getPhotos();
+    deleteEventPhotos(getById(id).getPhotos(), updatedEventPhotos);
+    updatedEventPhotos.forEach(eventPhoto -> eventPhoto.setEvent(event));
     event.setId(id);
     return eventRepository.save(event);
+  }
+
+  private void deleteEventPhotos(
+      List<EventPhoto> currentEventPhotos,
+      List<EventPhoto> updatedEventPhotos) {
+    currentEventPhotos
+        .stream()
+        .filter(currentEventPhoto -> updatedEventPhotos
+            .stream()
+            .noneMatch(businessPhoto -> currentEventPhoto.getImageKey().equals(businessPhoto.getImageKey())))
+        .forEach(businessPhoto -> eventPhotoService.deleteEventPhoto(businessPhoto));
   }
 
   @Override
   public Event delete(Long id) {
     Event event = eventRepository.findById(id).orElse(null);
-    eventRepository.deleteById(id);
-    return event;
-  }
-
-  public Event addPhoto(EventPhoto eventPhoto, Long eventId) {
-    Optional<Event> optionalEvent = eventRepository.findById(eventId);
-    optionalEvent.ifPresent(event -> event.getPhotos().add(eventPhoto));
-    Event event = optionalEvent.orElse(null);
-    eventRepository.save(event);
+    if (event != null) {
+      event.getPhotos().forEach(businessPhoto -> eventPhotoService.deleteEventPhoto(businessPhoto));
+    }
+    eventRepository.delete(event);
     return event;
   }
 
@@ -81,5 +90,11 @@ public class EventService implements CrudService<Event> {
       optionalEventPhoto.ifPresent(photo -> eventPhotoService.deleteEventPhoto(photo));
     }
     return optionalEvent.orElse(null);
+  }
+
+  public Event createEventPhotos(List<EventPhoto> eventPhotos, Long eventId) {
+    Event event = getById(eventId);
+    event.setPhotos(eventPhotos);
+    return eventRepository.save(event);
   }
 }

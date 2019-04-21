@@ -4,15 +4,15 @@ import Dropzone from 'react-dropzone';
 import classNames from 'classnames'
 
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import Icon from '@material-ui/core/Icon';
+import CloseIcon from '@material-ui/icons/CloseOutlined';
 import {withStyles} from '@material-ui/core/styles'
 
-const styles = () => ({
+const styles = (theme) => ({
   input: {
     display: 'none'
   },
   image: {
-    width: '100%',
+    maxWidth: '100%',
     marginBottom: '20px',
     borderWidth: '1px',
     borderStyle: 'dashed',
@@ -41,6 +41,7 @@ const styles = () => ({
   },
   previewImageWrapper: {
     position: 'relative',
+    marginRight: 20
   },
   resetButton: {
     position: 'absolute',
@@ -52,14 +53,18 @@ const styles = () => ({
     borderRadius: '50%',
     border: 'none',
     outline: 'none',
-    transform: 'translate(50%, -50%)'
+    transform: 'translate(50%, -50%)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   imageList: {
-    margin: 0,
+    width: '100%',
     padding: 0,
     listStyleType: 'none',
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
+    justifyContent: 'space-around'
   },
   mainImage: {
     borderColor: 'blue',
@@ -67,7 +72,7 @@ const styles = () => ({
 })
 
 const ImageUploader = (props) => {
-  const {images, classes, onReset, onFileChange, onMainPhotoSelect} = props
+  const {images, classes, onReset, onFileChange, onMainPhotoSelect, multiple} = props
   const uploadedImages = images && images.length > 0 && images.imageUrl !== null ? images.map((image, index) => {
     return (
       <li key={`image-${index}`} className={classes.previewImageWrapper}>
@@ -76,7 +81,7 @@ const ImageUploader = (props) => {
               onClick={() => onMainPhotoSelect(image)}
               alt="logo" />
         <button className={classes.resetButton} onClick={() => onReset(image)}>
-          <Icon className={classes.imageIcon}>delete</Icon>
+          <CloseIcon/>
         </button>
       </li>
     )
@@ -84,7 +89,9 @@ const ImageUploader = (props) => {
 
 
   return (
-    <Dropzone onDrop={onFileChange}>
+    <Dropzone
+      multiple={multiple}
+      onDrop={onFileChange}>
       {({getRootProps, getInputProps}) => (
         <section className="container">
           <div {...getRootProps({className: classes.dropzone})}>

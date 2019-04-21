@@ -35,9 +35,9 @@ class BusinessCategories extends Component {
   }
 
   render () {
-    const {classes, businessCategories} = this.props
+    const {classes, businessCategories, isLoading} = this.props
 
-    if (businessCategories.length === 0) {
+    if (isLoading) {
       return <Preloader/>
     }
 
@@ -61,11 +61,13 @@ BusinessCategories.propTypes = {
   classes: PropTypes.object.isRequired,
   getAllBusinessCategories: PropTypes.func.isRequired,
   businessCategories:  PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = ({businessCategory}) => {
   return {
-    businessCategories: businessCategory.allBusinessCategories
+    businessCategories: businessCategory.allBusinessCategories,
+    isLoading: businessCategory.isBusinessCategoryDataLoading
   }
 }
 

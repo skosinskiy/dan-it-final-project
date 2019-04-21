@@ -2,6 +2,8 @@ package com.danit.finalproject.application.dto.response.event;
 
 import com.danit.finalproject.application.dto.response.business.BusinessResponse;
 import com.danit.finalproject.application.dto.response.place.PlaceResponse;
+
+import java.util.Date;
 import java.util.List;
 import lombok.Data;
 
@@ -17,5 +19,7 @@ public class EventResponse {
   private BusinessResponse business;
   private PlaceResponse place;
   private String address;
+  private Date startDate;
+  private Date endDate;
 
 }

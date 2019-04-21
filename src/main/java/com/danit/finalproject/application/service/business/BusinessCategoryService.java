@@ -41,6 +41,7 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
   @Override
   public BusinessCategory update(Long id, BusinessCategory businessCategory) {
     deleteCategoryImage(businessCategory, id);
+    deleteCategoryIcon(businessCategory, id);
     businessCategory.setId(id);
     return businessCategoryRepository.saveAndFlush(businessCategory);
   }
@@ -49,6 +50,10 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
   public BusinessCategory delete(Long id) {
     BusinessCategory businessCategory = getById(id);
     deleteCategoryImage(businessCategory);
+    deleteCategoryIcon(businessCategory);
+    businessCategory
+            .getBusinesses()
+            .forEach(business -> business.getCategories().remove(businessCategory));
     businessCategory.getBusinesses()
         .forEach(business -> business.getCategories().remove(businessCategory));
     businessCategory.getPlaceCategories()
@@ -82,6 +87,22 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
     String updatedImageKey = updatedBusinessCategory.getImageKey();
     if (currentImageKey != null && !currentImageKey.equals(updatedImageKey)) {
       amazonS3Service.deleteObject(currentImageKey);
+    }
+  }
+
+  private void deleteCategoryIcon(BusinessCategory businessCategory) {
+    String iconKey = businessCategory.getIconKey();
+    if (iconKey != null) {
+      amazonS3Service.deleteObject(iconKey);
+    }
+  }
+
+  private void deleteCategoryIcon(BusinessCategory updatedBusinessCategory, Long id) {
+    BusinessCategory currentBusinessCategory = getById(id);
+    String currentIconKey = currentBusinessCategory.getIconKey();
+    String updatedIconKey = updatedBusinessCategory.getIconKey();
+    if (currentIconKey != null && !currentIconKey.equals(updatedIconKey)) {
+      amazonS3Service.deleteObject(currentIconKey);
     }
   }
 
