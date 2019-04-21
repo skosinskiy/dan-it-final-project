@@ -60,10 +60,10 @@ public class BusinessCategoryServiceTest {
     BusinessCategory businessCategory = new BusinessCategory();
     businessCategory.setName(expectedName);
     when(businessCategoryRepository.save(businessCategory)).thenReturn(businessCategory);
-    BusinessCategory createdBusinesCategory = businessCategoryService.create(businessCategory);
+    BusinessCategory createdBusinessCategory = businessCategoryService.create(businessCategory);
 
     verify(businessCategoryRepository, times(1)).save(businessCategory);
-    assertEquals(expectedName, createdBusinesCategory.getName());
+    assertEquals(expectedName, createdBusinessCategory.getName());
   }
 
   @Test
