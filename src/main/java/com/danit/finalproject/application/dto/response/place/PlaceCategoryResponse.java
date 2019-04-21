@@ -1,6 +1,6 @@
 package com.danit.finalproject.application.dto.response.place;
 
-import com.danit.finalproject.application.entity.menuitem.MenuItem;
+import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponse;
 import java.util.List;
 import lombok.Data;
 
@@ -10,6 +10,6 @@ public class PlaceCategoryResponse {
   private Long id;
   private String name;
   private boolean multisync;
-  private List<MenuItem> menuItems;
+  private List<BusinessCategoryResponse> businessCategories;
   private String description;
 }

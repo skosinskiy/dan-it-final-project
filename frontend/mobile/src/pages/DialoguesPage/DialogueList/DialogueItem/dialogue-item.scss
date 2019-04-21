@@ -1,0 +1,82 @@
+@import "../../../../styles/variables";
+
+.dialogue-list{
+
+  &__item{
+    display: flex;
+    justify-content: space-between;
+    height: 43px;
+    margin-bottom: 20px;
+    font-family: SF Compact Text, sans-serif;
+  }
+
+  &__img-content-flexb{
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__img-container{
+    align-self: center;
+    width: 40px;
+    height: 40px;
+    margin: 0;
+  }
+
+  &__content-container{
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 3px 0 3px 12px;
+    text-align: left;
+  }
+
+  &__name{
+    font-weight: 600;
+    font-size: 17px;
+  }
+
+  &__preview{
+    color: $grey;
+    font-size: 15px;
+  }
+
+  &__info-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__time{
+    color: $grey;
+    font-size: 13px;
+  }
+
+  &__circle{
+    position: relative;
+    width: 21px;
+    height: 21px;
+    background-image: url('../../../../img/DialoguesPage/circle.png');
+
+    &:before, &:after{
+      position: absolute;
+      content: ' ';
+      height: 2px;
+      background-color: white;
+    }
+
+    &:before{
+      top: 10px;
+      left: 7px;
+      width: 11.3px;
+      transform: rotate(-45deg);
+    }
+
+    &:after{
+      top: 11px;
+      left: 3px;
+      width: 8.49px;
+      transform: rotate(-135deg);
+    }
+  }
+}
