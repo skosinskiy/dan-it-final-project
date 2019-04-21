@@ -2,16 +2,20 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Menu from '../hooks/Menu/menu'
 import onClickOutside from 'react-onclickoutside'
+import {toggleMenu} from '../../actions/menuActions'
 
 class MenuContainer extends Component {
     handleClickOutside = () => {
-      if (this.props.burgerMenu.isOpen) {
-        this.props.toggle()
-      }
+      const {isOpen, toggle} = this.props
+
+      isOpen && toggle()
     }
+
     render () {
+      const {isOpen, toggle} = this.props
+
       return (
-        <Menu isOpen={this.props.burgerMenu.isOpen} onClick={this.props.toggle}/>
+        <Menu isOpen={isOpen} onClick={toggle}/>
       )
     }
 }
@@ -24,15 +28,15 @@ const clickOutsideConfig = {
 
 const wrappedMenuContainer = onClickOutside(MenuContainer, clickOutsideConfig)
 
-const mapStateToProps = store => {
+const mapStateToProps = ({menu}) => {
   return {
-    burgerMenu: {...store.menuReducer.burgerMenu}
+    isOpen: menu.isOpen
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggle: () => dispatch({type: 'MENU_TOGGLE'})
+    toggle: () => dispatch(toggleMenu())
   }
 }
 

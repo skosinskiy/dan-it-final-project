@@ -2,18 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
-import {reducer as menuReducer} from './store/MenuReducer'
-import { Provider } from 'react-redux'
+import reducer from './store'
+import {Provider} from 'react-redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
-import {createStore, applyMiddleware, combineReducers} from 'redux'
-import { BrowserRouter } from 'react-router-dom'
+import {applyMiddleware, createStore} from 'redux'
+import {BrowserRouter} from 'react-router-dom'
+import thunk from 'redux-thunk'
 
-const reducers = {
-  menuReducer
-}
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))
 
-const reducer = combineReducers(reducers)
-const store = createStore(reducer, composeWithDevTools(applyMiddleware()))
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
