@@ -7,13 +7,17 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.danit.finalproject.application.dto.request.place.PlaceCategoryRequest;
 import com.danit.finalproject.application.dto.response.place.PlaceCategoryResponse;
+import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.entity.place.PlaceCategory;
+import com.danit.finalproject.application.service.business.BusinessCategoryService;
 import com.danit.finalproject.application.service.place.PlaceCategoryService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -91,6 +95,7 @@ public class PlaceCategoryControllerTest {
             .with(csrf())
             .content(placeCategoryJson)
             .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
     PlaceCategoryResponse createdPlaceCategory = objectMapper.readValue(responseBody, PlaceCategoryResponse.class);
@@ -99,6 +104,44 @@ public class PlaceCategoryControllerTest {
     assertEquals(expectedName, createdPlaceCategory.getName());
     assertNotNull(createdPlaceCategoryId);
     assertNotNull(placeCategoryService.getById(createdPlaceCategoryId));
+  }
+
+  @Test
+  public void createNewPlaceCategoryWithBusinessCategorySet() throws Exception {
+    Long expectedPlaceCategoryId = 3L;
+    String expectedPlaceCategoryName = "place-category-3";
+    String expectedBusinessCategoryName = "business-category-3";
+    List<BusinessCategory> expectedBusinessCategories = new ArrayList<BusinessCategory>(){{
+      add(new BusinessCategory(){{
+        setId(3L);
+        setName(expectedBusinessCategoryName);
+        setParentCategory(null);
+      }});
+    }};
+
+    PlaceCategory placeCategory = new PlaceCategory(){{
+      setName(expectedPlaceCategoryName);
+      setBusinessCategories(expectedBusinessCategories);
+    }};
+
+    String placeCategoryJson = objectMapper.writeValueAsString(
+        modelMapper.map(placeCategory, PlaceCategoryRequest.class));
+
+    MvcResult result = mockMvc.perform(
+        post("/api/place-categories/")
+            .with(csrf())
+            .content(placeCategoryJson)
+            .contentType(MediaType.APPLICATION_JSON))
+        .andExpect(status().isOk())
+        .andReturn();
+    String responseBody = result.getResponse().getContentAsString();
+    PlaceCategoryResponse createdPlaceCategory = objectMapper.readValue(responseBody, PlaceCategoryResponse.class);
+    Long createdPlaceCategoryId= createdPlaceCategory.getId();
+
+    assertNotNull(placeCategoryService.getById(createdPlaceCategoryId));
+    assertNotNull(placeCategoryService.getById(createdPlaceCategoryId).getBusinessCategories());
+    assertEquals(placeCategoryService.getById(createdPlaceCategoryId)
+        .getBusinessCategories().get(0).getName(), expectedBusinessCategoryName);
   }
 
   @Test
@@ -128,4 +171,5 @@ public class PlaceCategoryControllerTest {
     mockMvc.perform(delete("/api/place-categories/2").with(csrf()));
     assertEquals(expectedCategorySize, placeCategoryService.getAll().size());
   }
+
 }

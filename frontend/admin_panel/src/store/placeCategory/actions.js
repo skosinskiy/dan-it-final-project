@@ -10,6 +10,11 @@ export const updatePlaceCategories = placePategories => ({
   payload: placePategories
 })
 
+export const updateBusinessCategories = parentBusinessCategories => ({
+  type: TYPES.UPDATE_BUSINESS_CATEGORIES,
+  payload: parentBusinessCategories
+})
+
 export const updateDeletedPlaceCategoryIds = deletedIds => ({
   type: TYPES.UPDATE_DETETED_PLACE_CATEGORY_IDS,
   payload: deletedIds
