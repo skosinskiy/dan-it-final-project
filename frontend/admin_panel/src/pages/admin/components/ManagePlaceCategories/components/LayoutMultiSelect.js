@@ -51,37 +51,27 @@ function getStyles (name, that) {
   }
 }
 
-class MultipleSelect extends React.Component {
+class LayoutMultiSelect extends React.Component {
 
   state = {
-    name: [],
-    namesToBusinessCategories: {}
+    name: []
   }
 
   handleChange = event => {
     this.setState({name: event.target.value})
-    const {placeCategoryKey, placeCategories, updateChanged, updateBusinessCategories} = this.props
+    const {placeCategoryKey, placeCategories, updateChanged, updateLayoutItems} = this.props
     updateChanged(placeCategoryKey, placeCategories)
-    const newBusinessCategories =
-      event.target.value.map(businessCategoryName => this.state.namesToBusinessCategories[businessCategoryName])
-    updateBusinessCategories(placeCategoryKey, placeCategories, newBusinessCategories)
+    updateLayoutItems(placeCategoryKey, placeCategories,  event.target.value)
+
   }
 
   componentDidMount(){
-    const {selectedBusinessCategories, availableBusinessCategories} = this.props
-    const namesToBusinessCategories = availableBusinessCategories.reduce((accum, businessCategory) =>
-      Object.assign(accum, {
-        [businessCategory.name]: businessCategory
-      }), {})
-    const newState = {
-      name: selectedBusinessCategories.map(category => category.name),
-      namesToBusinessCategories: namesToBusinessCategories,
-    }
-    this.setState(newState)
+    this.setState({name: this.props.selectedMenuItems.map(menuItem => menuItem)})
   }
 
   render () {
-    const {classes, availableBusinessCategories} = this.props
+    const {classes, allNames} = this.props
+
     return (
       <div className={classes.root}>
         <FormControl className={classes.formControl} fullWidth>
@@ -93,19 +83,15 @@ class MultipleSelect extends React.Component {
             input={<Input id="select-multiple-chip"/>}
             MenuProps={MenuProps}
           >
-            {availableBusinessCategories.map(category => category.name)
-              .map(name =>
-                (
-                <MenuItem
-                  key={name}
-                  value={name}
-                  style={getStyles(name, this)}
-                >
-                  {name}
-                </MenuItem>
-                )
-              )
-            }
+            {allNames.map(name => (
+              <MenuItem
+                key={name}
+                value={name}
+                style={getStyles(name, this)}
+              >
+                {name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </div>
@@ -113,26 +99,28 @@ class MultipleSelect extends React.Component {
   }
 }
 
-MultipleSelect.propTypes = {
+LayoutMultiSelect.propTypes = {
   classes: PropTypes.object.isRequired,
+  allNames: PropTypes.array.isRequired,
   placeCategoryKey: PropTypes.number.isRequired,
   updateChanged: PropTypes.func.isRequired,
   placeCategories: PropTypes.array.isRequired,
-  selectedBusinessCategories: PropTypes.array.isRequired,
-  availableBusinessCategories: PropTypes.array.isRequired,
-  updateBusinessCategories: PropTypes.func.isRequired,
+  updateMenuItems: PropTypes.func.isRequired,
+  selectedMenuItems: PropTypes.array.isRequired,
+  flag: PropTypes.string.isRequired,
+  updateLayoutItems: PropTypes.func.isRequired
 }
 
-const mapStateToProps = ({placeCategories}) => ({
+const mapStateToProps = ({placeCategories, menuItems}) => ({
   placeCategories: placeCategories.placeCategories,
-  availableBusinessCategories: placeCategories.availableBusinessCategories,
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateChanged: (key, placeCategories) => dispatch(
-    placesCategoriesOperations.updateChanged(key, placeCategories)),
-  updateBusinessCategories: (key, placeCategories, selectedBusinessCategories) => dispatch(
-    placesCategoriesOperations.updateBusinessCategories(key, placeCategories, selectedBusinessCategories)),
+  updateChanged: (key, placeCategories) => dispatch(placesCategoriesOperations.updateChanged(key, placeCategories)),
+  updateMenuItems: (key, placeCategories, menuItems) =>
+    dispatch(placesCategoriesOperations.updateMenuItems(key, placeCategories, menuItems)),
+  updateLayoutItems: (key, placeCategories, layoutItems) =>
+    dispatch(placesCategoriesOperations.updateLayoutItems(key, placeCategories, layoutItems))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(MultipleSelect))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(LayoutMultiSelect))

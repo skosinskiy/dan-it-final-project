@@ -14,11 +14,13 @@ import SubmitButton from './components/Buttons/Submit'
 import Name from './components/Name'
 import DeleteButton from './components/Buttons/Delete'
 import MultiSelect from './components/MultiSelect'
+import LayuoutMultiSelect from './components/LayoutMultiSelect'
 import { EnhancedTableHead } from './components/EnhancedTableHead'
 import EnhancedTableToolbar from './components/EnhancedTableToolbar'
 import './index.scss'
 import ResetButton from './components/Buttons/Reset'
 import Desciption from './components/Description';
+import layoutItems from '../../../../constants/layoutItems'
 
 const styles = theme => ({
   root: {
@@ -32,6 +34,8 @@ const styles = theme => ({
     overflowX: 'auto',
   },
 });
+
+const allLayoutItems = Object.values(layoutItems)
 
 class EnhancedTable extends React.Component {
   componentDidMount() {
@@ -64,7 +68,7 @@ class EnhancedTable extends React.Component {
             <TableBody>
               {
                 placeCategories.map(placeCategory => {
-                  const {multisync, businessCategories: selectedBusinessCategories, name, key,
+                  const {multisync, layoutItems, businessCategories: selectedBusinessCategories, name, key,
                     description} = placeCategory
                   return (
                     <Fragment key={key * Math.random()}>
@@ -85,6 +89,14 @@ class EnhancedTable extends React.Component {
                           <MultiSelect
                             selectedBusinessCategories={selectedBusinessCategories}
                             placeCategoryKey={key}
+                          />
+                        </TableCell>
+                        <TableCell scope="row" padding="none">
+                          <LayuoutMultiSelect
+                            selectedMenuItems={layoutItems}
+                            placeCategoryKey={key}
+                            allNames={allLayoutItems}
+                            flag={'layoutItem'}
                           />
                         </TableCell>
                         <TableCell scope="row" padding="none">

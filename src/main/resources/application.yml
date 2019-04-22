@@ -1,4 +1,7 @@
 spring:
+  jackson:
+    mapper:
+      default-view-inclusion: true
   profiles:
     active:
       dev

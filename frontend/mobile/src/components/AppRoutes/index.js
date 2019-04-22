@@ -12,6 +12,7 @@ const AppRoutes = (props) => {
       <Switch>
         <Route path="/login" component={Login}/>
         <Route path="/places" />
+        <Route path="/businesses" component={BusinessesEvents}/>
         <Route path="/news" component={NewsPage} />
         <Route path="/messages" component={DialoguesPage} />
         <Route path="/favourites" component={BusinessesEvents} />

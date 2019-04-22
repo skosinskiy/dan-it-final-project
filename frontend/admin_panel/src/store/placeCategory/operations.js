@@ -70,6 +70,12 @@ export const updateBusinessCategories = (key, container, selectedBusinessCategor
   ))
 }
 
+export const updateLayoutItems = (key, container, layoutItems) => dispatch => {
+  dispatch(ACTIONS.updatePlaceCategories(
+    setValueToEntityField(key, container, 'layoutItems', layoutItems)
+  ))
+}
+
 export const updateDescription = (key, container, description) => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(
     setValueToEntityField(key, container, 'description', description)
