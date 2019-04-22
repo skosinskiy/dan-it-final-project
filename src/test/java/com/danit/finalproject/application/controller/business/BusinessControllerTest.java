@@ -79,7 +79,10 @@ public class BusinessControllerTest {
   @Test
   public void getBusinessById() throws Exception {
     Long expectedId = 1L;
+    int expectedPlacesLength = 2;
+    int expectedEventsLength = 2;
     String expectedName = "Cupcake";
+    String expectedPhone= "067-123-12-46";
 
     MvcResult result = mockMvc.perform(get("/api/businesses/1"))
         .andReturn();
@@ -88,6 +91,9 @@ public class BusinessControllerTest {
 
     assertEquals(expectedId, business.getId());
     assertEquals(expectedName, business.getTitle());
+    assertEquals(expectedPhone, business.getPhoneNumber());
+    assertEquals(expectedPlacesLength, business.getPhotos().size());
+    assertEquals(expectedEventsLength, business.getEvents().size());
   }
 
   @Test
