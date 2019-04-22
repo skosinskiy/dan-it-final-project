@@ -3,7 +3,8 @@ import * as TYPES from './types'
 const initialState = {
   isLoading: true,
   placeCategories: [],
-  deletedIds: []
+  deletedIds: [],
+  availableBusinessCategories: []
 }
 
 function placeCategories(state = initialState, action) {
@@ -12,6 +13,11 @@ function placeCategories(state = initialState, action) {
       return {
         ...state,
         placeCategories: action.payload
+      }
+    case TYPES.UPDATE_BUSINESS_CATEGORIES:
+      return {
+        ...state,
+        availableBusinessCategories: action.payload
       }
     case TYPES.IS_LOADING:
       return {

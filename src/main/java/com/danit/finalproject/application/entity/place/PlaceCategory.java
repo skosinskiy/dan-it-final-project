@@ -2,23 +2,22 @@ package com.danit.finalproject.application.entity.place;
 
 import com.danit.finalproject.application.entity.BaseEntity;
 import com.danit.finalproject.application.entity.LayoutItem;
-import com.danit.finalproject.application.entity.menuitem.MenuItem;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.CollectionTable;
-import javax.persistence.ElementCollection;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import com.danit.finalproject.application.entity.business.BusinessCategory;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.util.List;
 
 @Entity
 @Table(name = "places_categories")
@@ -32,12 +31,12 @@ public class PlaceCategory extends BaseEntity {
   @Column(name = "multisync")
   private boolean multisync;
 
-  @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-  @JoinTable(name = "placecategories_menuitems",
+  @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
+  @JoinTable(name = "placecategories_businesscategories",
       joinColumns = {@JoinColumn(name = "place_category_id")},
-      inverseJoinColumns = {@JoinColumn(name = "menu_item_id")})
+      inverseJoinColumns = {@JoinColumn(name = "business_category_id")})
   @ToString.Exclude
-  private List<MenuItem> menuItems;
+  private List<BusinessCategory> businessCategories;
   
   @OneToMany(mappedBy = "placeCategory")
   @ToString.Exclude

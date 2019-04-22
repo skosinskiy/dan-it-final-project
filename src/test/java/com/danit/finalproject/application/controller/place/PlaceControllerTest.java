@@ -3,20 +3,18 @@ package com.danit.finalproject.application.controller.place;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.danit.finalproject.application.dto.request.place.PlaceRequest;
 import com.danit.finalproject.application.dto.response.place.PlaceResponse;
-import com.danit.finalproject.application.entity.menuitem.MenuItemName;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.service.AmazonS3Service;
@@ -26,10 +24,8 @@ import com.danit.finalproject.application.service.place.PlaceService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.modelmapper.ModelMapper;
@@ -196,15 +192,4 @@ public class PlaceControllerTest {
     assertNull(placePhotoService.getPlacePhotoById(1L));
   }
 
-  @Test
-  public void getAvailableMenuItemNames() throws Exception {
-    String response = mockMvc.perform(get("/api/places/menu-items"))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andReturn()
-        .getResponse()
-        .getContentAsString();
-    assertEquals(Arrays.asList(MenuItemName.values()),
-        new ObjectMapper().readValue(response, new TypeReference<ArrayList<MenuItemName>>() {}));
-  }
 }

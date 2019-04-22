@@ -19,12 +19,12 @@ const decorateByPreloader = dispatch => async request => {
 
 const preloadDecorator = dispatch => decorateByPreloader(dispatch)
 
-export const realoadData = () => async dispatch => {
+export const reloadData = () => async dispatch => {
+  const businessCategories = await preloadDecorator(dispatch)(api.get(`/api/business-categories/all-parent`))
+  dispatch(ACTIONS.updateBusinessCategories(businessCategories))
   dispatch(flushDeletedIds())
   const rawData = await preloadDecorator(dispatch)(endPoint.get())
-  dispatch(ACTIONS.updatePlaceCategories(
-    rawData.map(placeCategory => createNewOrAddDefaults(placeCategory))
-  ))
+  dispatch(ACTIONS.updatePlaceCategories(rawData.map(placeCategory => createOrSetKey(placeCategory))))
 }
 
 const createNewOrAddDefaults = ({ id, multisync = false, name = "Display Name",
@@ -38,6 +38,18 @@ const createNewOrAddDefaults = ({ id, multisync = false, name = "Display Name",
   menuItems: menuItems,
   layoutItems: layoutItems
 })
+
+const createOrSetKey = placeCategory => {
+  if (!placeCategory) {
+    placeCategory = {
+      multisync: false,
+      name: "Display Name",
+      description: "Enter your desription here",
+      businessCategories: []
+    }
+  }
+  return Object.assign(placeCategory, { key: Math.random() * new Date().getTime()})
+}
 
 const findIndexByKey = (key, container) => (
   container.findIndex(placeCategory => placeCategory.key === key)
@@ -64,9 +76,9 @@ export const updateChanged = (key, container) => dispatch => {
   ))
 }
 
-export const updateMenuItems = (key, container, menuItems) => dispatch => {
+export const updateBusinessCategories = (key, container, selectedBusinessCategories) =>dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(
-    setValueToEntityField(key, container, 'menuItems', menuItems)
+    setValueToEntityField(key, container, 'businessCategories', selectedBusinessCategories)
   ))
 }
 
@@ -97,7 +109,7 @@ export const toggleMultisync = (key, container) => dispatch => {
 
 export const addNew = container => dispatch => {
   const newContainer = [...container]
-  newContainer.push(createNewOrAddDefaults())
+  newContainer.push(createOrSetKey())
   dispatch(ACTIONS.updatePlaceCategories(newContainer))
 }
 
@@ -138,7 +150,7 @@ export const saveAllChanges = placeCategories => dispatch => {
     requestDelete(placeCategories)
   )
   preloadDecorator(dispatch)(requests)
-    .then(() => dispatch(realoadData()))
+    .then(() => dispatch(reloadData()))
 }
 
 const requestDelete = placeCategories => (

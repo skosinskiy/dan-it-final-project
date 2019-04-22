@@ -55,7 +55,7 @@ Desciption.propTypes = {
   updateDescription: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = ({ placeCategories, menuItems }) => ({
+const mapStateToProps = ({ placeCategories }) => ({
   placeCategories: placeCategories.placeCategories,
 })
 
