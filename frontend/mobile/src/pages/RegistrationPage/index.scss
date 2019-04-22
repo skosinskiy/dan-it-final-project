@@ -1,0 +1,132 @@
+@import '../../styles/variables';
+.container {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+.login-page {
+  &__header {
+    background-image: url("../../img/LoginPage/header-bg.svg");
+    background-repeat: no-repeat;
+    .header__logo {
+      display: inline-block;
+      width: 130px;
+      height: 110px;
+      padding-top: 86px;
+    }
+    .header__title {
+      margin-bottom: -15px;
+      padding-top: 8px;
+      color: $dark-grey2;
+      font-weight: 600;
+      font-size: 36px;
+      font-family: 'SF Compact Text';
+    }
+    .header__text {
+      padding-top: 4px;
+      padding-bottom: 80px;
+      color: $dark-grey2;
+      font-weight: 400;
+      font-size: 18px;
+      font-family: 'SF Compact Text';
+    }
+  }
+  &__body {
+    .body__form {
+      position: relative;
+      top: -50px;
+      .email__field {
+        position: relative;
+        display: flex;
+        justify-content: space-around;
+        width: 260px;
+        padding-top: 40px;
+        padding-left: 30px;
+        &-text {
+          margin-left: 30px;
+          color: $dark-grey2;
+          font-size: 14px;
+          background-color: white;
+          border: 0;
+        }
+      }
+      .password__field {
+        display: flex;
+        justify-content: space-around;
+        width: 260px;
+        padding-top: 35px;
+        padding-bottom: 40px;
+        padding-left: 30px;
+        &-text {
+          margin-left: 30px;
+          color: $dark-grey2;
+          font-size: 14px;
+          background-color: white;
+          border: 0;
+        }
+      }
+    }
+    .search-form {
+      width: 335px;
+      margin-left: 10px;
+      text-align: left;
+      background-color: $white;
+      border-radius: 10px;
+      box-shadow: 2px 5px 35px -7px rgba(0,0,0,.51);
+    }
+    .bottom-line::after {
+      position: absolute;
+      top: 130px;
+      z-index: 1;
+      width: 245px;
+      height: 1px;
+      background-color: $medium-grey2;
+      content: '';
+    }
+    .bottom-line::before {
+      position: absolute;
+      top: 70px;
+      z-index: 1;
+      width: 245px;
+      height: 1px;
+      background-color: $medium-grey2;
+      content: '';
+    }
+  }
+  &__bottom {
+    .bottom__social-media {
+      display: flex;
+      justify-content: space-around;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      .facebook-link {
+        width: 52px;
+        height: 52px;
+        margin-top: -13px;
+        margin-right: -50%;
+      }
+      .google-link {
+        width: 52px;
+        height: 52px;
+      }
+    }
+    .bottom__button {
+      padding: 10px 70px;
+      background-color: $light-blue;
+      border-radius: 12px;
+      &-link {
+        color: $white;
+        font-size: 20px;
+        font-family: 'SF Compact Text';
+        text-decoration: none;
+        background-color: $light-blue;
+        border: 0;
+      }
+    }
+    .bottom__text {
+      padding-top: 10px;
+      color: $medium-grey;
+      font-size: 16px;
+      font-family: 'SF Compact Text';
+    }
+  }
+}

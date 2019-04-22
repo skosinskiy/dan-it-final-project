@@ -4,6 +4,7 @@ import NewsPage from '../../pages/NewsPage/index'
 import DialoguesPage from '../../pages/DialoguesPage/index'
 import ContactsPage from '../../pages/ContactsPage'
 import Login from '../../pages/LoginPage/index'
+import Registration from '../../pages/RegistrationPage/index'
 import BusinessesEvents from '../../pages/BusinessesEvents'
 
 const AppRoutes = (props) => {
@@ -11,6 +12,7 @@ const AppRoutes = (props) => {
     <div className={'AppRoutes'}>
       <Switch>
         <Route path="/login" component={Login}/>
+        <Route path="/registration" component={Registration}/>
         <Route path="/places" />
         <Route path="/news" component={NewsPage} />
         <Route path="/messages" component={DialoguesPage} />
