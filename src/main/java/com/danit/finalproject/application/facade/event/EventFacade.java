@@ -23,8 +23,9 @@ public class EventFacade extends AbstractDtoFacade<Event, EventRequest, EventRes
     this.eventService = eventService;
   }
 
-  public List<EventResponse> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(String searchParam) {
-    List<Event> events = eventService.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(searchParam);
+  public List<EventResponse> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(Long placeId, Long businessId, String
+      searchParam) {
+    List<Event> events = eventService.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(placeId, businessId, searchParam);
     return mapEntityListToResponseDtoList(events);
   }
 

@@ -13,7 +13,6 @@ const styles = (theme) => ({
   },
   image: {
     maxWidth: '100%',
-    height: 100,
     marginBottom: '20px',
     borderWidth: '1px',
     borderStyle: 'dashed',
@@ -26,7 +25,6 @@ const styles = (theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     padding: '20px',
-    margin: theme.spacing.unit,
     marginBottom: '20px',
     borderWidth: '2px',
     borderRadius: '2px',
@@ -61,7 +59,6 @@ const styles = (theme) => ({
     justifyContent: 'center'
   },
   imageList: {
-    margin: theme.spacing.unit,
     width: '100%',
     padding: 0,
     listStyleType: 'none',

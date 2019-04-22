@@ -51,22 +51,25 @@ public class UserController {
   }
 
   @PostMapping
+  @PreAuthorize("hasAuthority('MANAGE_USERS')")
   public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
     return new ResponseEntity<>(userFacade.create(userRequest), HttpStatus.OK);
   }
 
   @PutMapping("{userId}")
+  @PreAuthorize("hasAuthority('MANAGE_USERS')")
   public ResponseEntity<UserResponse> updateUser(@PathVariable Long userId, @RequestBody UserRequest userRequest) {
     return new ResponseEntity<>(userFacade.update(userId, userRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{userId}")
+  @PreAuthorize("hasAuthority('MANAGE_USERS')")
   public ResponseEntity<UserResponse> deleteUser(@PathVariable Long userId) {
     return new ResponseEntity<>(userFacade.delete(userId), HttpStatus.OK);
   }
 
   @PutMapping("{userId}/roles")
-  @PreAuthorize("hasAuthority('MANAGE_USER_ROLES')")
+  @PreAuthorize("hasAuthority('MANAGE_USERS')")
   public ResponseEntity<UserResponse> setUserRoles(@PathVariable Long userId, @RequestBody List<RoleRequest> roles) {
     return new ResponseEntity<>(userFacade.setUserRoles(userId, roles), HttpStatus.OK);
   }
@@ -81,6 +84,11 @@ public class UserController {
       @RequestBody @Valid UpdateUserPasswordRequest userDto,
       BindingResult bindingResult) {
     return new ResponseEntity<>(userFacade.updateUserPassword(userDto, bindingResult), HttpStatus.OK);
+  }
+
+  @PostMapping("register")
+  public ResponseEntity<UserResponse> registerNewUser(@RequestBody UserRequest userRequest) {
+    return new ResponseEntity<>(userFacade.registerNewUser(userRequest), HttpStatus.OK);
   }
 
 }

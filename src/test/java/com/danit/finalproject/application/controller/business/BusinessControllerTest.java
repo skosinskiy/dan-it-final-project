@@ -79,7 +79,7 @@ public class BusinessControllerTest {
   @Test
   public void getBusinessById() throws Exception {
     Long expectedId = 1L;
-    String expectedName = "business-1";
+    String expectedName = "Cupcake";
 
     MvcResult result = mockMvc.perform(get("/api/businesses/1"))
         .andReturn();
@@ -92,7 +92,7 @@ public class BusinessControllerTest {
 
   @Test
   public void getAllBusinessesByPlace() throws Exception {
-    int expectedSize = 2;
+    int expectedSize = 6;
     String secondCategoryName = "business-3";
 
     MvcResult result = mockMvc.perform(get("/api/businesses?placeId=1"))

@@ -5,6 +5,7 @@ import com.danit.finalproject.application.repository.business.BusinessCategoryRe
 import com.danit.finalproject.application.service.AmazonS3Service;
 import com.danit.finalproject.application.service.CrudService;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,6 +41,7 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
   @Override
   public BusinessCategory update(Long id, BusinessCategory businessCategory) {
     deleteCategoryImage(businessCategory, id);
+    deleteCategoryIcon(businessCategory, id);
     businessCategory.setId(id);
     return businessCategoryRepository.saveAndFlush(businessCategory);
   }
@@ -48,11 +50,20 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
   public BusinessCategory delete(Long id) {
     BusinessCategory businessCategory = getById(id);
     deleteCategoryImage(businessCategory);
-    businessCategory
-            .getBusinesses()
-            .forEach(business -> business.getCategories().remove(businessCategory));
+    deleteCategoryIcon(businessCategory);
+    businessCategory.getBusinesses()
+        .forEach(business -> business.getCategories().remove(businessCategory));
+    businessCategory.getPlaceCategories()
+        .forEach(placeCategory -> {
+          placeCategory.setBusinessCategories(
+              placeCategory.getBusinessCategories()
+                  .stream()
+                  .filter(
+                      nestedBusinessCategory -> !nestedBusinessCategory.equals(businessCategory))
+                  .collect(Collectors.toList()));
+        });
     getAll().forEach(category -> {
-      if (category.getParentCategory() == businessCategory) {
+      if (businessCategory.equals(category.getParentCategory())) {
         category.setParentCategory(null);
       }
     });
@@ -74,5 +85,25 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
     if (currentImageKey != null && !currentImageKey.equals(updatedImageKey)) {
       amazonS3Service.deleteObject(currentImageKey);
     }
+  }
+
+  private void deleteCategoryIcon(BusinessCategory businessCategory) {
+    String iconKey = businessCategory.getIconKey();
+    if (iconKey != null) {
+      amazonS3Service.deleteObject(iconKey);
+    }
+  }
+
+  private void deleteCategoryIcon(BusinessCategory updatedBusinessCategory, Long id) {
+    BusinessCategory currentBusinessCategory = getById(id);
+    String currentIconKey = currentBusinessCategory.getIconKey();
+    String updatedIconKey = updatedBusinessCategory.getIconKey();
+    if (currentIconKey != null && !currentIconKey.equals(updatedIconKey)) {
+      amazonS3Service.deleteObject(currentIconKey);
+    }
+  }
+
+  public List<BusinessCategory> findByParentCategoryIsNull() {
+    return businessCategoryRepository.findByParentCategoryIsNull();
   }
 }

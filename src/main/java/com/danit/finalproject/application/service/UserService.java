@@ -76,6 +76,7 @@ public class UserService implements UserDetailsService, CrudService<User> {
 
   @Override
   public User create(User user) {
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
   }
 
@@ -154,11 +155,13 @@ public class UserService implements UserDetailsService, CrudService<User> {
 
   private Set<Permission> getAllPermissions(User user) {
     Set<Permission> permissions = new HashSet<>();
-    user
-        .getRoles()
-        .stream()
-        .map(Role::getPermissions)
-        .forEach(permissions::addAll);
+    List<Role> userRoles = user.getRoles();
+    if (userRoles != null) {
+      userRoles
+          .stream()
+          .map(Role::getPermissions)
+          .forEach(permissions::addAll);
+    }
     if (permissions.isEmpty()) {
       permissions.add(ADMIN_USER);
     }
@@ -179,7 +182,7 @@ public class UserService implements UserDetailsService, CrudService<User> {
     String email = (String) attributes.get("email");
     User user = new User();
     user.setEmail(email);
-    user.setRoles(new ArrayList<>());
+    user.setPassword(UUID.randomUUID().toString());
     setUserFirstAndLastName((String) attributes.get("name"), user);
     return create(user);
   }

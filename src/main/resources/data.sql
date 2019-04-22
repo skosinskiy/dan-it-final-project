@@ -70,14 +70,6 @@ VALUES
   (2, 8),
   (2, 4);
 
--- menu items
-
-INSERT INTO menu_items
-  (id, date_created, date_modified, name, display_name)
-VALUES
-  (1, '2019-03-21 01:15:00', '2019-03-21 02:55:50', 'SHOP', 'The Bazar'),
-  (2, '2019-03-22 06:25:00', '2019-03-22 07:05:02', 'FOOD', 'Healthy food zone');
-
 -- place
 
 INSERT INTO places_categories
@@ -100,35 +92,37 @@ VALUES
   (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-3', 2),
   (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'imageKey-4', 2);
 
-INSERT INTO placecategories_menuitems
-  (place_category_id, menu_item_id)
-VALUES
-  (1,1),
-  (2,1),
-  (2,2);
-
 -- businesses
 
 INSERT INTO business_categories
   (id, date_created, date_modified, name, parent_category_id, image_key)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-1', null, 'imageKey' ),
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-1', null, 'imageKey'),
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-2', 1, null ),
-  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-3', null, null );
+  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-3', null, 'imageKey2');
+
+INSERT INTO placecategories_businesscategories
+  (place_category_id, business_category_id)
+VALUES
+  (1,1),
+  (2,1),
+  (2,3);
 
 INSERT INTO businesses
-  (id, date_created, date_modified, title, description, address, web_site, phone_number, place_id )
+  (id, date_created, date_modified, title, description, address, web_site, phone_number, place_id,  )
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-1', 'description-1', 'address1', 'site1.com.ua', '067-123-12-46', 1 ),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-2', 'description-2', 'address2', 'site2.com.ua', '067-123-12-40', 2 ),
-  (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-2', 'description-2', 'address2', 'site2.com.ua',
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Cupcake', 'description-1', 'Lva Tolstogo str, 56', 'site1.com.ua',
+  '067-123-12-46', 1 ),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Music', 'description-2', 'Lva Tolstogo str, 55', 'site2.com.ua',
   '067-123-12-40', 2 ),
-  (5, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-2', 'description-2', 'address2', 'site2.com.ua',
-  '067-123-12-40', 2 ),
+  (4, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Sport', 'description-2', 'address2', 'site2.com.ua',
+  '067-123-12-40', 1 ),
+  (5, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-1', 'description-2', 'address2', 'site2.com.ua',
+  '067-123-12-40', 1 ),
   (6, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-2', 'description-2', 'address2', 'site2.com.ua',
-  '067-123-12-40', 2 ),
+  '067-123-12-40', 1 ),
   (7, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-2', 'description-2', 'address2', 'site2.com.ua',
-  '067-123-12-40', 2 ),
+  '067-123-12-40', 1 ),
   (8, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-2', 'description-2', 'address2', 'site2.com.ua',
   '067-123-12-40', 2 ),
   (9, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-2', 'description-2', 'address2', 'site2.com.ua',
@@ -155,8 +149,14 @@ INSERT INTO businesses_categories
   (business_id, category_id)
 VALUES
   (1, 1),
+  (4, 1),
+  (5, 2),
+  (6, 2),
   (2, 1),
-  (2, 2);
+  (2, 2),
+  (7, 2),
+  (8, 2),
+  (9, 2);
 
 -- events
 
@@ -169,7 +169,8 @@ VALUES
 INSERT INTO events
   (id, date_created, date_modified, title, description, business_id, place_id, address )
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'event-1', 'description-1', 1, 1, 'address1' ),
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Event-1', 'description-1', 1, 1, 'Address, 36' ),
+  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Event-2', 'description-1', 1, 1, 'Address, 22' ),
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'event-2', 'description-2', 2, 2, 'address2' );
 
 INSERT INTO event_photos
