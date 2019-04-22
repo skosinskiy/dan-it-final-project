@@ -7,8 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -52,7 +51,7 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-@WithMockUser(authorities = "MANAGE_USER_ROLES")
+@WithMockUser(authorities = "MANAGE_USERS")
 public class UserControllerTest {
 
 	@Autowired
@@ -242,5 +241,36 @@ public class UserControllerTest {
 		assertNull(user.getToken());
 		assertNull(user.getTokenExpirationDate());
 		verify(passwordEncoder, times(1)).encode(expectedPassword);
+	}
+
+	@Test
+	public void registerNewUser() throws Exception {
+		Integer userAge = 30;
+		String userEmail = "createdUser@gmail.com";
+		String userPassword = "password";
+
+		when(passwordEncoder.encode(userPassword)).thenReturn(userPassword);
+
+		User user = new User();
+		user.setAge(userAge);
+		user.setEmail(userEmail);
+		user.setPassword(userPassword);
+		String userJson = objectMapper.writeValueAsString(user);
+
+		MvcResult result = mockMvc.perform(
+				post("/api/users/register")
+						.with(csrf())
+						.content(userJson)
+						.contentType(MediaType.APPLICATION_JSON))
+				.andReturn();
+		String responseBody = result.getResponse().getContentAsString();
+		UserResponse createdUser = objectMapper.readValue(responseBody, UserResponse.class);
+		Long createdUserId = createdUser.getId();
+
+		verify(passwordEncoder, times(1)).encode(userPassword);
+		assertEquals(userEmail, createdUser.getEmail());
+		assertEquals(userPassword, userService.getById(createdUserId).getPassword());
+		assertNull(createdUser.getAge());
+		assertNotNull(createdUserId);
 	}
 }

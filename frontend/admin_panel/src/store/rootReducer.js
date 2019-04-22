@@ -8,7 +8,6 @@ import forgotPassword from './forgotPassword'
 import resetPassword from './resetPassword'
 import businessCategory from './businessCategory'
 import eventCategory from './eventCategory'
-import menuItems from './menuItems'
 import placeCategories from './placeCategory'
 import roles from './roles'
 import events from './events'
@@ -21,7 +20,6 @@ const rootReducer = combineReducers({
   resetPassword: resetPassword,
   businessCategory: businessCategory,
   eventCategory: eventCategory,
-  menuItems: menuItems,
   toastr: toastrReducer,
   placeCategories: placeCategories,
   roles: roles,
