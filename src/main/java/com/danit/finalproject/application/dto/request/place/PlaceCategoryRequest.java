@@ -1,8 +1,10 @@
 package com.danit.finalproject.application.dto.request.place;
 
 import com.danit.finalproject.application.dto.request.business.BusinessCategoryRequest;
-import java.util.List;
+import com.danit.finalproject.application.entity.LayoutItem;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class PlaceCategoryRequest {
@@ -11,4 +13,5 @@ public class PlaceCategoryRequest {
   private boolean multisync;
   private List<BusinessCategoryRequest> businessCategories;
   private String description;
+  private List<LayoutItem> layoutItems;
 }

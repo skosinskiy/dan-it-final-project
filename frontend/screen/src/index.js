@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import {reducer as menuReducer} from './store/MenuReducer'
+import {currentPlace} from './store/currentPlace'
 import { Provider } from 'react-redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import {createStore, applyMiddleware, combineReducers} from 'redux'
@@ -12,11 +13,13 @@ import thunk from 'redux-thunk'
 
 const reducers = {
   menuReducer,
+  currentPlace,
   businesses: businesses
 }
 
 const reducer = combineReducers(reducers)
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))
+
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>

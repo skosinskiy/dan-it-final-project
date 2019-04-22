@@ -78,6 +78,14 @@ VALUES
   (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-1', 'this is test description for cat 1', 1),
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-2', 'this is test description for cat 2', 0 );
 
+INSERT INTO place_category_layout_items
+  (place_category_id, layout_item_id)
+VALUES
+  (1, 0),
+  (1, 1),
+  (1, 2),
+  (1, 3);
+
 INSERT INTO places
   (id, date_created, date_modified, title, description, address, place_category)
 VALUES
