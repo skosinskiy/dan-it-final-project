@@ -8,11 +8,13 @@ import { Provider } from 'react-redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import {createStore, applyMiddleware, combineReducers} from 'redux'
 import { BrowserRouter } from 'react-router-dom'
+import businesses from './store/businesses'
 import thunk from 'redux-thunk'
 
 const reducers = {
   menuReducer,
-  currentPlace
+  currentPlace,
+  businesses: businesses
 }
 
 const reducer = combineReducers(reducers)
