@@ -1,3 +1,4 @@
+@import "../src/styles/variables";
 .App {
   text-align: center;
 }
@@ -50,4 +51,21 @@
   margin: 0 auto;
   background-color: red;
   transform: translateZ(-1px) translateY(calc(-50vh + 50%)) scale(2);
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track-piece {
+  width: 2px;
+  background-color: $light-grey;
+  border-right: 1px solid white;
+  border-left: 4px solid white;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $almost-black;
+  border-radius: 3px;
 }
