@@ -17,9 +17,9 @@ class BottomMenu extends Component {
     return (
       <div className="bottom__menu">
         <div className="item">
-          <NavLink to="/places" className={`link ${path.startsWith('/places') && 'fill'}`}>
+          <NavLink to="/home" className={`link ${path.startsWith('/home') && 'fill'}`}>
             <PlacesLogo className="logo"/>
-            <p className="text">Places</p>
+            <p className="text">Home</p>
           </NavLink>
         </div>
         <div className="item">
@@ -41,9 +41,9 @@ class BottomMenu extends Component {
           </NavLink>
         </div>
         <div className="item">
-          <NavLink to="/more" className={`link ${path.startsWith('/more') && 'fill'}`}>
+          <NavLink to="/contacts" className={`link ${path.startsWith('/contacts') && 'fill'}`}>
             <MoreLogo className="logo"/>
-            <p className="text">More</p>
+            <p className="text">Contacts</p>
           </NavLink>
         </div>
         <div className="item">
