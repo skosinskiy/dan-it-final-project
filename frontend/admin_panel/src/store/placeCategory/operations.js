@@ -27,18 +27,6 @@ export const reloadData = () => async dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(rawData.map(placeCategory => createOrSetKey(placeCategory))))
 }
 
-const createNewOrAddDefaults = ({ id, multisync = false, name = "Display Name",
-  description = "Enter your desription here", menuItems = [], layoutItems = []} = {}) =>
-({
-  key: Math.random() * new Date().getTime(),
-  id: id,
-  multisync: multisync,
-  description: description,
-  name: name,
-  menuItems: menuItems,
-  layoutItems: layoutItems
-})
-
 const createOrSetKey = placeCategory => {
   if (!placeCategory) {
     placeCategory = {

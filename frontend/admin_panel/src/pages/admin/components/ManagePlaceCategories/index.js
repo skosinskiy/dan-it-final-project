@@ -14,6 +14,7 @@ import SubmitButton from './components/Buttons/Submit'
 import Name from './components/Name'
 import DeleteButton from './components/Buttons/Delete'
 import MultiSelect from './components/MultiSelect'
+import LayuoutMultiSelect from './components/LayoutMultiSelect'
 import { EnhancedTableHead } from './components/EnhancedTableHead'
 import EnhancedTableToolbar from './components/EnhancedTableToolbar'
 import './index.scss'
@@ -88,12 +89,10 @@ class EnhancedTable extends React.Component {
                           <MultiSelect
                             selectedBusinessCategories={selectedBusinessCategories}
                             placeCategoryKey={key}
-                            allNames={menuItemNames}
-                            flag={'menuItem'}
                           />
                         </TableCell>
                         <TableCell scope="row" padding="none">
-                          <MultiSelect
+                          <LayuoutMultiSelect
                             selectedMenuItems={layoutItems}
                             placeCategoryKey={key}
                             allNames={allLayoutItems}
