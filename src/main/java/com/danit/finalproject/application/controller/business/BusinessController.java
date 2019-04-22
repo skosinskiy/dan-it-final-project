@@ -3,8 +3,10 @@ package com.danit.finalproject.application.controller.business;
 import com.danit.finalproject.application.dto.request.business.BusinessPhotoRequest;
 import com.danit.finalproject.application.dto.request.business.BusinessRequest;
 import com.danit.finalproject.application.dto.response.business.BusinessResponse;
+import com.danit.finalproject.application.dto.view.View;
 import com.danit.finalproject.application.facade.business.BusinessFacade;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,11 +36,13 @@ public class BusinessController {
   }
 
   @GetMapping("{id}")
+  @JsonView(View.Business.class)
   public ResponseEntity<BusinessResponse> getBusinessById(@PathVariable("id") Long businessId) {
     return new ResponseEntity<>(businessFacade.getById(businessId), HttpStatus.OK);
   }
 
   @GetMapping
+  @JsonView(View.Empty.class)
   public ResponseEntity<Page<BusinessResponse>> getAllBusinesses(
       @RequestParam(name = "placeId", required = false) Long placeId,
       @RequestParam(name = "title", required = false) String title,
@@ -48,12 +52,14 @@ public class BusinessController {
   }
 
   @PostMapping
+  @JsonView(View.Business.class)
   public BusinessResponse createNewBusiness(@RequestBody BusinessRequest businessRequest) {
     return businessFacade.create(businessRequest);
   }
 
   @PutMapping("{id}")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
+  @JsonView(View.Business.class)
   public ResponseEntity<BusinessResponse> updateBusiness(
           @PathVariable Long id,
           @RequestBody BusinessRequest businessRequest) {
@@ -62,12 +68,14 @@ public class BusinessController {
 
   @DeleteMapping("{id}")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
+  @JsonView(View.Business.class)
   public ResponseEntity<BusinessResponse> deleteBusiness(@PathVariable("id") Long businessId) {
     return new ResponseEntity<>(businessFacade.delete(businessId), HttpStatus.OK);
   }
 
   @PostMapping("/{businessId}/photos")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
+  @JsonView(View.Business.class)
   public ResponseEntity<BusinessResponse> createBusinessPhotos(
           @RequestBody List<BusinessPhotoRequest> businessPhotos,
           @PathVariable("businessId") Long businessId) {
@@ -76,6 +84,7 @@ public class BusinessController {
 
   @DeleteMapping("/{businessId}/photos/{photoId}")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESSES')")
+  @JsonView(View.Business.class)
   //TODO research is this method necessary
   public ResponseEntity<BusinessResponse> deletePhoto(
           @PathVariable Long businessId,
