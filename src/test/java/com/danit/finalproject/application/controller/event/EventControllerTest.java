@@ -15,6 +15,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.danit.finalproject.application.dto.request.event.EventPhotoRequest;
 import com.danit.finalproject.application.dto.request.event.EventRequest;
 import com.danit.finalproject.application.dto.response.event.EventResponse;
+import com.danit.finalproject.application.dto.view.View;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.event.EventCategory;
 import com.danit.finalproject.application.entity.event.EventPhoto;
@@ -121,7 +122,9 @@ public class EventControllerTest {
     event.setBusiness(businessService.getById(1L));
     event.setPlace(placeService.getById(1L));
 
-    String placeCategoryJson = objectMapper.writeValueAsString(modelMapper.map(event, EventRequest.class));
+    String placeCategoryJson = objectMapper
+        .writerWithView(View.Event.class)
+        .writeValueAsString(modelMapper.map(event, EventRequest.class));
 
     MvcResult result = mockMvc.perform(
         post("/api/events/")
@@ -148,7 +151,9 @@ public class EventControllerTest {
     event.setBusiness(businessService.getById(2L));
     event.setPlace(placeService.getById(2L));
 
-    String userJson = objectMapper.writeValueAsString(modelMapper.map(event, EventRequest.class));
+    String userJson = objectMapper
+        .writerWithView(View.Event.class)
+        .writeValueAsString(modelMapper.map(event, EventRequest.class));
 
     MvcResult result = mockMvc.perform(
         put("/api/events/1")

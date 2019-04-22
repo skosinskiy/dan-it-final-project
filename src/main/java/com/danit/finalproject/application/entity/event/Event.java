@@ -52,6 +52,7 @@ public class Event extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "business_id")
+  @ToString.Exclude
   private Business business;
 
   @ManyToOne
