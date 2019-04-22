@@ -130,15 +130,6 @@ class MultipleSelect extends React.Component {
             input={<Input id="select-multiple-chip"/>}
             MenuProps={MenuProps}
           >
-            {names.map(name => (
-              <MenuItem
-                key={name}
-                value={name}
-                style={getStyles(name, this)}
-              >
-                {name}
-              </MenuItem>
-            ))}
             {availableBusinessCategories.map(category => category.name)
               .map(name =>
                 (
@@ -167,7 +158,7 @@ MultipleSelect.propTypes = {
   updateMenuItems: PropTypes.func.isRequired,
   selectedMenuItems: PropTypes.array.isRequired,
   flag: PropTypes.string.isRequired,
-  updateLayoutItems: PropTypes.func.isRequired
+  updateLayoutItems: PropTypes.func.isRequired,
   selectedBusinessCategories: PropTypes.array.isRequired,
   availableBusinessCategories: PropTypes.array.isRequired,
   updateBusinessCategories: PropTypes.func.isRequired,
@@ -183,7 +174,7 @@ const mapDispatchToProps = dispatch => ({
   updateMenuItems: (key, placeCategories, menuItems) =>
     dispatch(placesCategoriesOperations.updateMenuItems(key, placeCategories, menuItems)),
   updateLayoutItems: (key, placeCategories, layoutItems) =>
-    dispatch(placesCategoriesOperations.updateLayoutItems(key, placeCategories, layoutItems))
+    dispatch(placesCategoriesOperations.updateLayoutItems(key, placeCategories, layoutItems)),
   updateChanged: (key, placeCategories) => dispatch(
     placesCategoriesOperations.updateChanged(key, placeCategories)),
   updateBusinessCategories: (key, placeCategories, selectedBusinessCategories) => dispatch(
