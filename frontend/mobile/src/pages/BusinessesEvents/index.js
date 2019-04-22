@@ -8,8 +8,8 @@ import {ReactComponent as Useful} from '../../img/icons/useful.svg'
 import {ReactComponent as Bee} from '../../img/icons/bee.svg'
 import SectionItem from './SectionItem'
 import './businesses-events.scss'
-import {getBusinessesByCategory} from '../../actions/businesses'
-import {getEventsByPLace} from '../../actions/events'
+import {getBusinessesByCategory} from '../../store/businesses/operations'
+import {getEventsByPLace} from '../../store/events/operations'
 
 class BusinessesEvents extends Component {
   componentDidMount () {
