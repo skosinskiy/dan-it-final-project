@@ -42,7 +42,7 @@ public class BusinessController {
   }
 
   @GetMapping
-  @JsonView(View.Empty.class)
+  @JsonView(View.class)
   public ResponseEntity<Page<BusinessResponse>> getAllBusinesses(
       @RequestParam(name = "placeId", required = false) Long placeId,
       @RequestParam(name = "title", required = false) String title,

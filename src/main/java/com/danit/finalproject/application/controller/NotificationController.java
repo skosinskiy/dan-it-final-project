@@ -32,19 +32,19 @@ public class NotificationController {
   }
 
   @GetMapping
-  @JsonView(View.Empty.class)
+  @JsonView(View.class)
   public ResponseEntity<List<NotificationResponse>> findAllNotificationsByPlace(@RequestParam("placeId") Long id) {
     return new ResponseEntity<>(notificationFacade.findAllByPlace(id), HttpStatus.OK);
   }
 
   @PostMapping("/places")
-  @JsonView(View.Empty.class)
+  @JsonView(View.class)
   public ResponseEntity<NotificationResponse> createNewNotification(@RequestBody NotificationRequest notificationDto) {
     return new ResponseEntity<>(notificationFacade.create(notificationDto), HttpStatus.OK);
   }
 
   @PutMapping("/{id}")
-  @JsonView(View.Empty.class)
+  @JsonView(View.class)
   public ResponseEntity<NotificationResponse> updateNotification(
       @RequestBody NotificationRequest notificationDto,
       @PathVariable("id") Long id) {
@@ -52,7 +52,7 @@ public class NotificationController {
   }
 
   @DeleteMapping("{id}")
-  @JsonView(View.Empty.class)
+  @JsonView(View.class)
   public ResponseEntity<NotificationResponse> deleteNotification(@PathVariable("id") Long id) {
     return new ResponseEntity<>(notificationFacade.delete(id), HttpStatus.OK);
   }

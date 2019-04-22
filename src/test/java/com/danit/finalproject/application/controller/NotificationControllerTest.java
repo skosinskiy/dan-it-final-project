@@ -90,7 +90,7 @@ public class NotificationControllerTest {
     notification.setEvent(eventService.getById(1L));
 
     String notificationJson = objectMapper
-        .writerWithView(View.Empty.class)
+        .writerWithView(View.class)
         .writeValueAsString(modelMapper.map(notification, NotificationRequest.class));
 
     MvcResult result = mockMvc.perform(
@@ -122,7 +122,7 @@ public class NotificationControllerTest {
     notification.setPlace(placeService.getById(2L));
 
     String userJson = objectMapper
-        .writerWithView(View.Empty.class)
+        .writerWithView(View.class)
         .writeValueAsString(modelMapper.map(notification, NotificationRequest.class));
 
     MvcResult result = mockMvc.perform(
