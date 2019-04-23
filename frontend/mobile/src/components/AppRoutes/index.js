@@ -12,12 +12,12 @@ const AppRoutes = (props) => {
     <div className={'AppRoutes'}>
       <Switch>
         <Route path="/login" component={Login}/>
-        <Route path="/places" component={SelectBuildings}/>
+        <Route path="/home" component={SelectBuildings}/>
         <Route path="/businesses" component={BusinessesEvents}/>
         <Route path="/news" component={NewsPage} />
         <Route path="/messages" component={DialoguesPage} />
         <Route path="/favourites" component={BusinessesEvents} />
-        <Route path="/more" component={ContactsPage} />
+        <Route path="/contacts" component={ContactsPage} />
       </Switch>
     </div>
   )
