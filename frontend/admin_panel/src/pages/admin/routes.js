@@ -25,8 +25,8 @@ class AdminRouter extends Component {
 
     return (
       <Switch>
-        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_USER_ROLES)} path="/admin/managing-roles" component={ManagingUserRoles} />
-        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_USER_ROLES)} path="/admin/place-categories" component={PlaceCategories} />
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_USERS)} path="/admin/managing-roles" component={ManagingUserRoles} />
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_USERS)} path="/admin/place-categories" component={PlaceCategories} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/add-new" component={PlaceForm} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/:placeId" component={PlaceForm} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places" component={Places} />

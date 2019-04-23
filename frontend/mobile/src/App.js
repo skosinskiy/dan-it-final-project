@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import AppRoutes from './components/AppRoutes'
 import BottomMenu from './components/BottomMenu'
-import './App.css'
+import './App.scss'
 
 class App extends Component {
   render () {

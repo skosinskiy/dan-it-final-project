@@ -14,12 +14,13 @@ import SubmitButton from './components/Buttons/Submit'
 import Name from './components/Name'
 import DeleteButton from './components/Buttons/Delete'
 import MultiSelect from './components/MultiSelect'
-import { menuItemsOperations } from 'store/menuItems'
+import LayuoutMultiSelect from './components/LayoutMultiSelect'
 import { EnhancedTableHead } from './components/EnhancedTableHead'
 import EnhancedTableToolbar from './components/EnhancedTableToolbar'
 import './index.scss'
 import ResetButton from './components/Buttons/Reset'
 import Desciption from './components/Description';
+import layoutItems from '../../../../constants/layoutItems'
 
 const styles = theme => ({
   root: {
@@ -34,10 +35,11 @@ const styles = theme => ({
   },
 });
 
+const allLayoutItems = Object.values(layoutItems)
+
 class EnhancedTable extends React.Component {
   componentDidMount() {
-    this.props.realoadData()
-    this.props.fetchMenuItemNames()
+    this.props.reloadData()
   }
 
   handleChange = (key) => {
@@ -50,9 +52,9 @@ class EnhancedTable extends React.Component {
   }
 
   render() {
-    const { classes, placeCategories, isLoading, menuItemIsLoading, menuItemNames } = this.props;
+    const { classes, placeCategories, isLoading } = this.props;
     const emptyRows = 1;
-    if (isLoading || menuItemIsLoading) {
+    if (isLoading) {
       return <Preloader />
     }
     return (
@@ -66,7 +68,8 @@ class EnhancedTable extends React.Component {
             <TableBody>
               {
                 placeCategories.map(placeCategory => {
-                  const {multisync, name, menuItems, key, description} = placeCategory
+                  const {multisync, layoutItems, businessCategories: selectedBusinessCategories, name, key,
+                    description} = placeCategory
                   return (
                     <Fragment key={key * Math.random()}>
                       <TableRow
@@ -84,9 +87,16 @@ class EnhancedTable extends React.Component {
                         </TableCell>
                         <TableCell scope="row" padding="none">
                           <MultiSelect
-                            selectedMenuItems={menuItems}
+                            selectedBusinessCategories={selectedBusinessCategories}
                             placeCategoryKey={key}
-                            allNames={menuItemNames}
+                          />
+                        </TableCell>
+                        <TableCell scope="row" padding="none">
+                          <LayuoutMultiSelect
+                            selectedMenuItems={layoutItems}
+                            placeCategoryKey={key}
+                            allNames={allLayoutItems}
+                            flag={'layoutItem'}
                           />
                         </TableCell>
                         <TableCell scope="row" padding="none">
@@ -121,28 +131,26 @@ EnhancedTable.propTypes = {
   placeCategories: PropTypes.array.isRequired,
   toggleMultisync: PropTypes.func.isRequired,
   updateChanged: PropTypes.func.isRequired,
-  realoadData: PropTypes.func.isRequired,
+  reloadData: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  fetchMenuItemNames: PropTypes.func.isRequired,
-  menuItemIsLoading: PropTypes.bool.isRequired,
-  menuItemNames: PropTypes.array.isRequired,
+  fetchParentBusinessCategories: PropTypes.func.isRequired,
   updateDescription: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = ({ placeCategories, menuItems }) => ({
+const mapStateToProps = ({ placeCategories }) => ({
   classes: placeCategories.classes,
   placeCategories: placeCategories.placeCategories,
   isLoading: placeCategories.isLoading,
-  menuItemNames: menuItems.names,
-  menuItemIsLoading: menuItems.isLoading
 })
 
 const mapDispatchToProps = dispatch => ({
-  realoadData: () => dispatch(placesCategoriesOperations.realoadData()),
-  updateChanged: (key, placeCategories) => dispatch(placesCategoriesOperations.updateChanged(key, placeCategories)),
+  reloadData: () => dispatch(placesCategoriesOperations.reloadData()),
+  updateChanged: (key, placeCategories) =>
+    dispatch(placesCategoriesOperations.updateChanged(key, placeCategories)),
   toggleMultisync: (key, placeCategories) =>
     dispatch(placesCategoriesOperations.toggleMultisync(key, placeCategories)),
-  fetchMenuItemNames: () => dispatch(menuItemsOperations.fetchNames()),
+  fetchParentBusinessCategories: () =>
+    dispatch(placesCategoriesOperations.fetchParentBusinessCategories()),
   updateDescription: (key, placeCategories, value) =>
     dispatch(placesCategoriesOperations.updateDescription(key, placeCategories, value))
 })

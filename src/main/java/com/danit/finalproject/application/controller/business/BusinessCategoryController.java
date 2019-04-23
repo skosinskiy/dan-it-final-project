@@ -37,6 +37,11 @@ public class BusinessCategoryController {
     return new ResponseEntity<>(businessCategoryFacade.getAll(), HttpStatus.OK);
   }
 
+  @GetMapping("/all-parent")
+  public ResponseEntity<List<BusinessCategoryResponse>> getAllParentBusinessCategories() {
+    return new ResponseEntity<>(businessCategoryFacade.getAllParent(), HttpStatus.OK);
+  }
+
   @PostMapping
   @PreAuthorize("hasAuthority('MANAGE_BUSINESS_CATEGORIES')")
   public ResponseEntity<BusinessCategoryResponse> createNewBusinessCategory(

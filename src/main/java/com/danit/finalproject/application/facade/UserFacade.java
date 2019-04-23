@@ -49,4 +49,13 @@ public class UserFacade extends AbstractDtoFacade<User, UserRequest, UserRespons
     User user = userService.generateToken(email);
     return mapEntityToResponseDto(user);
   }
+
+  public UserResponse registerNewUser(UserRequest userRequest) {
+    User userToRegister = new User();
+    userToRegister.setEmail(userRequest.getEmail());
+    userToRegister.setPassword(userRequest.getPassword());
+    User registeredUser = userService.create(userToRegister);
+    return mapEntityToResponseDto(registeredUser);
+
+  }
 }
