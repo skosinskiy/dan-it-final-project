@@ -6,6 +6,7 @@ import ContactsPage from '../../pages/ContactsPage'
 import Login from '../../pages/LoginPage/index'
 import BusinessesEvents from '../../pages/BusinessesEvents'
 import SelectBuildings from '../../pages/SelectBuildings'
+import MapPage from '../../pages/MapPage/MapPage.js'
 
 const AppRoutes = (props) => {
   return (
@@ -18,6 +19,7 @@ const AppRoutes = (props) => {
         <Route path="/messages" component={DialoguesPage} />
         <Route path="/favourites" component={BusinessesEvents} />
         <Route path="/more" component={ContactsPage} />
+        <Route path="/map" component={MapPage} />
       </Switch>
     </div>
   )

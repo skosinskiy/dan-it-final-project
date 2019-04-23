@@ -4,6 +4,7 @@ import {ReactComponent as FunLogo} from '../../../img/icons/fun.svg'
 import {ReactComponent as FoodLogo} from '../../../img/icons/food.svg'
 import {ReactComponent as ShopsLogo} from '../../../img/icons/shops.svg'
 import {ReactComponent as MapLogo} from '../../../img/icons/map.svg'
+import {ReactComponent as HomeLogo} from '../../../img/icons/home.svg'
 import './menu.scss'
 import { NavLink } from 'react-router-dom'
 
@@ -15,6 +16,7 @@ const Menu = (props) => (
       <div className={`menu__icon ${props.isOpen ? 'menu__icon-crossed-reverse' : ''}`}></div>
     </div>
     <div className={props.isOpen ? 'menu-visible' : 'menu-hidden'}>
+      <div className={'menu__item'}><NavLink to="/"><HomeLogo /><div>Home</div></NavLink></div>
       <div className={'menu__item'}><NavLink to="/services"><ServicesLogo /><div>Services</div></NavLink></div>
       <div className={'menu__item'}><NavLink to="/fun"><FunLogo /><div>Fun</div></NavLink></div>
       <div className={'menu__item'}><NavLink to="/shops"><ShopsLogo /><div>Shops</div></NavLink></div>
