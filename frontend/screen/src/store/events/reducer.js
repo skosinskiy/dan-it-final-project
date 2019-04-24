@@ -1,7 +1,7 @@
 import * as TYPES from './types'
 
 const initialState = {
-  eventsItem: {},
+  eventItem: {},
 
   isLoaded: false,
   isLoading: false,
