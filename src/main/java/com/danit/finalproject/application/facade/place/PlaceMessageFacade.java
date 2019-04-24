@@ -32,4 +32,9 @@ public class PlaceMessageFacade extends AbstractDtoFacade<PlaceMessage, PlaceMes
     PlaceMessage placeMessage = placeMessageService.getByPlaceId(placeId);
     return mapEntityToResponseDto(placeMessage);
   }
+
+  public PlaceMessageResponse deleteByPlaceId(Long placeId) {
+    PlaceMessage placeMessage = placeMessageService.deleteByPlaceId(placeId);
+    return mapEntityToResponseDto(placeMessage);
+  }
 }

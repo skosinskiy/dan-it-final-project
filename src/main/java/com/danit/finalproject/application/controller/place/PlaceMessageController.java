@@ -25,4 +25,12 @@ public class PlaceMessageController {
   public ResponseEntity<PlaceMessageResponse> getPlaceMessageById(@PathVariable Long placeId) {
     return new ResponseEntity<>(placeMessageFacade.getByPlaceId(placeId), HttpStatus.OK);
   }
+  @DeleteMapping("{id}")
+  public ResponseEntity<PlaceMessageResponse> deletePlaceMessageById(@PathVariable Long placeId) {
+    return new ResponseEntity<>(placeMessageFacade.deleteByPlaceId(placeId), HttpStatus.OK);
+  }
+//  @PostMapping("{chatId}/messages")
+//  public ResponseEntity<PlaceMessageResponse> createNewPlaceMessage(@PathVariable("chatId") Long chatId, PlaceMessageRequest placeMessage) {
+//    return new ResponseEntity<>(chatFacade.addChatMessage(chatMessage, chatId), HttpStatus.OK);
+//  }
 }

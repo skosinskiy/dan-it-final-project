@@ -17,10 +17,6 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
     this.placeMessageRepository = placeMessageRepository;
   }
 
-  public PlaceMessage getByPlaceId(Long placeId) {
-    return placeMessageRepository.findByPlaceId(placeId);
-  }
-
   @Override
   public PlaceMessage getById(Long id) {
     return null;
@@ -44,5 +40,13 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
   @Override
   public PlaceMessage delete(Long id) {
     return null;
+  }
+
+  public PlaceMessage getByPlaceId(Long placeId) {
+    return placeMessageRepository.findByPlaceId(placeId);
+  }
+
+  public PlaceMessage deleteByPlaceId(Long placeId) {
+    return placeMessageRepository.findByPlaceId(placeId);
   }
 }
