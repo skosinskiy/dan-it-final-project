@@ -11,14 +11,12 @@ class SingleEventPage extends Component {
     getEventById(this.props.match.params.id)
   }
   render () {
-    const {events} = this.props
+    const {eventItem} = this.props
   
-    if (!events) {
+    if (!eventItem) {
       return <Preloader/>
     }
     
-    const {eventItem} = this.props.event
-  
     return (
       <div className="ep-wrapper">
         <NavLink to="/businesses/" className="bp_back-btn">
@@ -51,8 +49,6 @@ class SingleEventPage extends Component {
 }
 
 const mapStateToProps = (state, props) => {
-  debugger
-  
   return {
     eventItem: state.events.eventItem
   }
@@ -60,7 +56,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getEventById: (id) => dispatch(eventOperations.getEventByID(id))
+    getEventById: (id) => dispatch(eventOperations.getEventById(id))
   }
 }
 
