@@ -40,7 +40,7 @@ public class EventController {
   }
 
   @GetMapping
-  @JsonView(View.Empty.class)
+  @JsonView(View.class)
   public ResponseEntity<List<EventResponse>> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(
       @RequestParam(value = "placeId", required = false) Long placeId,
       @RequestParam(value = "businessId", required = false) Long businessId,
