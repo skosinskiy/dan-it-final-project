@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import {Redirect} from 'react-router-dom'
 import {ReactComponent as HeaderLogo} from '../../img/LoginPage/header-logo.svg'
 import {ReactComponent as PeopleIcon} from '../../img/LoginPage/form-icon.svg'
 import {ReactComponent as PhoneIcon} from '../../img/LoginPage/form-icon2.svg'
@@ -13,29 +12,38 @@ import './index.scss'
 class Login extends Component {
     render () {
         return (
-            <form className="login-page" onSubmit={this.props.submitRegistrationForm}>
-                <div className="login-page__header container">
+            <form className="registration-page" onSubmit={this.props.submitRegistrationForm}>
+                <div className="registration-page__header container">
                     <div className="header__logo"><HeaderLogo /></div>
                     <p className="header__title">RionUp</p>
                     <p className="header__text">A window to your life</p>
                 </div>
-                <div className="login-page__body container">
-                    <div className="search-form body__form">
-                        <div className="email__field">
-                            <div><PeopleIcon /></div>
-                            <input className="email__field-text" name="username" type="text" placeholder="Email" />
+                <div className="registration-page__body container">
+                    <div className="registration-form">
+                        <div className="registration-form__field">
+                            <div className="field__wrapper">
+                                <div className="field__icon"><PeopleIcon /></div>
+                                <input className="field__input" name="email" type="text" placeholder="Email" />
+                            </div>
+                            <div className="field__line"/>
                         </div>
-                        <div className="password__field bottom-line">
-                            <div><PhoneIcon /></div>
-                            <input className="password__field-text" name="password" type="password" placeholder="Password"/>
+                        <div className="registration-form__field">
+                            <div className="field__wrapper">
+                                <div className="field__icon"><PhoneIcon /></div>
+                                <input className="field__input" name="password" type="password" placeholder="Password"/>
+                            </div>
+                            <div className="field__line"/>
                         </div>
-                        <div className="password__field bottom-line">
-                            <div><PhoneIcon /></div>
-                            <input className="password__field-text" name="password" type="password" placeholder="Password"/>
+                        <div className="registration-form__field">
+                            <div className="field__wrapper">
+                                <div className="field__icon"><PhoneIcon /></div>
+                                <input className="field__input" name="passwordConfirmation" type="password" placeholder="Password confirmation"/>
+                            </div>
+                            <div className="field__line"/>
                         </div>
                     </div>
                 </div>
-                <div className="login-page__bottom container">
+                <div className="registration-page__bottom container">
                     <div className="bottom__social-media">
                         <div className="facebook-link"><a href=' ' onClick={() => this.props.loginWithOAuth('facebook')}><FacebookIcon /></a></div>
                         <div className="google-link"><a href=' ' onClick={() => this.props.loginWithOAuth('google')}><GoogleIcon /></a></div>
@@ -59,7 +67,7 @@ const mapStateToProps = () => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    submitLoginForm: event => dispatch(usersOperations.submitLoginForm(event)),
+    submitRegistrationForm: event => dispatch(usersOperations.submitRegistrationForm(event)),
     loginWithOAuth: event => dispatch(usersOperations.loginWithOAuth(event))
 })
 

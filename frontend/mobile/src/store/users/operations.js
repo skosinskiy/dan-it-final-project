@@ -4,7 +4,7 @@ import * as ACTIONS from './actions'
 export const submitLoginForm = (event) => dispatch => {
   event.preventDefault()
   dispatch(ACTIONS.currentUserLoading(true))
-  
+
   const data = new FormData(event.target)
   api.post('/auth', data).then(res => {
     if (res.status === 200) {
@@ -13,7 +13,17 @@ export const submitLoginForm = (event) => dispatch => {
   })
     .catch(() => dispatch(ACTIONS.currentUserLoading(false)))
 }
-  
+
+export const submitRegistrationForm = (event) => dispatch => {
+  event.preventDefault()
+  const data = new FormData(event.target)
+  const json = {email: data.get('email'), password: data.get('password')}
+  api.post('/api/users/register', json).then(res => {
+
+  })
+      .catch(() => dispatch(ACTIONS.currentUserLoading(false)))
+}
+
 export const getCurrentUser = () => dispatch => {
   dispatch(ACTIONS.currentUserLoading(true))
   api.get('/api/users/current')
