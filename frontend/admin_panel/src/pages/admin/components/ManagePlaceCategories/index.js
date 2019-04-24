@@ -93,7 +93,7 @@ class EnhancedTable extends React.Component {
                         </TableCell>
                         <TableCell scope="row" padding="none">
                           <LayuoutMultiSelect
-                            selectedMenuItems={layoutItems}
+                            selectedMenuItems={layoutItems ? layoutItems : []}
                             placeCategoryKey={key}
                             allNames={allLayoutItems}
                             flag={'layoutItem'}

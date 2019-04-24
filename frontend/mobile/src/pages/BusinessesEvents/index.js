@@ -33,7 +33,7 @@ class BusinessesEvents extends Component {
     })
 
     return (
-      <div className="container">
+      <div className="businesse-container">
         <div className="header">
           <div className="header-icon">
             <h2 className="header-title">Malls</h2>
