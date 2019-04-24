@@ -18,7 +18,7 @@ const eventReducer = (state = initialState, action) => {
     case TYPES.GET_ALL_EVENT_BY_ID:
       return {
         ...state,
-        eventsItem: action.payload.eventItem
+        eventItem: action.payload.eventItem
       }
     default:
       return state

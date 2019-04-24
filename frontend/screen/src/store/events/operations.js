@@ -9,7 +9,7 @@ export const getAllEvents = () => dispatch => {
   })
 }
 
-export const getEventByID = (id) => dispatch => {
+export const getEventById = (id) => dispatch => {
   api.get(`/api/events/${id}`).then(res => {
     dispatch(ACTIONS.getEventByID({eventItem: res}))
   }).catch(err => {
