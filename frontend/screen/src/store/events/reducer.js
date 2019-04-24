@@ -1,28 +1,28 @@
 import * as TYPES from './types'
 
 const initialState = {
-  eventsList: [],
+  eventsItem: {},
 
   isLoaded: false,
   isLoading: false,
   error: null
 }
 
-const businessReducer = (state = initialState, action) => {
+const eventReducer = (state = initialState, action) => {
   switch (action.type) {
     case TYPES.GET_ALL_EVENTS:
       return {
         ...state,
-        eventsList: action.payload.eventsList
+        eventsList: action.payload.eventList
       }
     case TYPES.GET_ALL_EVENT_BY_ID:
       return {
         ...state,
-        eventsItem: action.payload.eventsItem
+        eventsItem: action.payload.eventItem
       }
     default:
       return state
   }
 }
 
-export default businessReducer
+export default eventReducer
