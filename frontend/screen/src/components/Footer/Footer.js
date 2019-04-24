@@ -41,7 +41,7 @@ class Footer extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    currentPlace: state.currentPlace.currentPlace,
+    currentPlace: state.currentPlace.currentPlace
   }
 }
 
