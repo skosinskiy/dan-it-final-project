@@ -1,18 +1,11 @@
 import React, { Component } from 'react'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import './styles/App.scss'
 import AppRoutes from './components/AppRoutes'
 import Header from './components/Header/Header'
-import Footer from './components/Footer/Footer'
-import ScreenEventList from './components/ScreenEventList/ScreenEventList'
-import ScreenNewsList from './components/ScreenNewsList'
-import {getCurrentPlace} from './actions/currentPlace'
-import {hasLayuot} from './utils/hasLayout'
-import LayoutItems from './constants/layoutItems'
+import { getCurrentPlace } from './actions/currentPlace'
 import Preloader from './components/Preloader'
-import QRCode from './components/QRCode/QRCode'
-import MainPage from './pages/MainPage/MainPage'
 
 class App extends Component {
   componentDidMount () {
