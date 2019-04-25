@@ -15,11 +15,12 @@ export const getAllEvents = ({eventList}) => ({
 
 export const getEventByID = ({eventItem}) => {
   return {
-  type: TYPES.GET_ALL_EVENT_BY_ID,
-  payload: {
-    eventItem
+    type: TYPES.GET_ALL_EVENT_BY_ID,
+    payload: {
+      eventItem
+    }
   }
-}}
+}
 
 export const getEventError = error => ({
   type: TYPES.EVENT_ERROR,

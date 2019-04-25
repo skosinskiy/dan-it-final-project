@@ -18,29 +18,28 @@ class SingleEventPage extends Component {
     }
     
     return (
-      <div className="ep-wrapper">
-        <NavLink to="/businesses/" className="bp_back-btn">
+      <div className='ep-wrapper'>
+        <NavLink to='/businesses/' className='bp_back-btn'>
           Back
         </NavLink>
-        <h2 className="ep__title">{eventItem.title}</h2>
-        <div className="ep-info">
-          <img src={eventItem.mainPhoto} alt="business logo" className="ep-info__photo"/>
-          <div className="ep-info_text">
-            <p className="ep-info_text__address">{eventItem.address}</p>
-            <p className="ep-info_text__description">{eventItem.description}</p>
-            <span className="ep-info_text__date date-start">{eventItem.startDate ? eventItem.startDate : "1.1.11111 18:00"}</span>
-            <span className="ep-info_text__date date-end">{eventItem.endDate ? eventItem.startDate : "1.1.11111 20:00"}</span>
-            {/*<a href={eventItem.webSite} className="ep-info_text__site">{eventItem.webSite}</a>*/}
-            <div className="ep-info__categories">
-              {[...eventItem.categories.map(item => <p key={Math.random()} className="ep-categories-info__text">{item.name}</p>)]}
+        <h2 className='ep__title'>{eventItem.title}</h2>
+        <div className='ep-info'>
+          <img src={eventItem.mainPhoto} alt='business logo' className='ep-info__photo'/>
+          <div className='ep-info_text'>
+            <p className='ep-info_text__address'>{eventItem.address}</p>
+            <p className='ep-info_text__description'>{eventItem.description}</p>
+            <span className='ep-info_text__date date-start'>{eventItem.startDate ? eventItem.startDate : '1.1.11111 18:00'}</span>
+            <span className='ep-info_text__date date-end'>{eventItem.endDate ? eventItem.startDate : '1.1.11111 20:00'}</span>
+            <div className='ep-info__categories'>
+              {[...eventItem.categories.map(item => <p key={Math.random()} className='ep-categories-info__text'>{item.name}</p>)]}
             </div>
-            <p className="ep-place">
+            <p className='ep-place'>
               {eventItem.place.title}
             </p>
           </div>
         </div>
-        <div className="ep-photos">
-          {[...eventItem.photos.map(item => <img key={Math.random()} className="ep-photo__item" src={item.imageUrl} alt="event-photos-item"/>)]}
+        <div className='ep-photos'>
+          {[...eventItem.photos.map(item => <img key={Math.random()} className='ep-photo__item' src={item.imageUrl} alt='event-photos-item'/>)]}
         </div>
       </div>
     )
