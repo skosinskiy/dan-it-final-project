@@ -12,6 +12,7 @@ import {hasLayuot} from './utils/hasLayout'
 import LayoutItems from './constants/layoutItems'
 import Preloader from './components/Preloader'
 import QRCode from './components/QRCode/QRCode'
+import MainPage from './pages/MainPage/MainPage'
 
 class App extends Component {
   componentDidMount () {
@@ -26,21 +27,7 @@ class App extends Component {
     return (
       <div className='App'>
         <Header />
-        <div className="grid-wrapper">
-          {
-            hasLayuot(currentPlace, LayoutItems.EVENTS) &&
-            <aside className="left-sidebar"><ScreenEventList/></aside>
-          }
-          <main className="main-section">
-            <AppRoutes />
-            <Footer />
-          </main>
-          {
-            hasLayuot(currentPlace, LayoutItems.NEWS) &&
-            <aside className="right-sidebar"><ScreenNewsList/></aside>
-          }
-        </div>
-        <QRCode />
+        <AppRoutes/>
       </div>
     )
   }
