@@ -13,7 +13,7 @@ class App extends Component {
     getCurrentPlace(1)
   }
   render () {
-    const {currentPlace, isLoaded} = this.props
+    const {isLoaded} = this.props
     if (!isLoaded) {
       return <Preloader/>
     }
