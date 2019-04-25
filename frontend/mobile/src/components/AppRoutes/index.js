@@ -5,6 +5,7 @@ import DialoguesPage from '../../pages/DialoguesPage/index'
 import ContactsPage from '../../pages/ContactsPage'
 import Login from '../../pages/LoginPage/index'
 import BusinessesEvents from '../../pages/BusinessesEvents'
+import EditPlaces from '../../pages/EditPlaces/editPlaces'
 import SelectBuildings from '../../pages/SelectBuildings'
 
 const AppRoutes = (props) => {
@@ -12,6 +13,7 @@ const AppRoutes = (props) => {
     <div className={'AppRoutes'}>
       <Switch>
         <Route path="/login" component={Login}/>
+        <Route path="/edit-places" component={EditPlaces}/>
         <Route path="/home" component={SelectBuildings}/>
         <Route path="/businesses" component={BusinessesEvents}/>
         <Route path="/news" component={NewsPage} />
