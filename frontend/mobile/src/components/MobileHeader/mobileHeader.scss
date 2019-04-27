@@ -48,8 +48,8 @@
   &__text-container{
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    height: 85px;
+    justify-content: start;
+    height: 95px;
     padding-top: 30px;
     font-weight: 600;
     font-family: 'SF Compact Text', sans-serif;
@@ -59,7 +59,7 @@
   }
 
   &__title {
-    margin: 0 20px 0 20px;
+    margin: 30px 20px 0 20px;
     color: $dark-grey;
     font-size: 32px;
   }
