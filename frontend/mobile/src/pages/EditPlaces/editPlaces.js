@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import PlaceItem from './PlaceItem/index'
-import './select-buildings.scss'
+import EditPlaceItem from './EditPlaceItem/index'
+import {ReactComponent as Search} from '../../img/icons/search.svg'
+import './edit-place.scss'
 
 const placesList = [
   {
@@ -46,30 +47,29 @@ const placesList = [
   }
 ]
 
-class SelectBuildings extends Component {
+class EditPlaces extends Component {
   render () {
     const places = placesList.map(place => {
-      return <PlaceItem key={place.id} place={place}/>
+      return <EditPlaceItem key={place.id} place={place}/>
     })
 
     return (
-      <div className="place-container">
-        <div className="header">
-          <div className="header-icon">
-            <h2 className="header-title">Malls</h2>
-            <h3 className="header-description">Sky Mall</h3>
+      <div className="edit-place_container">
+        <div className="edit-place_header">
+          <div className="top-menu">
+            <div className="side-title">Cancel</div>
+            <div className="centr-title">My places</div>
+            <div className="side-title">Done</div>
           </div>
         </div>
-        <div className="content">
-          <div className="options">
-            <div className="options-container">
-              <div className="options-title">Explore</div>
-              <div className="options-function">Edit</div>
-            </div>
-          </div>
-          <div className="places">
+        <div className="search-bar">
+          <input className="search-bar_item" placeholder="Search places"/>
+          <span className="searh-icon"><Search/></span>
+        </div>
+        <div className="line"></div>
+        <div className="edit-place_content">
+          <div className="edit-place_items">
             {places.length ? places : <h3 className="content-title">You have no places</h3>}
-            <button className="add-place_button">+</button>
           </div>
         </div>
       </div>
@@ -77,4 +77,4 @@ class SelectBuildings extends Component {
   }
 }
 
-export default SelectBuildings
+export default EditPlaces

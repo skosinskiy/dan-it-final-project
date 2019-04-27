@@ -2,7 +2,7 @@ import * as TYPES from './types'
 
 const initialState = {
   businessList: [],
-
+  businessesByCategory: [],
   isLoaded: false,
   isLoading: false,
   error: null
@@ -24,6 +24,11 @@ const businessReducer = (state = initialState, action) => {
       return {
         ...state,
         businessItem: action.payload.businessItem
+      }
+    case TYPES.GET_ALL_BUSINESS_BY_CATEGORY:
+      return {
+        ...state,
+        businessesByCategory: action.payload.businessesByCategory
       }
     default:
       return state
