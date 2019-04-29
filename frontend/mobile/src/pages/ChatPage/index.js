@@ -6,7 +6,9 @@ class ChatPage extends Component {
     return (
       <div className="chat">
         <div className="chat__header">
-          Header
+          <button className="chat__back-button" type="button">Back</button>
+          <span className="chat__header-title">Grynchenka 20</span>
+          <div className="chat__envelope-icon" />
         </div>
         <div className="chat__messages">Messages</div>
         <div className="chat__input">

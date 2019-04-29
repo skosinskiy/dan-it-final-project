@@ -10,3 +10,12 @@ $light-grey: #F5F5F5;
 $medium-grey: #979797;
 $medium-grey2: #C3CBCE;
 $light-blue: #10ADF7;
+
+@mixin button-reset {
+  padding: 0;
+  border: none;
+  font: inherit;
+  color: inherit;
+  background-color: transparent;
+  cursor: pointer;
+}
