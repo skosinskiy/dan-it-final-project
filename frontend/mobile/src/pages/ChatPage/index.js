@@ -12,7 +12,7 @@ class ChatPage extends Component {
         </div>
         <div className="chat__messages">Messages</div>
         <div className="chat__input">
-          <input type="text"/>
+          <input type="text" placeholder="Message"/>
         </div>
       </div>
     )

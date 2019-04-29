@@ -12,8 +12,8 @@
     flex-basis: 30px;
     padding: 0 20px;
     box-sizing: border-box;
-    background-color: #d2fffb;
     text-align: center;
+    font-weight: bold;
   }
 
   &__back-button{
@@ -71,7 +71,6 @@
   }
 
   &__input{
-    background-color: #d9ffd6;
     box-sizing: border-box;
     padding: 5px 20px;
     flex-basis: 35px;
@@ -82,6 +81,11 @@
       border: 1px #C8C7CC solid;
       border-radius: 30px;
       padding: 7px 12px;
+      box-shadow: 0 2px 2px 2px rgba(106, 106, 106, 0.2);
+
+      &:focus{
+        outline: none;
+      }
     }
   }
 }
