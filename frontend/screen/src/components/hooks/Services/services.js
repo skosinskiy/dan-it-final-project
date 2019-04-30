@@ -8,61 +8,61 @@ const businesses = [
     id: 1,
     title: 'Service-1',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta\n' +
-    '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
+      '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
     photo: 'https://foodcity.ru/storage/services/August2018/HHEX6ItB8AM42tyUAR5g.jpg',
     address: 'Address-1'
   },
-
+  
   {
     id: 2,
     title: 'Service-2',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta\n' +
-    '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
+      '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
     photo: 'https://teplyca.com.ua/wp-content/uploads/2018/04/benef-spa.jpg',
     address: 'Address-2'
   },
-
+  
   {
     id: 3,
     title: 'Service-3',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta\n' +
-    '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
+      '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
     photo: 'https://stirka.ua/images/otraslevie_resheniya/kommercheskaya_big.jpg',
     address: 'Address-3'
   },
-
+  
   {
     id: 4,
     title: 'Service-4',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta\n' +
-    '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
+      '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
     photo: 'https://stirka.ua/images/otraslevie_resheniya/kommercheskaya_big.jpg',
     address: 'Address-3'
   },
-
+  
   {
     id: 5,
     title: 'Service-5',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta\n' +
-    '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
+      '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
     photo: 'https://stirka.ua/images/otraslevie_resheniya/kommercheskaya_big.jpg',
     address: 'Address-3'
   },
-
+  
   {
     id: 6,
     title: 'Service-6',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta\n' +
-    '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
+      '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
     photo: 'https://stirka.ua/images/otraslevie_resheniya/kommercheskaya_big.jpg',
     address: 'Address-3'
   },
-
+  
   {
     id: 7,
     title: 'Service-7',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta\n' +
-    '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
+      '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
     photo: 'https://stirka.ua/images/otraslevie_resheniya/kommercheskaya_big.jpg',
     address: 'Address-3'
   }
@@ -75,21 +75,13 @@ class Services extends Component {
     loading : false
   }
   
-  componentDidMount() {
-    // Detect when scrolled to bottom.
-    this.refs.myscroll.addEventListener("scroll", () => {
-      const scrollTo = this.refs.myscroll.clientHeight * 0.9
-      const scrollTop = this.refs.myscroll.scrollTop
-      // if (
-      //   this.refs.myscroll.scrollTop + this.refs.myscroll.clientHeight >=
-      //   this.refs.myscroll.scrollHeight
-      // ) {
-      //   this.loadMore();
-      // }
-      if(scrollTop >= scrollTo) {
-        this.loadMore();
-      }
-    });
+  handleScroll =  () => {
+    const clientHeignt = this.refs.myscroll.clientHeight
+    const scrollTop = parseInt(this.refs.myscroll.scrollTop)
+    const scrollHeight = this.refs.myscroll.scrollHeight
+    if (scrollTop + clientHeignt >= scrollHeight) {
+      this.loadMore()
+    }
   }
   
   loadItems = (itemsNumber) => {
@@ -115,6 +107,7 @@ class Services extends Component {
         <h1>Services</h1>
         <div
           ref='myscroll'
+          onScroll={this.handleScroll}
           className="businesses-list">
           {businessList}
         </div>
