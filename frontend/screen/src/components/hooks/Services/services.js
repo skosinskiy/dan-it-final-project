@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import BusinessItem from '../../BusinessList/BusinessItem'
 import '../../../styles/hooks.scss'
 import { connect } from 'react-redux'
+import api from '../../../helpers/FetchData'
+
 
 const businesses = [
   {
@@ -70,8 +72,9 @@ const businesses = [
 
 class Services extends Component {
   state = {
-    items : [],
-    itemsCount : 4,
+    businesses : businesses,
+    currentItems : 4,
+    totalItems : 12,
     loading : false
   }
   
@@ -92,16 +95,29 @@ class Services extends Component {
   };
   
   loadMore () {
+    const {loading, businesses, currentItems, totalItems} = this.state
+  
+    if (loading || currentItems >= totalItems) {
+      return
+    }
+  
     this.setState({ loading: true });
-    setTimeout(() => {
-      this.setState({itemsCount: this.state.itemsCount +1, loading: false });
-    }, 500);
+  
+    api.get(`api/businesses/${currentItems + 1}`)
+      .then(response => {
+        this.setState({
+          loading: false,
+          businesses: [...businesses, response.content],
+          currentItems: currentItems + 1,
+          totalPages: response.totalPages
+        })
+      })
   }
   
   render () {
     // const {businessesByCategory} = this.props
     // console.log(businessesByCategory)
-    const businessList = this.loadItems(4);
+    const businessList = this.loadItems(this.state.currentItems);
     return (
       <>
         <h1>Services</h1>
