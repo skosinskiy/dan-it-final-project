@@ -69,6 +69,12 @@ const businesses = [
 ]
 
 class Services extends Component {
+  state = {
+    items : [],
+    itemsCount : 4,
+    loading : false
+  }
+  
   componentDidMount() {
     // Detect when scrolled to bottom.
     this.refs.myscroll.addEventListener("scroll", () => {
@@ -86,7 +92,7 @@ class Services extends Component {
     });
   }
   
-  loadFirstScreen = (itemsNumber) => {
+  loadItems = (itemsNumber) => {
     const elemsCount = itemsNumber - 1;
     return businesses.filter((item, index) => index <= elemsCount).map((business) => {
       return <BusinessItem key={business.id} business={business}/>
@@ -94,13 +100,16 @@ class Services extends Component {
   };
   
   loadMore () {
-    console.log('fetching data')
+    this.setState({ loading: true });
+    setTimeout(() => {
+      this.setState({itemsCount: this.state.itemsCount +1, loading: false });
+    }, 500);
   }
   
   render () {
     // const {businessesByCategory} = this.props
     // console.log(businessesByCategory)
-    const businessList = this.loadFirstScreen(4);
+    const businessList = this.loadItems(4);
     return (
       <>
         <h1>Services</h1>
