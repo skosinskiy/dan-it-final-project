@@ -1,4 +1,5 @@
 package com.danit.finalproject.application.dto.request.place;
+
 import com.danit.finalproject.application.dto.request.UserRequest;
 import lombok.Data;
 

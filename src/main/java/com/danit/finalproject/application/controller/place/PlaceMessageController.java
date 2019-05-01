@@ -18,18 +18,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PlaceMessageController {
   private PlaceMessageFacade placeMessageFacade;
+
   @Autowired
   public PlaceMessageController(PlaceMessageFacade placeMessageFacade) {
     this.placeMessageFacade = placeMessageFacade;
   }
+
   @GetMapping("{place_id}")
   public ResponseEntity<PlaceMessageResponse> getPlaceMessageById(@PathVariable Long placeId) {
     return new ResponseEntity<>(placeMessageFacade.getByPlaceId(placeId), HttpStatus.OK);
   }
+
   @DeleteMapping("{id}")
   public ResponseEntity<PlaceMessageResponse> deletePlaceMessageById(@PathVariable Long id) {
     return new ResponseEntity<>(placeMessageFacade.deleteById(id), HttpStatus.OK);
   }
+
   @PostMapping
   public ResponseEntity<PlaceMessageResponse> createNewPlaceMessage(@RequestBody PlaceMessageRequest placeMessage) {
     return new ResponseEntity<>(placeMessageFacade.addPlaceMessage(placeMessage), HttpStatus.OK);

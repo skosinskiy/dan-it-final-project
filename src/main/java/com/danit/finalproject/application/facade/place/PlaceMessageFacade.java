@@ -17,12 +17,6 @@ public class PlaceMessageFacade extends AbstractDtoFacade<PlaceMessage, PlaceMes
     this.placeMessageService = placeMessageService;
   }
 
-//  public PlaceMessageResponse addPlaceMessage(PlaceMessageRequest placeMessageRequest, Long placeMessageId) {
-//    PlaceMessage placeMessage = modelMapper.map(placeMessageRequest, PlaceMessage.class);
-//    Chat chat = chatService.addNewMessage(chatMessage, chatId);
-//    return mapEntityToResponseDto(chat);
-//  }
-
   public PlaceMessageResponse getByPlaceId(Long placeId) {
     PlaceMessage placeMessage = placeMessageService.getByPlaceId(placeId);
     return mapEntityToResponseDto(placeMessage);

@@ -1,4 +1,5 @@
 package com.danit.finalproject.application.dto.response.place;
+
 import com.danit.finalproject.application.dto.response.UserResponse;
 import lombok.Data;
 
