@@ -1,47 +1,8 @@
-$header-height: 230px;
-
-* {
-  margin: 0;
-  padding: 0;
-}
-
-.header {
-  position: relative;
-  width: 100%;
-  height: $header-height;
-  background: linear-gradient(0deg, rgba(229, 241, 211, .2), rgba(229, 241, 211, .2)), url("https://i.lb.ua/121/60/5b1501c46a520.jpeg");
-  background-position: center;
-  background-size: cover;
-}
-
-.header-icon {
-  position: absolute;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 40%;
-  height: 50%;
-  padding-left: 20px;
-  background-color: #fcfcfc;
-  opacity: .6;
-
-  .header-title {
-    font-size: 32px;
-    text-align: left;
-  }
-
-  .header-description {
-    color: #979797;
-    font-size: 16px;
-    text-align: left;
-  }
-}
+@import "../../styles/style";
 
 .content {
-  position: absolute;
-  top: 220px;
   width: 100%;
+  margin-bottom: 100px;
   padding: 13px 0 0;
   background-color: #FFFFFF;
   border-radius: 16px;
@@ -95,18 +56,6 @@ $header-height: 230px;
     border: none;
     border-radius: 50px;
   }
-}
-
-.footer {
-  margin-top: 20px;
-  border-top: .5px solid #BDBDBD;
-}
-
-.footer-menu {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 14px 20px 34px;
 }
 
 .menu-item {

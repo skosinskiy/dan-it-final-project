@@ -4,16 +4,36 @@ import {connect} from 'react-redux'
 import {hasLayuot} from '../../utils/hasLayout'
 import LayoutItems from '../../constants/layoutItems'
 import './MainPage.scss'
+import Footer from '../../components/Footer/Footer'
+import ScreenEventList from '../../components/ScreenEventList/ScreenEventList'
+import ScreenNewsList from '../../components/ScreenNewsList'
+import QRCode from '../../components/QRCode/QRCode'
 
 class MainPage extends React.Component {
   render () {
     const {currentPlace} = this.props
     return (
-      <div className={'mainPage'}>
-        {
-          hasLayuot(currentPlace, LayoutItems.VIDEO) &&
-          <MainVideo/>
-        }
+      <div className="main-page">
+        <div className="grid-wrapper">
+          {
+            hasLayuot(currentPlace, LayoutItems.EVENTS) &&
+            <aside className="left-sidebar"><ScreenEventList/></aside>
+          }
+          <main className="main-section">
+            <div className={'video-container'}>
+              {
+                hasLayuot(currentPlace, LayoutItems.VIDEO) &&
+                <MainVideo/>
+              }
+            </div>
+            <Footer />
+          </main>
+          {
+            hasLayuot(currentPlace, LayoutItems.NEWS) &&
+            <aside className="right-sidebar"><ScreenNewsList/></aside>
+          }
+        </div>
+        <QRCode />
       </div>
     )
   }
