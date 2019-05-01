@@ -15,7 +15,7 @@ const AppRoutes = (props) => {
         <Route path="/login" component={Login}/>
         <Route path="/edit-places" component={EditPlaces}/>
         <Route path="/home" component={SelectBuildings}/>
-        <Route path="/businesses" component={BusinessesEvents}/>
+        <Route path="/my-places/:placeId" component={BusinessesEvents}/>
         <Route path="/news" component={NewsPage} />
         <Route path="/messages" component={DialoguesPage} />
         <Route path="/favourites" component={BusinessesEvents} />

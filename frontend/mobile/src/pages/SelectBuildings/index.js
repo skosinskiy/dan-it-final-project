@@ -29,16 +29,16 @@ const placesList = [
 
   {
     id: 3,
-    title: 'Home',
+    title: 'Malls',
     places: [
       {
-        id: 3,
+        id: 1,
         title: 'Sky Mall',
         address: 'Pochayna, 25'
       },
 
       {
-        id: 4,
+        id: 2,
         title: 'Forum',
         address: 'Soborna, 122'
       }
