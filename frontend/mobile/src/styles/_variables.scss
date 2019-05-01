@@ -18,4 +18,8 @@ $light-blue: #10ADF7;
   background-color: transparent;
   border: none;
   cursor: pointer;
+
+  &:focus{
+    outline: none;
+  }
 }

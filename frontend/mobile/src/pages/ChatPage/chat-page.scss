@@ -10,6 +10,7 @@
 
   &__header {
     display: flex;
+    flex-shrink: 0;
     flex-basis: 30px;
     justify-content: space-between;
     box-sizing: border-box;
@@ -54,8 +55,7 @@
   &__envelope-icon{
     flex-basis: 25%;
     height: 100%;
-    background: url("../../img/ChatPage/letter.png") center;
-    background-repeat: no-repeat;
+    background: url("../../img/ChatPage/letter.png") no-repeat center;
     background-position-x: right;
   }
 
@@ -71,6 +71,7 @@
   }
 
   &__input{
+    flex-shrink: 0;
     flex-basis: 35px;
     box-sizing: border-box;
     padding: 5px 20px;
