@@ -120,7 +120,9 @@ class ChatPage extends Component {
           <div className="chat__envelope-icon" />
         </div>
         <div className="chat__messages">
-          <ChatList messages={ input } currentUser={currentUser}/>
+          <div className="chat__scrollable-flex">
+            <ChatList messages={ input } currentUser={currentUser}/>
+          </div>
         </div>
         <div className="chat__input">
           <input type="text" placeholder="Message"/>
