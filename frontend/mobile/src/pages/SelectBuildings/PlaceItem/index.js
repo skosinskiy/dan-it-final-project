@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {NavLink} from 'react-router-dom'
 import './place-item.scss'
 
 class PlaceItem extends Component {
@@ -7,9 +8,12 @@ class PlaceItem extends Component {
     const placeList = place.places.map(place => {
       return (
         <li key={place.id} className="place-item">
-          <h3 className="place-item_title">{place.title}</h3>
-          <div className="place-address">{place.address}</div>
+          <NavLink to={`/my-places/${place.id}`} className="item-link">
+            <h3 className="place-item_title">{place.title}</h3>
+            <div className="place-address">{place.address}</div>
+          </NavLink>
         </li>
+
       )
     })
     return (
