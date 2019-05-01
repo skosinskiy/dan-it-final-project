@@ -34,7 +34,7 @@ class BusinessesEvents extends Component {
       menuItems = currentPlaceById.placeCategory.businessCategories.map(item => {
         return (
           <li key={item.id} className="menu-item" onClick={() => this.getBusinenessesByCategory(item.id)}>
-            <div className="menu-item_icon"><img src={item.imageUrl}/></div>
+            <div className="menu-item_icon"><img src={item.imageUrl} alt={item.name}/></div>
             <div className="menu-item_text">{item.name}</div>
           </li>
         )
