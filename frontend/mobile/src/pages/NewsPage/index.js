@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 import NewsList from './NewsList'
 import MobileHeader from '../../components/MobileHeader'
 import headerImage from '../../img/NewsPage/news-menu-bg.svg'
-import './index.scss'
+import './news-page.scss'
 
 class NewsPage extends Component {
   state = {
@@ -35,17 +35,9 @@ class NewsPage extends Component {
     ]
   }
   render () {
-    const menu = (
-      <div className="news-menu">
-        <div className="news-menu__button"><a href=' ' className="news-menu__button--link">Clothes</a></div>
-        <div className="news-menu__button"><a href=' ' className="news-menu__button--link">Market</a></div>
-        <div className="news-menu__button"><a href=' ' className="news-menu__button--link">Shops</a></div>
-        <div className="news-menu__button"><a href=' ' className="news-menu__button--link">Shoes</a></div>
-      </div>
-    )
     return (
       <div className="newsPage parallax-container">
-            <MobileHeader bgImage={headerImage} text='All news' extraComponent={menu}/>
+            <MobileHeader bgImage={headerImage} header={'All news'} location='Kyiv'/>
             <div className='newsPage__content'>
               <NewsList news={this.state.news} />
             </div>

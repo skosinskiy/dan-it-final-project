@@ -7,6 +7,7 @@ import Fun from '../hooks/Fun/fun'
 import Map from '../hooks/Map/map'
 import MainPage from '../../pages/MainPage/MainPage'
 import SingleBusinessItem from '../../pages/SingleBusinessPage/'
+import SingleEventItem from '../../pages/SingleEventPage/'
 import BusinessList from '../BusinessList/businessList'
 import './index.scss'
 
@@ -20,6 +21,7 @@ const AppRoutes = (props) => {
         <Route path="/food" component={Food}/>
         <Route path="/map" component={Map}/>
         <Route path="/businesses/:id" component={SingleBusinessItem}/>
+        <Route path="/events/:id" component={SingleEventItem}/>
         <Route path="/category/:id" component={BusinessList}/>
         <Route path="/" component={MainPage}/>
       </Switch>
