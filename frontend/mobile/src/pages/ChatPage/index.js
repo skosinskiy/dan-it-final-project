@@ -32,14 +32,14 @@ const input = [
   },
   {
     user: 12322,
-    name: 'Markus Bradway',
+    name: 'Mary Bradway',
     content: 'asdasdklajhd ;aslkhj0i [pqhoifnasd asdasdasdl awelvo82yulvo38yulow       pouirv peoar mvo iuoip urqpoiuqrwpoi umqpouqpoi uqwio a;askldb ailsdugbh ail;sdb aslkdj basdklja bsdkl bqwiu bdaso;kljdb klajjb',
     avatar: 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/5.png',
     online: false
   },
   {
     user: 12322,
-    name: 'Markus Bradway',
+    name: 'Mary Bradway',
     content: 'sorry, that was my cat ',
     avatar: 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/5.png',
     online: false
