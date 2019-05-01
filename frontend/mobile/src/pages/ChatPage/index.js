@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import ScrollToBottom from 'react-scroll-to-bottom'
 import './chat-page.scss'
 
 const input = [
@@ -120,9 +121,9 @@ class ChatPage extends Component {
           <div className="chat__envelope-icon" />
         </div>
         <div className="chat__messages">
-          <div className="chat__scrollable-flex">
-            <ChatList messages={ input } currentUser={currentUser}/>
-          </div>
+          <ScrollToBottom className="chat__scrollable-flex" followButtonClassName="chat__scroll-to-bot">
+            <ChatList messages={ input } currentUser={currentUser} />
+          </ScrollToBottom>
         </div>
         <div className="chat__input">
           <input type="text" placeholder="Message"/>
