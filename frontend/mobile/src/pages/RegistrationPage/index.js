@@ -8,6 +8,7 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {usersOperations} from '../../store/users'
 import './index.scss'
+import {NavLink} from "react-router-dom";
 
 class Login extends Component {
     render () {
@@ -49,7 +50,7 @@ class Login extends Component {
                         <div className="google-link"><a href=' ' onClick={() => this.props.loginWithOAuth('google')}><GoogleIcon /></a></div>
                     </div>
                     <div className="bottom__button"><input type="submit" className="bottom__button-link" value="Sign up" /></div>
-                    <p className="bottom__text">Already signed up?</p>
+                    <NavLink to={'/login'} className="bottom__text">Already signed up?</NavLink>
                 </div>
             </form>
         )

@@ -1,6 +1,7 @@
-import React, {Component} from 'react'
-import BusinessItem from '../../BusinessItem'
+import React, { Component } from 'react'
+import BusinessItem from '../../BusinessList/BusinessItem'
 import '../../../styles/hooks.scss'
+import { connect } from 'react-redux'
 
 const businesses = [
   {
@@ -33,6 +34,8 @@ const businesses = [
 
 class Services extends Component {
   render () {
+    const {businessesByCategory} = this.props
+    console.log(businessesByCategory)
     const businessList = businesses.map((business) => {
       return <BusinessItem key={business.id} business={business}/>
     })
@@ -47,4 +50,15 @@ class Services extends Component {
   }
 }
 
-export default Services
+const mapStateToProps = (state) => {
+  return {
+    businessesByCategory: state.businesses.businessesByCategory
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Services)

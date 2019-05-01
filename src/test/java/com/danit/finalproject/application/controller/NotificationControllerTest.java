@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import com.danit.finalproject.application.dto.request.NotificationRequest;
 import com.danit.finalproject.application.dto.response.NotificationResponse;
+import com.danit.finalproject.application.dto.view.View;
 import com.danit.finalproject.application.entity.Notification;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.service.NotificationService;
@@ -60,7 +61,6 @@ public class NotificationControllerTest {
   @Autowired
   private NotificationService notificationService;
 
-
   @Test
   public void getNotificationsByPlace() throws Exception {
     int expectedSize = 1;
@@ -89,7 +89,9 @@ public class NotificationControllerTest {
     notification.setBusiness(businessService.getById(1L));
     notification.setEvent(eventService.getById(1L));
 
-    String notificationJson = objectMapper.writeValueAsString(modelMapper.map(notification, NotificationRequest.class));
+    String notificationJson = objectMapper
+        .writerWithView(View.class)
+        .writeValueAsString(modelMapper.map(notification, NotificationRequest.class));
 
     MvcResult result = mockMvc.perform(
         post("/api/notifications/places")
@@ -119,7 +121,9 @@ public class NotificationControllerTest {
     notification.setEvent(eventService.getById(2L));
     notification.setPlace(placeService.getById(2L));
 
-    String userJson = objectMapper.writeValueAsString(modelMapper.map(notification, NotificationRequest.class));
+    String userJson = objectMapper
+        .writerWithView(View.class)
+        .writeValueAsString(modelMapper.map(notification, NotificationRequest.class));
 
     MvcResult result = mockMvc.perform(
         put("/api/notifications/1")

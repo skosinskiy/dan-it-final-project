@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
+import MobileHeader from '../../components/MobileHeader'
 import PlaceItem from './PlaceItem/index'
+import bag from '../../img/icons/bag.svg'
 import './select-buildings.scss'
 
 const placesList = [
@@ -29,6 +31,36 @@ const placesList = [
 
   {
     id: 3,
+    title: 'Malls',
+    places: [
+      {
+        id: 1,
+        title: 'Sky Mall',
+        address: 'Pochayna, 25'
+      },
+
+      {
+        id: 2,
+        title: 'Forum',
+        address: 'Soborna, 122'
+      }
+    ]
+  },
+
+  {
+    id: 4,
+    title: 'Home',
+    places: [
+      {
+        id: 1,
+        title: 'Pechersky Lypky',
+        address: 'Lesy Ukrainky, 28'
+      }
+    ]
+  },
+
+  {
+    id: 5,
     title: 'Home',
     places: [
       {
@@ -43,6 +75,18 @@ const placesList = [
         address: 'Soborna, 122'
       }
     ]
+  },
+
+  {
+    id: 6,
+    title: 'Home',
+    places: [
+      {
+        id: 1,
+        title: 'Pechersky Lypky',
+        address: 'Lesy Ukrainky, 28'
+      }
+    ]
   }
 ]
 
@@ -51,15 +95,11 @@ class SelectBuildings extends Component {
     const places = placesList.map(place => {
       return <PlaceItem key={place.id} place={place}/>
     })
+    const bgImageURL = 'https://i.lb.ua/121/60/5b1501c46a520.jpeg'
 
     return (
-      <div className="container">
-        <div className="header">
-          <div className="header-icon">
-            <h2 className="header-title">Malls</h2>
-            <h3 className="header-description">Sky Mall</h3>
-          </div>
-        </div>
+      <div className="place-container parallax-container">
+        <MobileHeader header="Malls" location="Sky Mall" bgImage={bgImageURL} icon={bag} />
         <div className="content">
           <div className="options">
             <div className="options-container">

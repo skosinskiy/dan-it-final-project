@@ -2,6 +2,8 @@ package com.danit.finalproject.application.dto.request.business;
 
 import com.danit.finalproject.application.dto.request.place.PlaceRequest;
 import java.util.List;
+
+import com.danit.finalproject.application.dto.response.event.EventResponse;
 import lombok.Data;
 
 @Data
@@ -17,5 +19,5 @@ public class BusinessRequest {
   private BusinessPhotoRequest mainPhoto;
   private List<BusinessPhotoRequest> photos;
   private PlaceRequest place;
-
+  private List<EventResponse> events;
 }

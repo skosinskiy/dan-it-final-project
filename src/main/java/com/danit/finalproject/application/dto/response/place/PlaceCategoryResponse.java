@@ -1,8 +1,10 @@
 package com.danit.finalproject.application.dto.response.place;
 
 import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponse;
-import java.util.List;
+import com.danit.finalproject.application.entity.LayoutItem;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class PlaceCategoryResponse {
@@ -12,4 +14,5 @@ public class PlaceCategoryResponse {
   private boolean multisync;
   private List<BusinessCategoryResponse> businessCategories;
   private String description;
+  private List<LayoutItem> layoutItems;
 }

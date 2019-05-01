@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import AppRoutes from './components/AppRoutes'
-import './App.css'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import * as usersOperations from './store/users/operations'
+import './App.scss'
 
 class App extends Component {
 

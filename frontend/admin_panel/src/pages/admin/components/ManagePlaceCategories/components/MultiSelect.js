@@ -52,7 +52,7 @@ function getStyles (name, that) {
 }
 
 class MultipleSelect extends React.Component {
-  
+
   state = {
     name: [],
     namesToBusinessCategories: {}
