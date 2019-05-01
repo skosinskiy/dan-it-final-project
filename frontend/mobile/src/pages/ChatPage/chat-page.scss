@@ -61,6 +61,7 @@
 
   &__messages {
     display: flex;
+    flex: 1;
     flex-direction: column;
     justify-content: flex-end;
     box-sizing: border-box;
@@ -86,6 +87,23 @@
       &:focus{
         outline: none;
       }
+    }
+  }
+
+  .chat-message{
+    display: flex;
+    min-height: 0;
+
+    &__avatar-container{
+
+    }
+
+    &__name{
+
+    }
+
+    &__content{
+
     }
   }
 }
