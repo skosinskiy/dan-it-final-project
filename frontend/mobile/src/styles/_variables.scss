@@ -10,3 +10,17 @@ $light-grey: #F5F5F5;
 $medium-grey: #979797;
 $medium-grey2: #C3CBCE;
 $light-blue: #10ADF7;
+$message-blue: #0081BD;
+
+@mixin button-reset {
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+
+  &:focus{
+    outline: none;
+  }
+}
