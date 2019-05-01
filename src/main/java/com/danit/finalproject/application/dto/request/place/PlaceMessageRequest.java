@@ -8,5 +8,6 @@ public class PlaceMessageRequest {
   private Long id;
   private String message;
   private UserRequest user;
+  private PlaceRequest place;
 
 }

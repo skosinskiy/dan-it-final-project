@@ -29,7 +29,7 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
 
   @Override
   public PlaceMessage create(PlaceMessage entity) {
-    return null;
+    return placeMessageRepository.save(entity);
   }
 
   @Override
@@ -46,7 +46,7 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
     return placeMessageRepository.findByPlaceId(placeId);
   }
 
-  public PlaceMessage deleteByPlaceId(Long placeId) {
-    return placeMessageRepository.findByPlaceId(placeId);
+  public PlaceMessage deleteById(Long id) {
+    return placeMessageRepository.findByPlaceId(id);
   }
 }

@@ -22,19 +22,19 @@ public class PlaceMessageFacade extends AbstractDtoFacade<PlaceMessage, PlaceMes
 //    Chat chat = chatService.addNewMessage(chatMessage, chatId);
 //    return mapEntityToResponseDto(chat);
 //  }
-//
-//  public ChatResponse deleteMessage(Long chatId, Long messageId) {
-//    Chat chat = chatService.deleteMessage(chatId, messageId);
-//    return mapEntityToResponseDto(chat);
-//  }
 
   public PlaceMessageResponse getByPlaceId(Long placeId) {
     PlaceMessage placeMessage = placeMessageService.getByPlaceId(placeId);
     return mapEntityToResponseDto(placeMessage);
   }
 
-  public PlaceMessageResponse deleteByPlaceId(Long placeId) {
-    PlaceMessage placeMessage = placeMessageService.deleteByPlaceId(placeId);
+  public PlaceMessageResponse deleteById(Long id) {
+    PlaceMessage placeMessage = placeMessageService.deleteById(id);
+    return mapEntityToResponseDto(placeMessage);
+  }
+
+  public PlaceMessageResponse addPlaceMessage(PlaceMessageRequest placeMessageRequest) {
+    PlaceMessage placeMessage = placeMessageService.create(mapRequestDtoToEntity(placeMessageRequest));
     return mapEntityToResponseDto(placeMessage);
   }
 }
