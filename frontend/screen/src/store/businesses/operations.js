@@ -9,6 +9,16 @@ export const getAllBusinesses = () => dispatch => {
     dispatch(ACTIONS.getBusinessesError(err))
   })
 }
+export const getBusinessByAmount = (amount) => dispatch => {
+  api.get(`/api/businesses`).then(res => {
+    dispatch(ACTIONS.getBusinessByAmount({
+      businessList: res.content.filter((item,index) => index <= +amount),
+      totalItems: res.totalElements
+    }))
+  }).catch(err => {
+    dispatch(ACTIONS.getBusinessesError(err))
+  })
+}
 
 export const getBusinessById = (id) => dispatch => {
   api.get(`/api/businesses/${id}`).then(res => {

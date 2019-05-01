@@ -3,11 +3,12 @@ import BusinessItem from '../../BusinessList/BusinessItem'
 import '../../../styles/hooks.scss'
 import { connect } from 'react-redux'
 import api from '../../../helpers/FetchData'
+import * as businessOperations from '../../../store/businesses/operations'
 
 
 const businesses = [
   {
-    id: 1,
+    id: 12323,
     title: 'Service-1',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta\n' +
       '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
@@ -16,7 +17,7 @@ const businesses = [
   },
   
   {
-    id: 2,
+    id: 22323,
     title: 'Service-2',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta\n' +
       '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
@@ -25,7 +26,7 @@ const businesses = [
   },
   
   {
-    id: 3,
+    id: 32323,
     title: 'Service-3',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta\n' +
       '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
@@ -34,7 +35,7 @@ const businesses = [
   },
   
   {
-    id: 4,
+    id: 42323,
     title: 'Service-4',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta\n' +
       '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
@@ -43,7 +44,7 @@ const businesses = [
   },
   
   {
-    id: 5,
+    id: 52323,
     title: 'Service-5',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta\n' +
       '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
@@ -52,7 +53,7 @@ const businesses = [
   },
   
   {
-    id: 6,
+    id: 62323,
     title: 'Service-6',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta\n' +
       '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
@@ -61,7 +62,7 @@ const businesses = [
   },
   
   {
-    id: 7,
+    id: 72323,
     title: 'Service-7',
     description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad eum dolorum architecto obcaecati enim dicta\n' +
       '              praesentium, quam nobis! Neque ad aliquam facilis numquam. Veritatis, sit.',
@@ -71,6 +72,10 @@ const businesses = [
 ]
 
 class Services extends Component {
+  componentDidMount () {
+    const {getBusinessByAmount} = this.props
+    getBusinessByAmount(4)
+  }
   state = {
     businesses : businesses,
     currentItems : 4,
@@ -89,7 +94,7 @@ class Services extends Component {
   
   loadItems = (itemsNumber) => {
     const elemsCount = itemsNumber - 1;
-    return businesses.filter((item, index) => index <= elemsCount).map((business) => {
+    return this.state.businesses.filter((item, index) => index <= elemsCount).map((business) => {
       return <BusinessItem key={business.id} business={business}/>
     })
   };
@@ -107,7 +112,7 @@ class Services extends Component {
       .then(response => {
         this.setState({
           loading: false,
-          businesses: [...businesses, response.content],
+          businesses: [...businesses, response],
           currentItems: currentItems + 1,
           totalPages: response.totalPages
         })
@@ -134,12 +139,14 @@ class Services extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    businessesByCategory: state.businesses.businessesByCategory
+    businessList: state.businesses.businessList,
+    totalItems: state.businesses.totalItems
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getBusinessByAmount: (amount) => dispatch(businessOperations.getBusinessByAmount(amount))
   }
 }
 

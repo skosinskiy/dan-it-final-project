@@ -12,6 +12,15 @@ export const getAllBusinesses = ({businessList}) => ({
     // totalElements,
   }
 })
+export const getBusinessByAmount = ({businessList, totalItems}) => ({
+  type: TYPES.GET_BUSINESSES_BY_AMOUNT,
+  payload: {
+    businessList,
+    totalItems
+    // page,
+    // totalElements,
+  }
+})
 
 export const getBusinessesByID = ({businessItem}) => ({
   type: TYPES.GET_ALL_BUSINESS_BY_ID,
