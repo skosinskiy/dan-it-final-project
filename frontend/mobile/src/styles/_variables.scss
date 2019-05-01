@@ -13,9 +13,9 @@ $light-blue: #10ADF7;
 
 @mixin button-reset {
   padding: 0;
-  border: none;
-  font: inherit;
   color: inherit;
+  font: inherit;
   background-color: transparent;
+  border: none;
   cursor: pointer;
 }
