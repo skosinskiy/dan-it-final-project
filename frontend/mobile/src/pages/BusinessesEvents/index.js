@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ReactComponent as Bee } from '../../img/icons/bee.svg'
 import SectionItem from './SectionItem'
+import MobileHeader from '../../components/MobileHeader'
+import bag from '../../img/icons/bag.svg'
 import './businesses-events.scss'
 import { getBusinessesByCategory } from '../../actions/businesses'
 import { getEventsByPLace } from '../../actions/events'
@@ -28,6 +30,7 @@ class BusinessesEvents extends Component {
     const eventsList = events.map(item => {
       return <SectionItem key={item.id} item={item}/>
     })
+    const bgImageURL = 'https://i.lb.ua/121/60/5b1501c46a520.jpeg'
 
     let menuItems = []
     if (isLoaded) {
@@ -41,13 +44,8 @@ class BusinessesEvents extends Component {
       })
     }
     return (
-      <div className="businesse-container">
-        <div className="header">
-          <div className="header-icon">
-            <h2 className="header-title">Malls</h2>
-            <h3 className="header-description">Sky Mall</h3>
-          </div>
-        </div>
+      <div className="businesse-container parallax-container">
+        <MobileHeader header="Malls" location="Sky Mall" bgImage={bgImageURL} icon={bag} />
         <div className="content">
           <div className="navbar">
             <h2 className="section-title">Explore</h2>
