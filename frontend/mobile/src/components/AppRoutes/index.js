@@ -8,13 +8,12 @@ import BusinessesEvents from '../../pages/BusinessesEvents'
 import EditPlaces from '../../pages/EditPlaces/editPlaces'
 import SelectBuildings from '../../pages/SelectBuildings'
 import ChatPage from '../../pages/ChatPage'
-import * as PropTypes from "prop-types";
-import Redirect from "react-router-dom/es/Redirect";
+import * as PropTypes from 'prop-types'
+import Redirect from 'react-router-dom/es/Redirect'
 import {connect} from 'react-redux'
-import BottomMenu from "../BottomMenu";
+import BottomMenu from '../BottomMenu'
 
 const AppRoutes = (props) => {
-
   const {currentUser} = props
   const bottomMenu = ['/', '/login', '/registration'].includes(props.location.pathname) ? null : <BottomMenu/>
 
@@ -38,17 +37,17 @@ const AppRoutes = (props) => {
 }
 
 export const ProtectedRoute = ({component: Component, authenticated, ...rest}) => (
-    <Route
-        {...rest}
-        render={props =>
-            authenticated ? <Component {...props} /> : <Redirect to="/login"/>
-        }
-    />
+  <Route
+    {...rest}
+    render={props =>
+      authenticated ? <Component {...props} /> : <Redirect to="/login"/>
+    }
+  />
 )
 
 const mapStateToProps = ({users}) => {
   return {
-    currentUser: users.currentUser,
+    currentUser: users.currentUser
   }
 }
 

@@ -6,8 +6,7 @@ import * as usersOperations from './store/users/operations'
 import './App.scss'
 
 class App extends Component {
-
-  componentDidMount() {
+  componentDidMount () {
     this.props.getCurrentUser()
   }
 
@@ -32,8 +31,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(App)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(App)
 )

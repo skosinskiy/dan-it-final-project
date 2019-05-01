@@ -21,7 +21,7 @@ export const submitRegistrationForm = (event) => dispatch => {
   api.post('/api/users/register', json).then(res => {
 
   })
-      .catch(() => dispatch(ACTIONS.currentUserLoading(false)))
+    .catch(() => dispatch(ACTIONS.currentUserLoading(false)))
 }
 
 export const getCurrentUser = () => dispatch => {
