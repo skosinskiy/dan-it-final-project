@@ -35,12 +35,18 @@
     .registration-form {
       position: relative;
       top: -50px;
+      margin-right: 10px;
+      margin-left: 10px;
       padding-top: 20px;
       padding-bottom: 20px;
+      text-align: left;
+      background-color: $white;
+      border-radius: 10px;
+      box-shadow: 2px 5px 35px -7px rgba(0,0,0,.51);
       &__field {
         height: 60px;
-        padding-left: 30px;
         padding-right: 30px;
+        padding-left: 30px;
         .field {
           &__wrapper {
             display: flex;
@@ -51,26 +57,20 @@
             margin-right: 30px;
           }
           &__input {
-            height: 50px;
             width: 100%;
+            height: 50px;
             color: $dark-grey2;
             font-size: 14px;
             background-color: white;
             border: 0;
           }
           &__line {
-            height: 1px;
             width: 100%;
+            height: 1px;
             background-color: $medium-grey2;
           }
         }
       }
-      margin-left: 10px;
-      margin-right: 10px;
-      text-align: left;
-      background-color: $white;
-      border-radius: 10px;
-      box-shadow: 2px 5px 35px -7px rgba(0,0,0,.51)
     };
   }
   &__bottom {
