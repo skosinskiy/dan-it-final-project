@@ -52,14 +52,16 @@ const ChatList = (props) => {
   return messages.map((msg) => {
     const myMsg = props.currentUser === msg.user
     return (
-      <div className={`chat-message${myMsg ? '--my-message' : ''}`}>
+      <div className='chat-message'>
         { !myMsg &&
-          <div className={`chat-message__avatar-container${msg.online ? '--online' : ''}`}>
+          <div className={`chat-message__avatar-container${msg.online ? ' online' : ''}`}>
             <img src={msg.avatar} alt=" " className="chat-message__avatar"/>
           </div>
         }
-        <div className="chat-message__name" >{msg.name}</div>
-        <div className="chat-message__content" >{msg.content}</div>
+        <div className={`chat-message__text-container${myMsg ? '--my-message' : ''}`}>
+          <div className="chat-message__name" >{msg.name}</div>
+          <div className="chat-message__content" >{msg.content}</div>
+        </div>
       </div>
     )
   })

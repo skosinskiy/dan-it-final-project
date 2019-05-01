@@ -65,9 +65,8 @@
     flex-direction: column;
     justify-content: flex-end;
     box-sizing: border-box;
-    padding: 12px 8px 0;
+    padding: 12px 20px 0;
     overflow: auto;
-    background-color: #ffe2c7;
   }
 
   &__input{
@@ -93,17 +92,63 @@
   .chat-message{
     display: flex;
     min-height: 0;
+    margin-bottom: 12px;
+    font-weight: 400;
+    font-family: SF UI Text, sans-serif;
 
     &__avatar-container{
+    margin: 16px 14px 0 0;
 
+      img{
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        box-shadow: 0 2px 2px 2px rgba(106, 106, 106, .2);
+      }
+    }
+
+    &__text-container{
+      display: flex;
+      max-width: 70%;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+
+      .chat-message__content{
+        background-color: #fff;
+        box-shadow: 0 2px 2px 2px rgba(106, 106, 106, .2);
+      }
+
+      &--my-message{
+        display: flex;
+        flex-basis: 50%;
+        flex-direction: column;
+        align-items: flex-end;
+        margin-left: auto;
+        text-align: right;
+
+        .chat-message__content{
+          background-color: $message-blue;
+        }
+
+        .chat-message__name{
+          text-align: left;
+        }
+      }
     }
 
     &__name{
-
+      margin-bottom: 4px;
+      padding-left: 12px;
+      color: #8c8c8c;
+      font-size: 11px;
     }
 
     &__content{
-
+      padding: 8px 16px 8px 12px;
+      color: #000;
+      border-radius: 17px;
+      font-size: 15px;
     }
   }
 }
