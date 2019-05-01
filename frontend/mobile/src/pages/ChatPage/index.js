@@ -43,6 +43,48 @@ const input = [
     content: 'sorry, that was my cat ',
     avatar: 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/5.png',
     online: false
+  },
+  {
+    user: 1322,
+    name: 'Ehtel Wolfram',
+    content: 'Ok',
+    avatar: 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png',
+    online: true
+  },
+  {
+    user: 12,
+    name: 'Carol Rich',
+    content: 'So what\'s going on?',
+    avatar: 'http://www.creditlenders.info/wp-content/uploads/cartoon-avatar-cartoon-avatar-avatarcartoon-twitter.jpeg',
+    online: true
+  },
+  {
+    user: 12322,
+    name: 'Mary Bradway',
+    content: 'asdasdklajhd ;aslkhj0i [pqhoifnasd asdasdasdl awelvo82yulvo38yulow       pouirv peoar mvo iuoip urqpoiuqrwpoi umqpouqpoi uqwio a;askldb ailsdugbh ail;sdb aslkdj basdklja bsdkl bqwiu bdaso;kljdb klajjb',
+    avatar: 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/5.png',
+    online: false
+  },
+  {
+    user: 1322,
+    name: 'Ehtel Wolfram',
+    content: 'Ok',
+    avatar: 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/68.png',
+    online: false
+  },
+  {
+    user: 12,
+    name: 'Carol Rich',
+    content: 'So what\'s going on?',
+    avatar: 'http://www.creditlenders.info/wp-content/uploads/cartoon-avatar-cartoon-avatar-avatarcartoon-twitter.jpeg',
+    online: true
+  },
+  {
+    user: 12322,
+    name: 'Mary Bradway',
+    content: 'asdasdklajhd ;aslkhj0i [pqhoifnasd asdasdasdl awelvo82yulvo38yulow       pouirv peoar mvo iuoip urqpoiuqrwpoi umqpouqpoi uqwio a;askldb ailsdugbh ail;sdb aslkdj basdklja bsdkl bqwiu bdaso;kljdb klajjb',
+    avatar: 'https://raw.githubusercontent.com/Ashwinvalento/cartoon-avatar/master/lib/images/female/5.png',
+    online: true
   }
 ]
 const currentUser = 12
@@ -54,8 +96,9 @@ const ChatList = (props) => {
     return (
       <div className='chat-message'>
         { !myMsg &&
-          <div className={`chat-message__avatar-container${msg.online ? ' online' : ''}`}>
+          <div className="chat-message__avatar-container">
             <img src={msg.avatar} alt=" " className="chat-message__avatar"/>
+            { msg.online ? <div className="chat-message__online"/> : null}
           </div>
         }
         <div className={`chat-message__text-container${myMsg ? '--my-message' : ''}`}>
