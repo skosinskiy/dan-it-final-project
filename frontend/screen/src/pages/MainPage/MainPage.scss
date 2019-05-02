@@ -1,8 +1,59 @@
-.mainPage{
+@import '../../styles/reset';
+@import "../../styles/variables";
+
+
+.main-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden;
+}
+
+.video-container{
   display: flex;
   justify-content: space-between;
 }
 
 .mainPage-MainVideo{
   width: 100%;
+}
+
+.grid-wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+.left-sidebar {
+  width: 20%;
+  height: 100%;
+  padding: 0px 20px 0px 20px;
+}
+.right-sidebar {
+  width: 20%;
+  height: 100%;
+  padding: 0px 15px 0px 20px;
+}
+.main-section {
+  width: 60%;
+}
+.tempopary {
+  width: 100%;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track-piece {
+  width: 2px;
+  background-color: $light-grey;
+  border-right: 1px solid white;
+  border-left: 4px solid white;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $almost-black;
+  border-radius: 3px;
 }
