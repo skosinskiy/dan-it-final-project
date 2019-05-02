@@ -1,6 +1,5 @@
 import api from '../../helpers/FetchData/'
 import * as ACTIONS from './actions'
-import { businessesLoading } from './actions'
 
 export const getAllBusinesses = () => dispatch => {
   api.get(`/api/businesses`).then(res => {
