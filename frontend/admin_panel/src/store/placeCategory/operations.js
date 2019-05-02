@@ -31,6 +31,7 @@ const createOrSetKey = placeCategory => {
   if (!placeCategory) {
     placeCategory = {
       multisync: false,
+      allowMessages: false,
       name: "Display Name",
       description: "Enter your desription here",
       businessCategories: []
@@ -88,10 +89,10 @@ export const updateName = (key, container, name) => dispatch => {
   ))
 }
 
-export const toggleMultisync = (key, container) => dispatch => {
+export const toggleCheckBox = (key, checkBoxType, container) => dispatch => {
   const idx = findIndexByKey(key, container)
   dispatch(ACTIONS.updatePlaceCategories(
-    setValueToEntityField(key, container, 'multisync', !container[idx].multisync)
+    setValueToEntityField(key, container, checkBoxType, !container[idx][checkBoxType])
   ))
 }
 

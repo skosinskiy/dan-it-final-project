@@ -12,7 +12,7 @@ public class PlaceCategoryResponse {
   private Long id;
   private String name;
   private boolean multisync;
-  private boolean hasMessages;
+  private boolean allowMessages;
   private List<BusinessCategoryResponse> businessCategories;
   private String description;
   private List<LayoutItem> layoutItems;
