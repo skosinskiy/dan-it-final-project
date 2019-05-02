@@ -2,8 +2,7 @@ import React, { Component } from 'react'
 import BusinessItem from '../../BusinessList/BusinessItem'
 import { connect } from 'react-redux'
 import * as businessOperations from '../../../store/businesses/operations'
-import "./services.scss"
-
+import './services.scss'
 
 class Services extends Component {
   componentDidMount () {
@@ -11,7 +10,7 @@ class Services extends Component {
     getBusinessByAmount(5)
   }
   
-  handleScroll =  () => {
+  handleScroll = () => {
     const clientHeignt = this.refs.myscroll.clientHeight
     const scrollTop = parseInt(this.refs.myscroll.scrollTop)
     const scrollHeight = this.refs.myscroll.scrollHeight
@@ -31,11 +30,11 @@ class Services extends Component {
     if (loading || currentItems >= totalItems) {
       return
     }
-    getBusinessByAmount(currentItems + 1);
+    getBusinessByAmount(currentItems + 1)
   }
   
   render () {
-    const businessList = this.loadItems();
+    const businessList = this.loadItems()
     return (
       <>
         <h1>Services</h1>
@@ -61,7 +60,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getBusinessByAmount: (amount) => dispatch(businessOperations.getBusinessByAmount(amount)),
+    getBusinessByAmount: (amount) => dispatch(businessOperations.getBusinessByAmount(amount))
   }
 }
 
