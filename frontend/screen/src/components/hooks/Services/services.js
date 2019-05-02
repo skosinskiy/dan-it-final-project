@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import BusinessItem from '../../BusinessList/BusinessItem'
-import '../../../styles/hooks.scss'
 import { connect } from 'react-redux'
 import * as businessOperations from '../../../store/businesses/operations'
+import "./services.scss"
 
 
 class Services extends Component {
   componentDidMount () {
     const {getBusinessByAmount} = this.props
-    getBusinessByAmount(3)
+    getBusinessByAmount(5)
   }
   
   handleScroll =  () => {
