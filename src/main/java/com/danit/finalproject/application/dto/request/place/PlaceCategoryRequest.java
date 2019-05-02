@@ -11,6 +11,7 @@ public class PlaceCategoryRequest {
   private Long id;
   private String name;
   private boolean multisync;
+  private boolean hasMessages;
   private List<BusinessCategoryRequest> businessCategories;
   private String description;
   private List<LayoutItem> layoutItems;

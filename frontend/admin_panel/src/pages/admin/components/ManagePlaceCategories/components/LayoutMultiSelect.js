@@ -66,7 +66,7 @@ class LayoutMultiSelect extends React.Component {
   }
 
   componentDidMount(){
-    this.setState({name: this.props.selectedMenuItems.map(menuItem => menuItem)})
+    this.setState({name: this.props.selectedMenuItems})
   }
 
   render () {
