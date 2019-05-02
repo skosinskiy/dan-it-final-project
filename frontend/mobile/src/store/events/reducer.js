@@ -1,4 +1,4 @@
-import * as TYPES from '../../actions/events/types'
+import * as TYPES from './types'
 
 const initialState = {
   events: []
