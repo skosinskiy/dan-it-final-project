@@ -1,5 +1,6 @@
 import api from '../../helpers/FetchData/'
 import * as ACTIONS from './actions'
+import { businessesLoading } from './actions'
 
 export const getAllBusinesses = () => dispatch => {
   api.get(`/api/businesses`).then(res => {
@@ -9,16 +10,17 @@ export const getAllBusinesses = () => dispatch => {
   })
 }
 export const getBusinessByAmount = (amount) => dispatch => {
+  dispatch(businessesLoading(true))
   api.get(`/api/businesses`).then(res => {
     dispatch(ACTIONS.getBusinessByAmount({
       businessList: res.content.filter((item, index) => index <= amount - 1),
       totalItems: res.totalElements,
-      currentItems: amount,
-      isLoading: true
+      currentItems: amount
     }))
   }).catch(err => {
     dispatch(ACTIONS.getBusinessesError(err))
   })
+    .finally(() => dispatch(businessesLoading(false)))
 }
 
 export const getBusinessById = (id) => dispatch => {

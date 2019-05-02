@@ -3,6 +3,7 @@ import BusinessItem from '../../BusinessList/BusinessItem'
 import { connect } from 'react-redux'
 import * as businessOperations from '../../../store/businesses/operations'
 import './services.scss'
+import Preloader from '../../Preloader'
 
 class Services extends Component {
   componentDidMount () {
@@ -13,7 +14,7 @@ class Services extends Component {
   handleScroll = () => {
     const clientHeignt = this.refs.myscroll.clientHeight
     const scrollTop = parseInt(this.refs.myscroll.scrollTop)
-    const scrollHeight = this.refs.myscroll.scrollHeight
+    const scrollHeight = this.refs.myscroll.scrollHeight * 0.9
     if (scrollTop + clientHeignt >= scrollHeight) {
       this.loadMore()
     }
@@ -26,14 +27,16 @@ class Services extends Component {
   };
   
   loadMore () {
-    const {loading, totalItems, currentItems, getBusinessByAmount} = this.props
-    if (loading || currentItems >= totalItems) {
+    const {isLoading, totalItems, currentItems, getBusinessByAmount} = this.props
+    if (isLoading || currentItems >= totalItems) {
       return
     }
     getBusinessByAmount(currentItems + 1)
   }
   
   render () {
+    const {isLoading} = this.props
+    
     const businessList = this.loadItems()
     return (
       <>
@@ -43,6 +46,7 @@ class Services extends Component {
           onScroll={this.handleScroll}
           className="businesses-list">
           {businessList}
+          {isLoading && <Preloader/>}
         </div>
       </>
     )
