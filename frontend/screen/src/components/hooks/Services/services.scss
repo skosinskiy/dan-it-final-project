@@ -2,3 +2,10 @@
   margin: 0;
   padding: 0;
 }
+
+.businesses-list {
+  display: flex;
+  flex-direction: column;
+  height: 85vh;
+  overflow: scroll;
+}

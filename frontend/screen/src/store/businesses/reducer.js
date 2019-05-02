@@ -20,6 +20,11 @@ const businessReducer = (state = initialState, action) => {
         ...state,
         businessList: action.payload.businessList
       }
+    case TYPES.GET_BUSINESSES_BY_AMOUNT:
+      return {
+        ...state,
+        ...action.payload
+      }
     case TYPES.GET_ALL_BUSINESS_BY_ID:
       return {
         ...state,
@@ -30,6 +35,8 @@ const businessReducer = (state = initialState, action) => {
         ...state,
         businessesByCategory: action.payload.businessesByCategory
       }
+    case TYPES.BUSINESSES_LOADING:
+      return {...state, isLoading: action.payload}
     default:
       return state
   }
