@@ -23,7 +23,8 @@ const businessReducer = (state = initialState, action) => {
     case TYPES.GET_BUSINESSES_BY_AMOUNT:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
+        isLoading: false
       }
     case TYPES.GET_ALL_BUSINESS_BY_ID:
       return {

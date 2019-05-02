@@ -12,11 +12,12 @@ export const getAllBusinesses = ({businessList}) => ({
     // totalElements,
   }
 })
-export const getBusinessByAmount = ({businessList, totalItems}) => ({
+export const getBusinessByAmount = ({businessList, totalItems, currentItems}) => ({
   type: TYPES.GET_BUSINESSES_BY_AMOUNT,
   payload: {
     businessList,
-    totalItems
+    totalItems,
+    currentItems
     // page,
     // totalElements,
   }

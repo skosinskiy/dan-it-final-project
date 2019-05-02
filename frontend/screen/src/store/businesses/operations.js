@@ -12,8 +12,10 @@ export const getAllBusinesses = () => dispatch => {
 export const getBusinessByAmount = (amount) => dispatch => {
   api.get(`/api/businesses`).then(res => {
     dispatch(ACTIONS.getBusinessByAmount({
-      businessList: res.content.filter((item,index) => index <= +amount),
-      totalItems: res.totalElements
+      businessList: res.content.filter((item,index) => index <= amount-1),
+      totalItems: res.totalElements,
+      currentItems: amount,
+      isLoading: true
     }))
   }).catch(err => {
     dispatch(ACTIONS.getBusinessesError(err))
