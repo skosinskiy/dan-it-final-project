@@ -31,6 +31,9 @@ public class PlaceCategory extends BaseEntity {
   @Column(name = "multisync")
   private boolean multisync;
 
+  @Column(name = "allow_messages")
+  private boolean hasMessages;
+
   @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
   @JoinTable(name = "placecategories_businesscategories",
       joinColumns = {@JoinColumn(name = "place_category_id")},
