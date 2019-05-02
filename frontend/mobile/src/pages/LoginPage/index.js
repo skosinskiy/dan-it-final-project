@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Redirect} from 'react-router-dom'
+import {NavLink, Redirect} from 'react-router-dom'
 import {ReactComponent as HeaderLogo} from '../../img/LoginPage/header-logo.svg'
 import {ReactComponent as PeopleIcon} from '../../img/LoginPage/form-icon.svg'
 import {ReactComponent as PhoneIcon} from '../../img/LoginPage/form-icon2.svg'
@@ -42,8 +42,8 @@ class Login extends Component {
             <div className="facebook-link"><a href=' ' onClick={() => this.props.loginWithOAuth('facebook')}><FacebookIcon /></a></div>
             <div className="google-link"><a href=' ' onClick={() => this.props.loginWithOAuth('google')}><GoogleIcon /></a></div>
           </div>
-          <div className="bottom__button"><input type="submit" className="bottom__button-link" value="Sign up" /></div>
-          <p className="bottom__text">Already signed up?</p>
+          <div className="bottom__button"><input type="submit" className="bottom__button-link" value="Log in" /></div>
+          <NavLink to={'/registration'} className="bottom__text">Have not account?</NavLink>
         </div>
       </form>
     )

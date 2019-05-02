@@ -5,9 +5,9 @@ import SectionItem from './SectionItem'
 import MobileHeader from '../../components/MobileHeader'
 import bag from '../../img/icons/bag.svg'
 import './businesses-events.scss'
-import { getBusinessesByCategory } from '../../actions/businesses'
-import { getEventsByPLace } from '../../actions/events'
 import { getCurrentPlaceById } from '../../store/places/operations'
+import {getBusinessesByCategory} from '../../store/businesses/operations'
+import {getEventsByPLace} from '../../store/events/operations'
 
 class BusinessesEvents extends Component {
   componentDidMount () {
