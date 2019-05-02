@@ -5,6 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 import PropTypes from 'prop-types';
 
 const rows = [
+  { id: 'allowMessages', numeric: false, disablePadding: false, label: 'Allow Messages?' },
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
   { id: 'businessCategories', numeric: false, disablePadding: false, label: 'BusinessCategories' },
   { id: 'layoutItems', numeric: false, disablePadding: false, label: 'LayoutItems' },
