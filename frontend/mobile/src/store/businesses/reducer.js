@@ -1,4 +1,4 @@
-import * as TYPES from '../../actions/businesses/types'
+import * as TYPES from './types'
 
 const initialState = {
   businessesByCategory: []
