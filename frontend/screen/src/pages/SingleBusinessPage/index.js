@@ -12,7 +12,6 @@ class SingleBusinessPage extends Component {
   }
   render () {
     const {businessItem} = this.props
-    // debugger
     if (!businessItem) {
       return <Preloader/>
     }
