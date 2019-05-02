@@ -9,7 +9,7 @@ export const getAllBusinesses = () => dispatch => {
   })
 }
 export const getBusinessByAmount = (amount) => dispatch => {
-  dispatch(businessesLoading(true))
+  dispatch(ACTIONS.businessesLoading(true))
   api.get(`/api/businesses`).then(res => {
     dispatch(ACTIONS.getBusinessByAmount({
       businessList: res.content.filter((item, index) => index <= amount - 1),
@@ -19,7 +19,7 @@ export const getBusinessByAmount = (amount) => dispatch => {
   }).catch(err => {
     dispatch(ACTIONS.getBusinessesError(err))
   })
-    .finally(() => dispatch(businessesLoading(false)))
+    .finally(() => dispatch(ACTIONS.businessesLoading(false)))
 }
 
 export const getBusinessById = (id) => dispatch => {
