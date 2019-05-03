@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Select from 'react-select'
 import makeAnimated from 'react-select/lib/animated'
+import ChatHeader from '../../components/ChatHeader'
 import './create-chat.scss'
 
 const data = [{
@@ -22,9 +23,39 @@ const data = [{
 {
   label: 'sdsd',
   value: 1231993
+},
+{
+  label: 'Paul',
+  value: 1231373
+},
+{
+  label: 'sdsd',
+  value: 1231993
+},
+{
+  label: 'Paul',
+  value: 1231373
+},
+{
+  label: 'sdsd',
+  value: 1231993
+},
+{
+  label: 'Paul',
+  value: 1231373
+},
+{
+  label: 'sdsd',
+  value: 1231993
 }
-
 ]
+
+const customStyles = {
+  menu: (provided) => ({
+    ...provided,
+    width: 'calc(100vw - 30px)'
+  })
+}
 
 class CreateChatPage extends Component {
   state = {
@@ -40,20 +71,20 @@ class CreateChatPage extends Component {
     const { selectedOptions } = this.state
     return (
       <div className="create-chat">
-        <div className="chat__header">
-          <button className="chat__back-button" type="button">Back</button>
-          <span className="chat__header-title">Grynchenka 20</span>
-          <div className="chat__envelope-icon" />
-        </div>
+        <ChatHeader title={'Current location'} />
         <Select
+          className="multi-select"
           value={selectedOptions}
           onChange={value => this.setState({ selectedOptions: value })}
           closeMenuOnSelect={false}
           components={makeAnimated()}
+          styles={customStyles}
+          maxMenuHeight={300}
           isMulti
           autoFocus
           options={data}
         />
+        <button className="create-chat__submit-button" type='button'>Create!</button>
       </div>
     )
   }

@@ -1,17 +1,14 @@
 @import "../../styles/variables";
 
-.chat{
-
-  &__header {
-    display: flex;
-    flex-shrink: 0;
-    flex-basis: 30px;
-    justify-content: space-between;
-    box-sizing: border-box;
-    padding: 0 20px;
-    font-weight: bold;
-    text-align: center;
-  }
+.chat-header{
+  display: flex;
+  flex-shrink: 0;
+  flex-basis: 30px;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0 20px;
+  font-weight: bold;
+  text-align: center;
 
   &__back-button{
     @include button-reset;
