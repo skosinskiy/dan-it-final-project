@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Select from 'react-select'
+import makeAnimated from 'react-select/lib/animated'
 import './create-chat.scss'
 
 const data = [{
@@ -40,11 +41,13 @@ class CreateChatPage extends Component {
     return (
       <div className="create-chat">
         <Select
-          value={ selectedOptions }
-          onChange={ this.handleChange }
-          options={ data }
-          isMulti={true}
-          closeMenuOnSelect = {false}
+          value={selectedOptions}
+          onChange={value => this.setState({ selectedOptions: value })}
+          closeMenuOnSelect={false}
+          components={makeAnimated()}
+          isMulti
+          autoFocus
+          options={data}
         />
       </div>
     )
