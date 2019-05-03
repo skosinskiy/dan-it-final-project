@@ -40,6 +40,11 @@ class CreateChatPage extends Component {
     const { selectedOptions } = this.state
     return (
       <div className="create-chat">
+        <div className="chat__header">
+          <button className="chat__back-button" type="button">Back</button>
+          <span className="chat__header-title">Grynchenka 20</span>
+          <div className="chat__envelope-icon" />
+        </div>
         <Select
           value={selectedOptions}
           onChange={value => this.setState({ selectedOptions: value })}
