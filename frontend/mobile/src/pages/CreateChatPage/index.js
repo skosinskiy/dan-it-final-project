@@ -62,9 +62,8 @@ class CreateChatPage extends Component {
     selectedOptions: null
   }
 
-  handleChange = (selectedOption) => {
-    this.setState({ selectedOption })
-    console.log(`Option selected:`, selectedOption)
+  submitSelection = () => {
+    // Create chat using state data
   }
 
   render () {
@@ -84,7 +83,13 @@ class CreateChatPage extends Component {
           autoFocus
           options={data}
         />
-        <button className="create-chat__submit-button" type='button'>Create!</button>
+        <button
+          className="create-chat__submit-button"
+          type='button'
+          onClick={this.submitSelection}
+        >
+          Create!
+        </button>
       </div>
     )
   }
