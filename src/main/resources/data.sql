@@ -73,10 +73,10 @@ VALUES
 -- place
 
 INSERT INTO places_categories
-  (id, date_created, date_modified, name, description, multisync)
+  (id, date_created, date_modified, name, description, multisync, allow_messages)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-1', 'this is test description for cat 1', 1),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-2', 'this is test description for cat 2', 0 );
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-1', 'this is test description for cat 1', 1, 0),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-2', 'this is test description for cat 2', 0, 1);
 
 INSERT INTO place_category_layout_items
   (place_category_id, layout_item_id)
