@@ -21,11 +21,6 @@ $message-blue: #0081BD;
   border: none;
   cursor: pointer;
 
-  &:active {
-    transform: translateY(1px);
-    filter: saturate(150%);
-  }
-
   &:focus{
     outline: none;
   }
