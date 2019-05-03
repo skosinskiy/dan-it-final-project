@@ -8,57 +8,6 @@
   margin: 0;
   padding-bottom: 81.5px;
 
-  &__header {
-    display: flex;
-    flex-shrink: 0;
-    flex-basis: 30px;
-    justify-content: space-between;
-    box-sizing: border-box;
-    padding: 0 20px;
-    font-weight: bold;
-    text-align: center;
-  }
-
-  &__back-button{
-    @include button-reset;
-    flex-basis: 25%;
-    height: 100%;
-    padding-left: 17px;
-    text-align: left;
-
-    &:before, &:after{
-      position: absolute;
-      width: 12px;
-      height: 1px;
-      background-color: #000;
-      content: "";
-    }
-
-    &:before{
-      top: 20px;
-      left: 19px;
-      transform: rotate(45deg);
-    }
-
-    &:after{
-      top: 12px;
-      left: 19px;
-      transform: rotate(-45deg);
-    }
-  }
-
-  &__header-title{
-    flex-basis: 50%;
-    line-height: 30.5px;
-  }
-
-  &__envelope-icon{
-    flex-basis: 25%;
-    height: 100%;
-    background: url("../../img/ChatPage/letter.png") no-repeat center;
-    background-position-x: right;
-  }
-
   &__messages {
     display: flex;
     flex-grow: 1;
@@ -66,7 +15,7 @@
     justify-content: flex-end;
     box-sizing: border-box;
     min-height: 0;
-    padding: 12px 10px 0 20px;
+    padding: 12px 0 0 20px;
     overflow: auto;
   }
 
@@ -75,7 +24,6 @@
     flex-grow: 1;
     flex-direction: column;
     min-height: 0;
-    padding-right: 10px;
     overflow: auto;
   }
 
@@ -184,6 +132,7 @@
         text-align: right;
 
         .chat-message__content{
+          margin-right: 3px;
           color: #ffffff;
           background-color: $message-blue;
         }

@@ -49,6 +49,8 @@
   width: 100vw;
   height: 230px;
   margin: 0 auto;
+  background-position: center;
+  background-size: cover;
   transform: translateZ(-1px) translateY(calc(-50vh + 50%)) scale(2);
 }
 
