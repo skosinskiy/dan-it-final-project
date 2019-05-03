@@ -7,7 +7,7 @@ import Registration from '../../pages/RegistrationPage/index'
 import BusinessesEvents from '../../pages/BusinessesEvents'
 import EditPlaces from '../../pages/EditPlaces/editPlaces'
 import SelectBuildings from '../../pages/SelectBuildings'
-// import CreateChatPage from '../../pages/CreateChatPage'
+import CreateChatPage from '../../pages/CreateChatPage'
 import ChatPage from '../../pages/ChatPage'
 import * as PropTypes from 'prop-types'
 import Redirect from 'react-router-dom/es/Redirect'
@@ -27,7 +27,7 @@ const AppRoutes = (props) => {
         <Route path="/home" component={SelectBuildings}/>
         <Route path="/my-places/:placeId" component={BusinessesEvents}/>
         <Route path="/news" component={NewsPage} />
-        <Route path="/messages" component={ChatPage} />
+        <Route path="/messages" component={CreateChatPage} />
         <Route path="/favourites" component={BusinessesEvents} />
         <Route path="/contacts" component={ContactsPage} />
         <ProtectedRoute path="/" component={SelectBuildings} authenticated={!!currentUser}/>

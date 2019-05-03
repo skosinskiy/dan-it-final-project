@@ -16,9 +16,15 @@ $message-blue: #0081BD;
   padding: 0;
   color: inherit;
   font: inherit;
+  font-family: SF UI Text, sans-serif;
   background-color: transparent;
   border: none;
   cursor: pointer;
+
+  &:active {
+    transform: translateY(1px);
+    filter: saturate(150%);
+  }
 
   &:focus{
     outline: none;
