@@ -12,7 +12,8 @@ const styles = (theme) => ({
     display: 'none'
   },
   image: {
-    maxWidth: '100%',
+    width: 200,
+    height: 120,
     marginBottom: '20px',
     borderWidth: '1px',
     borderStyle: 'dashed',
@@ -63,8 +64,7 @@ const styles = (theme) => ({
     padding: 0,
     listStyleType: 'none',
     display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around'
+    flexWrap: 'wrap'
   },
   mainImage: {
     borderColor: 'blue',

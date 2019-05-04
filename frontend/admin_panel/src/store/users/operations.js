@@ -54,6 +54,7 @@ export const getCurrentUser = () => dispatch => {
 }
 
 export const logOutUser = () => dispatch => {
+  dispatch(ACTIONS.currentUserLoading(true))
   api.post('/logout')
     .then(() => window.location.reload())
 }
