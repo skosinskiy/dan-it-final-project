@@ -3,20 +3,10 @@ import SearchBar from '../Searchbar'
 import EventsList from './EventsList'
 import Button from '@material-ui/core/Button'
 import {NavLink} from 'react-router-dom'
-import {withStyles} from '@material-ui/core/styles'
 import {eventOperations} from "../../../../store/events";
 import {connect} from "react-redux";
 import Preloader from "../../../../components/Preloader";
 import PropTypes from "prop-types";
-
-const styles = theme => ({
-  buttons: {
-    textDecoration: 'none',
-    margin: theme.spacing.unit,
-    'min-width': '227px',
-    height: '100%'
-  }
-})
 
 class ManagingEvents extends Component {
 
@@ -26,7 +16,7 @@ class ManagingEvents extends Component {
 
   render () {
 
-    const {classes, isLoading} = this.props
+    const {isLoading} = this.props
     if (isLoading) {
       return <Preloader/>
     }
@@ -35,8 +25,8 @@ class ManagingEvents extends Component {
       <div>
         <div className='searchbar-flexbox'>
           <SearchBar searchtype='event_by_title' />
-          <NavLink to={'/admin/events/add-new'} className={classes.buttonLink}>
-            <Button size="large" variant="contained" color="primary" className={classes.button}>Add new event</Button>
+          <NavLink to={'/admin/events/add-new'}>
+            <Button size="large" variant="contained" color="primary">Add new event</Button>
           </NavLink>
         </div>
 
@@ -47,7 +37,6 @@ class ManagingEvents extends Component {
 }
 
 ManagingEvents.propTypes = {
-  classes: PropTypes.object.isRequired,
   getAllEvents: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired
 }
@@ -64,4 +53,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ManagingEvents))
+export default connect(mapStateToProps, mapDispatchToProps)(ManagingEvents)

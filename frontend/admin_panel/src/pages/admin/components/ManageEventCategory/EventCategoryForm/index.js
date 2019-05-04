@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {NavLink} from 'react-router-dom'
-import {withStyles} from '@material-ui/core/styles'
+import {NavLink, Redirect} from 'react-router-dom'
 import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
@@ -10,35 +9,8 @@ import {connect} from 'react-redux'
 import {eventCategoryOperations} from 'store/eventCategory'
 import Preloader from '../../../../../components/Preloader'
 import ImageUploader from '../../../../../components/ImageUploader'
-
-const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    width: '20%'
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
-  },
-  dense: {
-    marginTop: 16
-  },
-  menu: {
-    width: 200
-  },
-
-  buttonLink: {
-    marginRight: '10px',
-    textDecoration: 'none'
-  },
-
-  buttons: {
-    margin: '8px'
-  }
-
-})
+import Grid from "@material-ui/core/Grid";
+import Typography from '@material-ui/core/Typography'
 
 const emptyCategory = {
   name: '',
@@ -55,7 +27,8 @@ class EventCategoryForm extends React.Component {
 
     this.state = {
       editedCategory: props.category !== undefined ? props.category : emptyCategory,
-      eventCategoryImage: props.category !== undefined && imageUrl !== null ? [{ imageUrl, imageKey}] : []
+      eventCategoryImage: props.category !== undefined && imageUrl !== null ? [{ imageUrl, imageKey}] : [],
+      isDataSubmitted: false
     }
   }
 
@@ -70,14 +43,24 @@ class EventCategoryForm extends React.Component {
 
   componentWillReceiveProps (nextProps) {
     if (nextProps.category && nextProps.category !== this.props.category) {
-      this.setState({editedCategory: nextProps.category})
+      const imageUrl = nextProps.category.imageUrl
+      const imageKey = nextProps.category.imageKey
+
+      this.setState({
+        editedCategory: nextProps.category,
+        eventCategoryImage: imageUrl !== null ? [{ imageUrl, imageKey}] : []
+      })
     }
   }
 
   saveCategory = () => {
     const {saveCategory} = this.props
+    saveCategory(this.state.editedCategory, this.state.eventCategoryImage[0]).then(() =>
+      this.setState({
+        isDataSubmitted: true
+      })
+    )
 
-    saveCategory(this.state.editedCategory, this.state.eventCategoryImage[0])
   }
 
   handleChange = (event, propName) => {
@@ -111,11 +94,16 @@ class EventCategoryForm extends React.Component {
   }
 
   render () {
-    const {classes, match, categories, category} = this.props
-    const {editedCategory, eventCategoryImage} = this.state
+
+    const {match, categories, isEventCategoriesLoading} = this.props
+    const {editedCategory, eventCategoryImage, isDataSubmitted} = this.state
     const categoryId = match.params.categoryId
 
-    if (categoryId && !category) {
+    if (isDataSubmitted) {
+      return <Redirect to={'/admin/event-categories'} />
+    }
+
+    if (isEventCategoriesLoading) {
       return <Preloader/>
     }
 
@@ -124,91 +112,93 @@ class EventCategoryForm extends React.Component {
       .filter(c => c.parentCategory ? c.parentCategory.id.toString() !== categoryId : true)
       .concat([emptyCategory])
       .map(category => (
-        <MenuItem key={category.id} value={category.id}>
+        <MenuItem key={category.id ? category.id : 0} value={category.id}>
           {category.name}
         </MenuItem>
       ))
 
     return (
-      <div className={classes.container}>
-        <TextField
-          label='Event Category Name'
-          style={{margin: 8}}
-          margin='normal'
-          variant='outlined'
-          InputLabelProps={{
-            shrink: true
-          }}
-          value={editedCategory.name}
-          onChange={(e) => this.handleChange(e, 'name')}
-        />
+      <div>
+        <Grid container spacing={24}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Event Category Name'
+              fullWidth
+              variant='outlined'
+              InputLabelProps={{
+                shrink: true
+              }}
+              value={editedCategory.name}
+              onChange={(e) => this.handleChange(e, 'name')}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label="Description"
+              fullWidth
+              variant="outlined"
+              InputLabelProps={{
+                shrink: true
+              }}
+              value={editedCategory.description ? editedCategory.description : ''}
+              onChange={(e) => this.handleChange(e, 'description')}
+            />
+          </Grid>
 
-        <TextField
-          id="outlined-required"
-          label="Description"
-          style={{margin: 8}}
-          fullWidth
-          margin="normal"
-          variant="outlined"
-          InputLabelProps={{
-            shrink: true
-           }}
-          value={editedCategory.description}
-          onChange={(e) => this.handleChange(e, 'description')}
-         />
-
-
-        <TextField
-          select
-          className={classes.textField}
-          value={editedCategory.parentCategory && editedCategory.parentCategory.id}
-          onChange={(e) => this.handleChange(e, 'parentCategory')}
-          SelectProps={{
-            MenuProps: {
-              className: classes.menu
-            }
-          }}
-          helperText='Select parent category'
-          margin='normal'
-          variant='filled'
-        >
-          {categoryOptions}
-        </TextField>
-
-        <ImageUploader  images={eventCategoryImage}
-                        onFileChange={this.onFileChange}
-                        onReset={this.onImageReset}
-                        multiple={false}/>
-
-        <div className={classes.buttons}>
-          <NavLink to={'/admin/event-categories'} className={classes.buttonLink}>
-            <Button
-              onClick={this.saveCategory}
-              variant='contained'
-              color='primary'
-              className={classes.button}
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Parent Category'
+              fullWidth
+              select
+              variant='outlined'
+              InputLabelProps={{
+                shrink: true
+              }}
+              value={editedCategory.parentCategory ? editedCategory.parentCategory.id : ''}
+              onChange={(e) => this.handleChange(e, 'parentCategory')}
             >
-              Save
-            </Button>
-          </NavLink>
-          <NavLink to={'/admin/event-categories'} className={classes.buttonLink}>
-            <Button variant='contained' color='secondary' className={classes.button}>
-              Exit
-            </Button>
-          </NavLink>
-        </div>
+              {categoryOptions}
+            </TextField>
+          </Grid>
+        </Grid>
+        <Grid container spacing={24}>
+          <Grid item xs={12}>
+            <Typography gutterBottom={true} color='textSecondary'>
+              Choose event category background image
+            </Typography>
+            <ImageUploader  images={eventCategoryImage}
+                            onFileChange={this.onFileChange}
+                            onReset={this.onImageReset}
+                            multiple={false}/>
+
+            <Grid container justify="center" spacing={8}>
+              <Grid item>
+                <Button onClick={this.saveCategory} variant='outlined' color='primary'>
+                  Save
+                </Button>
+              </Grid>
+              <Grid item>
+                <NavLink style={{textDecoration: 'none'}} to={'/admin/event-categories'}>
+                  <Button variant='outlined' color='secondary'>
+                    Cancel
+                  </Button>
+                </NavLink>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       </div>
     )
   }
 }
 
 EventCategoryForm.propTypes = {
-  classes: PropTypes.object.isRequired,
-  category: PropTypes.object.isRequired,
+  category: PropTypes.object,
   match: PropTypes.object.isRequired,
   categories: PropTypes.array.isRequired,
   getAllEventCategories: PropTypes.func.isRequired,
-  saveCategory: PropTypes.func.isRequired
+  saveCategory: PropTypes.func.isRequired,
+  isEventCategoriesLoading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = (state, props) => {
@@ -216,6 +206,7 @@ const mapStateToProps = (state, props) => {
 
   return {
     categories: state.eventCategory.allEventCategories,
+    isEventCategoriesLoading: state.eventCategory.isEventCategoriesLoading,
     category: category
   }
 }
@@ -227,4 +218,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EventCategoryForm))
+export default connect(mapStateToProps, mapDispatchToProps)(EventCategoryForm)

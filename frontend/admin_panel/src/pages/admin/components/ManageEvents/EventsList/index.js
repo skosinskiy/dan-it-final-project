@@ -74,8 +74,7 @@ const styles = theme => ({
   userListButtons: {
     marginTop: '20px',
     textAlign: 'center'
-  },
-  tableCell: {}
+  }
 })
 
 class EventList extends React.Component {
@@ -156,7 +155,6 @@ class EventList extends React.Component {
 }
 
 EventList.propTypes = {
-  classes: PropTypes.object.isRequired,
   deleteEvent: PropTypes.func.isRequired,
   eventList: PropTypes.array.isRequired
 }

@@ -11,10 +11,8 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
-import Badge from '@material-ui/core/Badge'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import NotificationsIcon from '@material-ui/icons/Notifications'
 import PowerSetting from '@material-ui/icons/PowerSettingsNew'
 
 import AdminRouter from './routes'
@@ -147,13 +145,8 @@ class Admin extends React.Component {
               noWrap
               className={classes.title}
             >
-              Dashboard
+              Rion Up Admin Panel
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon/>
-              </Badge>
-            </IconButton>
             <IconButton onClick={logoutUser} color="inherit" alt="Log out">
               <PowerSetting/>
             </IconButton>
