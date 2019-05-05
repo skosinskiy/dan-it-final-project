@@ -1,8 +1,8 @@
 import * as TYPES from './types'
 
-export const getAllPlaces = (places) => ({
+export const getAllPlaces = (res) => ({
   type: TYPES.GET_ALL_PLACES,
-  payload: {places}
+  payload: res
 })
 
 export const getPlacesCategories = (placeCategories) => ({

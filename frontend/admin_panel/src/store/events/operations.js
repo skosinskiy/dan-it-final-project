@@ -2,7 +2,7 @@ import api from '../../helpers/FetchData'
 import * as ACTIONS from './actions'
 import {getAllBusinesses} from "../businesses/operations";
 import {getAllEventCategories} from "../eventCategory/operations";
-import {getPlaces} from "../places/operations";
+import {getAllPlaces} from "../places/operations";
 
 export const fetchEventFormData = () => dispatch => {
   dispatch(ACTIONS.isEventFormDataLoading(true))
@@ -10,7 +10,7 @@ export const fetchEventFormData = () => dispatch => {
     dispatch(getAllEvents()),
     dispatch(getAllEventCategories()),
     dispatch(getAllBusinesses()),
-    dispatch(getPlaces())
+    dispatch(getAllPlaces())
   ]).then(() => dispatch(ACTIONS.isEventFormDataLoading(false)))
 }
 

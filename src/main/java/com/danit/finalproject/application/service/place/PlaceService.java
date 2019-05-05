@@ -8,6 +8,8 @@ import com.danit.finalproject.application.service.CrudService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,5 +85,9 @@ public class PlaceService implements CrudService<Place> {
       optionalPlacePhoto.ifPresent(photo -> placePhotoService.deletePlacePhoto(photo));
     }
     return optionalPlace.orElse(null);
+  }
+
+  public Page<Place> getAll(Pageable pageable) {
+    return placeRepository.findAll(pageable);
   }
 }

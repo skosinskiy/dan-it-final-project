@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import SearchBar from '../Searchbar'
-import BusinessList from './BusinessTable'
+import BusinessTable from './BusinessTable'
 import Button from '@material-ui/core/Button'
 import {NavLink} from 'react-router-dom'
 import {withStyles} from '@material-ui/core/styles'
@@ -32,7 +32,7 @@ class ManagingBusinesses extends Component {
             <Button size="large" variant="outlined" color="primary">Add new business</Button>
           </NavLink>
         </div>
-        <BusinessList/>
+        <BusinessTable/>
       </div>
     )
   }

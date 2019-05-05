@@ -1,8 +1,8 @@
 import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
 
-export const getPlaces = () => dispatch => {
-  return api.get(`/api/places`).then(res => {
+export const getAllPlaces = (page, size) => dispatch => {
+  return api.get(`/api/places?page=${page}&size=${size}`).then(res => {
     dispatch(ACTIONS.getAllPlaces(res))
   })
 }
@@ -28,7 +28,7 @@ export const savePlace = (place, images) => dispatch => {
     uploadImagesToS3(imagesToUpload)
       .then(uploadedImages => createPlacePhotos(uploadedImages, place.id)
         .then(createdPhotos => updatePlace(existingImages, place, createdPhotos)
-          .then(() => dispatch(getPlaces()))
+          .then(() => dispatch(getAllPlaces()))
         )
       )
   } else {
@@ -36,7 +36,7 @@ export const savePlace = (place, images) => dispatch => {
       .then(createdBusiness => uploadImagesToS3(images)
         .then(uploadedImages => createPlacePhotos(uploadedImages, createdBusiness.id)
           .then(createdPhotos => updatePlace(null, createdBusiness, createdPhotos)
-            .then(() => dispatch(getPlaces()))
+            .then(() => dispatch(getAllPlaces()))
           )
         )
       )
