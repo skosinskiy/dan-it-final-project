@@ -4,13 +4,9 @@ export const getBusinessesRequest = () => ({
   type: TYPES.BUSINESS_REQUEST
 })
 
-export const getAllBusinesses = ({businessList}) => ({
+export const getAllBusinesses = response => ({
   type: TYPES.GET_ALL_BUSINESSES,
-  payload: {
-    businessList
-    // page,
-    // totalElements,
-  }
+  payload: response
 })
 
 export const getBusinessesByPlaceID = ({businessList}) => ({
@@ -25,4 +21,9 @@ export const getBusinessesByPlaceID = ({businessList}) => ({
 export const getBusinessesError = error => ({
   type: TYPES.BUSINESS_ERROR,
   payload: error
+})
+
+export const isBusinessesLoading = isLoading => ({
+  type: TYPES.IS_BUSINESSES_LOADING,
+  payload: isLoading
 })

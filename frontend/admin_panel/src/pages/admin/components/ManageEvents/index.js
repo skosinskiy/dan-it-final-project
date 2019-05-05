@@ -7,6 +7,19 @@ import {eventOperations} from "../../../../store/events";
 import {connect} from "react-redux";
 import Preloader from "../../../../components/Preloader";
 import PropTypes from "prop-types";
+import {withStyles} from '@material-ui/core/styles'
+
+const styles = theme => ({
+  button: {
+    textDecoration: 'none',
+  },
+
+  searchbar: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  }
+})
 
 class ManagingEvents extends Component {
 
@@ -16,16 +29,16 @@ class ManagingEvents extends Component {
 
   render () {
 
-    const {isLoading} = this.props
+    const {isLoading, classes} = this.props
     if (isLoading) {
       return <Preloader/>
     }
 
     return (
       <div>
-        <div className='searchbar-flexbox'>
+        <div className={classes.searchbar}>
           <SearchBar searchtype='event_by_title' />
-          <NavLink to={'/admin/events/add-new'}>
+          <NavLink to={'/admin/events/add-new'} className={classes.button}>
             <Button size="large" variant="outlined" color="primary">Add new event</Button>
           </NavLink>
         </div>
@@ -37,6 +50,7 @@ class ManagingEvents extends Component {
 }
 
 ManagingEvents.propTypes = {
+  classes: PropTypes.object.isRequired,
   getAllEvents: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired
 }
@@ -53,4 +67,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ManagingEvents)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ManagingEvents))
