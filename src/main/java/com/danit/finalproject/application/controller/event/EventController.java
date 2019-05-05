@@ -40,13 +40,10 @@ public class EventController {
   }
 
   @GetMapping
-  @JsonView(View.class)
+  @JsonView(View.Event.class)
   public ResponseEntity<List<EventResponse>> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(
-      @RequestParam(value = "placeId", required = false) Long placeId,
-      @RequestParam(value = "businessId", required = false) Long businessId,
       @RequestParam(required = false) String searchParam) {
-    return new ResponseEntity<>(eventFacade.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(
-        placeId, businessId, searchParam), HttpStatus.OK);
+    return new ResponseEntity<>(eventFacade.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(searchParam), HttpStatus.OK);
   }
 
   @PostMapping

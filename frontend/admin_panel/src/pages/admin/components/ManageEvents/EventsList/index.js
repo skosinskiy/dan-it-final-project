@@ -13,6 +13,7 @@ import TableSortLabel from '@material-ui/core/TableSortLabel'
 import Paper from '@material-ui/core/Paper'
 
 import {eventOperations} from '../../../../../store/events'
+import DeleteDialog from "../../../../../components/DeleteDialog";
 
 const rows = [
   {id: 'title', numeric: true, disablePadding: false, label: 'Title'},
@@ -132,14 +133,7 @@ class EventList extends React.Component {
                         </NavLink>
                       </TableCell>
                       <TableCell padding="none" align="left">
-                        <Button
-                          onClick={() => deleteEvent(event.id)}
-                          variant="outlined"
-                          color="secondary"
-                          className={classes.button}
-                        >
-                          Delete
-                        </Button>
+                        <DeleteDialog onConfirm={() => deleteEvent(event.id)}/>
                       </TableCell>
 
                     </TableRow>

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class EventService implements CrudService<Event> {
@@ -40,9 +41,10 @@ public class EventService implements CrudService<Event> {
     return eventRepository.findAll();
   }
 
-  public List<Event> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(Long placeId, Long businessId, String
-      searchParam) {
-    return eventRepository.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(placeId, businessId, searchParam);
+  public List<Event> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(String searchParam) {
+    return !StringUtils.hasText(searchParam)
+        ? eventRepository.findAll()
+        : eventRepository.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(searchParam);
   }
 
   @Override
@@ -75,6 +77,7 @@ public class EventService implements CrudService<Event> {
     Event event = eventRepository.findById(id).orElse(null);
     if (event != null) {
       event.getPhotos().forEach(businessPhoto -> eventPhotoService.deleteEventPhoto(businessPhoto));
+      event.setBusiness(null);
     }
     eventRepository.delete(event);
     return event;

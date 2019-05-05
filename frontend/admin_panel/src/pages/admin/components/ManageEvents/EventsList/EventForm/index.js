@@ -16,6 +16,7 @@ import Preloader from "../../../../../../components/Preloader";
 import Grid from "@material-ui/core/Grid";
 import MomentUtils from '@date-io/moment';
 import { MuiPickersUtilsProvider, DateTimePicker} from 'material-ui-pickers';
+import DeleteDialog from "../../../../../../components/DeleteDialog";
 
 
 const styles = theme => ({
