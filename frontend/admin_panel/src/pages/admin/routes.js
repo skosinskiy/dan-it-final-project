@@ -17,7 +17,7 @@ import PropTypes from 'prop-types'
 import ManagingRoles from './components/ManagingRoles'
 import RoleForm from './components/ManagingRoles/RoleForm'
 import ManageEvents from './components/ManageEvents'
-import EventForm from './components/ManageEvents/EventsList/EventForm'
+import EventForm from './components/ManageEvents/EventForm'
 
 class AdminRouter extends Component {
   render () {

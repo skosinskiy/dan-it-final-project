@@ -20,6 +20,10 @@ const styles = theme => ({
     marginTop: theme.spacing.unit * 3
   },
 
+  table: {
+    tableLayout: 'fixed'
+  },
+
   buttonsWrapper: {
     display: 'flex',
     justifyContent: 'flex-end'
@@ -38,16 +42,15 @@ class EventList extends React.Component {
 
     return (
       <Paper className={classes.root}>
-        <Table>
+        <Table className={classes.table}>
           <colgroup>
-            <col style={{width: '6%'}}/>
-            <col style={{width: '6%'}}/>
-            <col style={{width: '6%'}}/>
-            <col style={{width: '12%'}}/>
-            <col style={{width: '6%'}}/>
-            <col style={{width: '6%'}}/>
-            <col style={{width: '4%'}}/>
-            <col style={{width: '4%'}}/>
+            <col style={{width: '15%'}}/>
+            <col style={{width: '15%'}}/>
+            <col style={{width: '15%'}}/>
+            <col style={{width: '15%'}}/>
+            <col style={{width: '15%'}}/>
+            <col style={{width: '15%'}}/>
+            <col style={{width: '10%'}}/>
           </colgroup>
           <TableHead>
             <TableRow>
