@@ -17,7 +17,4 @@ public interface EventRepository extends JpaRepository<Event, Long> {
   Page<Event> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(
       @Param("searchParam") String searchParam,
       Pageable pageable);
-
-  @Query("select e from Event e")
-  Page<Event> findAll(Pageable pageable);
 }

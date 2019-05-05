@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import SearchBar from '../Searchbar'
-import EventsList from './EventsTable'
+import EventsTable from './EventsTable'
 import Button from '@material-ui/core/Button'
 import {NavLink} from 'react-router-dom'
 import PropTypes from 'prop-types'
@@ -33,7 +33,7 @@ class ManagingEvents extends Component {
           </NavLink>
         </div>
 
-        <EventsList />
+        <EventsTable />
       </div>
     )
   }

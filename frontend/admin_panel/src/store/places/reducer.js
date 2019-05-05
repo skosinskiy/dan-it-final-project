@@ -2,7 +2,8 @@ import * as TYPES from './types'
 
 const initialState = {
   places: [],
-  placeCategories: []
+  placeCategories: [],
+  totalElements: 0
 }
 
 const placesReducer = (state = initialState, action) => {
@@ -10,7 +11,8 @@ const placesReducer = (state = initialState, action) => {
     case TYPES.GET_ALL_PLACES:
       return {
         ...state,
-        places: [...action.payload.places]
+        places: action.payload.content,
+        totalElements: action.payload.totalElements
       }
     case TYPES.GET_PLACES_CATEGORIES:
       return {

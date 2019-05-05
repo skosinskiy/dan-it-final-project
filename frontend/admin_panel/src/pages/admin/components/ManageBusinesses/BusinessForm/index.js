@@ -233,7 +233,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPlaces: () => dispatch(placesOperations.getPlaces()),
+    getPlaces: () => dispatch(placesOperations.getAllPlaces()),
     saveNewBusiness: (business, images) => dispatch(businessOperations.saveBusiness(business, images)),
     getBusinesses: (page, size) => dispatch(businessOperations.getAllBusinesses(page, size))
   }
