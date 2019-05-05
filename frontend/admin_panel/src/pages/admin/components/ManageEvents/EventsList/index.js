@@ -37,62 +37,60 @@ class EventList extends React.Component {
     const {classes, eventList, deleteEvent} = this.props
 
     return (
-      <div className={classes.root}>
-        <Paper className={classes.root}>
-          <Table>
-            <colgroup>
-              <col style={{width: '6%'}}/>
-              <col style={{width: '6%'}}/>
-              <col style={{width: '6%'}}/>
-              <col style={{width: '12%'}}/>
-              <col style={{width: '6%'}}/>
-              <col style={{width: '6%'}}/>
-              <col style={{width: '4%'}}/>
-              <col style={{width: '4%'}}/>
-            </colgroup>
-            <TableHead>
-              <TableRow>
-                <TableCell>Title</TableCell>
-                <TableCell>Description</TableCell>
-                <TableCell>Address</TableCell>
-                <TableCell>Event Categories</TableCell>
-                <TableCell>Business</TableCell>
-                <TableCell>Place</TableCell>
-                <TableCell/>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {eventList.map(event => {
-                return (
-                  <TableRow
-                    hover
-                    key={event.id}
-                  >
+      <Paper className={classes.root}>
+        <Table>
+          <colgroup>
+            <col style={{width: '6%'}}/>
+            <col style={{width: '6%'}}/>
+            <col style={{width: '6%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '6%'}}/>
+            <col style={{width: '6%'}}/>
+            <col style={{width: '4%'}}/>
+            <col style={{width: '4%'}}/>
+          </colgroup>
+          <TableHead>
+            <TableRow>
+              <TableCell>Title</TableCell>
+              <TableCell>Description</TableCell>
+              <TableCell>Address</TableCell>
+              <TableCell>Event Categories</TableCell>
+              <TableCell>Business</TableCell>
+              <TableCell>Place</TableCell>
+              <TableCell/>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {eventList.map(event => {
+              return (
+                <TableRow
+                  hover
+                  key={event.id}
+                >
 
-                    <TableCell>{event.title}</TableCell>
-                    <TableCell>{event.description}</TableCell>
-                    <TableCell>{event.address}</TableCell>
-                    <TableCell>
-                      {event.categories.map(category => category.name).join(", ")}
-                    </TableCell>
-                    <TableCell>{event.business && event.business.title}</TableCell>
-                    <TableCell>{event.place && event.place.title}</TableCell>
+                  <TableCell>{event.title}</TableCell>
+                  <TableCell>{event.description}</TableCell>
+                  <TableCell>{event.address}</TableCell>
+                  <TableCell>
+                    {event.categories.map(category => category.name).join(", ")}
+                  </TableCell>
+                  <TableCell>{event.business && event.business.title}</TableCell>
+                  <TableCell>{event.place && event.place.title}</TableCell>
 
-                    <TableCell>
-                      <div className={classes.buttonsWrapper}>
-                        <NavLink to={`/admin/events/edit/${event.id}`} className={classes.button}>
-                          <Button variant="outlined" color="primary">Edit</Button>
-                        </NavLink>
-                        <DeleteDialog onConfirm={() => deleteEvent(event.id)}/>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                )
-              })}
-            </TableBody>
-          </Table>
-        </Paper>
-      </div>
+                  <TableCell>
+                    <div className={classes.buttonsWrapper}>
+                      <NavLink to={`/admin/events/edit/${event.id}`} className={classes.button}>
+                        <Button variant="outlined" color="primary">Edit</Button>
+                      </NavLink>
+                      <DeleteDialog onConfirm={() => deleteEvent(event.id)}/>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              )
+            })}
+          </TableBody>
+        </Table>
+      </Paper>
     )
   }
 }
