@@ -26,7 +26,7 @@ class ManagingEvents extends Component {
         <div className='searchbar-flexbox'>
           <SearchBar searchtype='event_by_title' />
           <NavLink to={'/admin/events/add-new'}>
-            <Button size="large" variant="contained" color="primary">Add new event</Button>
+            <Button size="large" variant="outlined" color="primary">Add new event</Button>
           </NavLink>
         </div>
 
