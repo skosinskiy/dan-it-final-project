@@ -170,7 +170,7 @@ class EventForm extends Component {
     const businessOptions = businesses
       .concat([{}])
       .map(business => (
-        <MenuItem key={0 && business.id} value={business.id}>
+        <MenuItem key={business.id ? business.id : 0} value={business.id}>
           {business.title}
         </MenuItem>
       ))
@@ -178,7 +178,7 @@ class EventForm extends Component {
     const placeOptions = places
       .concat([{}])
       .map(place => (
-        <MenuItem key={0 && place.id} value={place.id}>
+        <MenuItem key={place.id ? place.id : 0} value={place.id}>
           {place.title}
         </MenuItem>
       ))

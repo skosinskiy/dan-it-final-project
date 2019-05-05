@@ -61,7 +61,8 @@ class BusinessTable extends React.Component {
 
   render() {
 
-    const {classes, businessList, deleteBusiness, isBusinessesLoading} = this.props
+    const {classes, businessList, deleteBusiness, isBusinessesLoading, totalElements} = this.props
+    const {page, rowsPerPage} = this.state
 
     if (isBusinessesLoading) {
       return (
@@ -109,7 +110,7 @@ class BusinessTable extends React.Component {
                       <NavLink to={`/admin/businesses/edit/${business.id}`} className={classes.button}>
                         <Button variant="outlined" color="primary">Edit</Button>
                       </NavLink>
-                      <DeleteDialog onConfirm={() => deleteBusiness(business.id)}/>
+                      <DeleteDialog onConfirm={() => deleteBusiness(business.id, page, rowsPerPage)}/>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -119,10 +120,10 @@ class BusinessTable extends React.Component {
           <TableFooter>
             <TableRow>
               <TablePagination
-                count={this.props.totalElements}
-                page={this.state.page}
+                count={totalElements}
+                page={page}
                 onChangePage={this.handleChangePage}
-                rowsPerPage={this.state.rowsPerPage}
+                rowsPerPage={rowsPerPage}
                 rowsPerPageOptions={[5, 10, 15]}
                 onChangeRowsPerPage={this.handleChangeRowsPerPage}
                 SelectProps={{
@@ -156,9 +157,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteBusiness: (businessId) => dispatch(businessOperations.deleteBusiness(businessId)),
-    getBusinessesByPlaceID: (placeId) => dispatch(businessOperations.getBusinessesByPlaceID(placeId)),
-    getAllBusinesses: (page, size) => dispatch(businessOperations.getAllBusinesses(page, size)),
+    deleteBusiness: (businessId, page, size) => dispatch(businessOperations.deleteBusiness(businessId, page, size)),
+    getAllBusinesses: (page, size) => dispatch(businessOperations.getAllBusinesses(page, size))
   }
 }
 

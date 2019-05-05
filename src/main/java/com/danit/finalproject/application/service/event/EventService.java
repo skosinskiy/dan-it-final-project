@@ -6,9 +6,12 @@ import com.danit.finalproject.application.repository.event.EventRepository;
 import com.danit.finalproject.application.service.CrudService;
 import com.danit.finalproject.application.service.business.BusinessService;
 import com.danit.finalproject.application.service.place.PlaceService;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -41,10 +44,10 @@ public class EventService implements CrudService<Event> {
     return eventRepository.findAll();
   }
 
-  public List<Event> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(String searchParam) {
+  public Page<Event> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(String searchParam, Pageable pageable) {
     return !StringUtils.hasText(searchParam)
-        ? eventRepository.findAll()
-        : eventRepository.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(searchParam);
+        ? eventRepository.findAll(pageable)
+        : eventRepository.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(searchParam, pageable);
   }
 
   @Override

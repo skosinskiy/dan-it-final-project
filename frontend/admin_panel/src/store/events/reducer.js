@@ -13,8 +13,8 @@ const eventReducer = (state = initialState, action) => {
     case TYPES.GET_ALL_EVENTS:
       return {
         ...state,
-        eventList: action.payload.eventList,
-        totalElements: action.payload.eventList.length
+        eventList: action.payload.content,
+        totalElements: action.payload.totalElements
       }
     case TYPES.EVENT_FORM_DATA_IS_LOADING:
       return {

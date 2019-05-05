@@ -28,6 +28,7 @@ import com.danit.finalproject.application.service.place.PlaceService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,6 +40,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -100,9 +102,9 @@ public class EventControllerTest {
     MvcResult result = mockMvc.perform(get("/api/events?searchParam=event-1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<EventResponse> events = objectMapper.readValue(responseBody, new TypeReference<List<EventResponse>>(){});
+    HashMap<String, Object> events = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>(){});
 
-    assertEquals(expectedSize, events.size());
+    assertEquals(expectedSize, ((List)events.get("content")).size());
   }
 
   @Test
