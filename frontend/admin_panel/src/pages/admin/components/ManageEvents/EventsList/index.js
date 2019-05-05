@@ -128,13 +128,13 @@ class EventList extends React.Component {
 
                       <TableCell padding="none" align="right">
                         <NavLink to={`/admin/events/edit/${event.id}`} className={classes.buttons} >
-                          <Button variant="contained" color="primary" className={classes.button}>Edit</Button>
+                          <Button variant="outlined" color="primary" className={classes.button}>Edit</Button>
                         </NavLink>
                       </TableCell>
                       <TableCell padding="none" align="left">
                         <Button
                           onClick={() => deleteEvent(event.id)}
-                          variant="contained"
+                          variant="outlined"
                           color="secondary"
                           className={classes.button}
                         >
@@ -155,6 +155,7 @@ class EventList extends React.Component {
 }
 
 EventList.propTypes = {
+  classes: PropTypes.object.isRequired,
   deleteEvent: PropTypes.func.isRequired,
   eventList: PropTypes.array.isRequired
 }

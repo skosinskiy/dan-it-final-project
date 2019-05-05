@@ -13,14 +13,12 @@ import FormControl from "@material-ui/core/FormControl"
 import InputLabel from "@material-ui/core/InputLabel"
 import OutlinedInput from "@material-ui/core/OutlinedInput"
 import Preloader from "../../../../../../components/Preloader";
+import Grid from "@material-ui/core/Grid";
+import MomentUtils from '@date-io/moment';
+import { MuiPickersUtilsProvider, DateTimePicker} from 'material-ui-pickers';
+
 
 const styles = theme => ({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    width: '45%'
-  },
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit
@@ -58,7 +56,7 @@ const emptyEvent = {
 }
 
 class EventForm extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.state = {
       editedEvent: props.event !== undefined ? props.event : emptyEvent,
@@ -73,7 +71,7 @@ class EventForm extends Component {
     fetchEventFormData()
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.event && nextProps.event !== this.props.event) {
       this.setState({
         editedEvent: nextProps.event,
@@ -94,10 +92,27 @@ class EventForm extends Component {
 
   handleChange = (event, propName) => {
     const {businesses, places} = this.props
-    if (propName === 'business'){
-      this.setState({editedEvent:{...this.state.editedEvent, business: businesses.find(business => business.id === event.target.value)}})
+    if (propName === 'business') {
+      this.setState({
+        editedEvent: {
+          ...this.state.editedEvent,
+          business: businesses.find(business => business.id === event.target.value)
+        }
+      })
     } else if (propName === 'place') {
-      this.setState({editedEvent:{...this.state.editedEvent, place: places.find(place => place.id === event.target.value)}})
+      this.setState({
+        editedEvent: {
+          ...this.state.editedEvent,
+          place: places.find(place => place.id === event.target.value)
+        }
+      })
+    } else if (propName === 'startDate' || propName === 'endDate') {
+      this.setState({
+        editedEvent: {
+          ...this.state.editedEvent,
+          [propName]: event
+        }
+      })
     } else {
       this.setState({editedEvent: {...this.state.editedEvent, [propName]: event.target.value}})
     }
@@ -137,7 +152,7 @@ class EventForm extends Component {
     })
   }
 
-  render () {
+  render() {
 
     const {classes, match, businesses, places, eventCategories, isLoading} = this.props
     const {editedEvent, eventImages, isDataSubmitted} = this.state
@@ -145,7 +160,7 @@ class EventForm extends Component {
     const eventCategoriesValue = eventCategories.filter(category => editedEvent.categories.some(currentCategory => category.id === currentCategory.id))
 
     if (isDataSubmitted) {
-      return <Redirect to={'/admin/events'} />
+      return <Redirect to={'/admin/events'}/>
     }
 
     if (isLoading || (editedEvent === emptyEvent && match.path !== '/admin/events/add-new')) {
@@ -170,144 +185,135 @@ class EventForm extends Component {
 
     const eventCategoriesOptions = eventCategories
       .map(category => (
-      <MenuItem key={category.id} value={category}>
-        {category.name}
-      </MenuItem>
-    ))
+        <MenuItem key={category.id} value={category}>
+          {category.name}
+        </MenuItem>
+      ))
 
     return (
-      <div className={classes.container}>
-        <TextField
-          label='Event name'
-          className={classes.inputField}
-          margin='normal'
-          variant='outlined'
-          InputLabelProps={{
-            shrink: true
-          }}
-          value={editedEvent.title}
-          onChange={(e) => this.handleChange(e, 'title')}
-        />
-        <TextField
-          label='Description'
-          className={classes.inputField}
-          margin='normal'
-          variant='outlined'
-          InputLabelProps={{
-            shrink: true
-          }}
-          value={editedEvent.description}
-          onChange={(e) => this.handleChange(e, 'description')}
-        />
-        <TextField
-          label='Address'
-          className={classes.inputField}
-          margin='normal'
-          variant='outlined'
-          InputLabelProps={{
-            shrink: true
-          }}
-          value={editedEvent.address}
-          onChange={(e) => this.handleChange(e, 'address')}
-        />
+      <div>
+        <Grid container spacing={24}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Event name'
+              fullWidth
+              variant='outlined'
+              value={editedEvent.title}
+              onChange={(e) => this.handleChange(e, 'title')}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Description'
+              fullWidth
+              variant='outlined'
+              value={editedEvent.description}
+              onChange={(e) => this.handleChange(e, 'description')}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Address'
+              fullWidth
+              variant='outlined'
+              value={editedEvent.address}
+              onChange={(e) => this.handleChange(e, 'address')}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <FormControl fullWidth variant="outlined">
+              <InputLabel>
+                Event Categories
+              </InputLabel>
+              <Select
+                multiple
+                value={eventCategoriesValue}
+                onChange={(e) => this.handleChange(e, 'categories')}
+                input={
+                  <OutlinedInput
+                    labelWidth={125}
+                    name="age"
+                    id="outlined"
+                  />
+                }
+              >
+                {eventCategoriesOptions}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Business'
+              select
+              fullWidth
+              variant='outlined'
+              value={editedEvent.business ? editedEvent.business.id : ''}
+              onChange={(e) => this.handleChange(e, 'business')}
+            >
+              {businessOptions}
+            </TextField>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              label='Place'
+              select
+              fullWidth
+              variant='outlined'
+              value={editedEvent.place ? editedEvent.place.id : ''}
+              onChange={(e) => this.handleChange(e, 'place')}
+            >
+              {placeOptions}
+            </TextField>
+          </Grid>
 
-        <FormControl variant="outlined" className={classes.inputField}>
-          <InputLabel
-            htmlFor="outlined"
-          >
-            Event Categories
-          </InputLabel>
-          <Select
-            multiple
-            value={eventCategoriesValue}
-            onChange={(e) => this.handleChange(e, 'categories')}
-            input={
-              <OutlinedInput
-                labelWidth={125}
-                name="age"
-                id="outlined"
-              />
-            }
-          >
-            {eventCategoriesOptions}
-          </Select>
-        </FormControl>
-        <TextField
-          select
-          label='Business'
-          className={classes.inputField}
-          margin='normal'
-          variant='outlined'
-          InputLabelProps={{
-            shrink: true
-          }}
-          value={editedEvent.business ? editedEvent.business.id : ''}
-          onChange={(e) => this.handleChange(e, 'business')}
-        >
-          {businessOptions}
-        </TextField>
-        <TextField
-          select
-          label='Place'
-          className={classes.inputField}
-          margin='normal'
-          variant='outlined'
-          InputLabelProps={{
-            shrink: true
-          }}
-          value={editedEvent.place ? editedEvent.place.id : ''}
-          onChange={(e) => this.handleChange(e, 'place')}
-        >
-          {placeOptions}
-        </TextField>
-        <TextField
-          variant='outlined'
-          label="Start date"
-          type="datetime-local"
-          className={classes.textField}
-          value={editedEvent.startDate && editedEvent.startDate.substring(0, 16)}
-          onChange={(e) => this.handleChange(e, 'startDate')}
-          margin="normal"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
+          <Grid item xs={12} sm={6}>
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              <DateTimePicker
+                ampm={false}
+                variant='outlined'
+                label="Start date"
+                fullWidth
+                disablePast
+                value={editedEvent.startDate}
+                onChange={(e) => this.handleChange(e, 'startDate')} />
+            </MuiPickersUtilsProvider>
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <MuiPickersUtilsProvider utils={MomentUtils}>
+              <DateTimePicker
+                ampm={false}
+                variant='outlined'
+                fullWidth
+                label="End date"
+                disablePast
+                value={editedEvent.endDate}
+                onChange={(e) => this.handleChange(e, 'endDate')} />
+            </MuiPickersUtilsProvider>
+          </Grid>
+          <Grid item xs={12}>
+            <ImageUploader
+              images={eventImages}
+              onFileChange={this.onFileChange}
+              onReset={this.onImageReset}
+              onMainPhotoSelect={this.onMainPhotoSelect}
+              multiple={true}/>
+          </Grid>
 
-        <TextField
-          variant='outlined'
-          label="End date"
-          type="datetime-local"
-          className={classes.textField}
-          value={editedEvent.endDate && editedEvent.endDate.substring(0, 16)}
-          onChange={(e) => this.handleChange(e, 'endDate')}
-          margin="normal"
-          InputLabelProps={{
-            shrink: true,
-          }}
-        />
+        </Grid>
 
-        <div className={classes.textField}>
-          <ImageUploader
-            images={eventImages}
-            onFileChange={this.onFileChange}
-            onReset={this.onImageReset}
-            onMainPhotoSelect={this.onMainPhotoSelect}
-            multiple={true}
-          />
-        </div>
 
         <div className={classes.buttons}>
           <Button
             onClick={(e) => this.updateEvent(e)}
-            variant='contained'
+            variant='outlined'
             color='primary'
             className={classes.button}
           >
             Save
           </Button>
           <NavLink to={'/admin/events'} className={classes.buttonLink}>
-            <Button variant='contained' color='secondary' className={classes.button}>
-              Exit
+            <Button variant='outlined' color='secondary' className={classes.button}>
+              Cancel
             </Button>
           </NavLink>
         </div>
