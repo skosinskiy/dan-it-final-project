@@ -5,18 +5,17 @@ import {withStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import {connect} from 'react-redux'
-import {eventOperations} from "../../../../../../store/events";
+import {eventOperations} from '../../../../../../store/events'
 import ImageUploader from '../../../../../../components/ImageUploader'
 import MenuItem from '@material-ui/core/MenuItem'
-import Select from "@material-ui/core/Select";
-import FormControl from "@material-ui/core/FormControl"
-import InputLabel from "@material-ui/core/InputLabel"
-import OutlinedInput from "@material-ui/core/OutlinedInput"
-import Preloader from "../../../../../../components/Preloader";
-import Grid from "@material-ui/core/Grid";
-import MomentUtils from '@date-io/moment';
-import { MuiPickersUtilsProvider, DateTimePicker} from 'material-ui-pickers';
-import DeleteDialog from "../../../../../../components/DeleteDialog";
+import Select from '@material-ui/core/Select'
+import FormControl from '@material-ui/core/FormControl'
+import InputLabel from '@material-ui/core/InputLabel'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
+import Preloader from '../../../../../../components/Preloader'
+import Grid from '@material-ui/core/Grid'
+import MomentUtils from '@date-io/moment'
+import { MuiPickersUtilsProvider, DateTimePicker} from 'material-ui-pickers'
 
 
 const styles = theme => ({
