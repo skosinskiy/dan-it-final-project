@@ -48,7 +48,7 @@ class Events extends Component {
           </TableHead>
           <TableBody>
             {eventCategories.map(eventCategory => (
-              <TableRow key={eventCategory.id}>
+              <TableRow key={eventCategory.id} hover>
                 <TableCell component="th" scope="row">
                   {eventCategory.name}
                 </TableCell>
