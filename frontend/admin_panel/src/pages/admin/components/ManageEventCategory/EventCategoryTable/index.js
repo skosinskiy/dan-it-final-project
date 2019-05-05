@@ -15,6 +15,15 @@ import {NavLink} from "react-router-dom";
 import DeleteDialog from "../../../../../components/DeleteDialog";
 
 const styles = theme => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3
+  },
+
+  table: {
+    tableLayout: 'fixed'
+  },
+
   buttonsWrapper: {
     display: 'flex',
     justifyContent: 'flex-end'
@@ -31,7 +40,7 @@ class Events extends Component {
     const {classes, deleteEventCategory, eventCategories} = this.props
     return (
       <Paper className={classes.root}>
-        <Table>
+        <Table className={classes.table}>
           <colgroup>
             <col style={{width:'25%'}}/>
             <col style={{width:'25%'}}/>

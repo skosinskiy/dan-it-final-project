@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import SearchBar from '../Searchbar'
-import EventsList from './EventsList'
+import EventsList from './EventsTable'
 import Button from '@material-ui/core/Button'
 import {NavLink} from 'react-router-dom'
 import {eventOperations} from "../../../../store/events";
