@@ -21,7 +21,9 @@ public class ChatService implements CrudService<Chat> {
   private UserRepository userRepository;
 
   @Autowired
-  public ChatService(ChatRepository chatRepository, ChatMessageRepository chatMessageRepository, UserRepository userRepository) {
+  public ChatService(ChatRepository chatRepository,
+                     ChatMessageRepository chatMessageRepository,
+                     UserRepository userRepository) {
     this.chatRepository = chatRepository;
     this.chatMessageRepository = chatMessageRepository;
     this.userRepository = userRepository;
