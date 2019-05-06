@@ -7,9 +7,7 @@ import { connect } from 'react-redux'
 import Preloader from '../../components/Preloader'
 
 const defaultMessage = {
-  message: '',
-  user: {},
-  chat: {}
+  message: ''
 }
 
 const currentUser = 1
@@ -53,14 +51,19 @@ class ChatPage extends Component {
   }
 
   sendNewMessage = (chatId) => {
-    const {currentUser, createNewMessage, currentChat} = this.props
-    defaultMessage.message = this.state.message
-
-    createNewMessage(chatId, defaultMessage)
+    const {createNewMessage} = this.props
+    if (this.state.message) {
+      defaultMessage.message = this.state.message
+      this.setState({
+        message: ''
+      })
+      createNewMessage(chatId, defaultMessage)
+    }
   }
 
   render () {
     const {currentChat, isLoaded} = this.props
+    const {message} = this.state
     if (!isLoaded) {
       return <Preloader/>
     }
@@ -73,7 +76,7 @@ class ChatPage extends Component {
           </ScrollToBottom>
         </div>
         <div className="chat__input">
-          <input onChange={this.handleChange} type="text" placeholder="Message"/>
+          <input onChange={this.handleChange} type="text" placeholder="Message" value={message}/>
           <button onClick={() => this.sendNewMessage(currentChat.id)}>Send</button>
         </div>
       </div>
