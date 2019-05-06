@@ -12,3 +12,9 @@ export const createNewMessage = (chatId, message) => dispatch => {
     dispatch(ACTIONS.getChatById({chat: res}))
   })
 }
+
+export const deleteMessage = (chatId, messageId) => dispatch => {
+  api.deleteApi(`/api/chats/${chatId}/messages/${messageId}`).then(res => {
+    dispatch(ACTIONS.getChatById({chat: res}))
+  })
+}

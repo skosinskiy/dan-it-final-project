@@ -5,32 +5,10 @@ import './chat-page.scss'
 import { getChatById, createNewMessage } from '../../store/chats/operations'
 import { connect } from 'react-redux'
 import Preloader from '../../components/Preloader'
+import ChatList from './ChatList/chatlist'
 
 const defaultMessage = {
   message: ''
-}
-
-const currentUser = 1
-
-const ChatList = (props) => {
-  const { messages } = props
-  return messages.map((msg) => {
-    const myMsg = props.currentUser === msg.user.id
-    return (
-      <div key={msg.id} className='chat-message'>
-        { !myMsg &&
-          <div className="chat-message__avatar-container">
-            <img src={msg.user.photo} alt=" " className="chat-message__avatar"/>
-            { msg.online ? <div className="chat-message__online"/> : null}
-          </div>
-        }
-        <div className={`chat-message__text-container${myMsg ? '--my-message' : ''}`}>
-          <div className="chat-message__name" >{msg.user.firstName}</div>
-          <div className="chat-message__content" >{msg.message}</div>
-        </div>
-      </div>
-    )
-  })
 }
 
 class ChatPage extends Component {
@@ -72,7 +50,7 @@ class ChatPage extends Component {
         <ChatHeader title={'Current Location'}/>
         <div className="chat__messages">
           <ScrollToBottom className="chat__scrollable-flex" followButtonClassName="chat__scroll-to-bot">
-            <ChatList messages={currentChat.chatMessages} currentUser={currentUser} />
+            <ChatList messages={currentChat.chatMessages}/>
           </ScrollToBottom>
         </div>
         <div className="chat__input">
@@ -87,8 +65,7 @@ class ChatPage extends Component {
 const mapStateToProps = (state) => {
   return {
     currentChat: state.chats.currentChat,
-    isLoaded: state.chats.isLoaded,
-    currentUser: state.users.currentUser
+    isLoaded: state.chats.isLoaded
   }
 }
 
