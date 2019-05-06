@@ -55,7 +55,7 @@ public class ChatController {
 
   @PostMapping("{chatId}/messages")
   public ResponseEntity<ChatResponse> createNewMessage(
-      @PathVariable("chatId") Long chatId, ChatMessageRequest chatMessage) {
+      @PathVariable("chatId") Long chatId, @RequestBody ChatMessageRequest chatMessage) {
     return new ResponseEntity<>(chatFacade.addChatMessage(chatMessage, chatId), HttpStatus.OK);
   }
 
