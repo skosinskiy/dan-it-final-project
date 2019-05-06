@@ -55,9 +55,7 @@ class ChatPage extends Component {
   sendNewMessage = (chatId) => {
     const {currentUser, createNewMessage, currentChat} = this.props
     defaultMessage.message = this.state.message
-    defaultMessage.user = currentUser.id
-    defaultMessage.chat = currentChat.id
-    console.log(defaultMessage)
+
     createNewMessage(chatId, defaultMessage)
   }
 
@@ -76,7 +74,7 @@ class ChatPage extends Component {
         </div>
         <div className="chat__input">
           <input onChange={this.handleChange} type="text" placeholder="Message"/>
-          <button onClick={() => this.sendNewMessage(currentChat.id)}>send</button>
+          <button onClick={() => this.sendNewMessage(currentChat.id)}>Send</button>
         </div>
       </div>
     )

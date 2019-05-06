@@ -9,7 +9,6 @@ export const getChatById = (chatId) => dispatch => {
 
 export const createNewMessage = (chatId, message) => dispatch => {
   api.post(`/api/chats/${chatId}/messages`, message).then(res => {
-    console.log(res)
     dispatch(ACTIONS.getChatById({chat: res}))
   })
 }
