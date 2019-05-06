@@ -27,5 +27,4 @@ public class ChatMessage extends BaseEntity {
   @JoinColumn(name = "chat_id")
   @ToString.Exclude
   private Chat chat;
-
 }
