@@ -54,6 +54,7 @@ public class ChatService implements CrudService<Chat> {
     List<ChatMessage> messages = chat.getChatMessages();
     messages.add(chatMessage);
     chat.setChatMessages(messages);
+    chatMessageRepository.save(chatMessage);
     chatRepository.save(chat);
     return chat;
   }

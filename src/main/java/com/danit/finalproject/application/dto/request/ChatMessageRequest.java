@@ -8,5 +8,5 @@ public class ChatMessageRequest {
   private Long id;
   private String message;
   private UserRequest user;
-
+  private ChatRequest chat;
 }
