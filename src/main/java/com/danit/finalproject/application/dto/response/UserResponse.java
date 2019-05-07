@@ -17,6 +17,7 @@ public class UserResponse {
   private Gender gender;
   private String token;
   private Date tokenExpirationDate;
+  private List<ChatResponse> chats;
   private List<RoleResponse> roles;
 
 }

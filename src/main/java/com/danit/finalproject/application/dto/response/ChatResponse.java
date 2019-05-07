@@ -8,7 +8,6 @@ public class ChatResponse {
 
   private Long id;
   private String name;
-  private List<UserResponse> users;
   private List<ChatMessageResponse> chatMessages;
 
 }
