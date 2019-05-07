@@ -66,7 +66,6 @@ public class User extends BaseEntity {
   @JoinTable(name = "users_chats",
       joinColumns = {@JoinColumn(name = "user_id")},
       inverseJoinColumns = {@JoinColumn(name = "chat_id")})
-  @ToString.Exclude
   private List<Chat> chats;
 
   @OneToMany

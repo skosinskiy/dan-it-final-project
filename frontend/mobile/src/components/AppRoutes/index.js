@@ -7,6 +7,7 @@ import Registration from '../../pages/RegistrationPage/index'
 import BusinessesEvents from '../../pages/BusinessesEvents'
 import EditPlaces from '../../pages/EditPlaces/editPlaces'
 import SelectBuildings from '../../pages/SelectBuildings'
+import DialoguesPage from '../../pages/DialoguesPage'
 // import CreateChatPage from '../../pages/CreateChatPage'
 import ChatPage from '../../pages/ChatPage'
 import * as PropTypes from 'prop-types'
@@ -27,6 +28,7 @@ const AppRoutes = (props) => {
         <Route path="/home" component={SelectBuildings}/>
         <Route path="/my-places/:placeId" component={BusinessesEvents}/>
         <Route path="/news" component={NewsPage} />
+        <Route path="/dialogs" component={DialoguesPage} />
         <Route path="/messages/:chatId" component={ChatPage} />
         <Route path="/favourites" component={BusinessesEvents} />
         <Route path="/contacts" component={ContactsPage} />
