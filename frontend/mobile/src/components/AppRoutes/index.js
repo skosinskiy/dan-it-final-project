@@ -27,7 +27,7 @@ const AppRoutes = (props) => {
         <Route path="/home" component={SelectBuildings}/>
         <Route path="/my-places/:placeId" component={BusinessesEvents}/>
         <Route path="/news" component={NewsPage} />
-        <Route path="/messages" component={ChatPage} />
+        <Route path="/messages/:chatId" component={ChatPage} />
         <Route path="/favourites" component={BusinessesEvents} />
         <Route path="/contacts" component={ContactsPage} />
         <ProtectedRoute path="/" component={SelectBuildings} authenticated={!!currentUser}/>

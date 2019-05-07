@@ -22,10 +22,4 @@ public class ChatMessage extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "user_id")
   private User user;
-
-  @ManyToOne
-  @JoinColumn(name = "chat_id")
-  @ToString.Exclude
-  private Chat chat;
-
 }

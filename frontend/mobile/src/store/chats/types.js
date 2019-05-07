@@ -1,0 +1,2 @@
+export const GET_CHAT_BY_ID = 'GET_CHAT_BY_ID'
+export const CREATE_NEW_MESSAGE = 'CREATE_NEW_MESSAGE'

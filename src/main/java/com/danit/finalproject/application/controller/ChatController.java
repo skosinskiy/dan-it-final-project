@@ -29,33 +29,33 @@ public class ChatController {
   }
 
   @GetMapping("{id}")
-  public ResponseEntity<ChatResponse> getPlaceById(@PathVariable("id") Long placeId) {
+  public ResponseEntity<ChatResponse> getChatById(@PathVariable("id") Long placeId) {
     return new ResponseEntity<>(chatFacade.getById(placeId), HttpStatus.OK);
   }
 
   @GetMapping
-  public ResponseEntity<List<ChatResponse>> getAllPlaces() {
+  public ResponseEntity<List<ChatResponse>> getAllChats() {
     return new ResponseEntity<>(chatFacade.getAll(), HttpStatus.OK);
   }
 
   @PostMapping
-  public ResponseEntity<ChatResponse> createNewPlace(@RequestBody ChatRequest chatRequest) {
+  public ResponseEntity<ChatResponse> createNewChat(@RequestBody ChatRequest chatRequest) {
     return new ResponseEntity<>(chatFacade.create(chatRequest), HttpStatus.OK);
   }
 
   @PutMapping("{id}")
-  public ResponseEntity<ChatResponse> updatePlace(@RequestBody ChatRequest chatRequest, @PathVariable Long id) {
+  public ResponseEntity<ChatResponse> updateChat(@RequestBody ChatRequest chatRequest, @PathVariable Long id) {
     return new ResponseEntity<>(chatFacade.update(id, chatRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
-  public ResponseEntity<ChatResponse> deletePlace(@PathVariable("id") Long placeId) {
+  public ResponseEntity<ChatResponse> deleteChat(@PathVariable("id") Long placeId) {
     return new ResponseEntity<>(chatFacade.delete(placeId), HttpStatus.OK);
   }
 
   @PostMapping("{chatId}/messages")
   public ResponseEntity<ChatResponse> createNewMessage(
-      @PathVariable("chatId") Long chatId, ChatMessageRequest chatMessage) {
+      @PathVariable("chatId") Long chatId, @RequestBody ChatMessageRequest chatMessage) {
     return new ResponseEntity<>(chatFacade.addChatMessage(chatMessage, chatId), HttpStatus.OK);
   }
 

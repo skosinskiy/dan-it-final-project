@@ -4,8 +4,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -24,7 +26,7 @@ public class Chat extends BaseEntity {
   @ManyToMany(mappedBy = "chats")
   private List<User> users;
 
-  @OneToMany(mappedBy = "chat")
-  @ToString.Exclude
+  @OneToMany(cascade = CascadeType.ALL)
+  @JoinColumn(name = "chat_id")
   private List<ChatMessage> chatMessages = new ArrayList<>();
 }

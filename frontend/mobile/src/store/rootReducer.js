@@ -3,12 +3,14 @@ import events from './events'
 import users from './users'
 import businesses from './businesses'
 import places from './places'
+import chats from './chats'
 
 const rootReducer = combineReducers({
   users,
   events,
   businesses,
-  places
+  places,
+  chats
 })
 
 export default rootReducer
