@@ -1,38 +1,48 @@
 import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
 
-export const getAllPlaces = (page, size) => dispatch => {
+export const fetchPlaceFormData = (page = 0, size = 5) => dispatch => {
+  dispatch(ACTIONS.isPlaceFormDataLoading(true))
+  Promise.all([
+    dispatch(getAllPlaces(page, size)),
+    dispatch(getPlacesCategories())
+  ]).then(() => dispatch(ACTIONS.isPlaceFormDataLoading(false)))
+}
+
+export const getAllPlaces = (page = 0, size = 5) => dispatch => {
+  dispatch(ACTIONS.isPlacesLoading(true))
   return api.get(`/api/places?page=${page}&size=${size}`).then(res => {
     dispatch(ACTIONS.getAllPlaces(res))
+    dispatch(ACTIONS.isPlacesLoading(false))
   })
 }
 
 export const getPlacesCategories = () => dispatch => {
-  api.get(`/api/place-categories`).then(res => {
+  return api.get(`/api/place-categories`).then(res => {
     dispatch(ACTIONS.getPlacesCategories(res))
   })
 }
 
-export const deletePlace = (placeId) => dispatch => {
+export const deletePlace = (placeId, page, size) => dispatch => {
+  dispatch(ACTIONS.isPlacesLoading(true))
   api.deleteApi(`/api/places/${placeId}`).then(res => {
-    api.get(`/api/places`).then(res => {
-      dispatch(ACTIONS.getAllPlaces(res))
-    })
+    dispatch(getAllPlaces(page, size))
   })
 }
 
 export const savePlace = (place, images) => dispatch => {
+  dispatch(ACTIONS.isPlaceFormDataLoading(true))
   if (place.id) {
     const imagesToUpload = images.filter(image => !image.id)
     const existingImages = images.filter(image => image.id)
-    uploadImagesToS3(imagesToUpload)
+    return uploadImagesToS3(imagesToUpload)
       .then(uploadedImages => createPlacePhotos(uploadedImages, place.id)
         .then(createdPhotos => updatePlace(existingImages, place, createdPhotos)
           .then(() => dispatch(getAllPlaces()))
         )
       )
   } else {
-    createPlace(place)
+    return createPlace(place)
       .then(createdBusiness => uploadImagesToS3(images)
         .then(uploadedImages => createPlacePhotos(uploadedImages, createdBusiness.id)
           .then(createdPhotos => updatePlace(null, createdBusiness, createdPhotos)

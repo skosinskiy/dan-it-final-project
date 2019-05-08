@@ -3,7 +3,9 @@ import * as TYPES from './types'
 const initialState = {
   places: [],
   placeCategories: [],
-  totalElements: 0
+  totalElements: 0,
+  isPlacesLoading: false,
+  isPlaceFormDataLoading: false
 }
 
 const placesReducer = (state = initialState, action) => {
@@ -18,6 +20,16 @@ const placesReducer = (state = initialState, action) => {
       return {
         ...state,
         placeCategories: [...action.payload.placeCategories]
+      }
+    case TYPES.IS_PLACES_LOADING:
+      return {
+        ...state,
+        isPlacesLoading: action.payload
+      }
+    case TYPES.IS_PLACE_FORM_DATA_LOADING:
+      return {
+        ...state,
+        isPlaceFormDataLoading: action.payload
       }
     default:
       return {...state}

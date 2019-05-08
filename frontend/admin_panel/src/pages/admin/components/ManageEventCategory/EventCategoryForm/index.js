@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {NavLink, Redirect} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import MenuItem from '@material-ui/core/MenuItem'
-import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import {connect} from 'react-redux'
 
@@ -11,6 +10,7 @@ import Preloader from '../../../../../components/Preloader'
 import ImageUploader from '../../../../../components/ImageUploader'
 import Grid from "@material-ui/core/Grid";
 import Typography from '@material-ui/core/Typography'
+import FormButtons from "../../../../../components/FormButtons";
 
 const emptyCategory = {
   name: '',
@@ -19,7 +19,7 @@ const emptyCategory = {
 }
 
 class EventCategoryForm extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     const imageUrl = props.category !== undefined ? props.category.imageUrl : null
@@ -27,28 +27,24 @@ class EventCategoryForm extends React.Component {
 
     this.state = {
       editedCategory: props.category !== undefined ? props.category : emptyCategory,
-      eventCategoryImage: props.category !== undefined && imageUrl !== null ? [{ imageUrl, imageKey}] : [],
+      eventCategoryImage: props.category !== undefined && imageUrl !== null ? [{imageUrl, imageKey}] : [],
       isDataSubmitted: false
     }
   }
 
-  componentDidMount () {
-    const {category, match, getAllEventCategories} = this.props
-    const creatingNewCategory = !match.params.categoryId
-
-    if (!creatingNewCategory && !category) {
+  componentDidMount() {
+    const {getAllEventCategories} = this.props
       getAllEventCategories()
-    }
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.category && nextProps.category !== this.props.category) {
       const imageUrl = nextProps.category.imageUrl
       const imageKey = nextProps.category.imageKey
 
       this.setState({
         editedCategory: nextProps.category,
-        eventCategoryImage: imageUrl !== null ? [{ imageUrl, imageKey}] : []
+        eventCategoryImage: imageUrl !== null ? [{imageUrl, imageKey}] : []
       })
     }
   }
@@ -93,14 +89,14 @@ class EventCategoryForm extends React.Component {
     })
   }
 
-  render () {
+  render() {
 
     const {match, categories, isEventCategoriesLoading} = this.props
     const {editedCategory, eventCategoryImage, isDataSubmitted} = this.state
     const categoryId = match.params.categoryId
 
     if (isDataSubmitted) {
-      return <Redirect to={'/admin/event-categories'} />
+      return <Redirect to={'/admin/event-categories'}/>
     }
 
     if (isEventCategoriesLoading) {
@@ -166,24 +162,16 @@ class EventCategoryForm extends React.Component {
             <Typography gutterBottom={true} color='textSecondary'>
               Choose event category background image
             </Typography>
-            <ImageUploader  images={eventCategoryImage}
-                            onFileChange={this.onFileChange}
-                            onReset={this.onImageReset}
-                            multiple={false}/>
+            <ImageUploader images={eventCategoryImage}
+                           onFileChange={this.onFileChange}
+                           onReset={this.onImageReset}
+                           multiple={false}/>
 
-            <Grid container justify="center" spacing={8}>
-              <Grid item>
-                <Button onClick={this.saveCategory} variant='outlined' color='primary'>
-                  Save
-                </Button>
-              </Grid>
-              <Grid item>
-                <NavLink style={{textDecoration: 'none'}} to={'/admin/event-categories'}>
-                  <Button variant='outlined' color='secondary'>
-                    Cancel
-                  </Button>
-                </NavLink>
-              </Grid>
+            <Grid item xs={12}>
+              <FormButtons
+                saveFunction={this.saveCategory}
+                cancelLink={'/admin/event-categories'}
+              />
             </Grid>
           </Grid>
         </Grid>

@@ -10,4 +10,14 @@ export const getPlacesCategories = (placeCategories) => ({
   payload: {placeCategories}
 })
 
+export const isPlacesLoading = isLoading => ({
+  type: TYPES.IS_PLACES_LOADING,
+  payload: isLoading
+})
+
+export const isPlaceFormDataLoading = isLoading => ({
+  type: TYPES.IS_PLACE_FORM_DATA_LOADING,
+  payload: isLoading
+})
+
 

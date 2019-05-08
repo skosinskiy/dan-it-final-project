@@ -1,20 +1,19 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {NavLink} from 'react-router-dom'
 import {withStyles} from '@material-ui/core/styles/index'
-import Button from '@material-ui/core/Button'
 import PropTypes from 'prop-types'
 
 import {placesOperations} from 'store/places'
-import Table from "@material-ui/core/Table";
-import TableRow from "@material-ui/core/TableRow";
-import TableHead from "@material-ui/core/TableHead";
-import TableCell from "@material-ui/core/TableCell";
-import TableBody from "@material-ui/core/TableBody";
-import Paper from "@material-ui/core/Paper";
-import TableFooter from "@material-ui/core/TableFooter";
-import TablePagination from "@material-ui/core/TablePagination";
-import DeleteDialog from "../../../../../components/DeleteDialog";
+import Table from '@material-ui/core/Table'
+import TableRow from '@material-ui/core/TableRow'
+import TableHead from '@material-ui/core/TableHead'
+import TableCell from '@material-ui/core/TableCell'
+import TableBody from '@material-ui/core/TableBody'
+import Paper from '@material-ui/core/Paper'
+import TableFooter from '@material-ui/core/TableFooter'
+import TablePagination from '@material-ui/core/TablePagination'
+import TableCellButtons from '../../../../../components/TableCellButtons'
+import Preloader from "../../../../../components/Preloader";
 
 const styles = theme => ({
   root: {
@@ -24,16 +23,6 @@ const styles = theme => ({
 
   table: {
     tableLayout: 'fixed'
-  },
-
-  buttonsWrapper: {
-    display: 'flex',
-    justifyContent: 'flex-end'
-  },
-
-  button: {
-    marginRight: theme.spacing.unit,
-    textDecoration: 'none'
   }
 })
 
@@ -62,6 +51,15 @@ class PlaceTable extends Component {
     const {classes, placeList, totalElements, deletePlace} = this.props
 
     const {page, rowsPerPage} = this.state
+    const {isPlacesLoading} = this.props
+
+    if (isPlacesLoading) {
+      return (
+        <div style={{height: 'calc(100vh - 200px)'}}>
+          <Preloader/>
+        </div>
+      )
+    }
 
     return (
       <Paper className={classes.root}>
@@ -79,7 +77,7 @@ class PlaceTable extends Component {
               <TableCell>Description</TableCell>
               <TableCell>Address</TableCell>
               <TableCell>Category</TableCell>
-              <TableCell></TableCell>
+              <TableCell/>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -89,15 +87,11 @@ class PlaceTable extends Component {
                   <TableCell>{place.title}</TableCell>
                   <TableCell>{place.description}</TableCell>
                   <TableCell>{place.address}</TableCell>
-                  <TableCell>{place.placeCategory ? place.placeCategory.title : ''}</TableCell>
-                  <TableCell>
-                    <div className={classes.buttonsWrapper}>
-                      <NavLink to={`/admin/places/edit/${place.id}`} className={classes.button}>
-                        <Button variant="outlined" color="primary">Edit</Button>
-                      </NavLink>
-                      <DeleteDialog onConfirm={() => deletePlace(place.id, page, rowsPerPage)}/>
-                    </div>
-                  </TableCell>
+                  <TableCell>{place.placeCategory ? place.placeCategory.name : ''}</TableCell>
+                  <TableCellButtons
+                    editLink={`/admin/places/edit/${place.id}`}
+                    deleteFunction={() => deletePlace(place.id, page, rowsPerPage)}
+                  />
                 </TableRow>
               )
             })}
@@ -128,20 +122,22 @@ PlaceTable.propTypes = {
   getAllPlaces: PropTypes.func.isRequired,
   deletePlace: PropTypes.func.isRequired,
   placeList: PropTypes.array.isRequired,
-  totalElements: PropTypes.number.isRequired
+  totalElements: PropTypes.number.isRequired,
+  isPlacesLoading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
     placeList: state.places.places,
-    totalElements: state.places.totalElements
+    totalElements: state.places.totalElements,
+    isPlacesLoading: state.places.isPlacesLoading
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     deletePlace: (placeId, page, size) => dispatch(placesOperations.deletePlace(placeId, page, size)),
-    getAllPlaces: () => dispatch(placesOperations.getAllPlaces())
+    getAllPlaces: (page, size) => dispatch(placesOperations.getAllPlaces(page, size))
   }
 }
 
