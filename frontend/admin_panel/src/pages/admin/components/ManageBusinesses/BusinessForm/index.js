@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {NavLink, Redirect} from 'react-router-dom'
-import Button from '@material-ui/core/Button'
+import {Redirect} from 'react-router-dom'
 import TextField from '@material-ui/core/TextField'
 import {connect} from 'react-redux'
 import {placesOperations} from '../../../../../store/places'
@@ -10,6 +9,7 @@ import ImageUploader from '../../../../../components/ImageUploader'
 import Grid from '@material-ui/core/Grid'
 import MenuItem from '@material-ui/core/MenuItem'
 import Preloader from '../../../../../components/Preloader'
+import FormButtons from '../../../../../components/FormButtons'
 
 const emptyBusiness = {
   title: "",
@@ -193,19 +193,11 @@ class BusinessForm extends Component {
                          multiple={true}
           />
         </Grid>
-        <Grid container justify="center" spacing={8}>
-          <Grid item>
-            <Button onClick={this.updateBusiness} variant='outlined' color='primary'>
-              Save
-            </Button>
-          </Grid>
-          <Grid item>
-            <NavLink style={{textDecoration: 'none'}} to={'/admin/businesses'}>
-              <Button variant='outlined' color='secondary'>
-                Cancel
-              </Button>
-            </NavLink>
-          </Grid>
+        <Grid item xs={12}>
+          <FormButtons
+            saveFunction={this.updateBusiness}
+            cancelLink={'/admin/businesses'}
+          />
         </Grid>
       </Grid>
     )

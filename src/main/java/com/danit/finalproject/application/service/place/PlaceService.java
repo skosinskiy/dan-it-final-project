@@ -34,6 +34,10 @@ public class PlaceService implements CrudService<Place> {
     return placeRepository.findAll();
   }
 
+  public Page<Place> getAll(Pageable pageable) {
+    return placeRepository.findAll(pageable);
+  }
+
   @Override
   public Place create(Place place) {
     return placeRepository.save(place);
@@ -64,6 +68,11 @@ public class PlaceService implements CrudService<Place> {
     Place place = placeRepository.findById(id).orElse(null);
     if (place != null) {
       place.getPhotos().forEach(placePhoto -> placePhotoService.deletePlacePhoto(placePhoto));
+      place.getVisits().forEach(visit -> {
+        if (visit.getPlace().equals(place)) {
+          visit.setPlace(null);
+        }
+      });
     }
     placeRepository.deleteById(id);
     return place;
@@ -85,9 +94,5 @@ public class PlaceService implements CrudService<Place> {
       optionalPlacePhoto.ifPresent(photo -> placePhotoService.deletePlacePhoto(photo));
     }
     return optionalPlace.orElse(null);
-  }
-
-  public Page<Place> getAll(Pageable pageable) {
-    return placeRepository.findAll(pageable);
   }
 }

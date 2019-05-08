@@ -1,8 +1,6 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import {NavLink, Redirect} from 'react-router-dom'
-import {withStyles} from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
+import {Redirect} from 'react-router-dom'
 import TextField from '@material-ui/core/TextField'
 import {connect} from 'react-redux'
 import {eventOperations} from '../../../../../store/events'
@@ -15,34 +13,8 @@ import OutlinedInput from '@material-ui/core/OutlinedInput'
 import Preloader from '../../../../../components/Preloader'
 import Grid from '@material-ui/core/Grid'
 import MomentUtils from '@date-io/moment'
-import { MuiPickersUtilsProvider, DateTimePicker} from 'material-ui-pickers'
-
-
-const styles = theme => ({
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
-  },
-
-  buttonLink: {
-    textDecoration: 'none'
-  },
-
-  buttons: {
-    textAlign: 'center',
-    margin: theme.spacing.unit,
-    textDecoration: 'none',
-  },
-
-  button: {
-    margin: theme.spacing.unit
-  },
-
-  inputField: {
-    margin: theme.spacing.unit
-  }
-
-})
+import {MuiPickersUtilsProvider, DateTimePicker} from 'material-ui-pickers'
+import FormButtons from "../../../../../components/FormButtons";
 
 const emptyEvent = {
   title: "",
@@ -80,17 +52,18 @@ class EventForm extends Component {
     }
   }
 
-  updateEvent = (event) => {
-    event.preventDefault()
+  updateEvent = () => {
     const {saveEvent} = this.props
-    const {eventImages} = this.state
+    const {editedEvent, eventImages} = this.state
 
-    saveEvent({...this.state.editedEvent}, eventImages).then(() => {
-      this.setState({isDataSubmitted: true})
+    saveEvent(editedEvent, eventImages).then(() => {
+      this.setState({
+        isDataSubmitted: true
+      })
     })
   }
 
-  handleChange = (event, propName) => {
+  handleChange = propName => event => {
     const {businesses, places} = this.props
     if (propName === 'business') {
       this.setState({
@@ -114,7 +87,10 @@ class EventForm extends Component {
         }
       })
     } else {
-      this.setState({editedEvent: {...this.state.editedEvent, [propName]: event.target.value}})
+      this.setState({
+        editedEvent: {
+          ...this.state.editedEvent,
+          [propName]: event.target.value}})
     }
   }
 
@@ -124,11 +100,11 @@ class EventForm extends Component {
       imageKey: null
     }))
 
-    this.setState((state) => {
-      return {
-        eventImages: [...state.eventImages, ...newEventImages]
-      }
+    this.setState({
+      ...this.state,
+      eventImages: [...this.state.eventImages, ...newEventImages]
     })
+
   }
 
   onMainPhotoSelect = (selectedImage) => {
@@ -136,11 +112,9 @@ class EventForm extends Component {
       image.isMainImage = image === selectedImage
       return image
     })
-
-    this.setState(() => {
-      return {
-        eventImages: newEventImages
-      }
+    this.setState({
+      ...this.state,
+      eventImages: newEventImages
     })
   }
 
@@ -154,16 +128,17 @@ class EventForm extends Component {
 
   render() {
 
-    const {classes, match, businesses, places, eventCategories, isLoading} = this.props
+    const {businesses, places, eventCategories, isLoading} = this.props
     const {editedEvent, eventImages, isDataSubmitted} = this.state
 
-    const eventCategoriesValue = eventCategories.filter(category => editedEvent.categories.some(currentCategory => category.id === currentCategory.id))
+    const eventCategoriesValue = eventCategories
+      .filter(category => editedEvent.categories.some(currentCategory => category.id === currentCategory.id))
 
     if (isDataSubmitted) {
       return <Redirect to={'/admin/events'}/>
     }
 
-    if (isLoading || (editedEvent === emptyEvent && match.path !== '/admin/events/add-new')) {
+    if (isLoading) {
       return <Preloader/>
     }
 
@@ -191,139 +166,123 @@ class EventForm extends Component {
       ))
 
     return (
-      <div>
-        <Grid container spacing={24}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Event name'
-              fullWidth
-              variant='outlined'
-              value={editedEvent.title}
-              onChange={(e) => this.handleChange(e, 'title')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Description'
-              fullWidth
-              variant='outlined'
-              value={editedEvent.description}
-              onChange={(e) => this.handleChange(e, 'description')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Address'
-              fullWidth
-              variant='outlined'
-              value={editedEvent.address}
-              onChange={(e) => this.handleChange(e, 'address')}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <FormControl fullWidth variant="outlined">
-              <InputLabel>
-                Event Categories
-              </InputLabel>
-              <Select
-                multiple
-                value={eventCategoriesValue}
-                onChange={(e) => this.handleChange(e, 'categories')}
-                input={
-                  <OutlinedInput
-                    labelWidth={125}
-                    name="age"
-                    id="outlined"
-                  />
-                }
-              >
-                {eventCategoriesOptions}
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Business'
-              select
-              fullWidth
-              variant='outlined'
-              value={editedEvent.business ? editedEvent.business.id : ''}
-              onChange={(e) => this.handleChange(e, 'business')}
-            >
-              {businessOptions}
-            </TextField>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label='Place'
-              select
-              fullWidth
-              variant='outlined'
-              value={editedEvent.place ? editedEvent.place.id : ''}
-              onChange={(e) => this.handleChange(e, 'place')}
-            >
-              {placeOptions}
-            </TextField>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <MuiPickersUtilsProvider utils={MomentUtils}>
-              <DateTimePicker
-                ampm={false}
-                variant='outlined'
-                label="Start date"
-                fullWidth
-                disablePast
-                value={editedEvent.startDate}
-                onChange={(e) => this.handleChange(e, 'startDate')} />
-            </MuiPickersUtilsProvider>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <MuiPickersUtilsProvider utils={MomentUtils}>
-              <DateTimePicker
-                ampm={false}
-                variant='outlined'
-                fullWidth
-                label="End date"
-                disablePast
-                value={editedEvent.endDate}
-                onChange={(e) => this.handleChange(e, 'endDate')} />
-            </MuiPickersUtilsProvider>
-          </Grid>
-          <Grid item xs={12}>
-            <ImageUploader
-              images={eventImages}
-              onFileChange={this.onFileChange}
-              onReset={this.onImageReset}
-              onMainPhotoSelect={this.onMainPhotoSelect}
-              multiple={true}/>
-          </Grid>
-
-        </Grid>
-
-
-        <div className={classes.buttons}>
-          <Button
-            onClick={(e) => this.updateEvent(e)}
+      <Grid container spacing={24}>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label='Event name'
+            fullWidth
             variant='outlined'
-            color='primary'
-            className={classes.button}
+            value={editedEvent.title}
+            onChange={this.handleChange('title')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label='Description'
+            fullWidth
+            variant='outlined'
+            value={editedEvent.description}
+            onChange={this.handleChange('description')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label='Address'
+            fullWidth
+            variant='outlined'
+            value={editedEvent.address}
+            onChange={this.handleChange('address')}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel>
+              Event Categories
+            </InputLabel>
+            <Select
+              multiple
+              value={eventCategoriesValue}
+              onChange={this.handleChange('categories')}
+              input={
+                <OutlinedInput
+                  labelWidth={125}
+                  name="age"
+                  id="outlined"
+                />
+              }
+            >
+              {eventCategoriesOptions}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label='Business'
+            select
+            fullWidth
+            variant='outlined'
+            value={editedEvent.business ? editedEvent.business.id : ''}
+            onChange={this.handleChange('business')}
           >
-            Save
-          </Button>
-          <NavLink to={'/admin/events'} className={classes.buttonLink}>
-            <Button variant='outlined' color='secondary' className={classes.button}>
-              Cancel
-            </Button>
-          </NavLink>
-        </div>
-      </div>
+            {businessOptions}
+          </TextField>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            label='Place'
+            select
+            fullWidth
+            variant='outlined'
+            value={editedEvent.place ? editedEvent.place.id : ''}
+            onChange={this.handleChange('place')}
+          >
+            {placeOptions}
+          </TextField>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <MuiPickersUtilsProvider utils={MomentUtils}>
+            <DateTimePicker
+              ampm={false}
+              variant='outlined'
+              label="Start date"
+              fullWidth
+              disablePast
+              value={editedEvent.startDate}
+              onChange={this.handleChange('startDate')}/>
+          </MuiPickersUtilsProvider>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <MuiPickersUtilsProvider utils={MomentUtils}>
+            <DateTimePicker
+              ampm={false}
+              variant='outlined'
+              fullWidth
+              label="End date"
+              disablePast
+              value={editedEvent.endDate}
+              onChange={this.handleChange('endDate')}/>
+          </MuiPickersUtilsProvider>
+        </Grid>
+        <Grid item xs={12}>
+          <ImageUploader
+            images={eventImages}
+            onFileChange={this.onFileChange}
+            onReset={this.onImageReset}
+            onMainPhotoSelect={this.onMainPhotoSelect}
+            multiple={true}/>
+        </Grid>
+        <Grid item xs={12}>
+          <FormButtons
+            saveFunction={(e) => this.updateEvent(e)}
+            cancelLink={'/admin/events'}
+          />
+        </Grid>
+      </Grid>
     )
   }
 }
 
 EventForm.propTypes = {
-  classes: PropTypes.object,
   match: PropTypes.object.isRequired,
   businesses: PropTypes.array.isRequired,
   eventCategories: PropTypes.array.isRequired,
@@ -352,4 +311,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EventForm))
+export default connect(mapStateToProps, mapDispatchToProps)(EventForm)

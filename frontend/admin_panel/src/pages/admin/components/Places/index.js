@@ -28,12 +28,11 @@ class Places extends Component {
       <div className="placeList">
         <div className={classes.searchbar}>
           <SearchBar searchtype='business_by_name'/>
-          <NavLink to={'admin/places/add-new'} className={classes.button}>
+          <NavLink to={'/admin/places/add-new'} className={classes.button}>
             <Button size="large" variant="outlined" color="primary">Add new place</Button>
           </NavLink>
         </div>
         <PlaceTable/>
-
       </div>
     )
   }

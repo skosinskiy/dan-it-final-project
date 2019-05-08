@@ -4,15 +4,13 @@ import {withStyles} from '@material-ui/core/styles/index'
 import PropTypes from 'prop-types'
 
 import {eventCategoryOperations} from 'store/eventCategory'
-import TableRow from "@material-ui/core/TableRow";
-import TableCell from "@material-ui/core/TableCell";
-import {Table} from "@material-ui/core";
-import TableHead from "@material-ui/core/TableHead";
-import TableBody from "@material-ui/core/TableBody";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
-import {NavLink} from "react-router-dom";
-import DeleteDialog from "../../../../../components/DeleteDialog";
+import TableRow from '@material-ui/core/TableRow'
+import TableCell from '@material-ui/core/TableCell'
+import {Table} from '@material-ui/core'
+import TableHead from '@material-ui/core/TableHead'
+import TableBody from '@material-ui/core/TableBody'
+import Paper from '@material-ui/core/Paper'
+import TableCellButtons from '../../../../../components/TableCellButtons'
 
 const styles = theme => ({
   root: {
@@ -22,16 +20,6 @@ const styles = theme => ({
 
   table: {
     tableLayout: 'fixed'
-  },
-
-  buttonsWrapper: {
-    display: 'flex',
-    justifyContent: 'flex-end'
-  },
-
-  button: {
-    marginRight: theme.spacing.unit,
-    textDecoration: 'none'
   }
 })
 
@@ -63,14 +51,10 @@ class Events extends Component {
                 </TableCell>
                 <TableCell>{eventCategory.description}</TableCell>
                 <TableCell>{eventCategory.parentCategory ? eventCategory.parentCategory.name : ''}</TableCell>
-                <TableCell>
-                  <div className={classes.buttonsWrapper}>
-                    <NavLink className={classes.button} to={`/admin/event-categories/${eventCategory.id}`}>
-                      <Button variant="outlined" color="primary">Edit</Button>
-                    </NavLink>
-                    <DeleteDialog onConfirm={() => deleteEventCategory(eventCategory.id)} />
-                  </div>
-                </TableCell>
+                <TableCellButtons
+                  editLink={`/admin/event-categories/${eventCategory.id}`}
+                  deleteFunction={() => deleteEventCategory(eventCategory.id)}
+                />
               </TableRow>
             ))}
           </TableBody>

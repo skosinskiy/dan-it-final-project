@@ -1,21 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {NavLink} from 'react-router-dom'
 import {withStyles} from '@material-ui/core/styles'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableHead from '@material-ui/core/TableHead'
-import Button from '@material-ui/core/Button'
 import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 
 import {eventOperations} from '../../../../../store/events'
-import DeleteDialog from "../../../../../components/DeleteDialog";
-import TableFooter from "@material-ui/core/TableFooter";
-import TablePagination from "@material-ui/core/TablePagination";
-import Preloader from "../../../../../components/Preloader";
+import TableFooter from '@material-ui/core/TableFooter'
+import TablePagination from '@material-ui/core/TablePagination'
+import Preloader from '../../../../../components/Preloader'
+import TableCellButtons from '../../../../../components/TableCellButtons'
 
 const styles = theme => ({
   root: {
@@ -25,16 +23,6 @@ const styles = theme => ({
 
   table: {
     tableLayout: 'fixed'
-  },
-
-  buttonsWrapper: {
-    display: 'flex',
-    justifyContent: 'flex-end'
-  },
-
-  button: {
-    marginRight: theme.spacing.unit,
-    textDecoration: 'none'
   }
 })
 
@@ -97,11 +85,7 @@ class EventList extends React.Component {
           <TableBody>
             {eventList.map(event => {
               return (
-                <TableRow
-                  hover
-                  key={event.id}
-                >
-
+                <TableRow hover key={event.id}>
                   <TableCell>{event.title}</TableCell>
                   <TableCell>{event.description}</TableCell>
                   <TableCell>{event.address}</TableCell>
@@ -110,15 +94,10 @@ class EventList extends React.Component {
                   </TableCell>
                   <TableCell>{event.business && event.business.title}</TableCell>
                   <TableCell>{event.place && event.place.title}</TableCell>
-
-                  <TableCell>
-                    <div className={classes.buttonsWrapper}>
-                      <NavLink to={`/admin/events/edit/${event.id}`} className={classes.button}>
-                        <Button variant="outlined" color="primary">Edit</Button>
-                      </NavLink>
-                      <DeleteDialog onConfirm={() => deleteEvent(event.id, page, rowsPerPage)}/>
-                    </div>
-                  </TableCell>
+                  <TableCellButtons
+                    editLink={`/admin/events/edit/${event.id}`}
+                    deleteFunction={() => deleteEvent(event.id, page, rowsPerPage)}
+                  />
                 </TableRow>
               )
             })}
