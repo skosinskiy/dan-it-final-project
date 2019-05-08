@@ -26,7 +26,7 @@ const styles = theme => ({
   }
 })
 
-class EventList extends React.Component {
+class EventTable extends React.Component {
 
   state = {
     page: 0,
@@ -123,7 +123,7 @@ class EventList extends React.Component {
   }
 }
 
-EventList.propTypes = {
+EventTable.propTypes = {
   classes: PropTypes.object.isRequired,
   deleteEvent: PropTypes.func.isRequired,
   eventList: PropTypes.array.isRequired,
@@ -147,4 +147,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EventList))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EventTable))

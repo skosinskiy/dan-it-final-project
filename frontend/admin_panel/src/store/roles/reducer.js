@@ -2,6 +2,7 @@ import * as TYPES from './types'
 
 const initialState = {
   roles: [],
+  isRolesLoading: false
 }
 
 const rolesReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const rolesReducer = (state = initialState, action) => {
       return {
         ...state,
         roles: [...action.payload.roles]
+      }
+    case TYPES.IS_ROLES_LOADING:
+      return {
+        ...state,
+        isRolesLoading: action.payload
       }
     default:
       return {...state}
