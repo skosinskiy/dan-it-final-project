@@ -1,30 +1,31 @@
 import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
 
-export const getRoles = () => dispatch => {
+export const getAllRoles = () => dispatch => {
+  dispatch(ACTIONS.isRolesLoading(true))
   api.get(`/api/roles`).then(res => {
     dispatch(ACTIONS.getAllRoles(res))
+    dispatch(ACTIONS.isRolesLoading(false))
   })
 }
 
 export const saveNewRole = (role) => dispatch => {
-  api.post(`/api/roles`, role).then(res => {
+  return api.post(`/api/roles`, role).then(res => {
     api.get(`/api/roles`).then(res => {
       dispatch(ACTIONS.getAllRoles(res))
     })
   })
 }
 
-export const deleteRole = (roleId) => dispatch => {
+export const deleteRole = roleId => dispatch => {
+  dispatch(ACTIONS.isRolesLoading(true))
   api.deleteApi(`/api/roles/${roleId}`).then(res => {
-    api.get(`/api/roles`).then(res => {
-      dispatch(ACTIONS.getAllRoles(res))
-    })
+    dispatch(getAllRoles())
   })
 }
 
 export const updateRole = (roleId, role) => dispatch => {
-  api.put(`/api/roles/${roleId}`, role).then(res => {
+  return api.put(`/api/roles/${roleId}`, role).then(res => {
     api.get(`/api/roles`).then(res => {
       dispatch(ACTIONS.getAllRoles(res))
     })
