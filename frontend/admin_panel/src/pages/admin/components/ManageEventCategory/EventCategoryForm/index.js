@@ -121,9 +121,6 @@ class EventCategoryForm extends React.Component {
               label='Event Category Name'
               fullWidth
               variant='outlined'
-              InputLabelProps={{
-                shrink: true
-              }}
               value={editedCategory.name}
               onChange={(e) => this.handleChange(e, 'name')}
             />
@@ -133,9 +130,6 @@ class EventCategoryForm extends React.Component {
               label="Description"
               fullWidth
               variant="outlined"
-              InputLabelProps={{
-                shrink: true
-              }}
               value={editedCategory.description ? editedCategory.description : ''}
               onChange={(e) => this.handleChange(e, 'description')}
             />
@@ -147,9 +141,6 @@ class EventCategoryForm extends React.Component {
               fullWidth
               select
               variant='outlined'
-              InputLabelProps={{
-                shrink: true
-              }}
               value={editedCategory.parentCategory ? editedCategory.parentCategory.id : ''}
               onChange={(e) => this.handleChange(e, 'parentCategory')}
             >
@@ -159,13 +150,12 @@ class EventCategoryForm extends React.Component {
         </Grid>
         <Grid container spacing={24}>
           <Grid item xs={12}>
-            <Typography gutterBottom={true} color='textSecondary'>
-              Choose event category background image
-            </Typography>
             <ImageUploader images={eventCategoryImage}
                            onFileChange={this.onFileChange}
                            onReset={this.onImageReset}
-                           multiple={false}/>
+                           multiple={false}
+                           helperText='Choose event category background image'
+            />
 
             <Grid item xs={12}>
               <FormButtons
