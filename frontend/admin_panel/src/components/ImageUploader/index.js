@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Dropzone from 'react-dropzone';
+import Dropzone from 'react-dropzone'
 import classNames from 'classnames'
 
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import CloseIcon from '@material-ui/icons/CloseOutlined';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import CloseIcon from '@material-ui/icons/CloseOutlined'
 import {withStyles} from '@material-ui/core/styles'
+import Typography from '@material-ui/core/Typography'
 
 const styles = (theme) => ({
   input: {
@@ -72,49 +73,59 @@ const styles = (theme) => ({
 })
 
 const ImageUploader = (props) => {
-  const {images, classes, onReset, onFileChange, onMainPhotoSelect, multiple} = props
+  const {images, classes, onReset, onFileChange, onMainPhotoSelect, multiple, helperText} = props
   const uploadedImages = images && images.length > 0 && images.imageUrl !== null ? images.map((image, index) => {
     return (
-      <li key={`image-${index}`} className={classes.previewImageWrapper}>
-        <img  src={image.imageUrl}
-              className={classNames(classes.image, image.isMainImage && classes.mainImage)}
-              onClick={() => onMainPhotoSelect(image)}
-              alt="logo" />
-        <button className={classes.resetButton} onClick={() => onReset(image)}>
-          <CloseIcon/>
-        </button>
-      </li>
+      <>
+        <li key={`image-${index}`} className={classes.previewImageWrapper}>
+          <img src={image.imageUrl}
+               className={classNames(classes.image, image.isMainImage && classes.mainImage)}
+               onClick={() => onMainPhotoSelect(image)}
+               alt='logo'/>
+          <button className={classes.resetButton} onClick={() => onReset(image)}>
+            <CloseIcon/>
+          </button>
+        </li>
+      </>
+
     )
   }) : null
 
-
   return (
-    <Dropzone
-      multiple={multiple}
-      onDrop={onFileChange}>
-      {({getRootProps, getInputProps}) => (
-        <section className="container">
-          <div {...getRootProps({className: classes.dropzone})}>
-            <input accept='image/*' {...getInputProps()} />
-            <p>
-              <CloudUploadIcon className={classes.uploadIcon} />
-              Drag n drop some files here, or click to select files
-            </p>
-          </div>
-          { uploadedImages && <ul className={classes.imageList}>{uploadedImages}</ul> }
-        </section>
-      )}
-    </Dropzone>
+    <>
+      <Typography gutterBottom={true} color='textSecondary'>
+
+      </Typography>
+      <Dropzone
+        multiple={multiple}
+        onDrop={onFileChange}>
+        {({getRootProps, getInputProps}) => (
+          <section className='container'>
+            <div {...getRootProps({className: classes.dropzone})}>
+              <input accept='image/*' {...getInputProps()} />
+              <p style={{textAlign: 'center'}}>
+                <p>{helperText}</p>
+                <CloudUploadIcon className={classes.uploadIcon}/>
+                Drag n drop some files here, or click to select files
+              </p>
+            </div>
+            {uploadedImages && <ul className={classes.imageList}>{uploadedImages}</ul>}
+          </section>
+        )}
+      </Dropzone>
+    </>
+
   )
 }
 
 ImageUploader.propTypes = {
   classes: PropTypes.object.isRequired,
   multiple: PropTypes.bool,
-  images: PropTypes.arrayOf(PropTypes.any) ,
+  images: PropTypes.arrayOf(PropTypes.any),
   onFileChange: PropTypes.func.isRequired,
   onReset: PropTypes.func.isRequired,
-  onMainPhotoSelect: PropTypes.func
+  onMainPhotoSelect: PropTypes.func,
+  helperText: PropTypes.string
 }
 
 export default withStyles(styles)(ImageUploader)
