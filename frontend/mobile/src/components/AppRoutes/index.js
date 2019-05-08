@@ -16,7 +16,7 @@ import BottomMenu from '../BottomMenu'
 
 const AppRoutes = (props) => {
   const {currentUser} = props
-  const bottomMenu = ['/', '/login', '/registration'].includes(props.location.pathname) ? null : <BottomMenu/>
+  const bottomMenu = ['/login', '/registration'].includes(props.location.pathname) ? null : <BottomMenu/>
 
   return (
     <div className={'AppRoutes'}>
