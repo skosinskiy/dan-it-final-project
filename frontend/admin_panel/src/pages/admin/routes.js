@@ -8,16 +8,17 @@ import BusinessCategoryForm from './components/ManageBusinessCategory/BusinessCa
 import ManageEventCategories from './components/ManageEventCategory'
 import EventCategoryForm from './components/ManageEventCategory/EventCategoryForm'
 import ManagingUserRoles from './components/ManagingUserRoles'
-import Places from './components/Places'
+import Places from './components/ManagePlaces'
 import ManageBusinesses from './components/ManageBusinesses'
 import BusinessForm from './components/ManageBusinesses/BusinessForm'
-import PlaceForm from './components/Places/PlaceForm'
+import PlaceForm from './components/ManagePlaces/PlaceForm'
 import PlaceCategories from './components/ManagePlaceCategories'
 import PropTypes from 'prop-types'
 import ManagingRoles from './components/ManagingRoles'
 import RoleForm from './components/ManagingRoles/RoleForm'
 import ManageEvents from './components/ManageEvents'
 import EventForm from './components/ManageEvents/EventForm'
+import UserForm from './components/ManagingUserRoles/UserForm'
 
 class AdminRouter extends Component {
   render () {
@@ -25,8 +26,9 @@ class AdminRouter extends Component {
 
     return (
       <Switch>
-        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_USERS)} path="/admin/managing-roles" component={ManagingUserRoles} />
-        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_USERS)} path="/admin/place-categories" component={PlaceCategories} />
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_USERS)} path="/admin/users/edit/:userId" component={UserForm} />
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_USERS)} path="/admin/users" component={ManagingUserRoles} />
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACE_CATEGORIES)} path="/admin/place-categories" component={PlaceCategories} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/add-new" component={PlaceForm} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/edit/:placeId" component={PlaceForm} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places" component={Places} />

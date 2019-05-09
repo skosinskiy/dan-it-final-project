@@ -44,8 +44,8 @@ class EventTable extends React.Component {
 
   handleChangeRowsPerPage = event => {
     this.setState({ page: 0, rowsPerPage: event.target.value });
-    this.props.getAllEvents(this.state.page, event.target.value)
-  };
+    this.props.getAllEvents(0, event.target.value)
+  }
 
   render() {
     const {classes, eventList, deleteEvent, isEventDataLoading, totalElements} = this.props

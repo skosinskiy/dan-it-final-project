@@ -44,7 +44,7 @@ class BusinessTable extends React.Component {
 
   handleChangeRowsPerPage = event => {
     this.setState({ page: 0, rowsPerPage: event.target.value });
-    this.props.getAllBusinesses(this.state.page, event.target.value)
+    this.props.getAllBusinesses(0, event.target.value)
   };
 
   render() {

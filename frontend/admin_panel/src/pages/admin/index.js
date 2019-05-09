@@ -104,10 +104,6 @@ class Admin extends React.Component {
     open: true
   }
 
-  componentDidMount () {
-    this.props.getUserRolesList()
-  }
-
   handleDrawerOpen = () => {
     this.setState({open: true})
   }
@@ -179,17 +175,11 @@ class Admin extends React.Component {
 
 Admin.propTypes = {
   classes: PropTypes.object.isRequired,
-  logoutUser: PropTypes.func.isRequired,
-  getUserRolesList: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => ({
-  userRoles: state.users.userRoles
-})
-
 const mapDispatchToProps = (dispatch) => ({
-  logoutUser: () => dispatch(usersOperations.logOutUser()),
-  getUserRolesList: () => dispatch(usersOperations.getUserRoles())
+  logoutUser: () => dispatch(usersOperations.logOutUser())
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(((withStyles(styles, {withTheme: true})(Admin)))))
+export default withRouter(connect(mapDispatchToProps)(((withStyles(styles, {withTheme: true})(Admin)))))
