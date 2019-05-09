@@ -6,7 +6,6 @@ import classNames from 'classnames'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import CloseIcon from '@material-ui/icons/CloseOutlined'
 import {withStyles} from '@material-ui/core/styles'
-import Typography from '@material-ui/core/Typography'
 
 const styles = (theme) => ({
   input: {
@@ -93,9 +92,6 @@ const ImageUploader = (props) => {
 
   return (
     <>
-      <Typography gutterBottom={true} color='textSecondary'>
-
-      </Typography>
       <Dropzone
         multiple={multiple}
         onDrop={onFileChange}>
