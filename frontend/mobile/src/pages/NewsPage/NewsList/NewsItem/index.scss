@@ -1,9 +1,9 @@
 @import '../../../../styles/variables';
 .news-item {
     margin-bottom: 20px;
-    -webkit-box-shadow: 6px 4px 4px 0px rgba(0,0,0,.1);
-    -moz-box-shadow: 6px 4px 4px 0px rgba(0,0,0,.1);
-    box-shadow: 6px 4px 4px 0px rgba(0,0,0,.1);
+    -webkit-box-shadow: 6px 4px 4px 0 rgba(0,0,0,.1);
+    -moz-box-shadow: 6px 4px 4px 0 rgba(0,0,0,.1);
+    box-shadow: 6px 4px 4px 0 rgba(0,0,0,.1);
 
     &__top {
         display: flex;
@@ -27,7 +27,8 @@
         font-size: 17px;
         letter-spacing: .012em;
         text-align: left;
-        text-decoration: none;
+        cursor: pointer;
+
     }
 
     &__folder-btn {
@@ -74,7 +75,7 @@
         border-radius: 12px;
     }
 
-    &__bottom--btn {
+    &__bottom-btn {
         width: 25px;
         height: 25px;
         margin-top: 5px;

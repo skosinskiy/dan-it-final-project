@@ -57,7 +57,7 @@ class NewsPage extends Component {
       <div className="newsPage parallax-container">
         <MobileHeader bgImage={headerImage} header={'All news'} location='Kyiv'/>
         <div className='newsPage__content'>
-          <NewsList news={this.state.news} />
+          <NewsList news={this.state.rss} />
         </div>
       </div>
     )

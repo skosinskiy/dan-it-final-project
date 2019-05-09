@@ -1,3 +1,26 @@
+@import '../../../styles/variables';
+
+.news-menu {
+  display: flex;
+  justify-content: space-around;
+  margin-top: -15px;
+  padding: 30px 8px 15px;
+  background-color: $white;
+
+  &__button {
+    padding: 7px 17px;
+    background-color: $blue;
+    border-radius: 8px;
+  }
+
+  &__button--link {
+    color: $white;
+    font-size: 14px;
+    letter-spacing: -.014em;
+    text-decoration: none;
+  }
+}
+
 .NewsItems {
     margin-right: 10px;
     margin-left: -20px;
