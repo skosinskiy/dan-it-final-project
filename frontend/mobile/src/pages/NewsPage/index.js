@@ -1,5 +1,5 @@
-/* eslint-disable indent */
 import React, {Component} from 'react'
+import Parser from 'rss-parser'
 import NewsList from './NewsList'
 import MobileHeader from '../../components/MobileHeader'
 import headerImage from '../../img/NewsPage/news-menu-bg.svg'
@@ -32,15 +32,33 @@ class NewsPage extends Component {
         title: 'New place in Kiev',
         description: 'Tomorrow the office will host a flea market, everyone can take part! Bring you unnecessary things.'
       }
-    ]
+    ],
+    rss: []
   }
+
+  componentDidMount () {
+    const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'
+    const parser = new Parser()
+    const getNews = async () => {
+      let feed = await parser.parseURL(CORS_PROXY + 'euromaidanpress.com/feed')
+      console.log(feed.title)
+
+      feed.items.forEach(item => {
+        console.log(item)
+        this.setState({rss: [...this.state.rss, item]})
+      })
+    }
+
+    getNews()
+  }
+
   render () {
     return (
       <div className="newsPage parallax-container">
-            <MobileHeader bgImage={headerImage} header={'All news'} location='Kyiv'/>
-            <div className='newsPage__content'>
-              <NewsList news={this.state.news} />
-            </div>
+        <MobileHeader bgImage={headerImage} header={'All news'} location='Kyiv'/>
+        <div className='newsPage__content'>
+          <NewsList news={this.state.news} />
+        </div>
       </div>
     )
   }

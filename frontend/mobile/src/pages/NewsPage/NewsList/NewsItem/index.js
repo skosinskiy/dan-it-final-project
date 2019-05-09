@@ -3,28 +3,28 @@ import {ReactComponent as NewsItemPhoto1} from '../../../../img/NewsPage/news-me
 import './index.scss'
 
 const NewsItem = (props) => {
-  const {info: {link, title, description}} = props
-  const shortify = (description, maxlength = 100) => {
-    if (description.length < maxlength) {
-      return description
+  const {info: {link, title, contentSnippet}} = props
+  const shorten = (contentSnippet, maxLength = 200) => {
+    if (contentSnippet.length < maxLength) {
+      return contentSnippet
     }
-    return `${description.slice(0, maxlength - 3)}...`
+    return `${contentSnippet.slice(0, maxLength - 3)}...`
   }
   return (
-    <div className={'news__item'}>
-      <div className={'news__item__top'}>
-        <div className={'news__item__top__photo'}>
-          <NewsItemPhoto1 /><a href=' ' className='folder-btn' > </a>
+    <div className={'news-item'}>
+      <div className={'news-item__top'}>
+        <div className={'news-item__top-photo'}>
+          <NewsItemPhoto1 /><a href=' ' className='news-item__folder-btn' > </a>
         </div>
-        <div className={'news__item__top__text'}>
-          <a href={link} className={'news__item__top__text__title'}>{(title)}</a>
-          <a href=' ' className='save-btn' > </a>
-          <a href={link} className={'news__item__top__text__description'}>{shortify(description)}</a>
+        <div className={'news-item__top-text'}>
+          <a href={link} className={'news-item__top-text-title'}>{(title)}</a>
+          <a href=' ' className='news-item__save-btn' > </a>
+          <a href={link} className={'news-item__top-text-description'}>{shorten(contentSnippet)}</a>
         </div>
       </div>
-      <div className={'news__item__bottom'}>
-        <input className='news__item__bottom__input' type='text' placeholder='Comment' />
-        <button className='news__item__bottom__btn' />
+      <div className={'news-item__bottom'}>
+        <input className='news-item__bottom-input' type='text' placeholder='Comment' />
+        <button className='news-item__bottom-btn' />
       </div>
     </div>
   )
