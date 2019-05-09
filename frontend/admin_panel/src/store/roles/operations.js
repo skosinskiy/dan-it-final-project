@@ -3,7 +3,7 @@ import * as ACTIONS from './actions'
 
 export const getAllRoles = () => dispatch => {
   dispatch(ACTIONS.isRolesLoading(true))
-  api.get(`/api/roles`).then(res => {
+  return api.get(`/api/roles`).then(res => {
     dispatch(ACTIONS.getAllRoles(res))
     dispatch(ACTIONS.isRolesLoading(false))
   })
