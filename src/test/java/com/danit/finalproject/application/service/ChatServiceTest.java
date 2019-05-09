@@ -6,12 +6,14 @@ import com.danit.finalproject.application.entity.Gender;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.repository.ChatMessageRepository;
 import com.danit.finalproject.application.repository.ChatRepository;
+import com.danit.finalproject.application.repository.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
@@ -26,6 +28,7 @@ import static org.mockito.Mockito.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@WithMockUser(username = "first.user@test.com")
 public class ChatServiceTest {
   @Autowired
   private ChatService chatService;
@@ -33,8 +36,11 @@ public class ChatServiceTest {
   @MockBean
   protected ChatRepository chatRepository;
 
-  @Autowired
-  private ChatMessageRepository chatMessageRepository;
+  @MockBean
+  protected ChatMessageRepository chatMessageRepository;
+
+  @MockBean
+  protected UserRepository userRepository;
 
   private static Chat firtsMockChat;
   private static Chat secondMockChat;
@@ -100,7 +106,6 @@ public class ChatServiceTest {
     chatMessage1.setModifiedDate(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
                                      .parse("2019-03-12 12:00:00"));
     chatMessage1.setUser(firstMockUser);
-    chatMessage1.setChat(firtsMockChat);
 
     ChatMessage chatMessage2 = new ChatMessage();
     chatMessage2.setId(2L);
@@ -110,7 +115,6 @@ public class ChatServiceTest {
     chatMessage2.setModifiedDate(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
                                      .parse("2019-03-12 12:00:00"));
     chatMessage2.setUser(secondMockUser);
-    chatMessage2.setChat(firtsMockChat);
 
     List<ChatMessage> messages = new ArrayList<>();
     messages.add(chatMessage1);
@@ -178,7 +182,6 @@ public class ChatServiceTest {
     verify(chatRepository, times(1)).delete(secondMockChat);
   }
 
-
   @Test
   public void createNewMessage() {
     Long expectedId = 3L;
@@ -189,9 +192,13 @@ public class ChatServiceTest {
     chatMessage.setMessage(expectedTitle);
 
     when(chatRepository.findById(1L)).thenReturn(Optional.ofNullable(firtsMockChat));
+    when(userRepository.findByEmail(firstMockUser.getEmail())).thenReturn(firstMockUser);
+    when(userRepository.findByEmail(secondMockUser.getEmail())).thenReturn(secondMockUser);
+
     Chat chat = chatService.addNewMessage(chatMessage, 1L);
 
     verify(chatRepository, times(1)).save(firtsMockChat);
+    verify(chatMessageRepository, times(1)).save(chatMessage);
     assertEquals(expectedSize, chat.getChatMessages().size());
     assertEquals(expectedId, chat.getChatMessages().get(2).getId());
   }

@@ -2,9 +2,13 @@ package com.danit.finalproject.application.service;
 
 import com.danit.finalproject.application.entity.Chat;
 import com.danit.finalproject.application.entity.ChatMessage;
+import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.repository.ChatMessageRepository;
 import com.danit.finalproject.application.repository.ChatRepository;
+import com.danit.finalproject.application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,11 +18,15 @@ import java.util.stream.Collectors;
 public class ChatService implements CrudService<Chat> {
   private ChatRepository chatRepository;
   private ChatMessageRepository chatMessageRepository;
+  private UserRepository userRepository;
 
   @Autowired
-  public ChatService(ChatRepository chatRepository, ChatMessageRepository chatMessageRepository) {
+  public ChatService(ChatRepository chatRepository,
+                     ChatMessageRepository chatMessageRepository,
+                     UserRepository userRepository) {
     this.chatRepository = chatRepository;
     this.chatMessageRepository = chatMessageRepository;
+    this.userRepository = userRepository;
   }
 
   @Override
@@ -51,9 +59,10 @@ public class ChatService implements CrudService<Chat> {
 
   public Chat addNewMessage(ChatMessage chatMessage, Long chatId) {
     Chat chat = chatRepository.findById(chatId).orElse(null);
-    List<ChatMessage> messages = chat.getChatMessages();
-    messages.add(chatMessage);
-    chat.setChatMessages(messages);
+    User currentUser = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+    chatMessage.setUser(currentUser);
+    chat.getChatMessages().add(chatMessage);
+    chatMessageRepository.save(chatMessage);
     chatRepository.save(chat);
     return chat;
   }

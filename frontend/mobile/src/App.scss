@@ -39,7 +39,7 @@
   height: 100vh;
   margin: 0 auto;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: overlay;
   perspective: 1px;
 }
 
@@ -49,6 +49,8 @@
   width: 100vw;
   height: 230px;
   margin: 0 auto;
+  background-position: center;
+  background-size: cover;
   transform: translateZ(-1px) translateY(calc(-50vh + 50%)) scale(2);
 }
 
@@ -59,7 +61,7 @@
 
 ::-webkit-scrollbar-track-piece {
   width: 2px;
-  background-color: $light-grey;
+  background-color: transparent;
   border-right: 1px solid white;
   border-left: 4px solid white;
 }
