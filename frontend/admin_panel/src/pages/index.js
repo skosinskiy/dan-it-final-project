@@ -18,7 +18,7 @@ class AppRoutes extends Component {
         <Route path="/login" component={Login}/>
         <Route path="/forgot-password" component={ForgotPassword}/>
         <Route path="/reset-password" component={ResetPassword}/>
-        <ProtectedRoute path="/" component={Admin} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/admin" component={Admin} authenticated={!!currentUser}/>
       </Switch>
     )
   }

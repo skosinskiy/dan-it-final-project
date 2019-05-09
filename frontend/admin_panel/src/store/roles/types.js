@@ -1,1 +1,2 @@
 export const GET_ALL_ROLES = 'GET_ALL_ROLES'
+export const IS_ROLES_LOADING = 'IS_ROLES_LOADING'
