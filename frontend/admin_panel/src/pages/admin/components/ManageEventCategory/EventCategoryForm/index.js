@@ -8,9 +8,8 @@ import {connect} from 'react-redux'
 import {eventCategoryOperations} from 'store/eventCategory'
 import Preloader from '../../../../../components/Preloader'
 import ImageUploader from '../../../../../components/ImageUploader'
-import Grid from "@material-ui/core/Grid";
-import Typography from '@material-ui/core/Typography'
-import FormButtons from "../../../../../components/FormButtons";
+import Grid from '@material-ui/core/Grid'
+import FormButtons from '../../../../../components/FormButtons'
 
 const emptyCategory = {
   name: '',
