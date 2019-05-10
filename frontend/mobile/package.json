@@ -1,6 +1,7 @@
 {
   "name": "mobile",
   "version": "0.1.0",
+  "homepage": "/mobile",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
