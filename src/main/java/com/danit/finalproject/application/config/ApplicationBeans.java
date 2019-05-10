@@ -2,13 +2,8 @@ package com.danit.finalproject.application.config;
 
 import com.amazonaws.auth.PropertiesFileCredentialsProvider;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.danit.finalproject.application.dto.response.business.BusinessCategoryResponse;
-import com.danit.finalproject.application.entity.business.BusinessCategory;
-import com.danit.finalproject.application.service.AmazonS3Service;
-import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
