@@ -8,4 +8,6 @@ public class View {
   public static class ChatMessage {}
 
   public static class Chat {}
+
+  public static class User {}
 }
