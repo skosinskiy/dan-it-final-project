@@ -79,4 +79,9 @@ public class ChatService implements CrudService<Chat> {
     chatRepository.save(chat);
     return chat;
   }
+
+  public List<Chat> getAllChatsForUser(Long userId) {
+    User user = userRepository.findById(userId).orElse(null);
+    return chatRepository.findAllByUsers(user);
+  }
 }
