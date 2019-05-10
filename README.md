@@ -4,8 +4,6 @@
 [![codecov](https://codecov.io/gh/skosinskiy/dan-it-final-project/branch/master/graph/badge.svg)](https://codecov.io/gh/skosinskiy/dan-it-final-project)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=skosinskiy_dan-it-final-project&metric=alert_status)](https://sonarcloud.io/dashboard?id=skosinskiy_dan-it-final-project)
 
-#### e-mails
+#### Swagger Documentation:
 
-1. a.i.danilishin@gmails.com
-
-2. stanislav.kosinski@gmail.com
+http://localhost:9000/swagger-ui.html
