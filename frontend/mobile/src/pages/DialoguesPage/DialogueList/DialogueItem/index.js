@@ -3,6 +3,14 @@ import {NavLink} from 'react-router-dom'
 import icon1 from '../../../../img/DialoguesPage/dialogue-icon1.jpg'
 import './dialogue-item.scss'
 
+const defaultMessage = {
+  message: '',
+  createdDate: '',
+  user: {
+    firstName: ''
+  }
+}
+
 class DialoguesItem extends Component {
   state = {
     newMSG: true
@@ -10,7 +18,8 @@ class DialoguesItem extends Component {
   render () {
     const {newMSG} = this.state
     const {image, name, chatMessages, id} = this.props.item
-    const {message, createdDate, user} = chatMessages[chatMessages.length - 1]
+    const lastMessage = chatMessages.length === 0 ? defaultMessage : chatMessages[chatMessages.length - 1]
+    const {message, createdDate, user} = lastMessage
     const messageDate = createdDate.slice(0, 10) + ' ' + createdDate.slice(11, 16)
     const chatImg = image || icon1
     return (

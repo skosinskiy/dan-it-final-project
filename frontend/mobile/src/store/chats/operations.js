@@ -39,3 +39,7 @@ export const getAllChatsForCurrentUser = (userId) => dispatch => {
     })
   })
 }
+
+export const createNewChat = (chat) => dispatch => {
+  api.post('/api/chats', chat)
+}

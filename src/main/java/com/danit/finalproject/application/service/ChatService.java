@@ -41,7 +41,16 @@ public class ChatService implements CrudService<Chat> {
 
   @Override
   public Chat create(Chat chat) {
-    return chatRepository.save(chat);
+    Chat newChat = chatRepository.save(chat);
+    List<User> users = newChat.getUsers();
+    users.stream().forEach(user -> {
+      User currentUser = userRepository.findById(user.getId()).orElse(null);
+      List<Chat> chats = currentUser.getChats();
+      chats.add(newChat);
+      currentUser.setChats(chats);
+      userRepository.save(currentUser);
+    });
+    return newChat;
   }
 
   @Override

@@ -70,6 +70,17 @@ VALUES
   (2, 8),
   (2, 4);
 
+INSERT INTO user_friends
+  (user_id, friend_id)
+VALUES
+  (1, 2),
+  (1, 3),
+  (1, 4),
+  (1, 6),
+  (1, 7),
+  (1, 8),
+  (1, 5);
+
 -- place
 
 INSERT INTO places_categories

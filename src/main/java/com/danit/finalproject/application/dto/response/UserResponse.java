@@ -27,5 +27,9 @@ public class UserResponse {
   @EqualsAndHashCode.Exclude
   private List<ChatResponse> chats;
   private List<RoleResponse> roles;
+  @JsonView(View.User.class)
+  @ToString.Exclude
+  @EqualsAndHashCode.Exclude
+  private List<UserResponse> friends;
 
 }
