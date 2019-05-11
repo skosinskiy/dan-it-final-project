@@ -69,7 +69,7 @@ class Login extends Component {
     const {classes, currentUser} = this.props
 
     if (currentUser) {
-      return <Redirect to={'/'}/>
+      return <Redirect to={'/admin'}/>
     }
 
     return (

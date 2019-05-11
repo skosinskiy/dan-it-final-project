@@ -11,14 +11,14 @@ export const isEventDataLoading = (isLoading) => ({
 })
 
 
-export const getAllEvents = ({eventList}) => ({
+export const getAllEvents = (res) => ({
   type: TYPES.GET_ALL_EVENTS,
-  payload: {eventList}
+  payload: res
 })
 
-export const getEventsByParam = ({eventList}) => ({
+export const getEventsByParam = (res) => ({
   type: TYPES.GET_EVENTS_BY_PLACE_ID,
-  payload: {eventList}
+  payload: res
 })
 
 export const getEventsError = error => ({
