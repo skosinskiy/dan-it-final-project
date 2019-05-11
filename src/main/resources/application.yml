@@ -51,3 +51,8 @@ react:
       3000
     host:
       localhost
+aws:
+  s3:
+    credentials:
+      path:
+        /home/ubuntu/aws/s3/credentials
