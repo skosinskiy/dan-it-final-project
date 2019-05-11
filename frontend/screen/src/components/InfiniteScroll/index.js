@@ -4,7 +4,7 @@ import Preloader from '../Preloader'
 
 class InfiniteScroll extends Component {
   static propTypes = {
-    direction: PropTypes.string,
+    isHorizontal: PropTypes.bool,
     scrollTo: PropTypes.number,
     totalItems: PropTypes.number,
     currentItems: PropTypes.number,
@@ -17,6 +17,7 @@ class InfiniteScroll extends Component {
     const clientHeignt = this.refs.myscroll.clientHeight
     const scrollTop = parseInt(this.refs.myscroll.scrollTop)
     const scrollHeight = this.refs.myscroll.scrollHeight * this.props.scrollTo
+    console.log('gogogo')
     if (scrollTop + clientHeignt >= scrollHeight) {
       this.loadMore()
     }
@@ -32,6 +33,12 @@ class InfiniteScroll extends Component {
   render () {
     return (
       <div
+        style={
+          {
+            height: '400px',
+            overflow: "auto"
+          }
+        }
         ref='myscroll'
         onScroll={this.handleScroll}
       >
@@ -45,7 +52,7 @@ class InfiniteScroll extends Component {
 export default InfiniteScroll;
 
 InfiniteScroll.defaultProps = {
-  direction: 'vertical',
+  isHorizontal: false,
   scrollTo: 0.9,
   currentItems: 4,
   totalItems: 10,
