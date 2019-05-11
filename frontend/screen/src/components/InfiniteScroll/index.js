@@ -23,8 +23,8 @@ class InfiniteScroll extends Component {
     }
   }
   
-  loadMore() {
-    if(this.props.isLoading || this.props.currentItems >= this.props.totalItems) {
+  loadMore () {
+    if (this.props.isLoading || this.props.currentItems >= this.props.totalItems) {
       return
     }
     this.props.fetchMore(this.props.currentItems + 1)
@@ -36,7 +36,7 @@ class InfiniteScroll extends Component {
         style={
           {
             height: '400px',
-            overflow: "auto"
+            overflow: 'auto'
           }
         }
         ref='myscroll'
@@ -49,7 +49,7 @@ class InfiniteScroll extends Component {
   }
 }
 
-export default InfiniteScroll;
+export default InfiniteScroll
 
 InfiniteScroll.defaultProps = {
   scrollTo: 0.9,
