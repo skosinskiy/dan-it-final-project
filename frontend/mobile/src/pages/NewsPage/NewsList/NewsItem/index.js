@@ -2,17 +2,15 @@ import React from 'react'
 import './index.scss'
 
 function parseImageUrl (str) {
-  let imgIndex = str.indexOf('<img')
-  let substring = str.slice(imgIndex)
-  let startIndex = substring.indexOf(`src="`)
-  let urlSubstring = substring.slice(startIndex + 5)
-  let endIndex = urlSubstring.indexOf(`"`)
+  const substring = str.slice(str.indexOf('<img'))
+  const urlSubstring = substring.slice(substring.indexOf(`src="`) + 5)
+  const endIndex = urlSubstring.indexOf(`"`)
   return urlSubstring.slice(0, endIndex)
 }
 
 const NewsItem = (props) => {
   const {info: {link, title, contentSnippet, content}} = props
-  const shorten = (contentSnippet, maxLength = 160) => {
+  const shorten = (contentSnippet, maxLength = 300) => {
     if (contentSnippet.length < maxLength) {
       return contentSnippet
     }
@@ -22,9 +20,7 @@ const NewsItem = (props) => {
   return (
     <div className='news-item'>
       <div className='news-item__top'>
-        <div className='news-item__top-photo'>
-          <img src={parseImageUrl(content)} align="middle" width="165" height="223" alt=" "/>
-        </div>
+        <img className='news-item__news-image' src={parseImageUrl(content)} alt=' ' />
         <div className={'news-item__top-text'}>
           <a href={link} className={'news-item__top-text-title'}>{(title)}</a>
           <a href=' ' className='news-item__save-btn' > </a>

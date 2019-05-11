@@ -14,8 +14,7 @@
     "react-select": "^2.4.3",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "rss-parser": "^3.7.0",
-    "styled-components": "^4.2.0"
+    "rss-parser": "^3.7.0"
   },
   "devDependencies": {
     "node-sass": "^4.11.0",

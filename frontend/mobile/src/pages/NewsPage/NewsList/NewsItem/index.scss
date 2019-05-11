@@ -6,18 +6,19 @@
     box-shadow: 6px 4px 4px 0 rgba(0,0,0,.1);
 
     &__top {
-        display: flex;
-    }
-
-    &__top-photo {
-        position: relative;
+      display: flex;
     }
 
     &__top-text {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        padding: 0 16px;
+      display: flex;
+      flex-direction: column;
+      padding: 0 16px;
+    }
+
+    &__news-image{
+      object-fit: cover;
+      width: 165px;
+      height: 223px;
     }
 
     &__top-text-title {
@@ -53,7 +54,7 @@
         background-repeat: no-repeat;
     }
 
-    .__top-text-description {
+    &__top-text-description {
         padding-top: 25px;
         color: $black;
         font-size: 14px;
