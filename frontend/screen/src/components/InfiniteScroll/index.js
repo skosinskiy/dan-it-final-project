@@ -1,20 +1,16 @@
 import React, { Component } from 'react'
-import Preloader from '../Preloader'
 import PropTypes from 'prop-types'
-import BusinessItem from '../BusinessList/BusinessItem'
+import Preloader from '../Preloader'
 
 class InfiniteScroll extends Component {
   static propTypes = {
     direction: PropTypes.string,
     scrollTo: PropTypes.number,
-    firstLoad: PropTypes.number,
     totalItems: PropTypes.number,
-    loadMore: PropTypes.func
-  }
-  
-  componentDidMount () {
-    const {getBusinessByAmount} = this.props
-    getBusinessByAmount(5)
+    currentItems: PropTypes.number,
+    fetchMore: PropTypes.func,
+    hasMore: PropTypes.bool,
+    loader: PropTypes.element
   }
   
   handleScroll = () => {
@@ -26,40 +22,33 @@ class InfiniteScroll extends Component {
     }
   }
   
-  loadItems = () => {
-    return this.props.businessList.map((business) => {
-      return <BusinessItem key={business.id} business={business}/>
-    })
-  }
-  
-  loadMore () {
-    const {isLoading, totalItems, currentItems, getBusinessByAmount} = this.props
-    if (isLoading || currentItems >= totalItems) {
+  loadMore() {
+    if(this.props.currentItems >= this.props.totalItems) {
       return
     }
-    getBusinessByAmount(currentItems + 1)
+    this.props.fetchMore(this.props.currentItems + 1)
   }
   
   render () {
-    const {isLoading} = this.props
-    const businessList = this.loadItems()
-
     return (
       <div
         ref='myscroll'
         onScroll={this.handleScroll}
       >
         {this.props.children}
-        {isLoading && <Preloader/>}
+        {/*{isLoading && <Preloader/>}*/}
       </div>
     )
   }
 }
 
-export default InfiniteScroll
+export default InfiniteScroll;
 
 InfiniteScroll.defaultProps = {
   direction: 'vertical',
   scrollTo: 0.9,
-  firstLoad: 5,
+  currentItems: 4,
+  totalItems: 10,
+  hasMore: true,
+  loader: <Preloader/>
 }

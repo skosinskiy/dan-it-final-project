@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import * as businessOperations from '../../../store/businesses/operations'
 import './services.scss'
 import Preloader from '../../Preloader'
+import InfiniteScroll from '../../InfiniteScroll'
 
 class Services extends Component {
   componentDidMount () {
@@ -41,13 +42,22 @@ class Services extends Component {
     return (
       <>
         <h1>Services</h1>
-        <div
-          ref='myscroll'
-          onScroll={this.handleScroll}
-          className="businesses-list">
+        {/*<div*/}
+          {/*ref='myscroll'*/}
+          {/*onScroll={this.handleScroll}*/}
+          {/*className="businesses-list">*/}
+          {/*{businessList}*/}
+          {/*{isLoading && <Preloader/>}*/}
+        {/*</div>*/}
+        <InfiniteScroll
+          scrollTo={0.9}
+          totalItems={this.props.totalItems}
+          currentItems={businessList.length}
+          fetchMore={this.props.getBusinessByAmount}
+          hasMore={true}
+        >
           {businessList}
-          {isLoading && <Preloader/>}
-        </div>
+        </InfiniteScroll>
       </>
     )
   }
