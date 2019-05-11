@@ -5,10 +5,13 @@ import com.danit.finalproject.application.dto.request.event.EventRequest;
 import com.danit.finalproject.application.dto.response.event.EventResponse;
 import com.danit.finalproject.application.dto.view.View;
 import com.danit.finalproject.application.facade.event.EventFacade;
+
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,13 +43,13 @@ public class EventController {
   }
 
   @GetMapping
-  @JsonView(View.class)
-  public ResponseEntity<List<EventResponse>> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(
-      @RequestParam(value = "placeId", required = false) Long placeId,
-      @RequestParam(value = "businessId", required = false) Long businessId,
-      @RequestParam(required = false) String searchParam) {
+  @JsonView(View.Event.class)
+  public ResponseEntity<Page<EventResponse>> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(
+      @RequestParam(required = false) String searchParam, Pageable pageable) {
     return new ResponseEntity<>(eventFacade.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(
-        placeId, businessId, searchParam), HttpStatus.OK);
+        searchParam,
+        pageable),
+        HttpStatus.OK);
   }
 
   @PostMapping

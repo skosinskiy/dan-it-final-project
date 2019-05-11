@@ -1,67 +1,46 @@
 import React, {Component} from 'react'
 import SearchBar from '../Searchbar'
-import EventsList from './EventsList'
+import EventsTable from './EventTable'
 import Button from '@material-ui/core/Button'
 import {NavLink} from 'react-router-dom'
+import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import {eventOperations} from "../../../../store/events";
-import {connect} from "react-redux";
-import Preloader from "../../../../components/Preloader";
-import PropTypes from "prop-types";
 
 const styles = theme => ({
-  buttons: {
+  button: {
     textDecoration: 'none',
-    margin: theme.spacing.unit,
-    'min-width': '227px',
-    height: '100%'
+  },
+
+  searchbar: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   }
 })
 
 class ManagingEvents extends Component {
 
-  componentDidMount () {
-    this.props.getAllEvents()
-  }
-
   render () {
 
-    const {classes, isLoading} = this.props
-    if (isLoading) {
-      return <Preloader/>
-    }
+    const {classes} = this.props
 
     return (
       <div>
-        <div className='searchbar-flexbox'>
+        <div className={classes.searchbar}>
           <SearchBar searchtype='event_by_title' />
-          <NavLink to={'/admin/events/add-new'} className={classes.buttonLink}>
-            <Button size="large" variant="contained" color="primary" className={classes.button}>Add new event</Button>
+          <NavLink to={'/admin/events/add-new'} className={classes.button}>
+            <Button size="large" variant="outlined" color="primary">Add new event</Button>
           </NavLink>
         </div>
 
-        <EventsList />
+        <EventsTable />
       </div>
     )
   }
 }
 
 ManagingEvents.propTypes = {
-  classes: PropTypes.object.isRequired,
-  getAllEvents: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired
+  classes: PropTypes.object.isRequired
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isLoading: state.events.isEventDataLoading,
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getAllEvents: () => dispatch(eventOperations.getAllEvents())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ManagingEvents))
+export default withStyles(styles)(ManagingEvents)

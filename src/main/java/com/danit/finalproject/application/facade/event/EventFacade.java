@@ -7,10 +7,13 @@ import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.event.EventPhoto;
 import com.danit.finalproject.application.facade.AbstractDtoFacade;
 import com.danit.finalproject.application.service.event.EventService;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,9 +26,11 @@ public class EventFacade extends AbstractDtoFacade<Event, EventRequest, EventRes
     this.eventService = eventService;
   }
 
-  public List<EventResponse> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(Long placeId, Long businessId, String
-      searchParam) {
-    List<Event> events = eventService.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(placeId, businessId, searchParam);
+  public Page<EventResponse> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(
+      String searchParam,
+      Pageable pageable
+  ) {
+    Page<Event> events = eventService.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(searchParam, pageable);
     return mapEntityListToResponseDtoList(events);
   }
 

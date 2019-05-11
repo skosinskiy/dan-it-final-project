@@ -1,73 +1,43 @@
 import React, {Component} from 'react'
-import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import {withStyles} from '@material-ui/core/styles'
-import List from '@material-ui/core/List'
 import Button from '@material-ui/core/Button'
 
-import {roleOperations} from '../../../../store/roles'
-import RoleItem from './RoleItem'
+import RolesTable from './RolesTable'
 
 const styles = theme => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper
+  button: {
+    textDecoration: 'none',
   },
 
-  buttons: {
-    textDecoration: 'none',
-    marginRight: '10px'
-  },
-  buttonContainer: {
-    textAlign: 'center',
-    marginTop: '50px'
+  searchbar: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignItems: 'center'
   }
 })
 
 class Roles extends Component {
-  componentDidMount () {
-    const {getAllRoles} = this.props
-    getAllRoles()
-  }
 
   render () {
-    const {classes, roles} = this.props
-    const rolesList = roles.map((role) => {
-      return <RoleItem key={role.id} role={role}/>
-    })
+    const {classes} = this.props
     return (
-      <div className="placeList">
-        <List className={classes.root}>
-          {rolesList}
-        </List>
-        <div className={classes.buttonContainer}>
-          <NavLink to={'/admin/roles/add-new'} className={classes.buttons}>
-            <Button variant="contained" color="primary" className={classes.button}>Add New Role</Button>
+      <div>
+        <div className={classes.searchbar}>
+          <NavLink to={'/admin/roles/add-new'} className={classes.button}>
+            <Button size="large" variant="outlined" color="primary">Add new role</Button>
           </NavLink>
         </div>
+        <RolesTable/>
       </div>
     )
   }
 }
 
 Roles.propTypes = {
-  classes: PropTypes.object.isRequired,
-  getAllRoles: PropTypes.func.isRequired,
-  roles: PropTypes.array.isRequired,
+  classes: PropTypes.object.isRequired
 }
 
-const mapStateToProps = (state) => {
-  return {
-    roles: [...state.roles.roles]
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getAllRoles: () => dispatch(roleOperations.getRoles())
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Roles))
+export default withStyles(styles)(Roles)

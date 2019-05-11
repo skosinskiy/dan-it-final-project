@@ -28,6 +28,7 @@ import com.danit.finalproject.application.service.place.PlaceService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -100,9 +101,9 @@ public class EventControllerTest {
     MvcResult result = mockMvc.perform(get("/api/events?searchParam=event-1"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<EventResponse> events = objectMapper.readValue(responseBody, new TypeReference<List<EventResponse>>(){});
+    HashMap<String, Object> events = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>(){});
 
-    assertEquals(expectedSize, events.size());
+    assertEquals(expectedSize, ((List)events.get("content")).size());
   }
 
   @Test
