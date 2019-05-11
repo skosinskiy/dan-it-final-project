@@ -31,6 +31,7 @@ class Services extends Component {
           currentItems={businessList.length}
           fetchMore={this.props.getBusinessByAmount}
           hasMore={true}
+          isLoading={isLoading}
         >
           {businessList}
         </InfiniteScroll>
