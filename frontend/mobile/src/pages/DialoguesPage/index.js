@@ -19,7 +19,7 @@ class DialoguesPage extends Component {
     if (!isChatsLoaded) {
       return <Preloader/>
     }
-    
+
     return (
       <div className='dialogue-page'>
         <div className='dialogue-page__header'>
@@ -34,7 +34,7 @@ class DialoguesPage extends Component {
 }
 
 DialoguesPage.propTypes = {
-  currentUser: PropTypes.object.isRequired,
+  currentUser: PropTypes.object,
   isCurrentUserLoading: PropTypes.bool.isRequired
 }
 
