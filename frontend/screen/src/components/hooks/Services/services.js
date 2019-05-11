@@ -3,7 +3,6 @@ import BusinessItem from '../../BusinessList/BusinessItem'
 import { connect } from 'react-redux'
 import * as businessOperations from '../../../store/businesses/operations'
 import './services.scss'
-import Preloader from '../../Preloader'
 import InfiniteScroll from '../../InfiniteScroll'
 
 class Services extends Component {
