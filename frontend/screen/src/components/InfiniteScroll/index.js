@@ -4,27 +4,27 @@ import Preloader from '../Preloader'
 
 class InfiniteScroll extends Component {
   static propTypes = {
-    isHorizontal: PropTypes.bool,
     scrollTo: PropTypes.number,
     totalItems: PropTypes.number,
     currentItems: PropTypes.number,
     fetchMore: PropTypes.func,
     hasMore: PropTypes.bool,
-    loader: PropTypes.element
+    loader: PropTypes.element,
+    isLoading: PropTypes.bool
   }
   
   handleScroll = () => {
     const clientHeignt = this.refs.myscroll.clientHeight
     const scrollTop = parseInt(this.refs.myscroll.scrollTop)
     const scrollHeight = this.refs.myscroll.scrollHeight * this.props.scrollTo
-    console.log('gogogo')
+    
     if (scrollTop + clientHeignt >= scrollHeight) {
       this.loadMore()
     }
   }
   
   loadMore() {
-    if(this.props.currentItems >= this.props.totalItems) {
+    if(this.props.isLoading || this.props.currentItems >= this.props.totalItems) {
       return
     }
     this.props.fetchMore(this.props.currentItems + 1)
@@ -43,7 +43,7 @@ class InfiniteScroll extends Component {
         onScroll={this.handleScroll}
       >
         {this.props.children}
-        {/*{isLoading && <Preloader/>}*/}
+        {this.props.isLoading && <Preloader/>}
       </div>
     )
   }
@@ -52,10 +52,10 @@ class InfiniteScroll extends Component {
 export default InfiniteScroll;
 
 InfiniteScroll.defaultProps = {
-  isHorizontal: false,
   scrollTo: 0.9,
   currentItems: 4,
   totalItems: 10,
   hasMore: true,
-  loader: <Preloader/>
+  loader: <Preloader/>,
+  isLoading: false
 }
