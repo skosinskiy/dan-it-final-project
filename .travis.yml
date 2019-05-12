@@ -12,7 +12,7 @@ cache:
 #    - frontend/screen/node_modules/
 
 script:
-  - mvn clean package --Dmaven.test.skip=true
+  - mvn clean package -DskipTests=true
 #  - sonar-scanner
 after_success:
 #  - bash <(curl -s https://codecov.io/bash)
