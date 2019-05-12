@@ -1,163 +1,90 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import Checkbox from '@material-ui/core/Checkbox';
-import { placesCategoriesOperations } from 'store/placeCategory'
-import { connect } from 'react-redux'
-import AddButton from './components/Buttons/Add'
-import SubmitButton from './components/Buttons/Submit'
-import Name from './components/Name'
-import DeleteButton from './components/Buttons/Delete'
-import MultiSelect from './components/MultiSelect'
-import LayuoutMultiSelect from './components/LayoutMultiSelect'
-import { EnhancedTableHead } from './components/EnhancedTableHead'
-import EnhancedTableToolbar from './components/EnhancedTableToolbar'
-import './index.scss'
-import ResetButton from './components/Buttons/Reset'
-import Desciption from './components/Description';
-import layoutItems from 'constants/layoutItems'
+import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import {withStyles} from '@material-ui/core/styles/index'
+import PropTypes from 'prop-types'
+import {eventCategoryOperations} from 'store/eventCategory'
+import TableRow from '@material-ui/core/TableRow'
+import TableCell from '@material-ui/core/TableCell'
+import {Table} from '@material-ui/core'
+import TableHead from '@material-ui/core/TableHead'
+import TableBody from '@material-ui/core/TableBody'
+import Paper from '@material-ui/core/Paper'
+//import TableCellButtons from '../../../../../components/TableCellButtons'
 
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing.unit * 3
   },
+
   table: {
-    minWidth: 1020,
-  },
-  tableWrapper: {
-    overflowX: 'auto',
-  },
-});
-
-const allLayoutItems = Object.values(layoutItems)
-
-class PlaceCategoryTable extends React.Component {
-
-  handleChange = (key) => {
-    this.props.updateChanged(key, this.props.placeCategories)
+    tableLayout: 'fixed'
   }
+})
 
-  checkBoxTypes = {
-    MULTISYNC: 'multisync',
-    ALLOW_MESSAGES: 'allowMessages',
-  }
-
-  handleClickCheckBox = (key, checkBoxType) => {
-    this.handleChange(key)
-    this.props.toggleCheckBox(key, checkBoxType, this.props.placeCategories)
-  }
-
-  handleClickMultisync = (key) => {
-    this.handleClickCheckBox(key, this.checkBoxTypes.MULTISYNC)
-  }
-
-  handleClickAllowMessages = (key) => {
-    this.handleClickCheckBox(key, this.checkBoxTypes.ALLOW_MESSAGES)
-  }
-
-  render() {
-    const { classes, placeCategories } = this.props;
-    const emptyRows = 1;
+class PlaceCategories extends Component {
+  render () {
+    // const {classes, deletePlaceCategory, placeCategories} = this.props
+    const {classes} = this.props
+    const rows = [
+      { id: 'allowMessages', label: 'Allow Messages?' },
+      { id: 'name', label: 'Name' },
+      { id: 'businessCategories', label: 'BusinessCategories' },
+      { id: 'layoutItems', label: 'LayoutItems' },
+      { id: 'buttons', label: '' },
+    ];
     return (
-      <div className={classes.root}>
-        <EnhancedTableToolbar />
-        <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby="tableTitle">
-            <EnhancedTableHead
-              rowCount={placeCategories.length * 2}
-            />
-            <TableBody>
-              {
-                placeCategories.map(placeCategory => {
-                  const {multisync, allowMessages, layoutItems, businessCategories: selectedBusinessCategories, name, key,
-                    description} = placeCategory
-                  return (
-                    <Fragment key={key * Math.random()}>
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={key}
-                        style={{borderBottomStyle: "hidden"}}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={multisync} onClick={() => this.handleClickMultisync(key)} />
-                        </TableCell>
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={allowMessages} onClick={() => this.handleClickAllowMessages(key)} />
-                        </TableCell>
-                        <TableCell scope="row" padding="none">
-                          <Name name={name} placeCategoryKey={key} />
-                        </TableCell>
-                        <TableCell scope="row" padding="none">
-                          <MultiSelect
-                            selectedBusinessCategories={selectedBusinessCategories}
-                            placeCategoryKey={key}
-                          />
-                        </TableCell>
-                        <TableCell scope="row" padding="none">
-                          <LayuoutMultiSelect
-                            selectedMenuItems={layoutItems ? layoutItems : []}
-                            placeCategoryKey={key}
-                            allNames={allLayoutItems}
-                            flag={'layoutItem'}
-                          />
-                        </TableCell>
-                        <TableCell scope="row" padding="none">
-                          <DeleteButton placeCategoryKey={key} />
-                        </TableCell>
-                      </TableRow>
-                      <Desciption _Key={key} description={description}/>
-                    </Fragment>
-                  );
-                })
-              }
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 49 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-        <div className='buttons'>
-          <AddButton />
-          <SubmitButton />
-          <ResetButton />
-        </div>
-      </div>
-    );
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
+          <colgroup>
+            {rows.map((row, i) => (
+              <col key={'header' + i} style={{width:`${0 | 100 / rows.length}%`}}/>
+            ))}
+          </colgroup>
+          <TableHead>
+            <TableRow>
+              {rows.map((row, i) => (
+                <TableCell key={'label' + i}>{row.label}</TableCell>
+              ))}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {/* {placeCategories.map(placeCategory => (
+              <TableRow key={placeCategory.id} hover>
+                <TableCell component="th" scope="row">
+                  {placeCategory.name}
+                </TableCell>
+                <TableCell>{placeCategory.description}</TableCell>
+                <TableCell>{placeCategory.parentCategory ? eventCategory.parentCategory.name : ''}</TableCell>
+                <TableCellButtons
+                  editLink={`/admin/event-categories/${eventCategory.id}`}
+                  deleteFunction={() => deleteEventCategory(eventCategory.id)}
+                />
+              </TableRow>
+            ))} */}
+          </TableBody>
+        </Table>
+      </Paper>
+    )
   }
 }
 
-PlaceCategoryTable.propTypes = {
+PlaceCategories.propTypes = {
   classes: PropTypes.object.isRequired,
-  placeCategories: PropTypes.array.isRequired,
-  toggleCheckBox: PropTypes.func.isRequired,
-  updateChanged: PropTypes.func.isRequired,
-  fetchParentBusinessCategories: PropTypes.func.isRequired,
-  updateDescription: PropTypes.func.isRequired,
+  deleteEventCategory: PropTypes.func.isRequired,
+  eventCategories: PropTypes.array.isRequired
 }
 
-const mapStateToProps = ({ placeCategories }) => ({
-  classes: placeCategories.classes,
-  placeCategories: placeCategories.placeCategories,
-})
+const mapStateToProps = ({eventCategory}) => {
+  return {
+    eventCategories: eventCategory.allEventCategories
+  }
+}
 
-const mapDispatchToProps = dispatch => ({
-  updateChanged: (key, placeCategories) =>
-    dispatch(placesCategoriesOperations.updateChanged(key, placeCategories)),
-  toggleCheckBox: (key, checkBoxType, placeCategories) =>
-    dispatch(placesCategoriesOperations.toggleCheckBox(key, checkBoxType, placeCategories)),
-  fetchParentBusinessCategories: () =>
-    dispatch(placesCategoriesOperations.fetchParentBusinessCategories()),
-  updateDescription: (key, placeCategories, value) =>
-    dispatch(placesCategoriesOperations.updateDescription(key, placeCategories, value))
-})
+const mapDispatchToProps = (dispatch) => {
+  return {
+    deleteEventCategory: (categoryId) => dispatch(eventCategoryOperations.deleteEventCategory(categoryId))
+  }
+}
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PlaceCategoryTable))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PlaceCategories))

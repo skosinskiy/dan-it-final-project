@@ -87,6 +87,7 @@ class MultipleSelect extends React.Component {
         <FormControl className={classes.formControl} fullWidth>
           <InputLabel htmlFor="select-multiple-chip"></InputLabel>
           <Select
+            disableUnderline
             multiple
             value={this.state.name}
             onChange={this.handleChange}
