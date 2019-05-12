@@ -19,7 +19,7 @@ after_success:
   - echo $TRAVIS_BRANCH
   - echo $TRAVIS_PULL_REQUEST
   - |
-    if [ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST != "false" ]
+    if [ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST != "false" ]
     then
       echo 'Sending jar file'
       curl -X POST http://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9002/deploy/master -F 'jar=@/home/travis/build/skosinskiy/dan-it-final-project/target/final-project-0.0.1-SNAPSHOT.jar'
