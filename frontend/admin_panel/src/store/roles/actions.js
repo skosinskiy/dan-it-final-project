@@ -5,5 +5,7 @@ export const getAllRoles = (roles) => ({
   payload: {roles}
 })
 
-
-
+export const isRolesLoading = (isLoading) => ({
+  type: TYPES.IS_ROLES_LOADING,
+  payload: isLoading
+})
