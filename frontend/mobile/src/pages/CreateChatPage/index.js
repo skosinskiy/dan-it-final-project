@@ -39,7 +39,6 @@ class CreateChatPage extends Component {
       })
     })
     defaultChat.users.push(currentUser)
-    console.log(defaultChat)
     createNewChat(defaultChat)
   }
 
