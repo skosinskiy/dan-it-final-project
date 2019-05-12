@@ -24,6 +24,7 @@ script:
   - npm run build --prefix frontend/screen/
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - if [ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST == "true" ]; then bash <(curl -s http://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9002/deploy?branch=master)
 
 addons:
   sonarcloud:
