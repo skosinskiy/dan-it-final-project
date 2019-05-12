@@ -14,10 +14,6 @@ public class ChatResponse {
 
   private Long id;
   private String name;
-  @JsonView(View.Chat.class)
-  @ToString.Exclude
-  @EqualsAndHashCode.Exclude
-  private List<UserResponse> users;
   private List<ChatMessageResponse> chatMessages;
 
 }
