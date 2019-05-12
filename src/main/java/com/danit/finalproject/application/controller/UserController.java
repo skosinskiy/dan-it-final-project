@@ -58,34 +58,40 @@ public class UserController {
 
   @PostMapping
   @PreAuthorize("hasAuthority('MANAGE_USERS')")
+  @JsonView(View.User.class)
   public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest userRequest) {
     return new ResponseEntity<>(userFacade.create(userRequest), HttpStatus.OK);
   }
 
   @PutMapping("{userId}")
+  @JsonView(View.User.class)
   @PreAuthorize("hasAuthority('MANAGE_USERS')")
   public ResponseEntity<UserResponse> updateUser(@PathVariable Long userId, @RequestBody UserRequest userRequest) {
     return new ResponseEntity<>(userFacade.update(userId, userRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{userId}")
+  @JsonView(View.User.class)
   @PreAuthorize("hasAuthority('MANAGE_USERS')")
   public ResponseEntity<UserResponse> deleteUser(@PathVariable Long userId) {
     return new ResponseEntity<>(userFacade.delete(userId), HttpStatus.OK);
   }
 
   @PutMapping("{userId}/roles")
+  @JsonView(View.User.class)
   @PreAuthorize("hasAuthority('MANAGE_USERS')")
   public ResponseEntity<UserResponse> setUserRoles(@PathVariable Long userId, @RequestBody List<RoleRequest> roles) {
     return new ResponseEntity<>(userFacade.setUserRoles(userId, roles), HttpStatus.OK);
   }
 
   @PutMapping("forgot-password/token")
+  @JsonView(View.User.class)
   public void generateToken(@RequestParam String email) {
     userFacade.generateToken(email);
   }
 
   @PutMapping("forgot-password/update")
+  @JsonView(View.User.class)
   public ResponseEntity<UserResponse> updatePassword(
       @RequestBody @Valid UpdateUserPasswordRequest userDto,
       BindingResult bindingResult) {
@@ -93,6 +99,7 @@ public class UserController {
   }
 
   @PostMapping("register")
+  @JsonView(View.User.class)
   public ResponseEntity<UserResponse> registerNewUser(@RequestBody UserRequest userRequest) {
     return new ResponseEntity<>(userFacade.registerNewUser(userRequest), HttpStatus.OK);
   }
