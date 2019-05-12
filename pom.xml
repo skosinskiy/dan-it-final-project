@@ -177,106 +177,106 @@
 				</executions>
 			</plugin>
 
-			<plugin>
-				<groupId>com.github.eirslett</groupId>
-				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.6</version>
+			<!--<plugin>-->
+				<!--<groupId>com.github.eirslett</groupId>-->
+				<!--<artifactId>frontend-maven-plugin</artifactId>-->
+				<!--<version>1.6</version>-->
 
-				<executions>
-					<execution>
-						<id>install admin node and npm</id>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-						<configuration>
-							<workingDirectory>frontend/admin_panel</workingDirectory>
-							<nodeVersion>v8.16.0</nodeVersion>
-						</configuration>
-					</execution>
-					<execution>
-						<id>install admin</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<workingDirectory>frontend/admin_panel</workingDirectory>
-							<arguments>install</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>Build admin panel</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<workingDirectory>frontend/admin_panel</workingDirectory>
-							<arguments>run build</arguments>
-						</configuration>
-					</execution>
+				<!--<executions>-->
+					<!--<execution>-->
+						<!--<id>install admin node and npm</id>-->
+						<!--<goals>-->
+							<!--<goal>install-node-and-npm</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<workingDirectory>frontend/admin_panel</workingDirectory>-->
+							<!--<nodeVersion>v8.16.0</nodeVersion>-->
+						<!--</configuration>-->
+					<!--</execution>-->
+					<!--<execution>-->
+						<!--<id>install admin</id>-->
+						<!--<goals>-->
+							<!--<goal>npm</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<workingDirectory>frontend/admin_panel</workingDirectory>-->
+							<!--<arguments>install</arguments>-->
+						<!--</configuration>-->
+					<!--</execution>-->
+					<!--<execution>-->
+						<!--<id>Build admin panel</id>-->
+						<!--<goals>-->
+							<!--<goal>npm</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<workingDirectory>frontend/admin_panel</workingDirectory>-->
+							<!--<arguments>run build</arguments>-->
+						<!--</configuration>-->
+					<!--</execution>-->
 
-					<execution>
-						<id>install screen node and npm</id>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-						<configuration>
-							<workingDirectory>frontend/screen</workingDirectory>
-							<nodeVersion>v8.16.0</nodeVersion>
-						</configuration>
-					</execution>
-					<execution>
-						<id>install screen</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<workingDirectory>frontend/screen</workingDirectory>
-							<arguments>install</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>Build screen</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<workingDirectory>frontend/screen</workingDirectory>
-							<arguments>run build</arguments>
-						</configuration>
-					</execution>
+					<!--<execution>-->
+						<!--<id>install screen node and npm</id>-->
+						<!--<goals>-->
+							<!--<goal>install-node-and-npm</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<workingDirectory>frontend/screen</workingDirectory>-->
+							<!--<nodeVersion>v8.16.0</nodeVersion>-->
+						<!--</configuration>-->
+					<!--</execution>-->
+					<!--<execution>-->
+						<!--<id>install screen</id>-->
+						<!--<goals>-->
+							<!--<goal>npm</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<workingDirectory>frontend/screen</workingDirectory>-->
+							<!--<arguments>install</arguments>-->
+						<!--</configuration>-->
+					<!--</execution>-->
+					<!--<execution>-->
+						<!--<id>Build screen</id>-->
+						<!--<goals>-->
+							<!--<goal>npm</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<workingDirectory>frontend/screen</workingDirectory>-->
+							<!--<arguments>run build</arguments>-->
+						<!--</configuration>-->
+					<!--</execution>-->
 
-					<execution>
-						<id>install mobile node and npm</id>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-						<configuration>
-							<workingDirectory>frontend/mobile</workingDirectory>
-							<nodeVersion>v8.16.0</nodeVersion>
-						</configuration>
-					</execution>
-					<execution>
-						<id>install mobile</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<workingDirectory>frontend/mobile</workingDirectory>
-							<arguments>install</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>Build mobile</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<workingDirectory>frontend/mobile</workingDirectory>
-							<arguments>run build</arguments>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+					<!--<execution>-->
+						<!--<id>install mobile node and npm</id>-->
+						<!--<goals>-->
+							<!--<goal>install-node-and-npm</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<workingDirectory>frontend/mobile</workingDirectory>-->
+							<!--<nodeVersion>v8.16.0</nodeVersion>-->
+						<!--</configuration>-->
+					<!--</execution>-->
+					<!--<execution>-->
+						<!--<id>install mobile</id>-->
+						<!--<goals>-->
+							<!--<goal>npm</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<workingDirectory>frontend/mobile</workingDirectory>-->
+							<!--<arguments>install</arguments>-->
+						<!--</configuration>-->
+					<!--</execution>-->
+					<!--<execution>-->
+						<!--<id>Build mobile</id>-->
+						<!--<goals>-->
+							<!--<goal>npm</goal>-->
+						<!--</goals>-->
+						<!--<configuration>-->
+							<!--<workingDirectory>frontend/mobile</workingDirectory>-->
+							<!--<arguments>run build</arguments>-->
+						<!--</configuration>-->
+					<!--</execution>-->
+				<!--</executions>-->
+			<!--</plugin>-->
 
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
