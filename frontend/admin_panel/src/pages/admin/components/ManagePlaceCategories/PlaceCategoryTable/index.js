@@ -9,7 +9,8 @@ import {Table} from '@material-ui/core'
 import TableHead from '@material-ui/core/TableHead'
 import TableBody from '@material-ui/core/TableBody'
 import Paper from '@material-ui/core/Paper'
-//import TableCellButtons from '../../../../../components/TableCellButtons'
+import Checkbox from '@material-ui/core/Checkbox';
+import TableCellButtons from 'components/TableCellButtons'
 
 const styles = theme => ({
   root: {
@@ -25,10 +26,12 @@ const styles = theme => ({
 class PlaceCategories extends Component {
   render () {
     // const {classes, deletePlaceCategory, placeCategories} = this.props
-    const {classes} = this.props
+    const {classes, placeCategories} = this.props
     const rows = [
+      { id: 'multisync', label: 'Is Multisync?' },
       { id: 'allowMessages', label: 'Allow Messages?' },
       { id: 'name', label: 'Name' },
+      { id: 'description', grow: 2, label: 'Description' },
       { id: 'businessCategories', label: 'BusinessCategories' },
       { id: 'layoutItems', label: 'LayoutItems' },
       { id: 'buttons', label: '' },
@@ -38,7 +41,7 @@ class PlaceCategories extends Component {
         <Table className={classes.table}>
           <colgroup>
             {rows.map((row, i) => (
-              <col key={'header' + i} style={{width:`${0 | 100 / rows.length}%`}}/>
+              <col key={'header' + i} style={{width:`${0 | 100 * (row.grow || 1) / rows.length}%`}}/>
             ))}
           </colgroup>
           <TableHead>
@@ -49,19 +52,30 @@ class PlaceCategories extends Component {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {placeCategories.map(placeCategory => (
-              <TableRow key={placeCategory.id} hover>
-                <TableCell component="th" scope="row">
-                  {placeCategory.name}
+            {placeCategories.map(placeCategory => {
+              const {multisync, allowMessages, layoutItems, businessCategories: selectedBusinessCategories,
+                name, description} = placeCategory
+                return (
+                <TableRow key={placeCategory.id} hover>
+                <TableCell component="th" scope="row" padding="checkbox">
+                  <Checkbox checked={multisync} disabled/>
                 </TableCell>
-                <TableCell>{placeCategory.description}</TableCell>
-                <TableCell>{placeCategory.parentCategory ? eventCategory.parentCategory.name : ''}</TableCell>
+                <TableCell component="th" scope="row" padding="checkbox">
+                  <Checkbox checked={allowMessages} disabled/>
+                </TableCell>
+                <TableCell>{name}</TableCell>
+                <TableCell>{description}</TableCell>
+                <TableCell>{selectedBusinessCategories.map(businessCategory => businessCategory.name).join(', ')}</TableCell>
+                <TableCell>{layoutItems.join(', ')}</TableCell>
                 <TableCellButtons
-                  editLink={`/admin/event-categories/${eventCategory.id}`}
-                  deleteFunction={() => deleteEventCategory(eventCategory.id)}
+                  // editLink={`/admin/event-categories/${eventCategory.id}`}
+                  // deleteFunction={() => deleteEventCategory(eventCategory.id)}
+                  editLink={`#`}
+                  deleteFunction={() => undefined}
                 />
               </TableRow>
-            ))} */}
+              )
+            })}
           </TableBody>
         </Table>
       </Paper>
@@ -72,12 +86,12 @@ class PlaceCategories extends Component {
 PlaceCategories.propTypes = {
   classes: PropTypes.object.isRequired,
   deleteEventCategory: PropTypes.func.isRequired,
-  eventCategories: PropTypes.array.isRequired
+  placeCategories: PropTypes.array.isRequired
 }
 
-const mapStateToProps = ({eventCategory}) => {
+const mapStateToProps = ({placeCategories}) => {
   return {
-    eventCategories: eventCategory.allEventCategories
+    placeCategories: placeCategories.placeCategories,
   }
 }
 
