@@ -50,7 +50,7 @@ const findIndexByKey = (key, container) => (
  * @param {Array} container
  * @param {String} field
  * @param {Any} value
- * @returns {Object}
+ * @returns {Array}
  */
 const setValueToEntityField = (key, container, field, value) => {
   const idx = findIndexByKey(key, container)
