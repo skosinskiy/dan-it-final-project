@@ -11,20 +11,14 @@ cache:
     - frontend/mobile/node_modules/
     - frontend/screen/node_modules/
 
-before_script:
-  - npm install --prefix frontend/admin_panel/
-  - npm install --prefix frontend/mobile/
-  - npm install --prefix frontend/screen/
-
 script:
-  - mvn clean test
+  - mvn clean package
   - sonar-scanner
-  - npm run build --prefix frontend/admin_panel/
-  - npm run build --prefix frontend/mobile/
-  - npm run build --prefix frontend/screen/
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-  - if [ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST == "true" ]; then bash <(curl -s http://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9002/deploy?branch=master)
+  - echo $TRAVIS_BRANCH
+  - echo $TRAVIS_PULL_REQUEST
+  - bash <(curl -s http://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9002/deploy?branch=master)
 
 addons:
   sonarcloud:
