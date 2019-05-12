@@ -47,27 +47,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
           .csrf()
           .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-          .disable()
-          .httpBasic()
         .and()
           .authorizeRequests()
-          .antMatchers(
-              "/**.js", "/**.html", "/static/**", "/**.json",
-              "/h2-console/**", "/api/users/current", "/api/users/forgot-password/**",
-              "/api/users/register")
+          .antMatchers("/**/static/**", "/h2-console/**",
+              "/api/users/current", "/api/users/forgot-password/**", "/api/users/register",
+              "/admin", "/mobile", "/screen")
           .permitAll()
           .anyRequest()
           .authenticated()
         .and()
           .formLogin()
-          .loginPage("/index.html")
+          .loginPage("/")
           .loginProcessingUrl("/auth")
           .successHandler(successHandler)
           .failureHandler(failureHandler)
           .permitAll()
         .and()
           .oauth2Login()
-          .loginPage("/index.html")
+          .loginPage("/")
           .userInfoEndpoint()
             .oidcUserService(customOidcUserService)
             .userService(customOAuthUserService)
