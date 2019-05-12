@@ -49,16 +49,19 @@ public class ChatController {
   }
 
   @PostMapping
+  @JsonView(View.Chat.class)
   public ResponseEntity<ChatResponse> createNewChat(@RequestBody ChatRequest chatRequest) {
     return new ResponseEntity<>(chatFacade.create(chatRequest), HttpStatus.OK);
   }
 
   @PutMapping("{id}")
+  @JsonView(View.Chat.class)
   public ResponseEntity<ChatResponse> updateChat(@RequestBody ChatRequest chatRequest, @PathVariable Long id) {
     return new ResponseEntity<>(chatFacade.update(id, chatRequest), HttpStatus.OK);
   }
 
   @DeleteMapping("{id}")
+  @JsonView(View.Chat.class)
   public ResponseEntity<ChatResponse> deleteChat(@PathVariable("id") Long placeId) {
     return new ResponseEntity<>(chatFacade.delete(placeId), HttpStatus.OK);
   }
