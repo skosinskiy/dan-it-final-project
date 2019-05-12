@@ -16,9 +16,7 @@ script:
   - sonar-scanner
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-  - echo $TRAVIS_BRANCH
-  - echo $TRAVIS_PULL_REQUEST
-  - bash <(curl -s http://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9002/deploy?branch=master)
+  - if [ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST != "false" ]; then bash <(curl -X GET 'http://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9002/deploy?branch=master')
 
 addons:
   sonarcloud:
