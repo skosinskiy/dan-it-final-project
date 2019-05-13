@@ -27,3 +27,8 @@ export const isBusinessesLoading = isLoading => ({
   type: TYPES.IS_BUSINESSES_LOADING,
   payload: isLoading
 })
+
+export const isBusinessFormDataLoading = isLoading => ({
+  type: TYPES.IS_BUSINESS_FORM_DATA_LOADING,
+  payload: isLoading
+})

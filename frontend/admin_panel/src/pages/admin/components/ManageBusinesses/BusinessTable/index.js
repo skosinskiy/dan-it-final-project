@@ -64,11 +64,11 @@ class BusinessTable extends React.Component {
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <colgroup>
-            <col style={{width: '13%'}}/>
-            <col style={{width: '13%'}}/>
-            <col style={{width: '13%'}}/>
-            <col style={{width: '13%'}}/>
-            <col style={{width: '13%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '17%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '12%'}}/>
             <col style={{width: '13%'}}/>
             <col style={{width: '13%'}}/>
             <col style={{width: '9%'}}/>
