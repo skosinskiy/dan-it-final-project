@@ -64,18 +64,20 @@ class BusinessTable extends React.Component {
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <colgroup>
-            <col style={{width: '15%'}}/>
-            <col style={{width: '15%'}}/>
-            <col style={{width: '15%'}}/>
-            <col style={{width: '15%'}}/>
-            <col style={{width: '15%'}}/>
-            <col style={{width: '15%'}}/>
-            <col style={{width: '10%'}}/>
+            <col style={{width: '13%'}}/>
+            <col style={{width: '13%'}}/>
+            <col style={{width: '13%'}}/>
+            <col style={{width: '13%'}}/>
+            <col style={{width: '13%'}}/>
+            <col style={{width: '13%'}}/>
+            <col style={{width: '13%'}}/>
+            <col style={{width: '9%'}}/>
           </colgroup>
           <TableHead>
             <TableRow>
               <TableCell>Title</TableCell>
               <TableCell>Description</TableCell>
+              <TableCell>Categories</TableCell>
               <TableCell>Address</TableCell>
               <TableCell>Website</TableCell>
               <TableCell>Phone Number</TableCell>
@@ -89,6 +91,7 @@ class BusinessTable extends React.Component {
                 <TableRow key={business.id} hover>
                   <TableCell>{business.title}</TableCell>
                   <TableCell>{business.description}</TableCell>
+                  <TableCell>{business.categories.map(category => category.name).join(', ')}</TableCell>
                   <TableCell>{business.address}</TableCell>
                   <TableCell>{business.webSite}</TableCell>
                   <TableCell>{business.phoneNumber}</TableCell>
