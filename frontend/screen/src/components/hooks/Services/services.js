@@ -3,36 +3,19 @@ import BusinessItem from '../../BusinessList/BusinessItem'
 import { connect } from 'react-redux'
 import * as businessOperations from '../../../store/businesses/operations'
 import './services.scss'
-import Preloader from '../../Preloader'
+import InfiniteScroll from '../../InfiniteScroll'
 
 class Services extends Component {
   componentDidMount () {
     const {getBusinessByAmount} = this.props
     getBusinessByAmount(5)
   }
-  
-  handleScroll = () => {
-    const clientHeignt = this.refs.myscroll.clientHeight
-    const scrollTop = parseInt(this.refs.myscroll.scrollTop)
-    const scrollHeight = this.refs.myscroll.scrollHeight * 0.9
-    if (scrollTop + clientHeignt >= scrollHeight) {
-      this.loadMore()
-    }
-  }
-  
+
   loadItems = () => {
     return this.props.businessList.map((business) => {
       return <BusinessItem key={business.id} business={business}/>
     })
   };
-  
-  loadMore () {
-    const {isLoading, totalItems, currentItems, getBusinessByAmount} = this.props
-    if (isLoading || currentItems >= totalItems) {
-      return
-    }
-    getBusinessByAmount(currentItems + 1)
-  }
   
   render () {
     const {isLoading} = this.props
@@ -41,13 +24,16 @@ class Services extends Component {
     return (
       <>
         <h1>Services</h1>
-        <div
-          ref='myscroll'
-          onScroll={this.handleScroll}
-          className="businesses-list">
+        <InfiniteScroll
+          scrollTo={0.9}
+          totalItems={this.props.totalItems}
+          currentItems={businessList.length}
+          fetchMore={this.props.getBusinessByAmount}
+          hasMore={true}
+          isLoading={isLoading}
+        >
           {businessList}
-          {isLoading && <Preloader/>}
-        </div>
+        </InfiniteScroll>
       </>
     )
   }
