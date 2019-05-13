@@ -18,7 +18,7 @@ import PowerSetting from '@material-ui/icons/PowerSettingsNew'
 import AdminRouter from './routes'
 
 import Sidebarmenu from '../../components/SidebarMenu'
-import {usersOperations} from 'store/users'
+import {usersOperations} from '../../store/users'
 
 const drawerWidth = 240
 
@@ -182,4 +182,4 @@ const mapDispatchToProps = (dispatch) => ({
   logoutUser: () => dispatch(usersOperations.logOutUser())
 })
 
-export default withRouter(connect(mapDispatchToProps)(((withStyles(styles, {withTheme: true})(Admin)))))
+export default withRouter(connect(null, mapDispatchToProps)(((withStyles(styles, {withTheme: true})(Admin)))))

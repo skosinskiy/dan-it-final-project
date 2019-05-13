@@ -3,21 +3,19 @@ import PropTypes from 'prop-types'
 import {Redirect} from 'react-router-dom'
 import TextField from '@material-ui/core/TextField'
 import {connect} from 'react-redux'
-import {placesOperations} from '../../../../../store/places'
 import {businessOperations} from '../../../../../store/businesses'
-import {businessCategoryOperations} from '../../../../../store/businessCategory'
 import ImageUploader from '../../../../../components/ImageUploader'
 import Grid from '@material-ui/core/Grid'
 import MenuItem from '@material-ui/core/MenuItem'
 import Preloader from '../../../../../components/Preloader'
 import FormButtons from '../../../../../components/FormButtons'
 
-import InputLabel from "@material-ui/core/InputLabel/InputLabel";
-import Select from "@material-ui/core/Select/Select";
-import OutlinedInput from "@material-ui/core/OutlinedInput/OutlinedInput";
-import Checkbox from "@material-ui/core/Checkbox/Checkbox";
-import ListItemText from "@material-ui/core/ListItemText/ListItemText";
-import FormControl from "@material-ui/core/FormControl/FormControl";
+import InputLabel from '@material-ui/core/InputLabel/InputLabel'
+import Select from '@material-ui/core/Select/Select'
+import OutlinedInput from '@material-ui/core/OutlinedInput/OutlinedInput'
+import Checkbox from '@material-ui/core/Checkbox/Checkbox'
+import ListItemText from '@material-ui/core/ListItemText/ListItemText'
+import FormControl from '@material-ui/core/FormControl/FormControl'
 
 const emptyBusiness = {
   title: "",
@@ -50,9 +48,7 @@ class BusinessForm extends Component {
   }
 
   componentDidMount() {
-    this.props.getPlaces()
-    this.props.getBusinesses()
-    this.props.getBusinessCategories()
+    this.props.fetchBusinessFormData()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -125,7 +121,7 @@ class BusinessForm extends Component {
   }
 
   render() {
-    const {places, isBusinessesLoading, businessCategories} = this.props
+    const {places, isBusinessFormDataLoading, businessCategories} = this.props
 
     const {editedBusiness, businessImages, isDataSubmitted} = this.state
 
@@ -133,7 +129,7 @@ class BusinessForm extends Component {
       return <Redirect to={'/admin/businesses'}/>
     }
 
-    if (isBusinessesLoading) {
+    if (isBusinessFormDataLoading) {
       return <Preloader/>
     }
 
@@ -252,29 +248,27 @@ class BusinessForm extends Component {
 BusinessForm.propTypes = {
   business: PropTypes.object,
   places: PropTypes.array.isRequired,
-  isBusinessesLoading: PropTypes.bool.isRequired,
+  isBusinessFormDataLoading: PropTypes.bool.isRequired,
   saveNewBusiness: PropTypes.func.isRequired,
-  getPlaces: PropTypes.func.isRequired,
-  getBusinesses: PropTypes.func.isRequired
+  fetchBusinessFormData: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state, props) => {
+  console.log()
   const business = state.businesses.businessList.find(business => business.id.toString() === props.match.params.businessId)
 
   return {
     places: state.places.places,
     business: business,
     businessCategories: state.businessCategory.allBusinessCategories,
-    isBusinessesLoading: state.businesses.isBusinessesLoading
+    isBusinessFormDataLoading: state.businesses.isBusinessFormDataLoading
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPlaces: () => dispatch(placesOperations.getAllPlaces()),
+    fetchBusinessFormData: (page, size) => dispatch(businessOperations.fetchBusinessFormData(page, size)),
     saveNewBusiness: (business, images) => dispatch(businessOperations.saveBusiness(business, images)),
-    getBusinesses: (page, size) => dispatch(businessOperations.getAllBusinesses(page, size)),
-    getBusinessCategories: () => dispatch(businessCategoryOperations.getAllBusinessCategories())
   }
 }
 
