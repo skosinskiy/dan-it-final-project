@@ -1,6 +1,7 @@
 {
   "name": "admin_panel",
   "version": "0.1.0",
+  "homepage": "/admin",
   "private": true,
   "dependencies": {
     "@date-io/moment": "^1.3.5",
