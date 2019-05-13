@@ -9,7 +9,7 @@ function parseImageUrl (str) {
 }
 
 const NewsItem = (props) => {
-  const {info: {link, title, contentSnippet, content}} = props
+  const {link, title, contentSnippet, content} = props.info
   const shorten = (contentSnippet, maxLength = 300) => {
     if (contentSnippet.length < maxLength) {
       return contentSnippet
