@@ -73,4 +73,11 @@ public class User extends BaseEntity {
   @JoinColumn(name = "visit_id")
   @ToString.Exclude
   private List<Visit> visits;
+
+  @ManyToMany
+  @JoinTable(name = "user_friends",
+      joinColumns = {@JoinColumn(name = "user_id")},
+      inverseJoinColumns = {@JoinColumn(name = "friend_id")})
+  @ToString.Exclude
+  private List<User> friends;
 }

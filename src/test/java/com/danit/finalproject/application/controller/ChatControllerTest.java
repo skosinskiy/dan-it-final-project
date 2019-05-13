@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -90,6 +91,7 @@ public class ChatControllerTest {
     Chat chat = new Chat();
     chat.setId(expectedId);
     chat.setName(expectedName);
+    chat.setUsers(new ArrayList<>());
 
     String chatJson = objectMapper.writeValueAsString(chat);
 
@@ -113,6 +115,7 @@ public class ChatControllerTest {
     Long chatId = 1L;
     Chat chat = chatService.getById(chatId);
     chat.setName(chatTitle);
+    chat.setUsers(new ArrayList<>());
 
     String userJson = objectMapper.writeValueAsString(modelMapper.map(chat, ChatRequest.class));
 
@@ -130,7 +133,7 @@ public class ChatControllerTest {
   }
 
   @Test
-  public void deletePlace() throws Exception {
+  public void deleteChat() throws Exception {
     mockMvc.perform(delete("/api/chats/2").with(csrf()));
 
     assertNull(chatService.getById(2L));

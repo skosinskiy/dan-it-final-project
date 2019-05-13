@@ -4,6 +4,7 @@ import ChatHeader from '../../components/ChatHeader'
 import './chat-page.scss'
 import { getChatById, createNewMessage } from '../../store/chats/operations'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import Preloader from '../../components/Preloader'
 import ChatList from './ChatList/chatlist'
 
@@ -40,11 +41,12 @@ class ChatPage extends Component {
   }
 
   render () {
-    const {currentChat, isLoaded} = this.props
+    const {currentChat, isLoaded, isCurrentUserLoading} = this.props
     const {message} = this.state
-    if (!isLoaded) {
+    if (!isLoaded || isCurrentUserLoading) {
       return <Preloader/>
     }
+
     return (
       <div className="chat">
         <ChatHeader title={'Current Location'}/>
@@ -62,10 +64,17 @@ class ChatPage extends Component {
   }
 }
 
+ChatPage.propTypes = {
+  currentChat: PropTypes.object.isRequired,
+  isCurrentUserLoading: PropTypes.bool.isRequired,
+  isLoaded: PropTypes.bool.isRequired
+}
+
 const mapStateToProps = (state) => {
   return {
     currentChat: state.chats.currentChat,
-    isLoaded: state.chats.isLoaded
+    isLoaded: state.chats.isLoaded,
+    isCurrentUserLoading: state.users.isCurrentUserLoading
   }
 }
 
