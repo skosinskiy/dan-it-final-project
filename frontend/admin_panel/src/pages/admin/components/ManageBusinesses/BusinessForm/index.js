@@ -250,11 +250,11 @@ BusinessForm.propTypes = {
   places: PropTypes.array.isRequired,
   isBusinessFormDataLoading: PropTypes.bool.isRequired,
   saveNewBusiness: PropTypes.func.isRequired,
-  fetchBusinessFormData: PropTypes.func.isRequired
+  fetchBusinessFormData: PropTypes.func.isRequired,
+  businessCategories: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state, props) => {
-  console.log()
   const business = state.businesses.businessList.find(business => business.id.toString() === props.match.params.businessId)
 
   return {
