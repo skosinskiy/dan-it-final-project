@@ -14,6 +14,7 @@ import * as PropTypes from 'prop-types'
 import Redirect from 'react-router-dom/es/Redirect'
 import {connect} from 'react-redux'
 import BottomMenu from '../BottomMenu'
+import MapPage from '../../pages/MapPage/MapPage'
 
 const AppRoutes = (props) => {
   const {currentUser} = props
@@ -33,6 +34,7 @@ const AppRoutes = (props) => {
         <Route path="/messages/:chatId" component={ChatPage} />
         <Route path="/favourites" component={BusinessesEvents} />
         <Route path="/contacts" component={ContactsPage} />
+        <Route path="/map" component={MapPage} />
         <ProtectedRoute path="/" component={SelectBuildings} authenticated={!!currentUser}/>
       </Switch>
       {bottomMenu}
