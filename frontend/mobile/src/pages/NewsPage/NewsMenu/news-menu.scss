@@ -6,8 +6,12 @@
   margin-top: -15px;
   padding: 30px 8px 15px;
   background-color: $white;
+  overflow-x: auto;
 
   &__button {
+    @include button-reset;
+    box-sizing: border-box;
+    margin: 0 10px;
     padding: 7px 17px;
     background-color: $blue;
     border-radius: 8px;

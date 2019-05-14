@@ -11,12 +11,12 @@ class NewsPage extends Component {
     rss: []
   }
 
-  componentDidMount () {
+  handleRSS = (rssSource) => {
     const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'
     const parser = new Parser()
     const getNews = async () => {
-      let feed = await parser.parseURL(CORS_PROXY + 'euromaidanpress.com/feed')
-      console.log(feed.title)
+      let feed = await parser.parseURL(CORS_PROXY + rssSource)
+      this.setState({rss: []})
 
       feed.items.forEach(item => {
         console.log(item)
@@ -26,11 +26,15 @@ class NewsPage extends Component {
     getNews()
   }
 
+  componentDidMount () {
+    this.handleRSS('euromaidanpress.com/feed')
+  }
+
   render () {
     return (
       <div className="newsPage parallax-container">
         <MobileHeader bgImage={headerImage} header={'All news'} location='Kyiv' />
-        <NewsMenu/>
+        <NewsMenu handleRSS={this.handleRSS} />
         <div className='newsPage__content'>
           <NewsList news={this.state.rss} />
         </div>
