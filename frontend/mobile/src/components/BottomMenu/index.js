@@ -5,7 +5,7 @@ import {ReactComponent as NewsLogo} from '../../img/BottomMenu/news.svg'
 import {ReactComponent as MessagesLogo} from '../../img/BottomMenu/message.svg'
 import {ReactComponent as FavouritesLogo} from '../../img/BottomMenu/favourites.svg'
 import {ReactComponent as MoreLogo} from '../../img/BottomMenu/more.svg'
-import {ReactComponent as MapLogo} from "../../img/BottomMenu/map.svg";
+import {ReactComponent as MapLogo} from '../../img/BottomMenu/map.svg';
 import './index.scss'
 
 class BottomMenu extends Component {
