@@ -2,56 +2,43 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import List from '@material-ui/core/List'
 import {businessCategoryOperations} from 'store/businessCategory'
-import BusinessCategoryItem from './BusinessCategoryItem'
+import BusinessCategoryTable from './BusinessCategoryTable'
 
 import {NavLink} from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Preloader from '../../../../components/Preloader'
 
 const styles = theme => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper
-  },
-
-  buttons: {
-    textDecoration: 'none',
-    marginRight: '10px',
+  newItemButton: {
     display: 'flex',
-    justifyContent: 'center'
-  },
-
-  button: {
-    marginTop: '30px'
+    justifyContent: 'flex-end',
+    textDecoration: 'none',
+    marginBottom: theme.spacing.unit * 3
   }
 })
 
 class BusinessCategories extends Component {
-  componentDidMount () {
+  componentDidMount() {
     const {getAllBusinessCategories} = this.props
     getAllBusinessCategories()
   }
 
-  render () {
-    const {classes, businessCategories, isLoading} = this.props
+  render() {
+    const {classes, isBusinessCategoriesLoading} = this.props
 
-    if (isLoading) {
+    if (isBusinessCategoriesLoading) {
       return <Preloader/>
     }
 
-    const businessCategoryItems = businessCategories.map((category) => {
-      return <BusinessCategoryItem key={category.id} category={category}/>
-    })
     return (
       <div>
-        <List className={classes.root}>
-          {businessCategoryItems}
-        </List>
-        <NavLink to={'/admin/business-categories/add-new'} className={classes.buttons}>
-          <Button variant="contained" color="primary" className={classes.button}>Add New Business Category</Button>
-        </NavLink>
+        <div>
+          <NavLink className={classes.newItemButton} to={'/admin/business-categories/add-new'}>
+            <Button variant="outlined" size="large" color="primary">Add New Business Category</Button>
+          </NavLink>
+        </div>
+        <BusinessCategoryTable/>
       </div>
     )
   }
@@ -60,14 +47,12 @@ class BusinessCategories extends Component {
 BusinessCategories.propTypes = {
   classes: PropTypes.object.isRequired,
   getAllBusinessCategories: PropTypes.func.isRequired,
-  businessCategories:  PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired
+  isBusinessCategoriesLoading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = ({businessCategory}) => {
   return {
-    businessCategories: businessCategory.allBusinessCategories,
-    isLoading: businessCategory.isBusinessCategoryDataLoading
+    isBusinessCategoriesLoading: businessCategory.isBusinessCategoryDataLoading
   }
 }
 

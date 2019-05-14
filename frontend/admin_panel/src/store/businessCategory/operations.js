@@ -12,6 +12,7 @@ export const getAllBusinessCategories = () => dispatch => {
 }
 
 export const deleteBusinessCategory = (categoryId) => dispatch => {
+  dispatch(ACTIONS.isBusinessCategoryDataLoading(true))
   api.deleteApi(`/api/business-categories/${categoryId}`).then(() => {
     dispatch(getAllBusinessCategories())
   })
@@ -32,7 +33,7 @@ const updateBusinessCategory = (category) => {
 }
 
 const uploadImage = (category, image) => dispatch => {
-  uploadFile(image).then(uploadResult => {
+  return uploadFile(image).then(uploadResult => {
     category.imageKey = uploadResult.fileKey
     updateBusinessCategory(category).then( () => dispatch( getAllBusinessCategories()) )
   })
@@ -40,7 +41,7 @@ const uploadImage = (category, image) => dispatch => {
 
 const uploadIcon = (category, icon) => dispatch => {
   if (icon && !icon.imageKey) {
-    uploadFile(icon).then(uploadResult => {
+    return uploadFile(icon).then(uploadResult => {
       category.iconKey = uploadResult.fileKey
       updateBusinessCategory(category).then( () => dispatch( getAllBusinessCategories()) )
     })
@@ -55,41 +56,45 @@ const removeDeletedImages = (category, image, icon) => dispatch => {
     if (!icon) {
       category.iconKey = null
     }
-    updateBusinessCategory(category).then( () => dispatch(getAllBusinessCategories()) )
+    return updateBusinessCategory(category).then( () => dispatch(getAllBusinessCategories()) )
   }
 }
 
 const updateExistingCategory = (category, image, icon) => dispatch => {
+  const uploadFunctions = []
   if (image && !image.imageKey) {
-    dispatch(uploadImage(category, image))
+    uploadFunctions.push(dispatch(uploadImage(category, image)))
   }
   if (icon && !icon.imageKey) {
-    dispatch(uploadIcon(category, icon))
+    uploadFunctions.push(dispatch(uploadIcon(category, icon)))
   }
-  dispatch(removeDeletedImages(category, image, icon))
+
+  return Promise.all(uploadFunctions).then(() => dispatch(removeDeletedImages(category, image, icon)))
 }
 
 const createNewCategory = (category, image, icon) => dispatch => {
   if (image || icon) {
-    createBusinessCategory(category).then(createResponse => {
+    return createBusinessCategory(category).then(createResponse => {
       const {...createdCategory} = createResponse
+      const uploadFunctions = []
       if (image) {
-        dispatch(uploadImage(createdCategory, image))
+        uploadFunctions.push(dispatch(uploadImage(createdCategory, image)) )
       }
       if (icon) {
-        dispatch(uploadIcon(createdCategory, icon))
+        uploadFunctions.push(dispatch(uploadIcon(createdCategory, icon)) )
       }
+      return Promise.all(uploadFunctions).then()
     })
   } else {
-    createBusinessCategory(category).then( () => dispatch(getAllBusinessCategories()) )
+    return createBusinessCategory(category).then( () => dispatch(getAllBusinessCategories()) )
   }
 }
 
 export const saveCategory = (category, image, icon) => dispatch => {
-  dispatch(ACTIONS.isBusinessCategoryDataLoading(true))
+  dispatch(ACTIONS.isBusinessCategoryFormDataLoading(true))
   if (category.id) {
-    dispatch(updateExistingCategory(category, image, icon))
+    return dispatch(updateExistingCategory(category, image, icon))
   } else {
-    dispatch(createNewCategory(category, image, icon))
+    return dispatch(createNewCategory(category, image, icon))
   }
 }
