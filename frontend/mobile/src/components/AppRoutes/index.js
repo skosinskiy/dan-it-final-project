@@ -1,12 +1,18 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import NewsPage from '../../pages/NewsPage/index'
-import DialoguesPage from '../../pages/DialoguesPage/index'
+import DialoguesPage from '../../pages/DialoguesPage'
 import ContactsPage from '../../pages/ContactsPage'
 import Login from '../../pages/LoginPage/index'
 import BusinessesEvents from '../../pages/BusinessesEvents'
 import SelectBuildings from '../../pages/SelectBuildings'
 import MapPage from '../../pages/MapPage/MapPage.js'
+import CreateChatPage from '../../pages/CreateChatPage'
+import ChatPage from '../../pages/ChatPage'
+import * as PropTypes from 'prop-types'
+import Redirect from 'react-router-dom/es/Redirect'
+import {connect} from 'react-redux'
+import BottomMenu from '../BottomMenu'
 
 const AppRoutes = (props) => {
   return (
@@ -18,7 +24,8 @@ const AppRoutes = (props) => {
         <Route path="/news" component={NewsPage} />
         <Route path="/messages" component={DialoguesPage} />
         <Route path="/favourites" component={BusinessesEvents} />
-        <Route path="/more" component={ContactsPage} />
+        <Route path="/contacts" component={ContactsPage} />
+        <ProtectedRoute path="/" component={SelectBuildings} authenticated={!!currentUser}/>
         <Route path="/map" component={MapPage} />
       </Switch>
     </div>
