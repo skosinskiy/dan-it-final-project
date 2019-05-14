@@ -32,9 +32,11 @@ class PlaceCategories extends Component {
 
     return (
       <div>
-        <div >
-          <NavLink className={classes.newItemButton} to={'/admin/event-categories/add-new'}>
-            <Button variant="outlined" size="large" color="primary">Add New Event Category</Button>
+        <div style={{textAlign: 'right'}}>
+          <NavLink className={classes.newItemButton} style={{display: 'inline-block'}} to={'/admin/place-categories/add-new'}>
+            <Button variant="outlined" size="large" color="primary">
+              Add New Place Category
+            </Button>
           </NavLink>
         </div>
         <PlaceCategoryTable/>

@@ -8,7 +8,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Checkbox from '@material-ui/core/Checkbox';
 import { placesCategoriesOperations } from 'store/placeCategory'
 import { connect } from 'react-redux'
-import AddButton from './components/Buttons/Add'
 import SubmitButton from './components/Buttons/Submit'
 import Name from './components/Name'
 import DeleteButton from './components/Buttons/Delete'
@@ -38,9 +37,22 @@ const allLayoutItems = Object.values(layoutItems)
 
 class PlaceCategoryTable extends React.Component {
 
-  handleChange = (key) => {
-    this.props.updateChanged(key, this.props.placeCategories)
+  getTargetCategory = () => {
+    try {
+      const id = +window.location.pathname.match(/\d+$/)[0]
+      return this.getPlaceCategoryById(id)
+    } catch (err) {
+      return this.props.addNewCategory(this.props.placeCategories)
+    }
   }
+  
+  getPlaceCategoryById = id => {
+    console.log(this.props.placeCategories)
+    debugger
+    return this.props.placeCategories.find(category => category.id === id)
+  }
+
+  targetCategory = this.getTargetCategory()
 
   checkBoxTypes = {
     MULTISYNC: 'multisync',
@@ -48,7 +60,6 @@ class PlaceCategoryTable extends React.Component {
   }
 
   handleClickCheckBox = (key, checkBoxType) => {
-    this.handleChange(key)
     this.props.toggleCheckBox(key, checkBoxType, this.props.placeCategories)
   }
 
@@ -61,7 +72,9 @@ class PlaceCategoryTable extends React.Component {
   }
 
   render() {
-    const { classes, placeCategories } = this.props;
+    const { classes} = this.props;
+    const {multisync, allowMessages, layoutItems, businessCategories: selectedBusinessCategories, name, key,
+      description} = this.targetCategory
     const emptyRows = 1;
     return (
       <div className={classes.root}>
@@ -69,54 +82,47 @@ class PlaceCategoryTable extends React.Component {
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead
-              rowCount={placeCategories.length * 2}
+              rowCount={2}
             />
             <TableBody>
-              {
-                placeCategories.map(placeCategory => {
-                  const {multisync, allowMessages, layoutItems, businessCategories: selectedBusinessCategories, name, key,
-                    description} = placeCategory
-                  return (
-                    <Fragment key={key * Math.random()}>
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={key}
-                        style={{borderBottomStyle: "hidden"}}
-                      >
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={multisync} onClick={() => this.handleClickMultisync(key)} />
-                        </TableCell>
-                        <TableCell padding="checkbox">
-                          <Checkbox checked={allowMessages} onClick={() => this.handleClickAllowMessages(key)} />
-                        </TableCell>
-                        <TableCell scope="row" padding="none">
-                          <Name name={name} placeCategoryKey={key} />
-                        </TableCell>
-                        <TableCell scope="row" padding="none">
-                          <MultiSelect
-                            selectedBusinessCategories={selectedBusinessCategories}
-                            placeCategoryKey={key}
-                          />
-                        </TableCell>
-                        <TableCell scope="row" padding="none">
-                          <LayuoutMultiSelect
-                            selectedMenuItems={layoutItems ? layoutItems : []}
-                            placeCategoryKey={key}
-                            allNames={allLayoutItems}
-                            flag={'layoutItem'}
-                          />
-                        </TableCell>
-                        <TableCell scope="row" padding="none">
-                          <DeleteButton placeCategoryKey={key} />
-                        </TableCell>
-                      </TableRow>
-                      <Desciption _Key={key} description={description}/>
-                    </Fragment>
-                  );
-                })
-              }
+                  <Fragment key={key * Math.random()}>
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={key}
+                      style={{borderBottomStyle: "hidden"}}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox checked={multisync} onClick={() => this.handleClickMultisync(key)} />
+                      </TableCell>
+                      <TableCell padding="checkbox">
+                        <Checkbox checked={allowMessages} onClick={() => this.handleClickAllowMessages(key)} />
+                      </TableCell>
+                      <TableCell scope="row" padding="none">
+                        <Name name={name} placeCategoryKey={key} />
+                      </TableCell>
+                      <TableCell scope="row" padding="none">
+                        <MultiSelect
+                          selectedBusinessCategories={selectedBusinessCategories}
+                          placeCategoryKey={key}
+                        />
+                      </TableCell>
+                      <TableCell scope="row" padding="none">
+                        <LayuoutMultiSelect
+                          selectedMenuItems={layoutItems ? layoutItems : []}
+                          placeCategoryKey={key}
+                          allNames={allLayoutItems}
+                          flag={'layoutItem'}
+                        />
+                      </TableCell>
+                      <TableCell scope="row" padding="none">
+                        <DeleteButton placeCategoryKey={key} />
+                      </TableCell>
+                    </TableRow>
+                    <Desciption _Key={key} description={description}/>
+                  </Fragment>
+                
               {emptyRows > 0 && (
                 <TableRow style={{ height: 49 * emptyRows }}>
                   <TableCell colSpan={6} />
@@ -126,7 +132,6 @@ class PlaceCategoryTable extends React.Component {
           </Table>
         </div>
         <div className='buttons'>
-          <AddButton />
           <SubmitButton />
           <ResetButton />
         </div>
@@ -142,6 +147,7 @@ PlaceCategoryTable.propTypes = {
   updateChanged: PropTypes.func.isRequired,
   fetchParentBusinessCategories: PropTypes.func.isRequired,
   updateDescription: PropTypes.func.isRequired,
+  addNewCategory:  PropTypes.func.isRequired,
 }
 
 const mapStateToProps = ({ placeCategories }) => ({
@@ -157,7 +163,8 @@ const mapDispatchToProps = dispatch => ({
   fetchParentBusinessCategories: () =>
     dispatch(placesCategoriesOperations.fetchParentBusinessCategories()),
   updateDescription: (key, placeCategories, value) =>
-    dispatch(placesCategoriesOperations.updateDescription(key, placeCategories, value))
+    dispatch(placesCategoriesOperations.updateDescription(key, placeCategories, value)),
+  addNewCategory: (placeCategories) => dispatch(placesCategoriesOperations.addNew(placeCategories))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PlaceCategoryTable))

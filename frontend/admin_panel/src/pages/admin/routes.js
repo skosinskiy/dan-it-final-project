@@ -12,7 +12,8 @@ import Places from './components/ManagePlaces'
 import ManageBusinesses from './components/ManageBusinesses'
 import BusinessForm from './components/ManageBusinesses/BusinessForm'
 import PlaceForm from './components/ManagePlaces/PlaceForm'
-import PlaceCategories from './components/ManagePlaceCategories'
+import ManagePlaceCategories from './components/ManagePlaceCategories'
+import PlaceCategoryForm from './components/ManagePlaceCategories/PlaceCategoryForm'
 import PropTypes from 'prop-types'
 import ManagingRoles from './components/ManagingRoles'
 import RoleForm from './components/ManagingRoles/RoleForm'
@@ -28,7 +29,9 @@ class AdminRouter extends Component {
       <Switch>
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_USERS)} path="/admin/users/edit/:userId" component={UserForm} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_USERS)} path="/admin/users" component={ManagingUserRoles} />
-        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACE_CATEGORIES)} path="/admin/place-categories" component={PlaceCategories} />
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACE_CATEGORIES)} path="/admin/place-categories/add-new" component={PlaceCategoryForm} />
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACE_CATEGORIES)} path="/admin/place-categories/:categoryId" component={PlaceCategoryForm} />
+        <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACE_CATEGORIES)} path="/admin/place-categories" component={ManagePlaceCategories} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/add-new" component={PlaceForm} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places/edit/:placeId" component={PlaceForm} />
         <AuthorizedRoute authorized={hasGrant(user, Grant.MANAGE_PLACES)} path="/admin/places" component={Places} />

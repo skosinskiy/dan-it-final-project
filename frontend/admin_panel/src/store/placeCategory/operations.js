@@ -98,8 +98,10 @@ export const toggleCheckBox = (key, checkBoxType, container) => dispatch => {
 
 export const addNew = container => dispatch => {
   const newContainer = [...container]
-  newContainer.push(createOrSetKey())
+  const newCategory = createOrSetKey();
+  newContainer.push(newCategory)
   dispatch(ACTIONS.updatePlaceCategories(newContainer))
+  return newCategory
 }
 
 const updateDeletedIds = (idx, container, deletedIds) => dispatch => {

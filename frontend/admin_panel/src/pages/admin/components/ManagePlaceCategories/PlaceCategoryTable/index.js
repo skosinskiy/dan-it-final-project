@@ -41,7 +41,7 @@ class PlaceCategories extends Component {
         <Table className={classes.table}>
           <colgroup>
             {rows.map((row, i) => (
-              <col key={'header' + i} style={{width:`${0 | 100 * (row.grow || 1) / rows.length}%`}}/>
+              <col key={'header' + i} style={{width:`${100 * (row.grow || 1) / rows.length}%`}}/>
             ))}
           </colgroup>
           <TableHead>
