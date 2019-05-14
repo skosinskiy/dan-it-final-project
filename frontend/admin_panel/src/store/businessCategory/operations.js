@@ -35,7 +35,7 @@ const updateBusinessCategory = (category) => {
 const uploadImage = (category, image) => dispatch => {
   return uploadFile(image).then(uploadResult => {
     category.imageKey = uploadResult.fileKey
-    updateBusinessCategory(category).then( () => dispatch( getAllBusinessCategories()) )
+    updateBusinessCategory(category).then()
   })
 }
 
@@ -43,7 +43,7 @@ const uploadIcon = (category, icon) => dispatch => {
   if (icon && !icon.imageKey) {
     return uploadFile(icon).then(uploadResult => {
       category.iconKey = uploadResult.fileKey
-      updateBusinessCategory(category).then( () => dispatch( getAllBusinessCategories()) )
+      updateBusinessCategory(category).then()
     })
   }
 }
@@ -56,7 +56,7 @@ const removeDeletedImages = (category, image, icon) => dispatch => {
     if (!icon) {
       category.iconKey = null
     }
-    return updateBusinessCategory(category).then( () => dispatch(getAllBusinessCategories()) )
+    return updateBusinessCategory(category).then()
   }
 }
 
@@ -86,7 +86,7 @@ const createNewCategory = (category, image, icon) => dispatch => {
       return Promise.all(uploadFunctions).then()
     })
   } else {
-    return createBusinessCategory(category).then( () => dispatch(getAllBusinessCategories()) )
+    return createBusinessCategory(category).then()
   }
 }
 
