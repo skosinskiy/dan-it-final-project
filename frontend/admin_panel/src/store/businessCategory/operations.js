@@ -4,7 +4,7 @@ import * as ACTIONS from './actions'
 export const getAllBusinessCategories = () => dispatch => {
   dispatch(ACTIONS.isBusinessCategoryDataLoading(true))
   dispatch(ACTIONS.isBusinessCategoryFormDataLoading(true))
-  api.get('/api/business-categories').then(res => {
+  return api.get('/api/business-categories').then(res => {
     dispatch(ACTIONS.getAllBusinessCategories(res))
     dispatch(ACTIONS.isBusinessCategoryDataLoading(false))
     dispatch(ACTIONS.isBusinessCategoryFormDataLoading(false))

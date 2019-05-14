@@ -100,7 +100,7 @@ class ForgotPassword extends Component {
         </Typography>
         <Button
           component={NavLink}
-          to={'login'}
+          to={'/admin/login'}
           fullWidth
           variant="contained"
           color="primary"

@@ -99,11 +99,11 @@ const ImageUploader = (props) => {
           <section className='container'>
             <div {...getRootProps({className: classes.dropzone})}>
               <input accept='image/*' {...getInputProps()} />
-              <p style={{textAlign: 'center'}}>
+              <div style={{textAlign: 'center'}}>
                 <p>{helperText}</p>
                 <CloudUploadIcon className={classes.uploadIcon}/>
                 Drag n drop some files here, or click to select files
-              </p>
+              </div>
             </div>
             {uploadedImages && <ul className={classes.imageList}>{uploadedImages}</ul>}
           </section>
