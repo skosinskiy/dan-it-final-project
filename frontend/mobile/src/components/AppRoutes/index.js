@@ -1,18 +1,18 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import NewsPage from '../../pages/NewsPage/index'
-import DialoguesPage from '../../pages/DialoguesPage'
 import ContactsPage from '../../pages/ContactsPage'
 import Login from '../../pages/LoginPage/index'
 import BusinessesEvents from '../../pages/BusinessesEvents'
 import SelectBuildings from '../../pages/SelectBuildings'
-import MapPage from '../../pages/MapPage/MapPage.js'
+import DialoguesPage from '../../pages/DialoguesPage'
 import CreateChatPage from '../../pages/CreateChatPage'
 import ChatPage from '../../pages/ChatPage'
 import * as PropTypes from 'prop-types'
 import Redirect from 'react-router-dom/es/Redirect'
 import {connect} from 'react-redux'
 import BottomMenu from '../BottomMenu'
+import MapPage from '../../pages/MapPage/MapPage.js'
 
 const AppRoutes = (props) => {
   return (
