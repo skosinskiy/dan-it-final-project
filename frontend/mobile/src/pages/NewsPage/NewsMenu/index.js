@@ -10,10 +10,10 @@ const NewsMenu = (props) => {
 
   return (
     <div className="news-menu">
-      <button type="button" className="news-menu__button" onClick={handleRSS(bbcWorld)}>BBC World</button>
-      <button type="button" className="news-menu__button" onClick={handleRSS(bbcTech)}>Tech</button>
-      <button type="button" className="news-menu__button" onClick={handleRSS(bbcBusiness)}>Business</button>
-      <button type="button" className="news-menu__button" onClick={handleRSS(euroMaidan)}>Euromaidan</button>
+      <button type="button" className="news-menu__button" onClick={() => handleRSS(bbcWorld)}>BBC World</button>
+      <button type="button" className="news-menu__button" onClick={() => handleRSS(bbcTech)}>Tech</button>
+      <button type="button" className="news-menu__button" onClick={() => handleRSS(bbcBusiness)}>Business</button>
+      <button type="button" className="news-menu__button" onClick={() => handleRSS(euroMaidan)}>Euromaidan</button>
     </div>
   )
 }

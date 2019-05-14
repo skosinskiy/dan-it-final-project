@@ -5,8 +5,8 @@
   justify-content: space-around;
   margin-top: -15px;
   padding: 30px 8px 15px;
-  background-color: $white;
   overflow-x: auto;
+  background-color: $white;
 
   &__button {
     @include button-reset;
