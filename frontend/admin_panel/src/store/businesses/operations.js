@@ -1,5 +1,17 @@
 import api from '../../helpers/FetchData'
 import * as ACTIONS from './actions'
+import {placesOperations} from '../../store/places'
+import {businessCategoryOperations} from '../../store/businessCategory'
+
+export const fetchBusinessFormData = (page = 0, size = 5) => dispatch => {
+  dispatch(ACTIONS.isBusinessFormDataLoading(true))
+  Promise.all([
+    dispatch(placesOperations.getAllPlaces()),
+    dispatch(businessCategoryOperations.getAllBusinessCategories()),
+    dispatch(getAllBusinesses(page, size))
+  ]).then(() => dispatch(ACTIONS.isBusinessFormDataLoading(false)))
+
+}
 
 export const getAllBusinesses = (page = 0, size = 5) => dispatch => {
   dispatch(ACTIONS.isBusinessesLoading(true))

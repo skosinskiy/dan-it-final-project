@@ -9,6 +9,7 @@ const initialState = {
   totalElements: 0,
 
   isBusinessesLoading: false,
+  isBusinessFormDataLoading: false,
   error: null
 }
 
@@ -31,6 +32,11 @@ const businessReducer = (state = initialState, action) => {
         ...state,
         isBusinessesLoading: action.payload
 
+      }
+    case TYPES.IS_BUSINESS_FORM_DATA_LOADING:
+      return {
+        ...state,
+        isBusinessFormDataLoading: action.payload
       }
     default:
       return state

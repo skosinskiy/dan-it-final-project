@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import {Redirect} from 'react-router-dom'
 import TextField from '@material-ui/core/TextField'
 import {connect} from 'react-redux'
-import {placesOperations} from '../../../../../store/places'
 import {businessOperations} from '../../../../../store/businesses'
 import ImageUploader from '../../../../../components/ImageUploader'
 import Grid from '@material-ui/core/Grid'
@@ -11,15 +10,31 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Preloader from '../../../../../components/Preloader'
 import FormButtons from '../../../../../components/FormButtons'
 
+import InputLabel from '@material-ui/core/InputLabel/InputLabel'
+import Select from '@material-ui/core/Select/Select'
+import OutlinedInput from '@material-ui/core/OutlinedInput/OutlinedInput'
+import Checkbox from '@material-ui/core/Checkbox/Checkbox'
+import ListItemText from '@material-ui/core/ListItemText/ListItemText'
+import FormControl from '@material-ui/core/FormControl/FormControl'
+
 const emptyBusiness = {
   title: "",
   description: "",
+  categories: [],
   address: "",
   webSite: "",
   phoneNumber: "",
   mainPhoto: null,
   photos: null,
   place: null
+}
+
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: '90vh'
+    }
+  }
 }
 
 class BusinessForm extends Component {
@@ -33,8 +48,7 @@ class BusinessForm extends Component {
   }
 
   componentDidMount() {
-    this.props.getPlaces()
-    this.props.getBusinesses()
+    this.props.fetchBusinessFormData()
   }
 
   componentWillReceiveProps(nextProps) {
@@ -57,8 +71,9 @@ class BusinessForm extends Component {
   }
 
   handleChange = (event, propName) => {
+    const {places} = this.props
     if (propName === 'place') {
-      const {places} = this.props
+
       this.setState({
         editedBusiness: {
           ...this.state.editedBusiness,
@@ -106,7 +121,7 @@ class BusinessForm extends Component {
   }
 
   render() {
-    const {places, isBusinessesLoading} = this.props
+    const {places, isBusinessFormDataLoading, businessCategories} = this.props
 
     const {editedBusiness, businessImages, isDataSubmitted} = this.state
 
@@ -114,7 +129,7 @@ class BusinessForm extends Component {
       return <Redirect to={'/admin/businesses'}/>
     }
 
-    if (isBusinessesLoading) {
+    if (isBusinessFormDataLoading) {
       return <Preloader/>
     }
 
@@ -125,6 +140,8 @@ class BusinessForm extends Component {
           {place.title}
         </MenuItem>
       ))
+
+    const businessCategoriesValue = businessCategories.filter(category => editedBusiness.categories.some(businessCategory => category.id === businessCategory.id))
 
     return (
       <Grid container spacing={24}>
@@ -145,6 +162,30 @@ class BusinessForm extends Component {
             value={editedBusiness.description}
             onChange={(e) => this.handleChange(e, 'description')}
           />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel>
+              Categories
+            </InputLabel>
+            <Select
+              multiple
+              value={businessCategoriesValue}
+              onChange={(e) => this.handleChange(e, 'categories')}
+              input={
+                <OutlinedInput labelWidth={78}/>
+              }
+              renderValue={selected => selected.map(item => item.name).join(', ')}
+              MenuProps={MenuProps}
+            >
+              {businessCategories.map(category => (
+                <MenuItem key={category.id} value={category}>
+                  <Checkbox checked={!!editedBusiness.categories.find(item => item.id === category.id)}/>
+                  <ListItemText primary={category.name}/>
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
@@ -207,10 +248,10 @@ class BusinessForm extends Component {
 BusinessForm.propTypes = {
   business: PropTypes.object,
   places: PropTypes.array.isRequired,
-  isBusinessesLoading: PropTypes.bool.isRequired,
+  isBusinessFormDataLoading: PropTypes.bool.isRequired,
   saveNewBusiness: PropTypes.func.isRequired,
-  getPlaces: PropTypes.func.isRequired,
-  getBusinesses: PropTypes.func.isRequired
+  fetchBusinessFormData: PropTypes.func.isRequired,
+  businessCategories: PropTypes.array.isRequired
 }
 
 const mapStateToProps = (state, props) => {
@@ -219,15 +260,15 @@ const mapStateToProps = (state, props) => {
   return {
     places: state.places.places,
     business: business,
-    isBusinessesLoading: state.businesses.isBusinessesLoading
+    businessCategories: state.businessCategory.allBusinessCategories,
+    isBusinessFormDataLoading: state.businesses.isBusinessFormDataLoading
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPlaces: () => dispatch(placesOperations.getAllPlaces()),
+    fetchBusinessFormData: (page, size) => dispatch(businessOperations.fetchBusinessFormData(page, size)),
     saveNewBusiness: (business, images) => dispatch(businessOperations.saveBusiness(business, images)),
-    getBusinesses: (page, size) => dispatch(businessOperations.getAllBusinesses(page, size))
   }
 }
 
