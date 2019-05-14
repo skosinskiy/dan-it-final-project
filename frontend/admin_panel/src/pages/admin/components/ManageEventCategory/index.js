@@ -47,13 +47,11 @@ class EventCategories extends Component {
 EventCategories.propTypes = {
   classes: PropTypes.object.isRequired,
   getAllEventCategories: PropTypes.func.isRequired,
-  eventCategories:  PropTypes.array.isRequired,
   isEventCategoriesLoading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = ({eventCategory}) => {
   return {
-    eventCategories: eventCategory.allEventCategories,
     isEventCategoriesLoading: eventCategory.isEventCategoriesLoading
   }
 }
