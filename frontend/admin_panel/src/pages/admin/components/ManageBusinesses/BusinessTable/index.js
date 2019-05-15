@@ -28,29 +28,26 @@ const styles = theme => ({
 })
 
 class BusinessTable extends React.Component {
-  state = {
-    page: 0,
-    rowsPerPage: 5
-  }
 
   componentDidMount() {
-    this.props.getAllBusinesses(this.state.page, this.state.rowsPerPage)
+    const {getAllBusinesses, page, size} = this.props
+    console.log(page)
+    console.log(size)
+    getAllBusinesses(page, size)
   }
 
   handleChangePage = (event, page) => {
-    this.setState({page})
-    this.props.getAllBusinesses(page, this.state.rowsPerPage)
+    const {getAllBusinesses, size} = this.props
+    getAllBusinesses(page, size)
   }
 
   handleChangeRowsPerPage = event => {
-    this.setState({ page: 0, rowsPerPage: event.target.value });
     this.props.getAllBusinesses(0, event.target.value)
   };
 
   render() {
 
-    const {classes, businessList, deleteBusiness, isBusinessesLoading, totalElements} = this.props
-    const {page, rowsPerPage} = this.state
+    const {classes, businessList, deleteBusiness, isBusinessesLoading, totalElements, page, size} = this.props
 
     if (isBusinessesLoading) {
       return (
@@ -98,7 +95,7 @@ class BusinessTable extends React.Component {
                   <TableCell>{business.place ? business.place.title : ''}</TableCell>
                   <TableCellButtons
                     editLink={`/admin/businesses/edit/${business.id}`}
-                    deleteFunction={() => deleteBusiness(business.id, page, rowsPerPage)}
+                    deleteFunction={() => deleteBusiness(business.id, page, size)}
                   />
                 </TableRow>
               )
@@ -110,7 +107,7 @@ class BusinessTable extends React.Component {
                 count={totalElements}
                 page={page}
                 onChangePage={this.handleChangePage}
-                rowsPerPage={rowsPerPage}
+                rowsPerPage={size}
                 rowsPerPageOptions={[5, 10, 15]}
                 onChangeRowsPerPage={this.handleChangeRowsPerPage}
                 SelectProps={{
@@ -138,7 +135,9 @@ const mapStateToProps = (state) => {
   return {
     businessList: state.businesses.businessList,
     totalElements: state.businesses.totalElements,
-    isBusinessesLoading: state.businesses.isBusinessesLoading
+    isBusinessesLoading: state.businesses.isBusinessesLoading,
+    page: state.businesses.page,
+    size: state.businesses.size
   }
 }
 

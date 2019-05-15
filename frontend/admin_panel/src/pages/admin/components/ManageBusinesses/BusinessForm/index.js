@@ -48,7 +48,8 @@ class BusinessForm extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchBusinessFormData()
+    const {fetchBusinessFormData, page, size} = this.props
+    fetchBusinessFormData(page, size)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -261,7 +262,9 @@ const mapStateToProps = (state, props) => {
     places: state.places.places,
     business: business,
     businessCategories: state.businessCategory.allBusinessCategories,
-    isBusinessFormDataLoading: state.businesses.isBusinessFormDataLoading
+    isBusinessFormDataLoading: state.businesses.isBusinessFormDataLoading,
+    page: state.businesses.page,
+    size: state.businesses.size
   }
 }
 

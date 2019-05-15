@@ -6,6 +6,7 @@ const initialState = {
   businessListByTitle: [],
   changedBusinessList: [],
   page: 0,
+  size: 5,
   totalElements: 0,
 
   isBusinessesLoading: false,
@@ -22,10 +23,14 @@ const businessReducer = (state = initialState, action) => {
         totalElements: action.payload.businessList.length
       }
     case TYPES.GET_ALL_BUSINESSES:
+      console.log(action.payload.pageable.pageNumber)
+      console.log(action.payload.pageable.pageSize)
       return {
         ...state,
         businessList: action.payload.content,
-        totalElements: action.payload.totalElements
+        totalElements: action.payload.totalElements,
+        page: action.payload.pageable.pageNumber,
+        size: action.payload.pageable.pageSize
       }
     case TYPES.IS_BUSINESSES_LOADING:
       return {
