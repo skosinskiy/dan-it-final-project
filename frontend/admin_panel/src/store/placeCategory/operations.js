@@ -31,6 +31,7 @@ const createOrSetKey = placeCategory => {
   if (!placeCategory) {
     placeCategory = {
       multisync: false,
+      allowMessages: false,
       name: "Display Name",
       description: "Enter your desription here",
       businessCategories: []
@@ -45,11 +46,11 @@ const findIndexByKey = (key, container) => (
 
 /**
  * sets entitie's field to value and returns new container
- * @param {number} key
- * @param {object} container
- * @param {string} field
- * @param {any} value
- * @returns {object}
+ * @param {Number} key
+ * @param {Array} container
+ * @param {String} field
+ * @param {Any} value
+ * @returns {Object}
  */
 const setValueToEntityField = (key, container, field, value) => {
   const idx = findIndexByKey(key, container)
@@ -70,6 +71,12 @@ export const updateBusinessCategories = (key, container, selectedBusinessCategor
   ))
 }
 
+export const updateLayoutItems = (key, container, layoutItems) => dispatch => {
+  dispatch(ACTIONS.updatePlaceCategories(
+    setValueToEntityField(key, container, 'layoutItems', layoutItems)
+  ))
+}
+
 export const updateDescription = (key, container, description) => dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(
     setValueToEntityField(key, container, 'description', description)
@@ -82,10 +89,10 @@ export const updateName = (key, container, name) => dispatch => {
   ))
 }
 
-export const toggleMultisync = (key, container) => dispatch => {
+export const toggleCheckBox = (key, checkBoxType, container) => dispatch => {
   const idx = findIndexByKey(key, container)
   dispatch(ACTIONS.updatePlaceCategories(
-    setValueToEntityField(key, container, 'multisync', !container[idx].multisync)
+    setValueToEntityField(key, container, checkBoxType, !container[idx][checkBoxType])
   ))
 }
 

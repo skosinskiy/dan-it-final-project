@@ -24,7 +24,7 @@ class Desciption extends Component {
     const {_Key: key, description} = this.props
     return (
       <TableRow key={key * Math.random()}>
-        <TableCell colSpan={4} scope="row" padding="none">
+        <TableCell colSpan={6} scope="row" padding="none">
           <FullWidthTextField
             id="outlined-full-width"
             label="Desciption"

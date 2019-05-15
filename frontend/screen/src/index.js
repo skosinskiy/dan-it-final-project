@@ -3,17 +3,25 @@ import ReactDOM from 'react-dom'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 import {reducer as menuReducer} from './store/MenuReducer'
+import {currentPlace} from './store/currentPlace'
 import { Provider } from 'react-redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import {createStore, applyMiddleware, combineReducers} from 'redux'
 import { BrowserRouter } from 'react-router-dom'
+import events from './store/events'
+import businesses from './store/businesses'
+import thunk from 'redux-thunk'
 
 const reducers = {
-  menuReducer
+  menuReducer,
+  currentPlace,
+  businesses: businesses,
+  events: events
 }
 
 const reducer = combineReducers(reducers)
-const store = createStore(reducer, composeWithDevTools(applyMiddleware()))
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))
+
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>

@@ -2,7 +2,7 @@ import api from '../../helpers/FetchData'
 import * as ACTIONS from './actions'
 import {getAllBusinesses} from "../businesses/operations";
 import {getAllEventCategories} from "../eventCategory/operations";
-import {getPlaces} from "../places/operations";
+import {getAllPlaces} from "../places/operations";
 
 export const fetchEventFormData = () => dispatch => {
   dispatch(ACTIONS.isEventFormDataLoading(true))
@@ -10,37 +10,32 @@ export const fetchEventFormData = () => dispatch => {
     dispatch(getAllEvents()),
     dispatch(getAllEventCategories()),
     dispatch(getAllBusinesses()),
-    dispatch(getPlaces())
+    dispatch(getAllPlaces())
   ]).then(() => dispatch(ACTIONS.isEventFormDataLoading(false)))
 }
 
-export const getAllEvents = () => dispatch => {
+export const getAllEvents = (page = 0, size = 5) => dispatch => {
   dispatch(ACTIONS.isEventDataLoading(true))
-  return api.get(`/api/events`).then(res => {
-    dispatch(ACTIONS.getAllEvents({eventList: res}))
+  return api.get(`/api/events?page=${page}&size=${size}`).then(res => {
+    dispatch(ACTIONS.getAllEvents(res))
     dispatch(ACTIONS.isEventDataLoading(false))
   }).catch(err => {
     dispatch(ACTIONS.getEventsError(err))
   })
 }
 
-export const getEventsByParam = (param) => dispatch => {
-  api.get(`/api/events?searchParam=${param}`).then(res => {
-    dispatch(ACTIONS.getEventsByParam({eventList: res}))
+export const getEventsByParam = (param, page = 0, size = 5) => dispatch => {
+  api.get(`/api/events?searchParam=${param}&page=${page}&size=${size}`).then(res => {
+    dispatch(ACTIONS.getEventsByParam(res))
   }).catch(err => {
     dispatch(ACTIONS.getEventsError(err))
   })
 }
 
-export const deleteEvent = (eventId) => dispatch => {
+export const deleteEvent = (eventId, page, size) => dispatch => {
   dispatch(ACTIONS.isEventDataLoading(true))
   api.deleteApi(`/api/events/${eventId}`).then(res => {
-    api.get(`/api/events`).then(res => {
-      dispatch(ACTIONS.getAllEvents({eventList: res}))
-      dispatch(ACTIONS.isEventDataLoading(false))
-    }).catch(err => {
-      dispatch(ACTIONS.getEventsError(err))
-    })
+    dispatch(getAllEvents(page, size))
   })
 }
 

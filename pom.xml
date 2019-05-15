@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  	 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -96,12 +96,22 @@
 			<artifactId>aws-java-sdk-s3</artifactId>
 			<version>1.11.525</version>
 		</dependency>
-
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.9.2</version>
+		</dependency>
 
 	</dependencies>
 
 	<build>
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -150,6 +160,160 @@
 					</execution>
 				</executions>
 			</plugin>
+
+			<plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.6</version>
+
+				<executions>
+					<execution>
+						<id>install admin node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<configuration>
+							<workingDirectory>frontend/admin_panel</workingDirectory>
+							<nodeVersion>v10.15.3</nodeVersion>
+						</configuration>
+					</execution>
+					<execution>
+						<id>install admin</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<workingDirectory>frontend/admin_panel</workingDirectory>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>Build admin panel</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<workingDirectory>frontend/admin_panel</workingDirectory>
+							<arguments>run build</arguments>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>install screen node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<configuration>
+							<workingDirectory>frontend/screen</workingDirectory>
+							<nodeVersion>v10.15.3</nodeVersion>
+						</configuration>
+					</execution>
+					<execution>
+						<id>install screen</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<workingDirectory>frontend/screen</workingDirectory>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>Build screen</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<workingDirectory>frontend/screen</workingDirectory>
+							<arguments>run build</arguments>
+						</configuration>
+					</execution>
+
+					<execution>
+						<id>install mobile node and npm</id>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+						<configuration>
+							<workingDirectory>frontend/mobile</workingDirectory>
+							<nodeVersion>v10.15.3</nodeVersion>
+						</configuration>
+					</execution>
+					<execution>
+						<id>install mobile</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<workingDirectory>frontend/mobile</workingDirectory>
+							<arguments>install</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>Build mobile</id>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<workingDirectory>frontend/mobile</workingDirectory>
+							<arguments>run build</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>copy-admin-resources</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/classes/static/admin</outputDirectory>
+							<resources>
+								<resource>
+									<directory>frontend/admin_panel/build</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-screen-resources</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/classes/static/screen</outputDirectory>
+							<resources>
+								<resource>
+									<directory>frontend/screen/build</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-mobile-resources</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/classes/static/mobile</outputDirectory>
+							<resources>
+								<resource>
+									<directory>frontend/mobile/build</directory>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
 		</plugins>
 	</build>
 </project>

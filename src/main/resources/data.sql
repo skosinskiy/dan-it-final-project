@@ -70,13 +70,32 @@ VALUES
   (2, 8),
   (2, 4);
 
+INSERT INTO user_friends
+  (user_id, friend_id)
+VALUES
+  (1, 2),
+  (1, 3),
+  (1, 4),
+  (1, 6),
+  (1, 7),
+  (1, 8),
+  (1, 5);
+
 -- place
 
 INSERT INTO places_categories
-  (id, date_created, date_modified, name, description, multisync)
+  (id, date_created, date_modified, name, description, multisync, allow_messages)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-1', 'this is test description for cat 1', 1),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-2', 'this is test description for cat 2', 0 );
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-1', 'this is test description for cat 1', 1, 0),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-2', 'this is test description for cat 2', 0, 1);
+
+INSERT INTO place_category_layout_items
+  (place_category_id, layout_item_id)
+VALUES
+  (1, 0),
+  (1, 1),
+  (1, 2),
+  (1, 3);
 
 INSERT INTO places
   (id, date_created, date_modified, title, description, address, place_category)
@@ -202,6 +221,17 @@ INSERT INTO chats
 VALUES
   (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'chat-1'),
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'chat-2');
+
+INSERT INTO users_chats
+  (user_id, chat_id)
+VALUES
+  (1, 1),
+  (1, 2),
+  (2, 1),
+  (2, 2),
+  (3, 1),
+  (3, 2);
+
 
 INSERT INTO chat_messages
   (id, date_created, date_modified, message, user_id, chat_id )

@@ -1,53 +1,57 @@
 import api from '../../helpers/FetchData'
 import * as ACTIONS from './actions'
+import {placesOperations} from '../../store/places'
+import {businessCategoryOperations} from '../../store/businessCategory'
 
-export const getAllBusinesses = () => dispatch => {
-  return api.get(`/api/businesses`).then(res => {
-    dispatch(ACTIONS.getAllBusinesses({businessList: res.content}))
-  }).catch(err => {
-    dispatch(ACTIONS.getBusinessesError(err))
-  })
+export const fetchBusinessFormData = (page = 0, size = 5) => dispatch => {
+  dispatch(ACTIONS.isBusinessFormDataLoading(true))
+  Promise.all([
+    dispatch(placesOperations.getAllPlaces()),
+    dispatch(businessCategoryOperations.getAllBusinessCategories()),
+    dispatch(getAllBusinesses(page, size))
+  ]).then(() => dispatch(ACTIONS.isBusinessFormDataLoading(false)))
+
 }
 
-export const getBusinessesByPlaceID = (placeId) => dispatch => {
-  // dispatch(ACTIONS.getBusinessesRequest())
-  api.get(`/api/businesses?placeId=${placeId}`).then(res => {
-    dispatch(ACTIONS.getBusinessesByPlaceID({businessList: res.content}))
+export const getAllBusinesses = (page = 0, size = 5) => dispatch => {
+  dispatch(ACTIONS.isBusinessesLoading(true))
+  return api.get(`/api/businesses?page=${page}&size=${size}`).then(res => {
+    dispatch(ACTIONS.getAllBusinesses(res))
+    dispatch(ACTIONS.isBusinessesLoading(false))
   }).catch(err => {
     dispatch(ACTIONS.getBusinessesError(err))
+    dispatch(ACTIONS.isBusinessesLoading(false))
   })
 }
 
 export const getBusinessesByTitle = (title) => dispatch => {
   api.get(`/api/businesses?title=${title}`).then(res => {
-    dispatch(ACTIONS.getAllBusinesses({businessList: res.content}))
+    dispatch(ACTIONS.getAllBusinesses(res))
   }).catch(err => {
     dispatch(ACTIONS.getBusinessesError(err))
   })
 }
 
-export const deleteBusiness = (businessId) => dispatch => {
+export const deleteBusiness = (businessId, page, size) => dispatch => {
+  dispatch(ACTIONS.isBusinessesLoading(true))
   api.deleteApi(`/api/businesses/${businessId}`).then(res => {
-    api.get(`/api/businesses`).then(res => {
-      dispatch(ACTIONS.getAllBusinesses({businessList: res.content}))
-    }).catch(err => {
-      dispatch(ACTIONS.getBusinessesError(err))
-    })
+      dispatch(getAllBusinesses(page, size))
   })
 }
 
-export const saveNewBusiness = (business, images) => dispatch => {
+export const saveBusiness = (business, images) => dispatch => {
+  dispatch(ACTIONS.isBusinessesLoading(true))
   if (business.id) {
     const imagesToUpload = images.filter(image => !image.id)
     const existingImages = images.filter(image => image.id)
-    uploadImagesToS3(imagesToUpload)
+    return uploadImagesToS3(imagesToUpload)
       .then(uploadedImages => createBusinessPhotos(uploadedImages, business.id)
           .then(createdPhotos => updateBusiness(existingImages, business, createdPhotos)
             .then(() => dispatch(getAllBusinesses()))
           )
       )
   } else {
-    createBusiness(business)
+    return createBusiness(business)
       .then(createdBusiness => uploadImagesToS3(images)
         .then(uploadedImages => createBusinessPhotos(uploadedImages, createdBusiness.id)
           .then(createdPhotos => updateBusiness(null, createdBusiness, createdPhotos)

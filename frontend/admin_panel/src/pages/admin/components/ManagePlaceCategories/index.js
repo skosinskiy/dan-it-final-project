@@ -14,11 +14,13 @@ import SubmitButton from './components/Buttons/Submit'
 import Name from './components/Name'
 import DeleteButton from './components/Buttons/Delete'
 import MultiSelect from './components/MultiSelect'
+import LayuoutMultiSelect from './components/LayoutMultiSelect'
 import { EnhancedTableHead } from './components/EnhancedTableHead'
 import EnhancedTableToolbar from './components/EnhancedTableToolbar'
 import './index.scss'
 import ResetButton from './components/Buttons/Reset'
 import Desciption from './components/Description';
+import layoutItems from '../../../../constants/layoutItems'
 
 const styles = theme => ({
   root: {
@@ -33,6 +35,8 @@ const styles = theme => ({
   },
 });
 
+const allLayoutItems = Object.values(layoutItems)
+
 class EnhancedTable extends React.Component {
   componentDidMount() {
     this.props.reloadData()
@@ -42,9 +46,22 @@ class EnhancedTable extends React.Component {
     this.props.updateChanged(key, this.props.placeCategories)
   }
 
-  handleClickCheckBox = (key) => {
+  checkBoxTypes = {
+    MULTISYNC: 'multisync',
+    ALLOW_MESSAGES: 'allowMessages',
+  }
+
+  handleClickCheckBox = (key, checkBoxType) => {
     this.handleChange(key)
-    this.props.toggleMultisync(key, this.props.placeCategories)
+    this.props.toggleCheckBox(key, checkBoxType, this.props.placeCategories)
+  }
+
+  handleClickMultisync = (key) => {
+    this.handleClickCheckBox(key, this.checkBoxTypes.MULTISYNC)
+  }
+
+  handleClickAllowMessages = (key) => {
+    this.handleClickCheckBox(key, this.checkBoxTypes.ALLOW_MESSAGES)
   }
 
   render() {
@@ -64,7 +81,7 @@ class EnhancedTable extends React.Component {
             <TableBody>
               {
                 placeCategories.map(placeCategory => {
-                  const {multisync, businessCategories: selectedBusinessCategories, name, key,
+                  const {multisync, allowMessages, layoutItems, businessCategories: selectedBusinessCategories, name, key,
                     description} = placeCategory
                   return (
                     <Fragment key={key * Math.random()}>
@@ -76,7 +93,10 @@ class EnhancedTable extends React.Component {
                         style={{borderBottomStyle: "hidden"}}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox checked={multisync} onClick={() => this.handleClickCheckBox(key)} />
+                          <Checkbox checked={multisync} onClick={() => this.handleClickMultisync(key)} />
+                        </TableCell>
+                        <TableCell padding="checkbox">
+                          <Checkbox checked={allowMessages} onClick={() => this.handleClickAllowMessages(key)} />
                         </TableCell>
                         <TableCell scope="row" padding="none">
                           <Name name={name} placeCategoryKey={key} />
@@ -85,6 +105,14 @@ class EnhancedTable extends React.Component {
                           <MultiSelect
                             selectedBusinessCategories={selectedBusinessCategories}
                             placeCategoryKey={key}
+                          />
+                        </TableCell>
+                        <TableCell scope="row" padding="none">
+                          <LayuoutMultiSelect
+                            selectedMenuItems={layoutItems ? layoutItems : []}
+                            placeCategoryKey={key}
+                            allNames={allLayoutItems}
+                            flag={'layoutItem'}
                           />
                         </TableCell>
                         <TableCell scope="row" padding="none">
@@ -117,7 +145,7 @@ class EnhancedTable extends React.Component {
 EnhancedTable.propTypes = {
   classes: PropTypes.object.isRequired,
   placeCategories: PropTypes.array.isRequired,
-  toggleMultisync: PropTypes.func.isRequired,
+  toggleCheckBox: PropTypes.func.isRequired,
   updateChanged: PropTypes.func.isRequired,
   reloadData: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
@@ -135,8 +163,8 @@ const mapDispatchToProps = dispatch => ({
   reloadData: () => dispatch(placesCategoriesOperations.reloadData()),
   updateChanged: (key, placeCategories) =>
     dispatch(placesCategoriesOperations.updateChanged(key, placeCategories)),
-  toggleMultisync: (key, placeCategories) =>
-    dispatch(placesCategoriesOperations.toggleMultisync(key, placeCategories)),
+  toggleCheckBox: (key, checkBoxType, placeCategories) =>
+    dispatch(placesCategoriesOperations.toggleCheckBox(key, checkBoxType, placeCategories)),
   fetchParentBusinessCategories: () =>
     dispatch(placesCategoriesOperations.fetchParentBusinessCategories()),
   updateDescription: (key, placeCategories, value) =>

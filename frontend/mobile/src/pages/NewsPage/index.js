@@ -1,54 +1,43 @@
-/* eslint-disable indent */
 import React, {Component} from 'react'
+import Parser from 'rss-parser'
 import NewsList from './NewsList'
+import NewsMenu from './NewsMenu'
 import MobileHeader from '../../components/MobileHeader'
 import headerImage from '../../img/NewsPage/news-menu-bg.svg'
-import './index.scss'
+import './news-page.scss'
 
 class NewsPage extends Component {
   state = {
-    news: [
-      {
-        link: '#',
-        image: 'https://via.placeholder.com/120x162',
-        title: 'Flea market',
-        description: 'Ukrainian National Cuisine. Picturesque And Quiet Place. Reserve of Table!'
-      },
-      {
-        link: '#',
-        image: 'https://via.placeholder.com/120x162',
-        title: 'New place in Kiev',
-        description: 'Tomorrow the office will host a flea market, everyone can take part! Bring you unnecessary things.'
-      },
-      {
-        link: '#',
-        image: 'https://via.placeholder.com/120x162',
-        title: 'Flea market',
-        description: 'Ukrainian National Cuisine. Picturesque And Quiet Place. Reserve of Table!'
-      },
-      {
-        link: '#',
-        image: 'https://via.placeholder.com/120x162',
-        title: 'New place in Kiev',
-        description: 'Tomorrow the office will host a flea market, everyone can take part! Bring you unnecessary things.'
-      }
-    ]
+    rss: []
   }
+
+  handleRSS = (rssSource) => {
+    const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/'
+    const parser = new Parser()
+    const getNews = async () => {
+      let feed = await parser.parseURL(CORS_PROXY + rssSource)
+      this.setState({rss: []})
+
+      feed.items.forEach(item => {
+        console.log(item)
+        this.setState({rss: [...this.state.rss, item]})
+      })
+    }
+    getNews()
+  }
+
+  componentDidMount () {
+    this.handleRSS('euromaidanpress.com/feed')
+  }
+
   render () {
-    const menu = (
-      <div className="news-menu">
-        <div className="news-menu__button"><a href=' ' className="news-menu__button--link">Clothes</a></div>
-        <div className="news-menu__button"><a href=' ' className="news-menu__button--link">Market</a></div>
-        <div className="news-menu__button"><a href=' ' className="news-menu__button--link">Shops</a></div>
-        <div className="news-menu__button"><a href=' ' className="news-menu__button--link">Shoes</a></div>
-      </div>
-    )
     return (
       <div className="newsPage parallax-container">
-            <MobileHeader bgImage={headerImage} text='All news' extraComponent={menu}/>
-            <div className='newsPage__content'>
-              <NewsList news={this.state.news} />
-            </div>
+        <MobileHeader bgImage={headerImage} header={'All news'} location='Kyiv' />
+        <NewsMenu handleRSS={this.handleRSS} />
+        <div className='newsPage__content'>
+          <NewsList news={this.state.rss} />
+        </div>
       </div>
     )
   }

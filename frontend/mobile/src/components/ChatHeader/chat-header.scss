@@ -1,0 +1,57 @@
+@import "../../styles/variables";
+
+.chat-header{
+  display: flex;
+  flex-shrink: 0;
+  flex-basis: 30px;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 0 20px;
+  font-weight: bold;
+  text-align: center;
+
+  &__back-button{
+    @include button-reset;
+    flex-basis: 25%;
+    height: 100%;
+    padding-left: 17px;
+    line-height: 2;
+    text-align: left;
+
+    &:before, &:after{
+      position: absolute;
+      width: 12px;
+      height: 1px;
+      background-color: #000;
+      content: "";
+    }
+
+    &:before{
+      top: 20px;
+      left: 19px;
+      transform: rotate(45deg);
+    }
+
+    &:after{
+      top: 12px;
+      left: 19px;
+      transform: rotate(-45deg);
+    }
+  }
+
+  &__header-title{
+    flex-basis: 50%;
+    line-height: 30.5px;
+  }
+
+  &__envelope-icon{
+    flex-basis: 25%;
+    height: 100%;
+    background: url("../../img/ChatPage/letter.png") no-repeat center;
+    background-position-x: right;
+  }
+
+  .back-btn-link {
+    color: #1C1C1C;
+  }
+}

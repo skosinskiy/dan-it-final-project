@@ -1,10 +1,10 @@
 {
   "name": "screen",
   "version": "0.1.0",
+  "homepage": "/screen",
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
-    "node-fetch": "^2.3.0",
     "react": "^16.8.3",
     "react-dialog": "^1.0.2",
     "react-dom": "^16.8.3",
@@ -12,16 +12,22 @@
     "react-modal": "^3.8.1",
     "react-onclickoutside": "^6.8.0",
     "react-redux": "^6.0.1",
+    "react-redux-toastr": "^7.4.8",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.5",
-    "redux": "^4.0.1"
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0",
+    "toastr": "^2.1.4"
   },
   "devDependencies": {
+    "axios": "^0.18.0",
     "eslint-plugin-react": "^7.12.4",
     "node-sass": "^4.11.0",
     "npm-run-all": "^4.1.1",
     "npm-watch": "^0.3.0",
+    "react-redux-toastr": "^7.4.8",
     "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0",
     "standard": "^10.0.3",
     "stylelint": "^8.4.0",
     "stylelint-config-rational-order": "0.0.2",
@@ -55,5 +61,6 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "proxy": "http://localhost:9000/"
 }

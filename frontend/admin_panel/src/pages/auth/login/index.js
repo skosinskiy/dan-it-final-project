@@ -69,7 +69,7 @@ class Login extends Component {
     const {classes, currentUser} = this.props
 
     if (currentUser) {
-      return <Redirect to={'/'}/>
+      return <Redirect to={'/admin'}/>
     }
 
     return (
@@ -138,7 +138,7 @@ class Login extends Component {
             </Button>
             <Button
               component={NavLink}
-              to={'/forgot-password'}
+              to={'/admin/forgot-password'}
               fullWidth
               variant="contained"
               color="secondary"

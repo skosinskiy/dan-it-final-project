@@ -2,12 +2,15 @@ import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
 
 export const getAllEventCategories = () => dispatch => {
+  dispatch(ACTIONS.isEventCategoriesLoading(true))
   return api.get('/api/event-categories').then(res => {
     dispatch(ACTIONS.getAllEventCategories(res))
+    dispatch(ACTIONS.isEventCategoriesLoading(false))
   })
 }
 
 export const deleteEventCategory = (categoryId) => dispatch => {
+  dispatch(ACTIONS.isEventCategoriesLoading(true))
   api.deleteApi(`/api/event-categories/${categoryId}`).then(() => {
     dispatch(getAllEventCategories())
   })
@@ -28,29 +31,30 @@ const updateBusinessCategory = (category) => {
 }
 
 export const saveCategory = (category, file) => dispatch => {
+  dispatch(ACTIONS.isEventCategoriesLoading(true))
   if (category.id) {
     if (file && !file.imageKey) {
-      uploadFile(file).then(uploadResult => {
+      return uploadFile(file).then(uploadResult => {
         category.imageKey = uploadResult.fileKey
-        updateBusinessCategory(category).then( () => dispatch( getAllEventCategories()) )
+        updateBusinessCategory(category)
       })
     } else {
       if (!file) {
         category.imageKey = null
       }
-      updateBusinessCategory(category).then( () => dispatch(getAllEventCategories()) )
+      return updateBusinessCategory(category)
     }
   } else {
     if (file) {
-      createBusinessCategory(category).then(createResponse => {
+      return createBusinessCategory(category).then(createResponse => {
         uploadFile(file).then(uploadResult => {
           const {...createdCategory} = createResponse
           createdCategory.imageKey = uploadResult.fileKey
-          updateBusinessCategory(createdCategory).then( () => dispatch(getAllEventCategories()))
+          updateBusinessCategory(createdCategory)
         })
       })
     } else {
-      createBusinessCategory(category).then( () => dispatch(getAllEventCategories()) )
+      return createBusinessCategory(category)
     }
   }
 }

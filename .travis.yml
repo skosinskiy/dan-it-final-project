@@ -4,26 +4,26 @@ language:
 jdk:
   - oraclejdk8
 
+node_js:
+  - "10"
+
 cache:
   directories:
     - $HOME/.m2
-    - frontend/admin_panel/node_modules/
-    - frontend/mobile/node_modules/
-    - frontend/screen/node_modules/
-
-before_script:
-  - npm install --prefix frontend/admin_panel/
-  - npm install --prefix frontend/mobile/
-  - npm install --prefix frontend/screen/
 
 script:
-  - mvn clean test
+  - mvn clean package
   - sonar-scanner
-  - npm run build --prefix frontend/admin_panel/
-  - npm run build --prefix frontend/mobile/
-  - npm run build --prefix frontend/screen/
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - echo $TRAVIS_BRANCH
+  - echo $TRAVIS_PULL_REQUEST
+  - |
+    if [ $TRAVIS_BRANCH == "master" ] && [ $TRAVIS_PULL_REQUEST == "false" ]
+    then
+      echo 'Sending jar file'
+      curl -X POST http://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9002/deploy -F 'jar=@/home/travis/build/skosinskiy/dan-it-final-project/target/final-project-0.0.1-SNAPSHOT.jar' -F 'branch=master' --max-time 15
+    fi
 
 addons:
   sonarcloud:

@@ -1,0 +1,72 @@
+@import "../src/styles/variables";
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  animation: App-logo-spin infinite 20s linear;
+  pointer-events: none;
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  color: white;
+  font-size: calc(10px + 2vmin);
+  background-color: #282c34;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* PARALLAX HEADER STYLES ------------------------------------- */
+
+.parallax-container{
+  height: 100vh;
+  margin: 0 auto;
+  overflow-x: hidden;
+  overflow-y: overlay;
+  perspective: 1px;
+}
+
+.parallax-section {
+  position: sticky;
+  top: -290px;
+  width: 100vw;
+  height: 230px;
+  margin: 0 auto;
+  background-position: center;
+  background-size: cover;
+  transform: translateZ(-1px) translateY(calc(-50vh + 50%)) scale(2);
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track-piece {
+  width: 2px;
+  background-color: transparent;
+  border-right: 1px solid white;
+  border-left: 4px solid white;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: $almost-black;
+  border-radius: 3px;
+}

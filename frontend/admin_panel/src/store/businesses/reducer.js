@@ -8,8 +8,8 @@ const initialState = {
   page: 0,
   totalElements: 0,
 
-  isLoaded: false,
-  isLoading: false,
+  isBusinessesLoading: false,
+  isBusinessFormDataLoading: false,
   error: null
 }
 
@@ -24,8 +24,19 @@ const businessReducer = (state = initialState, action) => {
     case TYPES.GET_ALL_BUSINESSES:
       return {
         ...state,
-        businessList: action.payload.businessList,
-        totalElements: action.payload.businessList.length
+        businessList: action.payload.content,
+        totalElements: action.payload.totalElements
+      }
+    case TYPES.IS_BUSINESSES_LOADING:
+      return {
+        ...state,
+        isBusinessesLoading: action.payload
+
+      }
+    case TYPES.IS_BUSINESS_FORM_DATA_LOADING:
+      return {
+        ...state,
+        isBusinessFormDataLoading: action.payload
       }
     default:
       return state

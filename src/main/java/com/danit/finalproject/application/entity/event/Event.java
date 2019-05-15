@@ -35,7 +35,7 @@ public class Event extends BaseEntity {
   @Column(name = "description")
   private String description;
 
-  @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+  @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
   @JoinTable(name = "events_categories",
       joinColumns = {@JoinColumn(name = "event_id")},
       inverseJoinColumns = {@JoinColumn(name = "category_id")})
@@ -52,6 +52,7 @@ public class Event extends BaseEntity {
 
   @ManyToOne
   @JoinColumn(name = "business_id")
+  @ToString.Exclude
   private Business business;
 
   @ManyToOne

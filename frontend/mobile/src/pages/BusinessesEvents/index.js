@@ -1,21 +1,20 @@
-import React, {Component} from 'react'
-import {connect} from 'react-redux'
-import {ReactComponent as Shops} from '../../img/icons/shops.svg'
-import {ReactComponent as Food} from '../../img/icons/food.svg'
-import {ReactComponent as Fun} from '../../img/icons/fun.svg'
-import {ReactComponent as Services} from '../../img/icons/services.svg'
-import {ReactComponent as Useful} from '../../img/icons/useful.svg'
-import {ReactComponent as Bee} from '../../img/icons/bee.svg'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { ReactComponent as Bee } from '../../img/icons/bee.svg'
 import SectionItem from './SectionItem'
+import MobileHeader from '../../components/MobileHeader'
+import bag from '../../img/icons/bag.svg'
 import './businesses-events.scss'
-import {getBusinessesByCategory} from '../../actions/businesses'
-import {getEventsByPLace} from '../../actions/events'
+import { getCurrentPlaceById } from '../../store/places/operations'
+import {getBusinessesByCategory} from '../../store/businesses/operations'
+import {getEventsByPLace} from '../../store/events/operations'
 
 class BusinessesEvents extends Component {
   componentDidMount () {
-    const {getBusinessesByCategory, getEventsByPLace} = this.props
-    getBusinessesByCategory(1)
-    getEventsByPLace(1)
+    const {getEventsByPLace, getCurrentPlaceById} = this.props
+    const placeId = +this.props.match.params.placeId
+    getCurrentPlaceById(placeId)
+    getEventsByPLace(placeId)
   }
 
   getBusinenessesByCategory (id) {
@@ -24,46 +23,34 @@ class BusinessesEvents extends Component {
   }
 
   render () {
-    const {businesses, events} = this.props
+    const {businesses, events, currentPlaceById, isLoaded} = this.props
     const businessesList = businesses.map(item => {
       return <SectionItem key={item.id} item={item}/>
     })
     const eventsList = events.map(item => {
       return <SectionItem key={item.id} item={item}/>
     })
+    const bgImageURL = 'https://i.lb.ua/121/60/5b1501c46a520.jpeg'
 
+    let menuItems = []
+    if (isLoaded) {
+      menuItems = currentPlaceById.placeCategory.businessCategories.map(item => {
+        return (
+          <li key={item.id} className="menu-item" onClick={() => this.getBusinenessesByCategory(item.id)}>
+            <div className="menu-item_icon"><img src={item.imageUrl} alt={item.name}/></div>
+            <div className="menu-item_text">{item.name}</div>
+          </li>
+        )
+      })
+    }
     return (
-      <div className="container">
-        <div className="header">
-          <div className="header-icon">
-            <h2 className="header-title">Malls</h2>
-            <h3 className="header-description">Sky Mall</h3>
-          </div>
-        </div>
+      <div className="businesse-container parallax-container">
+        <MobileHeader header="Malls" location="Sky Mall" bgImage={bgImageURL} icon={bag} />
         <div className="content">
           <div className="navbar">
             <h2 className="section-title">Explore</h2>
             <ul className="menu">
-              <li className="menu-item" onClick={() => this.getBusinenessesByCategory(1)}>
-                <div className="menu-item_icon"><Shops/></div>
-                <div className="menu-item_text">Shops</div>
-              </li>
-              <li className="menu-item" onClick={() => this.getBusinenessesByCategory(2)}>
-                <div className="menu-item_icon"><Food/></div>
-                <div className="menu-item_text">Food</div>
-              </li>
-              <li className="menu-item">
-                <div className="menu-item_icon"><Fun/></div>
-                <div className="menu-item_text">Fun</div>
-              </li>
-              <li className="menu-item">
-                <div className="menu-item_icon"><Services/></div>
-                <div className="menu-item_text">Services</div>
-              </li>
-              <li className="menu-item">
-                <div className="menu-item_icon"><Useful/></div>
-                <div className="menu-item_text">Useful</div>
-              </li>
+              {menuItems}
             </ul>
           </div>
           <div className="businesses section">
@@ -93,14 +80,17 @@ class BusinessesEvents extends Component {
 const mapStateToProps = (state) => {
   return {
     businesses: state.businesses.businessesByCategory,
-    events: state.events.events
+    events: state.events.events,
+    currentPlaceById: state.places.currentPlaceById,
+    isLoaded: state.places.isLoaded
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getBusinessesByCategory: (categoryId) => dispatch(getBusinessesByCategory(categoryId)),
-    getEventsByPLace: (placeId) => dispatch(getEventsByPLace(placeId))
+    getEventsByPLace: (placeId) => dispatch(getEventsByPLace(placeId)),
+    getCurrentPlaceById: (placeId) => dispatch(getCurrentPlaceById(placeId))
   }
 }
 

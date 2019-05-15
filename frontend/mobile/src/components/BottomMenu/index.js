@@ -5,6 +5,7 @@ import {ReactComponent as NewsLogo} from '../../img/BottomMenu/news.svg'
 import {ReactComponent as MessagesLogo} from '../../img/BottomMenu/message.svg'
 import {ReactComponent as FavouritesLogo} from '../../img/BottomMenu/favourites.svg'
 import {ReactComponent as MoreLogo} from '../../img/BottomMenu/more.svg'
+import {ReactComponent as MapLogo} from '../../img/BottomMenu/map.svg'
 import './index.scss'
 
 class BottomMenu extends Component {
@@ -16,9 +17,9 @@ class BottomMenu extends Component {
     return (
       <div className="bottom__menu">
         <div className="item">
-          <NavLink to="/places" className={`link ${path.startsWith('/places') && 'fill'}`}>
+          <NavLink to="/home" className={`link ${path.startsWith('/home') && 'fill'}`}>
             <PlacesLogo className="logo"/>
-            <p className="text">Places</p>
+            <p className="text">Home</p>
           </NavLink>
         </div>
         <div className="item">
@@ -40,9 +41,15 @@ class BottomMenu extends Component {
           </NavLink>
         </div>
         <div className="item">
-          <NavLink to="/more" className={`link ${path.startsWith('/more') && 'fill'}`}>
+          <NavLink to="/contacts" className={`link ${path.startsWith('/contacts') && 'fill'}`}>
             <MoreLogo className="logo"/>
-            <p className="text">More</p>
+            <p className="text">Contacts</p>
+          </NavLink>
+        </div>
+        <div className="item">
+          <NavLink to="/map" className={`link ${path.startsWith('/map') && 'fill'}`}>
+            <MapLogo className="logo"/>
+            <p className="text">Map</p>
           </NavLink>
         </div>
       </div>
