@@ -252,7 +252,9 @@ BusinessForm.propTypes = {
   isBusinessFormDataLoading: PropTypes.bool.isRequired,
   saveNewBusiness: PropTypes.func.isRequired,
   fetchBusinessFormData: PropTypes.func.isRequired,
-  businessCategories: PropTypes.array.isRequired
+  businessCategories: PropTypes.array.isRequired,
+  page: PropTypes.number.isRequired,
+  size: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state, props) => {

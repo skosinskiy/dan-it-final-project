@@ -23,8 +23,6 @@ const businessReducer = (state = initialState, action) => {
         totalElements: action.payload.businessList.length
       }
     case TYPES.GET_ALL_BUSINESSES:
-      console.log(action.payload.pageable.pageNumber)
-      console.log(action.payload.pageable.pageSize)
       return {
         ...state,
         businessList: action.payload.content,

@@ -31,8 +31,6 @@ class BusinessTable extends React.Component {
 
   componentDidMount() {
     const {getAllBusinesses, page, size} = this.props
-    console.log(page)
-    console.log(size)
     getAllBusinesses(page, size)
   }
 
@@ -128,7 +126,9 @@ BusinessTable.propTypes = {
   deleteBusiness: PropTypes.func.isRequired,
   businessList: PropTypes.array.isRequired,
   totalElements: PropTypes.number.isRequired,
-  isBusinessesLoading: PropTypes.bool.isRequired
+  isBusinessesLoading: PropTypes.bool.isRequired,
+  page: PropTypes.number.isRequired,
+  size: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state) => {
