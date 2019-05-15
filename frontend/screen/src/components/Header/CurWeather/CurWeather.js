@@ -1,47 +1,42 @@
 import React, {Component} from 'react'
-import {ReactComponent as WeatherCloud} from '../../../img/icons/cloud.svg'
 import './CurWeather.scss'
-import axios from "axios";
 
 export default class CurWeather extends Component {
   state = {
-    temperature : null,
+    temperature: null,
     summary: null,
     icon: null
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.onTemperatureSet()
   }
 
-  onTemperatureSet() {
-    const KEY = 'a703fcfbb171e3e5416b8eb644e88afb'
-      axios({
-          url: `https://api.darksky.net/forecast/${KEY}/${50.4547},${30.5238}?units=ca`, // add api key to the path
-          json: true,
-          method: 'GET',
-          mode: 'cors'
-        }
-    ).then((res) =>{
-    this.setState({
-      temperature: Math.round(res.data.currently.temperature),
-      summary: res.data.currently.summary,
-      icon: res.data.currently.icon
-    })
-        console.log(res.data)
-    })
+  onTemperatureSet () {
+    const KEY = 'c976e190e926b434152fe68625c996ee'
+
+    fetch('https://api.openweathermap.org/data/2.5/weather?q=kiev&units=metric&appid=' + KEY)
+      .then((resp) => { return resp.json() })
+      .then((data) => {
+        this.setState({
+          temperature: Math.round(data.main.temp),
+          summary: data.weather[0].main,
+          icon: data.weather[0].icon
+        })
+      })
+      .catch(() => {
+        console.log('Something wrong')
+      })
   }
 
   render () {
-    const curIcon = '../../../img/icons/weather/clear-day.png'
-    console.log(curIcon)
+    console.log(this.state.icon)
     return (
       <div className='current-weather'>
-        <div className='current-weather__icon' style={{ backgroundImage: `url(${curIcon}")`}}>
-        </div>
+        <div className={`icon__${this.state.icon} current-weather__icon`} ></div>
         <div className='current-weather__info'>
           <div className='current-weather__info-item'>{this.state.summary}</div>
-          <div className='current-weather__info-item'>{`${this.state.temperature} C`}</div>
+          <div className='current-weather__info-item'>{`${this.state.temperature}`}&deg;C</div>
         </div>
       </div>
     )
