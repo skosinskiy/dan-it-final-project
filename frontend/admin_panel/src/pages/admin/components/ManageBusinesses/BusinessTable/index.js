@@ -123,7 +123,6 @@ class BusinessTable extends React.Component {
 
 BusinessTable.propTypes = {
   classes: PropTypes.object.isRequired,
-  getAllBusinesses: PropTypes.func.isRequired,
   getBusinessesByTitle: PropTypes.func.isRequired,
   deleteBusiness: PropTypes.func.isRequired,
   businessList: PropTypes.array.isRequired,
@@ -148,7 +147,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteBusiness: (businessId, page, size) => dispatch(businessOperations.deleteBusiness(businessId, page, size)),
-    getAllBusinesses: (page, size) => dispatch(businessOperations.getAllBusinesses(page, size)),
     getBusinessesByTitle: (searchParam, page, size) => dispatch(businessOperations.getBusinessesByTitle(searchParam, page, size)),
   }
 }

@@ -8,23 +8,12 @@ export const fetchBusinessFormData = (searchParam, page = 0, size = 5) => dispat
   Promise.all([
     dispatch(placesOperations.getAllPlaces()),
     dispatch(businessCategoryOperations.getAllBusinessCategories()),
-    dispatch(getAllBusinesses(page, size))
+    dispatch(getBusinessesByTitle('', page, size))
   ]).then(() => dispatch(ACTIONS.isBusinessFormDataLoading(false)))
 
 }
 
-export const getAllBusinesses = (page = 0, size = 5) => dispatch => {
-  dispatch(ACTIONS.isBusinessesLoading(true))
-  return api.get(`/api/businesses?page=${page}&size=${size}`).then(res => {
-    dispatch(ACTIONS.getAllBusinesses(res))
-    dispatch(ACTIONS.isBusinessesLoading(false))
-  }).catch(err => {
-    dispatch(ACTIONS.getBusinessesError(err))
-    dispatch(ACTIONS.isBusinessesLoading(false))
-  })
-}
-
-export const getBusinessesByTitle = (title, page = 0, size = 5) => dispatch => {
+export const getBusinessesByTitle = (title = '', page = 0, size = 5) => dispatch => {
   dispatch(ACTIONS.isBusinessesLoading(true))
   dispatch(ACTIONS.setSearchParam(title))
   api.get(`/api/businesses?title=${title}&page=${page}&size=${size}`).then(res => {

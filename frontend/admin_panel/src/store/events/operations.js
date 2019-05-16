@@ -1,6 +1,6 @@
 import api from '../../helpers/FetchData'
 import * as ACTIONS from './actions'
-import {getAllBusinesses} from "../businesses/operations";
+import {getBusinessesByTitle} from "../businesses/operations";
 import {getAllEventCategories} from "../eventCategory/operations";
 import {getAllPlaces} from "../places/operations";
 
@@ -9,7 +9,7 @@ export const fetchEventFormData = () => dispatch => {
   Promise.all([
     dispatch(getAllEvents()),
     dispatch(getAllEventCategories()),
-    dispatch(getAllBusinesses()),
+    dispatch(getBusinessesByTitle()),
     dispatch(getAllPlaces())
   ]).then(() => dispatch(ACTIONS.isEventFormDataLoading(false)))
 }
