@@ -11,6 +11,8 @@ import TableBody from '@material-ui/core/TableBody'
 import Paper from '@material-ui/core/Paper'
 import Checkbox from '@material-ui/core/Checkbox';
 import TableCellButtons from 'components/TableCellButtons'
+import {placesCategoriesOperations} from 'store/placeCategory'
+import Preloader from 'components/Preloader';
 
 const styles = theme => ({
   root: {
@@ -24,7 +26,16 @@ const styles = theme => ({
 })
 
 class PlaceCategories extends Component {
+  componentDidMount () {
+    this.props.reloadData()
+  }
+
   render () {
+
+    if (this.props.isLoading) {
+      return <Preloader/>
+    }
+
     // const {classes, deletePlaceCategory, placeCategories} = this.props
     const {classes, placeCategories} = this.props
     const rows = [
@@ -86,18 +97,22 @@ class PlaceCategories extends Component {
 PlaceCategories.propTypes = {
   classes: PropTypes.object.isRequired,
   deleteEventCategory: PropTypes.func.isRequired,
-  placeCategories: PropTypes.array.isRequired
+  placeCategories: PropTypes.array.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  reloadData: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = ({placeCategories}) => {
   return {
     placeCategories: placeCategories.placeCategories,
+    isLoading: placeCategories.isLoading,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteEventCategory: (categoryId) => dispatch(eventCategoryOperations.deleteEventCategory(categoryId))
+    deleteEventCategory: (categoryId) => dispatch(eventCategoryOperations.deleteEventCategory(categoryId)),
+    reloadData: () => dispatch(placesCategoriesOperations.reloadData()),
   }
 }
 

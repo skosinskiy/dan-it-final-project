@@ -19,6 +19,7 @@ import './index.scss'
 import ResetButton from './components/Buttons/Reset'
 import Desciption from './components/Description';
 import layoutItems from 'constants/layoutItems'
+import Preloader from 'components/Preloader';
 
 const styles = theme => ({
   root: {
@@ -34,26 +35,17 @@ const styles = theme => ({
 });
 
 const allLayoutItems = Object.values(layoutItems)
-
 class PlaceCategoryTable extends React.Component {
 
-  getTargetCategory = () => {
+  componentDidMount(){
     try {
       const id = +window.location.pathname.match(/\d+$/)[0]
-      return this.getPlaceCategoryById(id)
+      this.props.loadPlaceCategory(id);
     } catch (err) {
-      return this.props.addNewCategory(this.props.placeCategories)
+      this.props.addSinglePlaceCategory()
     }
   }
-  
-  getPlaceCategoryById = id => {
-    console.log(this.props.placeCategories)
-    debugger
-    return this.props.placeCategories.find(category => category.id === id)
-  }
-
-  targetCategory = this.getTargetCategory()
-
+   
   checkBoxTypes = {
     MULTISYNC: 'multisync',
     ALLOW_MESSAGES: 'allowMessages',
@@ -72,9 +64,14 @@ class PlaceCategoryTable extends React.Component {
   }
 
   render() {
-    const { classes} = this.props;
+
+    if (this.props.isLoading) {
+      return <Preloader/>
+    }
+
+    const {classes} = this.props
     const {multisync, allowMessages, layoutItems, businessCategories: selectedBusinessCategories, name, key,
-      description} = this.targetCategory
+      description} = this.props.placeCategories[0]
     const emptyRows = 1;
     return (
       <div className={classes.root}>
@@ -147,12 +144,15 @@ PlaceCategoryTable.propTypes = {
   updateChanged: PropTypes.func.isRequired,
   fetchParentBusinessCategories: PropTypes.func.isRequired,
   updateDescription: PropTypes.func.isRequired,
-  addNewCategory:  PropTypes.func.isRequired,
+  isLoading:  PropTypes.bool.isRequired,
+  addSinglePlaceCategory:  PropTypes.func.isRequired,
+  loadPlaceCategory:  PropTypes.func.isRequired,
 }
 
 const mapStateToProps = ({ placeCategories }) => ({
   classes: placeCategories.classes,
   placeCategories: placeCategories.placeCategories,
+  isLoading: placeCategories.isLoading,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -164,7 +164,8 @@ const mapDispatchToProps = dispatch => ({
     dispatch(placesCategoriesOperations.fetchParentBusinessCategories()),
   updateDescription: (key, placeCategories, value) =>
     dispatch(placesCategoriesOperations.updateDescription(key, placeCategories, value)),
-  addNewCategory: (placeCategories) => dispatch(placesCategoriesOperations.addNew(placeCategories))
+  addSinglePlaceCategory: () => dispatch(placesCategoriesOperations.addSinglePlaceCategory()),
+  loadPlaceCategory: (id) => dispatch(placesCategoriesOperations.loadPlaceCategory(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PlaceCategoryTable))

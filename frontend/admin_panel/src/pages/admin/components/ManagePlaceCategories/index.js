@@ -17,18 +17,17 @@ const styles = theme => ({
     marginBottom: theme.spacing.unit * 3
   }
 })
-
 class PlaceCategories extends Component {
-  componentDidMount () {
-    this.props.reloadData()
-  }
+  // componentDidMount () {
+  //   this.props.reloadData()
+  // }
 
   render () {
     const {classes, isLoading} = this.props
 
-    if (isLoading) {
-      return <Preloader/>
-    }
+    // if (isLoading) {
+    //   return <Preloader/>
+    // }
 
     return (
       <div>

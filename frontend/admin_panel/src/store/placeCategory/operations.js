@@ -20,11 +20,26 @@ const decorateByPreloader = dispatch => async request => {
 const preloadDecorator = dispatch => decorateByPreloader(dispatch)
 
 export const reloadData = () => async dispatch => {
-  const businessCategories = await preloadDecorator(dispatch)(api.get(`/api/business-categories/all-parent`))
-  dispatch(ACTIONS.updateBusinessCategories(businessCategories))
+  fetchBusinessCategorires()
   dispatch(flushDeletedIds())
   const rawData = await preloadDecorator(dispatch)(endPoint.get())
   dispatch(ACTIONS.updatePlaceCategories(rawData.map(placeCategory => createOrSetKey(placeCategory))))
+}
+
+export const fetchBusinessCategorires = () => async dispatch => {
+  const businessCategories = await preloadDecorator(dispatch)(api.get(`/api/business-categories/all-parent`))
+  dispatch(ACTIONS.updateBusinessCategories(businessCategories))
+}
+
+export const loadPlaceCategory = id => async dispatch => {
+  fetchBusinessCategorires()
+  const businessCategory = await preloadDecorator(dispatch)(endPoint.get(id))
+  dispatch(ACTIONS.updatePlaceCategories([businessCategory]))
+}
+
+export const addSinglePlaceCategory = () => dispatch => {
+  dispatch(addNew([]))
+  dispatch(ACTIONS.isLoading(false))
 }
 
 const createOrSetKey = placeCategory => {
@@ -101,7 +116,6 @@ export const addNew = container => dispatch => {
   const newCategory = createOrSetKey();
   newContainer.push(newCategory)
   dispatch(ACTIONS.updatePlaceCategories(newContainer))
-  return newCategory
 }
 
 const updateDeletedIds = (idx, container, deletedIds) => dispatch => {
