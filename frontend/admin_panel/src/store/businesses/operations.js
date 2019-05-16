@@ -25,9 +25,9 @@ export const getBusinessesByTitle = (title = '', page = 0, size = 5) => dispatch
   })
 }
 
-export const deleteBusiness = (businessId, page, size) => dispatch => {
+export const deleteBusiness = (businessId, searchParam, page, size) => dispatch => {
   dispatch(ACTIONS.isBusinessesLoading(true))
-  api.deleteApi(`/api/businesses/${businessId}`).then()
+  api.deleteApi(`/api/businesses/${businessId}`).then(() => dispatch(getBusinessesByTitle(searchParam, page, size)))
 }
 
 export const saveBusiness = (business, images) => dispatch => {

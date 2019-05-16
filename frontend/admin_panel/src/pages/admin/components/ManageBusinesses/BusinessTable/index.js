@@ -46,7 +46,7 @@ class BusinessTable extends React.Component {
 
   render() {
 
-    const {classes, businessList, deleteBusiness, isBusinessesLoading, totalElements, page, size} = this.props
+    const {classes, businessList, deleteBusiness, isBusinessesLoading, totalElements, page, size, searchParam} = this.props
 
     if (isBusinessesLoading) {
       return (
@@ -94,7 +94,7 @@ class BusinessTable extends React.Component {
                   <TableCell>{business.place ? business.place.title : ''}</TableCell>
                   <TableCellButtons
                     editLink={`/admin/businesses/edit/${business.id}`}
-                    deleteFunction={() => deleteBusiness(business.id, page, size)}
+                    deleteFunction={() => deleteBusiness(business.id, searchParam, page, size)}
                   />
                 </TableRow>
               )
@@ -146,7 +146,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteBusiness: (businessId, page, size) => dispatch(businessOperations.deleteBusiness(businessId, page, size)),
+    deleteBusiness: (businessId, searchParam, page, size) => dispatch(businessOperations.deleteBusiness(businessId, searchParam, page, size)),
     getBusinessesByTitle: (searchParam, page, size) => dispatch(businessOperations.getBusinessesByTitle(searchParam, page, size)),
   }
 }
