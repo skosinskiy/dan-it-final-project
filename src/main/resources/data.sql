@@ -100,8 +100,21 @@ VALUES
 INSERT INTO places
   (id, date_created, date_modified, title, description, address, place_category)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-1', 'description-1', 'address-1', 1 ),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-2', 'description-2', 'address-2', 2 );
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Ocean Plaza', 'description-1', 'address-1', 1 ),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Dream Town', 'description-2', 'address-2', 2 );
+
+INSERT INTO users_places
+  (user_id, place_id)
+values
+  (1, 1),
+  (2, 1),
+  (3, 1),
+  (4, 1),
+  (5, 1),
+  (6, 1),
+  (1, 2),
+  (2, 2),
+  (3, 2);
 
 INSERT INTO places_photos
   (id, date_created, date_modified, image_key, place_id)
