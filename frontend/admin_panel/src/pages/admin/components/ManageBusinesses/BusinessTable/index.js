@@ -30,17 +30,18 @@ const styles = theme => ({
 class BusinessTable extends React.Component {
 
   componentDidMount() {
-    const {getAllBusinesses, page, size} = this.props
-    getAllBusinesses(page, size)
+    const {getBusinessesByTitle, page, size, searchParam} = this.props
+    getBusinessesByTitle(searchParam, page, size)
   }
 
   handleChangePage = (event, page) => {
-    const {getAllBusinesses, size} = this.props
-    getAllBusinesses(page, size)
+    const {getBusinessesByTitle, size, searchParam} = this.props
+    getBusinessesByTitle(searchParam, page, size)
   }
 
   handleChangeRowsPerPage = event => {
-    this.props.getAllBusinesses(0, event.target.value)
+    const {getBusinessesByTitle, searchParam} = this.props
+    getBusinessesByTitle(searchParam, 0, event.target.value)
   };
 
   render() {
@@ -123,12 +124,14 @@ class BusinessTable extends React.Component {
 BusinessTable.propTypes = {
   classes: PropTypes.object.isRequired,
   getAllBusinesses: PropTypes.func.isRequired,
+  getBusinessesByTitle: PropTypes.func.isRequired,
   deleteBusiness: PropTypes.func.isRequired,
   businessList: PropTypes.array.isRequired,
   totalElements: PropTypes.number.isRequired,
   isBusinessesLoading: PropTypes.bool.isRequired,
   page: PropTypes.number.isRequired,
-  size: PropTypes.number.isRequired
+  size: PropTypes.number.isRequired,
+  searchParam: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -137,14 +140,16 @@ const mapStateToProps = (state) => {
     totalElements: state.businesses.totalElements,
     isBusinessesLoading: state.businesses.isBusinessesLoading,
     page: state.businesses.page,
-    size: state.businesses.size
+    size: state.businesses.size,
+    searchParam: state.businesses.searchParam
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     deleteBusiness: (businessId, page, size) => dispatch(businessOperations.deleteBusiness(businessId, page, size)),
-    getAllBusinesses: (page, size) => dispatch(businessOperations.getAllBusinesses(page, size))
+    getAllBusinesses: (page, size) => dispatch(businessOperations.getAllBusinesses(page, size)),
+    getBusinessesByTitle: (searchParam, page, size) => dispatch(businessOperations.getBusinessesByTitle(searchParam, page, size)),
   }
 }
 

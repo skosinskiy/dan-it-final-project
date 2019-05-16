@@ -55,9 +55,13 @@ class SearchBar extends React.Component {
   }
 
   findCompanyByName = (e) => {
-    if (e.key === 'Enter'){
-      this.props.getBusinessesByTile(this.state.input)
-    }
+    e.persist()
+    const {input} = this.state
+    setTimeout(() => {
+      if (this.state.input === input || e.key === 'Enter') {
+        this.props.getBusinessesByTitle(this.state.input, 0, this.props.businessSize)
+      }
+    }, 500)
   }
 
   findEventByParams = (e) => {
@@ -86,7 +90,7 @@ class SearchBar extends React.Component {
     return (
       <Paper className={classes.root} elevation={1}>
         <InputBase
-          onKeyPress={func}
+          onKeyUp={func}
           value={this.state.input}
           onChange={this.handleChange}
           className={classes.input}
@@ -105,20 +109,22 @@ SearchBar.propTypes = {
   searchtype: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   getUsersByEmail: PropTypes.func.isRequired,
-  getBusinessesByTile: PropTypes.func.isRequired,
-  getEventsByParam: PropTypes.func.isRequired
+  getBusinessesByTitle: PropTypes.func.isRequired,
+  getEventsByParam: PropTypes.func.isRequired,
+  businessSize: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
-    usersListByEmail: state.users.usersListByEmail
+    usersListByEmail: state.users.usersListByEmail,
+    businessSize    : state.businesses.size
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getUsersByEmail: (email, page, size) => dispatch(usersOperations.getUsersByEmail(email, page, size)),
-    getBusinessesByTile: (title) => dispatch(businessOperations.getBusinessesByTitle(title)),
+    getBusinessesByTitle: (title, page, size) => dispatch(businessOperations.getBusinessesByTitle(title, page, size)),
     getEventsByParam: (param) => dispatch(eventOperations.getEventsByParam(param))
   }
 }

@@ -11,7 +11,8 @@ const initialState = {
 
   isBusinessesLoading: false,
   isBusinessFormDataLoading: false,
-  error: null
+  error: null,
+  searchParam: ''
 }
 
 const businessReducer = (state = initialState, action) => {
@@ -40,6 +41,11 @@ const businessReducer = (state = initialState, action) => {
       return {
         ...state,
         isBusinessFormDataLoading: action.payload
+      }
+    case TYPES.SET_SEARCH_PARAM:
+      return {
+        ...state,
+        searchParam: action.payload
       }
     default:
       return state

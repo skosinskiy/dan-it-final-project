@@ -48,8 +48,8 @@ class BusinessForm extends Component {
   }
 
   componentDidMount() {
-    const {fetchBusinessFormData, page, size} = this.props
-    fetchBusinessFormData(page, size)
+    const {fetchBusinessFormData, page, size, searchParam} = this.props
+    fetchBusinessFormData(searchParam, page, size)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -254,7 +254,8 @@ BusinessForm.propTypes = {
   fetchBusinessFormData: PropTypes.func.isRequired,
   businessCategories: PropTypes.array.isRequired,
   page: PropTypes.number.isRequired,
-  size: PropTypes.number.isRequired
+  size: PropTypes.number.isRequired,
+  searchParam: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state, props) => {
@@ -266,13 +267,14 @@ const mapStateToProps = (state, props) => {
     businessCategories: state.businessCategory.allBusinessCategories,
     isBusinessFormDataLoading: state.businesses.isBusinessFormDataLoading,
     page: state.businesses.page,
-    size: state.businesses.size
+    size: state.businesses.size,
+    searchParam: state.businesses.searchParam
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchBusinessFormData: (page, size) => dispatch(businessOperations.fetchBusinessFormData(page, size)),
+    fetchBusinessFormData: (searchParam, page, size) => dispatch(businessOperations.fetchBusinessFormData(searchParam, page, size)),
     saveNewBusiness: (business, images) => dispatch(businessOperations.saveBusiness(business, images)),
   }
 }

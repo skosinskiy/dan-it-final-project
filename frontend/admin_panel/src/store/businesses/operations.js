@@ -3,7 +3,7 @@ import * as ACTIONS from './actions'
 import {placesOperations} from '../../store/places'
 import {businessCategoryOperations} from '../../store/businessCategory'
 
-export const fetchBusinessFormData = (page = 0, size = 5) => dispatch => {
+export const fetchBusinessFormData = (searchParam, page = 0, size = 5) => dispatch => {
   dispatch(ACTIONS.isBusinessFormDataLoading(true))
   Promise.all([
     dispatch(placesOperations.getAllPlaces()),
@@ -24,30 +24,32 @@ export const getAllBusinesses = (page = 0, size = 5) => dispatch => {
   })
 }
 
-export const getBusinessesByTitle = (title) => dispatch => {
-  api.get(`/api/businesses?title=${title}`).then(res => {
+export const getBusinessesByTitle = (title, page = 0, size = 5) => dispatch => {
+  dispatch(ACTIONS.isBusinessesLoading(true))
+  dispatch(ACTIONS.setSearchParam(title))
+  api.get(`/api/businesses?title=${title}&page=${page}&size=${size}`).then(res => {
     dispatch(ACTIONS.getAllBusinesses(res))
+    dispatch(ACTIONS.isBusinessesLoading(false))
   }).catch(err => {
     dispatch(ACTIONS.getBusinessesError(err))
+    dispatch(ACTIONS.isBusinessesLoading(false))
   })
 }
 
 export const deleteBusiness = (businessId, page, size) => dispatch => {
   dispatch(ACTIONS.isBusinessesLoading(true))
-  api.deleteApi(`/api/businesses/${businessId}`).then(res => {
-      dispatch(getAllBusinesses(page, size))
-  })
+  api.deleteApi(`/api/businesses/${businessId}`).then()
 }
 
 export const saveBusiness = (business, images) => dispatch => {
-  dispatch(ACTIONS.isBusinessesLoading(true))
+  dispatch(ACTIONS.isBusinessFormDataLoading(true))
   if (business.id) {
     const imagesToUpload = images.filter(image => !image.id)
     const existingImages = images.filter(image => image.id)
     return uploadImagesToS3(imagesToUpload)
       .then(uploadedImages => createBusinessPhotos(uploadedImages, business.id)
           .then(createdPhotos => updateBusiness(existingImages, business, createdPhotos)
-            .then(() => dispatch(getAllBusinesses()))
+            .then()
           )
       )
   } else {
@@ -55,7 +57,7 @@ export const saveBusiness = (business, images) => dispatch => {
       .then(createdBusiness => uploadImagesToS3(images)
         .then(uploadedImages => createBusinessPhotos(uploadedImages, createdBusiness.id)
           .then(createdPhotos => updateBusiness(null, createdBusiness, createdPhotos)
-            .then(() => dispatch(getAllBusinesses()))
+            .then()
           )
         )
       )
