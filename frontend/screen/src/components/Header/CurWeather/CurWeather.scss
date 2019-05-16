@@ -10,6 +10,9 @@
   width: 50px;
   height: 50px;
   margin-right: 12px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 .current-weather__info{
@@ -26,3 +29,74 @@
   letter-spacing: .00636364em;
 }
 
+.icon__01d{
+  background-image: url('../../../img/icons/weather/icon__01d.png');
+}
+
+.icon__01n{
+  background-image: url('../../../img/icons/weather/icon__01n.png');
+}
+
+.icon__02d{
+  background-image: url('../../../img/icons/weather/icon__02d.png');
+}
+
+.icon__02n{
+  background-image: url('../../../img/icons/weather/icon__02n.png');
+}
+
+.icon__03d{
+   background-image: url('../../../img/icons/weather/icon__02d.png');
+ }
+
+.icon__03n{
+  background-image: url('../../../img/icons/weather/icon__02n.png');
+}
+
+.icon__04d{
+  background-image: url('../../../img/icons/weather/icon__04d.png');
+}
+
+.icon__04n{
+  background-image: url('../../../img/icons/weather/icon__04n.png');
+}
+
+.icon__09d{
+  background-image: url('../../../img/icons/weather/icon__09d.png');
+}
+
+.icon__09n{
+  background-image: url('../../../img/icons/weather/icon__09d.png');
+}
+
+.icon__10d{
+  background-image: url('../../../img/icons/weather/icon__09d.png');
+}
+
+.icon__10n{
+  background-image: url('../../../img/icons/weather/icon__09d.png');
+}
+
+.icon__11d{
+  background-image: url('../../../img/icons/weather/icon__11d.png');
+}
+
+.icon__11n{
+  background-image: url('../../../img/icons/weather/icon__11d.png');
+}
+
+.icon__13d{
+  background-image: url('../../../img/icons/weather/icon__13d.png');
+}
+
+.icon__13n{
+  background-image: url('../../../img/icons/weather/icon__13d.png');
+}
+
+.icon__50d{
+  background-image: url('../../../img/icons/weather/icon__50d.png');
+}
+
+.icon__50n{
+  background-image: url('../../../img/icons/weather/icon__50d.png');
+}
