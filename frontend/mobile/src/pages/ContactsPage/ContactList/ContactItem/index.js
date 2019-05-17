@@ -4,48 +4,22 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import { createNewChat } from '../../../../store/chats/operations'
 
-const defaultChat = {
-  name: 'Somechat',
-  users: []
-}
-
 class ContactItem extends Component {
-  createChat = (item) => {
+  createChat = (user) => {
     const {currentUser, createNewChat} = this.props
-    let flag = false
-    currentUser.chats.forEach(chat => {
-      if (chat.users.length === 2) {
-        chat.users.forEach(user => {
-          if (user.id === item.id) {
-            flag = true
-          }
-        })
-      }
-    })
-
-    if (!flag) {
-      defaultChat.name = item.firstName + ' ' + currentUser.firstName
-      defaultChat.users.push(item)
-      defaultChat.users.push(currentUser)
-      createNewChat(defaultChat)
+    const defaultChat = {
+      name: '',
+      users: []
     }
+    defaultChat.name = user.firstName + ' ' + currentUser.firstName
+    defaultChat.users.push(user)
+    defaultChat.users.push(currentUser)
+    createNewChat(defaultChat)
   }
   render () {
-    const {item, location, currentUser} = this.props
-    console.log(currentUser.chats)
-    let presentChat
-    currentUser.chats.forEach(chat => {
-      if (chat.users.length === 2) {
-        chat.users.forEach(user => {
-          if (user.id === item.id) {
-            presentChat = chat
-          }
-        })
-      }
-    })
-    const link = presentChat.id ? `/messages/${presentChat.id}` : `/messages`
+    const {item, location} = this.props
     return (
-      <NavLink to={link}>
+      <NavLink to={`/messages/new`} className="chat-link">
         <li onClick={() => this.createChat(item)} className='contact-list__item'>
           <div className='contact-list__img-container'>
             <div>{`${(item.firstName.charAt(0) + item.lastName.charAt(0)).toUpperCase()}`}</div>

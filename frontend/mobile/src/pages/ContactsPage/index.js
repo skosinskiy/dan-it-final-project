@@ -7,16 +7,27 @@ import { connect } from 'react-redux'
 import { getUsersByPlace } from '../../store/users/operations'
 import Preloader from '../../components/Preloader'
 import { getCurrentPlaceById } from '../../store/places/operations'
+import './contacts-page.scss'
 
 class ContactsPage extends Component {
+  state = {
+    searchParam: ''
+  }
   componentDidMount () {
     const {getUsersByPlace, getCurrentPlaceById} = this.props
     getUsersByPlace(1)
     getCurrentPlaceById(1)
   }
 
+  handleChange = event => {
+    this.setState({
+      searchParam: event.target.value
+    })
+  }
+
   render () {
     const {usersListByPLace, usersListByPLaceIsLoading, currentUser, isCurrentUserLoading, currentPlaceById, isLoaded} = this.props
+    const {searchParam} = this.state
 
     if (usersListByPLaceIsLoading || isCurrentUserLoading || !isLoaded) {
       return <Preloader/>
@@ -25,10 +36,22 @@ class ContactsPage extends Component {
     const contacts = usersListByPLace.filter(user => {
       return user.id !== currentUser.id
     })
+
+    let contactsList
+
+    if (!searchParam) {
+      contactsList = contacts
+    } else {
+      contactsList = contacts.filter(user => {
+        return user.firstName.toLowerCase().indexOf(searchParam.toLowerCase()) !== -1 || user.lastName.toLowerCase().indexOf(searchParam.toLowerCase()) !== -1
+      })
+    }
+
     return (
       <div className='contactsPage parallax-container'>
         <MobileHeader bgImage={headerImage} header='Contacts' location='Pechersky Lypky' icon={headerIcon}/>
-        <ContactList contacts={contacts} location={currentPlaceById.title}/>
+        <input className="contacts-search" onChange={this.handleChange} type="text" placeholder="Search" value={searchParam}/>
+        <ContactList contacts={contactsList} location={currentPlaceById.title}/>
       </div>
     )
   }
