@@ -10,8 +10,7 @@ import { placesCategoriesOperations } from 'store/placeCategory'
 import { connect } from 'react-redux'
 import SubmitButton from './components/Buttons/Submit'
 import Name from './components/Name'
-import DeleteButton from './components/Buttons/Delete'
-import MultiSelect from './components/MultiSelect'
+import BusinessCategoriesMultiSelect from './components/BusinessCategoriesMultiSelect'
 import LayuoutMultiSelect from './components/LayoutMultiSelect'
 import { EnhancedTableHead } from './components/EnhancedTableHead'
 import EnhancedTableToolbar from './components/EnhancedTableToolbar'
@@ -51,16 +50,16 @@ class PlaceCategoryTable extends React.Component {
     ALLOW_MESSAGES: 'allowMessages',
   }
 
-  handleClickCheckBox = (key, checkBoxType) => {
-    this.props.toggleCheckBox(key, checkBoxType, this.props.placeCategories)
+  handleClickCheckBox = checkBoxType => {
+    this.props.toggleCheckBox(checkBoxType)
   }
 
-  handleClickMultisync = (key) => {
-    this.handleClickCheckBox(key, this.checkBoxTypes.MULTISYNC)
+  handleClickMultisync = () => {
+    this.handleClickCheckBox(this.checkBoxTypes.MULTISYNC)
   }
 
-  handleClickAllowMessages = (key) => {
-    this.handleClickCheckBox(key, this.checkBoxTypes.ALLOW_MESSAGES)
+  handleClickAllowMessages = () => {
+    this.handleClickCheckBox(this.checkBoxTypes.ALLOW_MESSAGES)
   }
 
   render() {
@@ -71,7 +70,7 @@ class PlaceCategoryTable extends React.Component {
 
     const {classes} = this.props
     const {multisync, allowMessages, layoutItems, businessCategories: selectedBusinessCategories, name, key,
-      description} = this.props.placeCategories[0]
+      description} = this.props.editedPlaceCategory
     const emptyRows = 1;
     return (
       <div className={classes.root}>
@@ -100,7 +99,7 @@ class PlaceCategoryTable extends React.Component {
                         <Name name={name} placeCategoryKey={key} />
                       </TableCell>
                       <TableCell scope="row" padding="none">
-                        <MultiSelect
+                        <BusinessCategoriesMultiSelect
                           selectedBusinessCategories={selectedBusinessCategories}
                           placeCategoryKey={key}
                         />
@@ -112,9 +111,6 @@ class PlaceCategoryTable extends React.Component {
                           allNames={allLayoutItems}
                           flag={'layoutItem'}
                         />
-                      </TableCell>
-                      <TableCell scope="row" padding="none">
-                        <DeleteButton placeCategoryKey={key} />
                       </TableCell>
                     </TableRow>
                     <Desciption _Key={key} description={description}/>
@@ -139,11 +135,9 @@ class PlaceCategoryTable extends React.Component {
 
 PlaceCategoryTable.propTypes = {
   classes: PropTypes.object.isRequired,
-  placeCategories: PropTypes.array.isRequired,
+  editedPlaceCategory: PropTypes.object.isRequired,
   toggleCheckBox: PropTypes.func.isRequired,
-  updateChanged: PropTypes.func.isRequired,
   fetchParentBusinessCategories: PropTypes.func.isRequired,
-  updateDescription: PropTypes.func.isRequired,
   isLoading:  PropTypes.bool.isRequired,
   addSinglePlaceCategory:  PropTypes.func.isRequired,
   loadPlaceCategory:  PropTypes.func.isRequired,
@@ -151,8 +145,8 @@ PlaceCategoryTable.propTypes = {
 
 const mapStateToProps = ({ placeCategories }) => ({
   classes: placeCategories.classes,
-  placeCategories: placeCategories.placeCategories,
-  isLoading: placeCategories.isLoading,
+  isLoading: placeCategories.placeCategoryFormIsLoading,
+  editedPlaceCategory: placeCategories.editedPlaceCategory,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -162,8 +156,6 @@ const mapDispatchToProps = dispatch => ({
     dispatch(placesCategoriesOperations.toggleCheckBox(key, checkBoxType, placeCategories)),
   fetchParentBusinessCategories: () =>
     dispatch(placesCategoriesOperations.fetchParentBusinessCategories()),
-  updateDescription: (key, placeCategories, value) =>
-    dispatch(placesCategoriesOperations.updateDescription(key, placeCategories, value)),
   addSinglePlaceCategory: () => dispatch(placesCategoriesOperations.addSinglePlaceCategory()),
   loadPlaceCategory: (id) => dispatch(placesCategoriesOperations.loadPlaceCategory(id)),
 })

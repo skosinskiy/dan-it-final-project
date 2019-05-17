@@ -105,7 +105,7 @@ PlaceCategories.propTypes = {
 const mapStateToProps = ({placeCategories}) => {
   return {
     placeCategories: placeCategories.placeCategories,
-    isLoading: placeCategories.isLoading,
+    isLoading: placeCategories.arePlaceCategoriesLoading,
   }
 }
 

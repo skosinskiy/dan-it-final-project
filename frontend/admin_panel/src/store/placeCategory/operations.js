@@ -1,5 +1,6 @@
 import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
+import store from 'store'
 
 const endPoint = {
   URL: '/api/place-categories/',
@@ -10,18 +11,16 @@ const endPoint = {
 }
 
 const decorateByPreloader = dispatch => async request => {
-  dispatch(ACTIONS.isLoading(true))
+  dispatch(ACTIONS.arePlaceCategoriesLoading(true))
   request = Array.isArray(request) ? request.flat() : [request]
   const result = await Promise.all(request)
-  dispatch(ACTIONS.isLoading(false))
+  dispatch(ACTIONS.arePlaceCategoriesLoading(false))
   return result.flat()
 }
 
 const preloadDecorator = dispatch => decorateByPreloader(dispatch)
 
 export const reloadData = () => async dispatch => {
-  fetchBusinessCategorires()
-  dispatch(flushDeletedIds())
   const rawData = await preloadDecorator(dispatch)(endPoint.get())
   dispatch(ACTIONS.updatePlaceCategories(rawData.map(placeCategory => createOrSetKey(placeCategory))))
 }
@@ -32,14 +31,15 @@ export const fetchBusinessCategorires = () => async dispatch => {
 }
 
 export const loadPlaceCategory = id => async dispatch => {
-  fetchBusinessCategorires()
+  dispatch(fetchBusinessCategorires())
   const businessCategory = await preloadDecorator(dispatch)(endPoint.get(id))
-  dispatch(ACTIONS.updatePlaceCategories([businessCategory]))
+  dispatch(ACTIONS.updateEditedPlaceCategory(businessCategory))
 }
 
 export const addSinglePlaceCategory = () => dispatch => {
-  dispatch(addNew([]))
-  dispatch(ACTIONS.isLoading(false))
+  dispatch(fetchBusinessCategorires())
+  dispatch(ACTIONS.updateEditedPlaceCategory(createOrSetKey()))
+  dispatch(ACTIONS.placeCategoryFormIsLoading(false))
 }
 
 const createOrSetKey = placeCategory => {
@@ -55,98 +55,52 @@ const createOrSetKey = placeCategory => {
   return Object.assign(placeCategory, { key: Math.random() * new Date().getTime()})
 }
 
-const findIndexByKey = (key, container) => (
-  container.findIndex(placeCategory => placeCategory.key === key)
+const setValueToEntityField = (field, value = getInversedBoolean(field)) => (
+  {
+    ...store.getState().placeCategories.editedPlaceCategory,
+    [field]: value
+  }
 )
 
-/**
- * sets entitie's field to value and returns new container
- * @param {Number} key
- * @param {Array} container
- * @param {String} field
- * @param {Any} value
- * @returns {Array}
- */
-const setValueToEntityField = (key, container, field, value) => {
-  const idx = findIndexByKey(key, container)
-  const newContainer = [...container]
-  newContainer[idx][field] = value
-  return newContainer
-}
+const getInversedBoolean = (field) => !store.getState().placeCategories.editedPlaceCategory[field]
 
-export const updateChanged = (key, container) => dispatch => {
-  dispatch(ACTIONS.updatePlaceCategories(
-    setValueToEntityField(key, container, 'changed', true)
+export const updateBusinessCategories = (selectedBusinessCategories) =>dispatch => {
+  dispatch(ACTIONS.updateEditedPlaceCategory(
+    setValueToEntityField('businessCategories', selectedBusinessCategories)
   ))
 }
 
-export const updateBusinessCategories = (key, container, selectedBusinessCategories) =>dispatch => {
-  dispatch(ACTIONS.updatePlaceCategories(
-    setValueToEntityField(key, container, 'businessCategories', selectedBusinessCategories)
+export const updateLayoutItems = (layoutItems) => dispatch => {
+  dispatch(ACTIONS.updateEditedPlaceCategory(
+    setValueToEntityField('layoutItems', layoutItems)
   ))
 }
 
-export const updateLayoutItems = (key, container, layoutItems) => dispatch => {
-  dispatch(ACTIONS.updatePlaceCategories(
-    setValueToEntityField(key, container, 'layoutItems', layoutItems)
+export const updateDescription = (description) => dispatch => {
+  dispatch(ACTIONS.updateEditedPlaceCategory(
+    setValueToEntityField('description', description)
   ))
 }
 
-export const updateDescription = (key, container, description) => dispatch => {
-  dispatch(ACTIONS.updatePlaceCategories(
-    setValueToEntityField(key, container, 'description', description)
+export const updateName = name => dispatch => {
+  dispatch(ACTIONS.updateEditedPlaceCategory(
+    setValueToEntityField('name', name)
   ))
 }
 
-export const updateName = (key, container, name) => dispatch => {
-  dispatch(ACTIONS.updatePlaceCategories(
-    setValueToEntityField(key, container, 'name', name)
+export const toggleCheckBox = (checkBoxType) => dispatch => {
+  dispatch(ACTIONS.updateEditedPlaceCategory(
+    setValueToEntityField(checkBoxType)
   ))
-}
-
-export const toggleCheckBox = (key, checkBoxType, container) => dispatch => {
-  const idx = findIndexByKey(key, container)
-  dispatch(ACTIONS.updatePlaceCategories(
-    setValueToEntityField(key, container, checkBoxType, !container[idx][checkBoxType])
-  ))
-}
-
-export const addNew = container => dispatch => {
-  const newContainer = [...container]
-  const newCategory = createOrSetKey();
-  newContainer.push(newCategory)
-  dispatch(ACTIONS.updatePlaceCategories(newContainer))
-}
-
-const updateDeletedIds = (idx, container, deletedIds) => dispatch => {
-  if (container[idx].id) {
-    const newDeletedIds = new Set(deletedIds)
-    newDeletedIds.add(container[idx].id)
-    dispatch(ACTIONS.updateDeletedPlaceCategoryIds([...newDeletedIds]))
-  }
-}
-
-const flushDeletedIds = () => dispatch => {
-  dispatch(ACTIONS.updateDeletedPlaceCategoryIds([]))
 }
 
 export const deleteItem = (key, container, deletedIds) => dispatch => {
-  const idx = findIndexByKey(key, container)
-  const newContainer = [...container]
-  dispatch(updateDeletedIds(idx, newContainer, deletedIds))
-  newContainer.splice(idx, 1)
-  dispatch(ACTIONS.updatePlaceCategories(newContainer))
+
 }
 
 const getAllNew = ({ placeCategories }) => (
   placeCategories.filter(placeCategory => !placeCategory.id)
 )
-
-const getAllEdited = ({ placeCategories }) => (
-  placeCategories.filter(placeCategory => placeCategory.id && placeCategory.changed)
-)
-
-const getAllDeletedIds = ({ deletedIds }) => deletedIds
 
 export const saveAllChanges = placeCategories => dispatch => {
   const requests = Array.of(
@@ -159,7 +113,8 @@ export const saveAllChanges = placeCategories => dispatch => {
 }
 
 const requestDelete = placeCategories => (
-  getAllDeletedIds(placeCategories).map(id => endPoint.delete(id))
+  //getAllDeletedIds(placeCategories).map(id => endPoint.delete(id))
+  null
 )
 
 const requestPost = placeCategories => (
@@ -167,5 +122,6 @@ const requestPost = placeCategories => (
 )
 
 const requestPut = placeCategories => (
-  getAllEdited(placeCategories).map(placeCategory => endPoint.put(placeCategory.id, placeCategory))
+ // getAllEdited(placeCategories).map(placeCategory => endPoint.put(placeCategory.id, placeCategory))
+ null
 )

@@ -31,9 +31,7 @@ class OutlinedTextFields extends Component {
 
   handleBlur = (event) => {
     if (event.target.oldValue !== event.target.value){
-      const {updateName, placeCategoryKey, placeCategories, updateChanged} = this.props
-      updateName(placeCategoryKey, placeCategories, event.target.value)
-      updateChanged(placeCategoryKey, placeCategories)
+      this.props.updateName(event.target.value)
     }
   }
 
@@ -65,20 +63,10 @@ OutlinedTextFields.propTypes = {
   classes: PropTypes.object.isRequired,
   name: PropTypes.string,
   updateName:  PropTypes.func.isRequired,
-  placeCategoryKey:  PropTypes.number.isRequired,
-  placeCategories: PropTypes.array.isRequired,
-  updateChanged: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = ({placeCategories}) => ({
-  placeCategories: placeCategories.placeCategories,
-})
-
 const mapDispatchToProps = dispatch => ({
-  updateName: (placeCategoryKey, placeCategories, name) =>
-    dispatch(placesCategoriesOperations.updateName(placeCategoryKey, placeCategories, name)),
-    updateChanged: (placeCategoryKey, placeCategories) =>
-      dispatch(placesCategoriesOperations.updateChanged(placeCategoryKey, placeCategories)),
+  updateName: name => dispatch(placesCategoriesOperations.updateName(name)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(OutlinedTextFields));
+export default connect(null, mapDispatchToProps)(withStyles(styles)(OutlinedTextFields));

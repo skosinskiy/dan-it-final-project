@@ -9,7 +9,6 @@ const rows = [
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
   { id: 'businessCategories', numeric: false, disablePadding: false, label: 'BusinessCategories' },
   { id: 'layoutItems', numeric: false, disablePadding: false, label: 'LayoutItems' },
-  { id: 'delete', numeric: false, disablePadding: false, label: 'Delete' },
 ];
 
 export const EnhancedTableHead = () => (

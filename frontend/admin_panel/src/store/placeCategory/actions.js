@@ -1,13 +1,13 @@
 import * as TYPES from './types'
 
-export const isLoading = isLoading => ({
-  type: TYPES.IS_LOADING,
-  payload: isLoading
+export const arePlaceCategoriesLoading = areLoading => ({
+  type: TYPES.ARE_PLACE_CATEGORIES_LOADING,
+  payload: areLoading
 })
 
-export const updatePlaceCategories = placePategories => ({
+export const updatePlaceCategories = placeCategories => ({
   type: TYPES.UPDATE_PLACE_CATEGORIES,
-  payload: placePategories
+  payload: placeCategories
 })
 
 export const updateBusinessCategories = parentBusinessCategories => ({
@@ -15,7 +15,12 @@ export const updateBusinessCategories = parentBusinessCategories => ({
   payload: parentBusinessCategories
 })
 
-export const updateDeletedPlaceCategoryIds = deletedIds => ({
-  type: TYPES.UPDATE_DETETED_PLACE_CATEGORY_IDS,
-  payload: deletedIds
+export const placeCategoryFormIsLoading = isLoading => ({
+  type: TYPES.PLACE_CATEGORY_FORM_IS_LOADING,
+  payload: isLoading
+})
+
+export const updateEditedPlaceCategory = placeCategory => ({
+  type: TYPES.UPDATE_EDITED_PLACE_CATEGORY,
+  payload: placeCategory
 })
