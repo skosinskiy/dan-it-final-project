@@ -23,7 +23,7 @@ const styles = theme => ({
   }
 })
 
-class Events extends Component {
+class EventCategoryTable extends Component {
   render () {
     const {classes, deleteEventCategory, eventCategories} = this.props
     return (
@@ -64,7 +64,7 @@ class Events extends Component {
   }
 }
 
-Events.propTypes = {
+EventCategoryTable.propTypes = {
   classes: PropTypes.object.isRequired,
   deleteEventCategory: PropTypes.func.isRequired,
   eventCategories: PropTypes.array.isRequired
@@ -82,4 +82,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Events))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(EventCategoryTable))
