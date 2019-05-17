@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { getUsersByPlace } from '../../store/users/operations'
 import Preloader from '../../components/Preloader'
 import { getCurrentPlaceById } from '../../store/places/operations'
+import {ReactComponent as Search} from '../../img/icons/search.svg'
 import './contacts-page.scss'
 
 class ContactsPage extends Component {
@@ -50,7 +51,10 @@ class ContactsPage extends Component {
     return (
       <div className='contactsPage parallax-container'>
         <MobileHeader bgImage={headerImage} header='Contacts' location='Pechersky Lypky' icon={headerIcon}/>
-        <input className="contacts-search" onChange={this.handleChange} type="text" placeholder="Search" value={searchParam}/>
+        <div className="search-bar">
+          <input className="contacts-search" onChange={this.handleChange} type="text" placeholder="Search" value={searchParam}/>
+          <span className="search-icon"><Search/></span>
+        </div>
         <ContactList contacts={contactsList} location={currentPlaceById.title}/>
       </div>
     )

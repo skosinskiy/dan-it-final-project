@@ -115,7 +115,7 @@ const mapStateToProps = (state) => {
     usersListByPLace: state.users.usersListByPLace,
     usersListByPLaceIsLoading: state.users.usersListByPLaceIsLoading,
     currentUser: state.users.currentUser,
-    isCurrentUserLoading: state.users.isCurrentUserLoading,
+    isCurrentUserLoading: state.users.isCurrentUserLoading
   }
 }
 
