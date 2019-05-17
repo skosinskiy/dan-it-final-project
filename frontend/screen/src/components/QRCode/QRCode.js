@@ -18,38 +18,29 @@ export default class QRCode extends Component {
     }
 
     try {
-      await QR.toDataURL(text, opts)
+      return await QR.toDataURL(text, opts)
     } catch (err) {
       console.log(err)
     }
-
-   /* await QR.toDataURL(text, opts, function (err, url) {
-      if (err) throw err
-      console.log('<<<>>>')
-      console.log(url)
-      return url
-    })*/
   }
 
   componentDidMount () {
     const { id } = this.props.place
     const qrImage = this.getQR(`api/mobile/login?placeId=${id}`)
-    console.log('<<<>>>')
-    console.log(qrImage)
-    this.setState({qrImage: qrImage})
+    qrImage.then((value) => {
+      this.setState({qrImage: value})
+    })
   }
 
   render () {
-    const qrImage = this.state
+    const { qrImage } = this.state
     const modalClassName = this.state.modalIsOpen ? 'qrCodeModal qrCode' : 'qrCode'
     return (
       <div
         className= { modalClassName }
         onClick = {() => { this.setState({ modalIsOpen: !this.state.modalIsOpen }) }}>
         <div className={'qrCode-title'}>Scan me</div>
-        <div className={'qrCode-img-cont'}>
-          <img className={'qrCode-img'} src={qrImage} alt="QR generation failed"/>
-        </div>
+        <img className={'qrCode-img'} src={qrImage} alt="QR generation failed"/>
       </div>
     )
   }
