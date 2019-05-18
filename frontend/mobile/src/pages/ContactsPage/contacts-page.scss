@@ -1,0 +1,19 @@
+.search-bar {
+  position: relative;
+}
+
+.contacts-search {
+  width: 90%;
+  margin: 10px auto;
+  padding: 8px 10px;
+  border: 1px solid hsl(0,0%,80%);
+  border-radius: 4px;
+}
+
+.search-icon {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  width: 20px;
+  height: 20px;
+}

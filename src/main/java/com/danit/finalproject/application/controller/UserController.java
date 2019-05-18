@@ -44,6 +44,12 @@ public class UserController {
     return new ResponseEntity<>(userFacade.getById(userId), HttpStatus.OK);
   }
 
+  @GetMapping("place/{placeId}")
+  @JsonView(View.User.class)
+  public ResponseEntity<Page<UserResponse>> getUsersByPlace(@PathVariable Long placeId, Pageable pageable) {
+    return new ResponseEntity<>(userFacade.getAllUsersByPlace(placeId, pageable), HttpStatus.OK);
+  }
+
   @GetMapping("current")
   @JsonView(View.User.class)
   public ResponseEntity<UserResponse> getCurrentUser() {
