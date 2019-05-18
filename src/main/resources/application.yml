@@ -42,6 +42,15 @@ spring:
       max-file-size:
         10MB
 server:
+  ssl:
+    key-store:
+      src/main/resources/keystore.p12
+    key-store-password:
+      changeit
+    keyStoreType:
+      PKCS12
+    keyAlias:
+      tomcat
   port:
     9000
 
