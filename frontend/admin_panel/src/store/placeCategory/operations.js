@@ -30,14 +30,21 @@ export const fetchBusinessCategorires = () => async dispatch => {
   dispatch(ACTIONS.updateBusinessCategories(businessCategories))
 }
 
+export const fetchLayoutItems = () => async dispatch => {
+  const layoutItems = await preloadDecorator(dispatch)(api.get(`/api/layout-items`))
+  dispatch(ACTIONS.updateLayoutItems(layoutItems.map(item => ({name: item}))))
+}
+
 export const loadPlaceCategory = id => async dispatch => {
   dispatch(fetchBusinessCategorires())
+  dispatch(fetchLayoutItems())
   const businessCategory = await preloadDecorator(dispatch)(endPoint.get(id))
   dispatch(ACTIONS.updateEditedPlaceCategory(businessCategory))
 }
 
 export const addSinglePlaceCategory = () => dispatch => {
   dispatch(fetchBusinessCategorires())
+  dispatch(fetchLayoutItems())
   dispatch(ACTIONS.updateEditedPlaceCategory(createOrSetKey()))
   dispatch(ACTIONS.placeCategoryFormIsLoading(false))
 }
@@ -49,7 +56,8 @@ const createOrSetKey = placeCategory => {
       allowMessages: false,
       name: "Display Name",
       description: "Enter your desription here",
-      businessCategories: []
+      businessCategories: [],
+      layoutItems: [],
     }
   }
   return Object.assign(placeCategory, { key: Math.random() * new Date().getTime()})
@@ -64,15 +72,9 @@ const setValueToEntityField = (field, value = getInversedBoolean(field)) => (
 
 const getInversedBoolean = (field) => !store.getState().placeCategories.editedPlaceCategory[field]
 
-export const updateBusinessCategories = (selectedBusinessCategories) =>dispatch => {
+export const updateCategories = (flag, selectedBusinessCategories) =>dispatch => {
   dispatch(ACTIONS.updateEditedPlaceCategory(
-    setValueToEntityField('businessCategories', selectedBusinessCategories)
-  ))
-}
-
-export const updateLayoutItems = (layoutItems) => dispatch => {
-  dispatch(ACTIONS.updateEditedPlaceCategory(
-    setValueToEntityField('layoutItems', layoutItems)
+    setValueToEntityField(flag, selectedBusinessCategories)
   ))
 }
 

@@ -10,14 +10,12 @@ import { placesCategoriesOperations } from 'store/placeCategory'
 import { connect } from 'react-redux'
 import SubmitButton from './components/Buttons/Submit'
 import Name from './components/Name'
-import BusinessCategoriesMultiSelect from './components/BusinessCategoriesMultiSelect'
-import LayuoutMultiSelect from './components/LayoutMultiSelect'
+import MultiSelect from './components/MultiSelect'
 import { EnhancedTableHead } from './components/EnhancedTableHead'
 import EnhancedTableToolbar from './components/EnhancedTableToolbar'
 import './index.scss'
 import ResetButton from './components/Buttons/Reset'
 import Desciption from './components/Description';
-import layoutItems from 'constants/layoutItems'
 import Preloader from 'components/Preloader';
 
 const styles = theme => ({
@@ -33,7 +31,6 @@ const styles = theme => ({
   },
 });
 
-const allLayoutItems = Object.values(layoutItems)
 class PlaceCategoryTable extends React.Component {
 
   componentDidMount(){
@@ -68,7 +65,7 @@ class PlaceCategoryTable extends React.Component {
       return <Preloader/>
     }
 
-    const {classes} = this.props
+    const {classes, availableBusinessCategories, availableLayoutItems} = this.props
     const {multisync, allowMessages, layoutItems, businessCategories: selectedBusinessCategories, name, key,
       description} = this.props.editedPlaceCategory
     const emptyRows = 1;
@@ -99,17 +96,17 @@ class PlaceCategoryTable extends React.Component {
                         <Name name={name} placeCategoryKey={key} />
                       </TableCell>
                       <TableCell scope="row" padding="none">
-                        <BusinessCategoriesMultiSelect
-                          selectedBusinessCategories={selectedBusinessCategories}
-                          placeCategoryKey={key}
+                        <MultiSelect
+                          selectedCategories={selectedBusinessCategories}
+                          availableCategories={availableBusinessCategories}
+                          flag={'businessCategories'}
                         />
                       </TableCell>
                       <TableCell scope="row" padding="none">
-                        <LayuoutMultiSelect
-                          selectedMenuItems={layoutItems ? layoutItems : []}
-                          placeCategoryKey={key}
-                          allNames={allLayoutItems}
-                          flag={'layoutItem'}
+                        <MultiSelect
+                          selectedCategories={layoutItems}
+                          availableCategories={availableLayoutItems}
+                          flag={'layoutItems'}
                         />
                       </TableCell>
                     </TableRow>
@@ -141,12 +138,16 @@ PlaceCategoryTable.propTypes = {
   isLoading:  PropTypes.bool.isRequired,
   addSinglePlaceCategory:  PropTypes.func.isRequired,
   loadPlaceCategory:  PropTypes.func.isRequired,
+  availableBusinessCategories:  PropTypes.array.isRequired,
+  availableLayoutItems:  PropTypes.array.isRequired,
 }
 
 const mapStateToProps = ({ placeCategories }) => ({
   classes: placeCategories.classes,
   isLoading: placeCategories.placeCategoryFormIsLoading,
   editedPlaceCategory: placeCategories.editedPlaceCategory,
+  availableBusinessCategories: placeCategories.availableBusinessCategories,
+  availableLayoutItems: placeCategories.availableLayoutItems,
 })
 
 const mapDispatchToProps = dispatch => ({

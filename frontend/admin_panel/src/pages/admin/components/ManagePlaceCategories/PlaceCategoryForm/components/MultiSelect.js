@@ -51,35 +51,36 @@ function getStyles (name, that) {
   }
 }
 
-class BusinessCategoriesMultipleSelect extends React.Component {
+class MultipleSelect extends React.Component {
 
   state = {
     name: [],
-    namesToBusinessCategories: {}
+    namesToCategories: {}
   }
 
   handleChange = event => {
     this.setState({name: event.target.value})
-    const newBusinessCategories =
-      event.target.value.map(businessCategoryName => this.state.namesToBusinessCategories[businessCategoryName])
-    this.props.updateBusinessCategories(newBusinessCategories)
+    const {updateCategories, flag} = this.props
+    const newCategories =
+      event.target.value.map(categoryName => this.state.namesToCategories[categoryName])
+    updateCategories(flag, newCategories)
   }
 
   componentDidMount(){
-    const {selectedBusinessCategories, availableBusinessCategories} = this.props
-    const namesToBusinessCategories = availableBusinessCategories.reduce((accum, businessCategory) =>
+    const {selectedCategories, availableCategories} = this.props
+    const namesToCategories = availableCategories.reduce((accum, category) =>
       Object.assign(accum, {
-        [businessCategory.name]: businessCategory
+        [category.name]: category
       }), {})
     const newState = {
-      name: selectedBusinessCategories.map(category => category.name),
-      namesToBusinessCategories: namesToBusinessCategories,
+      name: selectedCategories.map(category => category.name),
+      namesToCategories,
     }
     this.setState(newState)
   }
 
   render () {
-    const {classes, availableBusinessCategories} = this.props
+    const {classes, availableCategories, flag} = this.props
     return (
       <div className={classes.root}>
         <FormControl className={classes.formControl} fullWidth>
@@ -91,11 +92,11 @@ class BusinessCategoriesMultipleSelect extends React.Component {
             input={<Input id="select-multiple-chip"/>}
             MenuProps={MenuProps}
           >
-            {availableBusinessCategories.map(category => category.name)
-              .map(name =>
+            {availableCategories.map(category => category.name)
+              .map((name, i) =>
                 (
                 <MenuItem
-                  key={name}
+                  key={i + flag}
                   value={name}
                   style={getStyles(name, this)}
                 >
@@ -111,20 +112,17 @@ class BusinessCategoriesMultipleSelect extends React.Component {
   }
 }
 
-BusinessCategoriesMultipleSelect.propTypes = {
+MultipleSelect.propTypes = {
   classes: PropTypes.object.isRequired,
-  selectedBusinessCategories: PropTypes.array.isRequired,
-  updateBusinessCategories: PropTypes.func.isRequired,
-  availableBusinessCategories: PropTypes.array.isRequired,
+  selectedCategories: PropTypes.array.isRequired,
+  updateCategories: PropTypes.func.isRequired,
+  availableCategories: PropTypes.array.isRequired,
+  flag: PropTypes.string.isRequired,
 }
 
-const mapStateToProps = ({placeCategories}) => ({
-  availableBusinessCategories: placeCategories.availableBusinessCategories,
-})
-
 const mapDispatchToProps = dispatch => ({
-  updateBusinessCategories: selectedBusinessCategories => dispatch(
-    placesCategoriesOperations.updateBusinessCategories(selectedBusinessCategories)),
+  updateCategories: (flag, selectedCategories) => dispatch(
+    placesCategoriesOperations.updateCategories(flag, selectedCategories)),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles, {withTheme: true})(BusinessCategoriesMultipleSelect))
+export default connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(MultipleSelect))

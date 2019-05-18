@@ -6,6 +6,7 @@ const initialState = {
   editedPlaceCategory: {},
   placeCategoryFormIsLoading: true,
   availableBusinessCategories: [],
+  availableLayoutItems: [],
 }
 
 function placeCategories(state = initialState, action) {
@@ -19,6 +20,11 @@ function placeCategories(state = initialState, action) {
       return {
         ...state,
         availableBusinessCategories: action.payload
+      }
+    case TYPES.UPDATE_LAYOUT_ITEMS:
+      return {
+        ...state,
+        availableLayoutItems: action.payload
       }
     case TYPES.ARE_PLACE_CATEGORIES_LOADING:
       return {

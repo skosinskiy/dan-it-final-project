@@ -15,6 +15,11 @@ export const updateBusinessCategories = parentBusinessCategories => ({
   payload: parentBusinessCategories
 })
 
+export const updateLayoutItems = parentLayoutItems => ({
+  type: TYPES.UPDATE_LAYOUT_ITEMS,
+  payload: parentLayoutItems
+})
+
 export const placeCategoryFormIsLoading = isLoading => ({
   type: TYPES.PLACE_CATEGORY_FORM_IS_LOADING,
   payload: isLoading
