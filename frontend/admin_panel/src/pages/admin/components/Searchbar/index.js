@@ -55,10 +55,14 @@ class SearchBar extends React.Component {
     this.setState({input: event.target.value})
   }
 
-  findUsersByEmail = (e) => {
-    if (e.key === 'Enter') {
-      this.props.getUsersByEmail(this.state.input, 0, 25)
-    }
+  findUsers = (e) => {
+    e.persist()
+    const {input} = this.state
+    setTimeout(() => {
+      if (this.state.input === input || e.key === 'Enter') {
+        this.props.getUsersByEmail(this.state.input, 0, this.props.userSize)
+      }
+    }, 500)
   }
 
   findBusinesses = (e) => {
@@ -83,8 +87,8 @@ class SearchBar extends React.Component {
 
   setPlaceholder = (searchType) => {
     switch (searchType) {
-      case 'user_by_email':
-        return {placeholder: 'Search user by email', func: this.findUsersByEmail}
+      case 'user':
+        return {placeholder: 'Search user by email', func: this.findUsers}
       case 'business':
         return {placeholder: 'Search by company name', func: this.findBusinesses}
       case 'event':
@@ -96,8 +100,8 @@ class SearchBar extends React.Component {
 
   getSearchBarValue = searchType => {
     switch (searchType) {
-      case 'user_by_email':
-        return {placeholder: 'Search user by email', func: this.findUsersByEmail}
+      case 'user':
+        return this.props.userSearchParam
       case 'business':
         return this.props.businessSearchParam
       case 'event':
@@ -134,12 +138,13 @@ SearchBar.propTypes = {
   classes: PropTypes.object.isRequired,
   getUsersByEmail: PropTypes.func.isRequired,
   getBusinessesByTitle: PropTypes.func.isRequired,
-  getEventsByParam: PropTypes.func.isRequired,
   businessSize: PropTypes.number.isRequired,
   businessSearchParam: PropTypes.string.isRequired,
   getAllEvents: PropTypes.func.isRequired,
   eventSearchParam: PropTypes.string.isRequired,
-  eventSize: PropTypes.number.isRequired
+  eventSize: PropTypes.number.isRequired,
+  userSearchParam: PropTypes.string.isRequired,
+  userSize: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -148,7 +153,9 @@ const mapStateToProps = (state) => {
     businessSize    : state.businesses.size,
     businessSearchParam: state.businesses.searchParam,
     eventSize: state.events.size,
-    eventSearchParam: state.events.searchParam
+    eventSearchParam: state.events.searchParam,
+    userSearchParam: state.users.searchParam,
+    userSize: state.users.size
   }
 }
 
