@@ -44,7 +44,7 @@ spring:
 server:
   ssl:
     key-store:
-      src/main/resources/keystore.p12
+      classpath:keystore.p12
     key-store-password:
       changeit
     keyStoreType:
