@@ -3,3 +3,6 @@ aws:
     credentials:
       path:
         src/main/resources/aws/s3/credentials
+server:
+  ssl:
+    enabled: false

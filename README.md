@@ -6,12 +6,12 @@
 
 #### Actual version of master is deployed on AWS:
 
-http://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9000
+https://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9000
 
 ###### custom build is available on port 9001
 
-http://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9001
+https://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9001
 
 #### Swagger Documentation:
 
-http://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9000/swagger-ui.html
+https://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9000/swagger-ui.html
