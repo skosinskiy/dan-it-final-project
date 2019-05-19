@@ -1,17 +1,18 @@
 import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
 
-export const fetchPlaceFormData = (page = 0, size = 5) => dispatch => {
+export const fetchPlaceFormData = (searchParam = '', page = 0, size = 5) => dispatch => {
   dispatch(ACTIONS.isPlaceFormDataLoading(true))
   Promise.all([
-    dispatch(getAllPlaces(page, size)),
+    dispatch(getAllPlaces(searchParam, page, size)),
     dispatch(getPlacesCategories())
   ]).then(() => dispatch(ACTIONS.isPlaceFormDataLoading(false)))
 }
 
-export const getAllPlaces = (page = 0, size = 5) => dispatch => {
+export const getAllPlaces = (searchParam = '', page = 0, size = 5) => dispatch => {
   dispatch(ACTIONS.isPlacesLoading(true))
-  return api.get(`/api/places?page=${page}&size=${size}`).then(res => {
+  dispatch(ACTIONS.setSearchParam(searchParam))
+  return api.get(`/api/places?searchParam=${searchParam}&page=${page}&size=${size}`).then(res => {
     dispatch(ACTIONS.getAllPlaces(res))
     dispatch(ACTIONS.isPlacesLoading(false))
   })
@@ -23,10 +24,10 @@ export const getPlacesCategories = () => dispatch => {
   })
 }
 
-export const deletePlace = (placeId, page, size) => dispatch => {
+export const deletePlace = (placeId, searchParam, page, size) => dispatch => {
   dispatch(ACTIONS.isPlacesLoading(true))
   api.deleteApi(`/api/places/${placeId}`).then(res => {
-    dispatch(getAllPlaces(page, size))
+    dispatch(getAllPlaces(searchParam, page, size))
   })
 }
 
@@ -38,7 +39,7 @@ export const savePlace = (place, images) => dispatch => {
     return uploadImagesToS3(imagesToUpload)
       .then(uploadedImages => createPlacePhotos(uploadedImages, place.id)
         .then(createdPhotos => updatePlace(existingImages, place, createdPhotos)
-          .then(() => dispatch(getAllPlaces()))
+          .then()
         )
       )
   } else {
@@ -46,7 +47,7 @@ export const savePlace = (place, images) => dispatch => {
       .then(createdBusiness => uploadImagesToS3(images)
         .then(uploadedImages => createPlacePhotos(uploadedImages, createdBusiness.id)
           .then(createdPhotos => updatePlace(null, createdBusiness, createdPhotos)
-            .then(() => dispatch(getAllPlaces()))
+            .then()
           )
         )
       )

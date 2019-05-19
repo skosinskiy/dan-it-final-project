@@ -27,7 +27,7 @@ class Places extends Component {
     return (
       <div className="placeList">
         <div className={classes.searchbar}>
-          <SearchBar searchtype='business_by_name'/>
+          <SearchBar searchtype='place'/>
           <NavLink to={'/admin/places/add-new'} className={classes.button}>
             <Button size="large" variant="outlined" color="primary">Add new place</Button>
           </NavLink>

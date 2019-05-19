@@ -23,33 +23,41 @@ const styles = theme => ({
 
   table: {
     tableLayout: 'fixed'
+  },
+
+  firstCell: {
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit,
+    paddingTop: theme.spacing.unit,
+    paddingDown: theme.spacing.unit,
+    overflowWrap: 'break-word'
+  },
+
+  cell: {
+    padding: theme.spacing.unit,
+    overflowWrap: 'break-word'
   }
 })
 
 class EventTable extends React.Component {
 
-  state = {
-    page: 0,
-    rowsPerPage: 5
-  }
-
   componentDidMount() {
-    this.props.getAllEvents(this.state.page, this.state.rowsPerPage)
+    const {getAllEventsByParams, searchParam, page, size} = this.props
+    getAllEventsByParams(searchParam, page, size)
   }
 
   handleChangePage = (event, page) => {
-    this.setState({page})
-    this.props.getAllEvents(page, this.state.rowsPerPage)
+    const {getAllEventsByParams, searchParam, size} = this.props
+    getAllEventsByParams(searchParam, page, size)
   }
 
   handleChangeRowsPerPage = event => {
-    this.setState({ page: 0, rowsPerPage: event.target.value });
-    this.props.getAllEvents(0, event.target.value)
+    const {getAllEventsByParams, searchParam} = this.props
+    getAllEventsByParams(searchParam, 0, event.target.value)
   }
 
   render() {
-    const {classes, eventList, deleteEvent, isEventDataLoading, totalElements} = this.props
-    const {page, rowsPerPage} = this.state
+    const {classes, eventList, deleteEvent, isEventDataLoading, totalElements, page, size, searchParam} = this.props
 
     if (isEventDataLoading) {
       return (
@@ -60,25 +68,26 @@ class EventTable extends React.Component {
     }
 
     return (
+
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <colgroup>
-            <col style={{width: '15%'}}/>
-            <col style={{width: '15%'}}/>
-            <col style={{width: '15%'}}/>
-            <col style={{width: '15%'}}/>
-            <col style={{width: '15%'}}/>
-            <col style={{width: '15%'}}/>
-            <col style={{width: '10%'}}/>
+            <col style={{width: '14%'}}/>
+            <col style={{width: '14%'}}/>
+            <col style={{width: '14%'}}/>
+            <col style={{width: '14%'}}/>
+            <col style={{width: '14%'}}/>
+            <col style={{width: '14%'}}/>
+            <col style={{width: '16%'}}/>
           </colgroup>
           <TableHead>
             <TableRow>
-              <TableCell>Title</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Address</TableCell>
-              <TableCell>Event Categories</TableCell>
-              <TableCell>Business</TableCell>
-              <TableCell>Place</TableCell>
+              <TableCell className={classes.firstCell}>Title</TableCell>
+              <TableCell className={classes.cell}>Description</TableCell>
+              <TableCell className={classes.cell}>Address</TableCell>
+              <TableCell className={classes.cell}>Event Categories</TableCell>
+              <TableCell className={classes.cell}>Business</TableCell>
+              <TableCell className={classes.cell}>Place</TableCell>
               <TableCell/>
             </TableRow>
           </TableHead>
@@ -86,17 +95,17 @@ class EventTable extends React.Component {
             {eventList.map(event => {
               return (
                 <TableRow hover key={event.id}>
-                  <TableCell>{event.title}</TableCell>
-                  <TableCell>{event.description}</TableCell>
-                  <TableCell>{event.address}</TableCell>
-                  <TableCell>
+                  <TableCell className={classes.firstCell}>{event.title}</TableCell>
+                  <TableCell className={classes.cell}>{event.description}</TableCell>
+                  <TableCell className={classes.cell}>{event.address}</TableCell>
+                  <TableCell className={classes.cell}>
                     {event.categories.map(category => category.name).join(", ")}
                   </TableCell>
-                  <TableCell>{event.business && event.business.title}</TableCell>
-                  <TableCell>{event.place && event.place.title}</TableCell>
+                  <TableCell className={classes.cell}>{event.business && event.business.title}</TableCell>
+                  <TableCell className={classes.cell}>{event.place && event.place.title}</TableCell>
                   <TableCellButtons
                     editLink={`/admin/events/edit/${event.id}`}
-                    deleteFunction={() => deleteEvent(event.id, page, rowsPerPage)}
+                    deleteFunction={() => deleteEvent(event.id, searchParam, page, size)}
                   />
                 </TableRow>
               )
@@ -108,7 +117,7 @@ class EventTable extends React.Component {
                 count={totalElements}
                 page={page}
                 onChangePage={this.handleChangePage}
-                rowsPerPage={rowsPerPage}
+                rowsPerPage={size}
                 rowsPerPageOptions={[5, 10, 15]}
                 onChangeRowsPerPage={this.handleChangeRowsPerPage}
                 SelectProps={{
@@ -129,21 +138,27 @@ EventTable.propTypes = {
   eventList: PropTypes.array.isRequired,
   totalElements: PropTypes.number.isRequired,
   isEventDataLoading: PropTypes.bool.isRequired,
-  getAllEvents: PropTypes.func.isRequired
+  getAllEventsByParams: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  size: PropTypes.number.isRequired,
+  searchParam: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
     eventList: state.events.eventList,
     totalElements: state.events.totalElements,
-    isEventDataLoading: state.events.isEventDataLoading
+    isEventDataLoading: state.events.isEventDataLoading,
+    page: state.events.page,
+    size: state.events.size,
+    searchParam: state.events.searchParam
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteEvent: (eventId, page, size) => dispatch(eventOperations.deleteEvent(eventId, page, size)),
-    getAllEvents: (page, size) => dispatch(eventOperations.getAllEvents(page, size))
+    deleteEvent: (eventId, searchParam, page, size) => dispatch(eventOperations.deleteEvent(eventId, searchParam, page, size)),
+    getAllEventsByParams: (page, size) => dispatch(eventOperations.getAllEventsByParams(page, size))
   }
 }
 

@@ -27,7 +27,7 @@ class ManagingEvents extends Component {
     return (
       <div>
         <div className={classes.searchbar}>
-          <SearchBar searchtype='event_by_title' />
+          <SearchBar searchtype='event' />
           <NavLink to={'/admin/events/add-new'} className={classes.button}>
             <Button size="large" variant="outlined" color="primary">Add new event</Button>
           </NavLink>

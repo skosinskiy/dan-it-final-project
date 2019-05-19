@@ -18,6 +18,11 @@ export const getBusinessesByPlaceID = ({businessList}) => ({
   }
 })
 
+export const setSearchParam = (param) => ({
+  type: TYPES.SET_BUSINESS_SEARCH_PARAM,
+  payload: param
+})
+
 export const getBusinessesError = error => ({
   type: TYPES.BUSINESS_ERROR,
   payload: error

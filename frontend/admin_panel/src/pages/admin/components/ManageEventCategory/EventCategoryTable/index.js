@@ -20,6 +20,19 @@ const styles = theme => ({
 
   table: {
     tableLayout: 'fixed'
+  },
+
+  firstCell: {
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit,
+    paddingTop: theme.spacing.unit,
+    paddingDown: theme.spacing.unit,
+    overflowWrap: 'break-word'
+  },
+
+  cell: {
+    padding: theme.spacing.unit,
+    overflowWrap: 'break-word'
   }
 })
 
@@ -37,20 +50,18 @@ class EventCategoryTable extends Component {
           </colgroup>
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Parent Category</TableCell>
+              <TableCell className={classes.firstCell}>Name</TableCell>
+              <TableCell className={classes.cell}>Description</TableCell>
+              <TableCell className={classes.cell}>Parent Category</TableCell>
               <TableCell/>
             </TableRow>
           </TableHead>
           <TableBody>
             {eventCategories.map(eventCategory => (
               <TableRow key={eventCategory.id} hover>
-                <TableCell component="th" scope="row">
-                  {eventCategory.name}
-                </TableCell>
-                <TableCell>{eventCategory.description}</TableCell>
-                <TableCell>{eventCategory.parentCategory ? eventCategory.parentCategory.name : ''}</TableCell>
+                <TableCell className={classes.firstCell}>{eventCategory.name}</TableCell>
+                <TableCell className={classes.cell}>{eventCategory.description}</TableCell>
+                <TableCell className={classes.cell}>{eventCategory.parentCategory ? eventCategory.parentCategory.name : ''}</TableCell>
                 <TableCellButtons
                   editLink={`/admin/event-categories/${eventCategory.id}`}
                   deleteFunction={() => deleteEventCategory(eventCategory.id)}

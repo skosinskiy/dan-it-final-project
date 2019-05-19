@@ -10,18 +10,12 @@ export const isEventDataLoading = (isLoading) => ({
   payload: {isLoading}
 })
 
-
 export const getAllEvents = (res) => ({
   type: TYPES.GET_ALL_EVENTS,
   payload: res
 })
 
-export const getEventsByParam = (res) => ({
-  type: TYPES.GET_EVENTS_BY_PLACE_ID,
-  payload: res
-})
-
-export const getEventsError = error => ({
-  type: TYPES.EVENT_ERROR,
-  payload: {error}
+export const setSearchParam = (param) => ({
+  type: TYPES.SET_EVENT_SEARCH_PARAM,
+  payload: param
 })

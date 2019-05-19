@@ -40,8 +40,8 @@ public class PlaceFacade extends AbstractDtoFacade<Place, PlaceRequest, PlaceRes
     return mapEntityToResponseDto(place);
   }
 
-  public Page<PlaceResponse> getAll(Pageable pageable) {
-    Page<Place> places = placeService.getAll(pageable);
+  public Page<PlaceResponse> getAllPlacesByParam(String param, Pageable pageable) {
+    Page<Place> places = placeService.getAllPlacesByParam(param, pageable);
     return mapEntityListToResponseDtoList(places);
   }
 }

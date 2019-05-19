@@ -17,14 +17,9 @@ export const saveUserRoles = (userId, roles) => dispatch => {
 
 export const getUsersByEmail = (email, page, size) => dispatch => {
   dispatch(ACTIONS.isUsersLoading(true))
+  dispatch(ACTIONS.setSearchParam(email))
   return api.get(`/api/users?email=${email}&page=${page}&size=${size}`).then(res => {
-    dispatch(ACTIONS.getUsersByEmail({
-      users: res.content,
-      page: res.pageable.pageNumber,
-      totalElements: res.totalElements,
-      email: email,
-      size: res.pageable.pageSize
-    }))
+    dispatch(ACTIONS.getUsersByEmail(res))
     dispatch(ACTIONS.isUsersLoading(false))
   })
 }

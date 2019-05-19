@@ -24,33 +24,42 @@ const styles = theme => ({
 
   table: {
     tableLayout: 'fixed'
+  },
+
+  firstCell: {
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit,
+    paddingTop: theme.spacing.unit,
+    paddingDown: theme.spacing.unit,
+    overflowWrap: 'break-word'
+  },
+
+  cell: {
+    padding: theme.spacing.unit,
+    overflowWrap: 'break-word'
   }
 })
 
 class BusinessTable extends React.Component {
-  state = {
-    page: 0,
-    rowsPerPage: 5
-  }
 
   componentDidMount() {
-    this.props.getAllBusinesses(this.state.page, this.state.rowsPerPage)
+    const {getBusinessesByTitle, page, size, searchParam} = this.props
+    getBusinessesByTitle(searchParam, page, size)
   }
 
   handleChangePage = (event, page) => {
-    this.setState({page})
-    this.props.getAllBusinesses(page, this.state.rowsPerPage)
+    const {getBusinessesByTitle, size, searchParam} = this.props
+    getBusinessesByTitle(searchParam, page, size)
   }
 
   handleChangeRowsPerPage = event => {
-    this.setState({ page: 0, rowsPerPage: event.target.value });
-    this.props.getAllBusinesses(0, event.target.value)
+    const {getBusinessesByTitle, searchParam} = this.props
+    getBusinessesByTitle(searchParam, 0, event.target.value)
   };
 
   render() {
 
-    const {classes, businessList, deleteBusiness, isBusinessesLoading, totalElements} = this.props
-    const {page, rowsPerPage} = this.state
+    const {classes, businessList, deleteBusiness, isBusinessesLoading, totalElements, page, size, searchParam} = this.props
 
     if (isBusinessesLoading) {
       return (
@@ -66,22 +75,22 @@ class BusinessTable extends React.Component {
           <colgroup>
             <col style={{width: '12%'}}/>
             <col style={{width: '12%'}}/>
-            <col style={{width: '17%'}}/>
             <col style={{width: '12%'}}/>
             <col style={{width: '12%'}}/>
-            <col style={{width: '13%'}}/>
-            <col style={{width: '13%'}}/>
-            <col style={{width: '9%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '16%'}}/>
           </colgroup>
           <TableHead>
             <TableRow>
-              <TableCell>Title</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Categories</TableCell>
-              <TableCell>Address</TableCell>
-              <TableCell>Website</TableCell>
-              <TableCell>Phone Number</TableCell>
-              <TableCell>Place</TableCell>
+              <TableCell className={classes.firstCell}>Title</TableCell>
+              <TableCell className={classes.cell}>Description</TableCell>
+              <TableCell className={classes.cell}>Categories</TableCell>
+              <TableCell className={classes.cell}>Address</TableCell>
+              <TableCell className={classes.cell}>Website</TableCell>
+              <TableCell className={classes.cell}>Phone Number</TableCell>
+              <TableCell className={classes.cell}>Place</TableCell>
               <TableCell/>
             </TableRow>
           </TableHead>
@@ -89,16 +98,16 @@ class BusinessTable extends React.Component {
             {businessList.map(business => {
               return (
                 <TableRow key={business.id} hover>
-                  <TableCell>{business.title}</TableCell>
-                  <TableCell>{business.description}</TableCell>
-                  <TableCell>{business.categories.map(category => category.name).join(', ')}</TableCell>
-                  <TableCell>{business.address}</TableCell>
-                  <TableCell>{business.webSite}</TableCell>
-                  <TableCell>{business.phoneNumber}</TableCell>
-                  <TableCell>{business.place ? business.place.title : ''}</TableCell>
+                  <TableCell className={classes.firstCell}>{business.title}</TableCell>
+                  <TableCell className={classes.cell}>{business.description}</TableCell>
+                  <TableCell className={classes.cell}>{business.categories.map(category => category.name).join(', ')}</TableCell>
+                  <TableCell className={classes.cell}>{business.address}</TableCell>
+                  <TableCell className={classes.cell}>{business.webSite}</TableCell>
+                  <TableCell className={classes.cell}>{business.phoneNumber}</TableCell>
+                  <TableCell className={classes.cell}>{business.place ? business.place.title : ''}</TableCell>
                   <TableCellButtons
                     editLink={`/admin/businesses/edit/${business.id}`}
-                    deleteFunction={() => deleteBusiness(business.id, page, rowsPerPage)}
+                    deleteFunction={() => deleteBusiness(business.id, searchParam, page, size)}
                   />
                 </TableRow>
               )
@@ -110,7 +119,7 @@ class BusinessTable extends React.Component {
                 count={totalElements}
                 page={page}
                 onChangePage={this.handleChangePage}
-                rowsPerPage={rowsPerPage}
+                rowsPerPage={size}
                 rowsPerPageOptions={[5, 10, 15]}
                 onChangeRowsPerPage={this.handleChangeRowsPerPage}
                 SelectProps={{
@@ -127,25 +136,31 @@ class BusinessTable extends React.Component {
 
 BusinessTable.propTypes = {
   classes: PropTypes.object.isRequired,
-  getAllBusinesses: PropTypes.func.isRequired,
+  getBusinessesByTitle: PropTypes.func.isRequired,
   deleteBusiness: PropTypes.func.isRequired,
   businessList: PropTypes.array.isRequired,
   totalElements: PropTypes.number.isRequired,
-  isBusinessesLoading: PropTypes.bool.isRequired
+  isBusinessesLoading: PropTypes.bool.isRequired,
+  page: PropTypes.number.isRequired,
+  size: PropTypes.number.isRequired,
+  searchParam: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
     businessList: state.businesses.businessList,
     totalElements: state.businesses.totalElements,
-    isBusinessesLoading: state.businesses.isBusinessesLoading
+    isBusinessesLoading: state.businesses.isBusinessesLoading,
+    page: state.businesses.page,
+    size: state.businesses.size,
+    searchParam: state.businesses.searchParam
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deleteBusiness: (businessId, page, size) => dispatch(businessOperations.deleteBusiness(businessId, page, size)),
-    getAllBusinesses: (page, size) => dispatch(businessOperations.getAllBusinesses(page, size))
+    deleteBusiness: (businessId, searchParam, page, size) => dispatch(businessOperations.deleteBusiness(businessId, searchParam, page, size)),
+    getBusinessesByTitle: (searchParam, page, size) => dispatch(businessOperations.getBusinessesByTitle(searchParam, page, size)),
   }
 }
 
