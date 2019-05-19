@@ -17,8 +17,7 @@ import MapPage from '../../pages/MapPage/MapPage'
 
 const AppRoutes = (props) => {
   const {currentUser} = props
-  const bottomMenu = ['/mobile/login', '/mobile/registration', '/mobile']
-    .includes(props.location.pathname) ? null : <BottomMenu/>
+  const bottomMenu = ['/mobile/login', '/mobile/registration'].includes(props.location.pathname) ? null : <BottomMenu/>
 
   return (
     <div className={'AppRoutes'}>
