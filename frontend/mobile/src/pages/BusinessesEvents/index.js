@@ -78,6 +78,7 @@ class BusinessesEvents extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
     businesses: state.businesses.businessesByCategory,
     events: state.events.events,

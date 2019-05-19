@@ -113,4 +113,10 @@ public class UserController {
     return new ResponseEntity<>(userFacade.registerNewUser(userRequest), HttpStatus.OK);
   }
 
+  @PutMapping("/pair/{placeId}")
+  @JsonView(View.User.class)
+  public ResponseEntity<UserResponse> addNewPlaceToUser(@PathVariable Long placeId) {
+    return new ResponseEntity<>(userFacade.addNewPlaceToUser(placeId), HttpStatus.OK);
+  }
+
 }

@@ -219,4 +219,17 @@ public class UserService implements UserDetailsService, CrudService<User> {
     Place place = placeRepository.findById(placeId).orElse(null);
     return userRepository.findAllByPlaces(place, pageable);
   }
+
+  public User addNewPlaceToUser(Long placeId) {
+    //TODO implement check for multiple sync
+    String email =
+        ((UserDetails)(SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getUsername();
+    User user = getByEmail(email);
+    Place place = placeRepository.findById(placeId).orElse(null);
+    List<Place> places = user.getPlaces();
+    if (places.stream().noneMatch(p -> p.getId().equals(placeId))) {
+      places.add(place);
+    }
+    return update(user.getId(), user);
+  }
 }

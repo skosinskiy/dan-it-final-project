@@ -1,5 +1,6 @@
 package com.danit.finalproject.application.dto.response;
 
+import com.danit.finalproject.application.dto.response.place.PlaceResponse;
 import com.danit.finalproject.application.dto.view.View;
 import com.danit.finalproject.application.entity.Gender;
 import java.util.Date;
@@ -27,6 +28,7 @@ public class UserResponse {
   @EqualsAndHashCode.Exclude
   private List<ChatResponse> chats;
   private List<RoleResponse> roles;
+  private List<PlaceResponse> places;
   @JsonView(View.User.class)
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
