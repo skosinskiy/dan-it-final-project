@@ -1,41 +1,32 @@
 import api from '../../helpers/FetchData'
 import * as ACTIONS from './actions'
-import {getAllBusinesses} from "../businesses/operations";
+import {getBusinessesByTitle} from "../businesses/operations";
 import {getAllEventCategories} from "../eventCategory/operations";
 import {getAllPlaces} from "../places/operations";
 
-export const fetchEventFormData = () => dispatch => {
+export const fetchEventFormData = (searchParam, page, size) => dispatch => {
   dispatch(ACTIONS.isEventFormDataLoading(true))
   Promise.all([
-    dispatch(getAllEvents()),
+    dispatch(getAllEventsByParams(searchParam, page, size)),
     dispatch(getAllEventCategories()),
-    dispatch(getAllBusinesses()),
+    dispatch(getBusinessesByTitle()),
     dispatch(getAllPlaces())
   ]).then(() => dispatch(ACTIONS.isEventFormDataLoading(false)))
 }
 
-export const getAllEvents = (page = 0, size = 5) => dispatch => {
+export const getAllEventsByParams = (param = '', page = 0, size = 5) => dispatch => {
   dispatch(ACTIONS.isEventDataLoading(true))
-  return api.get(`/api/events?page=${page}&size=${size}`).then(res => {
+  dispatch(ACTIONS.setSearchParam(param))
+  return api.get(`/api/events?searchParam=${param}&page=${page}&size=${size}`).then(res => {
     dispatch(ACTIONS.getAllEvents(res))
     dispatch(ACTIONS.isEventDataLoading(false))
-  }).catch(err => {
-    dispatch(ACTIONS.getEventsError(err))
   })
 }
 
-export const getEventsByParam = (param, page = 0, size = 5) => dispatch => {
-  api.get(`/api/events?searchParam=${param}&page=${page}&size=${size}`).then(res => {
-    dispatch(ACTIONS.getEventsByParam(res))
-  }).catch(err => {
-    dispatch(ACTIONS.getEventsError(err))
-  })
-}
-
-export const deleteEvent = (eventId, page, size) => dispatch => {
+export const deleteEvent = (eventId, searchParam, page, size) => dispatch => {
   dispatch(ACTIONS.isEventDataLoading(true))
   api.deleteApi(`/api/events/${eventId}`).then(res => {
-    dispatch(getAllEvents(page, size))
+    dispatch(getAllEventsByParams(searchParam, page, size))
   })
 }
 
@@ -47,7 +38,7 @@ export const saveEvent = (event, images) => dispatch => {
     return uploadImagesToS3(imagesToUpload)
       .then(uploadedImages => createEventPhotos(uploadedImages, event.id)
           .then(createdPhotos => updateEvent(existingImages, event, createdPhotos)
-            .then(() => dispatch(getAllEvents()))
+            .then()
           )
       )
   } else {
@@ -55,7 +46,7 @@ export const saveEvent = (event, images) => dispatch => {
       .then(createdBusiness => uploadImagesToS3(images)
         .then(uploadedImages => createEventPhotos(uploadedImages, createdBusiness.id)
           .then(createdPhotos => updateEvent(null, createdBusiness, createdPhotos)
-            .then(() => dispatch(getAllEvents()))
+            .then()
           )
         )
       )

@@ -30,33 +30,41 @@ const styles = theme => ({
 
   button: {
     textDecoration: 'none'
+  },
+
+  firstCell: {
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit,
+    paddingTop: theme.spacing.unit,
+    paddingDown: theme.spacing.unit,
+    overflowWrap: 'break-word'
+  },
+
+  cell: {
+    padding: theme.spacing.unit,
+    overflowWrap: 'break-word'
   }
 })
 
 class UserTable extends React.Component {
-  state = {
-    page: 0,
-    rowsPerPage: 5
-  }
 
   componentDidMount() {
-    const {page, rowsPerPage} = this.state
-    this.props.getAllUsers('', page, rowsPerPage)
+    const {getAllUsers, searchParam, page, size} = this.props
+    getAllUsers(searchParam, page, size)
   }
 
   handleChangePage = (event, page) => {
-    this.setState({page})
-    this.props.getAllUsers('', page, this.state.rowsPerPage)
+    const {getAllUsers, searchParam, size} = this.props
+    getAllUsers(searchParam, page, size)
   }
 
   handleChangeRowsPerPage = event => {
-    this.setState({page: 0, rowsPerPage: event.target.value});
-    this.props.getAllUsers('', 0, event.target.value)
+    const {getAllUsers, searchParam} = this.props
+    getAllUsers(searchParam, 0, event.target.value)
   }
 
   render() {
-    const {classes, usersListByEmail, totalElements, isUsersLoading} = this.props
-    const {rowsPerPage, page} = this.state
+    const {classes, usersListByEmail, totalElements, isUsersLoading, page, size} = this.props
 
     if (isUsersLoading) {
       return (
@@ -78,10 +86,10 @@ class UserTable extends React.Component {
           </colgroup>
           <TableHead>
             <TableRow>
-              <TableCell>Email</TableCell>
-              <TableCell>Name</TableCell>
-              <TableCell>Age</TableCell>
-              <TableCell>Roles</TableCell>
+              <TableCell className={classes.firstCell}>Email</TableCell>
+              <TableCell className={classes.cell}>Name</TableCell>
+              <TableCell className={classes.cell}>Age</TableCell>
+              <TableCell className={classes.cell}>Roles</TableCell>
               <TableCell/>
             </TableRow>
           </TableHead>
@@ -89,11 +97,11 @@ class UserTable extends React.Component {
             {usersListByEmail.map(user => {
               return (
                 <TableRow hover key={user.id}>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{`${user.firstName} ${user.lastName}`}</TableCell>
-                  <TableCell>{user.age}</TableCell>
-                  <TableCell>{user.roles.map(role => role.name).join(', ')}</TableCell>
-                  <TableCell>
+                  <TableCell className={classes.firstCell}>{user.email}</TableCell>
+                  <TableCell className={classes.cell}>{`${user.firstName} ${user.lastName}`}</TableCell>
+                  <TableCell className={classes.cell}>{user.age}</TableCell>
+                  <TableCell className={classes.cell}>{user.roles.map(role => role.name).join(', ')}</TableCell>
+                  <TableCell className={classes.cell}>
                     <NavLink to={`/admin/users/edit/${user.id}`} className={classes.button}>
                       <Button variant="outlined" color="primary">Edit</Button>
                     </NavLink>
@@ -108,7 +116,7 @@ class UserTable extends React.Component {
                 count={totalElements}
                 page={page}
                 onChangePage={this.handleChangePage}
-                rowsPerPage={rowsPerPage}
+                rowsPerPage={size}
                 rowsPerPageOptions={[5, 10, 15]}
                 onChangeRowsPerPage={this.handleChangeRowsPerPage}
                 SelectProps={{
@@ -128,14 +136,20 @@ UserTable.propTypes = {
   getAllUsers: PropTypes.func.isRequired,
   usersListByEmail: PropTypes.array.isRequired,
   totalElements: PropTypes.number.isRequired,
-  isUsersLoading: PropTypes.bool.isRequired
+  isUsersLoading: PropTypes.bool.isRequired,
+  searchParam: PropTypes.string.isRequired,
+  page: PropTypes.number.isRequired,
+  size: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
     usersListByEmail: state.users.usersListByEmail,
     totalElements: state.users.totalElements,
-    isUsersLoading: state.users.isUsersLoading
+    isUsersLoading: state.users.isUsersLoading,
+    page: state.users.page,
+    size: state.users.size,
+    searchParam: state.users.searchParam
   }
 }
 

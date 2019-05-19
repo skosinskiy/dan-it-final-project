@@ -27,7 +27,7 @@ class ManagingBusinesses extends Component {
     return (
       <div>
         <div className={classes.searchbar}>
-          <SearchBar searchtype='business_by_name'/>
+          <SearchBar searchtype='business'/>
           <NavLink to={'/admin/businesses/add-new'} className={classes.button}>
             <Button size="large" variant="outlined" color="primary">Add new business</Button>
           </NavLink>

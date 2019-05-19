@@ -9,7 +9,8 @@ import SearchIcon from '@material-ui/icons/Search'
 
 import {usersOperations} from 'store/users'
 import {businessOperations} from '../../../../store/businesses'
-import {eventOperations} from "../../../../store/events";
+import {eventOperations} from '../../../../store/events'
+import {placesOperations} from '../../../../store/places'
 
 /*
 * Search Types that should be passed as props:
@@ -40,6 +41,13 @@ const styles = {
 }
 
 class SearchBar extends React.Component {
+
+  componentDidMount() {
+    this.setState({
+      input: this.getSearchBarValue(this.props.searchtype)
+    })
+  }
+
   state = {
     input: ''
   }
@@ -48,32 +56,71 @@ class SearchBar extends React.Component {
     this.setState({input: event.target.value})
   }
 
-  findUsersByEmail = (e) => {
-    if (e.key === 'Enter') {
-      this.props.getUsersByEmail(this.state.input, 0, 25)
-    }
+  findUsers = (e) => {
+    e.persist()
+    const {input} = this.state
+    setTimeout(() => {
+      if (this.state.input === input || e.key === 'Enter') {
+        this.props.getUsersByEmail(this.state.input, 0, this.props.userSize)
+      }
+    }, 500)
   }
 
-  findCompanyByName = (e) => {
-    if (e.key === 'Enter'){
-      this.props.getBusinessesByTile(this.state.input)
-    }
+  findBusinesses = (e) => {
+    e.persist()
+    const {input} = this.state
+    setTimeout(() => {
+      if (this.state.input === input || e.key === 'Enter') {
+        this.props.getBusinessesByTitle(this.state.input, 0, this.props.businessSize)
+      }
+    }, 500)
   }
 
-  findEventByParams = (e) => {
-    if (e.key === 'Enter'){
-      this.props.getEventsByParam(this.state.input)
-    }
+  findEvents = (e) => {
+    e.persist()
+    const {input} = this.state
+    setTimeout(() => {
+      if (this.state.input === input || e.key === 'Enter') {
+        this.props.getAllEvents(this.state.input, 0, this.props.eventSize)
+      }
+    }, 500)
+  }
+
+  findPlaces = e => {
+    e.persist()
+    const {input} = this.state
+    setTimeout(() => {
+      if (this.state.input === input || e.key === 'Enter') {
+        this.props.getAllPlaces(this.state.input, 0, this.props.placeSize)
+      }
+    }, 500)
   }
 
   setPlaceholder = (searchType) => {
     switch (searchType) {
-      case 'user_by_email':
-        return {placeholder: 'Search user by email', func: this.findUsersByEmail}
-      case 'business_by_name':
-        return {placeholder: 'Search by company name', func: this.findCompanyByName}
-      case 'event_by_title':
-        return {placeholder: 'Search events', func: this.findEventByParams}
+      case 'user':
+        return {placeholder: 'Search user by email', func: this.findUsers}
+      case 'business':
+        return {placeholder: 'Search by company name', func: this.findBusinesses}
+      case 'event':
+        return {placeholder: 'Search events', func: this.findEvents}
+      case 'place':
+        return {placeholder: 'Search places', func: this.findPlaces}
+      default:
+        return 'Search'
+    }
+  }
+
+  getSearchBarValue = searchType => {
+    switch (searchType) {
+      case 'user':
+        return this.props.userSearchParam
+      case 'business':
+        return this.props.businessSearchParam
+      case 'event':
+        return this.props.eventSearchParam
+      case 'place':
+        return this.props.placeSearchParam
       default:
         return 'Search'
     }
@@ -86,7 +133,7 @@ class SearchBar extends React.Component {
     return (
       <Paper className={classes.root} elevation={1}>
         <InputBase
-          onKeyPress={func}
+          onKeyUp={func}
           value={this.state.input}
           onChange={this.handleChange}
           className={classes.input}
@@ -105,21 +152,39 @@ SearchBar.propTypes = {
   searchtype: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   getUsersByEmail: PropTypes.func.isRequired,
-  getBusinessesByTile: PropTypes.func.isRequired,
-  getEventsByParam: PropTypes.func.isRequired
+  getBusinessesByTitle: PropTypes.func.isRequired,
+  getAllPlaces: PropTypes.func.isRequired,
+  businessSize: PropTypes.number.isRequired,
+  businessSearchParam: PropTypes.string.isRequired,
+  getAllEvents: PropTypes.func.isRequired,
+  eventSearchParam: PropTypes.string.isRequired,
+  eventSize: PropTypes.number.isRequired,
+  userSearchParam: PropTypes.string.isRequired,
+  userSize: PropTypes.number.isRequired,
+  placeSearchParam: PropTypes.string.isRequired,
+  placeSize: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
-    usersListByEmail: state.users.usersListByEmail
+    usersListByEmail: state.users.usersListByEmail,
+    businessSize    : state.businesses.size,
+    businessSearchParam: state.businesses.searchParam,
+    eventSize: state.events.size,
+    eventSearchParam: state.events.searchParam,
+    userSearchParam: state.users.searchParam,
+    userSize: state.users.size,
+    placeSearchParam: state.places.searchParam,
+    placeSize: state.places.size,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getUsersByEmail: (email, page, size) => dispatch(usersOperations.getUsersByEmail(email, page, size)),
-    getBusinessesByTile: (title) => dispatch(businessOperations.getBusinessesByTitle(title)),
-    getEventsByParam: (param) => dispatch(eventOperations.getEventsByParam(param))
+    getBusinessesByTitle: (title, page, size) => dispatch(businessOperations.getBusinessesByTitle(title, page, size)),
+    getAllEvents: (param, page, size) => dispatch(eventOperations.getAllEventsByParams(param, page, size)),
+    getAllPlaces: (param, page, size) => dispatch(placesOperations.getAllPlaces(param, page, size))
   }
 }
 
