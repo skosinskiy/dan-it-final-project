@@ -26,7 +26,7 @@ export default class QRCode extends Component {
 
   componentDidMount () {
     const { id } = this.props.place
-    const qrImage = this.getQR(`${window.location.hostname}/mobile/login/placeId=${id}`)
+    const qrImage = this.getQR(`https://${window.location.hostname}/mobile/login/placeId/${id}`)
     qrImage.then((value) => {
       this.setState({qrImage: value})
     })
