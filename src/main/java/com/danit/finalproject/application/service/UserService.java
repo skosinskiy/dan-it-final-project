@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -46,9 +45,9 @@ public class UserService implements UserDetailsService, CrudService<User> {
   private EmailService emailService;
   private ValidationService validationService;
   private PasswordEncoder passwordEncoder;
-  @Value("${react.server.port}")
+  @Value("${server.port}")
   private String applicationPort;
-  @Value("${react.server.host}")
+  @Value("${server.host}")
   private String applicationHost;
 
   @Autowired
@@ -133,7 +132,7 @@ public class UserService implements UserDetailsService, CrudService<User> {
 
   private void sendPasswordRecoveryEmail(String token, String userEmail) {
     String text = String.format("Please follow the link to change your password\n"
-        + "http://%s:%s/reset-password/%s", applicationHost, applicationPort, token);
+        + "https://%s:%s/admin/reset-password/%s", applicationHost, applicationPort, token);
     emailService.sendSimpleMessage(userEmail, PASS_RECOVERY_EMAIL_SUBJECT, text);
   }
 

@@ -53,13 +53,9 @@ server:
       tomcat
   port:
     9000
+  host:
+    ec2-3-14-226-139.us-east-2.compute.amazonaws.com
 
-react:
-  server:
-    port:
-      3000
-    host:
-      localhost
 aws:
   s3:
     credentials:
