@@ -53,7 +53,7 @@ public class PlaceCategoryControllerTest {
   @Test
   public void getPlaceCategoryById() throws Exception {
     Long expectedId = 1L;
-    String expectedName = "place-category-1";
+    String expectedName = "Home";
 
     MvcResult result = mockMvc.perform(get("/api/place-categories/1"))
         .andReturn();
@@ -66,7 +66,7 @@ public class PlaceCategoryControllerTest {
 
   @Test
   public void getAllCategories() throws Exception {
-    int expectedSize = 2;
+    int expectedSize = 3;
     String secondCategoryName = "place-category-2";
 
     MvcResult result = mockMvc.perform(get("/api/place-categories"))
