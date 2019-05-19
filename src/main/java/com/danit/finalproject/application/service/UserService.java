@@ -45,9 +45,9 @@ public class UserService implements UserDetailsService, CrudService<User> {
   private EmailService emailService;
   private ValidationService validationService;
   private PasswordEncoder passwordEncoder;
-  @Value("${server.port}")
+  @Value("${react.server.port}")
   private String applicationPort;
-  @Value("${server.host}")
+  @Value("${react.server.host}")
   private String applicationHost;
 
   @Autowired
