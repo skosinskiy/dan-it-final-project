@@ -39,7 +39,6 @@ class SelectBuildings extends Component {
           </ul>
         </div>
       )
-
     })
 
     const bgImageURL = 'https://i.lb.ua/121/60/5b1501c46a520.jpeg'
