@@ -7,6 +7,11 @@ import PropTypes from "prop-types";
 import Button from "@material-ui/core/Button";
 
 const styles = theme => ({
+  cell: {
+    padding: theme.spacing.unit,
+    overflowWrap: 'break-word'
+  },
+
   buttonsWrapper: {
     display: 'flex',
     justifyContent: 'flex-end'
@@ -25,7 +30,7 @@ class TableCellButtons extends Component {
     const {classes, editLink, deleteFunction} = this.props
 
     return (
-    <TableCell>
+    <TableCell className={classes.cell}>
       <div className={classes.buttonsWrapper}>
         <NavLink to={editLink} className={classes.button}>
           <Button variant="outlined" color="primary">Edit</Button>

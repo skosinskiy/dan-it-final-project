@@ -8,7 +8,7 @@ export const fetchBusinessFormData = (searchParam, page = 0, size = 5) => dispat
   Promise.all([
     dispatch(placesOperations.getAllPlaces()),
     dispatch(businessCategoryOperations.getAllBusinessCategories()),
-    dispatch(getBusinessesByTitle('', page, size))
+    dispatch(getBusinessesByTitle(searchParam, page, size))
   ]).then(() => dispatch(ACTIONS.isBusinessFormDataLoading(false)))
 
 }

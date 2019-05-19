@@ -24,6 +24,19 @@ const styles = theme => ({
 
   table: {
     tableLayout: 'fixed'
+  },
+
+  firstCell: {
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit,
+    paddingTop: theme.spacing.unit,
+    paddingDown: theme.spacing.unit,
+    overflowWrap: 'break-word'
+  },
+
+  cell: {
+    padding: theme.spacing.unit,
+    overflowWrap: 'break-word'
   }
 })
 
@@ -62,22 +75,22 @@ class BusinessTable extends React.Component {
           <colgroup>
             <col style={{width: '12%'}}/>
             <col style={{width: '12%'}}/>
-            <col style={{width: '17%'}}/>
             <col style={{width: '12%'}}/>
             <col style={{width: '12%'}}/>
-            <col style={{width: '13%'}}/>
-            <col style={{width: '13%'}}/>
-            <col style={{width: '9%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '16%'}}/>
           </colgroup>
           <TableHead>
             <TableRow>
-              <TableCell>Title</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Categories</TableCell>
-              <TableCell>Address</TableCell>
-              <TableCell>Website</TableCell>
-              <TableCell>Phone Number</TableCell>
-              <TableCell>Place</TableCell>
+              <TableCell className={classes.firstCell}>Title</TableCell>
+              <TableCell className={classes.cell}>Description</TableCell>
+              <TableCell className={classes.cell}>Categories</TableCell>
+              <TableCell className={classes.cell}>Address</TableCell>
+              <TableCell className={classes.cell}>Website</TableCell>
+              <TableCell className={classes.cell}>Phone Number</TableCell>
+              <TableCell className={classes.cell}>Place</TableCell>
               <TableCell/>
             </TableRow>
           </TableHead>
@@ -85,13 +98,13 @@ class BusinessTable extends React.Component {
             {businessList.map(business => {
               return (
                 <TableRow key={business.id} hover>
-                  <TableCell>{business.title}</TableCell>
-                  <TableCell>{business.description}</TableCell>
-                  <TableCell>{business.categories.map(category => category.name).join(', ')}</TableCell>
-                  <TableCell>{business.address}</TableCell>
-                  <TableCell>{business.webSite}</TableCell>
-                  <TableCell>{business.phoneNumber}</TableCell>
-                  <TableCell>{business.place ? business.place.title : ''}</TableCell>
+                  <TableCell className={classes.firstCell}>{business.title}</TableCell>
+                  <TableCell className={classes.cell}>{business.description}</TableCell>
+                  <TableCell className={classes.cell}>{business.categories.map(category => category.name).join(', ')}</TableCell>
+                  <TableCell className={classes.cell}>{business.address}</TableCell>
+                  <TableCell className={classes.cell}>{business.webSite}</TableCell>
+                  <TableCell className={classes.cell}>{business.phoneNumber}</TableCell>
+                  <TableCell className={classes.cell}>{business.place ? business.place.title : ''}</TableCell>
                   <TableCellButtons
                     editLink={`/admin/businesses/edit/${business.id}`}
                     deleteFunction={() => deleteBusiness(business.id, searchParam, page, size)}

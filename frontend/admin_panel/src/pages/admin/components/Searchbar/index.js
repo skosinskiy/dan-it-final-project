@@ -40,6 +40,13 @@ const styles = {
 }
 
 class SearchBar extends React.Component {
+
+  componentDidMount() {
+    this.setState({
+      input: this.getSearchBarValue(this.props.searchtype)
+    })
+  }
+
   state = {
     input: ''
   }
@@ -83,6 +90,19 @@ class SearchBar extends React.Component {
     }
   }
 
+  getSearchBarValue = searchType => {
+    switch (searchType) {
+      case 'user_by_email':
+        return {placeholder: 'Search user by email', func: this.findUsersByEmail}
+      case 'business_by_name':
+        return this.props.businessSearchParam
+      case 'event_by_title':
+        return {placeholder: 'Search events', func: this.findEventByParams}
+      default:
+        return 'Search'
+    }
+  }
+
   render () {
     const {classes} = this.props
     const {placeholder, func} = this.setPlaceholder(this.props.searchtype)
@@ -111,13 +131,15 @@ SearchBar.propTypes = {
   getUsersByEmail: PropTypes.func.isRequired,
   getBusinessesByTitle: PropTypes.func.isRequired,
   getEventsByParam: PropTypes.func.isRequired,
-  businessSize: PropTypes.number.isRequired
+  businessSize: PropTypes.number.isRequired,
+  businessSearchParam: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
     usersListByEmail: state.users.usersListByEmail,
-    businessSize    : state.businesses.size
+    businessSize    : state.businesses.size,
+    businessSearchParam: state.businesses.searchParam
   }
 }
 
