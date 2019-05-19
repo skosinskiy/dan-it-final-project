@@ -137,7 +137,7 @@ const mapDispatchToProps = (dispatch) => ({
 ForgotPassword.propTypes = {
   classes: PropTypes.object.isRequired,
   isFormSubmitted: PropTypes.bool.isRequired,
-  isLoading: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   submitForgotPasswordForm: PropTypes.func.isRequired,
 }
 
