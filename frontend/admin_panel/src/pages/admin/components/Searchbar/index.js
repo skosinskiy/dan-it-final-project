@@ -9,7 +9,8 @@ import SearchIcon from '@material-ui/icons/Search'
 
 import {usersOperations} from 'store/users'
 import {businessOperations} from '../../../../store/businesses'
-import {eventOperations} from "../../../../store/events";
+import {eventOperations} from '../../../../store/events'
+import {placesOperations} from '../../../../store/places'
 
 /*
 * Search Types that should be passed as props:
@@ -85,6 +86,16 @@ class SearchBar extends React.Component {
     }, 500)
   }
 
+  findPlaces = e => {
+    e.persist()
+    const {input} = this.state
+    setTimeout(() => {
+      if (this.state.input === input || e.key === 'Enter') {
+        this.props.getAllPlaces(this.state.input, 0, this.props.placeSize)
+      }
+    }, 500)
+  }
+
   setPlaceholder = (searchType) => {
     switch (searchType) {
       case 'user':
@@ -93,6 +104,8 @@ class SearchBar extends React.Component {
         return {placeholder: 'Search by company name', func: this.findBusinesses}
       case 'event':
         return {placeholder: 'Search events', func: this.findEvents}
+      case 'place':
+        return {placeholder: 'Search places', func: this.findPlaces}
       default:
         return 'Search'
     }
@@ -106,6 +119,8 @@ class SearchBar extends React.Component {
         return this.props.businessSearchParam
       case 'event':
         return this.props.eventSearchParam
+      case 'place':
+        return this.props.placeSearchParam
       default:
         return 'Search'
     }
@@ -155,7 +170,9 @@ const mapStateToProps = (state) => {
     eventSize: state.events.size,
     eventSearchParam: state.events.searchParam,
     userSearchParam: state.users.searchParam,
-    userSize: state.users.size
+    userSize: state.users.size,
+    placeSearchParam: state.places.searchParam,
+    placeSize: state.places.size,
   }
 }
 
@@ -163,7 +180,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getUsersByEmail: (email, page, size) => dispatch(usersOperations.getUsersByEmail(email, page, size)),
     getBusinessesByTitle: (title, page, size) => dispatch(businessOperations.getBusinessesByTitle(title, page, size)),
-    getAllEvents: (param, page, size) => dispatch(eventOperations.getAllEventsByParams(param, page, size))
+    getAllEvents: (param, page, size) => dispatch(eventOperations.getAllEventsByParams(param, page, size)),
+    getAllPlaces: (param, page, size) => dispatch(placesOperations.getAllPlaces(param, page, size))
   }
 }
 

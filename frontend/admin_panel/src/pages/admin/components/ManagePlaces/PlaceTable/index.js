@@ -28,30 +28,23 @@ const styles = theme => ({
 
 class PlaceTable extends Component {
 
-  state = {
-    page: 0,
-    rowsPerPage: 5
-  }
-
   componentDidMount() {
-    this.props.getAllPlaces(this.state.page, this.state.rowsPerPage)
+    const {getAllPlaces, searchParam, page, size} = this.props
+    getAllPlaces(searchParam, page, size)
   }
 
   handleChangePage = (event, page) => {
-    this.setState({page})
-    this.props.getAllPlaces(page, this.state.rowsPerPage)
+    const {getAllPlaces, searchParam, size} = this.props
+    getAllPlaces(searchParam, page, size)
   }
 
   handleChangeRowsPerPage = event => {
-    this.setState({ page: 0, rowsPerPage: event.target.value });
-    this.props.getAllPlaces(0, event.target.value)
+    const {getAllPlaces, searchParam} = this.props
+    getAllPlaces(searchParam, 0, event.target.value)
   };
 
   render () {
-    const {classes, placeList, totalElements, deletePlace} = this.props
-
-    const {page, rowsPerPage} = this.state
-    const {isPlacesLoading} = this.props
+    const {classes, placeList, totalElements, deletePlace, isPlacesLoading, page, size, searchParam} = this.props
 
     if (isPlacesLoading) {
       return (
@@ -90,7 +83,7 @@ class PlaceTable extends Component {
                   <TableCell>{place.placeCategory ? place.placeCategory.name : ''}</TableCell>
                   <TableCellButtons
                     editLink={`/admin/places/edit/${place.id}`}
-                    deleteFunction={() => deletePlace(place.id, page, rowsPerPage)}
+                    deleteFunction={() => deletePlace(place.id, searchParam, page, size)}
                   />
                 </TableRow>
               )
@@ -102,7 +95,7 @@ class PlaceTable extends Component {
                 count={totalElements}
                 page={page}
                 onChangePage={this.handleChangePage}
-                rowsPerPage={rowsPerPage}
+                rowsPerPage={size}
                 rowsPerPageOptions={[5, 10, 15]}
                 onChangeRowsPerPage={this.handleChangeRowsPerPage}
                 SelectProps={{
@@ -123,21 +116,27 @@ PlaceTable.propTypes = {
   deletePlace: PropTypes.func.isRequired,
   placeList: PropTypes.array.isRequired,
   totalElements: PropTypes.number.isRequired,
-  isPlacesLoading: PropTypes.bool.isRequired
+  isPlacesLoading: PropTypes.bool.isRequired,
+  page: PropTypes.number.isRequired,
+  size: PropTypes.number.isRequired,
+  searchParam: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
     placeList: state.places.places,
     totalElements: state.places.totalElements,
-    isPlacesLoading: state.places.isPlacesLoading
+    isPlacesLoading: state.places.isPlacesLoading,
+    page: state.places.page,
+    size: state.places.size,
+    searchParam: state.places.searchParam
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    deletePlace: (placeId, page, size) => dispatch(placesOperations.deletePlace(placeId, page, size)),
-    getAllPlaces: (page, size) => dispatch(placesOperations.getAllPlaces(page, size))
+    deletePlace: (placeId, searchParam, page, size) => dispatch(placesOperations.deletePlace(placeId, searchParam, page, size)),
+    getAllPlaces: (searchParam, page, size) => dispatch(placesOperations.getAllPlaces(searchParam, page, size))
   }
 }
 

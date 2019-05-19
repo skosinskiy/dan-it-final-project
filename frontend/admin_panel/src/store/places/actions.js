@@ -20,4 +20,9 @@ export const isPlaceFormDataLoading = isLoading => ({
   payload: isLoading
 })
 
+export const setSearchParam = (param) => ({
+  type: TYPES.SET_PLACE_SEARCH_PARAM,
+  payload: param
+})
+
 
