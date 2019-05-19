@@ -27,7 +27,7 @@ class Login extends Component {
     }
 
     if (currentUser) {
-      return <Redirect to={'/'}/>
+      return <Redirect to={'/mobile'}/>
     }
 
     return (
