@@ -19,7 +19,7 @@ export const getBusinessesByPlaceID = ({businessList}) => ({
 })
 
 export const setSearchParam = (param) => ({
-  type: TYPES.SET_SEARCH_PARAM,
+  type: TYPES.SET_BUSINESS_SEARCH_PARAM,
   payload: param
 })
 

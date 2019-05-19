@@ -39,8 +39,8 @@ class EventForm extends Component {
   }
 
   componentDidMount() {
-    const {fetchEventFormData} = this.props
-    fetchEventFormData()
+    const {fetchEventFormData, searchParam, page, size} = this.props
+    fetchEventFormData(searchParam, page, size)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -290,7 +290,10 @@ EventForm.propTypes = {
   event: PropTypes.object,
   places: PropTypes.array,
   saveEvent: PropTypes.func,
-  fetchEventFormData: PropTypes.func
+  fetchEventFormData: PropTypes.func.isRequired,
+  page: PropTypes.number.isRequired,
+  size: PropTypes.number.isRequired,
+  searchParam: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state, props) => {
@@ -300,14 +303,17 @@ const mapStateToProps = (state, props) => {
     places: state.places.places,
     eventCategories: state.eventCategory.allEventCategories,
     event: event,
-    isLoading: state.events.isEventFormDataLoading
+    isLoading: state.events.isEventFormDataLoading,
+    page: state.events.page,
+    size: state.events.size,
+    searchParam: state.events.searchParam,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
     saveEvent: (event, images) => dispatch(eventOperations.saveEvent(event, images)),
-    fetchEventFormData: () => dispatch(eventOperations.fetchEventFormData())
+    fetchEventFormData: (searchParam, page, size) => dispatch(eventOperations.fetchEventFormData(searchParam, page, size))
   }
 }
 

@@ -61,7 +61,7 @@ class SearchBar extends React.Component {
     }
   }
 
-  findCompanyByName = (e) => {
+  findBusinesses = (e) => {
     e.persist()
     const {input} = this.state
     setTimeout(() => {
@@ -71,20 +71,24 @@ class SearchBar extends React.Component {
     }, 500)
   }
 
-  findEventByParams = (e) => {
-    if (e.key === 'Enter'){
-      this.props.getEventsByParam(this.state.input)
-    }
+  findEvents = (e) => {
+    e.persist()
+    const {input} = this.state
+    setTimeout(() => {
+      if (this.state.input === input || e.key === 'Enter') {
+        this.props.getAllEvents(this.state.input, 0, this.props.eventSize)
+      }
+    }, 500)
   }
 
   setPlaceholder = (searchType) => {
     switch (searchType) {
       case 'user_by_email':
         return {placeholder: 'Search user by email', func: this.findUsersByEmail}
-      case 'business_by_name':
-        return {placeholder: 'Search by company name', func: this.findCompanyByName}
-      case 'event_by_title':
-        return {placeholder: 'Search events', func: this.findEventByParams}
+      case 'business':
+        return {placeholder: 'Search by company name', func: this.findBusinesses}
+      case 'event':
+        return {placeholder: 'Search events', func: this.findEvents}
       default:
         return 'Search'
     }
@@ -94,10 +98,10 @@ class SearchBar extends React.Component {
     switch (searchType) {
       case 'user_by_email':
         return {placeholder: 'Search user by email', func: this.findUsersByEmail}
-      case 'business_by_name':
+      case 'business':
         return this.props.businessSearchParam
-      case 'event_by_title':
-        return {placeholder: 'Search events', func: this.findEventByParams}
+      case 'event':
+        return this.props.eventSearchParam
       default:
         return 'Search'
     }
@@ -132,14 +136,19 @@ SearchBar.propTypes = {
   getBusinessesByTitle: PropTypes.func.isRequired,
   getEventsByParam: PropTypes.func.isRequired,
   businessSize: PropTypes.number.isRequired,
-  businessSearchParam: PropTypes.string.isRequired
+  businessSearchParam: PropTypes.string.isRequired,
+  getAllEvents: PropTypes.func.isRequired,
+  eventSearchParam: PropTypes.string.isRequired,
+  eventSize: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
     usersListByEmail: state.users.usersListByEmail,
     businessSize    : state.businesses.size,
-    businessSearchParam: state.businesses.searchParam
+    businessSearchParam: state.businesses.searchParam,
+    eventSize: state.events.size,
+    eventSearchParam: state.events.searchParam
   }
 }
 
@@ -147,7 +156,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getUsersByEmail: (email, page, size) => dispatch(usersOperations.getUsersByEmail(email, page, size)),
     getBusinessesByTitle: (title, page, size) => dispatch(businessOperations.getBusinessesByTitle(title, page, size)),
-    getEventsByParam: (param) => dispatch(eventOperations.getEventsByParam(param))
+    getAllEvents: (param, page, size) => dispatch(eventOperations.getAllEventsByParams(param, page, size))
   }
 }
 
