@@ -71,7 +71,7 @@ public class PlaceControllerTest {
   @Test
   public void getPlaceById() throws Exception {
     Long expectedId = 1L;
-    String expectedName = "place-1";
+    String expectedName = "Ocean Plaza";
 
     MvcResult result = mockMvc.perform(get("/api/places/1").with(csrf()))
         .andReturn();

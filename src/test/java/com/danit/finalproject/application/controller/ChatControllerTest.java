@@ -5,6 +5,7 @@ import com.danit.finalproject.application.dto.response.ChatResponse;
 import com.danit.finalproject.application.dto.response.place.PlaceResponse;
 import com.danit.finalproject.application.entity.Chat;
 import com.danit.finalproject.application.entity.ChatMessage;
+import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.repository.ChatMessageRepository;
@@ -91,7 +92,14 @@ public class ChatControllerTest {
     Chat chat = new Chat();
     chat.setId(expectedId);
     chat.setName(expectedName);
-    chat.setUsers(new ArrayList<>());
+    List<User> users = new ArrayList<>();
+    User user1 = new User();
+    user1.setId(1L);
+    User user2 = new User();
+    user2.setId(2L);
+    users.add(user1);
+    users.add(user2);
+    chat.setUsers(users);
 
     String chatJson = objectMapper.writeValueAsString(chat);
 

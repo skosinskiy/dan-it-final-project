@@ -19,3 +19,8 @@ export const userChatIsLoaded = (isChatsLoaded) => ({
   type: TYPES.USER_CHATS_IS_LOADED,
   payload: isChatsLoaded
 })
+
+export const chatIsCreated = (isCreated) => ({
+  type: TYPES.CHAT_IS_CREATED,
+  payload: isCreated
+})

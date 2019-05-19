@@ -29,9 +29,9 @@ const AppRoutes = (props) => {
         <Route path="/home" component={SelectBuildings}/>
         <Route path="/my-places/:placeId" component={BusinessesEvents}/>
         <Route path="/news" component={NewsPage} />
-        <Route path="/dialogs" component={DialoguesPage} />
-        <Route path="/create-chat" component={CreateChatPage} />
         <Route path="/messages/:chatId" component={ChatPage} />
+        <Route path="/messages" component={DialoguesPage} />
+        <Route path="/create-chat" component={CreateChatPage} />
         <Route path="/favourites" component={BusinessesEvents} />
         <Route path="/contacts" component={ContactsPage} />
         <Route path="/map" component={MapPage} />

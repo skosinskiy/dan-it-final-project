@@ -58,4 +58,9 @@ public class UserFacade extends AbstractDtoFacade<User, UserRequest, UserRespons
     return mapEntityToResponseDto(registeredUser);
 
   }
+
+  public Page<UserResponse> getAllUsersByPlace(Long placeId, Pageable pageable) {
+    Page<User> users = userService.getUsersByPlace(placeId, pageable);
+    return mapEntityListToResponseDtoList(users);
+  }
 }

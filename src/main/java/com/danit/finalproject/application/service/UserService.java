@@ -4,7 +4,9 @@ import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
 import com.danit.finalproject.application.entity.Permission;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
+import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.repository.UserRepository;
+import com.danit.finalproject.application.repository.place.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -40,6 +42,7 @@ public class UserService implements UserDetailsService, CrudService<User> {
   public static final String PASS_RECOVERY_EMAIL_SUBJECT = "Password recovery";
 
   private UserRepository userRepository;
+  private PlaceRepository placeRepository;
   private EmailService emailService;
   private ValidationService validationService;
   private PasswordEncoder passwordEncoder;
@@ -51,6 +54,7 @@ public class UserService implements UserDetailsService, CrudService<User> {
   @Autowired
   public UserService(
       UserRepository userRepository,
+      PlaceRepository placeRepository,
       EmailService emailService,
       ValidationService validationService,
       PasswordEncoder passwordEncoder) {
@@ -58,6 +62,7 @@ public class UserService implements UserDetailsService, CrudService<User> {
     this.emailService = emailService;
     this.validationService = validationService;
     this.passwordEncoder = passwordEncoder;
+    this.placeRepository = placeRepository;
   }
 
   @Override
@@ -209,5 +214,10 @@ public class UserService implements UserDetailsService, CrudService<User> {
       return userRepository.findByEmail(authentication.getName());
     }
     return null;
+  }
+
+  public Page<User> getUsersByPlace(Long placeId, Pageable pageable) {
+    Place place = placeRepository.findById(placeId).orElse(null);
+    return userRepository.findAllByPlaces(place, pageable);
   }
 }
