@@ -67,7 +67,7 @@ public class PlaceCategoryControllerTest {
   @Test
   public void getAllCategories() throws Exception {
     int expectedSize = 3;
-    String secondCategoryName = "place-category-2";
+    String secondCategoryName = "Office";
 
     MvcResult result = mockMvc.perform(get("/api/place-categories"))
         .andReturn();
