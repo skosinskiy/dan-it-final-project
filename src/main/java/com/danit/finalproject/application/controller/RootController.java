@@ -12,7 +12,7 @@ public class RootController {
     return "forward:/admin/index.html";
   }
 
-  @GetMapping("admin/{path:^(?:(?!.html).)*$}")
+  @GetMapping("admin/{path:^(?:(?!static|.html).)*$}/**")
   public String redirectToAdmin(@PathVariable String path) {
     return "forward:/admin/index.html";
   }
@@ -22,7 +22,7 @@ public class RootController {
     return "forward:/screen/index.html";
   }
 
-  @GetMapping("screen/{path:^(?:(?!.html).)*$}")
+  @GetMapping("screen/{path:^(?:(?!static|.html).)*$}/**")
   public String redirectToScreen(@PathVariable String path) {
     return "forward:/screen/index.html";
   }
@@ -32,7 +32,7 @@ public class RootController {
     return "forward:/mobile/index.html";
   }
 
-  @GetMapping("mobile/{path:^(?:(?!.html).)*$}")
+  @GetMapping("mobile/{path:^(?:(?!static|.html).)*$}/**")
   public String redirectToMobile(@PathVariable String path) {
     return "forward:/mobile/index.html";
   }

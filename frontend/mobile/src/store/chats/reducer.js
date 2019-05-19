@@ -4,7 +4,8 @@ const initialState = {
   currentChat: {},
   isLoaded: false,
   curentUserChats: [],
-  isChatsLoaded: false
+  isChatsLoaded: false,
+  chatIsCreated: false
 }
 
 const chatReducer = (state = initialState, action) => {
@@ -17,6 +18,8 @@ const chatReducer = (state = initialState, action) => {
       return {...state, curentUserChats: action.payload.curentUserChats}
     case TYPES.USER_CHATS_IS_LOADED:
       return {...state, isChatsLoaded: action.payload}
+    case TYPES.CHAT_IS_CREATED:
+      return {...state, chatIsCreated: action.payload}
     default:
       return {...state}
   }

@@ -4,9 +4,10 @@ import makeAnimated from 'react-select/lib/animated'
 import ChatHeader from '../../components/ChatHeader'
 import './create-chat.scss'
 import { connect } from 'react-redux'
-import {NavLink} from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { createNewChat } from '../../store/chats/operations'
+import { getUsersByPlace } from '../../store/users/operations'
 import Preloader from '../../components/Preloader'
 
 const defaultChat = {
@@ -27,6 +28,11 @@ class CreateChatPage extends Component {
     title: ''
   }
 
+  componentDidMount () {
+    const {getUsersByPlace} = this.props
+    getUsersByPlace(1)
+  }
+
   submitSelection = () => {
     const {selectedOptions, title} = this.state
     const {currentUser, createNewChat} = this.props
@@ -38,8 +44,10 @@ class CreateChatPage extends Component {
         }
       })
     })
-    defaultChat.users.push(currentUser)
-    createNewChat(defaultChat)
+    if (defaultChat.users.length) {
+      defaultChat.users.push(currentUser)
+      createNewChat(defaultChat)
+    }
   }
 
   handleChange = event => {
@@ -50,17 +58,21 @@ class CreateChatPage extends Component {
 
   render () {
     const { selectedOptions, title } = this.state
-    const {currentUser, isCurrentUserLoading} = this.props
+    const {usersListByPLace, usersListByPLaceIsLoading, currentUser, isCurrentUserLoading} = this.props
 
-    if (isCurrentUserLoading) {
+    if (usersListByPLaceIsLoading || isCurrentUserLoading) {
       return <Preloader/>
     }
 
-    const data = currentUser.friends.map(user => {
+    const users = usersListByPLace.map(user => {
       return {
         label: user.firstName,
         value: user.id
       }
+    })
+
+    const data = users.filter(user => {
+      return user.value !== currentUser.id
     })
 
     return (
@@ -79,7 +91,7 @@ class CreateChatPage extends Component {
           autoFocus
           options={data}
         />
-        <NavLink to={`/dialogs`}>
+        <NavLink to={`/messages`}>
           <button
             className="create-chat__submit-button"
             type='button'
@@ -94,12 +106,14 @@ class CreateChatPage extends Component {
 }
 
 CreateChatPage.propTypes = {
-  currentUser: PropTypes.object.isRequired,
-  isCurrentUserLoading: PropTypes.bool.isRequired
+  usersListByPLace: PropTypes.array.isRequired,
+  usersListByPLaceIsLoading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
+    usersListByPLace: state.users.usersListByPLace,
+    usersListByPLaceIsLoading: state.users.usersListByPLaceIsLoading,
     currentUser: state.users.currentUser,
     isCurrentUserLoading: state.users.isCurrentUserLoading
   }
@@ -107,7 +121,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    createNewChat: (chat) => dispatch(createNewChat(chat))
+    createNewChat: (chat) => dispatch(createNewChat(chat)),
+    getUsersByPlace: (placeId) => dispatch(getUsersByPlace(placeId))
   }
 }
 

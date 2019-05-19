@@ -5,9 +5,11 @@ const initialState = {
   email: '',
   isAuthenticated: true,
   isCurrentUserLoading: true,
+  usersListByPLace: [],
   
   isLoaded: false,
-  isLoading: false
+  isLoading: false,
+  usersListByPLaceIsLoading: true
 }
 
 const usersReducer = (state = initialState, action) => {
@@ -21,6 +23,16 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         isCurrentUserLoading: action.payload
+      }
+    case TYPES.GET_USERS_BY_PLACE:
+      return {
+        ...state,
+        usersListByPLace: action.payload
+      }
+    case TYPES.USERS_BY_PLACE_LOADING:
+      return {
+        ...state,
+        usersListByPLaceIsLoading: action.payload
       }
     default:
       return {...state}

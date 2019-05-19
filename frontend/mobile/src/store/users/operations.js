@@ -40,3 +40,12 @@ export const getCurrentUser = () => dispatch => {
 export const loginWithOAuth = (client) => dispatch => {
   window.location.replace(`/oauth2/authorization/${client}`)
 }
+
+export const getUsersByPlace = (placeId) => dispatch => {
+  dispatch(ACTIONS.usersListByPlaceLoading(true))
+  api.get(`/api/users/place/${placeId}`).then(res => {
+    dispatch(ACTIONS.getUsersByPlace(res.content))
+  }).finally(() => {
+    dispatch(ACTIONS.usersListByPlaceLoading(false))
+  })
+}
