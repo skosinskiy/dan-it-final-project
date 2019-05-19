@@ -23,6 +23,19 @@ const styles = theme => ({
 
   table: {
     tableLayout: 'fixed'
+  },
+
+  firstCell: {
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit,
+    paddingTop: theme.spacing.unit,
+    paddingDown: theme.spacing.unit,
+    overflowWrap: 'break-word'
+  },
+
+  cell: {
+    padding: theme.spacing.unit,
+    overflowWrap: 'break-word'
   }
 })
 
@@ -66,10 +79,10 @@ class PlaceTable extends Component {
           </colgroup>
           <TableHead>
             <TableRow>
-              <TableCell>Title</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Address</TableCell>
-              <TableCell>Category</TableCell>
+              <TableCell className={classes.firstCell}>Title</TableCell>
+              <TableCell className={classes.cell}>Description</TableCell>
+              <TableCell className={classes.cell}>Address</TableCell>
+              <TableCell className={classes.cell}>Category</TableCell>
               <TableCell/>
             </TableRow>
           </TableHead>
@@ -77,10 +90,10 @@ class PlaceTable extends Component {
             {placeList.map(place => {
               return (
                 <TableRow key={place.id} hover>
-                  <TableCell>{place.title}</TableCell>
-                  <TableCell>{place.description}</TableCell>
-                  <TableCell>{place.address}</TableCell>
-                  <TableCell>{place.placeCategory ? place.placeCategory.name : ''}</TableCell>
+                  <TableCell className={classes.firstCell}>{place.title}</TableCell>
+                  <TableCell className={classes.cell}>{place.description}</TableCell>
+                  <TableCell className={classes.cell}>{place.address}</TableCell>
+                  <TableCell className={classes.cell}>{place.placeCategory ? place.placeCategory.name : ''}</TableCell>
                   <TableCellButtons
                     editLink={`/admin/places/edit/${place.id}`}
                     deleteFunction={() => deletePlace(place.id, searchParam, page, size)}

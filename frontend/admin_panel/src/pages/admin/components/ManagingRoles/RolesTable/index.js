@@ -21,6 +21,19 @@ const styles = theme => ({
 
   table: {
     tableLayout: 'fixed'
+  },
+
+  firstCell: {
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit,
+    paddingTop: theme.spacing.unit,
+    paddingDown: theme.spacing.unit,
+    overflowWrap: 'break-word'
+  },
+
+  cell: {
+    padding: theme.spacing.unit,
+    overflowWrap: 'break-word'
   }
 })
 
@@ -53,18 +66,16 @@ class RolesTable extends Component {
           </colgroup>
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Permissions</TableCell>
+              <TableCell className={classes.firstCell}>Name</TableCell>
+              <TableCell className={classes.cell}>Permissions</TableCell>
               <TableCell/>
             </TableRow>
           </TableHead>
           <TableBody>
             {roles.map(role => (
               <TableRow key={role.id} hover>
-                <TableCell component="th" scope="row">
-                  {role.name}
-                </TableCell>
-                <TableCell>{role.permissions.sort().join(', ')}</TableCell>
+                <TableCell className={classes.firstCell}>{role.name}</TableCell>
+                <TableCell className={classes.cell}>{role.permissions.sort().join(', ')}</TableCell>
                 <TableCellButtons
                   editLink={`/admin/roles/edit/${role.id}`}
                   deleteFunction={() => deleteRole(role.id)}

@@ -20,6 +20,19 @@ const styles = theme => ({
 
   table: {
     tableLayout: 'fixed'
+  },
+
+  firstCell: {
+    paddingLeft: theme.spacing.unit * 3,
+    paddingRight: theme.spacing.unit,
+    paddingTop: theme.spacing.unit,
+    paddingDown: theme.spacing.unit,
+    overflowWrap: 'break-word'
+  },
+
+  cell: {
+    padding: theme.spacing.unit,
+    overflowWrap: 'break-word'
   }
 })
 
@@ -37,20 +50,18 @@ class BusinessCategoryTable extends Component {
           </colgroup>
           <TableHead>
             <TableRow>
-              <TableCell>Name</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Parent Category</TableCell>
+              <TableCell className={classes.firstCell}>Name</TableCell>
+              <TableCell className={classes.cell}>Description</TableCell>
+              <TableCell className={classes.cell}>Parent Category</TableCell>
               <TableCell/>
             </TableRow>
           </TableHead>
           <TableBody>
             {businessCategories.map(businessCategory => (
               <TableRow key={businessCategory.id} hover>
-                <TableCell component="th" scope="row">
-                  {businessCategory.name}
-                </TableCell>
-                <TableCell>{businessCategory.description}</TableCell>
-                <TableCell>{businessCategory.parentCategory ? businessCategory.parentCategory.name : ''}</TableCell>
+                <TableCell className={classes.firstCell}>{businessCategory.name}</TableCell>
+                <TableCell className={classes.cell}>{businessCategory.description}</TableCell>
+                <TableCell className={classes.cell}>{businessCategory.parentCategory ? businessCategory.parentCategory.name : ''}</TableCell>
                 <TableCellButtons
                   editLink={`/admin/business-categories/${businessCategory.id}`}
                   deleteFunction={() => deleteBusinessCategory(businessCategory.id)}
