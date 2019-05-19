@@ -153,13 +153,16 @@ SearchBar.propTypes = {
   classes: PropTypes.object.isRequired,
   getUsersByEmail: PropTypes.func.isRequired,
   getBusinessesByTitle: PropTypes.func.isRequired,
+  getAllPlaces: PropTypes.func.isRequired,
   businessSize: PropTypes.number.isRequired,
   businessSearchParam: PropTypes.string.isRequired,
   getAllEvents: PropTypes.func.isRequired,
   eventSearchParam: PropTypes.string.isRequired,
   eventSize: PropTypes.number.isRequired,
   userSearchParam: PropTypes.string.isRequired,
-  userSize: PropTypes.number.isRequired
+  userSize: PropTypes.number.isRequired,
+  placeSearchParam: PropTypes.string.isRequired,
+  placeSize: PropTypes.number.isRequired
 }
 
 const mapStateToProps = (state) => {
