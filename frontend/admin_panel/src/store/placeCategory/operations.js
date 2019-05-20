@@ -25,7 +25,7 @@ export const reloadData = () => async dispatch => {
   dispatch(ACTIONS.updatePlaceCategories(rawData.map(placeCategory => createOrSetKey(placeCategory))))
 }
 
-export const fetchBusinessCategorires = () => async dispatch => {
+export const fetchBusinessCategories = () => async dispatch => {
   const businessCategories = await preloadDecorator(dispatch)(api.get(`/api/business-categories/all-parent`))
   dispatch(ACTIONS.updateBusinessCategories(businessCategories))
 }
@@ -35,18 +35,21 @@ export const fetchLayoutItems = () => async dispatch => {
   dispatch(ACTIONS.updateLayoutItems(layoutItems.map(item => ({name: item}))))
 }
 
-export const loadPlaceCategory = id => async dispatch => {
-  dispatch(fetchBusinessCategorires())
-  dispatch(fetchLayoutItems())
-  const businessCategory = await preloadDecorator(dispatch)(endPoint.get(id))
-  dispatch(ACTIONS.updateEditedPlaceCategory(businessCategory))
+export const fetchPlaceCategoryById = id => dispatch => {
+  return preloadDecorator(dispatch)(endPoint.get(id))
 }
 
-export const addSinglePlaceCategory = () => dispatch => {
-  dispatch(fetchBusinessCategorires())
+export const createOrGetPlaceCategory = id => async dispatch => {
+  dispatch(fetchBusinessCategories())
   dispatch(fetchLayoutItems())
-  dispatch(ACTIONS.updateEditedPlaceCategory(createOrSetKey()))
-  dispatch(ACTIONS.placeCategoryFormIsLoading(false))
+  if (id !== null) {
+    const placeCategory = await dispatch(fetchPlaceCategoryById(id))
+    debugger
+    dispatch(ACTIONS.updateEditedPlaceCategory(placeCategory[0]))
+  } else {
+    dispatch(ACTIONS.updateEditedPlaceCategory(createOrSetKey()))
+    dispatch(ACTIONS.arePlaceCategoriesLoading(false))
+  }
 }
 
 const createOrSetKey = placeCategory => {

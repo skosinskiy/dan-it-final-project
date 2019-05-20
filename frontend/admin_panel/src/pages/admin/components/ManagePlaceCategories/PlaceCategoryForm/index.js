@@ -34,12 +34,9 @@ const styles = theme => ({
 class PlaceCategoryTable extends React.Component {
 
   componentDidMount(){
-    try {
-      const id = +window.location.pathname.match(/\d+$/)[0]
-      this.props.loadPlaceCategory(id);
-    } catch (err) {
-      this.props.addSinglePlaceCategory()
-    }
+    const matcher = window.location.pathname.match(/\d+$/)
+    const id = matcher ? matcher[0] : null
+    this.props.createOrGetPlaceCategory(id)
   }
    
   checkBoxTypes = {
@@ -136,15 +133,14 @@ PlaceCategoryTable.propTypes = {
   toggleCheckBox: PropTypes.func.isRequired,
   fetchParentBusinessCategories: PropTypes.func.isRequired,
   isLoading:  PropTypes.bool.isRequired,
-  addSinglePlaceCategory:  PropTypes.func.isRequired,
-  loadPlaceCategory:  PropTypes.func.isRequired,
+  createOrGetPlaceCategory:  PropTypes.func.isRequired,
   availableBusinessCategories:  PropTypes.array.isRequired,
   availableLayoutItems:  PropTypes.array.isRequired,
 }
 
 const mapStateToProps = ({ placeCategories }) => ({
   classes: placeCategories.classes,
-  isLoading: placeCategories.placeCategoryFormIsLoading,
+  isLoading: placeCategories.isLoading,
   editedPlaceCategory: placeCategories.editedPlaceCategory,
   availableBusinessCategories: placeCategories.availableBusinessCategories,
   availableLayoutItems: placeCategories.availableLayoutItems,
@@ -157,8 +153,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(placesCategoriesOperations.toggleCheckBox(key, checkBoxType, placeCategories)),
   fetchParentBusinessCategories: () =>
     dispatch(placesCategoriesOperations.fetchParentBusinessCategories()),
-  addSinglePlaceCategory: () => dispatch(placesCategoriesOperations.addSinglePlaceCategory()),
-  loadPlaceCategory: (id) => dispatch(placesCategoriesOperations.loadPlaceCategory(id)),
+  createOrGetPlaceCategory: (id) => dispatch(placesCategoriesOperations.createOrGetPlaceCategory(id)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PlaceCategoryTable))

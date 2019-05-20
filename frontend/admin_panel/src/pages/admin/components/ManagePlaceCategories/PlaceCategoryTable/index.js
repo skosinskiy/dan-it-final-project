@@ -36,7 +36,6 @@ class PlaceCategories extends Component {
       return <Preloader/>
     }
 
-    // const {classes, deletePlaceCategory, placeCategories} = this.props
     const {classes, placeCategories} = this.props
     const rows = [
       { id: 'multisync', label: 'Is Multisync?' },
@@ -105,7 +104,7 @@ PlaceCategories.propTypes = {
 const mapStateToProps = ({placeCategories}) => {
   return {
     placeCategories: placeCategories.placeCategories,
-    isLoading: placeCategories.arePlaceCategoriesLoading,
+    isLoading: placeCategories.isLoading,
   }
 }
 

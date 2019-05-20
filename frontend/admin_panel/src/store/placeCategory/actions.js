@@ -20,11 +20,6 @@ export const updateLayoutItems = parentLayoutItems => ({
   payload: parentLayoutItems
 })
 
-export const placeCategoryFormIsLoading = isLoading => ({
-  type: TYPES.PLACE_CATEGORY_FORM_IS_LOADING,
-  payload: isLoading
-})
-
 export const updateEditedPlaceCategory = placeCategory => ({
   type: TYPES.UPDATE_EDITED_PLACE_CATEGORY,
   payload: placeCategory

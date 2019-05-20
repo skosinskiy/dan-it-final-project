@@ -1,10 +1,9 @@
 import * as TYPES from './types'
 
 const initialState = {
-  arePlaceCategoriesLoading: true,
+  isLoading: true,
   placeCategories: [],
   editedPlaceCategory: {},
-  placeCategoryFormIsLoading: true,
   availableBusinessCategories: [],
   availableLayoutItems: [],
 }
@@ -29,17 +28,12 @@ function placeCategories(state = initialState, action) {
     case TYPES.ARE_PLACE_CATEGORIES_LOADING:
       return {
         ...state,
-        arePlaceCategoriesLoading: action.payload
+        isLoading: action.payload
       }
     case TYPES.UPDATE_EDITED_PLACE_CATEGORY:
       return {
         ...state,
         editedPlaceCategory: action.payload
-      }
-    case TYPES.PLACE_CATEGORY_FORM_IS_LOADING:
-      return {
-        ...state,
-        placeCategoryFormIsLoading: action.payload
       }
     default:
       return { ...state }
