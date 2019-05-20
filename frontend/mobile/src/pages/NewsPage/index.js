@@ -19,7 +19,6 @@ class NewsPage extends Component {
       this.setState({rss: []})
 
       feed.items.forEach(item => {
-        console.log(item)
         this.setState({rss: [...this.state.rss, item]})
       })
     }
