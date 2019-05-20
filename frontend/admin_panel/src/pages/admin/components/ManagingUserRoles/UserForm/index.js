@@ -61,7 +61,7 @@ class UserForm extends Component {
 
   saveUserRoles = () => {
     const {user} = this.state
-    this.props.saveUserRoles(user.id, user.roles).then(this.setState({
+    this.props.saveUserRoles(user.id, user.roles).then(() => this.setState({
       isDataSubmitted: true
     }))
   }
