@@ -106,14 +106,14 @@ class PlaceCategoryTable extends React.Component {
                         <MultiSelect
                           selectedCategories={selectedBusinessCategories}
                           availableCategories={availableBusinessCategories}
-                          flag={'businessCategories'}
+                          type={'businessCategories'}
                         />
                       </TableCell>
                       <TableCell scope="row" padding="none">
                         <MultiSelect
                           selectedCategories={layoutItems}
                           availableCategories={availableLayoutItems}
-                          flag={'layoutItems'}
+                          type={'layoutItems'}
                         />
                       </TableCell>
                     </TableRow>

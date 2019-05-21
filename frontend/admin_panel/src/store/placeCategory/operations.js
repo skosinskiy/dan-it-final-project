@@ -38,6 +38,7 @@ export const fetchLayoutItems = () => async dispatch => {
 export const createOrGetPlaceCategory = id => async dispatch => {
   dispatch(ACTIONS.isPlaceCategoryLoading(true));
   dispatch(fetchBusinessCategories())
+  dispatch(fetchLayoutItems())
   if (id !== null) {
     const fetchedCategory = await preloadDecorator(dispatch)(endPoint.get(id))
     var placeCategory = fetchedCategory[0]
@@ -69,9 +70,9 @@ const setValueToEntityField = (field, value = getInversedBoolean(field)) => (
 
 const getInversedBoolean = (field) => !store.getState().placeCategories.editedPlaceCategory[field]
 
-export const updateCategories = (flag, selectedBusinessCategories) =>dispatch => {
+export const updateCategories = (flag, selectedCategories) => dispatch => {
   dispatch(ACTIONS.updateEditedPlaceCategory(
-    setValueToEntityField(flag, selectedBusinessCategories)
+    setValueToEntityField(flag, selectedCategories)
   ))
 }
 
@@ -96,7 +97,12 @@ export const toggleCheckBox = (checkBoxType) => dispatch => {
 export const processPutOrPost = () => dispatch => {
   const placeCategoryToProcess = store.getState().placeCategories.editedPlaceCategory
   const httpMethod = placeCategoryToProcess.id ? 'PUT' : 'POST'
-  fireHttpRequest(dispatch, httpMethod, placeCategoryToProcess)
+  fireHttpRequest(dispatch, httpMethod, formatLayoutItems(placeCategoryToProcess))
+}
+
+const formatLayoutItems = (placeCategoryToProcess) => {
+  placeCategoryToProcess.layoutItems = placeCategoryToProcess.layoutItems.map(item => item.name)
+  return placeCategoryToProcess
 }
 
 export const processDelete = placeCategoryToProcess => dispatch => {

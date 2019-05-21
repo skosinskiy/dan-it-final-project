@@ -60,10 +60,10 @@ class MultipleSelect extends React.Component {
 
   handleChange = event => {
     this.setState({name: event.target.value})
-    const {updateCategories, flag} = this.props
+    const {updateCategories, type} = this.props
     const newCategories =
       event.target.value.map(categoryName => this.state.namesToCategories[categoryName])
-    updateCategories(flag, newCategories)
+    updateCategories(type, newCategories)
   }
 
   componentDidMount(){
@@ -73,14 +73,14 @@ class MultipleSelect extends React.Component {
         [category.name]: category
       }), {})
     const newState = {
-      name: selectedCategories.map(category => category.name),
+      name: selectedCategories.map(category => category.name || category),
       namesToCategories,
     }
     this.setState(newState)
   }
 
   render () {
-    const {classes, availableCategories, flag} = this.props
+    const {classes, availableCategories, type} = this.props
     return (
       <div className={classes.root}>
         <FormControl className={classes.formControl} fullWidth>
@@ -96,7 +96,7 @@ class MultipleSelect extends React.Component {
               .map((name, i) =>
                 (
                 <MenuItem
-                  key={i + flag}
+                  key={i + type}
                   value={name}
                   style={getStyles(name, this)}
                 >
@@ -117,12 +117,12 @@ MultipleSelect.propTypes = {
   selectedCategories: PropTypes.array.isRequired,
   updateCategories: PropTypes.func.isRequired,
   availableCategories: PropTypes.array.isRequired,
-  flag: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateCategories: (flag, selectedCategories) => dispatch(
-    placesCategoriesOperations.updateCategories(flag, selectedCategories)),
+  updateCategories: (type, selectedCategories) => dispatch(
+    placesCategoriesOperations.updateCategories(type, selectedCategories)),
 })
 
 export default connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(MultipleSelect))
