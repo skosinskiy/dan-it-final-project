@@ -12,10 +12,9 @@ const endPoint = {
 
 const decorateByPreloader = dispatch => async request => {
   dispatch(ACTIONS.isHttpRequestPending(true))
-  request = Array.isArray(request) ? request.flat() : [request]
-  const result = await Promise.all(request)
+  const result = await request
   dispatch(ACTIONS.isHttpRequestPending(false))
-  return result.flat()
+  return result
 }
 
 const preloadDecorator = dispatch => decorateByPreloader(dispatch)
@@ -40,8 +39,7 @@ export const createOrGetPlaceCategory = id => async dispatch => {
   dispatch(fetchBusinessCategories())
   dispatch(fetchLayoutItems())
   if (id !== null) {
-    const fetchedCategory = await preloadDecorator(dispatch)(endPoint.get(id))
-    var placeCategory = fetchedCategory[0]
+    var placeCategory = await preloadDecorator(dispatch)(endPoint.get(id))
   }
   dispatch(ACTIONS.updateEditedPlaceCategory(createOrSetKey(placeCategory)))
   dispatch(ACTIONS.isPlaceCategoryFormLoading(false));
