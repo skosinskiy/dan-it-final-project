@@ -1,32 +1,18 @@
 import * as TYPES from './types'
 
-export const getRolesList = (userRoles) => ({
-  type: TYPES.GET_ROLES_LIST,
-  payload: {userRoles}
-})
-
-export const setUserRoles = ({updatedUserList, changedUsersList}) => ({
-  type: TYPES.SET_USER_ROLES,
-  payload: {updatedUserList, changedUsersList}
-})
-
-export const getUsersRequest = () => ({
-  type: TYPES.USERS_REQUEST,
-})
-
-export const getUsersByEmail = ({users, page, totalElements, email}) => ({
+export const getUsersByEmail = (res) => ({
   type: TYPES.GET_USERS_BY_EMAIL,
-  payload: {
-    users,
-    page,
-    totalElements,
-    email
-  }
+  payload: res
 })
 
-export const getUsersError = error => ({
-  type: TYPES.USERS_ERROR,
-  payload: error
+export const isUsersLoading = isLoading => ({
+  type: TYPES.IS_USERS_LOADING,
+  payload: isLoading
+})
+
+export const isUserFormDataLoading = isLoading => ({
+  type: TYPES.IS_USER_FORM_DATA_LOADING,
+  payload: isLoading
 })
 
 export const currentUserLoading = (isLoading) => ({
@@ -39,7 +25,7 @@ export const currentUserFetched = (currentUser) => ({
   payload: {currentUser}
 })
 
-export const changePaginationPage = (page) => ({
-  type: TYPES.CHANGE_PAGINATION_PAGE,
-  payload: {page}
+export const setSearchParam = (param) => ({
+  type: TYPES.SET_USER_SEARCH_PARAM,
+  payload: param
 })

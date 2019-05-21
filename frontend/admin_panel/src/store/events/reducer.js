@@ -5,16 +5,20 @@ const initialState = {
   totalElements: 0,
   isEventDataLoading: false,
   isEventFormDataLoading: false,
+  page: 0,
+  size: 5,
+  searchParam: ''
 }
 
 const eventReducer = (state = initialState, action) => {
   switch (action.type) {
-    case TYPES.GET_EVENTS_BY_PLACE_ID:
     case TYPES.GET_ALL_EVENTS:
       return {
         ...state,
-        eventList: action.payload.eventList,
-        totalElements: action.payload.eventList.length
+        eventList: action.payload.content,
+        totalElements: action.payload.totalElements,
+        page: action.payload.pageable.pageNumber,
+        size: action.payload.pageable.pageSize
       }
     case TYPES.EVENT_FORM_DATA_IS_LOADING:
       return {
@@ -25,6 +29,11 @@ const eventReducer = (state = initialState, action) => {
       return {
         ...state,
         isEventDataLoading: action.payload.isLoading
+      }
+    case TYPES.SET_EVENT_SEARCH_PARAM:
+      return {
+        ...state,
+        searchParam: action.payload
       }
     default:
       return state

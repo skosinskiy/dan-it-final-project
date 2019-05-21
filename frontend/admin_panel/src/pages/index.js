@@ -15,10 +15,10 @@ class AppRoutes extends Component {
 
     return (
       <Switch>
-        <Route path="/login" component={Login}/>
-        <Route path="/forgot-password" component={ForgotPassword}/>
-        <Route path="/reset-password" component={ResetPassword}/>
-        <ProtectedRoute path="/" component={Admin} authenticated={!!currentUser}/>
+        <Route path="/admin/login" component={Login}/>
+        <Route path="/admin/forgot-password" component={ForgotPassword}/>
+        <Route path="/admin/reset-password" component={ResetPassword}/>
+        <ProtectedRoute path="/admin" component={Admin} authenticated={!!currentUser}/>
       </Switch>
     )
   }
@@ -28,7 +28,7 @@ export const ProtectedRoute = ({component: Component, authenticated, ...rest}) =
   <Route
     {...rest}
     render={props =>
-      authenticated ? <Component {...props} /> : <Redirect to="/login"/>
+      authenticated ? <Component {...props} /> : <Redirect to="/admin/login"/>
     }
   />
 )

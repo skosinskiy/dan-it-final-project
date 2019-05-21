@@ -4,7 +4,9 @@ import com.danit.finalproject.application.dto.request.UpdateUserPasswordRequest;
 import com.danit.finalproject.application.entity.Permission;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
+import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.repository.UserRepository;
+import com.danit.finalproject.application.repository.place.PlaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -22,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -40,6 +41,7 @@ public class UserService implements UserDetailsService, CrudService<User> {
   public static final String PASS_RECOVERY_EMAIL_SUBJECT = "Password recovery";
 
   private UserRepository userRepository;
+  private PlaceRepository placeRepository;
   private EmailService emailService;
   private ValidationService validationService;
   private PasswordEncoder passwordEncoder;
@@ -51,6 +53,7 @@ public class UserService implements UserDetailsService, CrudService<User> {
   @Autowired
   public UserService(
       UserRepository userRepository,
+      PlaceRepository placeRepository,
       EmailService emailService,
       ValidationService validationService,
       PasswordEncoder passwordEncoder) {
@@ -58,6 +61,7 @@ public class UserService implements UserDetailsService, CrudService<User> {
     this.emailService = emailService;
     this.validationService = validationService;
     this.passwordEncoder = passwordEncoder;
+    this.placeRepository = placeRepository;
   }
 
   @Override
@@ -128,7 +132,7 @@ public class UserService implements UserDetailsService, CrudService<User> {
 
   private void sendPasswordRecoveryEmail(String token, String userEmail) {
     String text = String.format("Please follow the link to change your password\n"
-        + "http://%s:%s/reset-password/%s", applicationHost, applicationPort, token);
+        + "https://%s:%s/admin/reset-password/%s", applicationHost, applicationPort, token);
     emailService.sendSimpleMessage(userEmail, PASS_RECOVERY_EMAIL_SUBJECT, text);
   }
 
@@ -209,5 +213,23 @@ public class UserService implements UserDetailsService, CrudService<User> {
       return userRepository.findByEmail(authentication.getName());
     }
     return null;
+  }
+
+  public Page<User> getUsersByPlace(Long placeId, Pageable pageable) {
+    Place place = placeRepository.findById(placeId).orElse(null);
+    return userRepository.findAllByPlaces(place, pageable);
+  }
+
+  public User addNewPlaceToUser(Long placeId) {
+    //TODO implement check for multiple sync
+    String email =
+        ((UserDetails)(SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getUsername();
+    User user = getByEmail(email);
+    Place place = placeRepository.findById(placeId).orElse(null);
+    List<Place> places = user.getPlaces();
+    if (places.stream().noneMatch(p -> p.getId().equals(placeId))) {
+      places.add(place);
+    }
+    return update(user.getId(), user);
   }
 }

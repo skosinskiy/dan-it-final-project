@@ -1,29 +1,26 @@
 import api from '../../helpers/FetchData'
 import * as ACTIONS from './actions'
+import {getAllRoles} from "../roles/operations";
 
-export const getUserRoles = () => dispatch => {
-  api.get(`/api/roles`).then(res => {
-    dispatch(ACTIONS.getRolesList(res))
-  })
+export const fetchUserFormData = (email, page, size) => dispatch => {
+  dispatch(ACTIONS.isUserFormDataLoading(true))
+  Promise.all([
+    dispatch(getAllRoles()),
+    dispatch(getUsersByEmail(email, page, size))
+  ]).then(() => dispatch(ACTIONS.isUserFormDataLoading(false)))
 }
 
 export const saveUserRoles = (userId, roles) => dispatch => {
-  api.put(`api/users/${userId}/roles`, roles)
+  dispatch(ACTIONS.isUserFormDataLoading(true))
+  return api.put(`/api/users/${userId}/roles`, roles).then()
 }
 
-// getAllUsers
 export const getUsersByEmail = (email, page, size) => dispatch => {
-  dispatch(ACTIONS.getUsersRequest())
-
-  api.get(`/api/users?email=${email}&page=${page}&size=${size}`).then(res => {
-    dispatch(ACTIONS.getUsersByEmail({
-      users: res.content,
-      page: res.pageable.pageNumber,
-      totalElements: res.totalElements,
-      email: email
-    }))
-  }).catch(err => {
-    dispatch(ACTIONS.getUsersError(err))
+  dispatch(ACTIONS.isUsersLoading(true))
+  dispatch(ACTIONS.setSearchParam(email))
+  return api.get(`/api/users?email=${email}&page=${page}&size=${size}`).then(res => {
+    dispatch(ACTIONS.getUsersByEmail(res))
+    dispatch(ACTIONS.isUsersLoading(false))
   })
 }
 
@@ -54,6 +51,7 @@ export const getCurrentUser = () => dispatch => {
 }
 
 export const logOutUser = () => dispatch => {
+  dispatch(ACTIONS.currentUserLoading(true))
   api.post('/logout')
     .then(() => window.location.reload())
 }

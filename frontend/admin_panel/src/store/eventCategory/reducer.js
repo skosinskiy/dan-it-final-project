@@ -1,7 +1,8 @@
 import * as TYPES from './types'
 
 const initialState = {
-  allEventCategories: []
+  allEventCategories: [],
+  isEventCategoriesLoading: false
 }
 
 export const EventCategory = (state = initialState, action) => {
@@ -10,6 +11,11 @@ export const EventCategory = (state = initialState, action) => {
       return {
         ...state,
         allEventCategories: action.payload
+      }
+    case TYPES.EVENT_CATEGORIES_IS_LOADING:
+      return {
+        ...state,
+        isEventCategoriesLoading: action.payload
       }
     default:
       return {...state}

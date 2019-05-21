@@ -2,12 +2,24 @@ import api from '../../helpers/FetchData/'
 import * as ACTIONS from './actions'
 
 export const getAllBusinesses = () => dispatch => {
-  // dispatch(ACTIONS.getBusinessesRequest())
   api.get(`/api/businesses`).then(res => {
     dispatch(ACTIONS.getAllBusinesses({businessList: res}))
   }).catch(err => {
     dispatch(ACTIONS.getBusinessesError(err))
   })
+}
+export const getBusinessByAmount = (amount) => dispatch => {
+  dispatch(ACTIONS.businessesLoading(true))
+  api.get(`/api/businesses`).then(res => {
+    dispatch(ACTIONS.getBusinessByAmount({
+      businessList: res.content.filter((item, index) => index <= amount - 1),
+      totalItems: res.totalElements,
+      currentItems: amount
+    }))
+  }).catch(err => {
+    dispatch(ACTIONS.getBusinessesError(err))
+  })
+    .finally(() => dispatch(ACTIONS.businessesLoading(false)))
 }
 
 export const getBusinessById = (id) => dispatch => {
@@ -19,7 +31,6 @@ export const getBusinessById = (id) => dispatch => {
 }
 
 export const getBusinessesByPlaceID = (placeId) => dispatch => {
-  // dispatch(ACTIONS.getBusinessesRequest())
   api.get(`/api/businesses?placeId=${placeId}`).then(res => {
     dispatch(ACTIONS.getBusinessesByPlaceID({businessList: res}))
   }).catch(err => {

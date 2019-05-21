@@ -2,47 +2,26 @@ import * as TYPES from './types'
 
 const initialState = {
   currentUser: null,
-  email: '',
-  isAuthenticated: true,
   isCurrentUserLoading: true,
-
+  isUsersLoading: false,
+  isUserFormDataLoading: false,
   usersListByEmail: [],
-  changedUsersList: [],
   page: 0,
+  size: 5,
   totalElements: 0,
-  userRoles: [],
-
-  isLoaded: false,
-  isLoading: false,
-  error: null
+  searchParam: ''
 }
 
 const usersReducer = (state = initialState, action) => {
-  
+
   switch (action.type) {
-    case TYPES.GET_ROLES_LIST:
-      return {
-        ...state,
-        userRoles: action.payload.userRoles
-      }
     case TYPES.GET_USERS_BY_EMAIL:
       return {
         ...state,
-        usersListByEmail: action.payload.users,
-        page: action.payload.page,
-        totalElements: action.payload.totalElements,
-        email: action.payload.email
-      }
-    case TYPES.CHANGE_PAGINATION_PAGE:
-      return {
-        ...state,
-        page: action.payload.page
-      }
-    case TYPES.SET_USER_ROLES:
-      return {
-        ...state,
-        usersListByEmail: action.payload.updatedUserList,
-        changedUsersList: action.payload.changedUsersList
+        usersListByEmail: action.payload.content,
+        page: action.payload.pageable.pageNumber,
+        size: action.payload.pageable.pageSize,
+        totalElements: action.payload.totalElements
       }
     case TYPES.CURRENT_USER_FETCHED:
       return {
@@ -53,6 +32,21 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         isCurrentUserLoading: action.payload
+      }
+    case TYPES.IS_USERS_LOADING:
+      return {
+        ...state,
+        isUsersLoading: action.payload
+      }
+    case TYPES.IS_USER_FORM_DATA_LOADING:
+      return {
+        ...state,
+        isUserFormDataLoading: action.payload
+      }
+    case TYPES.SET_USER_SEARCH_PARAM:
+      return {
+        ...state,
+        searchParam: action.payload
       }
     default:
       return {...state}

@@ -8,6 +8,8 @@ import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.facade.AbstractDtoFacade;
 import com.danit.finalproject.application.service.place.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -36,5 +38,10 @@ public class PlaceFacade extends AbstractDtoFacade<Place, PlaceRequest, PlaceRes
   public PlaceResponse deletePlacePhoto(Long placeId, Long photoId) {
     Place place = placeService.deletePlacePhoto(placeId, photoId);
     return mapEntityToResponseDto(place);
+  }
+
+  public Page<PlaceResponse> getAllPlacesByParam(String param, Pageable pageable) {
+    Page<Place> places = placeService.getAllPlacesByParam(param, pageable);
+    return mapEntityListToResponseDtoList(places);
   }
 }

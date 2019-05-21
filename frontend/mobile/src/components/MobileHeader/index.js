@@ -12,8 +12,6 @@ class ParallaxHeader extends Component {
     const iconStyle = {
       backgroundImage: `url("${this.props.icon}")`
     }
-    const optionalComponent = this.props.extraComponent
-    // const optionalIcon = this.props.extraIcon
     return (
       <div className='parallax-section header' style={style} >
         <div className='header__outer-wrapper'>
@@ -26,7 +24,6 @@ class ParallaxHeader extends Component {
             <p className='header__location'>{this.props.location}</p>
           </div>
         </div>
-        {optionalComponent}
       </div>
     )
   }

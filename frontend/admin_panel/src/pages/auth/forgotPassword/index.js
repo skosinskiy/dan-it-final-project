@@ -100,7 +100,7 @@ class ForgotPassword extends Component {
         </Typography>
         <Button
           component={NavLink}
-          to={'login'}
+          to={'/admin/login'}
           fullWidth
           variant="contained"
           color="primary"
@@ -137,7 +137,7 @@ const mapDispatchToProps = (dispatch) => ({
 ForgotPassword.propTypes = {
   classes: PropTypes.object.isRequired,
   isFormSubmitted: PropTypes.bool.isRequired,
-  isLoading: PropTypes.object.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   submitForgotPasswordForm: PropTypes.func.isRequired,
 }
 

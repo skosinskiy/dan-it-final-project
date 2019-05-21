@@ -40,14 +40,28 @@ spring:
   servlet:
     multipart:
       max-file-size:
-        3MB
+        10MB
 server:
+  ssl:
+    key-store:
+      classpath:keystore.p12
+    key-store-password:
+      changeit
+    keyStoreType:
+      PKCS12
+    keyAlias:
+      tomcat
   port:
     9000
 
 react:
   server:
     port:
-      3000
+      9000
     host:
-      localhost
+      ec2-3-14-226-139.us-east-2.compute.amazonaws.com
+aws:
+  s3:
+    credentials:
+      path:
+        /home/ubuntu/aws/s3/credentials

@@ -14,6 +14,7 @@ import com.danit.finalproject.application.service.AmazonS3Service;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -23,7 +24,7 @@ public class ModelMapperConfig {
   private AmazonS3Service amazonS3Service;
 
   @Autowired
-  public ModelMapperConfig(ModelMapper modelMapper, AmazonS3Service amazonS3Service) {
+  public ModelMapperConfig(@Lazy ModelMapper modelMapper, @Lazy AmazonS3Service amazonS3Service) {
     this.modelMapper = modelMapper;
     this.amazonS3Service = amazonS3Service;
   }

@@ -8,8 +8,11 @@ import com.danit.finalproject.application.service.CrudService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 public class PlaceService implements CrudService<Place> {
@@ -30,6 +33,12 @@ public class PlaceService implements CrudService<Place> {
   @Override
   public List<Place> getAll() {
     return placeRepository.findAll();
+  }
+
+  public Page<Place> getAllPlacesByParam(String param, Pageable pageable) {
+    return StringUtils.hasText(param)
+        ? placeRepository.getAllPlacesByParam(param, pageable)
+        : placeRepository.findAll(pageable);
   }
 
   @Override
@@ -62,6 +71,11 @@ public class PlaceService implements CrudService<Place> {
     Place place = placeRepository.findById(id).orElse(null);
     if (place != null) {
       place.getPhotos().forEach(placePhoto -> placePhotoService.deletePlacePhoto(placePhoto));
+      place.getVisits().forEach(visit -> {
+        if (visit.getPlace().equals(place)) {
+          visit.setPlace(null);
+        }
+      });
     }
     placeRepository.deleteById(id);
     return place;

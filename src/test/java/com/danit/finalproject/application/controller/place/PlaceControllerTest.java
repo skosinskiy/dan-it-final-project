@@ -24,6 +24,7 @@ import com.danit.finalproject.application.service.place.PlaceService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import org.junit.Test;
@@ -70,7 +71,7 @@ public class PlaceControllerTest {
   @Test
   public void getPlaceById() throws Exception {
     Long expectedId = 1L;
-    String expectedName = "place-1";
+    String expectedName = "Ocean Plaza";
 
     MvcResult result = mockMvc.perform(get("/api/places/1").with(csrf()))
         .andReturn();
@@ -84,16 +85,14 @@ public class PlaceControllerTest {
   @Test
   public void getAllPlaces() throws Exception {
     int expectedSize = 2;
-    String secondCategoryName = "place-2";
 
     MvcResult result = mockMvc.perform(get("/api/places"))
         .andReturn();
     String responseBody = result.getResponse().getContentAsString();
-    List<PlaceResponse> places
-        = objectMapper.readValue(responseBody, new TypeReference<List<PlaceResponse>>(){});
+    HashMap<String, Object> places
+        = objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>(){});
 
-    assertEquals(expectedSize, places.size());
-    assertEquals(secondCategoryName, places.get(1).getTitle());
+    assertEquals(expectedSize, ((List) places.get("content")).size());
   }
 
   @Test

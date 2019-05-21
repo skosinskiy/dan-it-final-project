@@ -1,42 +1,53 @@
 import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
 
-export const getPlaces = () => dispatch => {
-  return api.get(`/api/places`).then(res => {
+export const fetchPlaceFormData = (searchParam = '', page = 0, size = 5) => dispatch => {
+  dispatch(ACTIONS.isPlaceFormDataLoading(true))
+  Promise.all([
+    dispatch(getAllPlaces(searchParam, page, size)),
+    dispatch(getPlacesCategories())
+  ]).then(() => dispatch(ACTIONS.isPlaceFormDataLoading(false)))
+}
+
+export const getAllPlaces = (searchParam = '', page = 0, size = 5) => dispatch => {
+  dispatch(ACTIONS.isPlacesLoading(true))
+  dispatch(ACTIONS.setSearchParam(searchParam))
+  return api.get(`/api/places?searchParam=${searchParam}&page=${page}&size=${size}`).then(res => {
     dispatch(ACTIONS.getAllPlaces(res))
+    dispatch(ACTIONS.isPlacesLoading(false))
   })
 }
 
 export const getPlacesCategories = () => dispatch => {
-  api.get(`/api/place-categories`).then(res => {
+  return api.get(`/api/place-categories`).then(res => {
     dispatch(ACTIONS.getPlacesCategories(res))
   })
 }
 
-export const deletePlace = (placeId) => dispatch => {
+export const deletePlace = (placeId, searchParam, page, size) => dispatch => {
+  dispatch(ACTIONS.isPlacesLoading(true))
   api.deleteApi(`/api/places/${placeId}`).then(res => {
-    api.get(`/api/places`).then(res => {
-      dispatch(ACTIONS.getAllPlaces(res))
-    })
+    dispatch(getAllPlaces(searchParam, page, size))
   })
 }
 
 export const savePlace = (place, images) => dispatch => {
+  dispatch(ACTIONS.isPlaceFormDataLoading(true))
   if (place.id) {
     const imagesToUpload = images.filter(image => !image.id)
     const existingImages = images.filter(image => image.id)
-    uploadImagesToS3(imagesToUpload)
+    return uploadImagesToS3(imagesToUpload)
       .then(uploadedImages => createPlacePhotos(uploadedImages, place.id)
         .then(createdPhotos => updatePlace(existingImages, place, createdPhotos)
-          .then(() => dispatch(getPlaces()))
+          .then()
         )
       )
   } else {
-    createPlace(place)
+    return createPlace(place)
       .then(createdBusiness => uploadImagesToS3(images)
         .then(uploadedImages => createPlacePhotos(uploadedImages, createdBusiness.id)
           .then(createdPhotos => updatePlace(null, createdBusiness, createdPhotos)
-            .then(() => dispatch(getPlaces()))
+            .then()
           )
         )
       )

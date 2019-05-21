@@ -11,16 +11,14 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import IconButton from '@material-ui/core/IconButton'
-import Badge from '@material-ui/core/Badge'
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
-import NotificationsIcon from '@material-ui/icons/Notifications'
 import PowerSetting from '@material-ui/icons/PowerSettingsNew'
 
 import AdminRouter from './routes'
 
 import Sidebarmenu from '../../components/SidebarMenu'
-import {usersOperations} from 'store/users'
+import {usersOperations} from '../../store/users'
 
 const drawerWidth = 240
 
@@ -106,10 +104,6 @@ class Admin extends React.Component {
     open: true
   }
 
-  componentDidMount () {
-    this.props.getUserRolesList()
-  }
-
   handleDrawerOpen = () => {
     this.setState({open: true})
   }
@@ -147,13 +141,8 @@ class Admin extends React.Component {
               noWrap
               className={classes.title}
             >
-              Dashboard
+              Rion Up Admin Panel
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon/>
-              </Badge>
-            </IconButton>
             <IconButton onClick={logoutUser} color="inherit" alt="Log out">
               <PowerSetting/>
             </IconButton>
@@ -186,17 +175,11 @@ class Admin extends React.Component {
 
 Admin.propTypes = {
   classes: PropTypes.object.isRequired,
-  logoutUser: PropTypes.func.isRequired,
-  getUserRolesList: PropTypes.func.isRequired,
+  logoutUser: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => ({
-  userRoles: state.users.userRoles
-})
-
 const mapDispatchToProps = (dispatch) => ({
-  logoutUser: () => dispatch(usersOperations.logOutUser()),
-  getUserRolesList: () => dispatch(usersOperations.getUserRoles())
+  logoutUser: () => dispatch(usersOperations.logOutUser())
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(((withStyles(styles, {withTheme: true})(Admin)))))
+export default withRouter(connect(null, mapDispatchToProps)(((withStyles(styles, {withTheme: true})(Admin)))))

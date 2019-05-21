@@ -2,29 +2,19 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
-import List from '@material-ui/core/List'
 import {eventCategoryOperations} from 'store/eventCategory'
-import EventCategoryItem from './EventCategoryItem'
+import EventCategoryTable from './EventCategoryTable'
 
 import {NavLink} from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 import Preloader from '../../../../components/Preloader'
 
 const styles = theme => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper
-  },
-
-  buttons: {
-    textDecoration: 'none',
-    marginRight: '10px',
+  newItemButton: {
     display: 'flex',
-    justifyContent: 'center'
-  },
-
-  button: {
-    marginTop: '30px'
+    justifyContent: 'flex-end',
+    textDecoration: 'none',
+    marginBottom: theme.spacing.unit * 3
   }
 })
 
@@ -35,23 +25,20 @@ class EventCategories extends Component {
   }
 
   render () {
-    const {classes, eventCategories} = this.props
+    const {classes, isEventCategoriesLoading} = this.props
 
-    if (eventCategories.length === 0) {
+    if (isEventCategoriesLoading) {
       return <Preloader/>
     }
 
-    const eventCategoryItems = eventCategories.map((category) => {
-      return <EventCategoryItem key={category.id} category={category}/>
-    })
     return (
       <div>
-        <List className={classes.root}>
-          {eventCategoryItems}
-        </List>
-        <NavLink to={'/admin/event-categories/add-new'} className={classes.buttons}>
-          <Button variant="contained" color="primary" className={classes.button}>Add New Event Category</Button>
-        </NavLink>
+        <div >
+          <NavLink className={classes.newItemButton} to={'/admin/event-categories/add-new'}>
+            <Button variant="outlined" size="large" color="primary">Add New Event Category</Button>
+          </NavLink>
+        </div>
+        <EventCategoryTable/>
       </div>
     )
   }
@@ -60,12 +47,12 @@ class EventCategories extends Component {
 EventCategories.propTypes = {
   classes: PropTypes.object.isRequired,
   getAllEventCategories: PropTypes.func.isRequired,
-  eventCategories:  PropTypes.array.isRequired,
+  isEventCategoriesLoading: PropTypes.bool.isRequired
 }
 
 const mapStateToProps = ({eventCategory}) => {
   return {
-    eventCategories: eventCategory.allEventCategories
+    isEventCategoriesLoading: eventCategory.isEventCategoriesLoading
   }
 }
 

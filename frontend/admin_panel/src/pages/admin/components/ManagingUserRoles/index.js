@@ -1,16 +1,16 @@
 import React, {Component} from 'react'
 import SearchBar from '../Searchbar'
-import UsersList from './UsersList'
+import UserTable from './UserTable'
 
-class ManagingUsersRoles extends Component {
+class ManagingUserRoles extends Component {
   render () {
     return (
       <div>
-        <SearchBar searchtype='user_by_email' />
-        <UsersList />
+        <SearchBar searchtype='user' />
+        <UserTable />
       </div>
     )
   }
 }
 
-export default ManagingUsersRoles
+export default ManagingUserRoles

@@ -4,8 +4,14 @@
 [![codecov](https://codecov.io/gh/skosinskiy/dan-it-final-project/branch/master/graph/badge.svg)](https://codecov.io/gh/skosinskiy/dan-it-final-project)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=skosinskiy_dan-it-final-project&metric=alert_status)](https://sonarcloud.io/dashboard?id=skosinskiy_dan-it-final-project)
 
-#### e-mails
+#### Actual version of master is deployed on AWS:
 
-1. a.i.danilishin@gmails.com
+https://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9000
 
-2. stanislav.kosinski@gmail.com
+###### custom build is available on port 9001
+
+https://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9001
+
+#### Swagger Documentation:
+
+https://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9000/swagger-ui.html

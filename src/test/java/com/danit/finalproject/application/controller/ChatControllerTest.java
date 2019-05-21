@@ -5,6 +5,7 @@ import com.danit.finalproject.application.dto.response.ChatResponse;
 import com.danit.finalproject.application.dto.response.place.PlaceResponse;
 import com.danit.finalproject.application.entity.Chat;
 import com.danit.finalproject.application.entity.ChatMessage;
+import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.repository.ChatMessageRepository;
@@ -27,6 +28,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -90,6 +92,14 @@ public class ChatControllerTest {
     Chat chat = new Chat();
     chat.setId(expectedId);
     chat.setName(expectedName);
+    List<User> users = new ArrayList<>();
+    User user1 = new User();
+    user1.setId(1L);
+    User user2 = new User();
+    user2.setId(2L);
+    users.add(user1);
+    users.add(user2);
+    chat.setUsers(users);
 
     String chatJson = objectMapper.writeValueAsString(chat);
 
@@ -113,6 +123,7 @@ public class ChatControllerTest {
     Long chatId = 1L;
     Chat chat = chatService.getById(chatId);
     chat.setName(chatTitle);
+    chat.setUsers(new ArrayList<>());
 
     String userJson = objectMapper.writeValueAsString(modelMapper.map(chat, ChatRequest.class));
 
@@ -130,7 +141,7 @@ public class ChatControllerTest {
   }
 
   @Test
-  public void deletePlace() throws Exception {
+  public void deleteChat() throws Exception {
     mockMvc.perform(delete("/api/chats/2").with(csrf()));
 
     assertNull(chatService.getById(2L));

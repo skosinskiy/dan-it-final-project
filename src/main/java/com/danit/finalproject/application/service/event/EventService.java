@@ -6,27 +6,25 @@ import com.danit.finalproject.application.repository.event.EventRepository;
 import com.danit.finalproject.application.service.CrudService;
 import com.danit.finalproject.application.service.business.BusinessService;
 import com.danit.finalproject.application.service.place.PlaceService;
+
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 @Service
 public class EventService implements CrudService<Event> {
   private EventRepository eventRepository;
-  private BusinessService businessService;
-  private PlaceService placeService;
   private EventPhotoService eventPhotoService;
 
   @Autowired
   public EventService(
       EventRepository eventRepository,
-      BusinessService businessService,
-      PlaceService placeService,
       EventPhotoService eventPhotoService) {
     this.eventRepository = eventRepository;
-    this.businessService = businessService;
-    this.placeService = placeService;
     this.eventPhotoService = eventPhotoService;
   }
 
@@ -40,9 +38,10 @@ public class EventService implements CrudService<Event> {
     return eventRepository.findAll();
   }
 
-  public List<Event> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(Long placeId, Long businessId, String
-      searchParam) {
-    return eventRepository.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(placeId, businessId, searchParam);
+  public Page<Event> getAllEventsByTitleOrBusinessTitleOrPlaceTitle(String searchParam, Pageable pageable) {
+    return !StringUtils.hasText(searchParam)
+        ? eventRepository.findAll(pageable)
+        : eventRepository.getAllEventsByTitleOrBusinessTitleOrPlaceTitle(searchParam, pageable);
   }
 
   @Override
@@ -75,6 +74,7 @@ public class EventService implements CrudService<Event> {
     Event event = eventRepository.findById(id).orElse(null);
     if (event != null) {
       event.getPhotos().forEach(businessPhoto -> eventPhotoService.deleteEventPhoto(businessPhoto));
+      event.setBusiness(null);
     }
     eventRepository.delete(event);
     return event;
