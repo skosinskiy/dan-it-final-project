@@ -58,7 +58,7 @@ class PlaceCategoryTable extends React.Component {
 
   render() {
 
-    if (this.props.isLoading) {
+    if (this.props.isLoading || this.props.isHttpRequestPending) {
       return <Preloader/>
     }
 
@@ -68,7 +68,7 @@ class PlaceCategoryTable extends React.Component {
     const emptyRows = 1;
     return (
       <div className={classes.root}>
-        <EnhancedTableToolbar />
+        {/* <EnhancedTableToolbar /> */}
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead
@@ -133,6 +133,7 @@ PlaceCategoryTable.propTypes = {
   toggleCheckBox: PropTypes.func.isRequired,
   fetchParentBusinessCategories: PropTypes.func.isRequired,
   isLoading:  PropTypes.bool.isRequired,
+  isHttpRequestPending: PropTypes.bool.isRequired,
   createOrGetPlaceCategory:  PropTypes.func.isRequired,
   availableBusinessCategories:  PropTypes.array.isRequired,
   availableLayoutItems:  PropTypes.array.isRequired,
@@ -140,10 +141,11 @@ PlaceCategoryTable.propTypes = {
 
 const mapStateToProps = ({ placeCategories }) => ({
   classes: placeCategories.classes,
-  isLoading: placeCategories.isLoading,
+  isLoading: placeCategories.isPlaceCategoryFormLoading,
   editedPlaceCategory: placeCategories.editedPlaceCategory,
   availableBusinessCategories: placeCategories.availableBusinessCategories,
   availableLayoutItems: placeCategories.availableLayoutItems,
+  isHttpRequestPending: placeCategories.isHttpRequestPending,
 })
 
 const mapDispatchToProps = dispatch => ({

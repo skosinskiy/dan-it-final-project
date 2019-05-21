@@ -1,8 +1,13 @@
 import * as TYPES from './types'
 
-export const arePlaceCategoriesLoading = areLoading => ({
-  type: TYPES.ARE_PLACE_CATEGORIES_LOADING,
-  payload: areLoading
+export const isHttpRequestPending = isPending => ({
+  type: TYPES.IS_HTTP_REQUEST_PENDING,
+  payload: isPending
+})
+
+export const isPlaceCategoryLoading = isLoading => ({
+  type: TYPES.IS_PLACE_CATEGORY_LOADING,
+  payload: isLoading
 })
 
 export const updatePlaceCategories = placeCategories => ({

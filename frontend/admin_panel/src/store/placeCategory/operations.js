@@ -11,10 +11,10 @@ const endPoint = {
 }
 
 const decorateByPreloader = dispatch => async request => {
-  dispatch(ACTIONS.arePlaceCategoriesLoading(true))
+  dispatch(ACTIONS.isHttpRequestPending(true))
   request = Array.isArray(request) ? request.flat() : [request]
   const result = await Promise.all(request)
-  dispatch(ACTIONS.arePlaceCategoriesLoading(false))
+  dispatch(ACTIONS.isHttpRequestPending(false))
   return result.flat()
 }
 
@@ -35,21 +35,15 @@ export const fetchLayoutItems = () => async dispatch => {
   dispatch(ACTIONS.updateLayoutItems(layoutItems.map(item => ({name: item}))))
 }
 
-export const fetchPlaceCategoryById = id => dispatch => {
-  return preloadDecorator(dispatch)(endPoint.get(id))
-}
-
 export const createOrGetPlaceCategory = id => async dispatch => {
+  dispatch(ACTIONS.isPlaceCategoryLoading(true));
   dispatch(fetchBusinessCategories())
-  dispatch(fetchLayoutItems())
   if (id !== null) {
-    const placeCategory = await dispatch(fetchPlaceCategoryById(id))
-    debugger
-    dispatch(ACTIONS.updateEditedPlaceCategory(placeCategory[0]))
-  } else {
-    dispatch(ACTIONS.updateEditedPlaceCategory(createOrSetKey()))
-    dispatch(ACTIONS.arePlaceCategoriesLoading(false))
+    const fetchedCategory = await preloadDecorator(dispatch)(endPoint.get(id))
+    var placeCategory = fetchedCategory[0]
   }
+  dispatch(ACTIONS.updateEditedPlaceCategory(createOrSetKey(placeCategory)))
+  dispatch(ACTIONS.isPlaceCategoryLoading(false));
 }
 
 const createOrSetKey = placeCategory => {
