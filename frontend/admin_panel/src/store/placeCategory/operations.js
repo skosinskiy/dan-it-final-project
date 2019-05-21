@@ -93,21 +93,24 @@ export const toggleCheckBox = (checkBoxType) => dispatch => {
   ))
 }
 
-export const deleteItem = (key, container, deletedIds) => dispatch => {
-
-}
-
 export const processPutOrPost = () => dispatch => {
-  const PROCESSORS = {PUT: requestPut, POST: requestPost} 
   const placeCategoryToProcess = store.getState().placeCategories.editedPlaceCategory
   const httpMethod = placeCategoryToProcess.id ? 'PUT' : 'POST'
-  preloadDecorator(dispatch)(PROCESSORS[httpMethod](placeCategoryToProcess))
-    .then(() => dispatch(reloadData()))
+  fireHttpRequest(dispatch, httpMethod, placeCategoryToProcess)
 }
 
-const requestDelete = placeCategories => (
- // getAllDeletedIds(placeCategories).map(id => endPoint.delete(id))
- null
+export const processDelete = placeCategoryToProcess => dispatch => {
+  fireHttpRequest(dispatch, 'DELETE', placeCategoryToProcess)
+}
+
+const fireHttpRequest = (dispatch, httpMethod, placeCategoryToProcess)=>{
+  const PROCESSORS = {PUT: requestPut, POST: requestPost, DELETE: requestDelete}
+  preloadDecorator(dispatch)(PROCESSORS[httpMethod](placeCategoryToProcess))
+  .then(() => dispatch(reloadData()))
+}
+
+const requestDelete = placeCategory => (
+  endPoint.delete(placeCategory.id)
 )
 
 const requestPost = placeCategory => (

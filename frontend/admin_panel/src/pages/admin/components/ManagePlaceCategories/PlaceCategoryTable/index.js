@@ -79,8 +79,7 @@ class PlaceCategories extends Component {
                 <TableCell>{layoutItems.join(', ')}</TableCell>
                 <TableCellButtons
                   editLink={`/admin/place-categories/${id}`}
-                  // deleteFunction={() => deleteEventCategory(eventCategory.id)}
-                  deleteFunction={() => undefined}
+                  deleteFunction={() => this.props.processDelete(placeCategory)}
                 />
               </TableRow>
               )
@@ -98,6 +97,7 @@ PlaceCategories.propTypes = {
   placeCategories: PropTypes.array.isRequired,
   isLoading: PropTypes.bool.isRequired,
   reloadData: PropTypes.func.isRequired,
+  processDelete: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = ({placeCategories}) => {
@@ -111,6 +111,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     deleteEventCategory: (categoryId) => dispatch(eventCategoryOperations.deleteEventCategory(categoryId)),
     reloadData: () => dispatch(placesCategoriesOperations.reloadData()),
+    processDelete: (placeCategory) => dispatch(placesCategoriesOperations.processDelete(placeCategory)),
   }
 }
 
