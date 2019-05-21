@@ -33,7 +33,7 @@ class MainPage extends React.Component {
             <aside className="right-sidebar"><ScreenNewsList/></aside>
           }
         </div>
-        <QRCode />
+        <QRCode place={currentPlace} />
       </div>
     )
   }

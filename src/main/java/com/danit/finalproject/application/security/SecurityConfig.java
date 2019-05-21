@@ -49,9 +49,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         .and()
           .authorizeRequests()
-          .antMatchers("/**/static/**", "/h2-console/**",
+          .antMatchers("/**/static/**", "/h2-console/**", "/google66e649965f9cdeb4.html", "/swagger-ui.html",
               "/api/users/current", "/api/users/forgot-password/**", "/api/users/register",
-              "/admin", "/mobile", "/screen")
+              "/admin/**", "/mobile/**", "/screen")
           .permitAll()
           .anyRequest()
           .authenticated()

@@ -24,6 +24,7 @@ public class Chat extends BaseEntity {
   private String name;
 
   @ManyToMany(mappedBy = "chats")
+  @ToString.Exclude
   private List<User> users;
 
   @OneToMany(cascade = CascadeType.ALL)

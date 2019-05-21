@@ -2,9 +2,12 @@ INSERT INTO users
   (id, date_created, date_modified, age, email, first_name, gender, last_name, password, photo, token, token_expiration_date)
 VALUES
   (1, '2019-03-12 12:00:00', '2019-03-12 12:01:00', 24, 'first.user@test.com', 'Elon', 0, 'Musk', '$2a$10$LsVsLTHNDaJDu8dDbkGEk.4qDE8zIuiqvQ1Kvo99ET.gd.rqUQZjW', 'empty', '12b0e9eb-ad60-44ec-81d1-a759313856ce', '2100-01-01 00:00:00'),
-  (2, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', 'ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0', '2019-03-19 00:00:00'),
-  (3, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav.kosinski@gmail.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
-  (4, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav4.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (2, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav.kosinski@outlook.com', 'Sem', 0, 'Zuckerberg',
+  'secret_pass2', 'empty', 'ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0', '2019-03-19 00:00:00'),
+  (3, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav.kosinski@gmail.com', 'Peter', 0, 'Zuckerberg',
+  'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
+  (4, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav4.kosinski@outlook.com', 'John', 0, 'Zuckerberg',
+  'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
   (5, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav5.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
   (6, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav6.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
   (7, '2019-03-13 13:00:00', '2019-03-13 13:01:00', 25, 'stanislav17.kosinski@outlook.com', 'Mark', 0, 'Zuckerberg', 'secret_pass2', 'empty', null , '2019-03-19 00:00:00' ),
@@ -70,13 +73,25 @@ VALUES
   (2, 8),
   (2, 4);
 
+INSERT INTO user_friends
+  (user_id, friend_id)
+VALUES
+  (1, 2),
+  (1, 3),
+  (1, 4),
+  (1, 6),
+  (1, 7),
+  (1, 8),
+  (1, 5);
+
 -- place
 
 INSERT INTO places_categories
   (id, date_created, date_modified, name, description, multisync, allow_messages)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-1', 'this is test description for cat 1', 1, 0),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-category-2', 'this is test description for cat 2', 0, 1);
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Home', 'this is test description for cat 1', 1, 0),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Office', 'this is test description for cat 2', 0, 1),
+  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Mall', 'this is test description for cat 1', 1, 0);
 
 INSERT INTO place_category_layout_items
   (place_category_id, layout_item_id)
@@ -89,8 +104,21 @@ VALUES
 INSERT INTO places
   (id, date_created, date_modified, title, description, address, place_category)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-1', 'description-1', 'address-1', 1 ),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'place-2', 'description-2', 'address-2', 2 );
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Ocean Plaza', 'description-1', 'address-1', 1 ),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Dream Town', 'description-2', 'address-2', 2 );
+
+INSERT INTO users_places
+  (user_id, place_id)
+values
+  (1, 1),
+  (2, 1),
+  (3, 1),
+  (4, 1),
+  (5, 1),
+  (6, 1),
+  (1, 2),
+  (2, 2),
+  (3, 2);
 
 INSERT INTO places_photos
   (id, date_created, date_modified, image_key, place_id)
@@ -210,6 +238,17 @@ INSERT INTO chats
 VALUES
   (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'chat-1'),
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'chat-2');
+
+INSERT INTO users_chats
+  (user_id, chat_id)
+VALUES
+  (1, 1),
+  (1, 2),
+  (2, 1),
+  (2, 2),
+  (3, 1),
+  (3, 2);
+
 
 INSERT INTO chat_messages
   (id, date_created, date_modified, message, user_id, chat_id )

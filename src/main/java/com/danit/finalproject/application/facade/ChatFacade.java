@@ -9,6 +9,8 @@ import com.danit.finalproject.application.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class ChatFacade extends AbstractDtoFacade<Chat, ChatRequest, ChatResponse> {
   private ChatService chatService;
@@ -27,5 +29,10 @@ public class ChatFacade extends AbstractDtoFacade<Chat, ChatRequest, ChatRespons
   public ChatResponse deleteMessage(Long chatId, Long messageId) {
     Chat chat = chatService.deleteMessage(chatId, messageId);
     return mapEntityToResponseDto(chat);
+  }
+
+  public List<ChatResponse> getAllchatsForUser(Long userId) {
+    List<Chat> chats = chatService.getAllChatsForUser(userId);
+    return mapEntityListToResponseDtoList(chats);
   }
 }

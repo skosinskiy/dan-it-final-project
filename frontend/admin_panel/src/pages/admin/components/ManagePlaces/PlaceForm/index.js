@@ -32,8 +32,8 @@ class PlaceForm extends React.Component {
   }
 
   componentDidMount() {
-    const {fetchPlaceFormData} = this.props
-    fetchPlaceFormData()
+    const {fetchPlaceFormData, searchParam, page, size} = this.props
+    fetchPlaceFormData(searchParam, page, size)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -187,7 +187,10 @@ PlaceForm.propTypes = {
   savePlace: PropTypes.func.isRequired,
   categories: PropTypes.array.isRequired,
   fetchPlaceFormData: PropTypes.func.isRequired,
-  isPlaceFormDataLoading: PropTypes.bool.isRequired
+  isPlaceFormDataLoading: PropTypes.bool.isRequired,
+  page: PropTypes.number.isRequired,
+  size: PropTypes.number.isRequired,
+  searchParam: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state, props) => {
@@ -195,7 +198,10 @@ const mapStateToProps = (state, props) => {
     categories: [...state.places.placeCategories],
     places: state.places.places,
     place: state.places.places.find(place => place.id.toString() === props.match.params.placeId),
-    isPlaceFormDataLoading: state.places.isPlaceFormDataLoading
+    isPlaceFormDataLoading: state.places.isPlaceFormDataLoading,
+    page: state.places.page,
+    size: state.places.size,
+    searchParam: state.places.searchParam,
   }
 }
 
@@ -203,7 +209,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getPlaceCategories: () => dispatch(placesOperations.getPlacesCategories()),
     savePlace: (placeId, place) => dispatch(placesOperations.savePlace(placeId, place)),
-    fetchPlaceFormData: () => dispatch(placesOperations.fetchPlaceFormData())
+    fetchPlaceFormData: (searchParam, page, size) => dispatch(placesOperations.fetchPlaceFormData(searchParam, page, size))
   }
 }
 

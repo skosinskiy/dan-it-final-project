@@ -113,7 +113,7 @@ class ResetPassword extends Component {
         <Typography component="h1" variant="h5">
           Password was changed
         </Typography>
-        <Button component={NavLink} to={'/login'}
+        <Button component={NavLink} to={'/admin/login'}
                 type="submit"
                 fullWidth
                 variant="contained"

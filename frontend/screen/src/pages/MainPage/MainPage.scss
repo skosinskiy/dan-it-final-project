@@ -5,7 +5,7 @@
 .main-page {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - 91px);
   max-height: 100vh;
   overflow: hidden;
 }
@@ -27,12 +27,12 @@
 .left-sidebar {
   width: 20%;
   height: 100%;
-  padding: 0px 20px 0px 20px;
+  padding: 0 20px 0 20px;
 }
 .right-sidebar {
   width: 20%;
   height: 100%;
-  padding: 0px 15px 0px 20px;
+  padding: 0 15px 0 20px;
 }
 .main-section {
   width: 60%;

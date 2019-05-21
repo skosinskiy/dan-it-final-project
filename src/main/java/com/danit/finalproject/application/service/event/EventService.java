@@ -18,19 +18,13 @@ import org.springframework.util.StringUtils;
 @Service
 public class EventService implements CrudService<Event> {
   private EventRepository eventRepository;
-  private BusinessService businessService;
-  private PlaceService placeService;
   private EventPhotoService eventPhotoService;
 
   @Autowired
   public EventService(
       EventRepository eventRepository,
-      BusinessService businessService,
-      PlaceService placeService,
       EventPhotoService eventPhotoService) {
     this.eventRepository = eventRepository;
-    this.businessService = businessService;
-    this.placeService = placeService;
     this.eventPhotoService = eventPhotoService;
   }
 

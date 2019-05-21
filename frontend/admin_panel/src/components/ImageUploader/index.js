@@ -75,7 +75,6 @@ const ImageUploader = (props) => {
   const {images, classes, onReset, onFileChange, onMainPhotoSelect, multiple, helperText} = props
   const uploadedImages = images && images.length > 0 && images.imageUrl !== null ? images.map((image, index) => {
     return (
-      <>
         <li key={`image-${index}`} className={classes.previewImageWrapper}>
           <img src={image.imageUrl}
                className={classNames(classes.image, image.isMainImage && classes.mainImage)}
@@ -85,8 +84,6 @@ const ImageUploader = (props) => {
             <CloseIcon/>
           </button>
         </li>
-      </>
-
     )
   }) : null
 
@@ -94,16 +91,17 @@ const ImageUploader = (props) => {
     <>
       <Dropzone
         multiple={multiple}
-        onDrop={onFileChange}>
+        onDrop={onFileChange}
+      >
         {({getRootProps, getInputProps}) => (
           <section className='container'>
             <div {...getRootProps({className: classes.dropzone})}>
               <input accept='image/*' {...getInputProps()} />
-              <p style={{textAlign: 'center'}}>
+              <div style={{textAlign: 'center'}}>
                 <p>{helperText}</p>
                 <CloudUploadIcon className={classes.uploadIcon}/>
                 Drag n drop some files here, or click to select files
-              </p>
+              </div>
             </div>
             {uploadedImages && <ul className={classes.imageList}>{uploadedImages}</ul>}
           </section>

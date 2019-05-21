@@ -11,15 +11,27 @@ import {usersOperations} from '../../store/users'
 import './index.scss'
 
 class Login extends Component {
+  state = {
+    isUserPaired: false
+  }
+
   render () {
-    const {currentUser} = this.props
+    const {currentUser, match} = this.props
+
+    const placeId = match.params.placeId
+
+    if (currentUser && placeId && !this.state.isUserPaired) {
+      this.props.pairPlaceWithUser(placeId).then(this.setState({
+        isUserPaired: true
+      }))
+    }
 
     if (currentUser) {
-      return <Redirect to={'/'}/>
+      return <Redirect to={'/mobile'}/>
     }
 
     return (
-      <form className="login-page" onSubmit={this.props.submitLoginForm}>
+      <form className="login-page" onSubmit={(event) => this.props.submitLoginForm(event, placeId)}>
         <div className="login-page__header container">
           <div className="header__logo"><HeaderLogo /></div>
           <p className="header__title">RionUp</p>
@@ -51,7 +63,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  currentUser: PropTypes.object.isRequired,
+  currentUser: PropTypes.object,
   submitLoginForm: PropTypes.func.isRequired,
   loginWithOAuth: PropTypes.func.isRequired
 }
@@ -62,8 +74,9 @@ const mapStateToProps = ({users}) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  submitLoginForm: event => dispatch(usersOperations.submitLoginForm(event)),
-  loginWithOAuth: event => dispatch(usersOperations.loginWithOAuth(event))
+  submitLoginForm: (event, placeId) => dispatch(usersOperations.submitLoginForm(event, placeId)),
+  loginWithOAuth: event => dispatch(usersOperations.loginWithOAuth(event)),
+  pairPlaceWithUser: placeId => dispatch(usersOperations.pairPlaceWithUser(placeId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

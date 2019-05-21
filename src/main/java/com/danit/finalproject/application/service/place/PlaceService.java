@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @Service
 public class PlaceService implements CrudService<Place> {
@@ -34,8 +35,10 @@ public class PlaceService implements CrudService<Place> {
     return placeRepository.findAll();
   }
 
-  public Page<Place> getAll(Pageable pageable) {
-    return placeRepository.findAll(pageable);
+  public Page<Place> getAllPlacesByParam(String param, Pageable pageable) {
+    return StringUtils.hasText(param)
+        ? placeRepository.getAllPlacesByParam(param, pageable)
+        : placeRepository.findAll(pageable);
   }
 
   @Override

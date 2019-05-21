@@ -5,7 +5,10 @@ const initialState = {
   placeCategories: [],
   totalElements: 0,
   isPlacesLoading: false,
-  isPlaceFormDataLoading: false
+  isPlaceFormDataLoading: false,
+  page: 0,
+  size: 5,
+  searchParam: ''
 }
 
 const placesReducer = (state = initialState, action) => {
@@ -14,7 +17,9 @@ const placesReducer = (state = initialState, action) => {
       return {
         ...state,
         places: action.payload.content,
-        totalElements: action.payload.totalElements
+        totalElements: action.payload.totalElements,
+        page: action.payload.pageable.pageNumber,
+        size: action.payload.pageable.pageSize
       }
     case TYPES.GET_PLACES_CATEGORIES:
       return {
@@ -30,6 +35,11 @@ const placesReducer = (state = initialState, action) => {
       return {
         ...state,
         isPlaceFormDataLoading: action.payload
+      }
+    case TYPES.SET_PLACE_SEARCH_PARAM:
+      return {
+        ...state,
+        searchParam: action.payload
       }
     default:
       return {...state}

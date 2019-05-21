@@ -4,8 +4,10 @@ import ChatHeader from '../../components/ChatHeader'
 import './chat-page.scss'
 import { getChatById, createNewMessage } from '../../store/chats/operations'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import Preloader from '../../components/Preloader'
 import ChatList from './ChatList/chatlist'
+import { Redirect } from 'react-router-dom'
 
 const defaultMessage = {
   message: ''
@@ -24,8 +26,11 @@ class ChatPage extends Component {
 
   componentDidMount () {
     const {getChatById} = this.props
-    const chatId = +this.props.match.params.chatId
-    getChatById(chatId)
+
+    if (this.props.match.params.chatId !== 'new') {
+      const chatId = +this.props.match.params.chatId
+      getChatById(chatId)
+    }
   }
 
   sendNewMessage = (chatId) => {
@@ -40,11 +45,21 @@ class ChatPage extends Component {
   }
 
   render () {
-    const {currentChat, isLoaded} = this.props
+    const {currentChat, isLoaded, isCurrentUserLoading} = this.props
+    const param = this.props.match.params.chatId
     const {message} = this.state
-    if (!isLoaded) {
+
+    if (param === 'new') {
+      if (!isLoaded) {
+        return <Preloader/>
+      }
+      return <Redirect to={`/messages/${currentChat.id}`}/>
+    }
+
+    if (!isLoaded || isCurrentUserLoading) {
       return <Preloader/>
     }
+
     return (
       <div className="chat">
         <ChatHeader title={'Current Location'}/>
@@ -62,10 +77,18 @@ class ChatPage extends Component {
   }
 }
 
+ChatPage.propTypes = {
+  currentChat: PropTypes.object.isRequired,
+  isCurrentUserLoading: PropTypes.bool.isRequired,
+  isLoaded: PropTypes.bool.isRequired
+}
+
 const mapStateToProps = (state) => {
   return {
     currentChat: state.chats.currentChat,
-    isLoaded: state.chats.isLoaded
+    isLoaded: state.chats.isLoaded,
+    isCurrentUserLoading: state.users.isCurrentUserLoading,
+    chatIsCreated: state.chats.chatIsCreated
   }
 }
 

@@ -10,7 +10,9 @@
   justify-content: center;
   align-items: center;
   width: 8vw;
+  min-width: 90px;
   height: 8vw;
+  min-height: 90px;
   background: white;
   border-radius: 50%;
   -webkit-box-shadow: 3px 7px 31px 1px rgba(0,0,0,1);
@@ -25,6 +27,7 @@
 .qrCode-title{
   color: $black;
   font-size: 14px;
+  font-family: Roboto, sans-serif;
   line-height: 16px;
   letter-spacing: .00636364em;
   -webkit-transition: all 1s linear;
@@ -34,13 +37,9 @@
 }
 
 .qrCode-img{
-  width: 100px;
-  height: 100px;
-  background: url('../../img/DummyImg/QR_code.svg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  border-radius: 5px;
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
   -webkit-transition: all 1s linear;
   -moz-transition: all 1s linear;
   -o-transition: all 1s linear;
@@ -55,8 +54,8 @@
 }
 
 .qrCodeModal>.qrCode-img{
-  width: 65%;
-  height: 55%;
+  width: 140px;
+  height: 140px;
 }
 
 .qrCodeModal>.qrCode-title{

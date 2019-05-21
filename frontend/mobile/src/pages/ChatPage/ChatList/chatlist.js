@@ -5,7 +5,7 @@ class ChatList extends Component {
   render () {
     const {messages} = this.props
     return messages.map((msg) => {
-      return <MessageItem message={msg}/>
+      return <MessageItem key={msg.id} message={msg}/>
     })
   }
 }

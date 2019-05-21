@@ -113,22 +113,6 @@
 		<plugins>
 
 			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>3.1.0</version>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>target</directory>
-							<directory>frontend/admin_panel/node</directory>
-							<directory>frontend/screen/node</directory>
-							<directory>frontend/mobile/node</directory>
-							<followSymlinks>false</followSymlinks>
-						</fileset>
-					</filesets>
-				</configuration>
-			</plugin>
-
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 			</plugin>
@@ -190,7 +174,7 @@
 						</goals>
 						<configuration>
 							<workingDirectory>frontend/admin_panel</workingDirectory>
-							<nodeVersion>v8.16.0</nodeVersion>
+							<nodeVersion>v10.15.3</nodeVersion>
 						</configuration>
 					</execution>
 					<execution>
@@ -221,7 +205,7 @@
 						</goals>
 						<configuration>
 							<workingDirectory>frontend/screen</workingDirectory>
-							<nodeVersion>v8.16.0</nodeVersion>
+							<nodeVersion>v10.15.3</nodeVersion>
 						</configuration>
 					</execution>
 					<execution>
@@ -252,7 +236,7 @@
 						</goals>
 						<configuration>
 							<workingDirectory>frontend/mobile</workingDirectory>
-							<nodeVersion>v8.16.0</nodeVersion>
+							<nodeVersion>v10.15.3</nodeVersion>
 						</configuration>
 					</execution>
 					<execution>
@@ -289,7 +273,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>src/main/resources/static/admin</outputDirectory>
+							<outputDirectory>target/classes/static/admin</outputDirectory>
 							<resources>
 								<resource>
 									<directory>frontend/admin_panel/build</directory>
@@ -304,7 +288,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>src/main/resources/static/screen</outputDirectory>
+							<outputDirectory>target/classes/static/screen</outputDirectory>
 							<resources>
 								<resource>
 									<directory>frontend/screen/build</directory>
@@ -319,7 +303,7 @@
 							<goal>copy-resources</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>src/main/resources/static/mobile</outputDirectory>
+							<outputDirectory>target/classes/static/mobile</outputDirectory>
 							<resources>
 								<resource>
 									<directory>frontend/mobile/build</directory>

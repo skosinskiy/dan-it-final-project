@@ -7,7 +7,6 @@ import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 
-import {roleOperations} from 'store/roles'
 import {usersOperations} from 'store/users'
 import ListItemText from '@material-ui/core/ListItemText'
 import Checkbox from '@material-ui/core/Checkbox'
@@ -41,8 +40,8 @@ class UserForm extends Component {
   }
 
   componentDidMount() {
-    const {fetchUserFormData, email, page, size} = this.props
-    fetchUserFormData(email, page, size)
+    const {fetchUserFormData, searchParam, page, size} = this.props
+    fetchUserFormData(searchParam, page, size)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,7 +61,7 @@ class UserForm extends Component {
 
   saveUserRoles = () => {
     const {user} = this.state
-    this.props.saveUserRoles(user.id, user.roles).then(this.setState({
+    this.props.saveUserRoles(user.id, user.roles).then(() => this.setState({
       isDataSubmitted: true
     }))
   }
@@ -131,14 +130,13 @@ class UserForm extends Component {
 
 UserForm.propTypes = {
   user: PropTypes.object,
-  getAllRoles: PropTypes.func.isRequired,
   roles: PropTypes.array.isRequired,
   fetchUserFormData: PropTypes.func.isRequired,
   saveUserRoles: PropTypes.func.isRequired,
   isUserFormDataLoading: PropTypes.bool.isRequired,
-  email: PropTypes.string.isRequired,
-  page: PropTypes.number,
-  size: PropTypes.number
+  page: PropTypes.number.isRequired,
+  size: PropTypes.number.isRequired,
+  searchParam: PropTypes.string.isRequired
 }
 
 const mapStateToProps = (state, props) => {
@@ -147,7 +145,7 @@ const mapStateToProps = (state, props) => {
     roles: state.roles.roles,
     page: state.users.page,
     size: state.users.size,
-    email: state.users.email,
+    searchParam: state.users.searchParam,
     isUserFormDataLoading: state.users.isUserFormDataLoading
   }
 }
@@ -155,7 +153,6 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchUserFormData: (email, page, size) => dispatch(usersOperations.fetchUserFormData(email, page, size)),
-    getAllRoles: () => dispatch(roleOperations.getAllRoles()),
     saveUserRoles: (userId, roles) => dispatch(usersOperations.saveUserRoles(userId, roles))
   }
 }

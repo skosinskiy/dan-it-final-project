@@ -63,7 +63,7 @@ AdminRouter.propTypes = {
 export const AuthorizedRoute = ({component: Component, authorized, ...rest}) => (
   <Route {...rest} render={(props) => authorized
     ? <Route component={Component} {...props} />
-    : <Redirect to='/login' />} />
+    : <Redirect to='/admin/login' />} />
 )
 
 AuthorizedRoute.propTypes = {

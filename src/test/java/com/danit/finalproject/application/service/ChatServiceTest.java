@@ -65,6 +65,7 @@ public class ChatServiceTest {
     firstUser.setLastName("Musk");
     firstUser.setGender(Gender.MALE);
     firstUser.setToken("ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0");
+    firstUser.setChats(new ArrayList<>());
     firstMockUser = firstUser;
 
     User secondUser = new User();
@@ -120,6 +121,9 @@ public class ChatServiceTest {
     messages.add(chatMessage1);
     messages.add(chatMessage2);
     firtsMockChat.setChatMessages(messages);
+    List<User> users = new ArrayList<>();
+    users.add(firstMockUser);
+    firtsMockChat.setUsers(users);
 
     firstMockMessage = chatMessage1;
     secondMockMessage = chatMessage2;
@@ -156,6 +160,7 @@ public class ChatServiceTest {
     String expectedTitle = "chat-1";
 
     when(chatRepository.save(firtsMockChat)).thenReturn(firtsMockChat);
+    when(userRepository.findById(firstMockUser.getId())).thenReturn(Optional.ofNullable(firstMockUser));
     Chat chat = chatService.create(firtsMockChat);
 
     assertEquals(exprctedId, chat.getId());

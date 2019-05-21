@@ -138,7 +138,7 @@ class Login extends Component {
             </Button>
             <Button
               component={NavLink}
-              to={'/forgot-password'}
+              to={'/admin/forgot-password'}
               fullWidth
               variant="contained"
               color="secondary"

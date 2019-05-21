@@ -1,17 +1,27 @@
 import api from '../../helpers/FetchData'
 import * as ACTIONS from './actions'
 
-export const submitLoginForm = (event) => dispatch => {
+export const submitLoginForm = (event, placeId) => dispatch => {
   event.preventDefault()
   dispatch(ACTIONS.currentUserLoading(true))
 
   const data = new FormData(event.target)
   api.post('/auth', data).then(res => {
     if (res.status === 200) {
-      dispatch(getCurrentUser())
+      if (placeId) {
+        pairPlaceWithUser(placeId)
+      } else {
+        dispatch(getCurrentUser())
+      }
     }
   })
     .catch(() => dispatch(ACTIONS.currentUserLoading(false)))
+}
+
+export const pairPlaceWithUser = placeId => dispatch => {
+  return api.put(`/api/users/pair/${placeId}`).then(res => {
+    dispatch(getCurrentUser())
+  })
 }
 
 export const submitRegistrationForm = (event) => dispatch => {
@@ -26,7 +36,7 @@ export const submitRegistrationForm = (event) => dispatch => {
 
 export const getCurrentUser = () => dispatch => {
   dispatch(ACTIONS.currentUserLoading(true))
-  api.get('/api/users/current')
+  return api.get('/api/users/current')
     .then(user => {
       if (user !== '') {
         dispatch(ACTIONS.currentUserFetched(user))
@@ -39,4 +49,13 @@ export const getCurrentUser = () => dispatch => {
 
 export const loginWithOAuth = (client) => dispatch => {
   window.location.replace(`/oauth2/authorization/${client}`)
+}
+
+export const getUsersByPlace = (placeId) => dispatch => {
+  dispatch(ACTIONS.usersListByPlaceLoading(true))
+  api.get(`/api/users/place/${placeId}`).then(res => {
+    dispatch(ACTIONS.getUsersByPlace(res.content))
+  }).finally(() => {
+    dispatch(ACTIONS.usersListByPlaceLoading(false))
+  })
 }

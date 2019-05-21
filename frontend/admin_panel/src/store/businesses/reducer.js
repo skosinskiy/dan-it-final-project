@@ -6,10 +6,13 @@ const initialState = {
   businessListByTitle: [],
   changedBusinessList: [],
   page: 0,
+  size: 5,
   totalElements: 0,
 
   isBusinessesLoading: false,
-  error: null
+  isBusinessFormDataLoading: false,
+  error: null,
+  searchParam: ''
 }
 
 const businessReducer = (state = initialState, action) => {
@@ -24,13 +27,25 @@ const businessReducer = (state = initialState, action) => {
       return {
         ...state,
         businessList: action.payload.content,
-        totalElements: action.payload.totalElements
+        totalElements: action.payload.totalElements,
+        page: action.payload.pageable.pageNumber,
+        size: action.payload.pageable.pageSize
       }
     case TYPES.IS_BUSINESSES_LOADING:
       return {
         ...state,
         isBusinessesLoading: action.payload
 
+      }
+    case TYPES.IS_BUSINESS_FORM_DATA_LOADING:
+      return {
+        ...state,
+        isBusinessFormDataLoading: action.payload
+      }
+    case TYPES.SET_BUSINESS_SEARCH_PARAM:
+      return {
+        ...state,
+        searchParam: action.payload
       }
     default:
       return state

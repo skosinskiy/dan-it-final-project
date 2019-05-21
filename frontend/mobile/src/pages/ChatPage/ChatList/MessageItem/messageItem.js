@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { deleteMessage } from '../../../../store/chats/operations'
 import { connect } from 'react-redux'
+import './message-item.scss'
 
 class MessageItem extends Component {
   state = {
@@ -31,7 +32,7 @@ class MessageItem extends Component {
       <div key={message.id} className='chat-message'>
         {!myMsg &&
         <div className="chat-message__avatar-container">
-          <img src={message.user.photo} alt=" " className="chat-message__avatar"/>
+          <div>{`${(message.user.firstName.charAt(0) + message.user.lastName.charAt(0)).toUpperCase()}`}</div>
           {message.online ? <div className="chat-message__online"/> : null}
         </div>
         }

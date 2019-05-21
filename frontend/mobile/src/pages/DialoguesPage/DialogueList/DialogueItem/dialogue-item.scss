@@ -2,6 +2,11 @@
 
 .dialogue-list{
 
+  &__notifier{
+    display: flex;
+    justify-content: flex-end;
+  }
+
   &__item{
     display: flex;
     justify-content: space-between;
@@ -79,4 +84,9 @@
       transform: rotate(-135deg);
     }
   }
+}
+
+.chat-link {
+  color: black;
+  text-decoration: none;
 }

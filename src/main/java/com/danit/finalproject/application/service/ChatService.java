@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,29 @@ public class ChatService implements CrudService<Chat> {
 
   @Override
   public Chat create(Chat chat) {
-    return chatRepository.save(chat);
+    List<Chat> allChats = chatRepository.findAllByUsers(chat.getUsers().get(0));
+    if (allChats != null) {
+      for (Chat currentChat : allChats) {
+        if (currentChat.getUsers().size() == chat.getUsers().size()) {
+          for (User user : currentChat.getUsers()) {
+            if (user.getId() == chat.getUsers().get(1).getId()) {
+              return currentChat;
+            }
+          }
+        }
+      }
+    }
+    Chat newChat = chatRepository.save(chat);
+    newChat.setChatMessages(new ArrayList<>());
+    List<User> users = newChat.getUsers();
+    users.stream().forEach(user -> {
+      User currentUser = userRepository.findById(user.getId()).orElse(null);
+      List<Chat> chats = currentUser.getChats();
+      chats.add(newChat);
+      currentUser.setChats(chats);
+      userRepository.save(currentUser);
+    });
+    return newChat;
   }
 
   @Override
@@ -78,5 +101,10 @@ public class ChatService implements CrudService<Chat> {
     chatMessageRepository.delete(chatMessage);
     chatRepository.save(chat);
     return chat;
+  }
+
+  public List<Chat> getAllChatsForUser(Long userId) {
+    User user = userRepository.findById(userId).orElse(null);
+    return chatRepository.findAllByUsers(user);
   }
 }

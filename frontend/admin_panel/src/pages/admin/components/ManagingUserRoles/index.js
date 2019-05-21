@@ -6,7 +6,7 @@ class ManagingUserRoles extends Component {
   render () {
     return (
       <div>
-        <SearchBar searchtype='user_by_email' />
+        <SearchBar searchtype='user' />
         <UserTable />
       </div>
     )
