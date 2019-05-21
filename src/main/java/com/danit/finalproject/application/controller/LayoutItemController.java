@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LayoutItemController {
   @GetMapping
   public ResponseEntity<String> getAll() throws JsonProcessingException {
-    return new ResponseEntity<String> (new ObjectMapper().writeValueAsString(LayoutItem.values()),
+    return new ResponseEntity<>(new ObjectMapper().writeValueAsString(LayoutItem.values()),
         HttpStatus.OK);
   }
 }
