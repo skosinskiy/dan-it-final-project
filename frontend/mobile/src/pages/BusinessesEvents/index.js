@@ -71,6 +71,14 @@ class BusinessesEvents extends Component {
               {eventsList}
             </div>
           </div>
+          <div className="place-messages section">
+            <div className="place-messages_input">
+              something
+            </div>
+            <div className="place-messages_input">
+              something
+            </div>
+          </div>
         </div>
       </div>
     )
