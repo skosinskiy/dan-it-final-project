@@ -15,7 +15,8 @@ import MultiSelect from './components/MultiSelect'
 import Name from './components/Name'
 import './index.scss'
 import Grid from '@material-ui/core/Grid'
-import FormButtons from "components/FormButtons";
+import FormButtons from "components/FormButtons"
+import {Redirect} from 'react-router-dom'
 
 const styles = theme => ({
   root: {
@@ -31,6 +32,13 @@ const styles = theme => ({
 });
 
 class PlaceCategoryTable extends React.Component {
+
+  state = {isDataSubmitted: false}
+
+  processPutOrPost() {
+    this.setState({isDataSubmitted: true})
+    this.props.processPutOrPost()
+  }
 
   componentDidMount(){
     const matcher = window.location.pathname.match(/\d+$/)
@@ -56,6 +64,10 @@ class PlaceCategoryTable extends React.Component {
   }
 
   render() {
+
+    if (this.state.isDataSubmitted) {
+      return <Redirect to={'/admin/place-categories'}/>
+    }
 
     if (this.props.isLoading || this.props.isHttpRequestPending) {
       return <Preloader/>
@@ -116,14 +128,9 @@ class PlaceCategoryTable extends React.Component {
             </TableBody>
           </Table>
         </div>
-        {/* <div className='buttons'>
-          <SubmitButton />
-          <ResetButton />
-        </div> */}
         <Grid item xs={12}>
           <FormButtons
-           // saveFunction={(e) => this.updateEvent(e)}
-          saveFunction={this.props.processPutOrGet}
+          saveFunction={() => this.processPutOrPost()}
           cancelLink={'/admin/place-categories'}
           />
         </Grid>
@@ -140,7 +147,7 @@ PlaceCategoryTable.propTypes = {
   isLoading:  PropTypes.bool.isRequired,
   isHttpRequestPending: PropTypes.bool.isRequired,
   createOrGetPlaceCategory:  PropTypes.func.isRequired,
-  processPutOrGet:  PropTypes.func.isRequired,
+  processPutOrPost:  PropTypes.func.isRequired,
   availableBusinessCategories:  PropTypes.array.isRequired,
   availableLayoutItems:  PropTypes.array.isRequired,
 }
@@ -162,7 +169,7 @@ const mapDispatchToProps = dispatch => ({
   fetchParentBusinessCategories: () =>
     dispatch(placesCategoriesOperations.fetchParentBusinessCategories()),
   createOrGetPlaceCategory: (id) => dispatch(placesCategoriesOperations.createOrGetPlaceCategory(id)),
-  processPutOrGet: () => dispatch(placesCategoriesOperations.processPutOrGet()),
+  processPutOrPost: () => dispatch(placesCategoriesOperations.processPutOrPost()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PlaceCategoryTable))

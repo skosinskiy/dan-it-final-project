@@ -97,7 +97,7 @@ export const deleteItem = (key, container, deletedIds) => dispatch => {
 
 }
 
-export const processPutOrGet = () => dispatch => {
+export const processPutOrPost = () => dispatch => {
   const PROCESSORS = {PUT: requestPut, POST: requestPost} 
   const placeCategoryToProcess = store.getState().placeCategories.editedPlaceCategory
   const httpMethod = placeCategoryToProcess.id ? 'PUT' : 'POST'
