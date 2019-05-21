@@ -36,7 +36,7 @@ export const fetchLayoutItems = () => async dispatch => {
 }
 
 export const createOrGetPlaceCategory = id => async dispatch => {
-  dispatch(ACTIONS.isPlaceCategoryLoading(true));
+  dispatch(ACTIONS.isPlaceCategoryFormLoading(true));
   dispatch(fetchBusinessCategories())
   dispatch(fetchLayoutItems())
   if (id !== null) {
@@ -44,7 +44,7 @@ export const createOrGetPlaceCategory = id => async dispatch => {
     var placeCategory = fetchedCategory[0]
   }
   dispatch(ACTIONS.updateEditedPlaceCategory(createOrSetKey(placeCategory)))
-  dispatch(ACTIONS.isPlaceCategoryLoading(false));
+  dispatch(ACTIONS.isPlaceCategoryFormLoading(false));
 }
 
 const createOrSetKey = placeCategory => {

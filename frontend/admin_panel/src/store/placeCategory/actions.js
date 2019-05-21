@@ -5,8 +5,8 @@ export const isHttpRequestPending = isPending => ({
   payload: isPending
 })
 
-export const isPlaceCategoryLoading = isLoading => ({
-  type: TYPES.IS_PLACE_CATEGORY_LOADING,
+export const isPlaceCategoryFormLoading = isLoading => ({
+  type: TYPES.IS_PLACE_CATEGORY_FORM_LOADING,
   payload: isLoading
 })
 

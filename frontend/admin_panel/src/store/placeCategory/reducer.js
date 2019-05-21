@@ -31,7 +31,7 @@ function placeCategories(state = initialState, action) {
         ...state,
         isHttpRequestPending: action.payload
       }
-    case TYPES.IS_PLACE_CATEGORY_LOADING:
+    case TYPES.IS_PLACE_CATEGORY_FORM_LOADING:
       return {
         ...state,
         isPlaceCategoryFormLoading: action.payload
