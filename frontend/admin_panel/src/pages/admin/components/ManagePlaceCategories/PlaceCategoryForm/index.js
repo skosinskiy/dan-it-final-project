@@ -1,21 +1,21 @@
-import React, { Fragment } from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableRow from '@material-ui/core/TableRow';
-import Checkbox from '@material-ui/core/Checkbox';
-import { placesCategoriesOperations } from 'store/placeCategory'
+import Checkbox from '@material-ui/core/Checkbox'
+import { withStyles } from '@material-ui/core/styles'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableRow from '@material-ui/core/TableRow'
+import Preloader from 'components/Preloader'
+import PropTypes from 'prop-types'
+import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
-import SubmitButton from './components/Buttons/Submit'
-import Name from './components/Name'
-import MultiSelect from './components/MultiSelect'
+import { placesCategoriesOperations } from 'store/placeCategory'
+import Desciption from './components/Description'
 import { EnhancedTableHead } from './components/EnhancedTableHead'
+import MultiSelect from './components/MultiSelect'
+import Name from './components/Name'
 import './index.scss'
-import ResetButton from './components/Buttons/Reset'
-import Desciption from './components/Description';
-import Preloader from 'components/Preloader';
+import Grid from '@material-ui/core/Grid'
+import FormButtons from "../../../../../components/FormButtons";
 
 const styles = theme => ({
   root: {
@@ -116,10 +116,17 @@ class PlaceCategoryTable extends React.Component {
             </TableBody>
           </Table>
         </div>
-        <div className='buttons'>
+        {/* <div className='buttons'>
           <SubmitButton />
           <ResetButton />
-        </div>
+        </div> */}
+        <Grid item xs={12}>
+          <FormButtons
+           // saveFunction={(e) => this.updateEvent(e)}
+          saveFunction={() => undefined}
+          cancelLink={'/admin/place-categories'}
+          />
+        </Grid>
       </div>
     );
   }
