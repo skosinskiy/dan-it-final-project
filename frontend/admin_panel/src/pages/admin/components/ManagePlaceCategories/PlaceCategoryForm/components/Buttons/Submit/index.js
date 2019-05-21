@@ -42,7 +42,7 @@ const mapStateToProps = ({placeCategories}) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  saveAllChanges: (placeCategories) => dispatch(placesCategoriesOperations.saveAllChanges(placeCategories)),
+  saveAllChanges: (placeCategories) => dispatch(placesCategoriesOperations.processPutOrGet(placeCategories)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(SubmitButton))

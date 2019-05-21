@@ -15,7 +15,7 @@ import MultiSelect from './components/MultiSelect'
 import Name from './components/Name'
 import './index.scss'
 import Grid from '@material-ui/core/Grid'
-import FormButtons from "../../../../../components/FormButtons";
+import FormButtons from "components/FormButtons";
 
 const styles = theme => ({
   root: {
@@ -123,7 +123,7 @@ class PlaceCategoryTable extends React.Component {
         <Grid item xs={12}>
           <FormButtons
            // saveFunction={(e) => this.updateEvent(e)}
-          saveFunction={() => undefined}
+          saveFunction={this.props.processPutOrGet}
           cancelLink={'/admin/place-categories'}
           />
         </Grid>
@@ -140,6 +140,7 @@ PlaceCategoryTable.propTypes = {
   isLoading:  PropTypes.bool.isRequired,
   isHttpRequestPending: PropTypes.bool.isRequired,
   createOrGetPlaceCategory:  PropTypes.func.isRequired,
+  processPutOrGet:  PropTypes.func.isRequired,
   availableBusinessCategories:  PropTypes.array.isRequired,
   availableLayoutItems:  PropTypes.array.isRequired,
 }
@@ -161,6 +162,7 @@ const mapDispatchToProps = dispatch => ({
   fetchParentBusinessCategories: () =>
     dispatch(placesCategoriesOperations.fetchParentBusinessCategories()),
   createOrGetPlaceCategory: (id) => dispatch(placesCategoriesOperations.createOrGetPlaceCategory(id)),
+  processPutOrGet: () => dispatch(placesCategoriesOperations.processPutOrGet()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PlaceCategoryTable))

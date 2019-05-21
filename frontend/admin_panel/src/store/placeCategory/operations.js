@@ -97,30 +97,23 @@ export const deleteItem = (key, container, deletedIds) => dispatch => {
 
 }
 
-const getAllNew = ({ placeCategories }) => (
-  placeCategories.filter(placeCategory => !placeCategory.id)
-)
-
-export const saveAllChanges = placeCategories => dispatch => {
-  const requests = Array.of(
-    requestPost(placeCategories),
-    requestPut(placeCategories),
-    requestDelete(placeCategories)
-  )
-  preloadDecorator(dispatch)(requests)
+export const processPutOrGet = () => dispatch => {
+  const PROCESSORS = {PUT: requestPut, POST: requestPost} 
+  const placeCategoryToProcess = store.getState().placeCategories.editedPlaceCategory
+  const httpMethod = placeCategoryToProcess.id ? 'PUT' : 'POST'
+  preloadDecorator(dispatch)(PROCESSORS[httpMethod](placeCategoryToProcess))
     .then(() => dispatch(reloadData()))
 }
 
 const requestDelete = placeCategories => (
-  //getAllDeletedIds(placeCategories).map(id => endPoint.delete(id))
-  null
-)
-
-const requestPost = placeCategories => (
-  getAllNew(placeCategories).map(placeCategory => endPoint.post(placeCategory))
-)
-
-const requestPut = placeCategories => (
- // getAllEdited(placeCategories).map(placeCategory => endPoint.put(placeCategory.id, placeCategory))
+ // getAllDeletedIds(placeCategories).map(id => endPoint.delete(id))
  null
+)
+
+const requestPost = placeCategory => (
+  endPoint.post(placeCategory)
+)
+
+const requestPut = placeCategory => (
+  endPoint.put(placeCategory.id, placeCategory)
 )
