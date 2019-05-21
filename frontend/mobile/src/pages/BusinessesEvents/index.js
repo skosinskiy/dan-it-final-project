@@ -4,12 +4,17 @@ import { ReactComponent as Bee } from '../../img/icons/bee.svg'
 import SectionItem from './SectionItem'
 import MobileHeader from '../../components/MobileHeader'
 import bag from '../../img/icons/bag.svg'
+import TextareaAutosize from 'react-autosize-textarea'
 import './businesses-events.scss'
 import { getCurrentPlaceById } from '../../store/places/operations'
 import {getBusinessesByCategory} from '../../store/businesses/operations'
 import {getEventsByPLace} from '../../store/events/operations'
 
 class BusinessesEvents extends Component {
+  state = {
+    message: ''
+  }
+
   componentDidMount () {
     const {getEventsByPLace, getCurrentPlaceById} = this.props
     const placeId = +this.props.match.params.placeId
@@ -20,6 +25,19 @@ class BusinessesEvents extends Component {
   getBusinenessesByCategory (id) {
     const {getBusinessesByCategory} = this.props
     getBusinessesByCategory(id)
+  }
+
+  handleChange = (event) => {
+    this.setState({message: event.target.value})
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault()
+    if (this.state.message !== '') {
+      console.log(this.state.message)
+    } else {
+      console.log('err')
+    }
   }
 
   render () {
@@ -76,17 +94,17 @@ class BusinessesEvents extends Component {
               Leave a place message
             </h2>
             <div className="place-messages__input">
-              <form>
+              <form onSubmit={this.handleSubmit}>
                 <div className="place-messages__container">
-                  <textarea
-                    name="place-messages__text-area"
-                    id="pc"
+                  <TextareaAutosize
+                    className="place-messages__text-area"
+                    value={this.state.message}
+                    onChange={this.handleChange}
                     placeholder="Write a comment..."
-                    tabIndex="1"
-                    dir="auto"
+                    style={{resize: 'none'}}
                   />
                   <button className="place-messages__submit-btn">
-                    submit
+                    Submit
                   </button>
                 </div>
               </form>
@@ -99,7 +117,6 @@ class BusinessesEvents extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     businesses: state.businesses.businessesByCategory,
     events: state.events.events,

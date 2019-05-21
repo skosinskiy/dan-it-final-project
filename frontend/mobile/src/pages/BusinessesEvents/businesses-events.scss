@@ -88,22 +88,22 @@
   }
 
   &__text-area{
-    flex-direction: column;
-    height: 80px;
-    overflow: hidden;
-    white-space: pre-wrap;
-    overflow-wrap: break-word;
+    height: 98px;
+    margin: 4px 0;
+    padding: 3px 5px;
+    font-size: 18px;
     border-radius: 4px;
     cursor: text;
+    resize: none;
     -webkit-rtl-ordering: logical;
   }
 
   &__submit-btn{
     @include button-reset;
-    align-self: flex-start;
-    width: 55px;
-    height: 35px;
-    margin-top: 6px;
+    align-self: flex-end;
+    width: 75px;
+    height: 45px;
+    margin: 6px 0;
     background-color: $message-blue;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
