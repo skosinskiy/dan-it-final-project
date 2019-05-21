@@ -72,11 +72,24 @@ class BusinessesEvents extends Component {
             </div>
           </div>
           <div className="place-messages section">
-            <div className="place-messages_input">
-              something
-            </div>
-            <div className="place-messages_input">
-              something
+            <h2 className="section-title">
+              Leave a place message
+            </h2>
+            <div className="place-messages__input">
+              <form>
+                <div className="place-messages__container">
+                  <textarea
+                    name="place-messages__text-area"
+                    id="pc"
+                    placeholder="Write a comment..."
+                    tabIndex="1"
+                    dir="auto"
+                  />
+                  <button className="place-messages__submit-btn">
+                    submit
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
