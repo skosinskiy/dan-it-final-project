@@ -12,7 +12,6 @@ import SubmitButton from './components/Buttons/Submit'
 import Name from './components/Name'
 import MultiSelect from './components/MultiSelect'
 import { EnhancedTableHead } from './components/EnhancedTableHead'
-import EnhancedTableToolbar from './components/EnhancedTableToolbar'
 import './index.scss'
 import ResetButton from './components/Buttons/Reset'
 import Desciption from './components/Description';
@@ -68,7 +67,6 @@ class PlaceCategoryTable extends React.Component {
     const emptyRows = 1;
     return (
       <div className={classes.root}>
-        {/* <EnhancedTableToolbar /> */}
         <div className={classes.tableWrapper}>
           <Table className={classes.table} aria-labelledby="tableTitle">
             <EnhancedTableHead

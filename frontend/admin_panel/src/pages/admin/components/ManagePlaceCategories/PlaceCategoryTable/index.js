@@ -64,7 +64,7 @@ class PlaceCategories extends Component {
           <TableBody>
             {placeCategories.map(placeCategory => {
               const {multisync, allowMessages, layoutItems, businessCategories: selectedBusinessCategories,
-                name, description} = placeCategory
+                name, description, id} = placeCategory
                 return (
                 <TableRow key={placeCategory.id} hover>
                 <TableCell component="th" scope="row" padding="checkbox">
@@ -78,9 +78,8 @@ class PlaceCategories extends Component {
                 <TableCell>{selectedBusinessCategories.map(businessCategory => businessCategory.name).join(', ')}</TableCell>
                 <TableCell>{layoutItems.join(', ')}</TableCell>
                 <TableCellButtons
-                  // editLink={`/admin/event-categories/${eventCategory.id}`}
+                  editLink={`/admin/place-categories/${id}`}
                   // deleteFunction={() => deleteEventCategory(eventCategory.id)}
-                  editLink={`#`}
                   deleteFunction={() => undefined}
                 />
               </TableRow>
