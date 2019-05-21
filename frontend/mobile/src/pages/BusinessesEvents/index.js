@@ -9,6 +9,7 @@ import './businesses-events.scss'
 import { getCurrentPlaceById } from '../../store/places/operations'
 import {getBusinessesByCategory} from '../../store/businesses/operations'
 import {getEventsByPLace} from '../../store/events/operations'
+import api from '../../helpers/FetchData'
 
 class BusinessesEvents extends Component {
   state = {
@@ -22,7 +23,7 @@ class BusinessesEvents extends Component {
     getEventsByPLace(placeId)
   }
 
-  getBusinenessesByCategory (id) {
+  getBusinessesByCategory (id) {
     const {getBusinessesByCategory} = this.props
     getBusinessesByCategory(id)
   }
@@ -33,8 +34,11 @@ class BusinessesEvents extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    if (this.state.message !== '') {
-      console.log(this.state.message)
+    const { message } = this.state
+    if (message !== '') {
+      api.post('/api/messages', message).then(res => {
+        console.log(res)
+      })
     } else {
       console.log('err')
     }
@@ -54,7 +58,7 @@ class BusinessesEvents extends Component {
     if (isLoaded) {
       menuItems = currentPlaceById.placeCategory.businessCategories.map(item => {
         return (
-          <li key={item.id} className="menu-item" onClick={() => this.getBusinenessesByCategory(item.id)}>
+          <li key={item.id} className="menu-item" onClick={() => this.getBusinessesByCategory(item.id)}>
             <div className="menu-item_icon"><img src={item.imageUrl} alt={item.name}/></div>
             <div className="menu-item_text">{item.name}</div>
           </li>
