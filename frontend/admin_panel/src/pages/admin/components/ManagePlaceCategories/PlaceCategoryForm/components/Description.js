@@ -14,9 +14,7 @@ class Desciption extends Component {
   
   handleChangedDescription = (event, key) => {
     if (event.target.oldValue !== event.target.value){
-      const {updateChanged, placeCategories, updateDescription} = this.props
-      updateChanged(key, placeCategories)
-      updateDescription(key, placeCategories, event.target.value)
+      this.props.updateDescription(event.target.value)
     }
   }
 
@@ -50,19 +48,11 @@ class Desciption extends Component {
 Desciption.propTypes = {
   _Key: PropTypes.number.isRequired,
   description: PropTypes.string,
-  updateChanged: PropTypes.func.isRequired,
-  placeCategories: PropTypes.array.isRequired,
   updateDescription: PropTypes.func.isRequired,
 }
 
-const mapStateToProps = ({ placeCategories }) => ({
-  placeCategories: placeCategories.placeCategories,
-})
-
 const mapDispatchToProps = dispatch => ({
-  updateChanged: (key, placeCategories) => dispatch(placesCategoriesOperations.updateChanged(key, placeCategories)),
-  updateDescription: (key, placeCategories, value) =>
-    dispatch(placesCategoriesOperations.updateDescription(key, placeCategories, value))
+  updateDescription: value => dispatch(placesCategoriesOperations.updateDescription(value))
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Desciption)
+export default connect(null, mapDispatchToProps)(Desciption)

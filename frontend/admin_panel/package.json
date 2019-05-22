@@ -21,20 +21,21 @@
     "react-scripts": "2.1.5",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
-    "styled-components": "3.3.0"
+    "styled-components": "3.3.0",
+    "typescript": "^3.4.5"
   },
   "devDependencies": {
     "@types/node": "^11.11.4",
+    "eslint": "^5.15.3",
+    "eslint-plugin-react": "^7.12.4",
     "node-sass": "^4.11.0",
     "npm-run-all": "^4.1.1",
     "npm-watch": "^0.3.0",
     "redux-devtools-extension": "^2.13.8",
     "standard": "^10.0.3",
-    "stylelint": "^8.4.0",
+    "stylelint": "^9.10.1",
     "stylelint-config-rational-order": "0.0.2",
-    "stylelint-order": "^2.0.0",
-    "eslint": "^5.15.3",
-    "eslint-plugin-react": "^7.12.4"
+    "stylelint-order": "^2.0.0"
   },
   "watch": {
     "stylelint-dev": {
