@@ -12,6 +12,7 @@ public class PlaceCategoryRequest {
   private String name;
   private boolean multisync;
   private boolean allowMessages;
+  private boolean shouldAddPairedUsers;
   private List<BusinessCategoryRequest> businessCategories;
   private String description;
   private List<LayoutItem> layoutItems;
