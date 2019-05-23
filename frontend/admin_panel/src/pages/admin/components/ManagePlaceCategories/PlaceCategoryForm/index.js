@@ -49,6 +49,7 @@ class PlaceCategoryTable extends React.Component {
   checkBoxTypes = {
     MULTISYNC: 'multisync',
     ALLOW_MESSAGES: 'allowMessages',
+    SHOULD_ADD_PAIRED_USERS: 'shouldAddPairedUsers',
   }
 
   handleClickCheckBox = checkBoxType => {
@@ -63,6 +64,10 @@ class PlaceCategoryTable extends React.Component {
     this.handleClickCheckBox(this.checkBoxTypes.ALLOW_MESSAGES)
   }
 
+  handleClickShouldAddPairedUsers = () => {
+    this.handleClickCheckBox(this.checkBoxTypes.SHOULD_ADD_PAIRED_USERS)
+  }
+
   render() {
 
     if (this.state.isDataSubmitted) {
@@ -74,7 +79,7 @@ class PlaceCategoryTable extends React.Component {
     }
 
     const {classes, availableBusinessCategories, availableLayoutItems} = this.props
-    const {multisync, allowMessages, layoutItems, businessCategories: selectedBusinessCategories, name, key,
+    const {multisync, allowMessages, shouldAddPairedUsers, layoutItems, businessCategories: selectedBusinessCategories, name, key,
       description} = this.props.editedPlaceCategory
     const emptyRows = 1;
     return (
@@ -98,6 +103,10 @@ class PlaceCategoryTable extends React.Component {
                       </TableCell>
                       <TableCell padding="checkbox">
                         <Checkbox checked={allowMessages} onClick={() => this.handleClickAllowMessages(key)} />
+                      </TableCell>
+                      <TableCell padding="checkbox">
+                        <Checkbox checked={shouldAddPairedUsers}
+                        onClick={() => this.handleClickShouldAddPairedUsers(key)} />
                       </TableCell>
                       <TableCell scope="row" padding="none">
                         <Name name={name} placeCategoryKey={key} />
@@ -162,12 +171,7 @@ const mapStateToProps = ({ placeCategories }) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  updateChanged: (key, placeCategories) =>
-    dispatch(placesCategoriesOperations.updateChanged(key, placeCategories)),
-  toggleCheckBox: (key, checkBoxType, placeCategories) =>
-    dispatch(placesCategoriesOperations.toggleCheckBox(key, checkBoxType, placeCategories)),
-  fetchParentBusinessCategories: () =>
-    dispatch(placesCategoriesOperations.fetchParentBusinessCategories()),
+  toggleCheckBox: (key, checkBoxType) => dispatch(placesCategoriesOperations.toggleCheckBox(key, checkBoxType)),
   createOrGetPlaceCategory: (id) => dispatch(placesCategoriesOperations.createOrGetPlaceCategory(id)),
   processPutOrPost: () => dispatch(placesCategoriesOperations.processPutOrPost()),
 })

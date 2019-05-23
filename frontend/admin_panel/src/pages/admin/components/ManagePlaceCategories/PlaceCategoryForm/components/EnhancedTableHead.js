@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 
 const rows = [
   { id: 'allowMessages', numeric: false, disablePadding: false, label: 'Allow Messages?' },
+  { id: 'shouldAddPairedUsers', numeric: false, disablePadding: false, label: 'Add paired users contacts?' },
   { id: 'name', numeric: false, disablePadding: false, label: 'Name' },
   { id: 'businessCategories', numeric: false, disablePadding: false, label: 'BusinessCategories' },
   { id: 'layoutItems', numeric: false, disablePadding: false, label: 'LayoutItems' },
