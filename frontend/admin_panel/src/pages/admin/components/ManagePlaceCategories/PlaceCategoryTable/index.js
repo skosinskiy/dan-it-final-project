@@ -19,7 +19,6 @@ const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3
   },
-
   table: {
     tableLayout: 'fixed'
   }
@@ -40,6 +39,7 @@ class PlaceCategories extends Component {
     const rows = [
       { id: 'multisync', label: 'Is Multisync?' },
       { id: 'allowMessages', label: 'Allow Messages?' },
+      { id: 'shouldAddPairedUsers', label: 'Add paired users contacts?' },
       { id: 'name', label: 'Name' },
       { id: 'description', grow: 2, label: 'Description' },
       { id: 'businessCategories', label: 'BusinessCategories' },
@@ -63,8 +63,8 @@ class PlaceCategories extends Component {
           </TableHead>
           <TableBody>
             {placeCategories.map(placeCategory => {
-              const {multisync, allowMessages, layoutItems, businessCategories: selectedBusinessCategories,
-                name, description, id} = placeCategory
+              const {multisync, allowMessages, shouldAddPairedUsers, layoutItems,
+                businessCategories: selectedBusinessCategories, name, description, id} = placeCategory
                 return (
                 <TableRow key={placeCategory.id} hover>
                 <TableCell component="th" scope="row" padding="checkbox">
@@ -72,6 +72,9 @@ class PlaceCategories extends Component {
                 </TableCell>
                 <TableCell component="th" scope="row" padding="checkbox">
                   <Checkbox checked={allowMessages} disabled/>
+                </TableCell>
+                <TableCell component="th" scope="row" padding="checkbox">
+                  <Checkbox checked={shouldAddPairedUsers} disabled/>
                 </TableCell>
                 <TableCell>{name}</TableCell>
                 <TableCell>{description}</TableCell>

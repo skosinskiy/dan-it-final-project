@@ -34,6 +34,9 @@ public class PlaceCategory extends BaseEntity {
   @Column(name = "allow_messages")
   private boolean allowMessages;
 
+  @Column(name = "should_add_paired_users")
+  private boolean shouldAddPairedUsers;
+
   @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
   @JoinTable(name = "placecategories_businesscategories",
       joinColumns = {@JoinColumn(name = "place_category_id")},

@@ -13,6 +13,7 @@ public class PlaceCategoryResponse {
   private String name;
   private boolean multisync;
   private boolean allowMessages;
+  private boolean shouldAddPairedUsers;
   private List<BusinessCategoryResponse> businessCategories;
   private String description;
   private List<LayoutItem> layoutItems;
