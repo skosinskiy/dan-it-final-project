@@ -19,7 +19,7 @@ class ContactItem extends Component {
   render () {
     const {item, location} = this.props
     return (
-      <NavLink to={`/messages/new`} className="chat-link">
+      <NavLink to={`/mobile/messages/new`} className="chat-link">
         <li onClick={() => this.createChat(item)} className='contact-list__item'>
           <div className='contact-list__img-container'>
             <div>{`${(item.firstName.charAt(0) + item.lastName.charAt(0)).toUpperCase()}`}</div>

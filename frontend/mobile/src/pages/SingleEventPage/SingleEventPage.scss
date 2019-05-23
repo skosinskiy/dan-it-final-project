@@ -1,0 +1,120 @@
+.bp {
+
+  &-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 60vh;
+    padding: 0 20px;
+    color: #363636;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+      }
+  &-place-photo-wrapper {
+    display: flex;
+    justify-content: space-between;
+  }
+  &_back-btn {
+    color: #363636;
+    font-size: 24px;
+    text-decoration: none;
+
+    &::before {
+      display: inline-block;
+      content: '';
+      width: 15px;
+      height: 15px;
+      vertical-align: middle;
+      border-top: 3px solid #3bb7c7;
+      border-left: 3px solid #3bb7c7;
+      transform: rotate(-45deg);
+    }
+  }
+
+  &__title {
+    margin-top: 20px;
+    font-size: 24px;
+    text-transform: uppercase;
+  }
+
+  &-info {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    margin-top: 20px;
+    &_text {
+      margin-top: 10px;
+      margin-left: 10px;
+      text-align: left;
+
+      &__description {
+        font-family: 'Roboto', sans-serif;
+
+        &::before {
+          content: 'Description:';
+          margin-right: 10px;
+        }
+      }
+      &__address {
+        font-family: 'Roboto', sans-serif;
+
+        &::before {
+          content: 'Address:';
+          display: block;
+          margin-right: 10px;
+          font-weight: bold;
+        }
+      }
+      &__phone {
+        margin-top: 10px;
+        margin-right: 20px;
+        &::before {
+          content: "☎";
+          margin-right: 2px;
+        }
+      }
+
+      &__site {
+        display: block;
+        margin-top: 10px;
+      }
+    }
+    &__photo {
+      width: 150px;
+      height: 150px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      border: 2px solid #0fb9f1;
+      border-radius: 50px;
+    }
+    &__categories {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-top: 10px;
+    }
+  }
+  &-places {
+    display: flex;
+    flex-basis: 45%;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &__item {
+      font-weight: bold;
+      text-align: left;
+    }
+  }
+  &-photos {
+    display: flex;
+    flex-basis: 45%;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &_description {
+    margin: 10px 0 ;
+    text-align: left;
+  }
+}

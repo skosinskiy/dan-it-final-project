@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ReactComponent as Bee } from '../../img/icons/bee.svg'
 import SectionItem from './SectionItem'
 import MobileHeader from '../../components/MobileHeader'
 import bag from '../../img/icons/bag.svg'
 import './businesses-events.scss'
 import { getCurrentPlaceById } from '../../store/places/operations'
-import {getBusinessesByCategory} from '../../store/businesses/operations'
-import {getEventsByPLace} from '../../store/events/operations'
+import { getBusinessesByCategory } from '../../store/businesses/operations'
+import { getEventsByPLace } from '../../store/events/operations'
 
 class BusinessesEvents extends Component {
   componentDidMount () {
@@ -25,10 +24,10 @@ class BusinessesEvents extends Component {
   render () {
     const {businesses, events, currentPlaceById, isLoaded} = this.props
     const businessesList = businesses.map(item => {
-      return <SectionItem key={item.id} item={item}/>
+      return <SectionItem key={item.id} item={item} type={'businesses'}/>
     })
     const eventsList = events.map(item => {
-      return <SectionItem key={item.id} item={item}/>
+      return <SectionItem key={item.id} item={item} type={'events'}/>
     })
     const bgImageURL = 'https://i.lb.ua/121/60/5b1501c46a520.jpeg'
 
@@ -37,7 +36,7 @@ class BusinessesEvents extends Component {
       menuItems = currentPlaceById.placeCategory.businessCategories.map(item => {
         return (
           <li key={item.id} className="menu-item" onClick={() => this.getBusinenessesByCategory(item.id)}>
-            <div className="menu-item_icon"><img src={item.imageUrl} alt={item.name}/></div>
+            <div className="menu-item_icon" style={{backgroundImage: `url(${item.imageUrl})`}}></div>
             <div className="menu-item_text">{item.name}</div>
           </li>
         )
@@ -65,7 +64,6 @@ class BusinessesEvents extends Component {
           <div className="events section">
             <div className="section-header">
               <h2 className="section-title">Events</h2>
-              <div className="side-icon"><Bee/></div>
             </div>
             <div className="section-list">
               {eventsList}

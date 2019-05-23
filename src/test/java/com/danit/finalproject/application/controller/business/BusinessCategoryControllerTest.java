@@ -66,7 +66,7 @@ public class BusinessCategoryControllerTest {
   @Test
   public void getBusinessCategoryById() throws Exception {
     Long expectedId = 1L;
-    String expectedName = "business-category-1";
+    String expectedName = "Food";
 
     MvcResult result = mockMvc.perform(get("/api/business-categories/1"))
         .andReturn();
@@ -81,7 +81,7 @@ public class BusinessCategoryControllerTest {
   @Test
   public void getAllCategories() throws Exception {
     int expectedSize = 3;
-    String secondCategoryName = "business-category-2";
+    String secondCategoryName = "Service";
 
     MvcResult result = mockMvc.perform(get("/api/business-categories"))
         .andReturn();
@@ -99,7 +99,7 @@ public class BusinessCategoryControllerTest {
   @Test
   public void getAllParentCategories() throws Exception {
     int expectedSize = 2;
-    String firstParentBusinessCategoryName = "business-category-1";
+    String firstParentBusinessCategoryName = "Food";
 
     MvcResult result = mockMvc.perform(get("/api/business-categories/all-parent"))
         .andReturn();
