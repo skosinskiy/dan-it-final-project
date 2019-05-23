@@ -87,11 +87,11 @@ VALUES
 -- place
 
 INSERT INTO places_categories
-  (id, date_created, date_modified, name, description, multisync, allow_messages)
+  (id, date_created, date_modified, name, description, multisync, allow_messages, should_add_paired_users)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Home', 'this is test description for cat 1', 1, 0),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Office', 'this is test description for cat 2', 0, 1),
-  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Mall', 'this is test description for cat 1', 1, 0);
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Home', 'this is test description for cat 1', 1, 0, 1),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Office', 'this is test description for cat 2', 0, 1, 0),
+  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Mall', 'this is test description for cat 1', 1, 0, 0);
 
 INSERT INTO place_category_layout_items
   (place_category_id, layout_item_id)
@@ -133,9 +133,9 @@ VALUES
 INSERT INTO business_categories
   (id, date_created, date_modified, name, parent_category_id, image_key)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-1', null, 'imageKey'),
-  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-2', 1, null ),
-  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'business-category-3', null, 'imageKey2');
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Food', null, 'imageKey'),
+  (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Service', 1, null ),
+  (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Fun', null, 'imageKey2');
 
 INSERT INTO placecategories_businesscategories
   (place_category_id, business_category_id)

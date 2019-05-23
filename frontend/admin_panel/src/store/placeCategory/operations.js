@@ -50,6 +50,7 @@ const createOrSetKey = placeCategory => {
     placeCategory = {
       multisync: false,
       allowMessages: false,
+      shouldAddPairedUsers: false,
       name: "Display Name",
       description: "Enter your desription here",
       businessCategories: [],

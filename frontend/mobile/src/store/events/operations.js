@@ -6,3 +6,12 @@ export const getEventsByPLace = (placeId) => dispatch => {
     dispatch(ACTIONS.getEventsByPlace({events: res.content}))
   })
 }
+
+export const getEventById = (eventId) => dispatch => {
+  dispatch(ACTIONS.eventIsLoading(true))
+  api.get(`/api/events/${eventId}`).then(res => {
+    dispatch(ACTIONS.getEventById(res))
+  }).finally(() => {
+    dispatch(ACTIONS.eventIsLoading(false))
+  })
+}

@@ -7,8 +7,8 @@ import bag from '../../img/icons/bag.svg'
 import TextareaAutosize from 'react-autosize-textarea'
 import './businesses-events.scss'
 import { getCurrentPlaceById } from '../../store/places/operations'
-import {getBusinessesByCategory} from '../../store/businesses/operations'
-import {getEventsByPLace} from '../../store/events/operations'
+import { getBusinessesByCategory } from '../../store/businesses/operations'
+import { getEventsByPLace } from '../../store/events/operations'
 import api from '../../helpers/FetchData'
 
 class BusinessesEvents extends Component {
@@ -47,10 +47,10 @@ class BusinessesEvents extends Component {
   render () {
     const {businesses, events, currentPlaceById, isLoaded} = this.props
     const businessesList = businesses.map(item => {
-      return <SectionItem key={item.id} item={item}/>
+      return <SectionItem key={item.id} item={item} type={'businesses'}/>
     })
     const eventsList = events.map(item => {
-      return <SectionItem key={item.id} item={item}/>
+      return <SectionItem key={item.id} item={item} type={'events'}/>
     })
     const bgImageURL = 'https://i.lb.ua/121/60/5b1501c46a520.jpeg'
 
