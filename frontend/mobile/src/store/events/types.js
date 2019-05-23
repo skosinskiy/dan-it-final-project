@@ -1,1 +1,3 @@
 export const GET_EVENTS_BY_PLACE = 'GET_EVENTS_BY_PLACE'
+export const GET_EVENT_BY_ID = 'GET_EVENT_BY_ID'
+export const EVENT_IS_LOADING = 'EVENT_IS_LOADING'

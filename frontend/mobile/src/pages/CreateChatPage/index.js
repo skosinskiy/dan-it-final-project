@@ -91,7 +91,7 @@ class CreateChatPage extends Component {
           autoFocus
           options={data}
         />
-        <NavLink to={`/messages`}>
+        <NavLink to={`/mobile/messages`}>
           <button
             className="create-chat__submit-button"
             type='button'

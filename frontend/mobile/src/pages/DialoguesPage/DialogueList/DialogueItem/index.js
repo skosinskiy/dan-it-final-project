@@ -23,7 +23,7 @@ class DialoguesItem extends Component {
     const messageDate = createdDate.slice(0, 10) + ' ' + createdDate.slice(11, 16)
     const chatImg = image || icon1
     return (
-      <NavLink to={`/messages/${id}`} className="chat-link">
+      <NavLink to={`/mobile/messages/${id}`} className="chat-link">
         <li className='dialogue-list__item'>
           <div className='dialogue-list__img-content-flexb'>
             <div className='dialogue-list__img-container'>

@@ -1,11 +1,10 @@
-import React, {Component} from 'react'
-import {NavLink, withRouter} from 'react-router-dom'
-import {ReactComponent as PlacesLogo} from '../../img/BottomMenu/places.svg'
-import {ReactComponent as NewsLogo} from '../../img/BottomMenu/news.svg'
-import {ReactComponent as MessagesLogo} from '../../img/BottomMenu/message.svg'
-import {ReactComponent as FavouritesLogo} from '../../img/BottomMenu/favourites.svg'
-import {ReactComponent as MoreLogo} from '../../img/BottomMenu/more.svg'
-import {ReactComponent as MapLogo} from '../../img/BottomMenu/map.svg'
+import React, { Component } from 'react'
+import { NavLink, withRouter } from 'react-router-dom'
+import { ReactComponent as PlacesLogo } from '../../img/BottomMenu/places.svg'
+import { ReactComponent as NewsLogo } from '../../img/BottomMenu/news.svg'
+import { ReactComponent as MessagesLogo } from '../../img/BottomMenu/message.svg'
+import { ReactComponent as MoreLogo } from '../../img/BottomMenu/more.svg'
+import { ReactComponent as MapLogo } from '../../img/BottomMenu/map.svg'
 import './index.scss'
 
 class BottomMenu extends Component {
@@ -32,12 +31,6 @@ class BottomMenu extends Component {
           <NavLink to="/mobile/messages" className={`link ${path.startsWith('/mobile/messages') && 'fill'}`}>
             <MessagesLogo className="logo"/>
             <p className="text">Messages</p>
-          </NavLink>
-        </div>
-        <div className="item">
-          <NavLink to="/mobile/favourites" className={`link ${path.startsWith('/mobile/favourites') && 'fill'}`}>
-            <FavouritesLogo className="logo"/>
-            <p className="text">Favourites</p>
           </NavLink>
         </div>
         <div className="item">

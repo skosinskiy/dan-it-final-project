@@ -1,6 +1,5 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import './mobileHeader.scss'
-import {ReactComponent as Camera} from '../../img/NewsPage/camera.svg'
 
 class ParallaxHeader extends Component {
   render () {
@@ -16,8 +15,6 @@ class ParallaxHeader extends Component {
       <div className='parallax-section header' style={style} >
         <div className='header__outer-wrapper'>
           <div className='header__cam-container'>
-            <Camera />
-            <a href=' ' className='header__menu' > </a>
           </div>
           <div className='header__text-container' style={iconStyle}>
             <p className='header__title'>{this.props.header}</p>
