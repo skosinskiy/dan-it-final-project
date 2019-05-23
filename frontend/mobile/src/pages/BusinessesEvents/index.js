@@ -34,14 +34,23 @@ class BusinessesEvents extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
+    const { currentUser } = this.props
     const { message } = this.state
     if (message !== '') {
-      api.post('/api/messages', message).then(res => {
+      api.post('/api/messages', { message: message, currentUser }).then(res => {
         console.log(res)
       })
     } else {
       console.log('err')
     }
+  }
+
+  testGet = (event) => {
+    event.preventDefault()
+    const placeId = +this.props.match.params.placeId
+    api.get(`/api/messages?id=${6}`).then(res => {
+      console.log(res)
+    })
   }
 
   render () {
@@ -112,6 +121,9 @@ class BusinessesEvents extends Component {
                   </button>
                 </div>
               </form>
+              <button className="place-messages__submit-btn" onClick={this.testGet}>
+                get
+              </button>
             </div>
           </div>
         </div>
@@ -122,6 +134,7 @@ class BusinessesEvents extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    currentUser: state.users.currentUser,
     businesses: state.businesses.businessesByCategory,
     events: state.events.events,
     currentPlaceById: state.places.currentPlaceById,

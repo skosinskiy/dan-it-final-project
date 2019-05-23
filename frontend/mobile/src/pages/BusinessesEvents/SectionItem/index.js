@@ -9,7 +9,7 @@ class SectionItem extends Component {
     return (
       <NavLink to={`/mobile/${type}/${item.id}`} className="item-link">
         <div className="section-item">
-          <div className="section-item_img" style={{backgroundImage: `url(${image})`}}></div>
+          <div className="section-item_img" style={{backgroundImage: `url(${image})`}} />
           <div className="section-item_text">
             <div className="section-item_title">{item.title}</div>
             <div className="section-item_address">{item.address}</div>

@@ -48,7 +48,7 @@ class SingleBusinessPage extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state) => {
   return {
     businessItem: state.businesses.currentBusiness,
     businessIsLoading: state.businesses.businessIsLoading,
