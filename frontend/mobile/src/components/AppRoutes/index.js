@@ -9,6 +9,8 @@ import SelectBuildings from '../../pages/SelectBuildings'
 import DialoguesPage from '../../pages/DialoguesPage'
 import CreateChatPage from '../../pages/CreateChatPage'
 import ChatPage from '../../pages/ChatPage'
+import SingleBusinessPage from '../../pages/SingleBusinessPage'
+import SingleEventPage from '../../pages/SingleEventPage'
 import * as PropTypes from 'prop-types'
 
 import {connect} from 'react-redux'
@@ -34,6 +36,8 @@ const AppRoutes = (props) => {
         <Route path="/mobile/favourites" component={BusinessesEvents} />
         <Route path="/mobile/contacts" component={ContactsPage} />
         <Route path="/mobile/map" component={MapPage} />
+        <Route path="/mobile/businesses/:businessId" component={SingleBusinessPage} />
+        <Route path="/mobile/events/:eventId" component={SingleEventPage} />
         <ProtectedRoute path="/mobile" component={SelectBuildings} authenticated={!!currentUser}/>
       </Switch>
       {bottomMenu}

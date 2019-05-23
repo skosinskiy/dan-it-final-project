@@ -53,7 +53,7 @@ class ChatPage extends Component {
       if (!isLoaded) {
         return <Preloader/>
       }
-      return <Redirect to={`/messages/${currentChat.id}`}/>
+      return <Redirect to={`/mobile/messages/${currentChat.id}`}/>
     }
 
     if (!isLoaded || isCurrentUserLoading) {

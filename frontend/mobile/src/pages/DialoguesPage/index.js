@@ -27,7 +27,7 @@ class DialoguesPage extends Component {
           <a href=' ' className='dialogue-page__header-menu' > </a>
         </div>
         <DialogueList dialogues={curentUserChats} />
-        <NavLink to={'create-chat'}><BlueButton /></NavLink>
+        <NavLink to={'/mobile/create-chat'}><BlueButton /></NavLink>
       </div>
     )
   }

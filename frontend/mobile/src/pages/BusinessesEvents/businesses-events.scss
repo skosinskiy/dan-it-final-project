@@ -9,7 +9,7 @@
 
   .menu {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     margin: 10px 15px 38px;
     padding-left: 0;
     overflow-x: scroll;
@@ -33,7 +33,11 @@
       }
 
       .menu-item_icon {
+        width: 30px;
         height: 30px;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
       }
     }
   }

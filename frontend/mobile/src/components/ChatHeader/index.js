@@ -7,7 +7,7 @@ class ChatHeader extends Component {
     const {title} = this.props
     return (
       <div className="chat-header">
-        <NavLink to={`/messages`} className="back-btn-link"><button className="chat-header__back-button" type="button">Back</button></NavLink>
+        <NavLink to={`/mobile/messages`} className="back-btn-link"><button className="chat-header__back-button" type="button">Back</button></NavLink>
         <span className="chat-header__header-title">{title}</span>
         <div className="chat-header__envelope-icon" />
       </div>
