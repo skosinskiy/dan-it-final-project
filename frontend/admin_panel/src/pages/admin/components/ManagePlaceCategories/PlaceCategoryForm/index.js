@@ -152,7 +152,6 @@ PlaceCategoryTable.propTypes = {
   classes: PropTypes.object.isRequired,
   editedPlaceCategory: PropTypes.object.isRequired,
   toggleCheckBox: PropTypes.func.isRequired,
-  fetchParentBusinessCategories: PropTypes.func.isRequired,
   isLoading:  PropTypes.bool.isRequired,
   isHttpRequestPending: PropTypes.bool.isRequired,
   createOrGetPlaceCategory:  PropTypes.func.isRequired,
