@@ -35,10 +35,10 @@ public class PlaceMessageController {
     return new ResponseEntity<>(placeMessageFacade.getAllByParam(placeId), HttpStatus.OK);
   }
 
-  @DeleteMapping("place/{placeId}")
+  @DeleteMapping("{placeMessageId}")
   @JsonView(View.Chat.class)
-  public ResponseEntity<PlaceMessageResponse> deletePlaceMessage(@PathVariable Long placeId) {
-    return new ResponseEntity<>(placeMessageFacade.delete(placeId), HttpStatus.OK);
+  public ResponseEntity<PlaceMessageResponse> deletePlaceMessage(@PathVariable Long placeMessageId) {
+    return new ResponseEntity<>(placeMessageFacade.delete(placeMessageId), HttpStatus.OK);
   }
 
   @PostMapping("place/{placeId}")
