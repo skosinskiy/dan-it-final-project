@@ -36,7 +36,7 @@ public class Business extends BaseEntity {
   @Column(name = "description")
   private String description;
 
-  @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+  @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
   @JoinTable(name = "businesses_categories",
           joinColumns = {@JoinColumn(name = "business_id")},
           inverseJoinColumns = {@JoinColumn(name = "category_id")})
