@@ -23,8 +23,7 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
   public PlaceMessageService(
       PlaceMessageRepository placeMessageRepository,
       UserService userService,
-      PlaceService placeService
-      ) {
+      PlaceService placeService) {
     this.placeMessageRepository = placeMessageRepository;
     this.placeService = placeService;
     this.userService = userService;
