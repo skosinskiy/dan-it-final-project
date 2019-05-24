@@ -37,7 +37,7 @@ class BusinessesEvents extends Component {
     const placeId = +this.props.match.params.placeId
     const { message } = this.state
     if (message !== '') {
-      api.post('/api/place-messages', {place: placeId}).then(res => {
+      api.post(`/api/place-messages/place/${placeId}`, { message: message }).then(res => {
         console.log(res)
       })
     } else {
@@ -48,7 +48,14 @@ class BusinessesEvents extends Component {
   testGet = (event) => {
     event.preventDefault()
     const placeId = +this.props.match.params.placeId
-    api.get(`/api/place-messages`).then(res => {
+    api.get(`/api/place-messages?placeId=${placeId}`).then(res => {
+      console.log(res)
+    })
+  }
+
+  testDel = (event) => {
+    event.preventDefault()
+    api.deleteApi(`/api/place-messages/7`).then(res => {
       console.log(res)
     })
   }
@@ -123,6 +130,9 @@ class BusinessesEvents extends Component {
               </form>
               <button className="place-messages__submit-btn" onClick={this.testGet}>
                 get
+              </button>
+              <button className="place-messages__submit-btn" onClick={this.testDel}>
+                del
               </button>
             </div>
           </div>
