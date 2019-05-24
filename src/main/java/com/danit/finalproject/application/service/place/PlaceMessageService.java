@@ -63,7 +63,9 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
 
   @Override
   public PlaceMessage delete(Long id) {
-    return null;
+    PlaceMessage placeMessage = getById(id);
+    placeMessageRepository.delete(placeMessage);
+    return placeMessage;
   }
 
   public List<PlaceMessage> getAllByParam(Long placeId) {
