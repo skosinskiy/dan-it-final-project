@@ -35,15 +35,18 @@ public class PlaceMessageController {
     return new ResponseEntity<>(placeMessageFacade.getAllByParam(placeId), HttpStatus.OK);
   }
 
-  @DeleteMapping("{placeId}")
+  @DeleteMapping("place/{placeId}")
   @JsonView(View.Chat.class)
   public ResponseEntity<PlaceMessageResponse> deletePlaceMessage(@PathVariable Long placeId) {
     return new ResponseEntity<>(placeMessageFacade.delete(placeId), HttpStatus.OK);
   }
 
-  @PostMapping
+  @PostMapping("place/{placeId}")
   @JsonView(View.Chat.class)
-  public ResponseEntity<PlaceMessageResponse> createNewPlaceMessage(@RequestBody PlaceMessageRequest placeMessage) {
-    return new ResponseEntity<>(placeMessageFacade.create(placeMessage), HttpStatus.OK);
+  public ResponseEntity<PlaceMessageResponse> createNewPlaceMessage(
+      @RequestBody PlaceMessageRequest placeMessage,
+      @PathVariable Long placeId
+  ) {
+    return new ResponseEntity<>(placeMessageFacade.create(placeMessage, placeId), HttpStatus.OK);
   }
 }

@@ -23,4 +23,9 @@ public class PlaceMessageFacade extends AbstractDtoFacade<PlaceMessage, PlaceMes
     List<PlaceMessage> placeMessages = placeMessageService.getAllByParam(placeId);
     return mapEntityListToResponseDtoList(placeMessages);
   }
+
+  public PlaceMessageResponse create(PlaceMessageRequest placeMessageRequest, Long placeId) {
+    PlaceMessage placeMessage = placeMessageService.create(mapRequestDtoToEntity(placeMessageRequest), placeId);
+    return mapEntityToResponseDto(placeMessage);
+  }
 }
