@@ -5,6 +5,7 @@ import com.danit.finalproject.application.repository.place.PlaceMessageRepositor
 import com.danit.finalproject.application.service.CrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -19,16 +20,17 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
 
   @Override
   public PlaceMessage getById(Long id) {
-    return null;
+    return placeMessageRepository.findById(id).orElse(null);
   }
 
   @Override
   public List<PlaceMessage> getAll() {
-    return null;
+    return placeMessageRepository.findAll() ;
   }
 
   @Override
   public PlaceMessage create(PlaceMessage entity) {
+    entity.setId(null);
     return placeMessageRepository.save(entity);
   }
 
@@ -42,11 +44,9 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
     return null;
   }
 
-  public PlaceMessage getByPlaceId(Long placeId) {
-    return placeMessageRepository.findByPlaceId(placeId);
-  }
-
-  public PlaceMessage deleteById(Long id) {
-    return placeMessageRepository.findByPlaceId(id);
+  public List<PlaceMessage> getAllByParam(Long placeId) {
+    return placeId == null
+        ? getAll()
+        : placeMessageRepository.findAllByPlaceId(placeId);
   }
 }

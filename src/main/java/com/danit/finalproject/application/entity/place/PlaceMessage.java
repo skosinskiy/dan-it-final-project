@@ -22,8 +22,8 @@ public class PlaceMessage extends BaseEntity {
   private String message;
 
   @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-   @JoinColumn(name = "user_id")
-   private User user;
+  @JoinColumn(name = "user_id")
+  private User user;
 
   @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
   @JoinColumn(name = "place_id")
