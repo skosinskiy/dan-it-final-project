@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ReactComponent as Bee } from '../../img/icons/bee.svg'
 import SectionItem from './SectionItem'
+import PlaceMessage from './PlaceMessage'
 import MobileHeader from '../../components/MobileHeader'
 import bag from '../../img/icons/bag.svg'
 import TextareaAutosize from 'react-autosize-textarea'
@@ -9,11 +10,12 @@ import './businesses-events.scss'
 import { getCurrentPlaceById } from '../../store/places/operations'
 import { getBusinessesByCategory } from '../../store/businesses/operations'
 import { getEventsByPLace } from '../../store/events/operations'
-import api from '../../helpers/FetchData'
+import { postPlaceMessage, getPlaceMessagesByPlaceId } from '../../store/PlaceMessages/operations'
 
 class BusinessesEvents extends Component {
   state = {
-    message: ''
+    message: '',
+    placeMessages: []
   }
 
   componentDidMount () {
@@ -21,6 +23,7 @@ class BusinessesEvents extends Component {
     const placeId = +this.props.match.params.placeId
     getCurrentPlaceById(placeId)
     getEventsByPLace(placeId)
+    getPlaceMessagesByPlaceId.call(this, placeId)
   }
 
   getBusinessesByCategory (id) {
@@ -37,36 +40,25 @@ class BusinessesEvents extends Component {
     const placeId = +this.props.match.params.placeId
     const { message } = this.state
     if (message !== '') {
-      api.post(`/api/place-messages/place/${placeId}`, { message: message }).then(res => {
-        console.log(res)
-      })
+      postPlaceMessage(message, placeId, this)
+      this.setState({message: ''})
     } else {
       console.log('err')
     }
   }
 
-  testGet = (event) => {
-    event.preventDefault()
-    const placeId = +this.props.match.params.placeId
-    api.get(`/api/place-messages?placeId=${placeId}`).then(res => {
-      console.log(res)
-    })
-  }
-
-  testDel = (event) => {
-    event.preventDefault()
-    api.deleteApi(`/api/place-messages/7`).then(res => {
-      console.log(res)
-    })
-  }
-
   render () {
     const {businesses, events, currentPlaceById, isLoaded} = this.props
+    const placeId = +this.props.match.params.placeId
+    const { placeMessages } = this.state
     const businessesList = businesses.map(item => {
       return <SectionItem key={item.id} item={item} type={'businesses'}/>
     })
     const eventsList = events.map(item => {
       return <SectionItem key={item.id} item={item} type={'events'}/>
+    })
+    const messageList = placeMessages.map(item => {
+      return <PlaceMessage key={item.id} placeId={placeId} item={item} context={this} />
     })
     const bgImageURL = 'https://i.lb.ua/121/60/5b1501c46a520.jpeg'
 
@@ -111,29 +103,31 @@ class BusinessesEvents extends Component {
           </div>
           <div className="place-messages section">
             <h2 className="section-title">
+              Place Messages
+            </h2>
+            <div className="section-list">
+              {messageList}
+            </div>
+          </div>
+          <div className="send-place-messages section">
+            <h2 className="section-title">
               Leave a place message
             </h2>
-            <div className="place-messages__input">
+            <div className="send-place-messages__input">
               <form onSubmit={this.handleSubmit}>
-                <div className="place-messages__container">
+                <div className="send-place-messages__container">
                   <TextareaAutosize
-                    className="place-messages__text-area"
+                    className="send-place-messages__text-area"
                     value={this.state.message}
                     onChange={this.handleChange}
                     placeholder="Write a comment..."
                     style={{resize: 'none'}}
                   />
-                  <button className="place-messages__submit-btn">
+                  <button className="send-place-messages__submit-btn">
                     Submit
                   </button>
                 </div>
               </form>
-              <button className="place-messages__submit-btn" onClick={this.testGet}>
-                get
-              </button>
-              <button className="place-messages__submit-btn" onClick={this.testDel}>
-                del
-              </button>
             </div>
           </div>
         </div>
@@ -144,7 +138,6 @@ class BusinessesEvents extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    currentUser: state.users.currentUser,
     businesses: state.businesses.businessesByCategory,
     events: state.events.events,
     currentPlaceById: state.places.currentPlaceById,
