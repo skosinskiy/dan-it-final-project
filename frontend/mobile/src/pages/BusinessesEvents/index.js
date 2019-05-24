@@ -37,7 +37,7 @@ class BusinessesEvents extends Component {
     const { currentUser } = this.props
     const { message } = this.state
     if (message !== '') {
-      api.post('/api/messages', { message: message, currentUser }).then(res => {
+      api.post('/api/place_messages', { message: message, currentUser }).then(res => {
         console.log(res)
       })
     } else {
@@ -48,7 +48,7 @@ class BusinessesEvents extends Component {
   testGet = (event) => {
     event.preventDefault()
     const placeId = +this.props.match.params.placeId
-    api.get(`/api/messages?id=${6}`).then(res => {
+    api.get(`/api/place_messages/5`).then(res => {
       console.log(res)
     })
   }

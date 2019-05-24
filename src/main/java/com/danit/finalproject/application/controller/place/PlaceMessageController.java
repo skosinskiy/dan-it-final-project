@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/api/messages")
+@RequestMapping("/api/place_messages")
 @RestController
 public class PlaceMessageController {
   private PlaceMessageFacade placeMessageFacade;
@@ -24,7 +24,7 @@ public class PlaceMessageController {
     this.placeMessageFacade = placeMessageFacade;
   }
 
-  @GetMapping("{place_id}")
+  @GetMapping("{placeId}")
   public ResponseEntity<PlaceMessageResponse> getPlaceMessageById(@PathVariable Long placeId) {
     return new ResponseEntity<>(placeMessageFacade.getByPlaceId(placeId), HttpStatus.OK);
   }

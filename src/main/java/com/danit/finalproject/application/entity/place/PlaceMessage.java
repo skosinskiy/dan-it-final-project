@@ -21,9 +21,9 @@ public class PlaceMessage extends BaseEntity {
   @Column(name = "message")
   private String message;
 
-  @ManyToOne
-  @JoinColumn(name = "user_id")
-  private User user;
+  @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
+   @JoinColumn(name = "user_id")
+   private User user;
 
   @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH})
   @JoinColumn(name = "place_id")
