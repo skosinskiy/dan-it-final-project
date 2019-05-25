@@ -7,8 +7,6 @@ import com.danit.finalproject.application.repository.place.PlaceMessageRepositor
 import com.danit.finalproject.application.service.CrudService;
 import com.danit.finalproject.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +34,7 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
 
   @Override
   public List<PlaceMessage> getAll() {
-    return placeMessageRepository.findAll() ;
+    return placeMessageRepository.findAll();
   }
 
   @Override
@@ -46,9 +44,7 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
   }
 
   public PlaceMessage create(PlaceMessage entity, Long placeId) {
-    String email =
-        ((UserDetails)(SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getUsername();
-    User user = userService.getByEmail(email);
+    User user = userService.getPrincipalUser();
     Place place = placeService.getById(placeId);
     entity.setId(null);
     entity.setUser(user);

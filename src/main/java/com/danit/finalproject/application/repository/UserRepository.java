@@ -1,7 +1,6 @@
 package com.danit.finalproject.application.repository;
 
 import com.danit.finalproject.application.entity.User;
-import java.util.List;
 
 import com.danit.finalproject.application.entity.place.Place;
 import org.springframework.data.domain.Page;
@@ -12,9 +11,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-  Page<User> findAllByEmailStartingWithIgnoreCase(String email, Pageable pageable);
-
-  List<User> findAllByEmailContainingIgnoreCase(String email);
+  Page<User> findAllByEmailContainingIgnoreCase(String email, Pageable pageable);
 
   User findByEmail(String email);
 

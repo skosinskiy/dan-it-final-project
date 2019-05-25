@@ -207,11 +207,7 @@ class EventForm extends Component {
               value={eventCategoriesValue}
               onChange={this.handleChange('categories')}
               input={
-                <OutlinedInput
-                  labelWidth={125}
-                  name="age"
-                  id="outlined"
-                />
+                <OutlinedInput labelWidth={125}/>
               }
               renderValue={selected => selected.map(item => item.name).join(', ')}
             >

@@ -50,34 +50,31 @@ public abstract class AbstractDtoFacade<E extends BaseEntity, I, O> {
   }
 
   protected O mapEntityToResponseDto(E entity) {
-    if (entity != null) {
-      return modelMapper.map(entity, (Class<O>) ((ParameterizedType) getClass()
-          .getGenericSuperclass()).getActualTypeArguments()[2]);
-    }
-    return null;
+    return entity != null
+        ? modelMapper.map(entity, (Class<O>) ((ParameterizedType) getClass()
+          .getGenericSuperclass()).getActualTypeArguments()[2])
+        : null;
   }
 
   protected E mapRequestDtoToEntity(I dto) {
-    if (dto != null) {
-      return modelMapper.map(dto, (Class<E>) ((ParameterizedType) getClass()
-          .getGenericSuperclass()).getActualTypeArguments()[0]);
-    }
-    return null;
+    return dto != null
+        ? modelMapper.map(dto, (Class<E>) ((ParameterizedType) getClass()
+         .getGenericSuperclass()).getActualTypeArguments()[0])
+        : null;
   }
 
   protected List<O> mapEntityListToResponseDtoList(List<E> entityList) {
-    if (entityList != null) {
-      return entityList.stream()
+    return entityList != null
+        ? entityList
+          .stream()
           .map(this::mapEntityToResponseDto)
-          .collect(Collectors.toList());
-    }
-    return new ArrayList<>();
+          .collect(Collectors.toList())
+        : new ArrayList<>();
   }
 
   protected Page<O> mapEntityListToResponseDtoList(Page<E> entityList) {
-    if (entityList != null) {
-      return entityList.map(this::mapEntityToResponseDto);
-    }
-    return null;
+    return entityList != null
+        ? entityList.map(this::mapEntityToResponseDto)
+        : null;
   }
 }

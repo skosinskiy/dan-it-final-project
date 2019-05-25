@@ -71,11 +71,6 @@ public class PlaceService implements CrudService<Place> {
     Place place = placeRepository.findById(id).orElse(null);
     if (place != null) {
       place.getPhotos().forEach(placePhoto -> placePhotoService.deletePlacePhoto(placePhoto));
-      place.getVisits().forEach(visit -> {
-        if (visit.getPlace().equals(place)) {
-          visit.setPlace(null);
-        }
-      });
     }
     placeRepository.deleteById(id);
     return place;
