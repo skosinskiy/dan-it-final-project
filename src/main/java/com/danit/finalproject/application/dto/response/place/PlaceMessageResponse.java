@@ -9,5 +9,5 @@ public class PlaceMessageResponse {
   private Long id;
   private String message;
   private UserResponse user;
-
+  private PlaceResponse place;
 }

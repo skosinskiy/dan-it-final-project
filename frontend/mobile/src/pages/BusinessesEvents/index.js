@@ -1,33 +1,65 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { ReactComponent as Bee } from '../../img/icons/bee.svg'
 import SectionItem from './SectionItem'
+import PlaceMessage from './PlaceMessage'
 import MobileHeader from '../../components/MobileHeader'
 import bag from '../../img/icons/bag.svg'
+import TextareaAutosize from 'react-autosize-textarea'
 import './businesses-events.scss'
 import { getCurrentPlaceById } from '../../store/places/operations'
 import { getBusinessesByCategory } from '../../store/businesses/operations'
 import { getEventsByPLace } from '../../store/events/operations'
+import { postPlaceMessage, getPlaceMessagesByPlaceId } from '../../store/PlaceMessages/operations'
 
 class BusinessesEvents extends Component {
+  state = {
+    message: '',
+    placeMessages: []
+  }
+
   componentDidMount () {
     const {getEventsByPLace, getCurrentPlaceById} = this.props
     const placeId = +this.props.match.params.placeId
     getCurrentPlaceById(placeId)
     getEventsByPLace(placeId)
+    getPlaceMessagesByPlaceId.call(this, placeId)
   }
 
-  getBusinenessesByCategory (id) {
+  getBusinessesByCategory (id) {
     const {getBusinessesByCategory} = this.props
     getBusinessesByCategory(id)
   }
 
+  handleChange = (event) => {
+    this.setState({message: event.target.value})
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault()
+    const placeId = +this.props.match.params.placeId
+    const { message } = this.state
+    if (message !== '') {
+      postPlaceMessage(message, placeId, this)
+      this.setState({message: ''})
+    } else {
+      console.log('err')
+    }
+  }
+
   render () {
-    const {businesses, events, currentPlaceById, isLoaded} = this.props
+    const {businesses, events, currentPlaceById, isLoaded, currentUser} = this.props
+    const placeId = +this.props.match.params.placeId
+    const { placeMessages } = this.state
     const businessesList = businesses.map(item => {
       return <SectionItem key={item.id} item={item} type={'businesses'}/>
     })
     const eventsList = events.map(item => {
       return <SectionItem key={item.id} item={item} type={'events'}/>
+    })
+    const messageList = placeMessages.map(item => {
+      const allowDelete = currentUser.id === item.user.id
+      return <PlaceMessage key={item.id} placeId={placeId} item={item} context={this} del={allowDelete} />
     })
     const bgImageURL = 'https://i.lb.ua/121/60/5b1501c46a520.jpeg'
 
@@ -35,8 +67,8 @@ class BusinessesEvents extends Component {
     if (isLoaded) {
       menuItems = currentPlaceById.placeCategory.businessCategories.map(item => {
         return (
-          <li key={item.id} className="menu-item" onClick={() => this.getBusinenessesByCategory(item.id)}>
-            <div className="menu-item_icon" style={{backgroundImage: `url(${item.imageUrl})`}}></div>
+          <li key={item.id} className="menu-item" onClick={() => this.getBusinessesByCategory(item.id)}>
+            <div className="menu-item_icon"><img src={item.imageUrl} alt={item.name}/></div>
             <div className="menu-item_text">{item.name}</div>
           </li>
         )
@@ -64,9 +96,39 @@ class BusinessesEvents extends Component {
           <div className="events section">
             <div className="section-header">
               <h2 className="section-title">Events</h2>
+              <div className="side-icon"><Bee/></div>
             </div>
             <div className="section-list">
               {eventsList}
+            </div>
+          </div>
+          <div className="place-messages section">
+            <h2 className="section-title">
+              Place Messages
+            </h2>
+            <div className="section-list">
+              {messageList}
+            </div>
+          </div>
+          <div className="send-place-messages section">
+            <h2 className="section-title">
+              Leave a place message
+            </h2>
+            <div className="send-place-messages__input">
+              <form onSubmit={this.handleSubmit}>
+                <div className="send-place-messages__container">
+                  <TextareaAutosize
+                    className="send-place-messages__text-area"
+                    value={this.state.message}
+                    onChange={this.handleChange}
+                    placeholder="Write a comment..."
+                    style={{resize: 'none'}}
+                  />
+                  <button className="send-place-messages__submit-btn">
+                    Submit
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -76,8 +138,8 @@ class BusinessesEvents extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
+    currentUser: state.users.currentUser,
     businesses: state.businesses.businessesByCategory,
     events: state.events.events,
     currentPlaceById: state.places.currentPlaceById,

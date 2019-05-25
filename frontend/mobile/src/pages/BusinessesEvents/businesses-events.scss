@@ -1,4 +1,5 @@
 @import "../../styles/style";
+@import "../../styles/variables";
 
 .section-title {
   font-size: 22px;
@@ -75,5 +76,45 @@
     margin-top: 28px;
     overflow-x: scroll;
     overflow-y: hidden;
+  }
+}
+
+.place-messages{
+
+}
+
+.send-place-messages{
+
+  &__input{
+
+  }
+
+  &__container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 4px;
+  }
+
+  &__text-area{
+    height: 98px;
+    margin: 4px 0;
+    padding: 3px 5px;
+    font-size: 18px;
+    border-radius: 4px;
+    cursor: text;
+    resize: none;
+    -webkit-rtl-ordering: logical;
+  }
+
+  &__submit-btn{
+    @include button-reset;
+    align-self: flex-end;
+    width: 75px;
+    height: 45px;
+    margin: 6px 0;
+    background-color: $message-blue;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
   }
 }
