@@ -48,7 +48,7 @@ class BusinessesEvents extends Component {
   }
 
   render () {
-    const {businesses, events, currentPlaceById, isLoaded} = this.props
+    const {businesses, events, currentPlaceById, isLoaded, currentUser} = this.props
     const placeId = +this.props.match.params.placeId
     const { placeMessages } = this.state
     const businessesList = businesses.map(item => {
@@ -58,7 +58,8 @@ class BusinessesEvents extends Component {
       return <SectionItem key={item.id} item={item} type={'events'}/>
     })
     const messageList = placeMessages.map(item => {
-      return <PlaceMessage key={item.id} placeId={placeId} item={item} context={this} />
+      const allowDelete = currentUser.id === item.user.id
+      return <PlaceMessage key={item.id} placeId={placeId} item={item} context={this} del={allowDelete} />
     })
     const bgImageURL = 'https://i.lb.ua/121/60/5b1501c46a520.jpeg'
 
@@ -138,6 +139,7 @@ class BusinessesEvents extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    currentUser: state.users.currentUser,
     businesses: state.businesses.businessesByCategory,
     events: state.events.events,
     currentPlaceById: state.places.currentPlaceById,
