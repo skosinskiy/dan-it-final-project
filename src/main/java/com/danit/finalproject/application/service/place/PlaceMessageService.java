@@ -36,7 +36,7 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
 
   @Override
   public List<PlaceMessage> getAll() {
-    return placeMessageRepository.findAll() ;
+    return placeMessageRepository.findAll();
   }
 
   @Override
@@ -46,9 +46,7 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
   }
 
   public PlaceMessage create(PlaceMessage entity, Long placeId) {
-    String email =
-        ((UserDetails)(SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getUsername();
-    User user = userService.getByEmail(email);
+    User user = userService.getPrincipalUser();
     Place place = placeService.getById(placeId);
     entity.setId(null);
     entity.setUser(user);
