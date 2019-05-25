@@ -48,7 +48,7 @@ class SingleEventPage extends Component {
   }
 }
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state) => {
   return {
     currentEvent: state.events.currentEvent,
     currentEventIsLoading: state.events.currentEventIsLoading,

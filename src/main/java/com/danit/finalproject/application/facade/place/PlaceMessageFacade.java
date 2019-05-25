@@ -8,6 +8,8 @@ import com.danit.finalproject.application.service.place.PlaceMessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class PlaceMessageFacade extends AbstractDtoFacade<PlaceMessage, PlaceMessageRequest, PlaceMessageResponse> {
   private PlaceMessageService placeMessageService;
@@ -17,18 +19,13 @@ public class PlaceMessageFacade extends AbstractDtoFacade<PlaceMessage, PlaceMes
     this.placeMessageService = placeMessageService;
   }
 
-  public PlaceMessageResponse getByPlaceId(Long placeId) {
-    PlaceMessage placeMessage = placeMessageService.getByPlaceId(placeId);
-    return mapEntityToResponseDto(placeMessage);
+  public List<PlaceMessageResponse> getAllByParam(Long placeId) {
+    List<PlaceMessage> placeMessages = placeMessageService.getAllByParam(placeId);
+    return mapEntityListToResponseDtoList(placeMessages);
   }
 
-  public PlaceMessageResponse deleteById(Long id) {
-    PlaceMessage placeMessage = placeMessageService.deleteById(id);
-    return mapEntityToResponseDto(placeMessage);
-  }
-
-  public PlaceMessageResponse addPlaceMessage(PlaceMessageRequest placeMessageRequest) {
-    PlaceMessage placeMessage = placeMessageService.create(mapRequestDtoToEntity(placeMessageRequest));
+  public PlaceMessageResponse create(PlaceMessageRequest placeMessageRequest, Long placeId) {
+    PlaceMessage placeMessage = placeMessageService.create(mapRequestDtoToEntity(placeMessageRequest), placeId);
     return mapEntityToResponseDto(placeMessage);
   }
 }

@@ -22,10 +22,12 @@ const NewsItem = (props) => {
   return (
     <div className='news-item'>
       <div className='news-item__top'>
-        {imageURL
-          ? <img className='news-item__news-image' src={imageURL} alt=' ' />
-          : null
-        }
+        <div className='news-item__img-container'>
+          {imageURL
+            ? <img className='news-item__news-image' src={imageURL} alt=' ' />
+            : null
+          }
+        </div>
         <div className='news-item__top-text'>
           <a href={link} className='news-item__top-text-title'>{(title)}</a>
           <a href=' ' className='news-item__save-btn' > </a>
