@@ -18,7 +18,8 @@ const styles = (theme) => ({
     borderWidth: '1px',
     borderStyle: 'dashed',
     borderColor: 'rgba(0, 0, 0, 0.23)',
-    borderRadius: '4px'
+    borderRadius: '4px',
+    objectFit: 'cover'
   },
   dropzone: {
     flex: '1',

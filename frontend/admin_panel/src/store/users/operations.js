@@ -1,6 +1,7 @@
 import api from '../../helpers/FetchData'
 import * as ACTIONS from './actions'
-import {getAllRoles} from "../roles/operations";
+import {getAllRoles} from '../roles/operations'
+import {toastr} from 'react-redux-toastr'
 
 export const fetchUserFormData = (email, page, size) => dispatch => {
   dispatch(ACTIONS.isUserFormDataLoading(true))
@@ -34,7 +35,10 @@ export const submitLoginForm = (event) => dispatch => {
       dispatch(getCurrentUser())
     }
   })
-    .catch(() => dispatch(ACTIONS.currentUserLoading(false)))
+    .catch(() => {
+      dispatch(ACTIONS.currentUserLoading(false))
+      toastr.error('Error', 'Wrong password or email!')
+    })
 }
 
 export const getCurrentUser = () => dispatch => {

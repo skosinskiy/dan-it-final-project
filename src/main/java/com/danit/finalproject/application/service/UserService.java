@@ -5,8 +5,10 @@ import com.danit.finalproject.application.entity.Permission;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.entity.place.Place;
+import com.danit.finalproject.application.entity.place.PlaceCategory;
 import com.danit.finalproject.application.repository.UserRepository;
 import com.danit.finalproject.application.repository.place.PlaceRepository;
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -31,6 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.danit.finalproject.application.entity.Permission.ADMIN_USER;
 
@@ -75,11 +78,12 @@ public class UserService implements UserDetailsService, CrudService<User> {
   }
 
   public Page<User> getUsersByEmail(String email, Pageable pageable) {
-    return userRepository.findAllByEmailStartingWithIgnoreCase(email, pageable);
+    return userRepository.findAllByEmailContainingIgnoreCase(email, pageable);
   }
 
   @Override
   public User create(User user) {
+    user.setId(null);
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
   }
@@ -206,7 +210,7 @@ public class UserService implements UserDetailsService, CrudService<User> {
         OAuth2User oAuth2User = ((OAuth2AuthenticationToken) authentication).getPrincipal();
         return userRepository.findByEmail((String) oAuth2User.getAttributes().get("email"));
       } else {
-        OidcUser auth2UserInfo = (OidcUser)(authentication.getPrincipal());
+        OidcUser auth2UserInfo = (OidcUser) (authentication.getPrincipal());
         return userRepository.findByEmail(auth2UserInfo.getEmail());
       }
     } else if (!(authentication instanceof AnonymousAuthenticationToken)) {
@@ -221,15 +225,16 @@ public class UserService implements UserDetailsService, CrudService<User> {
   }
 
   public User addNewPlaceToUser(Long placeId) {
-    //TODO implement check for multiple sync
-    String email =
-        ((UserDetails)(SecurityContextHolder.getContext().getAuthentication().getPrincipal())).getUsername();
-    User user = getByEmail(email);
-    Place place = placeRepository.findById(placeId).orElse(null);
-    List<Place> places = user.getPlaces();
-    if (places.stream().noneMatch(p -> p.getId().equals(placeId))) {
-      places.add(place);
+    User user = getPrincipalUser();
+    Place placeToAdd = placeRepository.findById(placeId).orElse(null);
+    if (placeToAdd != null && !placeToAdd.getPlaceCategory().isMultisync()) {
+      List<Place> filteredPlaces = user.getPlaces()
+          .stream()
+          .filter(place -> !place.getPlaceCategory().getId().equals(placeToAdd.getPlaceCategory().getId()))
+          .collect(Collectors.toList());
+      user.setPlaces(filteredPlaces);
     }
+    user.getPlaces().add(placeToAdd);
     return update(user.getId(), user);
   }
 }

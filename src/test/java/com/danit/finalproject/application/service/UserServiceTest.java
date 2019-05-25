@@ -8,11 +8,14 @@ import com.danit.finalproject.application.entity.Gender;
 import com.danit.finalproject.application.entity.Permission;
 import com.danit.finalproject.application.entity.Role;
 import com.danit.finalproject.application.entity.User;
+import com.danit.finalproject.application.entity.place.Place;
+import com.danit.finalproject.application.entity.place.PlaceCategory;
 import com.danit.finalproject.application.repository.UserRepository;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.danit.finalproject.application.repository.place.PlaceRepository;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,6 +32,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.BindingResult;
 
@@ -49,6 +53,8 @@ public class UserServiceTest {
 	private ValidationService validationService;
 	@MockBean
 	private BindingResult bindingResult;
+	@MockBean
+	private PlaceRepository placeRepository;
 
 	private static User firstMockUser;
 	private static User secondMockUser;
@@ -68,6 +74,16 @@ public class UserServiceTest {
 		role.getPermissions().add(Permission.MANAGE_BUILDING_TYPES);
 		roles.add(role);
 
+		ArrayList<Place> places = new ArrayList<>();
+		Place place = new Place();
+		PlaceCategory placeCategory = new PlaceCategory();
+		placeCategory.setId(1L);
+		placeCategory.setMultisync(false);
+		place.setId(1L);
+		place.setTitle("title");
+		place.setPlaceCategory(placeCategory);
+		places.add(place);
+
 		firstUser.setId(1L);
 		firstUser.setCreatedDate(new SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
 				.parse("2019-03-12 12:00:00"));
@@ -81,6 +97,7 @@ public class UserServiceTest {
 		firstUser.setToken("ddcc2361-ce4f-47bc-bf5e-fc39ca73d0e0");
 		firstUser.setRoles(roles);
 		firstUser.setPassword("password");
+		firstUser.setPlaces(places);
 		firstMockUser = firstUser;
 
 		User secondUser = new User();
@@ -141,12 +158,12 @@ public class UserServiceTest {
       Page<User> userPageable = new PageImpl<>(mockUsers);
 
 
-      when(userRepository.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail,  PageRequest.of(0, 25)))
+      when(userRepository.findAllByEmailContainingIgnoreCase(expectedSearchEmail,  PageRequest.of(0, 25)))
           .thenReturn(userPageable);
   		Page<User> users = userService.getUsersByEmail(expectedSearchEmail, pageable);
 
   		verify(userRepository, times(1))
-  				.findAllByEmailStartingWithIgnoreCase(expectedSearchEmail, pageable);
+  				.findAllByEmailContainingIgnoreCase(expectedSearchEmail, pageable);
 
   		assertEquals(expectedUsersSize, users.getContent().size());
   		assertEquals(expectedSecondUserEmail, users.getContent().get(1).getEmail());
@@ -328,6 +345,35 @@ public class UserServiceTest {
 		assertEquals(createdUser.getEmail(), userCapture.getEmail());
 		assertEquals(expectedUserPermissionsSize, userPermissions.size());
 		assertTrue(userPermissions.contains(Permission.ADMIN_USER));
+	}
 
+	@Test
+	@WithMockUser(username = "first.user@test.com")
+	public void verifyNotMultisyncPlaceReplaced() {
+		Long placeId = 1L;
+		int expectedPlacesSize = 1;
+		Long expectedPlaceId = 2L;
+		String expectedPlaceTitle = "title-from-test";
+
+		Place place = new Place();
+		PlaceCategory placeCategory = new PlaceCategory();
+		placeCategory.setId(1L);
+		placeCategory.setMultisync(false);
+		place.setId(expectedPlaceId);
+		place.setTitle(expectedPlaceTitle);
+		place.setPlaceCategory(placeCategory);
+
+		when(userRepository.findByEmail(anyString())).thenReturn(firstMockUser);
+		when(placeRepository.findById(placeId)).thenReturn(Optional.of(place));
+
+		userService.addNewPlaceToUser(placeId);
+
+		ArgumentCaptor<User> captor = ArgumentCaptor.forClass(User.class);
+		verify(userRepository).save(captor.capture());
+		User userToSave = captor.getValue();
+
+		assertEquals(expectedPlacesSize, userToSave.getPlaces().size());
+		assertEquals(expectedPlaceId, userToSave.getPlaces().get(0).getId());
+		assertEquals(expectedPlaceTitle, userToSave.getPlaces().get(0).getTitle());
 	}
 }
