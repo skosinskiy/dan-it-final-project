@@ -189,7 +189,6 @@ public class UserServiceTest {
 		assertNotEquals(notExpectedPassword, createdUser.getPassword());
 		assertNotNull(createdUser.getCreatedDate());
 		assertNotNull(createdUser.getModifiedDate());
-		assertNotNull(createdUserId);
 	}
 
 	@Test

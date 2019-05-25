@@ -43,7 +43,7 @@ class DeleteDialog extends React.Component {
             <Button onClick={this.handleClose} color="secondary">
               Cancel
             </Button>
-            <Button onClick={this.props.onConfirm} variant="outlined" color="primary" autoFocus>
+            <Button onClick={this.props.onConfirm} color="primary" autoFocus>
               Confirm
             </Button>
           </DialogActions>

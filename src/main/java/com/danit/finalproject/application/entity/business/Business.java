@@ -1,7 +1,6 @@
 package com.danit.finalproject.application.entity.business;
 
 import com.danit.finalproject.application.entity.BaseEntity;
-import com.danit.finalproject.application.entity.Notification;
 import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.place.Place;
 
@@ -67,8 +66,4 @@ public class Business extends BaseEntity {
   @OneToMany(mappedBy = "business", cascade = CascadeType.ALL)
   @ToString.Exclude
   private List<Event> events;
-
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "business")
-  @ToString.Exclude
-  private List<Notification> notifications;
 }
