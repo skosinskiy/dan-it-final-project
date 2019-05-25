@@ -25,33 +25,36 @@ const styles = theme => ({
 })
 
 class PlaceCategories extends Component {
-  componentDidMount () {
+  componentDidMount() {
     this.props.reloadData()
   }
 
-  render () {
+  render() {
 
     if (this.props.isLoading) {
-      return <Preloader/>
+      return (
+        <div style={{height: 'calc(100vh - 200px)'}}>
+          <Preloader/>
+        </div>)
     }
 
     const {classes, placeCategories} = this.props
     const rows = [
-      { id: 'multisync', label: 'Is Multisync?' },
-      { id: 'allowMessages', label: 'Allow Messages?' },
-      { id: 'shouldAddPairedUsers', label: 'Add paired users contacts?' },
-      { id: 'name', label: 'Name' },
-      { id: 'description', grow: 2, label: 'Description' },
-      { id: 'businessCategories', label: 'BusinessCategories' },
-      { id: 'layoutItems', label: 'LayoutItems' },
-      { id: 'buttons', label: '' },
+      {id: 'multisync', label: 'Is Multisync?'},
+      {id: 'allowMessages', label: 'Allow Messages?'},
+      {id: 'shouldAddPairedUsers', label: 'Add paired users contacts?'},
+      {id: 'name', label: 'Name'},
+      {id: 'description', grow: 2, label: 'Description'},
+      {id: 'businessCategories', label: 'Business Categories'},
+      {id: 'layoutItems', label: 'Layout Items'},
+      {id: 'buttons', label: ''},
     ];
     return (
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <colgroup>
             {rows.map((row, i) => (
-              <col key={'header' + i} style={{width:`${100 * (row.grow || 1) / rows.length}%`}}/>
+              <col key={'header' + i} style={{width: `${100 * (row.grow || 1) / rows.length}%`}}/>
             ))}
           </colgroup>
           <TableHead>
@@ -63,28 +66,30 @@ class PlaceCategories extends Component {
           </TableHead>
           <TableBody>
             {placeCategories.map(placeCategory => {
-              const {multisync, allowMessages, shouldAddPairedUsers, layoutItems,
-                businessCategories: selectedBusinessCategories, name, description, id} = placeCategory
-                return (
+              const {
+                multisync, allowMessages, shouldAddPairedUsers, layoutItems,
+                businessCategories: selectedBusinessCategories, name, description, id
+              } = placeCategory
+              return (
                 <TableRow key={placeCategory.id} hover>
-                <TableCell component="th" scope="row" padding="checkbox">
-                  <Checkbox checked={multisync} disabled/>
-                </TableCell>
-                <TableCell component="th" scope="row" padding="checkbox">
-                  <Checkbox checked={allowMessages} disabled/>
-                </TableCell>
-                <TableCell component="th" scope="row" padding="checkbox">
-                  <Checkbox checked={shouldAddPairedUsers} disabled/>
-                </TableCell>
-                <TableCell>{name}</TableCell>
-                <TableCell>{description}</TableCell>
-                <TableCell>{selectedBusinessCategories.map(businessCategory => businessCategory.name).join(', ')}</TableCell>
-                <TableCell>{layoutItems.join(', ')}</TableCell>
-                <TableCellButtons
-                  editLink={`/admin/place-categories/${id}`}
-                  deleteFunction={() => this.props.processDelete(placeCategory)}
-                />
-              </TableRow>
+                  <TableCell component="th" scope="row" padding="checkbox">
+                    <Checkbox checked={multisync} disabled/>
+                  </TableCell>
+                  <TableCell component="th" scope="row" padding="checkbox">
+                    <Checkbox checked={allowMessages} disabled/>
+                  </TableCell>
+                  <TableCell component="th" scope="row" padding="checkbox">
+                    <Checkbox checked={shouldAddPairedUsers} disabled/>
+                  </TableCell>
+                  <TableCell>{name}</TableCell>
+                  <TableCell>{description}</TableCell>
+                  <TableCell>{selectedBusinessCategories.map(businessCategory => businessCategory.name).join(', ')}</TableCell>
+                  <TableCell>{layoutItems.join(', ')}</TableCell>
+                  <TableCellButtons
+                    editLink={`/admin/place-categories/${id}`}
+                    deleteFunction={() => this.props.processDelete(placeCategory)}
+                  />
+                </TableRow>
               )
             })}
           </TableBody>
