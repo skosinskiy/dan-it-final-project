@@ -1,7 +1,6 @@
 package com.danit.finalproject.application.repository;
 
 import com.danit.finalproject.application.entity.User;
-import java.util.List;
 
 import com.danit.finalproject.application.entity.place.Place;
 import org.springframework.data.domain.Page;

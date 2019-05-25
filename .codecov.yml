@@ -10,3 +10,4 @@ ignore:
   - "**/com.danit.finalproject.application.FinalProjectApplication.java"
   - "**/com.danit.finalproject.application.aspect.*.java"
   - "**/com.danit.finalproject.application.dto.view.View.java"
+  - "**/com.danit.finalproject.application.controller.RootController.java"

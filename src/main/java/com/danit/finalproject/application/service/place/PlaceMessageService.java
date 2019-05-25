@@ -7,8 +7,6 @@ import com.danit.finalproject.application.repository.place.PlaceMessageRepositor
 import com.danit.finalproject.application.service.CrudService;
 import com.danit.finalproject.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
