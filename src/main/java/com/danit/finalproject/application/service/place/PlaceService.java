@@ -49,6 +49,10 @@ public class PlaceService implements CrudService<Place> {
   @Override
   public Place update(Long id, Place place) {
     List<PlacePhoto> updatedPlacePhotos = place.getPhotos();
+    if (place.getMainPhoto() != null) {
+      place.getMainPhoto().setPlace(place);
+      updatedPlacePhotos.add(place.getMainPhoto());
+    }
     deletePlacePhotos(getById(id).getPhotos(), updatedPlacePhotos);
     updatedPlacePhotos.forEach(businessPhoto -> businessPhoto.setPlace(place));
     place.setId(id);

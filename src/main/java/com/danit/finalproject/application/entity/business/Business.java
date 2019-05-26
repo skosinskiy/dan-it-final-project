@@ -53,6 +53,7 @@ public class Business extends BaseEntity {
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "main_photo")
+  @ToString.Exclude
   private BusinessPhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "business")

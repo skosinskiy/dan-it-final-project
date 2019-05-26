@@ -32,12 +32,15 @@ export const deleteEvent = (eventId, searchParam, page, size) => dispatch => {
 
 export const saveEvent = (event, images) => dispatch => {
   dispatch(ACTIONS.isEventFormDataLoading(true))
+  const mainImageIndex = images.findIndex(image => image.isMainImage) === -1
+    ? 0
+    : images.findIndex(image => image.isMainImage)
   if (event.id) {
     const imagesToUpload = images.filter(image => !image.id)
     const existingImages = images.filter(image => image.id)
     return uploadImagesToS3(imagesToUpload)
       .then(uploadedImages => createEventPhotos(uploadedImages, event.id)
-          .then(createdPhotos => updateEvent(existingImages, event, createdPhotos)
+          .then(createdPhotos => updateEvent(existingImages, event, createdPhotos, mainImageIndex)
             .then()
           )
       )
@@ -45,7 +48,7 @@ export const saveEvent = (event, images) => dispatch => {
     return createEvent(event)
       .then(createdBusiness => uploadImagesToS3(images)
         .then(uploadedImages => createEventPhotos(uploadedImages, createdBusiness.id)
-          .then(createdPhotos => updateEvent(null, createdBusiness, createdPhotos)
+          .then(createdPhotos => updateEvent(null, createdBusiness, createdPhotos, mainImageIndex)
             .then()
           )
         )
@@ -68,8 +71,10 @@ const createEventPhotos = (s3UploadResponse, eventId) => {
   return api.post(`/api/events/${eventId}/photos`, array)
 }
 
-const updateEvent = (existingImages, event, createdPhotos) => {
+const updateEvent = (existingImages, event, createdPhotos, mainImageIndex) => {
   event.photos = existingImages ? existingImages.concat(createdPhotos.photos) : createdPhotos.photos
+  event.mainPhoto = event.photos[mainImageIndex]
+  event.photos.splice(mainImageIndex, 1)
   return api.put(`/api/events/${event.id}`, event)
 }
 

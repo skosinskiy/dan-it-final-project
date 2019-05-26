@@ -69,6 +69,7 @@ const styles = (theme) => ({
   },
   mainImage: {
     borderColor: 'blue',
+    borderWidth: '2px'
   }
 })
 
