@@ -34,7 +34,14 @@ class EventForm extends Component {
     super(props)
     this.state = {
       editedEvent: props.event !== undefined ? props.event : emptyEvent,
-      eventImages: props.event !== undefined ? props.event.photos : [],
+      eventImages: props.event !== undefined
+        ? props.event.photos.map(photo => {
+          return {
+            ...photo,
+            isMainImage: props.event.mainPhoto && photo.id === props.event.mainPhoto.id
+          }
+        })
+        : [],
       isDataSubmitted: false
     }
 
@@ -49,7 +56,14 @@ class EventForm extends Component {
     if (nextProps.event && nextProps.event !== this.props.event) {
       this.setState({
         editedEvent: nextProps.event,
-        eventImages: nextProps.event.photos
+        eventImages: nextProps.event !== undefined
+          ? nextProps.event.photos.map(photo => {
+            return {
+              ...photo,
+              isMainImage: nextProps.event.mainPhoto && photo.id === nextProps.event.mainPhoto.id
+            }
+          })
+          : [],
       })
     }
   }
@@ -102,6 +116,10 @@ class EventForm extends Component {
       imageKey: null
     }))
 
+    if (this.state.eventImages.filter(image => image.isMainImage).length === 0) {
+      newEventImages[0].isMainImage = true
+    }
+
     this.setState({
       ...this.state,
       eventImages: [...this.state.eventImages, ...newEventImages]
@@ -122,6 +140,9 @@ class EventForm extends Component {
 
   onImageReset = (image) => {
     const newEventImages = this.state.eventImages.filter(elem => elem !== image)
+    if (image.isMainImage && newEventImages.length > 0) {
+      newEventImages[0].isMainImage = true
+    }
     this.setState({
       ...this.state,
       eventImages: newEventImages,
@@ -207,11 +228,7 @@ class EventForm extends Component {
               value={eventCategoriesValue}
               onChange={this.handleChange('categories')}
               input={
-                <OutlinedInput
-                  labelWidth={125}
-                  name="age"
-                  id="outlined"
-                />
+                <OutlinedInput labelWidth={125}/>
               }
               renderValue={selected => selected.map(item => item.name).join(', ')}
             >

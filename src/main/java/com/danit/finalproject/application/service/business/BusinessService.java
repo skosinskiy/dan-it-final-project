@@ -48,6 +48,10 @@ public class BusinessService implements CrudService<Business> {
   @Override
   public Business update(Long id, Business business) {
     List<BusinessPhoto> updatedBusinessPhotos = business.getPhotos();
+    if (business.getMainPhoto() != null) {
+      business.getMainPhoto().setBusiness(business);
+      updatedBusinessPhotos.add(business.getMainPhoto());
+    }
     deleteBusinessPhotos(getById(id).getPhotos(), updatedBusinessPhotos);
     updatedBusinessPhotos.forEach(businessPhoto -> businessPhoto.setBusiness(business));
     business.setId(id);

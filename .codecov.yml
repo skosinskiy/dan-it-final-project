@@ -1,7 +1,7 @@
 comment: off
 
 coverage:
-  range: 92..100
+  range: 95..100
   round: down
   precision: 2
 
@@ -10,3 +10,4 @@ ignore:
   - "**/com.danit.finalproject.application.FinalProjectApplication.java"
   - "**/com.danit.finalproject.application.aspect.*.java"
   - "**/com.danit.finalproject.application.dto.view.View.java"
+  - "**/com.danit.finalproject.application.controller.RootController.java"

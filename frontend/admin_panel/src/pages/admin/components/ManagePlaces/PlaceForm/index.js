@@ -26,7 +26,14 @@ class PlaceForm extends React.Component {
     super(props)
     this.state = {
       editedPlace: props.place !== undefined ? props.place : emptyPlace,
-      placeImages: props.place !== undefined ? props.place.photos : [],
+      placeImages: props.place !== undefined
+        ? props.place.photos.map(photo => {
+          return {
+            ...photo,
+            isMainImage: props.place.mainPhoto && photo.id === props.place.mainPhoto.id
+          }
+        })
+        : [],
       isDataSubmitted: false
     }
   }
@@ -40,7 +47,14 @@ class PlaceForm extends React.Component {
     if (nextProps.place && nextProps.place !== this.props.place) {
       this.setState({
         editedPlace: nextProps.place,
-        placeImages: nextProps.place.photos
+        placeImages: nextProps.place !== undefined
+          ? nextProps.place.photos.map(photo => {
+            return {
+              ...photo,
+              isMainImage: nextProps.place.mainPhoto && photo.id === nextProps.place.mainPhoto.id
+            }
+          })
+          : [],
       })
     }
   }
@@ -72,14 +86,18 @@ class PlaceForm extends React.Component {
   }
 
   onFileChange = (images) => {
-    const newPlaceImage = images.map((file) => Object.assign(file, {
+    const newPlaceImages = images.map((file) => Object.assign(file, {
       imageUrl: URL.createObjectURL(file),
       imageKey: null
     }))
 
+    if (this.state.placeImages.filter(image => image.isMainImage).length === 0) {
+      newPlaceImages[0].isMainImage = true
+    }
+
     this.setState((state) => {
       return {
-        placeImages: [...state.placeImages, ...newPlaceImage]
+        placeImages: [...state.placeImages, ...newPlaceImages]
       }
     })
   }
@@ -99,6 +117,9 @@ class PlaceForm extends React.Component {
 
   onImageReset = (image) => {
     const newPlaceImages = this.state.placeImages.filter(elem => elem !== image)
+    if (image.isMainImage && newPlaceImages.length > 0) {
+      newPlaceImages[0].isMainImage = true
+    }
     this.setState({
       ...this.state,
       placeImages: newPlaceImages,

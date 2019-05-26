@@ -4,8 +4,6 @@ import com.danit.finalproject.application.entity.event.Event;
 import com.danit.finalproject.application.entity.event.EventPhoto;
 import com.danit.finalproject.application.repository.event.EventRepository;
 import com.danit.finalproject.application.service.CrudService;
-import com.danit.finalproject.application.service.business.BusinessService;
-import com.danit.finalproject.application.service.place.PlaceService;
 
 import java.util.List;
 import java.util.Optional;
@@ -52,6 +50,10 @@ public class EventService implements CrudService<Event> {
   @Override
   public Event update(Long id, Event event) {
     List<EventPhoto> updatedEventPhotos = event.getPhotos();
+    if (event.getMainPhoto() != null) {
+      event.getMainPhoto().setEvent(event);
+      updatedEventPhotos.add(event.getMainPhoto());
+    }
     deleteEventPhotos(getById(id).getPhotos(), updatedEventPhotos);
     updatedEventPhotos.forEach(eventPhoto -> eventPhoto.setEvent(event));
     event.setId(id);

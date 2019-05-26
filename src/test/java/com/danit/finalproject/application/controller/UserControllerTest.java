@@ -87,6 +87,33 @@ public class UserControllerTest {
 		assertEquals(expectedEmail, user.getEmail());
 	}
 
+	@Test
+	public void getUsersByPlace() throws Exception {
+		int expectedSize = 6;
+
+		MvcResult result = mockMvc.perform(get("/api/users/place/1"))
+				.andReturn();
+		String responseBody = result.getResponse().getContentAsString();
+		HashMap<String, Object> users =
+				objectMapper.readValue(responseBody, new TypeReference<HashMap<String, Object>>(){});
+
+		assertEquals(expectedSize, ((List)users.get("content")).size());
+	}
+
+	@Test
+	@WithMockUser(value = "first.user@test.com")
+	public void addNewPlaceToUser() throws Exception {
+		int expectedSize = 2;
+
+		MvcResult result = mockMvc.perform(put("/api/users/pair/2").with(csrf()))
+				.andReturn();
+		String responseBody = result.getResponse().getContentAsString();
+		UserResponse user =
+				objectMapper.readValue(responseBody, UserResponse.class);
+
+		assertEquals(expectedSize, user.getPlaces().size());
+	}
+
   @Test
 	@WithMockUser(value = "first.user@test.com")
   public void getCurrentUser() throws Exception {

@@ -1,8 +1,6 @@
 package com.danit.finalproject.application.entity.place;
 
 import com.danit.finalproject.application.entity.BaseEntity;
-import com.danit.finalproject.application.entity.Notification;
-import com.danit.finalproject.application.entity.Visit;
 import com.danit.finalproject.application.entity.business.Business;
 import com.danit.finalproject.application.entity.event.Event;
 import java.util.List;
@@ -43,13 +41,9 @@ public class Place extends BaseEntity {
   @ToString.Exclude
   private List<Event> events;
 
-
-  @OneToMany(mappedBy = "place", cascade = CascadeType.REMOVE)
-  @ToString.Exclude
-  private List<Notification> notifications;
-
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "main_photo")
+  @ToString.Exclude
   private PlacePhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "place")
@@ -59,9 +53,4 @@ public class Place extends BaseEntity {
   @ManyToOne
   @JoinColumn(name = "place_category")
   private PlaceCategory placeCategory;
-
-  @OneToMany(mappedBy = "place")
-  @ToString.Exclude
-  private List<Visit> visits;
-
 }

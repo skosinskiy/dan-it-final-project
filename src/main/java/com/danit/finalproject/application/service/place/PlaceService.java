@@ -1,6 +1,5 @@
 package com.danit.finalproject.application.service.place;
 
-import com.danit.finalproject.application.entity.business.BusinessPhoto;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.repository.place.PlaceRepository;
@@ -11,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Service
@@ -49,6 +47,10 @@ public class PlaceService implements CrudService<Place> {
   @Override
   public Place update(Long id, Place place) {
     List<PlacePhoto> updatedPlacePhotos = place.getPhotos();
+    if (place.getMainPhoto() != null) {
+      place.getMainPhoto().setPlace(place);
+      updatedPlacePhotos.add(place.getMainPhoto());
+    }
     deletePlacePhotos(getById(id).getPhotos(), updatedPlacePhotos);
     updatedPlacePhotos.forEach(businessPhoto -> businessPhoto.setPlace(place));
     place.setId(id);
@@ -71,11 +73,6 @@ public class PlaceService implements CrudService<Place> {
     Place place = placeRepository.findById(id).orElse(null);
     if (place != null) {
       place.getPhotos().forEach(placePhoto -> placePhotoService.deletePlacePhoto(placePhoto));
-      place.getVisits().forEach(visit -> {
-        if (visit.getPlace().equals(place)) {
-          visit.setPlace(null);
-        }
-      });
     }
     placeRepository.deleteById(id);
     return place;

@@ -1,35 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {withStyles} from '@material-ui/core/styles'
-import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import {placesCategoriesOperations} from 'store/placeCategory'
 import {connect} from 'react-redux'
-
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  formControl: {
-    margin: theme.spacing.unit,
-    minWidth: 120,
-    maxWidth: 300
-  },
-  chips: {
-    display: 'flex',
-    flexWrap: 'wrap'
-  },
-  chip: {
-    margin: theme.spacing.unit / 4
-  },
-  noLabel: {
-    marginTop: theme.spacing.unit * 3
-  }
-})
+import OutlinedInput from '@material-ui/core/OutlinedInput'
 
 const ITEM_HEIGHT = 48
 const ITEM_PADDING_TOP = 8
@@ -39,15 +16,6 @@ const MenuProps = {
       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
       width: 250
     }
-  }
-}
-
-function getStyles (name, that) {
-  return {
-    fontWeight:
-      that.state.name.indexOf(name) === -1
-        ? that.props.theme.typography.fontWeightRegular
-        : that.props.theme.typography.fontWeightMedium
   }
 }
 
@@ -66,7 +34,7 @@ class MultipleSelect extends React.Component {
     updateCategories(type, newCategories)
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const {selectedCategories, availableCategories} = this.props
     const namesToCategories = availableCategories.reduce((accum, category) =>
       Object.assign(accum, {
@@ -79,50 +47,49 @@ class MultipleSelect extends React.Component {
     this.setState(newState)
   }
 
-  render () {
-    const {classes, availableCategories, type} = this.props
+  render() {
+    const {availableCategories, type, label, width} = this.props
     return (
-      <div className={classes.root}>
-        <FormControl className={classes.formControl} fullWidth>
-          <InputLabel htmlFor="select-multiple-chip"></InputLabel>
-          <Select
-            multiple
-            value={this.state.name}
-            onChange={this.handleChange}
-            input={<Input id="select-multiple-chip"/>}
-            MenuProps={MenuProps}
-          >
-            {availableCategories.map(category => category.name)
-              .map((name, i) =>
-                (
-                <MenuItem
-                  key={i + type}
-                  value={name}
-                  style={getStyles(name, this)}
-                >
+      <FormControl fullWidth variant="outlined">
+        <InputLabel>
+          {label}
+        </InputLabel>
+        <Select
+          multiple
+          value={this.state.name}
+          onChange={this.handleChange}
+          input={
+            <OutlinedInput labelWidth={width}/>
+          }
+          MenuProps={MenuProps}
+        >
+          {availableCategories.map(category => category.name)
+            .map((name, i) =>
+              (
+                <MenuItem key={i + type} value={name}>
                   {name}
                 </MenuItem>
-                )
               )
-            }
-          </Select>
-        </FormControl>
-      </div>
+            )
+          }
+        </Select>
+      </FormControl>
     )
   }
 }
 
 MultipleSelect.propTypes = {
-  classes: PropTypes.object.isRequired,
   selectedCategories: PropTypes.array.isRequired,
   updateCategories: PropTypes.func.isRequired,
   availableCategories: PropTypes.array.isRequired,
   type: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  width: PropTypes.number.isRequired
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateCategories: (type, selectedCategories) => dispatch(
-    placesCategoriesOperations.updateCategories(type, selectedCategories)),
+  updateCategories: (type, selectedCategories) =>
+    dispatch(placesCategoriesOperations.updateCategories(type, selectedCategories)),
 })
 
-export default connect(null, mapDispatchToProps)(withStyles(styles, {withTheme: true})(MultipleSelect))
+export default connect(null, mapDispatchToProps)(MultipleSelect)

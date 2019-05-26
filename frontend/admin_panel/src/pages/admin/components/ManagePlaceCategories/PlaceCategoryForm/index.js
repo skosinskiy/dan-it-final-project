@@ -1,37 +1,19 @@
 import Checkbox from '@material-ui/core/Checkbox'
-import { withStyles } from '@material-ui/core/styles'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableRow from '@material-ui/core/TableRow'
 import Preloader from 'components/Preloader'
 import PropTypes from 'prop-types'
-import React, { Fragment } from 'react'
-import { connect } from 'react-redux'
-import { placesCategoriesOperations } from 'store/placeCategory'
+import React from 'react'
+import {connect} from 'react-redux'
+import {placesCategoriesOperations} from 'store/placeCategory'
 import Desciption from './components/Description'
-import { EnhancedTableHead } from './components/EnhancedTableHead'
 import MultiSelect from './components/MultiSelect'
 import Name from './components/Name'
 import './index.scss'
 import Grid from '@material-ui/core/Grid'
 import FormButtons from "components/FormButtons"
 import {Redirect} from 'react-router-dom'
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-  },
-  table: {
-    minWidth: 1020,
-  },
-  tableWrapper: {
-    overflowX: 'auto',
-  },
-});
-
-class PlaceCategoryTable extends React.Component {
+class PlaceCategoryForm extends React.Component {
 
   state = {isDataSubmitted: false}
 
@@ -40,12 +22,12 @@ class PlaceCategoryTable extends React.Component {
     this.props.processPutOrPost()
   }
 
-  componentDidMount(){
+  componentDidMount() {
     const matcher = window.location.pathname.match(/\d+$/)
     const id = matcher ? matcher[0] : null
     this.props.createOrGetPlaceCategory(id)
   }
-   
+
   checkBoxTypes = {
     MULTISYNC: 'multisync',
     ALLOW_MESSAGES: 'allowMessages',
@@ -78,90 +60,87 @@ class PlaceCategoryTable extends React.Component {
       return <Preloader/>
     }
 
-    const {classes, availableBusinessCategories, availableLayoutItems} = this.props
-    const {multisync, allowMessages, shouldAddPairedUsers, layoutItems, businessCategories: selectedBusinessCategories, name, key,
-      description} = this.props.editedPlaceCategory
-    const emptyRows = 1;
+    const {availableBusinessCategories, availableLayoutItems} = this.props
+    const {
+      multisync, allowMessages, shouldAddPairedUsers, layoutItems, businessCategories: selectedBusinessCategories,
+      name, key, description
+    } = this.props.editedPlaceCategory
     return (
-      <div className={classes.root}>
-        <div className={classes.tableWrapper}>
-          <Table className={classes.table} aria-labelledby="tableTitle">
-            <EnhancedTableHead
-              rowCount={2}
-            />
-            <TableBody>
-                  <Fragment key={key * Math.random()}>
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={key}
-                      style={{borderBottomStyle: "hidden"}}
-                    >
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={multisync} onClick={() => this.handleClickMultisync(key)} />
-                      </TableCell>
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={allowMessages} onClick={() => this.handleClickAllowMessages(key)} />
-                      </TableCell>
-                      <TableCell padding="checkbox">
-                        <Checkbox checked={shouldAddPairedUsers}
-                        onClick={() => this.handleClickShouldAddPairedUsers(key)} />
-                      </TableCell>
-                      <TableCell scope="row" padding="none">
-                        <Name name={name} placeCategoryKey={key} />
-                      </TableCell>
-                      <TableCell scope="row" padding="none">
-                        <MultiSelect
-                          selectedCategories={selectedBusinessCategories}
-                          availableCategories={availableBusinessCategories}
-                          type={'businessCategories'}
-                        />
-                      </TableCell>
-                      <TableCell scope="row" padding="none">
-                        <MultiSelect
-                          selectedCategories={layoutItems}
-                          availableCategories={availableLayoutItems}
-                          type={'layoutItems'}
-                        />
-                      </TableCell>
-                    </TableRow>
-                    <Desciption _Key={key} description={description}/>
-                  </Fragment>
-                
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 49 * emptyRows }}>
-                  <TableCell colSpan={6} />
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </div>
-        <Grid item xs={12}>
-          <FormButtons
-          saveFunction={() => this.processPutOrPost()}
-          cancelLink={'/admin/place-categories'}
+      <Grid container spacing={24}>
+        <Grid item xs={12} sm={6}>
+          <Name name={name} placeCategoryKey={key}/>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <MultiSelect
+            label={'Business Categories'}
+            width={150}
+            selectedCategories={selectedBusinessCategories}
+            availableCategories={availableBusinessCategories}
+            type={'businessCategories'}
           />
         </Grid>
-      </div>
+        <Grid item xs={12} sm={6}>
+          <MultiSelect
+            label={'Layout Items'}
+            width={90}
+            selectedCategories={layoutItems}
+            availableCategories={availableLayoutItems}
+            type={'layoutItems'}
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <Desciption
+            _Key={key}
+            description={description}
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <FormControlLabel
+            control={
+              <Checkbox checked={multisync} onClick={() => this.handleClickMultisync(key)}/>
+            }
+            label="Is multisync?"
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <FormControlLabel
+            control={
+              <Checkbox checked={allowMessages} onClick={() => this.handleClickAllowMessages(key)}/>
+            }
+            label="Allow place messages?"
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <FormControlLabel
+            control={
+              <Checkbox checked={shouldAddPairedUsers} onClick={() => this.handleClickShouldAddPairedUsers(key)}/>
+            }
+            label="Add paired users contacts?"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <FormButtons
+            saveFunction={() => this.processPutOrPost()}
+            cancelLink={'/admin/place-categories'}
+          />
+        </Grid>
+      </Grid>
     );
   }
 }
 
-PlaceCategoryTable.propTypes = {
-  classes: PropTypes.object.isRequired,
+PlaceCategoryForm.propTypes = {
   editedPlaceCategory: PropTypes.object.isRequired,
   toggleCheckBox: PropTypes.func.isRequired,
-  isLoading:  PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   isHttpRequestPending: PropTypes.bool.isRequired,
-  createOrGetPlaceCategory:  PropTypes.func.isRequired,
-  processPutOrPost:  PropTypes.func.isRequired,
-  availableBusinessCategories:  PropTypes.array.isRequired,
-  availableLayoutItems:  PropTypes.array.isRequired,
+  createOrGetPlaceCategory: PropTypes.func.isRequired,
+  processPutOrPost: PropTypes.func.isRequired,
+  availableBusinessCategories: PropTypes.array.isRequired,
+  availableLayoutItems: PropTypes.array.isRequired,
 }
 
-const mapStateToProps = ({ placeCategories }) => ({
-  classes: placeCategories.classes,
+const mapStateToProps = ({placeCategories}) => ({
   isLoading: placeCategories.isPlaceCategoryFormLoading,
   editedPlaceCategory: placeCategories.editedPlaceCategory,
   availableBusinessCategories: placeCategories.availableBusinessCategories,
@@ -175,4 +154,4 @@ const mapDispatchToProps = dispatch => ({
   processPutOrPost: () => dispatch(placesCategoriesOperations.processPutOrPost()),
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(PlaceCategoryTable))
+export default connect(mapStateToProps, mapDispatchToProps)(PlaceCategoryForm)

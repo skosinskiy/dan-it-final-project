@@ -71,6 +71,20 @@ public class ChatControllerTest {
   }
 
   @Test
+  public void getAllChatsForUser() throws Exception {
+    int expectedSize = 2;
+    String secondCategoryName = "chat-2";
+
+    MvcResult result = mockMvc.perform(get("/api/chats/user/1"))
+        .andReturn();
+    String responseBody = result.getResponse().getContentAsString();
+    List<ChatResponse> chats = objectMapper.readValue(responseBody, new TypeReference<List<ChatResponse>>(){});
+
+    assertEquals(expectedSize, chats.size());
+    assertEquals(secondCategoryName, chats.get(1).getName());
+  }
+
+  @Test
   public void getAllChats() throws Exception {
     int expectedSize = 2;
     String secondCategoryName = "chat-2";

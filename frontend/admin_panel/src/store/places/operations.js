@@ -33,12 +33,15 @@ export const deletePlace = (placeId, searchParam, page, size) => dispatch => {
 
 export const savePlace = (place, images) => dispatch => {
   dispatch(ACTIONS.isPlaceFormDataLoading(true))
+  const mainImageIndex = images.findIndex(image => image.isMainImage) === -1
+    ? 0
+    : images.findIndex(image => image.isMainImage)
   if (place.id) {
     const imagesToUpload = images.filter(image => !image.id)
     const existingImages = images.filter(image => image.id)
     return uploadImagesToS3(imagesToUpload)
       .then(uploadedImages => createPlacePhotos(uploadedImages, place.id)
-        .then(createdPhotos => updatePlace(existingImages, place, createdPhotos)
+        .then(createdPhotos => updatePlace(existingImages, place, createdPhotos, mainImageIndex)
           .then()
         )
       )
@@ -46,7 +49,7 @@ export const savePlace = (place, images) => dispatch => {
     return createPlace(place)
       .then(createdBusiness => uploadImagesToS3(images)
         .then(uploadedImages => createPlacePhotos(uploadedImages, createdBusiness.id)
-          .then(createdPhotos => updatePlace(null, createdBusiness, createdPhotos)
+          .then(createdPhotos => updatePlace(null, createdBusiness, createdPhotos, mainImageIndex)
             .then()
           )
         )
@@ -69,8 +72,10 @@ const createPlacePhotos = (s3UploadResponse, placeId) => {
   return api.post(`/api/places/${placeId}/photos`, array)
 }
 
-const updatePlace = (existingImages, place, createdPhotos) => {
+const updatePlace = (existingImages, place, createdPhotos, mainImageIndex) => {
   place.photos = existingImages ? existingImages.concat(createdPhotos.photos) : createdPhotos.photos
+  place.mainPhoto = place.photos[mainImageIndex]
+  place.photos.splice(mainImageIndex, 1)
   return api.put(`/api/places/${place.id}`, place)
 }
 

@@ -42,7 +42,14 @@ class BusinessForm extends Component {
     super(props)
     this.state = {
       editedBusiness: props.business !== undefined ? props.business : emptyBusiness,
-      businessImages: props.business !== undefined ? props.business.photos : [],
+      businessImages: props.business !== undefined
+        ? props.business.photos.map(photo => {
+          return {
+            ...photo,
+            isMainImage: props.business.mainPhoto && photo.id === props.business.mainPhoto.id
+          }
+        })
+        : [],
       isDataSubmitted: false
     }
   }
@@ -56,7 +63,14 @@ class BusinessForm extends Component {
     if (nextProps.business && nextProps.business !== this.props.business) {
       this.setState({
         editedBusiness: nextProps.business,
-        businessImages: nextProps.business.photos
+        businessImages: nextProps.business !== undefined
+          ? nextProps.business.photos.map(photo => {
+            return {
+              ...photo,
+              isMainImage: nextProps.business.mainPhoto && photo.id === nextProps.business.mainPhoto.id
+            }
+          })
+          : [],
       })
     }
   }
@@ -93,6 +107,10 @@ class BusinessForm extends Component {
       imageKey: null
     }))
 
+    if (this.state.businessImages.filter(image => image.isMainImage).length === 0) {
+      newBusinessImages[0].isMainImage = true
+    }
+
     this.setState((state) => {
       return {
         businessImages: [...state.businessImages, ...newBusinessImages]
@@ -115,6 +133,9 @@ class BusinessForm extends Component {
 
   onImageReset = (image) => {
     const newBusinessImages = this.state.businessImages.filter(elem => elem !== image)
+    if (image.isMainImage && newBusinessImages.length > 0) {
+      newBusinessImages[0].isMainImage = true
+    }
     this.setState({
       ...this.state,
       businessImages: newBusinessImages,
