@@ -23,8 +23,12 @@ class SelectBuildings extends Component {
 
   render () {
     const {places} = this.state
-    const placeCategories = Array.from(new Set(places.map(place => place.placeCategory)))
-
+    const placeCategories = []
+    places.map(place => place.placeCategory).forEach(category => {
+      if (placeCategories.filter(uniqueCategory => uniqueCategory.id === category.id).length === 0) {
+        placeCategories.push(category)
+      }
+    })
     const placeList = placeCategories.map(category => {
       const categoryPlaces = places.filter(place => place.placeCategory.id === category.id)
       return (
