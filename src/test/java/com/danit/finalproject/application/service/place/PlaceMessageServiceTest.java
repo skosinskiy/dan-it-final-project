@@ -2,10 +2,14 @@ package com.danit.finalproject.application.service.place;
 
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.entity.place.Place;
+import com.danit.finalproject.application.entity.place.PlaceCategory;
 import com.danit.finalproject.application.entity.place.PlaceMessage;
+import com.danit.finalproject.application.error.PlaceMessagesNotAllowedException;
 import com.danit.finalproject.application.repository.place.PlaceMessageRepository;
 import com.danit.finalproject.application.service.UserService;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,9 @@ import static org.mockito.internal.verification.VerificationModeFactory.times;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class PlaceMessageServiceTest {
+
+  @Rule
+  public ExpectedException expectedException = ExpectedException.none();
 
   @MockBean
   private PlaceMessageRepository placeMessageRepository;
@@ -104,7 +111,10 @@ public class PlaceMessageServiceTest {
     placeMessage.setId(1L);
 
     User expectedUser = new User();
+    PlaceCategory placeCategory = new PlaceCategory();
+    placeCategory.setAllowMessages(true);
     Place expectedPlace = new Place();
+    expectedPlace.setPlaceCategory(placeCategory);
 
     when(userService.getPrincipalUser()).thenReturn(expectedUser);
     when(placeService.getById(placeId)).thenReturn(expectedPlace);
@@ -119,6 +129,27 @@ public class PlaceMessageServiceTest {
     assertEquals(expectedMessage, placeMessageToSave.getMessage());
     assertEquals(expectedUser, placeMessageToSave.getUser());
     assertEquals(expectedPlace, placeMessageToSave.getPlace());
+  }
+
+  @Test
+  public void createForCurrentUserNotAllowedTest() {
+    Long placeId = 1L;
+
+    PlaceMessage placeMessage = new PlaceMessage();
+
+    User expectedUser = new User();
+    PlaceCategory placeCategory = new PlaceCategory();
+    placeCategory.setAllowMessages(false);
+    Place expectedPlace = new Place();
+    expectedPlace.setPlaceCategory(placeCategory);
+
+    when(userService.getPrincipalUser()).thenReturn(expectedUser);
+    when(placeService.getById(placeId)).thenReturn(expectedPlace);
+
+    expectedException.expect(PlaceMessagesNotAllowedException.class);
+    expectedException.expectMessage(PlaceMessagesNotAllowedException.PLACE_MESSAGES_NOT_ALLOWED_MESSAGE);
+
+    placeMessageService.create(placeMessage, placeId);
   }
 
   @Test

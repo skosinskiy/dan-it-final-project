@@ -3,6 +3,7 @@ package com.danit.finalproject.application.service.place;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlaceMessage;
+import com.danit.finalproject.application.error.PlaceMessagesNotAllowedException;
 import com.danit.finalproject.application.repository.place.PlaceMessageRepository;
 import com.danit.finalproject.application.service.CrudService;
 import com.danit.finalproject.application.service.UserService;
@@ -46,6 +47,9 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
   public PlaceMessage create(PlaceMessage entity, Long placeId) {
     User user = userService.getPrincipalUser();
     Place place = placeService.getById(placeId);
+    if (!place.getPlaceCategory().isAllowMessages()) {
+      throw new PlaceMessagesNotAllowedException();
+    }
     entity.setId(null);
     entity.setUser(user);
     entity.setPlace(place);

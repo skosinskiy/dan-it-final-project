@@ -1,7 +1,7 @@
 comment: off
 
 coverage:
-  range: 92..100
+  range: 95..100
   round: down
   precision: 2
 
