@@ -145,7 +145,7 @@ VALUES
   (2,3);
 
 INSERT INTO businesses
-  (id, date_created, date_modified, title, description, address, web_site, phone_number, place_id,  )
+  (id, date_created, date_modified, title, description, address, web_site, phone_number, place_id)
 VALUES
   (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Cupcake', 'description-1', 'Lva Tolstogo str, 56', 'site1.com.ua',
   '067-123-12-46', 1 ),
