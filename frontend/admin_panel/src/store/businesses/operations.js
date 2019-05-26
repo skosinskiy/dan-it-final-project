@@ -32,12 +32,16 @@ export const deleteBusiness = (businessId, searchParam, page, size) => dispatch 
 
 export const saveBusiness = (business, images) => dispatch => {
   dispatch(ACTIONS.isBusinessFormDataLoading(true))
+  const mainImageIndex = images.findIndex(image => image.isMainImage) === -1
+    ? 0
+    : images.findIndex(image => image.isMainImage)
+
   if (business.id) {
     const imagesToUpload = images.filter(image => !image.id)
     const existingImages = images.filter(image => image.id)
     return uploadImagesToS3(imagesToUpload)
       .then(uploadedImages => createBusinessPhotos(uploadedImages, business.id)
-          .then(createdPhotos => updateBusiness(existingImages, business, createdPhotos)
+          .then(createdPhotos => updateBusiness(existingImages, business, createdPhotos, mainImageIndex)
             .then()
           )
       )
@@ -45,7 +49,7 @@ export const saveBusiness = (business, images) => dispatch => {
     return createBusiness(business)
       .then(createdBusiness => uploadImagesToS3(images)
         .then(uploadedImages => createBusinessPhotos(uploadedImages, createdBusiness.id)
-          .then(createdPhotos => updateBusiness(null, createdBusiness, createdPhotos)
+          .then(createdPhotos => updateBusiness(null, createdBusiness, createdPhotos, mainImageIndex)
             .then()
           )
         )
@@ -68,8 +72,10 @@ const createBusinessPhotos = (s3UploadResponse, businessId) => {
   return api.post(`/api/businesses/${businessId}/photos`, array)
 }
 
-const updateBusiness = (existingImages, business, createdPhotos) => {
+const updateBusiness = (existingImages, business, createdPhotos, mainImageIndex) => {
   business.photos = existingImages ? existingImages.concat(createdPhotos.photos) : createdPhotos.photos
+  business.mainPhoto = business.photos[mainImageIndex]
+  business.photos.splice(mainImageIndex, 1)
   return api.put(`/api/businesses/${business.id}`, business)
 }
 

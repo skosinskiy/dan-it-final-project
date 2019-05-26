@@ -70,7 +70,7 @@ public class PlaceMessageControllerTest {
   @Test
   public void createNewPlaceMessageTest() throws Exception {
     Long expectedId = 5L;
-    Long expectedPlaceId = 1L;
+    Long expectedPlaceId = 2L;
     String expectedUserEmail = "first.user@test.com";
 
     PlaceMessage placeMessage = new PlaceMessage();
@@ -82,7 +82,7 @@ public class PlaceMessageControllerTest {
     String placeMessageJson = objectMapper.writeValueAsString(placeMessage);
 
     MvcResult result = mockMvc.perform(
-        post("/api/place-messages/place/1")
+        post("/api/place-messages/place/2")
             .with(csrf())
             .content(placeMessageJson)
             .contentType(MediaType.APPLICATION_JSON))

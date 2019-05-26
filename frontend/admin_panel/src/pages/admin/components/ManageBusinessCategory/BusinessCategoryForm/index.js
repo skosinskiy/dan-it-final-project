@@ -71,10 +71,6 @@ class BusinessCategoryForm extends React.Component {
           isDataSubmitted: true
         })
     })
-    // console.log(saveCategory(
-    //   this.state.editedCategory,
-    //   this.state.businessCategoryImage[0],
-    //   this.state.businessCategoryIcon[0]))
   }
 
   handleChange = (event, propName) => {

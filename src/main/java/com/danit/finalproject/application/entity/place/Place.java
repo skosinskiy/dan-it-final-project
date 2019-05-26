@@ -43,6 +43,7 @@ public class Place extends BaseEntity {
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "main_photo")
+  @ToString.Exclude
   private PlacePhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL, mappedBy = "place")

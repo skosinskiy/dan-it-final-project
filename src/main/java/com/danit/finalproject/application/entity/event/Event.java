@@ -43,6 +43,7 @@ public class Event extends BaseEntity {
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "main_photo")
+  @ToString.Exclude
   private EventPhoto mainPhoto;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "event")
