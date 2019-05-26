@@ -16,7 +16,9 @@ class SingleBusinessPage extends Component {
       return <Preloader/>
     }
     const link = currentPlaceById.id ? `/mobile/my-places/${currentPlaceById.id}` : '/mobile/home'
-    const img = businessItem.mainPhoto
+    const img = businessItem.mainPhoto.imageUrl
+    console.log(img)
+
     return (
       <div className="bp-wrapper">
         <NavLink to={link} className="bp_back-btn">

@@ -1,12 +1,14 @@
 @import '../../styles/variables';
 
-.header{
+.header {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   color: $dark-grey;
 
-  &__outer-wrapper{
+  &__outer-wrapper {
+    position: absolute;
+    top: 55px;
     display: flex;
     flex-grow: 1;
     flex-direction: column;
@@ -45,7 +47,7 @@
     }
   }
 
-  &__text-container{
+  &__text-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -64,7 +66,7 @@
     font-size: 32px;
   }
 
-  &__location{
+  &__location {
     margin: 0 20px 0 20px;
     color: $medium-grey;
     font-size: 14px;

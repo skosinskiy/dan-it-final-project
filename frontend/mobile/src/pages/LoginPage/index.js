@@ -9,6 +9,7 @@ import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {usersOperations} from '../../store/users'
 import './index.scss'
+import Preloader from '../../components/Preloader'
 
 class Login extends Component {
   state = {
@@ -16,7 +17,7 @@ class Login extends Component {
   }
 
   render () {
-    const {currentUser, match} = this.props
+    const {currentUser, match, isCurrentUserLoading} = this.props
 
     const placeId = match.params.placeId
 
@@ -27,7 +28,11 @@ class Login extends Component {
     }
 
     if (currentUser) {
-      return <Redirect to={'/mobile'}/>
+      return <Redirect to={'/mobile/home'}/>
+    }
+
+    if (isCurrentUserLoading) {
+      return <Preloader/>
     }
 
     return (

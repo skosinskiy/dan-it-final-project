@@ -19,26 +19,27 @@ import MapPage from '../../pages/MapPage/MapPage'
 
 const AppRoutes = (props) => {
   const {currentUser} = props
-  const bottomMenu = ['/mobile/login', '/mobile/registration'].includes(props.location.pathname) ? null : <BottomMenu/>
+  const bottomMenu = [
+    '/mobile/login',
+    '/mobile/registration'].includes(props.location.pathname) ? null : <BottomMenu/>
 
   return (
     <div className={'AppRoutes'}>
       <Switch>
-        <Route path="/mobile/login/placeId/:placeId" component={Login}/>
+        <Route path="/mobile/login/placeId/:placeId" component={Login} />
         <Route path="/mobile/login" component={Login}/>
         <Route path="/mobile/registration" component={Registration}/>
-        <Route path="/mobile/home" component={SelectBuildings}/>
-        <Route path="/mobile/my-places/:placeId" component={BusinessesEvents}/>
-        <Route path="/mobile/news" component={NewsPage} />
-        <Route path="/mobile/messages/:chatId" component={ChatPage} />
-        <Route path="/mobile/messages" component={DialoguesPage} />
-        <Route path="/mobile/create-chat" component={CreateChatPage} />
-        <Route path="/mobile/favourites" component={BusinessesEvents} />
-        <Route path="/mobile/contacts" component={ContactsPage} />
-        <Route path="/mobile/map" component={MapPage} />
-        <Route path="/mobile/businesses/:businessId" component={SingleBusinessPage} />
-        <Route path="/mobile/events/:eventId" component={SingleEventPage} />
-        <ProtectedRoute path="/mobile" component={SelectBuildings} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/home" component={SelectBuildings} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/my-places/:placeId" component={BusinessesEvents} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/news" component={NewsPage} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/messages/:chatId" component={ChatPage} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/messages" component={DialoguesPage} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/create-chat" component={CreateChatPage} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/favourites" component={BusinessesEvents} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/contacts" component={ContactsPage} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/map" component={MapPage} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/businesses/:businessId" component={SingleBusinessPage} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/events/:eventId" component={SingleEventPage} authenticated={!!currentUser}/>
       </Switch>
       {bottomMenu}
     </div>
@@ -65,7 +66,7 @@ AppRoutes.propTypes = {
 }
 
 ProtectedRoute.propTypes = {
-  component: PropTypes.object.isRequired,
+  component: PropTypes.func.isRequired,
   authenticated: PropTypes.bool.isRequired
 }
 

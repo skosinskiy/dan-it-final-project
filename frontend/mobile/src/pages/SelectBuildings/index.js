@@ -5,6 +5,7 @@ import bag from '../../img/icons/bag.svg'
 import './select-buildings.scss'
 import {connect} from 'react-redux'
 import {usersOperations} from '../../store/users'
+import Preloader from '../../components/Preloader'
 
 class SelectBuildings extends Component {
   state = {
@@ -16,13 +17,21 @@ class SelectBuildings extends Component {
   }
 
   componentWillReceiveProps (nextProps, nextContext) {
-    this.setState({
-      places: nextProps.user.places
-    })
+    if (nextProps.user) {
+      this.setState({
+        places: nextProps.user.places
+      })
+    }
   }
 
   render () {
     const {places} = this.state
+    const {currentPlace, isLoading} = this.props
+
+    if (isLoading) {
+      return <Preloader/>
+    }
+
     const placeCategories = []
     places.map(place => place.placeCategory).forEach(category => {
       if (placeCategories.filter(uniqueCategory => uniqueCategory.id === category.id).length === 0) {
@@ -45,21 +54,24 @@ class SelectBuildings extends Component {
       )
     })
 
-    const bgImageURL = 'https://i.lb.ua/121/60/5b1501c46a520.jpeg'
+    const bgImageURL = currentPlace.mainPhoto
+      ? currentPlace.photos.find(photo => photo.id === currentPlace.mainPhoto.id).imageUrl
+      : ''
 
     return (
       <div className="place-container parallax-container">
-        <MobileHeader header="Malls" location="Sky Mall" bgImage={bgImageURL} icon={bag} />
+        <MobileHeader
+          photos={currentPlace.photos}
+          header={currentPlace.placeCategory ? currentPlace.placeCategory.name : ''}
+          location={currentPlace.title} bgImage={bgImageURL} icon={bag}/>
         <div className="content">
           <div className="options">
             <div className="options-container">
               <div className="options-title">Explore</div>
-              <div className="options-function">Edit</div>
             </div>
           </div>
           <div className="places">
             {places.length ? placeList : <h3 className="content-title">You have no places</h3>}
-            <button className="add-place_button">+</button>
           </div>
         </div>
       </div>
@@ -67,9 +79,18 @@ class SelectBuildings extends Component {
   }
 }
 
-const mapStateToProps = ({users}) => ({
-  user: users.currentUser
-})
+const mapStateToProps = (state) => {
+  const currentPlace =
+      !state.places.currentPlaceById.id && state.users.currentUser
+        ? state.users.currentUser.places[0]
+        : state.places.currentPlaceById
+
+  return {
+    currentPlace: currentPlace,
+    user: state.users.currentUser,
+    isLoading: state.users.isCurrentUserLoading
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   getCurrentUser: () => dispatch(usersOperations.getCurrentUser())

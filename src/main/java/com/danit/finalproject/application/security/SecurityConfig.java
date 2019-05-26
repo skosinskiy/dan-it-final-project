@@ -5,6 +5,7 @@ import com.danit.finalproject.application.security.oauth2.CustomOidcUserService;
 import com.danit.finalproject.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -49,6 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
         .and()
           .authorizeRequests()
+          .antMatchers(HttpMethod.GET)
+          .permitAll()
           .antMatchers("/**/static/**", "/h2-console/**", "/google66e649965f9cdeb4.html", "/swagger-ui.html",
               "/api/users/current", "/api/users/forgot-password/**", "/api/users/register",
               "/admin/**", "/mobile/**", "/screen")
