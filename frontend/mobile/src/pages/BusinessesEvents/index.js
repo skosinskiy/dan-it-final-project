@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ReactComponent as Bee } from '../../img/icons/bee.svg'
 import SectionItem from './SectionItem'
 import PlaceMessage from './PlaceMessage'
 import MobileHeader from '../../components/MobileHeader'
@@ -10,7 +9,7 @@ import './businesses-events.scss'
 import { getCurrentPlaceById } from '../../store/places/operations'
 import { getBusinessesByCategory } from '../../store/businesses/operations'
 import { getEventsByPLace } from '../../store/events/operations'
-import { postPlaceMessage, getPlaceMessagesByPlaceId } from '../../store/PlaceMessages/operations'
+import { getPlaceMessagesByPlaceId, postPlaceMessage } from '../../store/PlaceMessages/operations'
 
 class BusinessesEvents extends Component {
   state = {
@@ -68,7 +67,7 @@ class BusinessesEvents extends Component {
       menuItems = currentPlaceById.placeCategory.businessCategories.map(item => {
         return (
           <li key={item.id} className="menu-item" onClick={() => this.getBusinessesByCategory(item.id)}>
-            <div className="menu-item_icon"><img src={item.imageUrl} alt={item.name}/></div>
+            <div className="menu-item_icon" style={{backgroundImage: `url(${item.imageUrl})`}}></div>
             <div className="menu-item_text">{item.name}</div>
           </li>
         )
@@ -96,7 +95,6 @@ class BusinessesEvents extends Component {
           <div className="events section">
             <div className="section-header">
               <h2 className="section-title">Events</h2>
-              <div className="side-icon"><Bee/></div>
             </div>
             <div className="section-list">
               {eventsList}
