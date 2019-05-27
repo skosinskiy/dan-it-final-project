@@ -77,9 +77,9 @@ class BusinessesEvents extends Component {
     return (
       <div className="businesse-container parallax-container">
         <MobileHeader
-            photos={currentPlaceById.photos}
-            header={currentPlaceById.placeCategory ? currentPlaceById.placeCategory.name : ''}
-            location={currentPlaceById.title} bgImage={bgImageURL} icon={bag} />
+          photos={currentPlaceById.photos}
+          header={currentPlaceById.placeCategory ? currentPlaceById.placeCategory.name : ''}
+          location={currentPlaceById.title} bgImage={bgImageURL} icon={bag} />
         <div className="content">
           <div className="navbar">
             <h2 className="section-title">Explore</h2>
