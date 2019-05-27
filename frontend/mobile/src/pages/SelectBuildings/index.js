@@ -62,8 +62,8 @@ class SelectBuildings extends Component {
       <div className="place-container parallax-container">
         <MobileHeader
           photos={currentPlace.photos
-              .filter(photo => currentPlace.mainPhoto.id !== photo.id)
-              .unshift(currentPlace.photos.find(photo => photo.id === currentPlace.mainPhoto.id))
+            .filter(photo => currentPlace.mainPhoto.id !== photo.id)
+            .unshift(currentPlace.photos.find(photo => photo.id === currentPlace.mainPhoto.id))
           }
           header={currentPlace.placeCategory ? currentPlace.placeCategory.name : ''}
           location={currentPlace.title} bgImage={bgImageURL} icon={bag}/>
