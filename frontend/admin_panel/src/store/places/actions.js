@@ -5,11 +5,6 @@ export const getAllPlaces = (res) => ({
   payload: res
 })
 
-export const getPlacesCategories = (placeCategories) => ({
-  type: TYPES.GET_PLACES_CATEGORIES,
-  payload: {placeCategories}
-})
-
 export const isPlacesLoading = isLoading => ({
   type: TYPES.IS_PLACES_LOADING,
   payload: isLoading

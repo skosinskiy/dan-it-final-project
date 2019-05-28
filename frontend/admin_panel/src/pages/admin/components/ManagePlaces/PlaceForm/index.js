@@ -216,7 +216,7 @@ PlaceForm.propTypes = {
 
 const mapStateToProps = (state, props) => {
   return {
-    categories: [...state.places.placeCategories],
+    categories: state.placeCategories.placeCategories,
     places: state.places.places,
     place: state.places.places.find(place => place.id.toString() === props.match.params.placeId),
     isPlaceFormDataLoading: state.places.isPlaceFormDataLoading,
@@ -228,7 +228,6 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getPlaceCategories: () => dispatch(placesOperations.getPlacesCategories()),
     savePlace: (placeId, place) => dispatch(placesOperations.savePlace(placeId, place)),
     fetchPlaceFormData: (searchParam, page, size) => dispatch(placesOperations.fetchPlaceFormData(searchParam, page, size))
   }
