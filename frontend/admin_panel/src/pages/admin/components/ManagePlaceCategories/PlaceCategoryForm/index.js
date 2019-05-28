@@ -3,101 +3,163 @@ import Preloader from 'components/Preloader'
 import PropTypes from 'prop-types'
 import React from 'react'
 import {connect} from 'react-redux'
-import {placesCategoriesOperations} from 'store/placeCategory'
-import Desciption from './components/Description'
-import MultiSelect from './components/MultiSelect'
-import Name from './components/Name'
-import './index.scss'
+import {placeCategoriesOperations} from 'store/placeCategory'
 import Grid from '@material-ui/core/Grid'
-import FormButtons from "components/FormButtons"
+import FormButtons from 'components/FormButtons'
 import {Redirect} from 'react-router-dom'
-import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import TextField from '@material-ui/core/TextField'
+import InputLabel from '@material-ui/core/InputLabel'
+import Select from '@material-ui/core/Select'
+import OutlinedInput from '@material-ui/core/OutlinedInput'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import ListItemText from '@material-ui/core/ListItemText'
+
+const emptyPlaceCategory = {
+  allowMessages: false,
+  businessCategories: [],
+  description: '',
+  layoutItems: [],
+  multisync: false,
+  name: '',
+  shouldAddPairedUsers: false
+}
 
 class PlaceCategoryForm extends React.Component {
-
-  state = {isDataSubmitted: false}
-
-  processPutOrPost() {
-    this.setState({isDataSubmitted: true})
-    this.props.processPutOrPost()
+  constructor(props) {
+    super(props)
+    this.state = {
+      editedPlaceCategory: props.placeCategory !== undefined ? props.placeCategory : emptyPlaceCategory,
+      isDataSubmitted: false
+    }
   }
 
   componentDidMount() {
-    const matcher = window.location.pathname.match(/\d+$/)
-    const id = matcher ? matcher[0] : null
-    this.props.createOrGetPlaceCategory(id)
+    this.props.fetchPlaceCategoriesFormData()
   }
 
-  checkBoxTypes = {
-    MULTISYNC: 'multisync',
-    ALLOW_MESSAGES: 'allowMessages',
-    SHOULD_ADD_PAIRED_USERS: 'shouldAddPairedUsers',
+  componentWillReceiveProps(nextProps, nextContext) {
+    if (nextProps.placeCategory && nextProps.placeCategory !== this.props.placeCategory) {
+      this.setState({
+        editedPlaceCategory: nextProps.placeCategory
+      })
+    }
   }
 
-  handleClickCheckBox = checkBoxType => {
-    this.props.toggleCheckBox(checkBoxType)
+  handleChange = (event, propName) => {
+    const value = ['multisync', 'allowMessages', 'shouldAddPairedUsers'].includes(propName)
+      ? !this.state.editedPlaceCategory[propName]
+      : event.target.value
+
+    this.setState({
+      editedPlaceCategory: {
+        ...this.state.editedPlaceCategory, [propName]: value
+      }
+    })
   }
 
-  handleClickMultisync = () => {
-    this.handleClickCheckBox(this.checkBoxTypes.MULTISYNC)
-  }
-
-  handleClickAllowMessages = () => {
-    this.handleClickCheckBox(this.checkBoxTypes.ALLOW_MESSAGES)
-  }
-
-  handleClickShouldAddPairedUsers = () => {
-    this.handleClickCheckBox(this.checkBoxTypes.SHOULD_ADD_PAIRED_USERS)
+  savePlaceCategory = () => {
+    const {savePlaceCategory} = this.props
+    const {editedPlaceCategory} = this.state
+    savePlaceCategory(editedPlaceCategory).then(() =>
+      this.setState({
+        isDataSubmitted: true
+      })
+    )
   }
 
   render() {
 
-    if (this.state.isDataSubmitted) {
+    const {parentBusinessCategories, layoutItems, isPlaceCategoriesFormDataLoading} = this.props
+    const {editedPlaceCategory, isDataSubmitted} = this.state
+
+    if (isDataSubmitted) {
       return <Redirect to={'/admin/place-categories'}/>
     }
 
-    if (this.props.isLoading || this.props.isHttpRequestPending) {
+    if (isPlaceCategoriesFormDataLoading) {
       return <Preloader/>
     }
 
-    const {availableBusinessCategories, availableLayoutItems} = this.props
-    const {
-      multisync, allowMessages, shouldAddPairedUsers, layoutItems, businessCategories: selectedBusinessCategories,
-      name, key, description
-    } = this.props.editedPlaceCategory
+    const businessCategoriesOptions = parentBusinessCategories
+      .map(category => (
+        <MenuItem key={category.id} value={category}>
+          <Checkbox checked={!!editedPlaceCategory.businessCategories.find(item => item.id === category.id)}/>
+          <ListItemText primary={category.name}/>
+        </MenuItem>
+      ))
+
+    const layoutItemsOptions = layoutItems
+      .map((item, index) => (
+        <MenuItem key={index} value={item}>
+          <Checkbox checked={!!editedPlaceCategory.layoutItems.find(layoutItem => layoutItem === item)}/>
+          <ListItemText primary={item}/>
+        </MenuItem>
+      ))
+
     return (
       <Grid container spacing={24}>
         <Grid item xs={12} sm={6}>
-          <Name name={name} placeCategoryKey={key}/>
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <MultiSelect
-            label={'Business Categories'}
-            width={150}
-            selectedCategories={selectedBusinessCategories}
-            availableCategories={availableBusinessCategories}
-            type={'businessCategories'}
+          <TextField
+            fullWidth
+            label={'Name'}
+            value={editedPlaceCategory.name}
+            variant='outlined'
+            onChange={(event) => this.handleChange(event, 'name')}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <MultiSelect
-            label={'Layout Items'}
-            width={90}
-            selectedCategories={layoutItems}
-            availableCategories={availableLayoutItems}
-            type={'layoutItems'}
+          <TextField
+            fullWidth
+            label={'Description'}
+            value={editedPlaceCategory.description}
+            variant='outlined'
+            onChange={(event) => this.handleChange(event, 'description')}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Desciption
-            _Key={key}
-            description={description}
-          />
+          <FormControl fullWidth variant="outlined">
+            <InputLabel>
+              Business Categories
+            </InputLabel>
+            <Select
+              multiple
+              value={editedPlaceCategory.businessCategories}
+              onChange={event => this.handleChange(event, 'businessCategories')}
+              input={
+                <OutlinedInput labelWidth={150}/>
+              }
+              renderValue={selected => selected.map(item => item.name).join(', ')}
+            >
+              {businessCategoriesOptions}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <FormControl fullWidth variant="outlined">
+            <InputLabel>
+              Layout Items
+            </InputLabel>
+            <Select
+              multiple
+              value={editedPlaceCategory.layoutItems}
+              onChange={event => this.handleChange(event, 'layoutItems')}
+              input={
+                <OutlinedInput labelWidth={90}/>
+              }
+              renderValue={selected => selected.join(', ')}
+            >
+              {layoutItemsOptions}
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={4}>
           <FormControlLabel
             control={
-              <Checkbox checked={multisync} onClick={() => this.handleClickMultisync(key)}/>
+              <Checkbox
+                checked={editedPlaceCategory.multisync}
+                onClick={event => this.handleChange(event, 'multisync')}/>
             }
             label="Is multisync?"
           />
@@ -105,7 +167,9 @@ class PlaceCategoryForm extends React.Component {
         <Grid item xs={4}>
           <FormControlLabel
             control={
-              <Checkbox checked={allowMessages} onClick={() => this.handleClickAllowMessages(key)}/>
+              <Checkbox
+                checked={editedPlaceCategory.allowMessages}
+                onClick={event => this.handleChange(event, 'allowMessages')}/>
             }
             label="Allow place messages?"
           />
@@ -113,45 +177,47 @@ class PlaceCategoryForm extends React.Component {
         <Grid item xs={4}>
           <FormControlLabel
             control={
-              <Checkbox checked={shouldAddPairedUsers} onClick={() => this.handleClickShouldAddPairedUsers(key)}/>
+              <Checkbox checked={editedPlaceCategory.shouldAddPairedUsers}
+                        onClick={event => this.handleChange(event, 'shouldAddPairedUsers')}/>
             }
             label="Add paired users contacts?"
           />
         </Grid>
         <Grid item xs={12}>
           <FormButtons
-            saveFunction={() => this.processPutOrPost()}
+            saveFunction={() => this.savePlaceCategory(editedPlaceCategory)}
             cancelLink={'/admin/place-categories'}
           />
         </Grid>
       </Grid>
-    );
+    )
   }
 }
 
 PlaceCategoryForm.propTypes = {
-  editedPlaceCategory: PropTypes.object.isRequired,
-  toggleCheckBox: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  isHttpRequestPending: PropTypes.bool.isRequired,
-  createOrGetPlaceCategory: PropTypes.func.isRequired,
-  processPutOrPost: PropTypes.func.isRequired,
-  availableBusinessCategories: PropTypes.array.isRequired,
-  availableLayoutItems: PropTypes.array.isRequired,
+  fetchPlaceCategoriesFormData: PropTypes.func.isRequired,
+  savePlaceCategory: PropTypes.func.isRequired,
+  placeCategory: PropTypes.object,
+  parentBusinessCategories: PropTypes.array.isRequired,
+  layoutItems: PropTypes.array.isRequired,
+  isPlaceCategoriesFormDataLoading: PropTypes.bool.isRequired
 }
 
-const mapStateToProps = ({placeCategories}) => ({
-  isLoading: placeCategories.isPlaceCategoryFormLoading,
-  editedPlaceCategory: placeCategories.editedPlaceCategory,
-  availableBusinessCategories: placeCategories.availableBusinessCategories,
-  availableLayoutItems: placeCategories.availableLayoutItems,
-  isHttpRequestPending: placeCategories.isHttpRequestPending,
-})
+const mapStateToProps = (state, props) => {
+  const placeCategory = state.placeCategories.placeCategories
+    .find(placeCategory => placeCategory.id.toString() === props.match.params.categoryId)
+
+  return {
+    placeCategory: placeCategory,
+    parentBusinessCategories: state.businessCategory.allParentBusinessCategories,
+    layoutItems: state.placeCategories.layoutItems,
+    isPlaceCategoriesFormDataLoading: state.placeCategories.isPlaceCategoriesFormDataLoading
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
-  toggleCheckBox: (key, checkBoxType) => dispatch(placesCategoriesOperations.toggleCheckBox(key, checkBoxType)),
-  createOrGetPlaceCategory: (id) => dispatch(placesCategoriesOperations.createOrGetPlaceCategory(id)),
-  processPutOrPost: () => dispatch(placesCategoriesOperations.processPutOrPost()),
+  fetchPlaceCategoriesFormData: () => dispatch(placeCategoriesOperations.fetchPlaceCategoriesFormData()),
+  savePlaceCategory: placeCategory => dispatch(placeCategoriesOperations.savePlaceCategory(placeCategory))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlaceCategoryForm)

@@ -21,11 +21,6 @@ const placesReducer = (state = initialState, action) => {
         page: action.payload.pageable.pageNumber,
         size: action.payload.pageable.pageSize
       }
-    case TYPES.GET_PLACES_CATEGORIES:
-      return {
-        ...state,
-        placeCategories: [...action.payload.placeCategories]
-      }
     case TYPES.IS_PLACES_LOADING:
       return {
         ...state,
