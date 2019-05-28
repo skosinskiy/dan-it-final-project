@@ -1,7 +1,7 @@
-import * as placesCategoriesOperations from './operations'
+import * as placeCategoriesOperations from './operations'
 import * as placesCategoriesActions from './actions'
 import reducer from './reducer'
 
-export {placesCategoriesOperations, placesCategoriesActions}
+export {placeCategoriesOperations, placesCategoriesActions}
 
 export default reducer

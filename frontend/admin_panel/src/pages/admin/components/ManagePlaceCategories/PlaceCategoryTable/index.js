@@ -2,17 +2,16 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {withStyles} from '@material-ui/core/styles/index'
 import PropTypes from 'prop-types'
-import {eventCategoryOperations} from 'store/eventCategory'
 import TableRow from '@material-ui/core/TableRow'
 import TableCell from '@material-ui/core/TableCell'
 import {Table} from '@material-ui/core'
 import TableHead from '@material-ui/core/TableHead'
 import TableBody from '@material-ui/core/TableBody'
 import Paper from '@material-ui/core/Paper'
-import Checkbox from '@material-ui/core/Checkbox';
+import Checkbox from '@material-ui/core/Checkbox'
 import TableCellButtons from 'components/TableCellButtons'
-import {placesCategoriesOperations} from 'store/placeCategory'
-import Preloader from 'components/Preloader';
+import {placeCategoriesOperations} from '../../../../../store/placeCategory'
+import Preloader from '../../../../../components/Preloader'
 
 const styles = theme => ({
   root: {
@@ -26,42 +25,43 @@ const styles = theme => ({
 
 class PlaceCategories extends Component {
   componentDidMount() {
-    this.props.reloadData()
+    this.props.getAllPlaceCategories()
   }
 
   render() {
 
-    if (this.props.isLoading) {
+    const {classes, arePlaceCategoriesLoading, placeCategories, deletePlaceCategory} = this.props
+
+    if (arePlaceCategoriesLoading) {
       return (
         <div style={{height: 'calc(100vh - 200px)'}}>
           <Preloader/>
         </div>)
     }
 
-    const {classes, placeCategories} = this.props
-    const rows = [
-      {id: 'multisync', label: 'Is Multisync?'},
-      {id: 'allowMessages', label: 'Allow Messages?'},
-      {id: 'shouldAddPairedUsers', label: 'Add paired users contacts?'},
-      {id: 'name', label: 'Name'},
-      {id: 'description', grow: 2, label: 'Description'},
-      {id: 'businessCategories', label: 'Business Categories'},
-      {id: 'layoutItems', label: 'Layout Items'},
-      {id: 'buttons', label: ''},
-    ];
     return (
       <Paper className={classes.root}>
         <Table className={classes.table}>
           <colgroup>
-            {rows.map((row, i) => (
-              <col key={'header' + i} style={{width: `${100 * (row.grow || 1) / rows.length}%`}}/>
-            ))}
+            <col style={{width: '12%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '12%'}}/>
+            <col style={{width: '16%'}}/>
           </colgroup>
           <TableHead>
             <TableRow>
-              {rows.map((row, i) => (
-                <TableCell key={'label' + i}>{row.label}</TableCell>
-              ))}
+              <TableCell className={classes.firstCell}>Is Multisync?</TableCell>
+              <TableCell className={classes.cell}>Allow Messages?</TableCell>
+              <TableCell className={classes.cell}>Add paired users contacts?</TableCell>
+              <TableCell className={classes.cell}>Name</TableCell>
+              <TableCell className={classes.cell}>Description</TableCell>
+              <TableCell className={classes.cell}>Business Categories</TableCell>
+              <TableCell className={classes.cell}>Layout Items</TableCell>
+              <TableCell/>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -87,7 +87,7 @@ class PlaceCategories extends Component {
                   <TableCell>{layoutItems.join(', ')}</TableCell>
                   <TableCellButtons
                     editLink={`/admin/place-categories/${id}`}
-                    deleteFunction={() => this.props.processDelete(placeCategory)}
+                    deleteFunction={() => deletePlaceCategory(placeCategory.id)}
                   />
                 </TableRow>
               )
@@ -100,26 +100,24 @@ class PlaceCategories extends Component {
 }
 
 PlaceCategories.propTypes = {
+  getAllPlaceCategories: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  deleteEventCategory: PropTypes.func.isRequired,
   placeCategories: PropTypes.array.isRequired,
-  isLoading: PropTypes.bool.isRequired,
-  reloadData: PropTypes.func.isRequired,
-  processDelete: PropTypes.func.isRequired,
+  arePlaceCategoriesLoading: PropTypes.bool.isRequired,
+  deletePlaceCategory: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = ({placeCategories}) => {
   return {
     placeCategories: placeCategories.placeCategories,
-    isLoading: placeCategories.isHttpRequestPending,
+    arePlaceCategoriesLoading: placeCategories.arePlaceCategoriesLoading
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
-    deleteEventCategory: (categoryId) => dispatch(eventCategoryOperations.deleteEventCategory(categoryId)),
-    reloadData: () => dispatch(placesCategoriesOperations.reloadData()),
-    processDelete: (placeCategory) => dispatch(placesCategoriesOperations.processDelete(placeCategory)),
+    getAllPlaceCategories: () => dispatch(placeCategoriesOperations.getAllPlaceCategories()),
+    deletePlaceCategory: placeCategoryId => dispatch(placeCategoriesOperations.deletePlaceCategory(placeCategoryId))
   }
 }
 

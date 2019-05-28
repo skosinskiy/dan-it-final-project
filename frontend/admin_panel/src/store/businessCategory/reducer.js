@@ -2,6 +2,7 @@ import * as TYPES from './types'
 
 const initialState = {
   allBusinessCategories: [],
+  allParentBusinessCategories: [],
   isBusinessCategoryDataLoading: false,
   isBusinessCategoryFormDataLoading: false
 }
@@ -22,6 +23,11 @@ export const businessCategory = (state = initialState, action) => {
       return {
         ...state,
         isBusinessCategoryFormDataLoading: action.payload
+      }
+    case TYPES.GET_ALL_PARENT_CATEGORIES:
+      return {
+        ...state,
+        allParentBusinessCategories: action.payload
       }
     default:
       return {...state}
