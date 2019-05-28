@@ -4,9 +4,14 @@
     padding-left: 10px;
 }
 .login-page {
+    text-align: center;
     &__header {
+        text-align: center;
         background-image: url("../../img/LoginPage/header-bg.svg");
         background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+
         .header__logo {
             display: inline-block;
             width: 130px;
@@ -22,6 +27,7 @@
             font-family: 'SF Compact Text';
         }
         .header__text {
+            margin-top: 10px;
             padding-top: 4px;
             padding-bottom: 80px;
             color: $dark-grey2;
@@ -38,9 +44,8 @@
                 position: relative;
                 display: flex;
                 justify-content: space-around;
-                width: 260px;
+                box-sizing: border-box;
                 padding-top: 40px;
-                padding-left: 30px;
                 &-text {
                     margin-left: 30px;
                     color: $dark-grey2;
@@ -52,10 +57,9 @@
             .password__field {
                 display: flex;
                 justify-content: space-around;
-                width: 260px;
+                box-sizing: border-box;
                 padding-top: 35px;
                 padding-bottom: 40px;
-                padding-left: 30px;
                 &-text {
                     margin-left: 30px;
                     color: $dark-grey2;
@@ -66,9 +70,8 @@
             }
         }
         .search-form {
-            width: 335px;
             height: 200px;
-            margin-left: 10px;
+            padding: 0 30px;
             text-align: left;
             background-color: $white;
             border-radius: 10px;
