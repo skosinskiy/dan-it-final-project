@@ -6,9 +6,6 @@ const initialState = {
   isAuthenticated: true,
   isCurrentUserLoading: true,
   usersListByPLace: [],
-  
-  isLoaded: false,
-  isLoading: false,
   usersListByPLaceIsLoading: true
 }
 
@@ -38,5 +35,5 @@ const usersReducer = (state = initialState, action) => {
       return {...state}
   }
 }
-  
+
 export default usersReducer
