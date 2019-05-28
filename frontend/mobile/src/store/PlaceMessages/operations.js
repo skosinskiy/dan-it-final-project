@@ -7,7 +7,7 @@ export function postPlaceMessage (message, placeId, context) {
 }
 
 export function getPlaceMessagesByPlaceId (placeId) {
-  api.get(`/api/place-messages?placeId=${placeId}`).then(res => {
+  return api.get(`/api/place-messages?placeId=${placeId}`).then(res => {
     this.setState({placeMessages: res.reverse()})
   })
 }

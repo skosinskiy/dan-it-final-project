@@ -40,6 +40,7 @@ const AppRoutes = (props) => {
         <ProtectedRoute path="/mobile/map" component={MapPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/businesses/:businessId" component={SingleBusinessPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/events/:eventId" component={SingleEventPage} authenticated={!!currentUser}/>
+        <Route path="/" exact={false} component={SelectBuildings} authenticated={!!currentUser}/>
       </Switch>
       {bottomMenu}
     </div>

@@ -2,28 +2,49 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { ReactComponent as Bee } from '../../img/icons/bee.svg'
 import SectionItem from './SectionItem'
-import PlaceMessage from './PlaceMessage'
 import MobileHeader from '../../components/MobileHeader'
 import bag from '../../img/icons/bag.svg'
 import TextareaAutosize from 'react-autosize-textarea'
 import './businesses-events.scss'
+import { placeOperations } from '../../store/places'
 import { getCurrentPlaceById } from '../../store/places/operations'
 import { getBusinessesByCategory } from '../../store/businesses/operations'
 import { getEventsByPLace } from '../../store/events/operations'
 import { postPlaceMessage, getPlaceMessagesByPlaceId } from '../../store/PlaceMessages/operations'
+import Preloader from '../../components/Preloader'
+
+const emptyCurrentPlace = {
+  address: '',
+  description: '',
+  id: '',
+  mainPhoto: null,
+  photos: [],
+  placeCategory: null,
+  title: ''
+}
 
 class BusinessesEvents extends Component {
-  state = {
-    message: '',
-    placeMessages: []
+  constructor (props) {
+    super(props)
+    this.state = {
+      currentPlace: this.props.currentPlaceById !== undefined ? this.props.currentPlaceById : emptyCurrentPlace,
+      placeMessages: []
+    }
   }
 
   componentDidMount () {
-    const {getEventsByPLace, getCurrentPlaceById} = this.props
+    const {fetchBusinessesEventsData} = this.props
     const placeId = +this.props.match.params.placeId
-    getCurrentPlaceById(placeId)
-    getEventsByPLace(placeId)
+    fetchBusinessesEventsData(placeId)
     getPlaceMessagesByPlaceId.call(this, placeId)
+  }
+
+  componentWillReceiveProps (nextProps, nextContext) {
+    if (nextProps.currentPlaceById && nextProps.currentPlaceById !== this.props.currentPlaceById) {
+      this.setState({
+        currentPlace: nextProps.currentPlaceById !== undefined ? nextProps.currentPlaceById : emptyCurrentPlace
+      })
+    }
   }
 
   getBusinessesByCategory (id) {
@@ -48,38 +69,53 @@ class BusinessesEvents extends Component {
   }
 
   render () {
-    const {businesses, events, currentPlaceById, isLoaded, currentUser} = this.props
+    const {businesses, events, currentPlaceById, isLoaded, currentUser, isBusinessesEventsDataLoading} = this.props
     const placeId = +this.props.match.params.placeId
-    const { placeMessages } = this.state
+    const { placeMessages, currentPlace } = this.state
+
+    if (isBusinessesEventsDataLoading) {
+      return <Preloader/>
+    }
+
+    console.log(currentPlace)
+
     const businessesList = businesses.map(item => {
       return <SectionItem key={item.id} item={item} type={'businesses'}/>
     })
     const eventsList = events.map(item => {
       return <SectionItem key={item.id} item={item} type={'events'}/>
     })
-    const messageList = placeMessages.map(item => {
-      const allowDelete = currentUser.id === item.user.id
-      return <PlaceMessage key={item.id} placeId={placeId} item={item} context={this} del={allowDelete} />
-    })
+    // const messageList = placeMessages.map(item => {
+    //   const allowDelete = currentUser.id === item.user.id
+    //   return <PlaceMessage key={item.id} placeId={placeId} item={item} context={this} del={allowDelete} />
+    // })
     const bgImageURL = 'https://i.lb.ua/121/60/5b1501c46a520.jpeg'
 
     let menuItems = []
     if (isLoaded) {
-      menuItems = currentPlaceById.placeCategory.businessCategories.map(item => {
+      menuItems = currentPlace.placeCategory.businessCategories.map(item => {
         return (
           <li key={item.id} className="menu-item" onClick={() => this.getBusinessesByCategory(item.id)}>
-            <div className="menu-item_icon"><img src={item.imageUrl} alt={item.name}/></div>
+            {/*<div className="menu-item_icon"><img src={item.imageUrl} alt={item.name}/></div>*/}
             <div className="menu-item_text">{item.name}</div>
           </li>
         )
       })
     }
+
+    const photos = currentPlace.photos
+      ? currentPlace.photos.filter(photo => photo.id !== currentPlace.mainPhoto.id)
+      : []
+    if (currentPlace.photos) {
+      photos.unshift(currentPlace.photos.find(photo => photo.id === currentPlace.mainPhoto.id))
+    }
+
     return (
       <div className="businesse-container parallax-container">
         <MobileHeader
-          photos={currentPlaceById.photos}
-          header={currentPlaceById.placeCategory ? currentPlaceById.placeCategory.name : ''}
-          location={currentPlaceById.title} bgImage={bgImageURL} icon={bag} />
+          photos={photos}
+          header={currentPlace.placeCategory ? currentPlace.placeCategory.name : ''}
+          location={currentPlace.title} bgImage={bgImageURL} icon={bag} />
         <div className="content">
           <div className="navbar">
             <h2 className="section-title">Explore</h2>
@@ -110,7 +146,7 @@ class BusinessesEvents extends Component {
               Place Messages
             </h2>
             <div className="section-list">
-              {messageList}
+              {/* {messageList} */}
             </div>
           </div>
           <div className="send-place-messages section">
@@ -141,12 +177,17 @@ class BusinessesEvents extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const currentPlaceById = !state.places.currentPlaceById.id && state.users.currentUser
+    ? state.users.currentUser.places[0]
+    : state.places.currentPlaceById
+
   return {
     currentUser: state.users.currentUser,
     businesses: state.businesses.businessesByCategory,
     events: state.events.events,
-    currentPlaceById: state.places.currentPlaceById,
-    isLoaded: state.places.isLoaded
+    currentPlaceById: currentPlaceById,
+    isLoaded: state.places.isLoaded,
+    isBusinessesEventsDataLoading: state.places.isBusinessesEventsDataLoading
   }
 }
 
@@ -154,7 +195,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getBusinessesByCategory: (categoryId) => dispatch(getBusinessesByCategory(categoryId)),
     getEventsByPLace: (placeId) => dispatch(getEventsByPLace(placeId)),
-    getCurrentPlaceById: (placeId) => dispatch(getCurrentPlaceById(placeId))
+    getCurrentPlaceById: (placeId) => dispatch(getCurrentPlaceById(placeId)),
+    fetchBusinessesEventsData: placeId => dispatch(placeOperations.fetchBusinessesEventsData(placeId))
   }
 }
 

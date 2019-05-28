@@ -54,16 +54,15 @@ class SelectBuildings extends Component {
       )
     })
 
-    const bgImageURL = currentPlace.mainPhoto
-      ? currentPlace.photos.find(photo => photo.id === currentPlace.mainPhoto.id).imageUrl
-      : ''
+    const photos = currentPlace.photos.filter(photo => photo.id !== currentPlace.mainPhoto.id)
+    photos.unshift(currentPlace.photos.find(photo => photo.id === currentPlace.mainPhoto.id))
 
     return (
       <div className="place-container parallax-container">
         <MobileHeader
-          photos={currentPlace.photos}
+          photos={photos}
           header={currentPlace.placeCategory ? currentPlace.placeCategory.name : ''}
-          location={currentPlace.title} bgImage={bgImageURL} icon={bag}/>
+          location={currentPlace.title} bgImage={null} icon={bag}/>
         <div className="content">
           <div className="options">
             <div className="options-container">
