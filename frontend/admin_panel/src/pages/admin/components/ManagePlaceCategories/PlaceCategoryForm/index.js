@@ -154,7 +154,7 @@ class PlaceCategoryForm extends React.Component {
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <FormControlLabel
             control={
               <Checkbox
@@ -164,7 +164,7 @@ class PlaceCategoryForm extends React.Component {
             label="Is multisync?"
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <FormControlLabel
             control={
               <Checkbox
@@ -174,7 +174,7 @@ class PlaceCategoryForm extends React.Component {
             label="Allow place messages?"
           />
         </Grid>
-        <Grid item xs={4}>
+        <Grid item xs={12} sm={4}>
           <FormControlLabel
             control={
               <Checkbox checked={editedPlaceCategory.shouldAddPairedUsers}
