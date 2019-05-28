@@ -9,13 +9,13 @@ import Grid from '@material-ui/core/Grid'
 import MenuItem from '@material-ui/core/MenuItem'
 import Preloader from '../../../../../components/Preloader'
 import FormButtons from '../../../../../components/FormButtons'
-
 import InputLabel from '@material-ui/core/InputLabel/InputLabel'
 import Select from '@material-ui/core/Select/Select'
 import OutlinedInput from '@material-ui/core/OutlinedInput/OutlinedInput'
 import Checkbox from '@material-ui/core/Checkbox/Checkbox'
 import ListItemText from '@material-ui/core/ListItemText/ListItemText'
 import FormControl from '@material-ui/core/FormControl/FormControl'
+import IntegrationReactSelect from './components/SearchSelect'
 
 const emptyBusiness = {
   title: "",
@@ -236,7 +236,7 @@ class BusinessForm extends Component {
             onChange={(e) => this.handleChange(e, 'phoneNumber')}
           />
         </Grid>
-        <Grid item xs={12} sm={6}>
+        {/* <Grid item xs={12} sm={6}>
           <TextField
             select
             label='Place'
@@ -247,7 +247,11 @@ class BusinessForm extends Component {
           >
             {placeOptions}
           </TextField>
+        </Grid> */}
+        <Grid item xs={12} sm={6}>
+          <IntegrationReactSelect />
         </Grid>
+        
         <Grid item xs={12}>
           <ImageUploader images={businessImages}
                          onFileChange={this.onFileChange}
