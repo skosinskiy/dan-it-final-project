@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -219,12 +220,10 @@ public class UserService implements UserDetailsService, CrudService<User> {
 
   public Page<User> getUsersByPlace(Long placeId, Pageable pageable) {
     Place place = placeRepository.findById(placeId).orElse(null);
-    if (place.getPlaceCategory().isAllowMessages()) {
+    if (place.getPlaceCategory().isShouldAddPairedUsers()) {
       return userRepository.findAllByPlaces(place, pageable);
     } else {
-      Place newPlace = new Place();
-      newPlace.setId(-1L);
-      return userRepository.findAllByPlaces(newPlace, pageable);
+      return Page.empty();
     }
   }
 
