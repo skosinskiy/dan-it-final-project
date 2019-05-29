@@ -39,6 +39,7 @@
 .qrCode-img{
   width: 5vw;
   height: 5vw;
+  border-radius: 10px;
   -webkit-transition: all .5s linear;
   -moz-transition: all .5s linear;
   -o-transition: all .5s linear;
@@ -58,7 +59,7 @@
 }
 
 .qrCodeModal>.qrCode-title{
-  font-size: 1.3em;
-  line-height: 1.3em;
-  letter-spacing: .014em;
+  font-size: 1.3rem;
+  line-height: 1.3rem;
+  letter-spacing: .014rem;
 }
