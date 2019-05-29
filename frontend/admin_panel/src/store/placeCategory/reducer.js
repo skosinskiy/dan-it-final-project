@@ -1,45 +1,33 @@
 import * as TYPES from './types'
 
 const initialState = {
-  isHttpRequestPending: true,
   placeCategories: [],
-  isPlaceCategoryFormLoading: true,
-  editedPlaceCategory: {},
-  availableBusinessCategories: [],
-  availableLayoutItems: [],
+  layoutItems: [],
+  arePlaceCategoriesLoading: false,
+  isPlaceCategoriesFormDataLoading: false
 }
 
-function placeCategories(state = initialState, action) {
+const placeCategories = (state = initialState, action) => {
   switch (action.type) {
-    case TYPES.UPDATE_PLACE_CATEGORIES:
+    case TYPES.GET_PLACE_CATEGORIES:
       return {
         ...state,
         placeCategories: action.payload
       }
-    case TYPES.UPDATE_BUSINESS_CATEGORIES:
+    case TYPES.ARE_PLACE_CATEGORIES_LOADING:
       return {
         ...state,
-        availableBusinessCategories: action.payload
+        arePlaceCategoriesLoading: action.payload
       }
-    case TYPES.UPDATE_LAYOUT_ITEMS:
+    case TYPES.IS_PLACE_CATEGORIES_FORM_DATA_LOADING:
       return {
         ...state,
-        availableLayoutItems: action.payload
+        isPlaceCategoriesFormDataLoading: action.payload
       }
-    case TYPES.IS_HTTP_REQUEST_PENDING:
+    case TYPES.GET_LAYOUT_ITEMS:
       return {
         ...state,
-        isHttpRequestPending: action.payload
-      }
-    case TYPES.IS_PLACE_CATEGORY_FORM_LOADING:
-      return {
-        ...state,
-        isPlaceCategoryFormLoading: action.payload
-      }
-    case TYPES.UPDATE_EDITED_PLACE_CATEGORY:
-      return {
-        ...state,
-        editedPlaceCategory: action.payload
+        layoutItems: action.payload
       }
     default:
       return { ...state }
