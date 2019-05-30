@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -220,11 +219,13 @@ public class UserService implements UserDetailsService, CrudService<User> {
 
   public Page<User> getUsersByPlace(Long placeId, Pageable pageable) {
     Place place = placeRepository.findById(placeId).orElse(null);
-    if (place.getPlaceCategory().isShouldAddPairedUsers()) {
-      return userRepository.findAllByPlaces(place, pageable);
-    } else {
-      return Page.empty();
-    }
+    return arePairedUsersVisible(place)
+			? userRepository.findAllByPlaces(place, pageable)
+			: Page.empty();
+  }
+
+  private boolean arePairedUsersVisible(Place place) {
+  	return place != null && place.getPlaceCategory().isShouldAddPairedUsers();
   }
 
   public User addNewPlaceToUser(Long placeId) {
