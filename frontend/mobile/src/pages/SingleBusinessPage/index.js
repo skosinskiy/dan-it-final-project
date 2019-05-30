@@ -17,7 +17,6 @@ class SingleBusinessPage extends Component {
     }
     const link = currentPlaceById.id ? `/mobile/my-places/${currentPlaceById.id}` : '/mobile/home'
     const img = businessItem.mainPhoto.imageUrl
-    console.log(img)
 
     return (
       <div className="bp-wrapper">
