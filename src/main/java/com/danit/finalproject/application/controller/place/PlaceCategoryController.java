@@ -46,6 +46,7 @@ public class PlaceCategoryController {
 
   @PutMapping("{id}")
   @PreAuthorize("hasAuthority('MANAGE_PLACE_CATEGORIES')")
+  //TODO add check are business categories top level
   public ResponseEntity<PlaceCategoryResponse> updatePlaceCategory(
       @PathVariable Long id,
       @RequestBody PlaceCategoryRequest placeCategoryRequest) {

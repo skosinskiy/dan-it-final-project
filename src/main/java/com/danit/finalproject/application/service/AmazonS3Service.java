@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class AmazonS3Service {
 
   public static final String S3_BUCKET_NAME = "rion-up-project";
-  public static final String IMAGE_EXTENSION = ".jpg";
+  public static final String IMAGE_EXTENSION = ".png";
   private AmazonS3Client s3;
 
   @Autowired

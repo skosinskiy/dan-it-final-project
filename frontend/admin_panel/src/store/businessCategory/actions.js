@@ -14,3 +14,8 @@ export const isBusinessCategoryDataLoading = (isLoading) => ({
   type: TYPES.BUSINESS_CATEGORY_DATA_LOADING,
   payload: isLoading
 })
+
+export const getAllParentBusinessCategories = businessCategories => ({
+  type: TYPES.GET_ALL_PARENT_CATEGORIES,
+  payload: businessCategories
+})

@@ -1,11 +1,12 @@
 import api from 'helpers/FetchData'
 import * as ACTIONS from './actions'
+import {getAllPlaceCategories} from '../placeCategory/operations'
 
 export const fetchPlaceFormData = (searchParam = '', page = 0, size = 5) => dispatch => {
   dispatch(ACTIONS.isPlaceFormDataLoading(true))
   Promise.all([
     dispatch(getAllPlaces(searchParam, page, size)),
-    dispatch(getPlacesCategories())
+    dispatch(getAllPlaceCategories())
   ]).then(() => dispatch(ACTIONS.isPlaceFormDataLoading(false)))
 }
 
@@ -15,12 +16,6 @@ export const getAllPlaces = (searchParam = '', page = 0, size = 5) => dispatch =
   return api.get(`/api/places?searchParam=${searchParam}&page=${page}&size=${size}`).then(res => {
     dispatch(ACTIONS.getAllPlaces(res))
     dispatch(ACTIONS.isPlacesLoading(false))
-  })
-}
-
-export const getPlacesCategories = () => dispatch => {
-  return api.get(`/api/place-categories`).then(res => {
-    dispatch(ACTIONS.getPlacesCategories(res))
   })
 }
 

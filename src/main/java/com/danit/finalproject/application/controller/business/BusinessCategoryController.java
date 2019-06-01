@@ -51,6 +51,7 @@ public class BusinessCategoryController {
 
   @PutMapping("{id}")
   @PreAuthorize("hasAuthority('MANAGE_BUSINESS_CATEGORIES')")
+  //TODO remove business category from place categories if not top level
   public ResponseEntity<BusinessCategoryResponse> updateBusinessCategory(
       @PathVariable Long id,
       @RequestBody BusinessCategoryRequest businessCategoryRequest) {
