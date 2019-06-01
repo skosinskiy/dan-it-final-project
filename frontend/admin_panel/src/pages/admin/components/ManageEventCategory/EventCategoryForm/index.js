@@ -55,7 +55,6 @@ class EventCategoryForm extends React.Component {
         isDataSubmitted: true
       })
     )
-
   }
 
   handleChange = (event, propName) => {

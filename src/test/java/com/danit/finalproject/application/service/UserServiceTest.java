@@ -375,4 +375,56 @@ public class UserServiceTest {
 		assertEquals(expectedPlaceId, userToSave.getPlaces().get(0).getId());
 		assertEquals(expectedPlaceTitle, userToSave.getPlaces().get(0).getTitle());
 	}
+
+	@Test
+	public void getUsersByPlaceNullPlaceTest() {
+		Long placeId = 1L;
+
+		Pageable pageable = mock(Pageable.class);
+		when(placeRepository.findById(placeId)).thenReturn(Optional.empty());
+
+		Page<User> users = userService.getUsersByPlace(placeId, pageable);
+
+		assertTrue(users.isEmpty());
+	}
+
+	@Test
+	public void getUsersByPlaceShowContactsFalseTest() {
+		Long placeId = 1L;
+
+		Place place = new Place();
+		PlaceCategory placeCategory = new PlaceCategory();
+		placeCategory.setShouldAddPairedUsers(false);
+		place.setPlaceCategory(placeCategory);
+
+		Pageable pageable = mock(Pageable.class);
+
+		when(placeRepository.findById(placeId)).thenReturn(Optional.of(place));
+
+		Page<User> users = userService.getUsersByPlace(placeId, pageable);
+
+		assertTrue(users.isEmpty());
+	}
+
+	@Test
+	public void getUsersByPlaceShowContactsTrueTest() {
+		Long placeId = 1L;
+
+		PageImpl<User> expectedUsers = new PageImpl<>(new ArrayList<>());
+
+		Place place = new Place();
+		PlaceCategory placeCategory = new PlaceCategory();
+		placeCategory.setShouldAddPairedUsers(true);
+		place.setPlaceCategory(placeCategory);
+
+		Pageable pageable = mock(Pageable.class);
+
+		when(placeRepository.findById(placeId)).thenReturn(Optional.of(place));
+		when(userRepository.findAllByPlaces(place, pageable)).thenReturn(expectedUsers);
+
+		Page<User> users = userService.getUsersByPlace(placeId, pageable);
+
+		verify(userRepository, times(1)).findAllByPlaces(place, pageable);
+		assertEquals(users, expectedUsers);
+	}
 }

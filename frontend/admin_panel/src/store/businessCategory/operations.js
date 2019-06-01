@@ -18,6 +18,12 @@ export const deleteBusinessCategory = (categoryId) => dispatch => {
   })
 }
 
+export const getAllParentBusinessCategories = () => dispatch => {
+  return api.get('/api/business-categories/all-parent').then(res => {
+    dispatch(ACTIONS.getAllParentBusinessCategories(res))
+  })
+}
+
 const uploadFile = (file) => {
   const formData = new FormData()
   formData.append("imageFile", file)
