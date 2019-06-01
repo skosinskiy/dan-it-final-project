@@ -74,6 +74,12 @@ class PlaceCategoryForm extends React.Component {
     const {parentBusinessCategories, layoutItems, isPlaceCategoriesFormDataLoading} = this.props
     const {editedPlaceCategory, isDataSubmitted} = this.state
 
+    const businessCategoriesValue = parentBusinessCategories.filter(category => {
+      return editedPlaceCategory.businessCategories
+        .some(businessCategory => category.id === businessCategory.id)
+      }
+    )
+
     if (isDataSubmitted) {
       return <Redirect to={'/admin/place-categories'}/>
     }
@@ -125,7 +131,7 @@ class PlaceCategoryForm extends React.Component {
             </InputLabel>
             <Select
               multiple
-              value={editedPlaceCategory.businessCategories}
+              value={businessCategoriesValue}
               onChange={event => this.handleChange(event, 'businessCategories')}
               input={
                 <OutlinedInput labelWidth={150}/>
