@@ -26,3 +26,13 @@ export const getEventError = error => ({
   type: TYPES.EVENT_ERROR,
   payload: error
 })
+
+export const getEvantsByPlace = events => ({
+  type: TYPES.GET_ALL_EVENTS_BY_PLACE,
+  payload: {eventsByPlace: events}
+})
+
+export const eventsByPlaceIsLoading = isLoading => ({
+  type: TYPES.EVENTS_BY_PLACE_LOADIND,
+  payload: isLoading
+})

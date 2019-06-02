@@ -25,30 +25,22 @@ a {
 }
 .menu-visible {
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     width: 75%;
     margin: 0;
     opacity: 1;
     transition: .5s;
 }
 .menu__item{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     margin-right: 7%;
     margin-left: 7%;
     text-align: center;
 }
-.menu__item div{
-    display: inline-block;
-    margin-top: 9px;
-    margin-right: auto;
-    margin-left: auto;
-}
+
 .menu-hidden {
     left: -100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     width: 75%;
     margin: 0;
     opacity: 0;
@@ -77,4 +69,17 @@ $icon_classes: (
 }
 .menu__icon.menu-visible{
     background: #FEBA00;
+}
+
+.menu-item_icon {
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.menu-item_text {
+    margin-top: 5px;
+    text-align: center;
 }

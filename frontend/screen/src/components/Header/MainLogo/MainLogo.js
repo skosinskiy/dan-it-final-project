@@ -5,7 +5,7 @@ import './MainLogo.scss'
 
 const MainLogo = () => {
   return (
-    <NavLink to="/">
+    <NavLink to="/screen">
       <div className='main-logo'>
         <Logo />
       </div>

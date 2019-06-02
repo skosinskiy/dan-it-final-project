@@ -13,11 +13,13 @@ class Menu extends React.Component {
   render () {
     const {currentPlace} = this.props
     const businesses = currentPlace.placeCategory.businessCategories
+
     const menuItems = businesses.map(businesses => {
       return (
         <div key={businesses.id} className={'menu__item'}>
-          <NavLink to={`/category/${businesses.id}`}>{businesses.iconUrl}
-            <div>{businesses.name}</div>
+          <NavLink to={`/screen/category/${businesses.id}`}>
+            <div className="menu-item_icon" style={{backgroundImage: `url(${businesses.imageUrl})`}}></div>
+            <div className="menu-item_text">{businesses.name}</div>
           </NavLink>
         </div>
       )
@@ -31,6 +33,10 @@ class Menu extends React.Component {
         </div>
         <div className={this.props.isOpen ? 'menu-visible' : 'menu-hidden'}>
           {menuItems}
+          <NavLink to={`/screen/map`}>
+            <div className="menu-item_icon" style={{backgroundImage: `url(https://img.icons8.com/color/420/google-maps.png)`}}></div>
+            <div className="menu-item_text">Map</div>
+          </NavLink>
         </div>
       </div>
     )

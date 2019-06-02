@@ -48,3 +48,13 @@ export const businessesLoading = (state) => ({
   type: TYPES.BUSINESSES_LOADING,
   payload: state
 })
+
+export const getBusinessCategoryById = (category) => ({
+  type: TYPES.GET_CATEGORY_BY_ID,
+  payload: {currentCategory: category}
+})
+
+export const businessCategoryIsLoading = (isLoading) => ({
+  type: TYPES.BUSINESS_CATEGORY_LOADED,
+  payload: isLoading
+})
