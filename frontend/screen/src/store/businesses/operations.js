@@ -79,3 +79,12 @@ export const getAllBusinessesByCategory = (categoryId) => dispatch => {
     dispatch(ACTIONS.getBusinessesError(err))
   })
 }
+
+export const getBusinessCategoryById = (categoryId) => dispatch => {
+  dispatch(ACTIONS.businessCategoryIsLoading(true))
+  api.get(`/api/business-categories/${categoryId}`).then(res => {
+    dispatch(ACTIONS.getBusinessCategoryById(res))
+  }).finally(() => {
+    dispatch(ACTIONS.businessCategoryIsLoading(false))
+  })
+}

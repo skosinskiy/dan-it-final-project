@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .businesses-title{
   margin: 0 20px 20px;
   padding-left: 50px;
@@ -9,5 +11,6 @@
 }
 
 .businesse-container {
-  position: sticky;
+  height: calc(100vh - #{$top-menu-height});
+  overflow-y: scroll;
 }

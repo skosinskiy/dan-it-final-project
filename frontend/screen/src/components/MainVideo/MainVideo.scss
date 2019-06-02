@@ -1,7 +1,10 @@
+@import '../../styles/variables';
+
 .MainVideo{
   position: relative;
   box-sizing: border-box;
   width: 100%;
+  height: calc(100vh - #{$top-menu-height} - #{$messages-height} - 30px);
   padding-bottom: 20px;
 }
 
