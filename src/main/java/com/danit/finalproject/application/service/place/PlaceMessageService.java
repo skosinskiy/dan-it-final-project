@@ -69,7 +69,7 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
     if (!placeMessage.getUser().getId().equals(user.getId())) {
       throw new PlaceMessageDeletionNotAllowedException();
     }
-    placeMessageRepository.deleteById(id);
+    placeMessageRepository.delete(placeMessage);
     return placeMessage;
   }
 
