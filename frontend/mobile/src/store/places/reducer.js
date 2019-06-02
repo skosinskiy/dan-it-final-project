@@ -3,7 +3,8 @@ import * as TYPES from './types'
 const initialState = {
   currentPlaceById: {},
   isLoaded: false,
-  isBusinessesEventsDataLoading: false
+  isBusinessesEventsDataLoading: false,
+  placeMessages: []
 }
 
 const placeReducer = (state = initialState, action) => {
@@ -23,6 +24,11 @@ const placeReducer = (state = initialState, action) => {
       return {
         ...state,
         isBusinessesEventsDataLoading: action.payload
+      }
+    case TYPES.GET_PLACE_MESSAGES_BY_PLACE_ID:
+      return {
+        ...state,
+        placeMessages: action.payload
       }
     default:
       return {...state}

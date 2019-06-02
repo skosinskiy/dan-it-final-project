@@ -11,6 +11,7 @@ import CreateChatPage from '../../pages/CreateChatPage'
 import ChatPage from '../../pages/ChatPage'
 import SingleBusinessPage from '../../pages/SingleBusinessPage'
 import SingleEventPage from '../../pages/SingleEventPage'
+import AddPlaceMessage from '../../pages/AddPlaceMessagePage'
 import * as PropTypes from 'prop-types'
 
 import {connect} from 'react-redux'
@@ -26,21 +27,20 @@ const AppRoutes = (props) => {
   return (
     <div className={'AppRoutes'}>
       <Switch>
-        <Route path="/mobile/login/placeId/:placeId" component={Login} />
-        <Route path="/mobile/login" component={Login}/>
-        <Route path="/mobile/registration" component={Registration}/>
-        <ProtectedRoute path="/mobile/home" component={SelectBuildings} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/my-places/:placeId/new-place-message" component={AddPlaceMessage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/my-places/:placeId" component={BusinessesEvents} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/home" component={SelectBuildings} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/news" component={NewsPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/messages/:chatId" component={ChatPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/messages" component={DialoguesPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/create-chat" component={CreateChatPage} authenticated={!!currentUser}/>
-        <ProtectedRoute path="/mobile/favourites" component={BusinessesEvents} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/contacts" component={ContactsPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/map" component={MapPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/businesses/:businessId" component={SingleBusinessPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/events/:eventId" component={SingleEventPage} authenticated={!!currentUser}/>
-        <Route path="/" exact={false} component={SelectBuildings} authenticated={!!currentUser}/>
+        <Route path="/mobile/login/placeId/:placeId" component={Login} />
+        <Route path="/mobile/login" component={Login}/>
+        <Route path="/mobile/registration" component={Registration}/>
       </Switch>
       {bottomMenu}
     </div>
@@ -50,8 +50,10 @@ const AppRoutes = (props) => {
 export const ProtectedRoute = ({component: Component, authenticated, ...rest}) => (
   <Route
     {...rest}
-    render={props =>
-      authenticated ? <Component {...props} /> : <Redirect to="/mobile/login"/>
+    render={props => {
+      return authenticated ? <Component {...props} /> : <Redirect to="/mobile/login"/>
+    }
+
     }
   />
 )

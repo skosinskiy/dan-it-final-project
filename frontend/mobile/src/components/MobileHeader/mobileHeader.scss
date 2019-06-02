@@ -8,17 +8,23 @@
 
   &__outer-wrapper {
     position: absolute;
-    top: 55px;
+    top: 106px;
     display: flex;
     flex-grow: 1;
     flex-direction: column;
     justify-content: space-between;
   }
 
-  &__cam-container {
-    display: flex;
-    justify-content: space-between;
-    margin: 50px 20px 0;
+  &__back-container {
+    position: absolute;
+    top: -120px;
+    left: 20px;
+  }
+
+  &__back-button {
+    color: #ffffff;
+    font-size: 60px;
+    opacity: .7;
   }
 
   &__menu {

@@ -13,3 +13,8 @@ export const isBusinessesEventsDataLoading = isLoading => ({
   type: TYPES.IS_BUSINESSES_EVENTS_DATA_LOADING,
   payload: isLoading
 })
+
+export const getPlaceMessagesByPlaceId = placeMessages => ({
+  type: TYPES.GET_PLACE_MESSAGES_BY_PLACE_ID,
+  payload: placeMessages
+})

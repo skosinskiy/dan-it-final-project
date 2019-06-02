@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { ReactComponent as Bee } from '../../img/icons/bee.svg'
 import SectionItem from './SectionItem'
 import MobileHeader from '../../components/MobileHeader'
 import bag from '../../img/icons/bag.svg'
-import TextareaAutosize from 'react-autosize-textarea'
 import './businesses-events.scss'
 import { placeOperations } from '../../store/places'
 import { getCurrentPlaceById } from '../../store/places/operations'
-import { getBusinessesByCategory } from '../../store/businesses/operations'
-import { getEventsByPLace } from '../../store/events/operations'
-import { postPlaceMessage, getPlaceMessagesByPlaceId } from '../../store/PlaceMessages/operations'
+import { getEventsByPlace } from '../../store/events/operations'
 import Preloader from '../../components/Preloader'
+import PlaceMessage from './PlaceMessage'
+import {NavLink} from 'react-router-dom'
 
 const emptyCurrentPlace = {
   address: '',
@@ -28,7 +26,9 @@ class BusinessesEvents extends Component {
     super(props)
     this.state = {
       currentPlace: this.props.currentPlaceById !== undefined ? this.props.currentPlaceById : emptyCurrentPlace,
-      placeMessages: []
+      businessesByCategory: null,
+      eventsByCategory: null,
+      placeMessages: this.props.placeMessages !== undefined ? this.props.placeMessages : []
     }
   }
 
@@ -36,67 +36,81 @@ class BusinessesEvents extends Component {
     const {fetchBusinessesEventsData} = this.props
     const placeId = +this.props.match.params.placeId
     fetchBusinessesEventsData(placeId)
-    getPlaceMessagesByPlaceId.call(this, placeId)
   }
 
   componentWillReceiveProps (nextProps, nextContext) {
+    console.log(nextProps)
     if (nextProps.currentPlaceById && nextProps.currentPlaceById !== this.props.currentPlaceById) {
       this.setState({
         currentPlace: nextProps.currentPlaceById !== undefined ? nextProps.currentPlaceById : emptyCurrentPlace
       })
     }
+
+    this.setState({
+      placeMessages: nextProps.placeMessages !== undefined ? nextProps.placeMessages : []
+    })
   }
 
   getBusinessesByCategory (id) {
-    const {getBusinessesByCategory} = this.props
-    getBusinessesByCategory(id)
+    const businesses = this.props.businesses.filter(business => business.categories.map(category => category.id).includes(id))
+    const events = this.props.events.filter(event => event.business.categories.map(category => category.id).includes(id))
+
+    this.setState({
+      businessesByCategory: businesses,
+      eventsByCategory: events
+    })
   }
 
-  handleChange = (event) => {
-    this.setState({message: event.target.value})
-  }
-
-  handleSubmit = (event) => {
-    event.preventDefault()
-    const placeId = +this.props.match.params.placeId
-    const { message } = this.state
-    if (message !== '') {
-      postPlaceMessage(message, placeId, this)
-      this.setState({message: ''})
-    } else {
-      console.log('err')
-    }
+  resetBusinessesByCategory () {
+    this.setState({
+      businessesByCategory: null,
+      eventsByCategory: null
+    })
   }
 
   render () {
-    const {businesses, events, currentPlaceById, isLoaded, currentUser, isBusinessesEventsDataLoading} = this.props
+    const {businesses, events, isLoaded, currentUser, isBusinessesEventsDataLoading} = this.props
     const placeId = +this.props.match.params.placeId
-    const { placeMessages, currentPlace } = this.state
+    const { placeMessages, currentPlace, businessesByCategory, eventsByCategory } = this.state
 
     if (isBusinessesEventsDataLoading) {
       return <Preloader/>
     }
 
-    console.log(currentPlace)
+    const allowPlaceMessages = currentPlace.placeCategory.allowMessages
 
-    const businessesList = businesses.map(item => {
+    const messageList = placeMessages.map(item => {
+      const allowDelete = currentUser.id === item.user.id
+      return <PlaceMessage key={item.id} placeId={placeId} item={item} context={this} del={allowDelete} />
+    })
+
+    const placeMessagesSection = allowPlaceMessages
+      ? <div className="place-messages section">
+        <div className="section-header">
+          <h2 className="section-title">Messages</h2>
+          <NavLink to={`/mobile/my-places/${placeId}/new-place-message`} className="section-action_title">add</NavLink>
+        </div>
+        <div className="section-list">
+          {messageList}
+        </div>
+      </div> : null
+
+    const filteredBusinesses = businessesByCategory !== null ? businessesByCategory : businesses
+    const filteredEvents = eventsByCategory !== null ? eventsByCategory : events
+
+    const businessesList = filteredBusinesses.map(item => {
       return <SectionItem key={item.id} item={item} type={'businesses'}/>
     })
-    const eventsList = events.map(item => {
+    const eventsList = filteredEvents.map(item => {
       return <SectionItem key={item.id} item={item} type={'events'}/>
     })
-    // const messageList = placeMessages.map(item => {
-    //   const allowDelete = currentUser.id === item.user.id
-    //   return <PlaceMessage key={item.id} placeId={placeId} item={item} context={this} del={allowDelete} />
-    // })
-    const bgImageURL = 'https://i.lb.ua/121/60/5b1501c46a520.jpeg'
 
     let menuItems = []
     if (isLoaded) {
       menuItems = currentPlace.placeCategory.businessCategories.map(item => {
         return (
           <li key={item.id} className="menu-item" onClick={() => this.getBusinessesByCategory(item.id)}>
-            {/*<div className="menu-item_icon"><img src={item.imageUrl} alt={item.name}/></div>*/}
+            <div className="menu-item_icon"><img style={{width: '30px', height: '30px'}} src={item.iconUrl} alt={item.name}/></div>
             <div className="menu-item_text">{item.name}</div>
           </li>
         )
@@ -113,20 +127,25 @@ class BusinessesEvents extends Component {
     return (
       <div className="businesse-container parallax-container">
         <MobileHeader
+          backLink={'/mobile/home'}
           photos={photos}
           header={currentPlace.placeCategory ? currentPlace.placeCategory.name : ''}
-          location={currentPlace.title} bgImage={bgImageURL} icon={bag} />
+          location={currentPlace.title} bgImage={''} icon={bag} />
         <div className="content">
-          <div className="navbar">
-            <h2 className="section-title">Explore</h2>
+          <div className="navbar section">
+            <div className="section-header">
+              <h2 className="section-title">Explore</h2>
+              <h2 className="section-action_title" onClick={() => this.resetBusinessesByCategory()}>clear</h2>
+            </div>
             <ul className="menu">
               {menuItems}
             </ul>
           </div>
           <div className="businesses section">
             <div className="section-header">
-              <h2 className="section-title">Popular near home</h2>
-              <h4 className="side-title">See all</h4>
+              <h2 className="section-title">
+                Popular near {currentPlace.title}
+              </h2>
             </div>
             <div className="section-list">
               {businessesList}
@@ -135,41 +154,12 @@ class BusinessesEvents extends Component {
           <div className="events section">
             <div className="section-header">
               <h2 className="section-title">Events</h2>
-              <div className="side-icon"><Bee/></div>
             </div>
             <div className="section-list">
               {eventsList}
             </div>
           </div>
-          <div className="place-messages section">
-            <h2 className="section-title">
-              Place Messages
-            </h2>
-            <div className="section-list">
-              {/* {messageList} */}
-            </div>
-          </div>
-          <div className="send-place-messages section">
-            <h2 className="section-title">
-              Leave a place message
-            </h2>
-            <div className="send-place-messages__input">
-              <form onSubmit={this.handleSubmit}>
-                <div className="send-place-messages__container">
-                  <TextareaAutosize
-                    className="send-place-messages__text-area"
-                    value={this.state.message}
-                    onChange={this.handleChange}
-                    placeholder="Write a comment..."
-                    style={{resize: 'none'}}
-                  />
-                  <button className="send-place-messages__submit-btn">
-                    Submit
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+          {placeMessagesSection}
         </div>
       </div>
     )
@@ -183,9 +173,10 @@ const mapStateToProps = (state) => {
 
   return {
     currentUser: state.users.currentUser,
-    businesses: state.businesses.businessesByCategory,
+    businesses: state.businesses.businessesByPlace,
     events: state.events.events,
     currentPlaceById: currentPlaceById,
+    placeMessages: state.places.placeMessages,
     isLoaded: state.places.isLoaded,
     isBusinessesEventsDataLoading: state.places.isBusinessesEventsDataLoading
   }
@@ -193,8 +184,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getBusinessesByCategory: (categoryId) => dispatch(getBusinessesByCategory(categoryId)),
-    getEventsByPLace: (placeId) => dispatch(getEventsByPLace(placeId)),
+    getEventsByPlace: (placeId) => dispatch(getEventsByPlace(placeId)),
     getCurrentPlaceById: (placeId) => dispatch(getCurrentPlaceById(placeId)),
     fetchBusinessesEventsData: placeId => dispatch(placeOperations.fetchBusinessesEventsData(placeId))
   }

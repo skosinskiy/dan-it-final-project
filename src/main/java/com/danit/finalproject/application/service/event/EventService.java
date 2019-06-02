@@ -99,4 +99,8 @@ public class EventService implements CrudService<Event> {
     event.setPhotos(eventPhotos);
     return eventRepository.save(event);
   }
+
+  public List<Event> getAllEventsByPlaceId(Long placeId) {
+    return eventRepository.getAllByPlaceId(placeId);
+  }
 }

@@ -1,9 +1,9 @@
 import api from '../../helpers/FetchData/index'
 import * as ACTIONS from './actions'
 
-export const getEventsByPLace = (placeId) => dispatch => {
-  return api.get(`/api/events?placeId=${placeId}`).then(res => {
-    dispatch(ACTIONS.getEventsByPlace({events: res.content}))
+export const getEventsByPlace = (placeId) => dispatch => {
+  return api.get(`/api/events/place/${placeId}`).then(res => {
+    dispatch(ACTIONS.getEventsByPlace({events: res}))
   })
 }
 

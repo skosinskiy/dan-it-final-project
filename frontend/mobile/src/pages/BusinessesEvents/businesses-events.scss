@@ -1,22 +1,27 @@
 @import "../../styles/style";
 @import "../../styles/variables";
 
-.section-title {
-  font-size: 22px;
-  text-align: left;
-}
-
 .navbar {
+  margin: 0 20px;
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
 
   .menu {
     display: flex;
     justify-content: flex-start;
-    margin: 10px 15px 38px;
+    margin: 10px 0 10px;
     padding-left: 0;
     overflow-x: scroll;
     overflow-y: hidden;
 
     .menu-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       color: #2D2D2D;
       font-weight: 700;
       font-size: 14px;
@@ -34,22 +39,29 @@
       }
 
       .menu-item_icon {
-        width: 30px;
-        height: 30px;
+        width: 100%;
+        margin-bottom: 10px;
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
       }
     }
   }
-
-  .section-title {
-    padding-left: 20px;
-  }
 }
 
 .section {
   margin: 0 20px 16px;
+
+  &-title {
+    font-size: 22px;
+    text-align: left;
+  }
+
+  &-action_title {
+    color: $medium-grey;
+    font-size: 14px;
+    text-decoration: none;
+  }
 
   .section-header {
     display: flex;
@@ -74,6 +86,7 @@
     display: flex;
     justify-content: space-between;
     margin-top: 28px;
+    padding-bottom: 5px;
     overflow-x: scroll;
     overflow-y: hidden;
   }
@@ -86,7 +99,7 @@
 .send-place-messages{
 
   &__input{
-
+    margin: 20px 0;
   }
 
   &__container{

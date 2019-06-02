@@ -1,22 +1,15 @@
 @import "../../../styles/_variables.scss";
 
 .section-item {
-  min-width: 249px;
-  height: 190px;
+  width: 250px;
+  height: 185px;
+  overflow: hidden;
   border-radius: 16px;
   box-shadow: 2px 2px 12px #EDF2F5;
 
-  &:nth-child(n+1) {
-    margin-right: 30px;
-  }
-
-  &:last-child {
-    margin-right: 0;
-  }
-
   &__img {
     height: 130px;
-    background-image: url("https://images.unsplash.com/photo-1519869325930-281384150729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80");
+    background-image: url("https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwjFgu7X2MbiAhWMxIsKHSrsDecQjRx6BAgBEAU&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FCity_Mall_(Amman)&psig=AOvVaw1MCHTQvUERoXMnXR4R2Wdj&ust=1559423844504855");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -66,10 +59,10 @@
   }
 
   &__message{
-    flex-grow: 1;
     margin: 3px 0 9px;
     overflow-x: hidden;
     overflow-y: auto;
+    text-align: left;
     word-wrap: break-word;
   }
 }
@@ -77,4 +70,12 @@
 .item-link {
   color: #424242;
   text-decoration: none;
+
+  &:nth-child(n+1) {
+    margin-right: 30px;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
 }

@@ -3,6 +3,7 @@ package com.danit.finalproject.application.service.place;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlaceMessage;
+import com.danit.finalproject.application.error.PlaceMessageDeletionNotAllowedException;
 import com.danit.finalproject.application.error.PlaceMessagesNotAllowedException;
 import com.danit.finalproject.application.repository.place.PlaceMessageRepository;
 import com.danit.finalproject.application.service.CrudService;
@@ -64,7 +65,11 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
   @Override
   public PlaceMessage delete(Long id) {
     PlaceMessage placeMessage = getById(id);
-    placeMessageRepository.delete(placeMessage);
+    User user = userService.getPrincipalUser();
+    if (!placeMessage.getUser().getId().equals(user.getId())) {
+      throw new PlaceMessageDeletionNotAllowedException();
+    }
+    placeMessageRepository.deleteById(id);
     return placeMessage;
   }
 
