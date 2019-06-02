@@ -219,7 +219,13 @@ public class UserService implements UserDetailsService, CrudService<User> {
 
   public Page<User> getUsersByPlace(Long placeId, Pageable pageable) {
     Place place = placeRepository.findById(placeId).orElse(null);
-    return userRepository.findAllByPlaces(place, pageable);
+    return arePairedUsersVisible(place)
+      ? userRepository.findAllByPlaces(place, pageable)
+      : Page.empty();
+  }
+
+  private boolean arePairedUsersVisible(Place place) {
+    return place != null && place.getPlaceCategory().isShouldAddPairedUsers();
   }
 
   public User addNewPlaceToUser(Long placeId) {

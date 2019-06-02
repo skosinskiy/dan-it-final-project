@@ -89,7 +89,7 @@ VALUES
 INSERT INTO places_categories
   (id, date_created, date_modified, name, description, multisync, allow_messages, should_add_paired_users)
 VALUES
-  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Home', 'this is test description for cat 1', 1, 0, 1),
+  (1, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Home', 'this is test description for cat 1', 1, 1, 1),
   (2, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Office', 'this is test description for cat 2', 0, 1, 0),
   (3, '2019-09-16 12:13:00', '2019-09-16 12:13:00', 'Mall', 'this is test description for cat 1', 1, 0, 0);
 

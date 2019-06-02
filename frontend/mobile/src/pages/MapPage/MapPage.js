@@ -19,7 +19,7 @@ export default class Map extends Component {
     const content = this.state.isLoading ? <Preloader/> : map
     return (
       <div className='map'>
-        <div className="container parallax-container">
+        <div className="parallax-container">
           {content}
         </div>
       </div>
