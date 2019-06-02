@@ -5,7 +5,10 @@ import './section-item.scss'
 class SectionItem extends Component {
   render () {
     const {item, type} = this.props
-    const image = item.photos.length ? item.photos[0].imageUrl : 'https://images.unsplash.com/photo-1519869325930-281384150729?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80'
+    const image = item.photos && item.mainPhoto
+      ? item.photos.find(photo => photo.id === item.mainPhoto.id).imageUrl
+      : ''
+
     return (
       <NavLink to={`/mobile/${type}/${item.id}`} className="item-link">
         <div className="section-item">

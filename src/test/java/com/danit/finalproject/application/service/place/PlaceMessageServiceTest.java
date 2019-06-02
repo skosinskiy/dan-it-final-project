@@ -4,6 +4,7 @@ import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlaceCategory;
 import com.danit.finalproject.application.entity.place.PlaceMessage;
+import com.danit.finalproject.application.error.PlaceMessageDeletionNotAllowedException;
 import com.danit.finalproject.application.error.PlaceMessagesNotAllowedException;
 import com.danit.finalproject.application.repository.place.PlaceMessageRepository;
 import com.danit.finalproject.application.service.UserService;
@@ -161,16 +162,44 @@ public class PlaceMessageServiceTest {
   public void deleteTest() {
     Long id = 1L;
 
+    User user = new User();
+    user.setId(id);
+
     PlaceMessage placeMessage = new PlaceMessage();
     placeMessage.setMessage("test");
+    placeMessage.setUser(user);
 
     when(placeMessageRepository.findById(id)).thenReturn(Optional.of(placeMessage));
+    when(userService.getPrincipalUser()).thenReturn(user);
 
     PlaceMessage deletedPlaceMessage = placeMessageService.delete(id);
 
     verify(placeMessageRepository, times(1)).findById(id);
     verify(placeMessageRepository, times(1)).delete(placeMessage);
     assertEquals(deletedPlaceMessage, placeMessage);
+  }
+
+  @Test
+  public void deleteExceptionTest() {
+    Long id = 1L;
+
+    User currentUser = new User();
+    currentUser.setId(2L);
+
+    User user = new User();
+    user.setId(id);
+
+    PlaceMessage placeMessage = new PlaceMessage();
+    placeMessage.setMessage("test");
+    placeMessage.setUser(user);
+
+    when(placeMessageRepository.findById(id)).thenReturn(Optional.of(placeMessage));
+    when(userService.getPrincipalUser()).thenReturn(currentUser);
+
+    expectedException.expectMessage(PlaceMessageDeletionNotAllowedException.PLACE_MESSAGE_DELETE_NOT_ALLOWED_MESSAGE);
+    expectedException.expect(PlaceMessageDeletionNotAllowedException.class);
+
+    placeMessageService.delete(id);
   }
 
   @Test

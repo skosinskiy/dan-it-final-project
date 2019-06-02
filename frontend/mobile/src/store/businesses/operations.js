@@ -15,3 +15,9 @@ export const getBusinessById = (businessId) => dispatch => {
     dispatch(ACTIONS.businessIsLoading(false))
   })
 }
+
+export const getBusinessesByPlace = placeId => dispatch => {
+  return api.get(`/api/businesses?placeId=${placeId}&size=1000`).then(res => {
+    dispatch(ACTIONS.getBusinessesByPlace(res.content))
+  })
+}

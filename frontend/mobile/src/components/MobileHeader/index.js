@@ -1,9 +1,27 @@
 import React, { Component } from 'react'
 import './mobileHeader.scss'
 import ReactSwipe from 'react-swipe'
+import {Redirect} from 'react-router-dom'
 
 class ParallaxHeader extends Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      isReturnClicked: false
+    }
+  }
+
+  redirectToPreviousPage = () => {
+    this.setState({
+      isReturnClicked: true
+    })
+  }
+
   render () {
+    if (this.state.isReturnClicked) {
+      return <Redirect to={this.props.backLink}/>
+    }
+
     const iconStyle = {
       backgroundImage: `url("${this.props.icon}")`
     }
@@ -23,6 +41,10 @@ class ParallaxHeader extends Component {
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'}}
     />
+
+    const backButton = this.props.backLink ? (
+      <h2 onClick={this.redirectToPreviousPage} className='header__back-button'>&#8249;</h2>
+    ) : null
 
     return (
       <div className='parallax-section header' >
@@ -47,7 +69,8 @@ class ParallaxHeader extends Component {
           {images}
         </ReactSwipe>
         <div className='header__outer-wrapper'>
-          <div className='header__cam-container'>
+          <div className='header__back-container'>
+            {backButton}
           </div>
           <div className='header__text-container' style={iconStyle}>
             <p className='header__title'>{this.props.header}</p>

@@ -61,4 +61,8 @@
   color: #787878;
   font-size: 10px;
   list-style: none;
+
+  &:hover {
+    background: rgba(233, 240, 249, .5);
+  }
 }

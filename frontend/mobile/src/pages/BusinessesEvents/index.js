@@ -1,95 +1,151 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import SectionItem from './SectionItem'
-import PlaceMessage from './PlaceMessage'
 import MobileHeader from '../../components/MobileHeader'
 import bag from '../../img/icons/bag.svg'
-import TextareaAutosize from 'react-autosize-textarea'
 import './businesses-events.scss'
+import { placeOperations } from '../../store/places'
 import { getCurrentPlaceById } from '../../store/places/operations'
-import { getBusinessesByCategory } from '../../store/businesses/operations'
-import { getEventsByPLace } from '../../store/events/operations'
-import { getPlaceMessagesByPlaceId, postPlaceMessage } from '../../store/PlaceMessages/operations'
+import { getEventsByPlace } from '../../store/events/operations'
+import Preloader from '../../components/Preloader'
+import PlaceMessage from './PlaceMessage'
+import {NavLink} from 'react-router-dom'
+
+const emptyCurrentPlace = {
+  address: '',
+  description: '',
+  id: '',
+  mainPhoto: null,
+  photos: [],
+  placeCategory: null,
+  title: ''
+}
 
 class BusinessesEvents extends Component {
-  state = {
-    message: '',
-    placeMessages: []
-  }
-
-  componentDidMount () {
-    const {getEventsByPLace, getCurrentPlaceById} = this.props
-    const placeId = +this.props.match.params.placeId
-    getCurrentPlaceById(placeId)
-    getEventsByPLace(placeId)
-    getPlaceMessagesByPlaceId.call(this, placeId)
-  }
-
-  getBusinessesByCategory (id) {
-    const {getBusinessesByCategory} = this.props
-    getBusinessesByCategory(id)
-  }
-
-  handleChange = (event) => {
-    this.setState({message: event.target.value})
-  }
-
-  handleSubmit = (event) => {
-    event.preventDefault()
-    const placeId = +this.props.match.params.placeId
-    const { message } = this.state
-    if (message !== '') {
-      postPlaceMessage(message, placeId, this)
-      this.setState({message: ''})
-    } else {
-      console.log('err')
+  constructor (props) {
+    super(props)
+    this.state = {
+      currentPlace: this.props.currentPlaceById !== undefined ? this.props.currentPlaceById : emptyCurrentPlace,
+      businessesByCategory: null,
+      eventsByCategory: null,
+      placeMessages: this.props.placeMessages !== undefined ? this.props.placeMessages : []
     }
   }
 
-  render () {
-    const {businesses, events, currentPlaceById, isLoaded, currentUser} = this.props
+  componentDidMount () {
+    const {fetchBusinessesEventsData} = this.props
     const placeId = +this.props.match.params.placeId
-    const { placeMessages } = this.state
-    const businessesList = businesses.map(item => {
-      return <SectionItem key={item.id} item={item} type={'businesses'}/>
+    fetchBusinessesEventsData(placeId)
+  }
+
+  componentWillReceiveProps (nextProps, nextContext) {
+    console.log(nextProps)
+    if (nextProps.currentPlaceById && nextProps.currentPlaceById !== this.props.currentPlaceById) {
+      this.setState({
+        currentPlace: nextProps.currentPlaceById !== undefined ? nextProps.currentPlaceById : emptyCurrentPlace
+      })
+    }
+
+    this.setState({
+      placeMessages: nextProps.placeMessages !== undefined ? nextProps.placeMessages : []
     })
-    const eventsList = events.map(item => {
-      return <SectionItem key={item.id} item={item} type={'events'}/>
+  }
+
+  getBusinessesByCategory (id) {
+    const businesses = this.props.businesses.filter(business => business.categories.map(category => category.id).includes(id))
+    const events = this.props.events.filter(event => event.business.categories.map(category => category.id).includes(id))
+
+    this.setState({
+      businessesByCategory: businesses,
+      eventsByCategory: events
     })
+  }
+
+  resetBusinessesByCategory () {
+    this.setState({
+      businessesByCategory: null,
+      eventsByCategory: null
+    })
+  }
+
+  render () {
+    const {businesses, events, isLoaded, currentUser, isBusinessesEventsDataLoading} = this.props
+    const placeId = +this.props.match.params.placeId
+    const { placeMessages, currentPlace, businessesByCategory, eventsByCategory } = this.state
+
+    if (isBusinessesEventsDataLoading) {
+      return <Preloader/>
+    }
+
+    const allowPlaceMessages = currentPlace.placeCategory.allowMessages
+
     const messageList = placeMessages.map(item => {
       const allowDelete = currentUser.id === item.user.id
       return <PlaceMessage key={item.id} placeId={placeId} item={item} context={this} del={allowDelete} />
     })
-    const bgImageURL = 'https://i.lb.ua/121/60/5b1501c46a520.jpeg'
+
+    const placeMessagesSection = allowPlaceMessages
+      ? <div className="place-messages section">
+        <div className="section-header">
+          <h2 className="section-title">Messages</h2>
+          <NavLink to={`/mobile/my-places/${placeId}/new-place-message`} className="section-action_title">add</NavLink>
+        </div>
+        <div className="section-list">
+          {messageList}
+        </div>
+      </div> : null
+
+    const filteredBusinesses = businessesByCategory !== null ? businessesByCategory : businesses
+    const filteredEvents = eventsByCategory !== null ? eventsByCategory : events
+
+    const businessesList = filteredBusinesses.map(item => {
+      return <SectionItem key={item.id} item={item} type={'businesses'}/>
+    })
+    const eventsList = filteredEvents.map(item => {
+      return <SectionItem key={item.id} item={item} type={'events'}/>
+    })
 
     let menuItems = []
     if (isLoaded) {
-      menuItems = currentPlaceById.placeCategory.businessCategories.map(item => {
+      menuItems = currentPlace.placeCategory.businessCategories.map(item => {
         return (
           <li key={item.id} className="menu-item" onClick={() => this.getBusinessesByCategory(item.id)}>
-            <div className="menu-item_icon" style={{backgroundImage: `url(${item.imageUrl})`}}></div>
+            <div className="menu-item_icon"><img style={{width: '30px', height: '30px'}} src={item.iconUrl} alt={item.name}/></div>
             <div className="menu-item_text">{item.name}</div>
           </li>
         )
       })
     }
+
+    const photos = currentPlace.photos
+      ? currentPlace.photos.filter(photo => photo.id !== currentPlace.mainPhoto.id)
+      : []
+    if (currentPlace.photos) {
+      photos.unshift(currentPlace.photos.find(photo => photo.id === currentPlace.mainPhoto.id))
+    }
+
     return (
       <div className="businesse-container parallax-container">
         <MobileHeader
-          photos={currentPlaceById.photos}
-          header={currentPlaceById.placeCategory ? currentPlaceById.placeCategory.name : ''}
-          location={currentPlaceById.title} bgImage={bgImageURL} icon={bag} />
+          backLink={'/mobile/home'}
+          photos={photos}
+          header={currentPlace.placeCategory ? currentPlace.placeCategory.name : ''}
+          location={currentPlace.title} bgImage={''} icon={bag} />
         <div className="content">
-          <div className="navbar">
-            <h2 className="section-title">Explore</h2>
+          <div className="navbar section">
+            <div className="section-header">
+              <h2 className="section-title">Explore</h2>
+              <h2 className="section-action_title" onClick={() => this.resetBusinessesByCategory()}>clear</h2>
+            </div>
             <ul className="menu">
               {menuItems}
             </ul>
           </div>
           <div className="businesses section">
             <div className="section-header">
-              <h2 className="section-title">Popular near home</h2>
-              <h4 className="side-title">See all</h4>
+              <h2 className="section-title">
+                Popular near {currentPlace.title}
+              </h2>
             </div>
             <div className="section-list">
               {businessesList}
@@ -103,35 +159,7 @@ class BusinessesEvents extends Component {
               {eventsList}
             </div>
           </div>
-          <div className="place-messages section">
-            <h2 className="section-title">
-              Place Messages
-            </h2>
-            <div className="section-list">
-              {messageList}
-            </div>
-          </div>
-          <div className="send-place-messages section">
-            <h2 className="section-title">
-              Leave a place message
-            </h2>
-            <div className="send-place-messages__input">
-              <form onSubmit={this.handleSubmit}>
-                <div className="send-place-messages__container">
-                  <TextareaAutosize
-                    className="send-place-messages__text-area"
-                    value={this.state.message}
-                    onChange={this.handleChange}
-                    placeholder="Write a comment..."
-                    style={{resize: 'none'}}
-                  />
-                  <button className="send-place-messages__submit-btn">
-                    Submit
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+          {placeMessagesSection}
         </div>
       </div>
     )
@@ -139,20 +167,26 @@ class BusinessesEvents extends Component {
 }
 
 const mapStateToProps = (state) => {
+  const currentPlaceById = !state.places.currentPlaceById.id && state.users.currentUser
+    ? state.users.currentUser.places[0]
+    : state.places.currentPlaceById
+
   return {
     currentUser: state.users.currentUser,
-    businesses: state.businesses.businessesByCategory,
+    businesses: state.businesses.businessesByPlace,
     events: state.events.events,
-    currentPlaceById: state.places.currentPlaceById,
-    isLoaded: state.places.isLoaded
+    currentPlaceById: currentPlaceById,
+    placeMessages: state.places.placeMessages,
+    isLoaded: state.places.isLoaded,
+    isBusinessesEventsDataLoading: state.places.isBusinessesEventsDataLoading
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getBusinessesByCategory: (categoryId) => dispatch(getBusinessesByCategory(categoryId)),
-    getEventsByPLace: (placeId) => dispatch(getEventsByPLace(placeId)),
-    getCurrentPlaceById: (placeId) => dispatch(getCurrentPlaceById(placeId))
+    getEventsByPlace: (placeId) => dispatch(getEventsByPlace(placeId)),
+    getCurrentPlaceById: (placeId) => dispatch(getCurrentPlaceById(placeId)),
+    fetchBusinessesEventsData: placeId => dispatch(placeOperations.fetchBusinessesEventsData(placeId))
   }
 }
 

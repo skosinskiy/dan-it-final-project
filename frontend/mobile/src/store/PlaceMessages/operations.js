@@ -1,13 +1,13 @@
 import api from '../../helpers/FetchData'
 
 export function postPlaceMessage (message, placeId, context) {
-  api.post(`/api/place-messages/place/${placeId}`, { message: message }).then(() => {
+  return api.post(`/api/place-messages/place/${placeId}`, { message: message }).then(() => {
     getPlaceMessagesByPlaceId.call(context, placeId)
   })
 }
 
 export function getPlaceMessagesByPlaceId (placeId) {
-  api.get(`/api/place-messages?placeId=${placeId}`).then(res => {
+  return api.get(`/api/place-messages?placeId=${placeId}`).then(res => {
     this.setState({placeMessages: res.reverse()})
   })
 }

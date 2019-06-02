@@ -47,4 +47,9 @@ public class EventFacade extends AbstractDtoFacade<Event, EventRequest, EventRes
     Event event = eventService.deleteEventPhoto(eventId, photoId);
     return mapEntityToResponseDto(event);
   }
+
+  public List<EventResponse> getAllEventsByPlaceId(Long placeId) {
+    List<Event> events = eventService.getAllEventsByPlaceId(placeId);
+    return mapEntityListToResponseDtoList(events);
+  }
 }

@@ -14,3 +14,8 @@ export const businessIsLoading = (isLoading) => ({
   type: TYPES.BUSINESS_IS_LOADING,
   payload: isLoading
 })
+
+export const getBusinessesByPlace = businesses => ({
+  type: TYPES.GET_BUSINESSES_BY_PLACE,
+  payload: businesses
+})
