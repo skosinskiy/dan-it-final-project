@@ -76,4 +76,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, null)(AddPlaceMessage)
+export default connect(mapStateToProps, mapDispatchToProps)(AddPlaceMessage)
