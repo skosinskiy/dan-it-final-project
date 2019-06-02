@@ -1,8 +1,10 @@
 import React, {Component} from 'react'
 import ScreenEventItem from './ScreenEventItem/ScreenEventItem'
+import {connect} from 'react-redux'
+import {getEvantsByPlace} from '../../store/events/operations'
 import './ScreenEventList.scss'
 
-export default class ScreenEventList extends Component {
+class ScreenEventList extends Component {
   state = {
     listOfEvents: [
       { id: 1,
@@ -25,21 +27,30 @@ export default class ScreenEventList extends Component {
     ]
   }
 
+  componentDidMount () {
+    const {getEvantsByPlace} = this.props
+    getEvantsByPlace(1)
+  }
+
   renderItems (arr) {
     return arr.map((item) => {
-      const {id, title, shortDescription, img} = item
+      const {id, title, description, mainPhoto} = item
       return (
         <ScreenEventItem
           key={id}
+          id = {id}
           title = {title}
-          shortDescription = {shortDescription}
-          img = {img}/>
+          shortDescription = {description}
+          img = {mainPhoto}/>
       )
     })
   }
 
   render () {
-    const items = this.renderItems(this.state.listOfEvents)
+    const {eventsByPlace, eventsByPlaceIsLoading} = this.props
+
+    if (eventsByPlaceIsLoading) {}
+    const items = this.renderItems(eventsByPlace)
     return (
       <div className={'screenEventList'}>
         {items}
@@ -47,3 +58,18 @@ export default class ScreenEventList extends Component {
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    eventsByPlace: state.events.eventsByPlace,
+    eventsByPlaceIsLoading: state.events.eventsByPlaceIsLoading
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getEvantsByPlace: placeId => dispatch(getEvantsByPlace(placeId))
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ScreenEventList)

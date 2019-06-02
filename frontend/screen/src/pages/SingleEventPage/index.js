@@ -16,15 +16,16 @@ class SingleEventPage extends Component {
     if (!Object.keys(eventItem).length) {
       return <Preloader/>
     }
-    
+
+    const mainPhoto = eventItem.mainPhoto != null ? eventItem.mainPhoto : 'https://www.film.ru/images/empty/260x400.png'
     return (
       <div className='ep-wrapper'>
-        <NavLink to='/businesses/' className='bp_back-btn'>
+        <NavLink to='/screen/businesses/' className='bp_back-btn'>
           Back
         </NavLink>
         <h2 className='ep__title'>{eventItem.title}</h2>
         <div className='ep-info'>
-          <img src={eventItem.mainPhoto} alt='business logo' className='ep-info__photo'/>
+          <div style={{backgroundImage: `url(${mainPhoto})`}} className='ep-info__photo'/>
           <div className='ep-info_text'>
             <p className='ep-info_text__address'>{eventItem.address}</p>
             <p className='ep-info_text__description'>{eventItem.description}</p>
