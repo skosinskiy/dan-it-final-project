@@ -1,7 +1,6 @@
 import React from 'react'
 import { deletePlaceMessageById } from '../../../store/PlaceMessages/operations'
 import '../SectionItem/section-item.scss'
-import {NavLink} from 'react-router-dom'
 
 const PlaceMessage = (props) => {
   const {item, placeId, context, del} = props

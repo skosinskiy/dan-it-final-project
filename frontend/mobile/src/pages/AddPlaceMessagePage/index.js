@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import MobileHeader from '../../components/MobileHeader'
 import { postPlaceMessage } from '../../store/PlaceMessages/operations'
-import {Redirect} from "react-router-dom";
+import {Redirect} from 'react-router-dom'
 
 class AddPlaceMessage extends Component {
   constructor (props) {
