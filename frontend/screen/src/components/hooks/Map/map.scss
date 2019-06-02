@@ -1,8 +1,10 @@
+@import '../../../styles/variables';
+
 .iframe{
   width: 100%;
-  height: 100%;
+  height: calc(100vh - #{$top-menu-height});
 }
 .map{
   width: 100%;
-  height: 100%;
+  height: calc(100vh - #{$top-menu-height});
 }

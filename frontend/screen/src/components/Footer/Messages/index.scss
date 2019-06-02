@@ -2,10 +2,10 @@
 .messages {
     display: flex;
     justify-content: space-between;
-    height: 123px;
+    height: $messages-height;
     margin-bottom: 0;
     padding: 13px 23px;
-    overflow: hidden;
+    overflow-x: scroll;
 }
 .messages__item {
     display: flex;

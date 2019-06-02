@@ -11,19 +11,20 @@ class SingleBusinessPage extends Component {
     getBusinessById(this.props.match.params.id)
   }
   render () {
-    const {businessItem} = this.props
+    const {businessItem, currentCategory} = this.props
     if (!businessItem) {
       return <Preloader/>
     }
-    
+    const link = currentCategory.id ? `/screen/category/${currentCategory.id}` : '/screen'
+    const img = businessItem.mainPhoto !== null ? businessItem.mainPhoto : 'https://www.film.ru/images/empty/260x400.png'
     return (
       <div className="bp-wrapper">
-        <NavLink to="/businesses/" className="bp_back-btn">
+        <NavLink to={link} className="bp_back-btn">
           Back
         </NavLink>
         <h2 className="bp__title">{businessItem.title}</h2>
         <div className="bp-info">
-          <img src={businessItem.mainPhoto} alt="business logo" className="bp-info__photo"/>
+          <div style={{backgroundImage: `url(${img})`}} className="bp-info__photo"/>
           <div className="bp-info_text">
             <p className="bp-info_text__address">{businessItem.address}</p>
             <p className="bp-info_text__description">{businessItem.description}</p>
@@ -49,7 +50,8 @@ class SingleBusinessPage extends Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    businessItem: state.businesses.businessItem
+    businessItem: state.businesses.businessItem,
+    currentCategory: state.businesses.currentCategory
   }
 }
 

@@ -2,10 +2,11 @@ import * as TYPES from './types'
 
 const initialState = {
   eventItem: {},
-
+  eventsByPlace: [],
   isLoaded: false,
   isLoading: false,
-  error: null
+  error: null,
+  eventsByPlaceIsLoading: true
 }
 
 const eventReducer = (state = initialState, action) => {
@@ -20,6 +21,10 @@ const eventReducer = (state = initialState, action) => {
         ...state,
         eventItem: action.payload.eventItem
       }
+    case TYPES.GET_ALL_EVENTS_BY_PLACE:
+      return {...state, eventsByPlace: action.payload.eventsByPlace}
+    case TYPES.EVENTS_BY_PLACE_LOADIND:
+      return {...state, eventsByPlaceIsLoading: action.payload}
     default:
       return state
   }

@@ -34,3 +34,14 @@ export const saveNewEvent = (business) => dispatch => {
     })
   })
 }
+
+export const getEvantsByPlace = placeId => dispatch => {
+  api.get(`/api/places/${placeId}`).then(place => {
+    dispatch(ACTIONS.eventsByPlaceIsLoading(true))
+    api.get(`/api/events?searchParam=${place.title}`).then(res => {
+      dispatch(ACTIONS.getEvantsByPlace(res.content))
+    }).finally(() => {
+      dispatch(ACTIONS.eventsByPlaceIsLoading(false))
+    })
+  })
+}
