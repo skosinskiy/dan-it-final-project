@@ -54,7 +54,7 @@ public class EventController {
 
   @GetMapping("place/{placeId}")
   @JsonView(View.Event.class)
-  public ResponseEntity<List<EventResponse>> getAllEventsByPlaceId (@PathVariable Long placeId) {
+  public ResponseEntity<List<EventResponse>> getAllEventsByPlaceId(@PathVariable Long placeId) {
     return new ResponseEntity<>(eventFacade.getAllEventsByPlaceId(placeId), HttpStatus.OK);
   }
 
