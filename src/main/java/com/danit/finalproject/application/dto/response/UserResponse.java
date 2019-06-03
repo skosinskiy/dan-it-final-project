@@ -29,6 +29,7 @@ public class UserResponse {
   private List<ChatResponse> chats;
   private List<RoleResponse> roles;
   private List<PlaceResponse> places;
+  private PlaceResponse currentPlace;
   @JsonView(View.User.class)
   @ToString.Exclude
   @EqualsAndHashCode.Exclude

@@ -25,7 +25,7 @@ class BusinessesEvents extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      currentPlace: this.props.currentPlaceById !== undefined ? this.props.currentPlaceById : emptyCurrentPlace,
+      currentPlace: this.props.currentPlace !== undefined ? this.props.currentPlace : emptyCurrentPlace,
       businessesByCategory: null,
       eventsByCategory: null,
       placeMessages: this.props.placeMessages !== undefined ? this.props.placeMessages : []
@@ -34,7 +34,7 @@ class BusinessesEvents extends Component {
 
   componentDidMount () {
     const {fetchBusinessesEventsData} = this.props
-    const placeId = +this.props.match.params.placeId
+    const placeId = this.props.currentPlace.id
     fetchBusinessesEventsData(placeId)
   }
 
@@ -167,15 +167,15 @@ class BusinessesEvents extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const currentPlaceById = !state.places.currentPlaceById.id && state.users.currentUser
-    ? state.users.currentUser.places[0]
-    : state.places.currentPlaceById
-
+  console.log(state.users.currentUser)
+  const currentPlace = state.users.currentUser.currentPlace
+    ? state.users.currentUser.currentPlace
+    : emptyCurrentPlace
   return {
     currentUser: state.users.currentUser,
     businesses: state.businesses.businessesByPlace,
     events: state.events.events,
-    currentPlaceById: currentPlaceById,
+    currentPlace: currentPlace,
     placeMessages: state.places.placeMessages,
     isLoaded: state.places.isLoaded,
     isBusinessesEventsDataLoading: state.places.isBusinessesEventsDataLoading

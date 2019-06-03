@@ -3,6 +3,7 @@
 .bottom__menu {
     position: fixed;
     bottom: 0;
+    z-index: 10000;
     display: flex;
     justify-content: space-around;
     width: 100%;
@@ -26,7 +27,7 @@
             width: 42px;
             height: 30px;
             padding-top: 14px;
-            
+
         }
         .text {
             margin-top: -2px;

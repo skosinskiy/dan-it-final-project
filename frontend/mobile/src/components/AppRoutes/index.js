@@ -27,9 +27,9 @@ const AppRoutes = (props) => {
   return (
     <div className={'AppRoutes'}>
       <Switch>
-        <ProtectedRoute path="/mobile/my-places/:placeId/new-place-message" component={AddPlaceMessage} authenticated={!!currentUser}/>
-        <ProtectedRoute path="/mobile/my-places/:placeId" component={BusinessesEvents} authenticated={!!currentUser}/>
-        <ProtectedRoute path="/mobile/home" component={SelectBuildings} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/home/new-place-message" component={AddPlaceMessage} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/home/" component={BusinessesEvents} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/places" component={SelectBuildings} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/news" component={NewsPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/messages/:chatId" component={ChatPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/messages" component={DialoguesPage} authenticated={!!currentUser}/>
