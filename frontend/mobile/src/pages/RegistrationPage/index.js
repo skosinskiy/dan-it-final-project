@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {ReactComponent as HeaderLogo} from '../../img/LoginPage/header-logo.svg'
 import {ReactComponent as PeopleIcon} from '../../img/LoginPage/form-icon.svg'
-import {ReactComponent as PhoneIcon} from '../../img/LoginPage/form-icon2.svg'
+import {ReactComponent as LockIcon} from '../../img/LoginPage/form-icon1.svg'
 import {ReactComponent as FacebookIcon} from '../../img/LoginPage/facebook-icon.svg'
 import {ReactComponent as GoogleIcon} from '../../img/LoginPage/google-icon.svg'
 import {connect} from 'react-redux'
@@ -30,14 +30,14 @@ class Login extends Component {
             </div>
             <div className="registration-form__field">
               <div className="field__wrapper">
-                <div className="field__icon"><PhoneIcon /></div>
+                <div className="field__icon"><LockIcon /></div>
                 <input className="field__input" name="password" type="password" placeholder="Password"/>
               </div>
               <div className="field__line"/>
             </div>
             <div className="registration-form__field">
               <div className="field__wrapper">
-                <div className="field__icon"><PhoneIcon /></div>
+                <div className="field__icon"><LockIcon /></div>
                 <input className="field__input" name="passwordConfirmation" type="password" placeholder="Password confirmation"/>
               </div>
               <div className="field__line"/>

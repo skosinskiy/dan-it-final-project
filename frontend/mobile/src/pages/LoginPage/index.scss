@@ -40,16 +40,24 @@
         .body__form {
             position: relative;
             top: -50px;
+            input:focus{
+                outline: none;
+            }
             .email__field {
                 position: relative;
                 display: flex;
                 justify-content: space-around;
                 box-sizing: border-box;
                 padding-top: 40px;
+                &-icon {
+                    margin-top: 7px;
+                }
                 &-text {
-                    margin-left: 30px;
+                    width: 220px;
+                    margin-left: -25px;
+                    padding: 7px;
                     color: $dark-grey2;
-                    font-size: 14px;
+                    font-size: 16px;
                     background-color: white;
                     border: 0;
                 }
@@ -60,10 +68,15 @@
                 box-sizing: border-box;
                 padding-top: 35px;
                 padding-bottom: 40px;
+                &-icon {
+                    margin-top: 7px;
+                }
                 &-text {
-                    margin-left: 30px;
+                    width: 220px;
+                    margin-left: -25px;
+                    padding: 7px;
                     color: $dark-grey2;
-                    font-size: 14px;
+                    font-size: 16px;
                     background-color: white;
                     border: 0;
                 }
@@ -79,18 +92,18 @@
         }
         .bottom-line::after {
             position: absolute;
-            top: 130px;
+            top: 143px;
             z-index: 1;
-            width: 245px;
+            width: 260px;
             height: 1px;
             background-color: $medium-grey2;
             content: '';
         }
         .bottom-line::before {
             position: absolute;
-            top: 70px;
+            top: 75px;
             z-index: 1;
-            width: 245px;
+            width: 260px;
             height: 1px;
             background-color: $medium-grey2;
             content: '';
@@ -114,6 +127,7 @@
             }
         }
         .bottom__button {
+            margin-bottom: 20px;
             padding: 10px 70px;
             background-color: $light-blue;
             border-radius: 12px;
@@ -127,7 +141,6 @@
             }
         }
         .bottom__text {
-            padding-top: 10px;
             color: $medium-grey;
             font-size: 16px;
             font-family: 'SF Compact Text';
