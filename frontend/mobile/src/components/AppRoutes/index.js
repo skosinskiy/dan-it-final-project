@@ -21,7 +21,7 @@ import MapPage from '../../pages/MapPage/MapPage'
 const AppRoutes = (props) => {
   const {currentUser} = props
   const bottomMenu =
-      props.location.pathname.startsWith('/mobile/login') || props.location.pathname.startsWith('/mobile/login')
+      props.location.pathname.startsWith('/mobile/login') || props.location.pathname.startsWith('/mobile/registration')
         ? null
         : <BottomMenu/>
 
@@ -42,6 +42,7 @@ const AppRoutes = (props) => {
         <ProtectedRoute path="/mobile/map" component={MapPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/businesses/:businessId" component={SingleBusinessPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/events/:eventId" component={SingleEventPage} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile" component={BusinessesEvents}/>
       </Switch>
       {bottomMenu}
     </div>

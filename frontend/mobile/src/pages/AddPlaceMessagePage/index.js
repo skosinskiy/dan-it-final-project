@@ -49,6 +49,7 @@ class AddPlaceMessage extends Component {
         <MobileHeader
           backLink={`/mobile/home`}
           header={'Add new message'}
+          headerFilled={true}
           bgImage={'https://cdn0.tnwcdn.com/wp-content/blogs.dir/1/files/2012/12/Envelopes.jpg'} />
         <div className="section">
           <form onSubmit={event => this.handleSubmit(event, placeId)}>

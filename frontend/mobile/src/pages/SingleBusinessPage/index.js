@@ -4,6 +4,8 @@ import {NavLink} from 'react-router-dom'
 import './SingleBusinessesPage.scss'
 import {getBusinessById} from '../../store/businesses/operations'
 import Preloader from '../../components/Preloader'
+import MobileHeader from '../../components/MobileHeader'
+import bag from '../../img/icons/bag.svg'
 
 class SingleBusinessPage extends Component {
   componentDidMount () {
@@ -16,16 +18,22 @@ class SingleBusinessPage extends Component {
       return <Preloader/>
     }
     const link = currentPlaceById.id ? `/mobile/my-places/${currentPlaceById.id}` : '/mobile/home'
-    const img = businessItem.mainPhoto.imageUrl
+    console.log(businessItem)
+    const photos = businessItem.photos
+      ? businessItem.photos.filter(photo => photo.id !== businessItem.mainPhoto.id)
+      : []
+    if (businessItem.photos) {
+      photos.unshift(businessItem.photos.find(photo => photo.id === businessItem.mainPhoto.id))
+    }
 
     return (
-      <div className="bp-wrapper">
-        <NavLink to={link} className="bp_back-btn">
-          Back
-        </NavLink>
+      <div className="business-container parallax-container">
+        <MobileHeader
+          photos={photos} backLink={'/mobile/home'}
+          header={businessItem.title} headerFilled={true}
+          location={''} bgImage={''} icon={''} />
         <h2 className="bp__title">{businessItem.title}</h2>
         <div className="bp-info">
-          <div style={{backgroundImage: `url(${img})`}} className="bp-info__photo"/>
           <div className="bp-info_text">
             <p className="bp-info_text__address">{businessItem.address}</p>
             <div className="bp-info_text__phone">{businessItem.phoneNumber}</div>

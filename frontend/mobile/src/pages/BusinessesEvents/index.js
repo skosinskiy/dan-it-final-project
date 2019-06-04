@@ -79,12 +79,14 @@ class BusinessesEvents extends Component {
       return <Preloader/>
     }
 
-    const allowPlaceMessages = currentPlace.placeCategory.allowMessages
+    const allowPlaceMessages = currentPlace.placeCategory ? currentPlace.placeCategory.allowMessages : false
 
-    const messageList = placeMessages.map(item => {
-      const allowDelete = currentUser.id === item.user.id
-      return <PlaceMessage key={item.id} placeId={placeId} item={item} del={allowDelete} />
-    })
+    const messageList = placeMessages.length > 0
+      ? placeMessages.map(item => {
+        const allowDelete = currentUser.id === item.user.id
+        return <PlaceMessage key={item.id} placeId={placeId} item={item} del={allowDelete} />
+      })
+      : <div className="section-item__address">{'There is no messages yet'}</div>
 
     const placeMessagesSection = allowPlaceMessages
       ? <div className="place-messages section">
@@ -111,7 +113,7 @@ class BusinessesEvents extends Component {
 
     let menuItems = []
     if (isLoaded) {
-      menuItems = currentPlace.placeCategory.businessCategories.map(item => {
+      menuItems = currentPlace.placeCategory && currentPlace.placeCategory.businessCategories.map(item => {
         return (
           <li key={item.id}
             className={`menu-item ${this.state.activeCategoryId === item.id && 'menu-item__active'}`}
@@ -124,13 +126,15 @@ class BusinessesEvents extends Component {
         )
       })
     }
-
-    const photos = currentPlace.photos
+    console.log(currentPlace)
+    const photos = currentPlace.photos.length > 0
       ? currentPlace.photos.filter(photo => photo.id !== currentPlace.mainPhoto.id)
       : []
-    if (currentPlace.photos) {
+    if (currentPlace.photos.length > 0) {
       photos.unshift(currentPlace.photos.find(photo => photo.id === currentPlace.mainPhoto.id))
     }
+
+    console.log(photos)
 
     return (
       <div className="businesse-container parallax-container">
