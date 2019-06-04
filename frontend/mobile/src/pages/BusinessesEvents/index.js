@@ -28,7 +28,8 @@ class BusinessesEvents extends Component {
       currentPlace: this.props.currentPlace !== undefined ? this.props.currentPlace : emptyCurrentPlace,
       businessesByCategory: null,
       eventsByCategory: null,
-      placeMessages: this.props.placeMessages !== undefined ? this.props.placeMessages : []
+      placeMessages: this.props.placeMessages !== undefined ? this.props.placeMessages : [],
+      activeCategoryId: null
     }
   }
 
@@ -39,7 +40,6 @@ class BusinessesEvents extends Component {
   }
 
   componentWillReceiveProps (nextProps, nextContext) {
-    console.log(nextProps)
     if (nextProps.currentPlaceById && nextProps.currentPlaceById !== this.props.currentPlaceById) {
       this.setState({
         currentPlace: nextProps.currentPlaceById !== undefined ? nextProps.currentPlaceById : emptyCurrentPlace
@@ -57,20 +57,22 @@ class BusinessesEvents extends Component {
 
     this.setState({
       businessesByCategory: businesses,
-      eventsByCategory: events
+      eventsByCategory: events,
+      activeCategoryId: id
     })
   }
 
   resetBusinessesByCategory () {
     this.setState({
       businessesByCategory: null,
-      eventsByCategory: null
+      eventsByCategory: null,
+      activeCategoryId: null
     })
   }
 
   render () {
     const {businesses, events, isLoaded, currentUser, isBusinessesEventsDataLoading} = this.props
-    const placeId = +this.props.match.params.placeId
+    const placeId = this.props.currentPlace.id
     const { placeMessages, currentPlace, businessesByCategory, eventsByCategory } = this.state
 
     if (isBusinessesEventsDataLoading) {
@@ -81,14 +83,16 @@ class BusinessesEvents extends Component {
 
     const messageList = placeMessages.map(item => {
       const allowDelete = currentUser.id === item.user.id
-      return <PlaceMessage key={item.id} placeId={placeId} item={item} context={this} del={allowDelete} />
+      return <PlaceMessage key={item.id} placeId={placeId} item={item} del={allowDelete} />
     })
 
     const placeMessagesSection = allowPlaceMessages
       ? <div className="place-messages section">
         <div className="section-header">
           <h2 className="section-title">Messages</h2>
-          <NavLink to={`/mobile/my-places/${placeId}/new-place-message`} className="section-action_title">add</NavLink>
+          <NavLink to={`/mobile/home/new-place-message`} className="section-action_title">
+            <div className={'section-item__add-btn'}>+</div>
+          </NavLink>
         </div>
         <div className="section-list">
           {messageList}
@@ -98,19 +102,23 @@ class BusinessesEvents extends Component {
     const filteredBusinesses = businessesByCategory !== null ? businessesByCategory : businesses
     const filteredEvents = eventsByCategory !== null ? eventsByCategory : events
 
-    const businessesList = filteredBusinesses.map(item => {
-      return <SectionItem key={item.id} item={item} type={'businesses'}/>
-    })
-    const eventsList = filteredEvents.map(item => {
-      return <SectionItem key={item.id} item={item} type={'events'}/>
-    })
+    const businessesList = filteredBusinesses.length > 0
+      ? filteredBusinesses.map(item => <SectionItem key={item.id} item={item} type={'businesses'}/>)
+      : <div className="section-item__address">{'There is no businesses yet'}</div>
+    const eventsList = filteredEvents.length > 0
+      ? filteredEvents.map(item => <SectionItem key={item.id} item={item} type={'events'}/>)
+      : <div className="section-item__address">{'There is no events yet'}</div>
 
     let menuItems = []
     if (isLoaded) {
       menuItems = currentPlace.placeCategory.businessCategories.map(item => {
         return (
-          <li key={item.id} className="menu-item" onClick={() => this.getBusinessesByCategory(item.id)}>
-            <div className="menu-item_icon"><img style={{width: '30px', height: '30px'}} src={item.iconUrl} alt={item.name}/></div>
+          <li key={item.id}
+            className={`menu-item ${this.state.activeCategoryId === item.id && 'menu-item__active'}`}
+            onClick={() => this.getBusinessesByCategory(item.id)}>
+            <div className="menu-item_icon">
+              <img style={{width: '30px', height: '30px'}} src={item.iconUrl} alt={item.name}/>
+            </div>
             <div className="menu-item_text">{item.name}</div>
           </li>
         )
@@ -127,7 +135,6 @@ class BusinessesEvents extends Component {
     return (
       <div className="businesse-container parallax-container">
         <MobileHeader
-          backLink={'/mobile/home'}
           photos={photos}
           header={currentPlace.placeCategory ? currentPlace.placeCategory.name : ''}
           location={currentPlace.title} bgImage={''} icon={bag} />
@@ -167,7 +174,6 @@ class BusinessesEvents extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.users.currentUser)
   const currentPlace = state.users.currentUser.currentPlace
     ? state.users.currentUser.currentPlace
     : emptyCurrentPlace

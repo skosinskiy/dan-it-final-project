@@ -13,7 +13,9 @@ class SelectBuildings extends Component {
   }
 
   componentDidMount () {
-    this.props.getCurrentUser()
+    this.setState({
+      places: this.props.user.places
+    })
   }
 
   componentWillReceiveProps (nextProps, nextContext) {
@@ -79,6 +81,7 @@ class SelectBuildings extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state.users.isCurrentUserLoading)
   const currentPlace =
       !state.places.currentPlaceById.id && state.users.currentUser
         ? state.users.currentUser.places[0]

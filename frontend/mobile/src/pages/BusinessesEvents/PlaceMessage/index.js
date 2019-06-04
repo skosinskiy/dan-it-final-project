@@ -1,13 +1,14 @@
-import React from 'react'
-import { deletePlaceMessageById } from '../../../store/PlaceMessages/operations'
+import React, { Component } from 'react'
+import { deletePlaceMessageById } from '../../../store/places/operations'
 import '../SectionItem/section-item.scss'
+import {connect} from 'react-redux'
 
-const PlaceMessage = (props) => {
-  const {item, placeId, context, del} = props
-  const {id} = item
-  return (
-    <div className="item-link">
-      <div className="section-item">
+class PlaceMessage extends Component {
+  render () {
+    const {item, placeId, del} = this.props
+    const {id} = item
+    return (
+      <div className="item-link">
         <div className="section-item__message-cont">
           <div className="section-item__header">
             <div className="section-item__title">
@@ -18,7 +19,7 @@ const PlaceMessage = (props) => {
                 ? (<button
                   className="section-item__del-btn"
                   type="button"
-                  onClick={() => deletePlaceMessageById(id, placeId, context)}
+                  onClick={() => this.props.deletePlaceMessageById(id, placeId)}
                 />)
                 : null
             }
@@ -28,8 +29,14 @@ const PlaceMessage = (props) => {
           </div>
         </div>
       </div>
-    </div>
-  )
+    )
+  }
 }
 
-export default PlaceMessage
+const mapDispatchToProps = dispatch => {
+  return {
+    deletePlaceMessageById: (placeMessageId, placeId) => dispatch(deletePlaceMessageById(placeMessageId, placeId))
+  }
+}
+
+export default connect(null, mapDispatchToProps)(PlaceMessage)

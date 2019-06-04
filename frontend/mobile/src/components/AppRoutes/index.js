@@ -20,13 +20,17 @@ import MapPage from '../../pages/MapPage/MapPage'
 
 const AppRoutes = (props) => {
   const {currentUser} = props
-  const bottomMenu = [
-    '/mobile/login',
-    '/mobile/registration'].includes(props.location.pathname) ? null : <BottomMenu/>
+  const bottomMenu =
+      props.location.pathname.startsWith('/mobile/login') || props.location.pathname.startsWith('/mobile/login')
+        ? null
+        : <BottomMenu/>
 
   return (
     <div className={'AppRoutes'}>
       <Switch>
+        <Route path="/mobile/login/placeId/:placeId" component={Login} />
+        <Route path="/mobile/login" component={Login}/>
+        <Route path="/mobile/registration" component={Registration}/>
         <ProtectedRoute path="/mobile/home/new-place-message" component={AddPlaceMessage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/home/" component={BusinessesEvents} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/places" component={SelectBuildings} authenticated={!!currentUser}/>
@@ -38,9 +42,6 @@ const AppRoutes = (props) => {
         <ProtectedRoute path="/mobile/map" component={MapPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/businesses/:businessId" component={SingleBusinessPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/events/:eventId" component={SingleEventPage} authenticated={!!currentUser}/>
-        <Route path="/mobile/login/placeId/:placeId" component={Login} />
-        <Route path="/mobile/login" component={Login}/>
-        <Route path="/mobile/registration" component={Registration}/>
       </Switch>
       {bottomMenu}
     </div>

@@ -29,9 +29,9 @@ class BottomMenu extends Component {
           </NavLink>
         </div>
         <div className="item">
-          <NavLink to="/mobile/news" className={`link ${path.startsWith('/mobile/news') && 'fill'}`}>
-            <NewsLogo className="logo"/>
-            <p className="text">News</p>
+          <NavLink to="/mobile/contacts" className={`link ${path.startsWith('/mobile/contacts') && 'fill'}`}>
+            <MoreLogo className="logo"/>
+            <p className="text">Contacts</p>
           </NavLink>
         </div>
         <div className="item">
@@ -41,9 +41,9 @@ class BottomMenu extends Component {
           </NavLink>
         </div>
         <div className="item">
-          <NavLink to="/mobile/contacts" className={`link ${path.startsWith('/mobile/contacts') && 'fill'}`}>
-            <MoreLogo className="logo"/>
-            <p className="text">Contacts</p>
+          <NavLink to="/mobile/news" className={`link ${path.startsWith('/mobile/news') && 'fill'}`}>
+            <NewsLogo className="logo"/>
+            <p className="text">News</p>
           </NavLink>
         </div>
         <div className="item">
