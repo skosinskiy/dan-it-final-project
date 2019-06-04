@@ -24,7 +24,7 @@
             color: $dark-grey2;
             font-weight: 600;
             font-size: 36px;
-            font-family: 'SF Compact Text';
+            font-family: SF UI Text, sans-serif;
         }
         .header__text {
             margin-top: 10px;
@@ -33,7 +33,7 @@
             color: $dark-grey2;
             font-weight: 400;
             font-size: 18px;
-            font-family: 'SF Compact Text';
+            font-family: SF UI Text, sans-serif;
         }
     }
     &__body {
@@ -134,7 +134,7 @@
             &-link {
                 color: $white;
                 font-size: 20px;
-                font-family: 'SF Compact Text';
+                font-family: SF UI Text, sans-serif;
                 text-decoration: none;
                 background-color: $light-blue;
                 border: 0;
@@ -143,7 +143,7 @@
         .bottom__text {
             color: $medium-grey;
             font-size: 16px;
-            font-family: 'SF Compact Text';
+            font-family: SF UI Text, sans-serif;
             text-decoration: none;
         }
     }
