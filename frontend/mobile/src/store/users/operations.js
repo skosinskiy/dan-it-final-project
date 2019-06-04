@@ -59,3 +59,13 @@ export const getUsersByPlace = (placeId) => dispatch => {
     dispatch(ACTIONS.usersListByPlaceLoading(false))
   })
 }
+
+export const updateCurrentPlace = placeId => dispatch => {
+  dispatch(ACTIONS.isUpdateCurrentPlaceLoading(true))
+  return api.put(`/api/users/current/place/${placeId}`)
+    .then(res => {
+      dispatch(ACTIONS.currentUserFetched(res))
+    }).finally(() => {
+      dispatch(ACTIONS.isUpdateCurrentPlaceLoading(false))
+    })
+}

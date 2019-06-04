@@ -6,7 +6,8 @@ const initialState = {
   isAuthenticated: true,
   isCurrentUserLoading: true,
   usersListByPLace: [],
-  usersListByPLaceIsLoading: true
+  usersListByPLaceIsLoading: true,
+  isUpdateCurrentPlaceLoading: false
 }
 
 const usersReducer = (state = initialState, action) => {
@@ -30,6 +31,11 @@ const usersReducer = (state = initialState, action) => {
       return {
         ...state,
         usersListByPLaceIsLoading: action.payload
+      }
+    case TYPES.IS_UPDATE_CURRENT_PLACE_LOADING:
+      return {
+        ...state,
+        isUpdateCurrentPlaceLoading: action.payload
       }
     default:
       return {...state}

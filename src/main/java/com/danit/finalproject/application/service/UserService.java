@@ -241,4 +241,21 @@ public class UserService implements UserDetailsService, CrudService<User> {
     user.getPlaces().add(placeToAdd);
     return update(user.getId(), user);
   }
+
+  public User updateCurrentPlace(Long placeId) {
+    User user = getPrincipalUser();
+    if (isPlaceSynchronyzedWithUser(user, placeId)) {
+      Place newCurrentPlace = placeRepository.findById(placeId).orElse(null);
+      user.setCurrentPlace(newCurrentPlace);
+      update(user.getId(), user);
+    }
+    return user;
+  }
+
+  private boolean isPlaceSynchronyzedWithUser(User user, Long placeId) {
+    return user
+        .getPlaces()
+        .stream()
+        .anyMatch(place -> place.getId().equals(placeId));
+  }
 }
