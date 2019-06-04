@@ -17,7 +17,7 @@ class MainPage extends React.Component {
         <div className="grid-wrapper">
           {
             hasLayuot(currentPlace, LayoutItems.EVENTS) &&
-            <aside className="left-sidebar"><ScreenEventList/></aside>
+            <aside className="left-sidebar"><ScreenEventList screenId={+this.props.match.params.screenId}/></aside>
           }
           <main className="main-section">
             <div className={'video-container'}>
