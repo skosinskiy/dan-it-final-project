@@ -12,6 +12,7 @@ class SingleEventPage extends Component {
   }
   render () {
     const {eventItem} = this.props
+    const screenId = +this.props.match.params.screenId
   
     if (!Object.keys(eventItem).length) {
       return <Preloader/>
@@ -20,7 +21,7 @@ class SingleEventPage extends Component {
     const mainPhoto = eventItem.mainPhoto != null ? eventItem.mainPhoto : 'https://www.film.ru/images/empty/260x400.png'
     return (
       <div className='ep-wrapper'>
-        <NavLink to='/screen/businesses/' className='bp_back-btn'>
+        <NavLink to={`/screen/${screenId}`} className='bp_back-btn'>
           Back
         </NavLink>
         <h2 className='ep__title'>{eventItem.title}</h2>

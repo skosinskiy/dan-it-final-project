@@ -11,11 +11,11 @@ const AppRoutes = (props) => {
   return (
     <div className={'AppRoutes'}>
       <Switch>
-        <Route path="/screen/businesses/:id" component={SingleBusinessItem}/>
-        <Route path="/screen/events/:id" component={SingleEventItem}/>
-        <Route path="/screen/category/:id" component={BusinessList}/>
-        <Route path="/screen/map" component={Map}/>
-        <Route path="/" component={MainPage}/>
+        <Route path="/screen/:screenId/businesses/:id" component={SingleBusinessItem}/>
+        <Route path="/screen/:screenId/events/:id" component={SingleEventItem}/>
+        <Route path="/screen/:screenId/category/:id" component={BusinessList}/>
+        <Route path="/screen/:screenId/map" component={Map}/>
+        <Route path="/screen/:screenId" component={MainPage}/>
       </Switch>
     </div>
   )
