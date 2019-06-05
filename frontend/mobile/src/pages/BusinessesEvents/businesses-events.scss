@@ -14,14 +14,17 @@
     display: flex;
     justify-content: flex-start;
     margin: 10px 0 10px;
-    padding-left: 0;
+    padding-bottom: 5px;
     overflow-x: scroll;
     overflow-y: hidden;
 
     .menu-item {
       display: flex;
+      flex: 0 0 auto;
       flex-direction: column;
       justify-content: center;
+      min-width: 60px;
+      padding: 5px;
       color: #2D2D2D;
       font-weight: 700;
       font-size: 14px;
@@ -30,8 +33,12 @@
       text-align: center;
       list-style: none;
 
+      &__active {
+        background-color: $light-grey;
+      }
+
       &:nth-child(n+1) {
-        margin-right: 20px;
+        margin-right: 3px;
       }
 
       &:last-child {
@@ -113,6 +120,7 @@
     margin: 4px 0;
     padding: 3px 5px;
     font-size: 18px;
+    font-family: SF UI Text, sans-serif;
     border-radius: 4px;
     cursor: text;
     resize: none;

@@ -4,6 +4,7 @@ import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
 import * as usersOperations from './store/users/operations'
 import './App.scss'
+import Preloader from './components/Preloader'
 
 class App extends Component {
   componentDidMount () {
@@ -11,9 +12,13 @@ class App extends Component {
   }
 
   render () {
+    if (this.props.isCurrentUserLoading) {
+      return <Preloader />
+    }
+
     return (
       <div className='App'>
-        <AppRoutes />
+        <AppRoutes currentUser={this.props.currentUser} />
       </div>
     )
   }

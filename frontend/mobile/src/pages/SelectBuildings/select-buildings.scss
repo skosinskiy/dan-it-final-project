@@ -10,10 +10,6 @@
   .content-title {
     padding-left: 20px;
   }
-}
-
-.options {
-  padding: 0 20px;
 
   &:before {
     content: "";
@@ -24,6 +20,10 @@
     background: #808080;
     border-radius: 4px;
   }
+}
+
+.options {
+  padding: 0 20px;
 }
 
 .options-container {

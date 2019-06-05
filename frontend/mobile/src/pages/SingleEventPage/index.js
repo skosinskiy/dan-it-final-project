@@ -1,46 +1,76 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {NavLink} from 'react-router-dom'
-import './SingleEventPage.scss'
 import {getEventById} from '../../store/events/operations'
 import Preloader from '../../components/Preloader'
+import '../SingleBusinessPage/SingleBusinessesPage.scss'
+import SectionItem from '../BusinessesEvents/SectionItem'
+import MobileHeader from '../../components/MobileHeader'
 
 class SingleEventPage extends Component {
   componentDidMount () {
     const {getEventById} = this.props
     getEventById(+this.props.match.params.eventId)
   }
+
+  formatDate (dateString) {
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
+    return new Date(dateString).toLocaleTimeString('en-GB', options)
+  }
+
   render () {
-    const {currentEvent, currentEventIsLoading, currentPlaceById} = this.props
+    const {currentEvent, currentEventIsLoading} = this.props
     if (currentEventIsLoading) {
       return <Preloader/>
     }
-    const link = currentPlaceById.id ? `/mobile/my-places/${currentPlaceById.id}` : '/mobile/home'
-    const img = currentEvent.mainPhoto
+
+    const business = currentEvent.business
+      ? <SectionItem key={currentEvent.business.id} item={currentEvent.business} type={'businesses'}/>
+      : <div className="section-item__address">{'There is no business'}</div>
+
+    const photos = currentEvent.photos
+      ? currentEvent.photos.filter(photo => photo.id !== currentEvent.mainPhoto.id)
+      : []
+    if (currentEvent.photos) {
+      photos.unshift(currentEvent.photos.find(photo => photo.id === currentEvent.mainPhoto.id))
+    }
+
     return (
-      <div className="bp-wrapper">
-        <NavLink to={link} className="bp_back-btn">
-          Back
-        </NavLink>
-        <h2 className="bp__title">{currentEvent.title}</h2>
-        <div className="bp-info">
-          <div style={{backgroundImage: `url(${img})`}} className="bp-info__photo"/>
-          <div className="bp-info_text">
-            <p className="bp-info_text__address">{currentEvent.address}</p>
-            <div className="bp-info_text__phone">{currentEvent.phoneNumber}</div>
-            <a href={currentEvent.webSite} className="bp-info_text__site">{currentEvent.webSite}</a>
-            <div className="bp-info__categories">
-              {[...currentEvent.categories.map(item => <p key={Math.random()} className="bp-categories-info__text">{item.name}</p>)]}
+      <div className="parallax-container">
+        <MobileHeader photos={photos} backLink={'/mobile/home'}/>
+        <div className={'business-container'}>
+          <h2 className="bp-title">{currentEvent.title}</h2>
+          <div className="bp-info__categories">
+            <p className="bp-categories-info__text">{currentEvent.categories.map(cat => cat.name).join(',')}</p>
+          </div>
+          <div className="bp_description">{currentEvent.description}</div>
+          <div className="bp-info">
+            <div className="bp-info_text">
+              <h2 className='bp-subtitle'>Time</h2>
+              <p className="bp-info_text__phone">
+                {`Start: ${this.formatDate(currentEvent.startDate)}`}
+              </p>
+              <p className="bp-info_text__phone">
+                {`End: ${this.formatDate(currentEvent.endDate)}`}
+              </p>
+              <a href={`//${currentEvent.webSite}`} className="bp-info_text__site">
+                {currentEvent.webSite}
+              </a>
             </div>
           </div>
-        </div>
-        <div className="bp_description">{currentEvent.description}</div>
-        <div className="bp-place-photo-wrapper">
-          <div className="bp-places">
-            <p className="bp-places__item">{currentEvent.place.title}</p>
+          <div className="bp-info">
+            <div className="bp-info_text">
+              <h2 className='bp-subtitle'>Address</h2>
+              <p className="bp-categories-info__text">{currentEvent.place.title}</p>
+              <p className="bp-info_text__address">{currentEvent.address}</p>
+            </div>
           </div>
-          <div className="bp-photos">
-            {[...currentEvent.photos.map(item => <p key={Math.random()} className="bp-photo__item">{item.photo}</p>)]}
+          <div className="bp-info">
+            <div className="bp-info_text">
+              <h2 className='bp-subtitle__events'>Business</h2>
+              <div className="section-list">
+                {business}
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -51,8 +81,7 @@ class SingleEventPage extends Component {
 const mapStateToProps = (state) => {
   return {
     currentEvent: state.events.currentEvent,
-    currentEventIsLoading: state.events.currentEventIsLoading,
-    currentPlaceById: state.places.currentPlaceById
+    currentEventIsLoading: state.events.currentEventIsLoading
   }
 }
 

@@ -1,0 +1,17 @@
+.no_places {
+
+  &-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 84px);
+  }
+
+  &-title {
+    font-size: 22px;
+    text-align: left;
+  }
+
+}
+

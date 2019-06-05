@@ -3,6 +3,16 @@ import * as ACTIONS from './actions'
 import {getBusinessesByCategory, getBusinessesByPlace} from '../businesses/operations'
 import {getEventsByPlace} from '../events/operations'
 
+export const fetchBusinessesEventsData = placeId => dispatch => {
+  dispatch(ACTIONS.isBusinessesEventsDataLoading(true))
+  Promise.all([
+    dispatch(getCurrentPlaceById(placeId)),
+    dispatch(getEventsByPlace(placeId)),
+    dispatch(getBusinessesByPlace(placeId)),
+    dispatch(getPlaceMessagesByPlaceId(placeId))
+  ]).finally(() => dispatch(ACTIONS.isBusinessesEventsDataLoading(false)))
+}
+
 export const getCurrentPlaceById = (placeId) => dispatch => {
   dispatch(ACTIONS.currentPlaceLoading())
   return api.get(`/api/places/${placeId}`).then(res => {
@@ -17,12 +27,20 @@ export const getPlaceMessagesByPlaceId = placeId => dispatch => {
   })
 }
 
-export const fetchBusinessesEventsData = placeId => dispatch => {
+export const postPlaceMessage = (message, placeId) => dispatch => {
   dispatch(ACTIONS.isBusinessesEventsDataLoading(true))
-  Promise.all([
-    dispatch(getCurrentPlaceById(placeId)),
-    dispatch(getEventsByPlace(placeId)),
-    dispatch(getBusinessesByPlace(placeId)),
-    dispatch(getPlaceMessagesByPlaceId(placeId))
-  ]).finally(() => dispatch(ACTIONS.isBusinessesEventsDataLoading(false)))
+  return api.post(`/api/place-messages/place/${placeId}`, {
+    message: message
+  }).then(() => {
+    dispatch(fetchBusinessesEventsData(placeId))
+  }).finally(() => {
+    dispatch(ACTIONS.isBusinessesEventsDataLoading(false))
+  })
+}
+
+export const deletePlaceMessageById = (placeMessageId, placeId) => dispatch => {
+  dispatch(ACTIONS.isBusinessesEventsDataLoading(true))
+  return api.deleteApi(`/api/place-messages/${placeMessageId}`).then(() => {
+    dispatch(fetchBusinessesEventsData(placeId))
+  })
 }
