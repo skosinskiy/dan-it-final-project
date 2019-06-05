@@ -3,6 +3,7 @@ import './menu.scss'
 import { NavLink } from 'react-router-dom'
 import { getCurrentPlace } from '../../../actions/currentPlace'
 import { connect } from 'react-redux'
+import { getAllBusinessesByCategory, getBusinessCategoryById } from '../../../store/businesses/operations'
 
 class Menu extends React.Component {
   componentDidMount () {
@@ -10,12 +11,18 @@ class Menu extends React.Component {
     getCurrentPlace(screenId)
   }
 
+  getCurrentCategory = categoryId => {
+    const {getBusinessCategoryById, getBusinessesByCategory} = this.props
+    getBusinessCategoryById(categoryId)
+    getBusinessesByCategory(categoryId)
+  }
+
   render () {
     const {currentPlace, screenId} = this.props
     const businesses = currentPlace.placeCategory.businessCategories
     const menuItems = businesses.map(businesses => {
       return (
-        <div key={businesses.id} className={'menu__item'}>
+        <div key={businesses.id} className={'menu__item'} onClick={() => this.getCurrentCategory(businesses.id)}>
           <NavLink to={`/screen/${screenId}/category/${businesses.id}`}>
             <div className="menu-item_icon" style={{backgroundImage: `url(${businesses.iconUrl})`}}></div>
             <div className="menu-item_text">{businesses.name}</div>
@@ -52,7 +59,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getCurrentPlace: (id) => dispatch(getCurrentPlace(id))
+    getCurrentPlace: (id) => dispatch(getCurrentPlace(id)),
+    getBusinessCategoryById: (categoryId) => dispatch(getBusinessCategoryById(categoryId)),
+    getBusinessesByCategory: (categoryId) => dispatch(getAllBusinessesByCategory(categoryId))
   }
 }
 

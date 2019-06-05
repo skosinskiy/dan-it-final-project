@@ -58,3 +58,8 @@ export const businessCategoryIsLoading = (isLoading) => ({
   type: TYPES.BUSINESS_CATEGORY_LOADED,
   payload: isLoading
 })
+
+export const businessesByCategoryIsLoading = (isLoading) => ({
+  type: TYPES.BUSINESS_BY_CATEGORY_LOADED,
+  payload: {businessesByCategoryIsLoadig: isLoading}
+})

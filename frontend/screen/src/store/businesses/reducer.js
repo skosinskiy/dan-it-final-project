@@ -7,7 +7,8 @@ const initialState = {
   isLoading: false,
   error: null,
   currentCategory: {},
-  categoryIsLoading: true
+  categoryIsLoading: true,
+  businessesByCategoryIsLoadig: true
 }
 
 const businessReducer = (state = initialState, action) => {
@@ -43,6 +44,8 @@ const businessReducer = (state = initialState, action) => {
       return {...state, currentCategory: action.payload.currentCategory}
     case TYPES.BUSINESS_CATEGORY_LOADED:
       return {...state, categoryIsLoading: action.payload}
+    case TYPES.BUSINESS_BY_CATEGORY_LOADED:
+      return {...state, businessesByCategoryIsLoadig: action.payload.businessesByCategoryIsLoadig}
     default:
       return state
   }

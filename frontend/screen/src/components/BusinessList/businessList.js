@@ -13,9 +13,9 @@ class BusinessList extends Component {
   }
 
   render () {
-    const {businessesByCategory, categoryIsLoading, currentCategory} = this.props
+    const {businessesByCategory, categoryIsLoading, currentCategory, businessesByCategoryIsLoadig} = this.props
     const screenId = +this.props.match.params.screenId
-    if (categoryIsLoading) {
+    if (categoryIsLoading || businessesByCategoryIsLoadig) {
       return <Preloader/>
     }
     const businessList = businessesByCategory.map((business) => {
@@ -36,7 +36,8 @@ const mapStateToProps = (state) => {
   return {
     businessesByCategory: state.businesses.businessesByCategory,
     currentCategory: state.businesses.currentCategory,
-    categoryIsLoading: state.businesses.categoryIsLoading
+    categoryIsLoading: state.businesses.categoryIsLoading,
+    businessesByCategoryIsLoadig: state.businesses.businessesByCategoryIsLoadig
   }
 }
 
