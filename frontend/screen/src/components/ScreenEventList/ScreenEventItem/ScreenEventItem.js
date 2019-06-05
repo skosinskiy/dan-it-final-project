@@ -4,7 +4,7 @@ import './ScreenEventItem.scss'
 
 class ScreenEventItem extends React.Component {
   render () {
-    const {key, img, shortDescription, title, id, screenId} = this.props
+    const {img, shortDescription, title, id, screenId} = this.props
     const bgImg = img != null ? img : 'https://www.film.ru/images/empty/260x400.png'
     return (
       <NavLink to={`/screen/${screenId}/events/${id}`}>
