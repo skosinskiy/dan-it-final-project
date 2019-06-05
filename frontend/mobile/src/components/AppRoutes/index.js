@@ -17,6 +17,7 @@ import * as PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import BottomMenu from '../BottomMenu'
 import MapPage from '../../pages/MapPage/MapPage'
+import NoPlacesInfo from '../NoPlacesInfo'
 
 const AppRoutes = (props) => {
   const {currentUser} = props
@@ -24,6 +25,15 @@ const AppRoutes = (props) => {
       props.location.pathname.startsWith('/mobile/login') || props.location.pathname.startsWith('/mobile/registration')
         ? null
         : <BottomMenu/>
+
+  if (currentUser && !currentUser.currentPlace && currentUser.places.length === 0) {
+    return (
+      <div>
+        <NoPlacesInfo/>
+        {bottomMenu}
+      </div>
+    )
+  }
 
   return (
     <div className={'AppRoutes'}>

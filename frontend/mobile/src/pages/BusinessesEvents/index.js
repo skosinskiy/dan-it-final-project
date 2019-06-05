@@ -10,11 +10,12 @@ import { getEventsByPlace } from '../../store/events/operations'
 import Preloader from '../../components/Preloader'
 import PlaceMessage from './PlaceMessage'
 import {NavLink} from 'react-router-dom'
+import NoPlacesInfo from '../../components/NoPlacesInfo'
 
 const emptyCurrentPlace = {
   address: '',
   description: '',
-  id: '',
+  id: null,
   mainPhoto: null,
   photos: [],
   placeCategory: null,
@@ -24,8 +25,11 @@ const emptyCurrentPlace = {
 class BusinessesEvents extends Component {
   constructor (props) {
     super(props)
+
+    const {currentUser} = this.props
+
     this.state = {
-      currentPlace: this.props.currentPlace !== undefined ? this.props.currentPlace : emptyCurrentPlace,
+      currentPlace: currentUser.currentPlace,
       businessesByCategory: null,
       eventsByCategory: null,
       placeMessages: this.props.placeMessages !== undefined ? this.props.placeMessages : [],
@@ -35,8 +39,10 @@ class BusinessesEvents extends Component {
 
   componentDidMount () {
     const {fetchBusinessesEventsData} = this.props
-    const placeId = this.props.currentPlace.id
-    fetchBusinessesEventsData(placeId)
+    if (this.state.currentPlace) {
+      const placeId = this.state.currentPlace.id
+      fetchBusinessesEventsData(placeId)
+    }
   }
 
   componentWillReceiveProps (nextProps, nextContext) {
@@ -72,12 +78,13 @@ class BusinessesEvents extends Component {
 
   render () {
     const {businesses, events, isLoaded, currentUser, isBusinessesEventsDataLoading} = this.props
-    const placeId = this.props.currentPlace.id
     const { placeMessages, currentPlace, businessesByCategory, eventsByCategory } = this.state
 
     if (isBusinessesEventsDataLoading) {
       return <Preloader/>
     }
+
+    const placeId = currentPlace.id
 
     const allowPlaceMessages = currentPlace.placeCategory ? currentPlace.placeCategory.allowMessages : false
 
@@ -126,15 +133,13 @@ class BusinessesEvents extends Component {
         )
       })
     }
-    console.log(currentPlace)
+
     const photos = currentPlace.photos.length > 0
       ? currentPlace.photos.filter(photo => photo.id !== currentPlace.mainPhoto.id)
       : []
     if (currentPlace.photos.length > 0) {
       photos.unshift(currentPlace.photos.find(photo => photo.id === currentPlace.mainPhoto.id))
     }
-
-    console.log(photos)
 
     return (
       <div className="businesse-container parallax-container">
@@ -178,14 +183,10 @@ class BusinessesEvents extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const currentPlace = state.users.currentUser.currentPlace
-    ? state.users.currentUser.currentPlace
-    : emptyCurrentPlace
   return {
     currentUser: state.users.currentUser,
     businesses: state.businesses.businessesByPlace,
     events: state.events.events,
-    currentPlace: currentPlace,
     placeMessages: state.places.placeMessages,
     isLoaded: state.places.isLoaded,
     isBusinessesEventsDataLoading: state.places.isBusinessesEventsDataLoading

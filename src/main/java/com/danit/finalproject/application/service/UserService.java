@@ -238,7 +238,10 @@ public class UserService implements UserDetailsService, CrudService<User> {
           .collect(Collectors.toList());
       user.setPlaces(filteredPlaces);
     }
-    user.getPlaces().add(placeToAdd);
+    if (user.getPlaces().stream().noneMatch(place -> place.getId().equals(placeToAdd.getId()))) {
+      user.getPlaces().add(placeToAdd);
+      user.setCurrentPlace(placeToAdd);
+    }
     return update(user.getId(), user);
   }
 

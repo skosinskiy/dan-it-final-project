@@ -6,6 +6,7 @@ import './select-buildings.scss'
 import {connect} from 'react-redux'
 import {usersOperations} from '../../store/users'
 import Preloader from '../../components/Preloader'
+import NoPlacesInfo from '../../components/NoPlacesInfo'
 
 class SelectBuildings extends Component {
   state = {
@@ -81,7 +82,6 @@ class SelectBuildings extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state.users.isCurrentUserLoading)
   const currentPlace =
       !state.places.currentPlaceById.id && state.users.currentUser
         ? state.users.currentUser.places[0]
