@@ -13,7 +13,9 @@ class SelectBuildings extends Component {
   }
 
   componentDidMount () {
-    this.props.getCurrentUser()
+    this.setState({
+      places: this.props.user.places
+    })
   }
 
   componentWillReceiveProps (nextProps, nextContext) {

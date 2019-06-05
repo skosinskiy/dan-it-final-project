@@ -57,6 +57,12 @@ public class UserController {
     return new ResponseEntity<>(userFacade.getPrincipalUser(), HttpStatus.OK);
   }
 
+  @PutMapping("current/place/{placeId}")
+  @JsonView(View.User.class)
+  public ResponseEntity<UserResponse> updateCurrentPlace(@PathVariable Long placeId) {
+    return new ResponseEntity<>(userFacade.updateCurrentPlace(placeId), HttpStatus.OK);
+  }
+
   @GetMapping
   @JsonView(View.User.class)
   public ResponseEntity<Page<UserResponse>> getUsersByEmail(

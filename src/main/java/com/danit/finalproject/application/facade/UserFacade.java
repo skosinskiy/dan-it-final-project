@@ -67,4 +67,8 @@ public class UserFacade extends AbstractDtoFacade<User, UserRequest, UserRespons
   public UserResponse addNewPlaceToUser(Long placeId) {
     return mapEntityToResponseDto(userService.addNewPlaceToUser(placeId));
   }
+
+  public UserResponse updateCurrentPlace(Long placeId) {
+    return mapEntityToResponseDto(userService.updateCurrentPlace(placeId));
+  }
 }

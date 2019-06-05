@@ -17,19 +17,33 @@ import * as PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import BottomMenu from '../BottomMenu'
 import MapPage from '../../pages/MapPage/MapPage'
+import NoPlacesInfo from '../NoPlacesInfo'
 
 const AppRoutes = (props) => {
   const {currentUser} = props
-  const bottomMenu = [
-    '/mobile/login',
-    '/mobile/registration'].includes(props.location.pathname) ? null : <BottomMenu/>
+  const bottomMenu =
+      props.location.pathname.startsWith('/mobile/login') || props.location.pathname.startsWith('/mobile/registration')
+        ? null
+        : <BottomMenu/>
+
+  if (currentUser && !currentUser.currentPlace && currentUser.places.length === 0) {
+    return (
+      <div>
+        <NoPlacesInfo/>
+        {bottomMenu}
+      </div>
+    )
+  }
 
   return (
     <div className={'AppRoutes'}>
       <Switch>
-        <ProtectedRoute path="/mobile/my-places/:placeId/new-place-message" component={AddPlaceMessage} authenticated={!!currentUser}/>
-        <ProtectedRoute path="/mobile/my-places/:placeId" component={BusinessesEvents} authenticated={!!currentUser}/>
-        <ProtectedRoute path="/mobile/home" component={SelectBuildings} authenticated={!!currentUser}/>
+        <Route path="/mobile/login/placeId/:placeId" component={Login} />
+        <Route path="/mobile/login" component={Login}/>
+        <Route path="/mobile/registration" component={Registration}/>
+        <ProtectedRoute path="/mobile/home/new-place-message" component={AddPlaceMessage} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/home/" component={BusinessesEvents} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/places" component={SelectBuildings} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/news" component={NewsPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/messages/:chatId" component={ChatPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/messages" component={DialoguesPage} authenticated={!!currentUser}/>
@@ -38,9 +52,7 @@ const AppRoutes = (props) => {
         <ProtectedRoute path="/mobile/map" component={MapPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/businesses/:businessId" component={SingleBusinessPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/events/:eventId" component={SingleEventPage} authenticated={!!currentUser}/>
-        <Route path="/mobile/login/placeId/:placeId" component={Login} />
-        <Route path="/mobile/login" component={Login}/>
-        <Route path="/mobile/registration" component={Registration}/>
+        <ProtectedRoute path="/mobile" component={BusinessesEvents}/>
       </Switch>
       {bottomMenu}
     </div>

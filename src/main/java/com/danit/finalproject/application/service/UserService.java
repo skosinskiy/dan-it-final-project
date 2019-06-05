@@ -238,7 +238,27 @@ public class UserService implements UserDetailsService, CrudService<User> {
           .collect(Collectors.toList());
       user.setPlaces(filteredPlaces);
     }
-    user.getPlaces().add(placeToAdd);
+    if (user.getPlaces().stream().noneMatch(place -> place.getId().equals(placeToAdd.getId()))) {
+      user.getPlaces().add(placeToAdd);
+      user.setCurrentPlace(placeToAdd);
+    }
     return update(user.getId(), user);
+  }
+
+  public User updateCurrentPlace(Long placeId) {
+    User user = getPrincipalUser();
+    if (isPlaceSynchronyzedWithUser(user, placeId)) {
+      Place newCurrentPlace = placeRepository.findById(placeId).orElse(null);
+      user.setCurrentPlace(newCurrentPlace);
+      update(user.getId(), user);
+    }
+    return user;
+  }
+
+  private boolean isPlaceSynchronyzedWithUser(User user, Long placeId) {
+    return user
+        .getPlaces()
+        .stream()
+        .anyMatch(place -> place.getId().equals(placeId));
   }
 }

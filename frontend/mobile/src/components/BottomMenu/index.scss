@@ -3,36 +3,39 @@
 .bottom__menu {
     position: fixed;
     bottom: 0;
+    z-index: 10000;
     display: flex;
     justify-content: space-around;
+    align-items: center;
     width: 100%;
-    height: $bottom-menu-heigth;
-    padding-bottom: 24px;
+    font-family: SF UI Text, sans-serif;
     background-color: #fff;
     border-top: .5px solid #BDBDBD;
     .item {
         display: flex;
         flex-direction: column;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        text-align: center;
         .link {
+            color: $black;
             text-decoration: none;
-        }
-        .fill {
-            fill: rgb(15, 185, 241);
-            stroke: rgb(15, 185, 241);
-            stroke-opacity: 5;
-            stroke-width: 10%;
         }
         .logo {
             width: 42px;
             height: 30px;
-            padding-top: 14px;
-            
         }
+
+        .fill {
+            color: $message-blue;
+            fill: $message-blue;
+        }
+
         .text {
             margin-top: -2px;
-            color: $grey;
-            font-size: 10px;
-            font-family: 'SF Compact Text';
+            color: inherit;
+            font-weight: 700;
+            font-size: 11px;
             letter-spacing: .012em;
         }
     }

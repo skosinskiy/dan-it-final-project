@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {NavLink} from 'react-router-dom'
 import './SingleBusinessesPage.scss'
 import {getBusinessById} from '../../store/businesses/operations'
 import Preloader from '../../components/Preloader'
+import MobileHeader from '../../components/MobileHeader'
+import SectionItem from '../BusinessesEvents/SectionItem'
 
 class SingleBusinessPage extends Component {
   componentDidMount () {
@@ -11,37 +12,56 @@ class SingleBusinessPage extends Component {
     getBusinessById(+this.props.match.params.businessId)
   }
   render () {
-    const {businessItem, businessIsLoading, currentPlaceById} = this.props
+    const {businessItem, businessIsLoading} = this.props
     if (businessIsLoading) {
       return <Preloader/>
     }
-    const link = currentPlaceById.id ? `/mobile/my-places/${currentPlaceById.id}` : '/mobile/home'
-    const img = businessItem.mainPhoto.imageUrl
+
+    const eventsList = businessItem.events.length > 0
+      ? businessItem.events.map(item => <SectionItem key={item.id} item={item} type={'events'}/>)
+      : <div className="section-item__address">{'There is no events yet'}</div>
+
+    const photos = businessItem.photos
+      ? businessItem.photos.filter(photo => photo.id !== businessItem.mainPhoto.id)
+      : []
+    if (businessItem.photos) {
+      photos.unshift(businessItem.photos.find(photo => photo.id === businessItem.mainPhoto.id))
+    }
 
     return (
-      <div className="bp-wrapper">
-        <NavLink to={link} className="bp_back-btn">
-          Back
-        </NavLink>
-        <h2 className="bp__title">{businessItem.title}</h2>
-        <div className="bp-info">
-          <div style={{backgroundImage: `url(${img})`}} className="bp-info__photo"/>
-          <div className="bp-info_text">
-            <p className="bp-info_text__address">{businessItem.address}</p>
-            <div className="bp-info_text__phone">{businessItem.phoneNumber}</div>
-            <a href={businessItem.webSite} className="bp-info_text__site">{businessItem.webSite}</a>
-            <div className="bp-info__categories">
-              {[...businessItem.categories.map(item => <p key={Math.random()} className="bp-categories-info__text">{item.name}</p>)]}
+      <div className="parallax-container">
+        <MobileHeader photos={photos} backLink={'/mobile/home'}/>
+        <div className={'business-container'}>
+          <h2 className="bp-title">{businessItem.title}</h2>
+          <div className="bp-info__categories">
+            <p className="bp-categories-info__text">{businessItem.categories.map(cat => cat.name).join(',')}</p>
+          </div>
+          <div className="bp_description">{businessItem.description}</div>
+          <div className="bp-info">
+            <div className="bp-info_text">
+              <h2 className='bp-subtitle'>Address</h2>
+              <p className="bp-categories-info__text">{businessItem.place.title}</p>
+              <p className="bp-info_text__address">{businessItem.address}</p>
             </div>
           </div>
-        </div>
-        <div className="bp_description">{businessItem.description}</div>
-        <div className="bp-place-photo-wrapper">
-          <div className="bp-places">
-            <p className="bp-places__item">{businessItem.place.title}</p>
+          <div className="bp-info">
+            <div className="bp-info_text">
+              <h2 className='bp-subtitle'>Contacts</h2>
+              <p className="bp-info_text__phone">
+                {`Phone: ${businessItem.phoneNumber}`}
+              </p>
+              <a href={`//${businessItem.webSite}`} className="bp-info_text__site">
+                {businessItem.webSite}
+              </a>
+            </div>
           </div>
-          <div className="bp-photos">
-            {[...businessItem.photos.map(item => <p key={Math.random()} className="bp-photo__item">{item.photo}</p>)]}
+          <div className="bp-info">
+            <div className="bp-info_text">
+              <h2 className='bp-subtitle__events'>Events</h2>
+              <div className="section-list">
+                {eventsList}
+              </div>
+            </div>
           </div>
         </div>
       </div>

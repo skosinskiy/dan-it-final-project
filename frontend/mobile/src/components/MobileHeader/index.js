@@ -72,7 +72,9 @@ class ParallaxHeader extends Component {
           <div className='header__back-container'>
             {backButton}
           </div>
-          <div className='header__text-container' style={iconStyle}>
+          <div
+            className={'header__text-container'}
+            style={iconStyle}>
             <p className='header__title'>{this.props.header}</p>
             <p className='header__location'>{this.props.location}</p>
           </div>

@@ -11,6 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
@@ -60,6 +61,11 @@ public class User extends BaseEntity {
       inverseJoinColumns = {@JoinColumn(name = "place_id")})
   @ToString.Exclude
   private List<Place> places;
+
+  @ManyToOne
+  @JoinColumn(name = "current_place")
+  @ToString.Exclude
+  private Place currentPlace;
 
   @ManyToMany
   @JoinTable(name = "users_chats",
