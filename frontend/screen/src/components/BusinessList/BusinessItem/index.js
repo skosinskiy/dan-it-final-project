@@ -4,10 +4,10 @@ import './business-item.scss'
 
 class BusinessItem extends Component {
   render () {
-    const {business} = this.props
-    const img = business.photos.length ? business.photos[0].imageUrl : 'https://www.film.ru/images/empty/260x400.png'
+    const {business, screenId} = this.props
+    const img = business.mainPhoto != null ? business.mainPhoto : 'https://www.film.ru/images/empty/260x400.png'
     return (
-      <NavLink to={`/screen/businesses/${business.id}`}>
+      <NavLink to={`/screen/${screenId}/businesses/${business.id}`}>
         <div className="business-item">
           <div className="photo" style={{backgroundImage: `url(${img})`}}></div>
           <div className="description">

@@ -72,8 +72,8 @@ $icon_classes: (
 }
 
 .menu-item_icon {
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -81,5 +81,6 @@ $icon_classes: (
 
 .menu-item_text {
     margin-top: 5px;
+    font-size: 18px;
     text-align: center;
 }
