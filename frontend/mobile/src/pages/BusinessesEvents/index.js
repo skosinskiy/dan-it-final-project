@@ -10,7 +10,6 @@ import { getEventsByPlace } from '../../store/events/operations'
 import Preloader from '../../components/Preloader'
 import PlaceMessage from './PlaceMessage'
 import {NavLink} from 'react-router-dom'
-import NoPlacesInfo from '../../components/NoPlacesInfo'
 
 const emptyCurrentPlace = {
   address: '',

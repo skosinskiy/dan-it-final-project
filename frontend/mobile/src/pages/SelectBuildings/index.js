@@ -6,7 +6,6 @@ import './select-buildings.scss'
 import {connect} from 'react-redux'
 import {usersOperations} from '../../store/users'
 import Preloader from '../../components/Preloader'
-import NoPlacesInfo from '../../components/NoPlacesInfo'
 
 class SelectBuildings extends Component {
   state = {
