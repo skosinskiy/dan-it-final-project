@@ -30,7 +30,6 @@ export default class CurWeather extends Component {
   }
 
   render () {
-    console.log(this.state.icon)
     return (
       <div className='current-weather'>
         <div className={`icon__${this.state.icon} current-weather__icon`} ></div>

@@ -10,8 +10,9 @@ class MenuContainer extends Component {
       }
     }
     render () {
+      const {screenId} = this.props
       return (
-        <Menu isOpen={this.props.burgerMenu.isOpen} onClick={this.props.toggle}/>
+        <Menu isOpen={this.props.burgerMenu.isOpen} onClick={this.props.toggle} screenId={screenId}/>
       )
     }
 }

@@ -14,11 +14,12 @@ class BusinessList extends Component {
 
   render () {
     const {businessesByCategory, categoryIsLoading, currentCategory} = this.props
+    const screenId = +this.props.match.params.screenId
     if (categoryIsLoading) {
       return <Preloader/>
     }
     const businessList = businessesByCategory.map((business) => {
-      return <BusinessItem key={business.id} business={business}/>
+      return <BusinessItem key={business.id} business={business} screenId={screenId}/>
     })
     return (
       <div className="businesse-container">
