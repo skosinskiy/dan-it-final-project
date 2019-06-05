@@ -12,10 +12,11 @@ class SingleBusinessPage extends Component {
   }
   render () {
     const {businessItem, currentCategory} = this.props
+    const screenId = +this.props.match.params.screenId
     if (!businessItem) {
       return <Preloader/>
     }
-    const link = currentCategory.id ? `/screen/category/${currentCategory.id}` : '/screen'
+    const link = currentCategory.id ? `/screen/${screenId}/category/${currentCategory.id}` : `/screen/${screenId}`
     const img = businessItem.mainPhoto !== null ? businessItem.mainPhoto : 'https://www.film.ru/images/empty/260x400.png'
     return (
       <div className="bp-wrapper">

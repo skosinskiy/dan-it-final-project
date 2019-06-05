@@ -5,34 +5,12 @@ import {getEvantsByPlace} from '../../store/events/operations'
 import './ScreenEventList.scss'
 
 class ScreenEventList extends Component {
-  state = {
-    listOfEvents: [
-      { id: 1,
-        title: 'Manufactura',
-        shortDescription: 'Season sale',
-        img: './../../../img/DummyImg/manufactura.svg'},
-      { id: 2,
-        title: 'Addidas',
-        shortDescription: '20 % off',
-        img: ''},
-      { id: 3,
-        title: 'Mail Haircut',
-        shortDescription: '100 hrn',
-        img: ''},
-      { id: 4,
-        title: 'Mail Haircut',
-        shortDescription: '100 hrn',
-        img: ''
-      }
-    ]
-  }
-
   componentDidMount () {
-    const {getEvantsByPlace} = this.props
-    getEvantsByPlace(1)
+    const {getEvantsByPlace, screenId} = this.props
+    getEvantsByPlace(screenId)
   }
 
-  renderItems (arr) {
+  renderItems (arr, screenId) {
     return arr.map((item) => {
       const {id, title, description, mainPhoto} = item
       return (
@@ -41,16 +19,17 @@ class ScreenEventList extends Component {
           id = {id}
           title = {title}
           shortDescription = {description}
-          img = {mainPhoto}/>
+          img = {mainPhoto}
+          screenId={screenId}/>
       )
     })
   }
 
   render () {
-    const {eventsByPlace, eventsByPlaceIsLoading} = this.props
+    const {eventsByPlace, eventsByPlaceIsLoading, screenId} = this.props
 
     if (eventsByPlaceIsLoading) {}
-    const items = this.renderItems(eventsByPlace)
+    const items = this.renderItems(eventsByPlace, screenId)
     return (
       <div className={'screenEventList'}>
         {items}

@@ -8,10 +8,11 @@ import './Header.scss'
 
 export default class Header extends Component {
   render () {
+    const {screenId} = this.props
     return (
       <div className='container'>
-        <Menu />
-        <MainLogo />
+        <Menu screenId={screenId}/>
+        <MainLogo screenId={screenId}/>
         <div className='right-side-info'>
           <CurTrafficConditions />
           <CurWeather />
