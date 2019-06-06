@@ -65,6 +65,7 @@ export const saveNewBusiness = (business) => dispatch => {
 }
 
 export const getAllBusinessesByCategory = (categoryId) => dispatch => {
+  dispatch(ACTIONS.businessesByCategoryIsLoading(true))
   api.get(`/api/businesses`).then(res => {
     let businesses = []
     res.content.forEach(business => {
@@ -77,6 +78,8 @@ export const getAllBusinessesByCategory = (categoryId) => dispatch => {
     dispatch(ACTIONS.getAllBusinessesByCategory({businesses}))
   }).catch(err => {
     dispatch(ACTIONS.getBusinessesError(err))
+  }).finally(() => {
+    dispatch(ACTIONS.businessesByCategoryIsLoading(false))
   })
 }
 

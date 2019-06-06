@@ -32,8 +32,8 @@ a {
     transition: .5s;
 }
 .menu__item{
-    margin-right: 7%;
-    margin-left: 7%;
+    margin-right: 5%;
+    margin-left: 5%;
     text-align: center;
 }
 
@@ -72,6 +72,7 @@ $icon_classes: (
 }
 
 .menu-item_icon {
+    display: inline-block;
     width: 35px;
     height: 35px;
     background-repeat: no-repeat;
