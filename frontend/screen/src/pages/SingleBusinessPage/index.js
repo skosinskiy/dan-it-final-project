@@ -17,7 +17,9 @@ class SingleBusinessPage extends Component {
       return <Preloader/>
     }
     const link = currentCategory.id ? `/screen/${screenId}/category/${currentCategory.id}` : `/screen/${screenId}`
-    const img = businessItem.mainPhoto !== null ? businessItem.mainPhoto : 'https://www.film.ru/images/empty/260x400.png'
+    const img = businessItem.photos && businessItem.mainPhoto
+      ? businessItem.photos.find(photo => photo.id === businessItem.mainPhoto.id).imageUrl
+      : 'https://www.film.ru/images/empty/260x400.png'
     return (
       <div className="bp-wrapper">
         <NavLink to={link} className="bp_back-btn">

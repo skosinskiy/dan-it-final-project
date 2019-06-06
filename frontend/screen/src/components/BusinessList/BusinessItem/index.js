@@ -5,7 +5,10 @@ import './business-item.scss'
 class BusinessItem extends Component {
   render () {
     const {business, screenId} = this.props
-    const img = business.mainPhoto != null ? business.mainPhoto : 'https://www.film.ru/images/empty/260x400.png'
+    const img = business.photos && business.mainPhoto
+      ? business.photos.find(photo => photo.id === business.mainPhoto.id).imageUrl
+      : 'https://www.film.ru/images/empty/260x400.png'
+
     return (
       <NavLink to={`/screen/${screenId}/businesses/${business.id}`}>
         <div className="business-item">

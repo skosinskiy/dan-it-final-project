@@ -11,10 +11,10 @@ class Menu extends React.Component {
     getCurrentPlace(screenId)
   }
 
-  getCurrentCategory = categoryId => {
+  getCurrentCategory = (categoryId, placeId) => {
     const {getBusinessCategoryById, getBusinessesByCategory} = this.props
     getBusinessCategoryById(categoryId)
-    getBusinessesByCategory(categoryId)
+    getBusinessesByCategory(categoryId, placeId)
   }
 
   render () {
@@ -22,7 +22,7 @@ class Menu extends React.Component {
     const businesses = currentPlace.placeCategory.businessCategories
     const menuItems = businesses.map(businesses => {
       return (
-        <div key={businesses.id} className={'menu__item'} onClick={() => this.getCurrentCategory(businesses.id)}>
+        <div key={businesses.id} className={'menu__item'} onClick={() => this.getCurrentCategory(businesses.id, screenId)}>
           <NavLink to={`/screen/${screenId}/category/${businesses.id}`}>
             <div className="menu-item_icon" style={{backgroundImage: `url(${businesses.iconUrl})`}}></div>
             <div className="menu-item_text">{businesses.name}</div>
@@ -61,7 +61,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getCurrentPlace: (id) => dispatch(getCurrentPlace(id)),
     getBusinessCategoryById: (categoryId) => dispatch(getBusinessCategoryById(categoryId)),
-    getBusinessesByCategory: (categoryId) => dispatch(getAllBusinessesByCategory(categoryId))
+    getBusinessesByCategory: (categoryId, placeId) => dispatch(getAllBusinessesByCategory(categoryId, placeId))
   }
 }
 

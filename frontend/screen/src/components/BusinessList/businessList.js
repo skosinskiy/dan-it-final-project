@@ -8,8 +8,9 @@ import Preloader from '../Preloader'
 class BusinessList extends Component {
   componentDidMount () {
     const {getBusinessesByCategory, getBusinessCategoryById} = this.props
-    getBusinessesByCategory(+this.props.match.params.id)
-    getBusinessCategoryById(+this.props.match.params.id)
+    const {screenId, id} = this.props.match.params
+    getBusinessesByCategory(id, screenId)
+    getBusinessCategoryById(id)
   }
 
   render () {
@@ -43,7 +44,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getBusinessesByCategory: (categoryId) => dispatch(getAllBusinessesByCategory(categoryId)),
+    getBusinessesByCategory: (categoryId, placeId) => dispatch(getAllBusinessesByCategory(categoryId, placeId)),
     getBusinessCategoryById: (categoryId) => dispatch(getBusinessCategoryById(categoryId))
   }
 }
