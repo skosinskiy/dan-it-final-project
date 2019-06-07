@@ -6,9 +6,8 @@ import {getEventsByPlace} from '../events/operations'
 export const fetchBusinessesEventsData = placeId => dispatch => {
   dispatch(ACTIONS.isBusinessesEventsDataLoading(true))
   Promise.all([
-    dispatch(getCurrentPlaceById(placeId)),
-    dispatch(getEventsByPlace(placeId)),
     dispatch(getBusinessesByPlace(placeId)),
+    dispatch(getEventsByPlace(placeId)),
     dispatch(getPlaceMessagesByPlaceId(placeId))
   ]).finally(() => dispatch(ACTIONS.isBusinessesEventsDataLoading(false)))
 }

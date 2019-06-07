@@ -87,7 +87,7 @@ AppRoutes.propTypes = {
 
 ProtectedRoute.propTypes = {
   component: PropTypes.func.isRequired,
-  authenticated: PropTypes.bool.isRequired
+  authenticated: PropTypes.bool
 }
 
 export default withRouter(connect(mapStateToProps)(AppRoutes))

@@ -5,21 +5,10 @@ import MobileHeader from '../../components/MobileHeader'
 import bag from '../../img/icons/bag.svg'
 import './businesses-events.scss'
 import { placeOperations } from '../../store/places'
-import { getCurrentPlaceById } from '../../store/places/operations'
 import { getEventsByPlace } from '../../store/events/operations'
 import Preloader from '../../components/Preloader'
 import PlaceMessage from './PlaceMessage'
 import {NavLink} from 'react-router-dom'
-
-const emptyCurrentPlace = {
-  address: '',
-  description: '',
-  id: null,
-  mainPhoto: null,
-  photos: [],
-  placeCategory: null,
-  title: ''
-}
 
 class BusinessesEvents extends Component {
   constructor (props) {
@@ -45,15 +34,12 @@ class BusinessesEvents extends Component {
   }
 
   componentWillReceiveProps (nextProps, nextContext) {
-    if (nextProps.currentPlaceById && nextProps.currentPlaceById !== this.props.currentPlaceById) {
+    if (nextProps.currentUser.currentPlace) {
       this.setState({
-        currentPlace: nextProps.currentPlaceById !== undefined ? nextProps.currentPlaceById : emptyCurrentPlace
+        currentPlace: nextProps.currentUser.currentPlace,
+        placeMessages: nextProps.placeMessages !== undefined ? nextProps.placeMessages : []
       })
     }
-
-    this.setState({
-      placeMessages: nextProps.placeMessages !== undefined ? nextProps.placeMessages : []
-    })
   }
 
   getBusinessesByCategory (id) {
@@ -147,7 +133,7 @@ class BusinessesEvents extends Component {
         <MobileHeader
           photos={photos}
           header={currentPlace.placeCategory ? currentPlace.placeCategory.name : ''}
-          location={currentPlace.title} bgImage={''} icon={bag} />
+          location={currentPlace.title} icon={bag} />
         <div className="content">
           <div className="navbar section">
             <div className="section-header">
@@ -198,7 +184,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getEventsByPlace: (placeId) => dispatch(getEventsByPlace(placeId)),
-    getCurrentPlaceById: (placeId) => dispatch(getCurrentPlaceById(placeId)),
     fetchBusinessesEventsData: placeId => dispatch(placeOperations.fetchBusinessesEventsData(placeId))
   }
 }
