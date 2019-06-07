@@ -2,6 +2,9 @@ spring:
   jackson:
     mapper:
       default-view-inclusion: true
+  profiles:
+    active:
+      dev
   datasource:
     url:
       jdbc:mysql://awsdb.cdsununkklcc.us-east-2.rds.amazonaws.com:3306/rion_up?useSSL=false&serverTimezone=UTC
@@ -41,6 +44,15 @@ spring:
       max-file-size:
         10MB
 server:
+  ssl:
+    key-store:
+      classpath:keystore.p12
+    key-store-password:
+      changeit
+    keyStoreType:
+      PKCS12
+    keyAlias:
+      tomcat
   port:
     9000
 
