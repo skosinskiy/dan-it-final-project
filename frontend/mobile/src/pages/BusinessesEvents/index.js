@@ -62,7 +62,7 @@ class BusinessesEvents extends Component {
   }
 
   render () {
-    const {businesses, events, isLoaded, currentUser, isBusinessesEventsDataLoading, isCurrentUserLoading} = this.props
+    const {businesses, events, currentUser, isBusinessesEventsDataLoading, isCurrentUserLoading} = this.props
     const { placeMessages, currentPlace, businessesByCategory, eventsByCategory } = this.state
 
     if (isBusinessesEventsDataLoading || isCurrentUserLoading) {
@@ -103,23 +103,20 @@ class BusinessesEvents extends Component {
       ? filteredEvents.map(item => <SectionItem key={item.id} item={item} type={'events'}/>)
       : <div className="section-item__address">{'There is no events yet'}</div>
 
-    let menuItems = []
-    if (isLoaded) {
-      menuItems = currentPlace.placeCategory && currentPlace.placeCategory.businessCategories
-        .sort((item1, item2) => item1.name.localeCompare(item2.name))
-        .map(item => {
-          return (
-            <li key={item.id}
-              className={`menu-item ${this.state.activeCategoryId === item.id && 'menu-item__active'}`}
-              onClick={() => this.getBusinessesByCategory(item.id)}>
-              <div className="menu-item_icon">
-                <img style={{width: '30px', height: '30px'}} src={item.iconUrl} alt={item.name}/>
-              </div>
-              <div className="menu-item_text">{item.name}</div>
-            </li>
-          )
-        })
-    }
+    const menuItems = currentPlace.placeCategory && currentPlace.placeCategory.businessCategories
+      .sort((item1, item2) => item1.name.localeCompare(item2.name))
+      .map(item => {
+        return (
+          <li key={item.id}
+            className={`menu-item ${this.state.activeCategoryId === item.id && 'menu-item__active'}`}
+            onClick={() => this.getBusinessesByCategory(item.id)}>
+            <div className="menu-item_icon">
+              <img style={{width: '30px', height: '30px'}} src={item.iconUrl} alt={item.name}/>
+            </div>
+            <div className="menu-item_text">{item.name}</div>
+          </li>
+        )
+      })
 
     const photos = currentPlace.photos.length > 0
       ? currentPlace.photos.filter(photo => photo.id !== currentPlace.mainPhoto.id)
