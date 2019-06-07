@@ -2,6 +2,7 @@
 
   &__item {
     display: flex;
+    align-items: center;
     height: 70px;
     margin: 5px 0;
     padding: 0 20px;
@@ -9,19 +10,20 @@
     -webkit-box-shadow: 6px 4px 4px 0 rgba(0,0,0,.1);
     -moz-box-shadow: 6px 4px 4px 0 rgba(0,0,0,.1);
     box-shadow: 6px 4px 4px 0 rgba(0,0,0,.1);
-
-
   }
 
   &__img-container{
-    align-self: center;
-    width: 40px;
-    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    font-weight: 700;
     font-size: 18px;
     line-height: 40px;
     text-align: center;
     background-color: #a9e8e8;
-    border-radius: 50px;
+    border-radius: 50%;
   }
 
   &__text-container {

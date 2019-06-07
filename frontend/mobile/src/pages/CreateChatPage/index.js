@@ -29,8 +29,8 @@ class CreateChatPage extends Component {
   }
 
   componentDidMount () {
-    const {getUsersByPlace} = this.props
-    getUsersByPlace(1)
+    const {getUsersByPlaces} = this.props
+    getUsersByPlaces(1)
   }
 
   submitSelection = () => {

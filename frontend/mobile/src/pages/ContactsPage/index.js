@@ -1,23 +1,27 @@
 import React, { Component } from 'react'
 import ContactList from './ContactList'
 import MobileHeader from '../../components/MobileHeader'
-import headerImage from '../../img/ContactsPage/contactsTemporaryHeaderBg.png'
-import headerIcon from '../../img/ContactsPage/home-icon.png'
 import { connect } from 'react-redux'
 import { getUsersByPlace } from '../../store/users/operations'
 import Preloader from '../../components/Preloader'
-import { getCurrentPlaceById } from '../../store/places/operations'
 import {ReactComponent as Search} from '../../img/icons/search.svg'
 import './contacts-page.scss'
+import bag from '../../img/icons/bag.svg'
 
 class ContactsPage extends Component {
   state = {
-    searchParam: ''
+    searchParam: '',
+    currentPlace: {
+      photos: []
+    }
   }
   componentDidMount () {
-    const {getUsersByPlace, getCurrentPlaceById} = this.props
-    getUsersByPlace(1)
-    getCurrentPlaceById(1)
+    const {getUsersByPlace, currentUser} = this.props
+    getUsersByPlace(currentUser.currentPlace.id)
+    this.setState({
+      ...this.state,
+      currentPlace: currentUser.currentPlace
+    })
   }
 
   handleChange = event => {
@@ -27,10 +31,10 @@ class ContactsPage extends Component {
   }
 
   render () {
-    const {usersListByPLace, usersListByPLaceIsLoading, currentUser, isCurrentUserLoading, currentPlaceById, isLoaded} = this.props
-    const {searchParam} = this.state
+    const {usersListByPLace, usersListByPLaceIsLoading, currentUser, currentPlaceById} = this.props
+    const {searchParam, currentPlace} = this.state
 
-    if (usersListByPLaceIsLoading || isCurrentUserLoading || !isLoaded) {
+    if (usersListByPLaceIsLoading) {
       return <Preloader/>
     }
 
@@ -48,14 +52,28 @@ class ContactsPage extends Component {
       })
     }
 
+    const photos = currentPlace.photos.length > 0
+      ? currentPlace.photos.filter(photo => photo.id !== currentPlace.mainPhoto.id)
+      : []
+    if (currentPlace.photos.length > 0) {
+      photos.unshift(currentPlace.photos.find(photo => photo.id === currentPlace.mainPhoto.id))
+    }
+
     return (
-      <div className='contactsPage parallax-container'>
-        <MobileHeader bgImage={headerImage} header='Contacts' location='Pechersky Lypky' icon={headerIcon}/>
-        <div className="search-bar">
-          <input className="contacts-search" onChange={this.handleChange} type="text" placeholder="Search" value={searchParam}/>
-          <span className="search-icon"><Search/></span>
+      <div className='contacts parallax-container'>
+        <MobileHeader
+          photos={photos}
+          header='Contacts'
+          location={currentPlace.title}
+          bgImage={''}
+          icon={bag}/>
+        <div className={'content'}>
+          <div className="search-bar">
+            <input className="contacts-search" onChange={this.handleChange} type="text" placeholder="Search" value={searchParam}/>
+            <span className="search-icon"><Search/></span>
+          </div>
+          <ContactList contacts={contactsList} location={currentPlaceById.title}/>
         </div>
-        <ContactList contacts={contactsList} location={currentPlaceById.title}/>
       </div>
     )
   }
@@ -74,8 +92,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUsersByPlace: (placeId) => dispatch(getUsersByPlace(placeId)),
-    getCurrentPlaceById: (placeId) => dispatch(getCurrentPlaceById(placeId))
+    getUsersByPlace: places => dispatch(getUsersByPlace(places))
   }
 }
 

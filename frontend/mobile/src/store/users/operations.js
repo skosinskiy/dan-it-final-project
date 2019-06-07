@@ -19,6 +19,7 @@ export const submitLoginForm = (event, placeId) => dispatch => {
 }
 
 export const pairPlaceWithUser = placeId => dispatch => {
+  dispatch(ACTIONS.currentUserLoading(true))
   return api.put(`/api/users/pair/${placeId}`).then(res => {
     dispatch(getCurrentUser())
   })

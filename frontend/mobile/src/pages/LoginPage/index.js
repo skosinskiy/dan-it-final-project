@@ -11,26 +11,28 @@ import {usersOperations} from '../../store/users'
 import './index.scss'
 import Preloader from '../../components/Preloader'
 class Login extends Component {
-  state = {
-    isUserPaired: false
+  componentDidMount () {
+    const {currentUser, match, pairPlaceWithUser} = this.props
+    const placeId = match.params.placeId
+    const isPaired = placeId ? currentUser.currentPlace && currentUser.currentPlace.id.toString() === placeId : true
+    if (currentUser && !isPaired) {
+      pairPlaceWithUser(placeId)
+    }
   }
 
   render () {
     const {currentUser, match, isCurrentUserLoading} = this.props
 
     const placeId = match.params.placeId
-    if (currentUser && placeId && !this.state.isUserPaired) {
-      this.props.pairPlaceWithUser(placeId).then(this.setState({
-        isUserPaired: true
-      }))
-    }
-
-    if (currentUser) {
-      return <Redirect to={'/mobile/home'}/>
-    }
 
     if (isCurrentUserLoading) {
       return <Preloader/>
+    }
+
+    const isPaired = placeId ? currentUser.currentPlace && currentUser.currentPlace.id.toString() === placeId : true
+
+    if (currentUser && isPaired) {
+      return <Redirect to={'/mobile/home'}/>
     }
 
     return (
