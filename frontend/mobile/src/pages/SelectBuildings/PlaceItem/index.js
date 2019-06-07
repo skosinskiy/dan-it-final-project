@@ -19,7 +19,7 @@ class PlaceItem extends Component {
   }
 
   render () {
-    const {place, isLoading} = this.props
+    const {place, isLoading, showDelete, unpairPlaceFromUser} = this.props
     const {isItemClicked} = this.state
 
     if (isLoading) {
@@ -33,10 +33,21 @@ class PlaceItem extends Component {
     return (
       <li key={place.id} className="place-item">
         <div
-          onClick={() => this.changeCurrentPlace(place.id)}
           className="item-link">
-          <h3 className="place-item_title">{place.title}</h3>
-          <div className="place-address">{place.address}</div>
+          <div
+            className={'place-item__container'}
+            onClick={() => this.changeCurrentPlace(place.id)}
+          >
+            <h3 className="place-item_title">{place.title}</h3>
+            <div className="place-address">{place.address}</div>
+          </div>
+          {showDelete
+            ? <button
+              className="section-item__del-btn"
+              type="button"
+              onClick={() => unpairPlaceFromUser(place.id)}
+            />
+            : null }
         </div>
       </li>
     )
@@ -50,7 +61,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  updateCurrentPlace: placeId => dispatch(usersOperations.updateCurrentPlace(placeId))
+  updateCurrentPlace: placeId => dispatch(usersOperations.updateCurrentPlace(placeId)),
+  unpairPlaceFromUser: placeId => dispatch(usersOperations.unpairPlaceFromUser(placeId))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlaceItem)

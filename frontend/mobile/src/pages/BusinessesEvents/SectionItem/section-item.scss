@@ -56,10 +56,8 @@
 
   &__del-btn{
     @include button-reset;
-    align-self: flex-end;
     width: 25px;
     height: 25px;
-    margin-top: 6px;
     background: url("https://img.icons8.com/color/48/000000/cancel.png") no-repeat center;
     background-size: 25px 25px;
     border-radius: 50%;
@@ -70,7 +68,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    align-self: flex-end;
     width: 25px;
     height: 25px;
     color: $white;

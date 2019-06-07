@@ -25,8 +25,13 @@ const AppRoutes = (props) => {
       props.location.pathname.startsWith('/mobile/login') || props.location.pathname.startsWith('/mobile/registration')
         ? null
         : <BottomMenu/>
-
-  if (currentUser && !currentUser.currentPlace && currentUser.places.length === 0) {
+  if (
+    currentUser &&
+      !currentUser.currentPlace &&
+      currentUser.places.length === 0 &&
+      !props.location.pathname.startsWith('/mobile/login') &&
+      !props.location.pathname.startsWith('/mobile/registration')
+  ) {
     return (
       <div>
         <NoPlacesInfo/>

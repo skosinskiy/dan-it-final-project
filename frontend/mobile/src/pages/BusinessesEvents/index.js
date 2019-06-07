@@ -76,10 +76,10 @@ class BusinessesEvents extends Component {
   }
 
   render () {
-    const {businesses, events, isLoaded, currentUser, isBusinessesEventsDataLoading} = this.props
+    const {businesses, events, isLoaded, currentUser, isBusinessesEventsDataLoading, isCurrentUserLoading} = this.props
     const { placeMessages, currentPlace, businessesByCategory, eventsByCategory } = this.state
 
-    if (isBusinessesEventsDataLoading) {
+    if (isBusinessesEventsDataLoading || isCurrentUserLoading) {
       return <Preloader/>
     }
 
@@ -119,18 +119,20 @@ class BusinessesEvents extends Component {
 
     let menuItems = []
     if (isLoaded) {
-      menuItems = currentPlace.placeCategory && currentPlace.placeCategory.businessCategories.map(item => {
-        return (
-          <li key={item.id}
-            className={`menu-item ${this.state.activeCategoryId === item.id && 'menu-item__active'}`}
-            onClick={() => this.getBusinessesByCategory(item.id)}>
-            <div className="menu-item_icon">
-              <img style={{width: '30px', height: '30px'}} src={item.iconUrl} alt={item.name}/>
-            </div>
-            <div className="menu-item_text">{item.name}</div>
-          </li>
-        )
-      })
+      menuItems = currentPlace.placeCategory && currentPlace.placeCategory.businessCategories
+        .sort((item1, item2) => item1.name.localeCompare(item2.name))
+        .map(item => {
+          return (
+            <li key={item.id}
+              className={`menu-item ${this.state.activeCategoryId === item.id && 'menu-item__active'}`}
+              onClick={() => this.getBusinessesByCategory(item.id)}>
+              <div className="menu-item_icon">
+                <img style={{width: '30px', height: '30px'}} src={item.iconUrl} alt={item.name}/>
+              </div>
+              <div className="menu-item_text">{item.name}</div>
+            </li>
+          )
+        })
     }
 
     const photos = currentPlace.photos.length > 0
@@ -188,7 +190,8 @@ const mapStateToProps = (state) => {
     events: state.events.events,
     placeMessages: state.places.placeMessages,
     isLoaded: state.places.isLoaded,
-    isBusinessesEventsDataLoading: state.places.isBusinessesEventsDataLoading
+    isBusinessesEventsDataLoading: state.places.isBusinessesEventsDataLoading,
+    isCurrentUserLoading: state.users.isCurrentUserLoading
   }
 }
 
