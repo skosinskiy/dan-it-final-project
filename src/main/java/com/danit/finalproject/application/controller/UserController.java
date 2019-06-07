@@ -125,4 +125,10 @@ public class UserController {
     return new ResponseEntity<>(userFacade.addNewPlaceToUser(placeId), HttpStatus.OK);
   }
 
+  @PutMapping("/unpair/{placeId}")
+  @JsonView(View.User.class)
+  public ResponseEntity<UserResponse> removePlaceFromUser(@PathVariable Long placeId) {
+    return new ResponseEntity<>(userFacade.removePlaceFromUser(placeId), HttpStatus.OK);
+  }
+
 }

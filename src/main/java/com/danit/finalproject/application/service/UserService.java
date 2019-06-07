@@ -261,4 +261,21 @@ public class UserService implements UserDetailsService, CrudService<User> {
         .stream()
         .anyMatch(place -> place.getId().equals(placeId));
   }
+
+  public User removePlaceFromUser(Long placeId) {
+    User user = getPrincipalUser();
+    List<Place> currentUserPlaces = user.getPlaces();
+    List<Place> filteredUserPlaces = currentUserPlaces
+        .stream()
+        .filter(place -> !place.getId().equals(placeId))
+        .collect(Collectors.toList());
+    user.setPlaces(filteredUserPlaces);
+    if (user.getCurrentPlace().getId().equals(placeId)) {
+      user.setCurrentPlace(null);
+      if (!filteredUserPlaces.isEmpty()) {
+        user.setCurrentPlace(filteredUserPlaces.get(0));
+      }
+    }
+    return update(user.getId(), user);
+  }
 }

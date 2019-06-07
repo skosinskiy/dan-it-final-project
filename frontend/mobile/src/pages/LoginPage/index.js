@@ -19,7 +19,6 @@ class Login extends Component {
     const {currentUser, match, isCurrentUserLoading} = this.props
 
     const placeId = match.params.placeId
-
     if (currentUser && placeId && !this.state.isUserPaired) {
       this.props.pairPlaceWithUser(placeId).then(this.setState({
         isUserPaired: true

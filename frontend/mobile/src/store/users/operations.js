@@ -24,6 +24,13 @@ export const pairPlaceWithUser = placeId => dispatch => {
   })
 }
 
+export const unpairPlaceFromUser = placeId => dispatch => {
+  dispatch(ACTIONS.currentUserLoading(true))
+  return api.put(`/api/users/unpair/${placeId}`).then(res => {
+    dispatch(getCurrentUser())
+  })
+}
+
 export const submitRegistrationForm = (event) => dispatch => {
   event.preventDefault()
   const data = new FormData(event.target)
