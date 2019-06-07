@@ -39,7 +39,7 @@ export const getBusinessesError = error => ({
   payload: error
 })
 
-export const getAllBusinessesByCategory = ({businesses}) => ({
+export const getAllBusinessesByCategory = (businesses) => ({
   type: TYPES.GET_ALL_BUSINESS_BY_CATEGORY,
   payload: {businessesByCategory: businesses}
 })

@@ -12,14 +12,17 @@ class ScreenEventList extends Component {
 
   renderItems (arr, screenId) {
     return arr.map((item) => {
-      const {id, title, description, mainPhoto} = item
+      const {id, title, description} = item
+      const img = item.photos && item.mainPhoto
+        ? item.photos.find(photo => photo.id === item.mainPhoto.id).imageUrl
+        : 'https://www.film.ru/images/empty/260x400.png'
       return (
         <ScreenEventItem
           key={id}
           id = {id}
           title = {title}
           shortDescription = {description}
-          img = {mainPhoto}
+          img = {img}
           screenId={screenId}/>
       )
     })

@@ -64,18 +64,10 @@ export const saveNewBusiness = (business) => dispatch => {
   })
 }
 
-export const getAllBusinessesByCategory = (categoryId) => dispatch => {
+export const getAllBusinessesByCategory = (categoryId, placeId) => dispatch => {
   dispatch(ACTIONS.businessesByCategoryIsLoading(true))
-  api.get(`/api/businesses`).then(res => {
-    let businesses = []
-    res.content.forEach(business => {
-      business.categories.forEach(category => {
-        if (category.id === categoryId) {
-          businesses.push(business)
-        }
-      })
-    })
-    dispatch(ACTIONS.getAllBusinessesByCategory({businesses}))
+  api.get(`/api/businesses?categoryId=${categoryId}&placeId=${placeId}`).then(res => {
+    dispatch(ACTIONS.getAllBusinessesByCategory(res.content))
   }).catch(err => {
     dispatch(ACTIONS.getBusinessesError(err))
   }).finally(() => {
