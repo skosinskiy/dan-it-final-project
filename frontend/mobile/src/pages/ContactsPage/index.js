@@ -65,8 +65,7 @@ class ContactsPage extends Component {
           photos={photos}
           header='Contacts'
           location={currentPlace.title}
-          bgImage={''}
-          icon={bag}/>
+          icon={currentPlace.placeCategory && currentPlace.placeCategory.iconKey}/>
         <div className={'content'}>
           <div className="search-bar">
             <input className="contacts-search" onChange={this.handleChange} type="text" placeholder="Search" value={searchParam}/>

@@ -130,7 +130,7 @@ class BusinessesEvents extends Component {
         <MobileHeader
           photos={photos}
           header={currentPlace.placeCategory ? currentPlace.placeCategory.name : ''}
-          location={currentPlace.title} icon={bag} />
+          location={currentPlace.title} icon={currentPlace.placeCategory.iconKey} />
         <div className="content">
           <div className="navbar section">
             <div className="section-header">

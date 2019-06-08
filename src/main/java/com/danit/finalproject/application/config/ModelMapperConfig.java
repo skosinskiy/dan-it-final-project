@@ -4,11 +4,13 @@ import com.danit.finalproject.application.dto.response.business.BusinessCategory
 import com.danit.finalproject.application.dto.response.business.BusinessPhotoResponse;
 import com.danit.finalproject.application.dto.response.event.EventCategoryResponse;
 import com.danit.finalproject.application.dto.response.event.EventPhotoResponse;
+import com.danit.finalproject.application.dto.response.place.PlaceCategoryResponse;
 import com.danit.finalproject.application.dto.response.place.PlacePhotoResponse;
 import com.danit.finalproject.application.entity.business.BusinessCategory;
 import com.danit.finalproject.application.entity.business.BusinessPhoto;
 import com.danit.finalproject.application.entity.event.EventCategory;
 import com.danit.finalproject.application.entity.event.EventPhoto;
+import com.danit.finalproject.application.entity.place.PlaceCategory;
 import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.service.AmazonS3Service;
 import org.modelmapper.ModelMapper;
@@ -32,6 +34,7 @@ public class ModelMapperConfig {
   public void initializeModelMapper() {
     addBusinessCategoryMapping();
     addEventCategoryMapping();
+    addPlaceCategoryMapping();
     addBusinessPhotoMapping();
     addPlacePhotoMapping();
     addEventPhotoMapping();
@@ -70,6 +73,23 @@ public class ModelMapperConfig {
           String imageKey = source.getImageKey();
           if (imageKey != null) {
             destination.setImageUrl(amazonS3Service.getUrlFromFileKey(imageKey));
+          }
+          return destination;
+        });
+  }
+
+  private void addPlaceCategoryMapping() {
+    modelMapper.addMappings(new PropertyMap<PlaceCategory, PlaceCategoryResponse>() {
+      @Override
+      protected void configure() { }
+    });
+    modelMapper.getTypeMap(PlaceCategory.class, PlaceCategoryResponse.class)
+        .setPostConverter(context -> {
+          PlaceCategoryResponse destination = context.getDestination();
+          PlaceCategory source = context.getSource();
+          String iconKey = source.getIconKey();
+          if (iconKey != null) {
+            destination.setIconUrl(amazonS3Service.getUrlFromFileKey(iconKey));
           }
           return destination;
         });

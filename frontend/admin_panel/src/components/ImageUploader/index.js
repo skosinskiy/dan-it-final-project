@@ -11,6 +11,16 @@ const styles = (theme) => ({
   input: {
     display: 'none'
   },
+  icon: {
+    width: 200,
+    height: 120,
+    marginBottom: '20px',
+    borderWidth: '1px',
+    borderStyle: 'dashed',
+    borderColor: 'rgba(0, 0, 0, 0.23)',
+    borderRadius: '4px',
+    objectFit: 'contain'
+  },
   image: {
     width: 200,
     height: 120,
@@ -74,12 +84,12 @@ const styles = (theme) => ({
 })
 
 const ImageUploader = (props) => {
-  const {images, classes, onReset, onFileChange, onMainPhotoSelect, multiple, helperText} = props
+  const {images, classes, onReset, onFileChange, onMainPhotoSelect, multiple, helperText, icon} = props
   const uploadedImages = images && images.length > 0 && images.imageUrl !== null ? images.map((image, index) => {
     return (
         <li key={`image-${index}`} className={classes.previewImageWrapper}>
           <img src={image.imageUrl}
-               className={classNames(classes.image, image.isMainImage && classes.mainImage)}
+               className={classNames( (icon ? classes.icon : classes.image), image.isMainImage && classes.mainImage)}
                onClick={() => onMainPhotoSelect(image)}
                alt='logo'/>
           <button className={classes.resetButton} onClick={() => onReset(image)}>

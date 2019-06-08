@@ -23,7 +23,8 @@ class ParallaxHeader extends Component {
     }
 
     const iconStyle = {
-      backgroundImage: `url("${this.props.icon}")`
+      backgroundImage: `url("https://rion-up-project.s3.eu-central-1.amazonaws.com/${this.props.icon}")`,
+      backgroundSize: 'cover'
     }
 
     const images = this.props.photos ? this.props.photos.map(photo => {

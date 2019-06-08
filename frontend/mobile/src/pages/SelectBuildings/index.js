@@ -79,7 +79,7 @@ class SelectBuildings extends Component {
         <MobileHeader
           photos={photos}
           header={currentPlace.placeCategory ? currentPlace.placeCategory.name : ''}
-          location={currentPlace.title} bgImage={null} icon={bag}/>
+          location={currentPlace.title} icon={currentPlace.placeCategory && currentPlace.placeCategory.iconKey}/>
         <div className="content">
           <div className="options">
             <div className="options-container">
