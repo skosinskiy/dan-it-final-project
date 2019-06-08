@@ -13,7 +13,7 @@ const MainVideo = (props) => {
   return (
     <div className={'MainVideo'} onClick={ (event) => { event.stopPropagation(); console.log(event) } }>
       <div className={'overlay'}></div>
-      <iframe autoplay className={'MainVideo__iframe'} title={'video'} src={`https://www.youtube.com/embed/${url}?version=3&autoplay=1&playlist=${url}&loop=1&controls=1`} frameBorder="5"
+      <iframe autoplay className={'MainVideo__iframe'} title={'video'} src={`https://www.youtube.com/embed/${url}?version=3&autoplay=1&mute=1&playlist=${url}&loop=1&controls=0`} frameBorder="5"
         allow="accelerometer; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen></iframe>
     </div>
