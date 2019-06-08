@@ -1,10 +1,19 @@
 import React from 'react'
 import './MainVideo.scss'
 
-const MainVideo = () => {
+const MainVideo = (props) => {
+  let url ='';
+  if(props.currentPlase.id === 1){
+    url = 'xtxMAfNDk-E'
+  } else if(props.currentPlase.id === 3){
+    url = 'dqQEX2ZMeoE'
+  } else{
+    url = 'SwFw-5IDbsw'
+  }
   return (
-    <div className={'MainVideo'}>
-      <iframe autoplay className={'MainVideo__iframe'} title={'video'} src="https://www.youtube.com/embed/dqQEX2ZMeoE?&autoplay=1" frameBorder="5"
+    <div className={'MainVideo'} onClick={(event)=>{event.stopPropagation(); console.log(event)}}>
+      <div className={'overlay'}></div>
+      <iframe  autoplay className={'MainVideo__iframe'} title={'video'} src={`https://www.youtube.com/embed/${url}?version=3&autoplay=1&playlist=${url}&loop=1&controls=1`} frameBorder="5"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen></iframe>
     </div>
