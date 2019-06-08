@@ -56,8 +56,8 @@ class Login extends Component {
         </div>
         <div className="login-page__bottom container">
           <div className="bottom__social-media">
-            <div className="facebook-link"><a href=' ' onClick={() => this.props.loginWithOAuth('facebook')}><FacebookIcon /></a></div>
-            <div className="google-link"><a href=' ' onClick={() => this.props.loginWithOAuth('google')}><GoogleIcon /></a></div>
+            <div className="facebook-link"><div onClick={() => this.props.loginWithOAuth('facebook')}><FacebookIcon /></div></div>
+            <div className="google-link"><div onClick={() => this.props.loginWithOAuth('google')}><GoogleIcon /></div></div>
           </div>
           <div className="bottom__button"><input type="submit" className="bottom__button-link" value="Log in" /></div>
         </div>
