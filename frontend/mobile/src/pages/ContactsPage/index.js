@@ -6,7 +6,6 @@ import { getUsersByPlace } from '../../store/users/operations'
 import Preloader from '../../components/Preloader'
 import {ReactComponent as Search} from '../../img/icons/search.svg'
 import './contacts-page.scss'
-import bag from '../../img/icons/bag.svg'
 
 class ContactsPage extends Component {
   state = {

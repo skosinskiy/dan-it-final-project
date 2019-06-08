@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import MobileHeader from '../../components/MobileHeader'
 import PlaceItem from './PlaceItem/index'
-import bag from '../../img/icons/bag.svg'
 import './select-buildings.scss'
 import {connect} from 'react-redux'
 import {usersOperations} from '../../store/users'
