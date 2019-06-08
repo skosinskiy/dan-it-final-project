@@ -51,6 +51,13 @@ public class PlaceCategoryService implements CrudService<PlaceCategory> {
     }
   }
 
+  private void deleteCategoryIcon(PlaceCategory placeCategory) {
+    String iconKey = placeCategory.getIconKey();
+    if (iconKey != null) {
+      amazonS3Service.deleteObject(iconKey);
+    }
+  }
+
   @Override
   public PlaceCategory delete(Long id) {
     PlaceCategory placeCategory = getById(id);
@@ -62,12 +69,5 @@ public class PlaceCategoryService implements CrudService<PlaceCategory> {
     });
     placeCategoryRepository.deleteById(id);
     return placeCategory;
-  }
-
-  private void deleteCategoryIcon(PlaceCategory placeCategory) {
-    String iconKey = placeCategory.getIconKey();
-    if (iconKey != null) {
-      amazonS3Service.deleteObject(iconKey);
-    }
   }
 }
