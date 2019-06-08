@@ -191,6 +191,7 @@ class BusinessCategoryForm extends React.Component {
             onReset={() => this.onImageReset('businessCategoryIcon')}
             onMainPhotoSelect={this.onMainPhotoSelect}
             multiple={false}
+            icon={true}
             helperText='Select image to be shown as category icon'
           />
         </Grid>

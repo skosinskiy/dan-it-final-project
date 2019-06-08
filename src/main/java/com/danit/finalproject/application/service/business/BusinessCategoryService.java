@@ -54,14 +54,12 @@ public class BusinessCategoryService implements CrudService<BusinessCategory> {
     businessCategory.getBusinesses()
         .forEach(business -> business.getCategories().remove(businessCategory));
     businessCategory.getPlaceCategories()
-        .forEach(placeCategory -> {
-          placeCategory.setBusinessCategories(
-              placeCategory.getBusinessCategories()
-                  .stream()
-                  .filter(
-                      nestedBusinessCategory -> !nestedBusinessCategory.equals(businessCategory))
-                  .collect(Collectors.toList()));
-        });
+        .forEach(placeCategory -> placeCategory.setBusinessCategories(
+            placeCategory.getBusinessCategories()
+                .stream()
+                .filter(
+                    nestedBusinessCategory -> !nestedBusinessCategory.equals(businessCategory))
+                .collect(Collectors.toList())));
     getAll().forEach(category -> {
       if (businessCategory.equals(category.getParentCategory())) {
         category.setParentCategory(null);

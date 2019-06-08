@@ -15,6 +15,7 @@ import OutlinedInput from '@material-ui/core/OutlinedInput'
 import MenuItem from '@material-ui/core/MenuItem'
 import FormControl from '@material-ui/core/FormControl'
 import ListItemText from '@material-ui/core/ListItemText'
+import ImageUploader from '../../../../../components/ImageUploader'
 
 const emptyPlaceCategory = {
   allowMessages: false,
@@ -29,8 +30,13 @@ const emptyPlaceCategory = {
 class PlaceCategoryForm extends React.Component {
   constructor(props) {
     super(props)
+    const isCategoryPresent = props.placeCategory !== undefined
+    const iconUrl = isCategoryPresent ? props.placeCategory.iconUrl : null
+    const iconKey = isCategoryPresent ? props.placeCategory.iconKey : null
+
     this.state = {
       editedPlaceCategory: props.placeCategory !== undefined ? props.placeCategory : emptyPlaceCategory,
+      placeCategoryIcon: iconUrl ? [{'imageUrl': iconUrl, 'imageKey': iconKey}] : [],
       isDataSubmitted: false
     }
   }
@@ -41,8 +47,11 @@ class PlaceCategoryForm extends React.Component {
 
   componentWillReceiveProps(nextProps, nextContext) {
     if (nextProps.placeCategory && nextProps.placeCategory !== this.props.placeCategory) {
+      const iconUrl = nextProps.placeCategory.iconUrl
+      const iconKey = nextProps.placeCategory.iconKey
       this.setState({
-        editedPlaceCategory: nextProps.placeCategory
+        editedPlaceCategory: nextProps.placeCategory,
+        placeCategoryIcon: iconUrl ? [{'imageUrl': iconUrl, 'imageKey': iconKey}] : []
       })
     }
   }
@@ -61,18 +70,50 @@ class PlaceCategoryForm extends React.Component {
 
   savePlaceCategory = () => {
     const {savePlaceCategory} = this.props
-    const {editedPlaceCategory} = this.state
-    savePlaceCategory(editedPlaceCategory).then(() =>
+    const {editedPlaceCategory, placeCategoryIcon} = this.state
+    savePlaceCategory(editedPlaceCategory, placeCategoryIcon[0]).then(() =>
       this.setState({
         isDataSubmitted: true
       })
     )
   }
 
+  onFileChange = (images, propName) => {
+    const newPlaceCategoryImage = images.map((file) => Object.assign(file, {
+      imageUrl: URL.createObjectURL(file),
+      imageKey: null
+    }))
+    this.setState(() => {
+      return {
+        [propName]: newPlaceCategoryImage
+      }
+    })
+  }
+
+  onMainPhotoSelect = (selectedImage) => {
+    const newPlaceCategoryImage = this.state.businessCategoryImage.map(image => {
+      image.isMainImage = image === selectedImage
+      return image
+    })
+
+    this.setState(() => {
+      return {
+        placeCategoryIcon: newPlaceCategoryImage
+      }
+    })
+  }
+
+  onImageReset = (propName) => {
+    this.setState({
+      ...this.state,
+      [propName]: []
+    })
+  }
+
   render() {
 
     const {parentBusinessCategories, layoutItems, isPlaceCategoriesFormDataLoading} = this.props
-    const {editedPlaceCategory, isDataSubmitted} = this.state
+    const {editedPlaceCategory, isDataSubmitted, placeCategoryIcon} = this.state
 
     const businessCategoriesValue = parentBusinessCategories.filter(category => {
       return editedPlaceCategory.businessCategories
@@ -189,9 +230,20 @@ class PlaceCategoryForm extends React.Component {
             label="Add paired users contacts?"
           />
         </Grid>
+        <Grid item xs={12} >
+          <ImageUploader
+            images={placeCategoryIcon}
+            onFileChange={(images) => this.onFileChange(images, 'placeCategoryIcon')}
+            onReset={() => this.onImageReset('placeCategoryIcon')}
+            onMainPhotoSelect={this.onMainPhotoSelect}
+            multiple={false}
+            icon={true}
+            helperText='Select image to be shown as category icon'
+          />
+        </Grid>
         <Grid item xs={12}>
           <FormButtons
-            saveFunction={() => this.savePlaceCategory(editedPlaceCategory)}
+            saveFunction={() => this.savePlaceCategory(editedPlaceCategory, placeCategoryIcon)}
             cancelLink={'/admin/place-categories'}
           />
         </Grid>
@@ -223,7 +275,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => ({
   fetchPlaceCategoriesFormData: () => dispatch(placeCategoriesOperations.fetchPlaceCategoriesFormData()),
-  savePlaceCategory: placeCategory => dispatch(placeCategoriesOperations.savePlaceCategory(placeCategory))
+  savePlaceCategory: (placeCategory, icon) => dispatch(placeCategoriesOperations.savePlaceCategory(placeCategory, icon))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlaceCategoryForm)

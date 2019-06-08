@@ -15,5 +15,6 @@ public class PlaceCategoryRequest {
   private boolean shouldAddPairedUsers;
   private List<BusinessCategoryRequest> businessCategories;
   private String description;
+  private String iconKey;
   private List<LayoutItem> layoutItems;
 }

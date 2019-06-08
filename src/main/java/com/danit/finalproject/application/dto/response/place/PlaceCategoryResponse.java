@@ -16,5 +16,7 @@ public class PlaceCategoryResponse {
   private boolean shouldAddPairedUsers;
   private List<BusinessCategoryResponse> businessCategories;
   private String description;
+  private String iconKey;
+  private String iconUrl;
   private List<LayoutItem> layoutItems;
 }
