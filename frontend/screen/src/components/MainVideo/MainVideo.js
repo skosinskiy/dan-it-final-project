@@ -4,7 +4,7 @@ import './MainVideo.scss'
 const MainVideo = () => {
   return (
     <div className={'MainVideo'}>
-      <iframe className={'MainVideo__iframe'} title={'video'} src="https://www.youtube.com/embed/dqQEX2ZMeoE" frameBorder="5"
+      <iframe autoplay className={'MainVideo__iframe'} title={'video'} src="https://www.youtube.com/embed/dqQEX2ZMeoE?&autoplay=1" frameBorder="5"
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen></iframe>
     </div>

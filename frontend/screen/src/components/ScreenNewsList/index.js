@@ -29,11 +29,12 @@ state = {
   }
 
   renderItems (arr) {
+
     return arr.map((item) => {
       const {id, title, link, enclosure} = item
       return (
         <ScreenEventItem
-          key={id}
+          key={link}
           description = {title}
           link = {link}
           img = { enclosure.url }
