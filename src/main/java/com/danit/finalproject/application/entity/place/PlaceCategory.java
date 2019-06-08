@@ -43,13 +43,16 @@ public class PlaceCategory extends BaseEntity {
       inverseJoinColumns = {@JoinColumn(name = "business_category_id")})
   @ToString.Exclude
   private List<BusinessCategory> businessCategories;
-  
+
   @OneToMany(mappedBy = "placeCategory")
   @ToString.Exclude
   private List<Place> places;
 
   @Column(name = "description")
   private String description;
+
+  @Column(name = "icon_key")
+  private String iconKey;
 
   @ElementCollection
   @CollectionTable(name = "place_category_layout_items", joinColumns = @JoinColumn(name = "place_category_id"))
