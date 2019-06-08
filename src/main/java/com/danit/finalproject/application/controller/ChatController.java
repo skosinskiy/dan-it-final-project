@@ -38,7 +38,7 @@ public class ChatController {
 
   @GetMapping("user/{userId}")
   @JsonView(View.Chat.class)
-  public ResponseEntity<List<ChatResponse>> getAllChatsForUser(@PathVariable("userId") Long userId) {
+  public ResponseEntity<List<ChatResponse>> getAllChatsForUser(@PathVariable Long userId) {
     return new ResponseEntity<>(chatFacade.getAllchatsForUser(userId), HttpStatus.OK);
   }
 

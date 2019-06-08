@@ -18,7 +18,8 @@ const defaultChat = {
 const customStyles = {
   menu: (provided) => ({
     ...provided,
-    width: 'calc(100vw - 30px)'
+    width: '100%',
+    padding: 0
   })
 }
 
@@ -29,21 +30,25 @@ class CreateChatPage extends Component {
   }
 
   componentDidMount () {
-    const {getUsersByPlaces} = this.props
-    getUsersByPlaces(1)
+    const {getUsersByPlace, currentUser} = this.props
+    const placeId = currentUser && currentUser.currentPlace && currentUser.currentPlace.id
+    if (placeId) {
+      getUsersByPlace(placeId)
+    }
   }
 
   submitSelection = () => {
     const {selectedOptions, title} = this.state
-    const {currentUser, createNewChat} = this.props
+    const {currentUser, createNewChat, usersListByPLace} = this.props
     defaultChat.name = title
-    currentUser.friends.forEach(user => {
+    usersListByPLace.forEach(user => {
       selectedOptions.forEach(item => {
         if (item.value === user.id) {
           defaultChat.users.push(user)
         }
       })
     })
+    console.log(defaultChat)
     if (defaultChat.users.length) {
       defaultChat.users.push(currentUser)
       createNewChat(defaultChat)
@@ -77,29 +82,32 @@ class CreateChatPage extends Component {
 
     return (
       <div className="create-chat">
-        <ChatHeader title={'Current location'} />
-        <input className="create-chat__title-input" onChange={this.handleChange} type="text" placeholder="Title" value={title}/>
-        <Select
-          className="multi-select"
-          value={selectedOptions}
-          onChange={value => this.setState({ selectedOptions: value })}
-          closeMenuOnSelect={false}
-          components={makeAnimated()}
-          styles={customStyles}
-          maxMenuHeight={300}
-          isMulti
-          autoFocus
-          options={data}
-        />
-        <NavLink to={`/mobile/4messages`}>
-          <button
-            className="create-chat__submit-button"
-            type='button'
-            onClick={() => this.submitSelection()}
-          >
-          Create!
-          </button>
-        </NavLink>
+        <ChatHeader title={'Create new chat'} />
+        <div className={'create-chat__content'}>
+          <input className="create-chat__title-input" onChange={this.handleChange} type="text" placeholder="Title" value={title}/>
+          <Select
+            className="multi-select"
+            value={selectedOptions}
+            onChange={value => this.setState({ selectedOptions: value })}
+            closeMenuOnSelect={false}
+            components={makeAnimated()}
+            styles={customStyles}
+            maxMenuHeight={300}
+            isMulti
+            autoFocus
+            options={data}
+          />
+          <div className="create-chat__submit-button">
+            <NavLink
+              to={`/mobile/messages`}
+              className="button-link"
+              onClick={() => this.submitSelection()}
+            >
+              Create
+            </NavLink>
+          </div>
+        </div>
+
       </div>
     )
   }
@@ -111,6 +119,7 @@ CreateChatPage.propTypes = {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state.users)
   return {
     usersListByPLace: state.users.usersListByPLace,
     usersListByPLaceIsLoading: state.users.usersListByPLaceIsLoading,

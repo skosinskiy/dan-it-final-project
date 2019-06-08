@@ -5,29 +5,26 @@ import com.danit.finalproject.application.entity.ChatMessage;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.repository.ChatMessageRepository;
 import com.danit.finalproject.application.repository.ChatRepository;
-import com.danit.finalproject.application.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class ChatService implements CrudService<Chat> {
   private ChatRepository chatRepository;
   private ChatMessageRepository chatMessageRepository;
-  private UserRepository userRepository;
+  private UserService userService;
 
   @Autowired
   public ChatService(ChatRepository chatRepository,
                      ChatMessageRepository chatMessageRepository,
-                     UserRepository userRepository) {
+                     UserService userService) {
     this.chatRepository = chatRepository;
     this.chatMessageRepository = chatMessageRepository;
-    this.userRepository = userRepository;
+    this.userService = userService;
   }
 
   @Override
@@ -42,29 +39,42 @@ public class ChatService implements CrudService<Chat> {
 
   @Override
   public Chat create(Chat chat) {
-    List<Chat> allChats = chatRepository.findAllByUsers(chat.getUsers().get(0));
-    if (allChats != null) {
-      for (Chat currentChat : allChats) {
-        if (currentChat.getUsers().size() == chat.getUsers().size()) {
-          for (User user : currentChat.getUsers()) {
-            if (user.getId() == chat.getUsers().get(1).getId()) {
-              return currentChat;
-            }
-          }
-        }
-      }
+    chat.setId(null);
+    User currentUser = userService.getPrincipalUser();
+    if (isChatCreationRestricted(chat, currentUser)) {
+      return null;
     }
-    Chat newChat = chatRepository.save(chat);
-    newChat.setChatMessages(new ArrayList<>());
-    List<User> users = newChat.getUsers();
-    users.stream().forEach(user -> {
-      User currentUser = userRepository.findById(user.getId()).orElse(null);
-      List<Chat> chats = currentUser.getChats();
-      chats.add(newChat);
-      currentUser.setChats(chats);
-      userRepository.save(currentUser);
-    });
-    return newChat;
+    if (isGroupChat(chat)) {
+      return chatRepository.save(chat);
+    }
+    return getExistingChatOrCreateNew(chat, currentUser);
+  }
+
+  private boolean isChatCreationRestricted(Chat newChat, User currentUser) {
+    return newChat.getUsers().size() < 2 ||
+        newChat.getUsers().stream().noneMatch(user -> user.getId().equals(currentUser.getId()));
+  }
+
+  private boolean isGroupChat(Chat chat) {
+    return chat.getUsers().size() > 2;
+  }
+
+  private Chat getExistingChatOrCreateNew(Chat chat, User currentUser) {
+    List<Chat> allChatsForCurrentUser = getAllChatsForUser(currentUser.getId());
+    User anotherChatUser = chat.getUsers()
+        .stream()
+        .filter(user -> !user.getId().equals(currentUser.getId()))
+        .findFirst()
+        .orElse(new User());
+    Optional<Chat> chatWithUser = allChatsForCurrentUser
+        .stream()
+        .filter(userChat -> userChat.getUsers().size() == 2)
+        .filter(userChat -> userChat.getUsers()
+            .stream()
+            .anyMatch(user -> user.getId().equals(anotherChatUser.getId()))
+        )
+        .findFirst();
+    return chatWithUser.orElseGet(() -> chatRepository.save(chat));
   }
 
   @Override
@@ -82,7 +92,7 @@ public class ChatService implements CrudService<Chat> {
 
   public Chat addNewMessage(ChatMessage chatMessage, Long chatId) {
     Chat chat = chatRepository.findById(chatId).orElse(null);
-    User currentUser = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+    User currentUser = userService.getPrincipalUser();
     chatMessage.setUser(currentUser);
     chat.getChatMessages().add(chatMessage);
     chatMessageRepository.save(chatMessage);
@@ -104,7 +114,7 @@ public class ChatService implements CrudService<Chat> {
   }
 
   public List<Chat> getAllChatsForUser(Long userId) {
-    User user = userRepository.findById(userId).orElse(null);
+    User user = userService.getById(userId);
     return chatRepository.findAllByUsers(user);
   }
 }

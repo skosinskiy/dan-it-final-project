@@ -42,7 +42,7 @@ export const getAllChatsForCurrentUser = (userId) => dispatch => {
 
 export const createNewChat = (chat) => dispatch => {
   dispatch(ACTIONS.chatIsLoaded(false))
-  api.post('/api/chats', chat).then(chat => {
+  return api.post('/api/chats', chat).then(chat => {
     dispatch(ACTIONS.getChatById({chat: chat}))
   }).finally(() => {
     dispatch(ACTIONS.chatIsLoaded(true))

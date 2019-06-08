@@ -21,10 +21,19 @@
   }
 
   &__img-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     align-self: center;
     width: 40px;
     height: 40px;
     margin: 0;
+    color: $white;
+    font-weight: 400;
+    font-size: 18px;
+    text-align: center;
+    background-color: $light-blue;
+    border-radius: 50%;
   }
 
   &__content-container{

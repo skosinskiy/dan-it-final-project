@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import ScrollToBottom from 'react-scroll-to-bottom'
 import ChatHeader from '../../components/ChatHeader'
 import './chat-page.scss'
-import { getChatById, createNewMessage } from '../../store/chats/operations'
+import {getChatById, createNewMessage, createNewChat} from '../../store/chats/operations'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Preloader from '../../components/Preloader'
@@ -25,11 +25,18 @@ class ChatPage extends Component {
   }
 
   componentDidMount () {
-    const {getChatById} = this.props
+    const {getChatById, match, currentUser, createNewChat} = this.props
 
-    if (this.props.match.params.chatId !== 'new') {
+    if (match.params.chatId !== 'new') {
       const chatId = +this.props.match.params.chatId
       getChatById(chatId)
+    } else {
+      const userId = +this.props.match.params.userId
+      const newChat = {
+        users: [{id: userId}, {id: currentUser.id}],
+        chatMessages: []
+      }
+      createNewChat(newChat)
     }
   }
 
@@ -45,16 +52,9 @@ class ChatPage extends Component {
   }
 
   render () {
-    const {currentChat, isLoaded, isCurrentUserLoading} = this.props
+    const {currentChat, isLoaded, isCurrentUserLoading, match} = this.props
     const param = this.props.match.params.chatId
-    const {message} = this.state
-
-    if (param === 'new') {
-      if (!isLoaded) {
-        return <Preloader/>
-      }
-      return <Redirect to={`/mobile/messages/${currentChat.id}`}/>
-    }
+    const {message, isChatCreated} = this.state
 
     if (!isLoaded || isCurrentUserLoading) {
       return <Preloader/>
@@ -86,6 +86,7 @@ ChatPage.propTypes = {
 const mapStateToProps = (state) => {
   return {
     currentChat: state.chats.currentChat,
+    currentUser: state.users.currentUser,
     isLoaded: state.chats.isLoaded,
     isCurrentUserLoading: state.users.isCurrentUserLoading,
     chatIsCreated: state.chats.chatIsCreated
@@ -95,6 +96,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getChatById: (chatId) => dispatch(getChatById(chatId)),
+    createNewChat: (chat) => dispatch(createNewChat(chat)),
     createNewMessage: (chatId, message) => dispatch(createNewMessage(chatId, message))
   }
 }
