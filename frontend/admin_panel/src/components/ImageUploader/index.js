@@ -131,7 +131,8 @@ ImageUploader.propTypes = {
   onFileChange: PropTypes.func.isRequired,
   onReset: PropTypes.func.isRequired,
   onMainPhotoSelect: PropTypes.func,
-  helperText: PropTypes.string
+  helperText: PropTypes.string,
+  icon: PropTypes.bool
 }
 
 export default withStyles(styles)(ImageUploader)
