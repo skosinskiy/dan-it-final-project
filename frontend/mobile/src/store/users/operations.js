@@ -4,12 +4,11 @@ import * as ACTIONS from './actions'
 export const submitLoginForm = (event, placeId) => dispatch => {
   event.preventDefault()
   dispatch(ACTIONS.currentUserLoading(true))
-
   const data = new FormData(event.target)
   api.post('/auth', data).then(res => {
     if (res.status === 200) {
       if (placeId) {
-        pairPlaceWithUser(placeId)
+        dispatch(pairPlaceWithUser(placeId))
       } else {
         dispatch(getCurrentUser())
       }

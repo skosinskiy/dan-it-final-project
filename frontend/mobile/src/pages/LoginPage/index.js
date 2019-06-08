@@ -14,7 +14,7 @@ class Login extends Component {
   componentDidMount () {
     const {currentUser, match, pairPlaceWithUser} = this.props
     const placeId = match.params.placeId
-    const isPaired = placeId ? currentUser.currentPlace && currentUser.currentPlace.id.toString() === placeId : true
+    const isPaired = placeId ? currentUser && currentUser.currentPlace && currentUser.currentPlace.id.toString() === placeId : true
     if (currentUser && !isPaired) {
       pairPlaceWithUser(placeId)
     }
@@ -26,10 +26,10 @@ class Login extends Component {
     const placeId = match.params.placeId
 
     if (isCurrentUserLoading) {
-      return <Preloader/>
+      return <Preloader withoutMenu={true}/>
     }
 
-    const isPaired = placeId ? currentUser.currentPlace && currentUser.currentPlace.id.toString() === placeId : true
+    const isPaired = placeId ? currentUser && currentUser.currentPlace && currentUser.currentPlace.id.toString() === placeId : true
 
     if (currentUser && isPaired) {
       return <Redirect to={'/mobile/home'}/>
