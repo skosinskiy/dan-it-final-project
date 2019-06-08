@@ -1,14 +1,13 @@
 import React from 'react'
 import './MainVideo.scss'
 
-
 const MainVideo = () => {
-  return(
-      <div className={'MainVideo'}>
-        <iframe className={'MainVideo__iframe'}  src="https://www.youtube.com/embed/dqQEX2ZMeoE" frameBorder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen></iframe>
-      </div>
+  return (
+    <div className={'MainVideo'}>
+      <iframe className={'MainVideo__iframe'} title={'video'} src="https://www.youtube.com/embed/dqQEX2ZMeoE" frameBorder="5"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen></iframe>
+    </div>
   )
 }
 // const MainVideo = () => {
@@ -18,5 +17,4 @@ const MainVideo = () => {
 //     </div>
 //   )
 // }
-
 export default MainVideo
