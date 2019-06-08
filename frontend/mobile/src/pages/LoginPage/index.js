@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {NavLink, Redirect} from 'react-router-dom'
+import {Redirect} from 'react-router-dom'
 import {ReactComponent as HeaderLogo} from '../../img/LoginPage/header-logo.svg'
 import {ReactComponent as PeopleIcon} from '../../img/LoginPage/form-icon.svg'
 import {ReactComponent as LockIcon} from '../../img/LoginPage/form-icon1.svg'
@@ -38,9 +38,9 @@ class Login extends Component {
     return (
       <form className="login-page" onSubmit={(event) => this.props.submitLoginForm(event, placeId)}>
         <div className="login-page__header container">
-          <div className="header__logo"><HeaderLogo /></div>
-          <p className="header__title">RionUp</p>
-          <p className="header__text">A window to your life</p>
+          <div className="header-logo"><HeaderLogo /></div>
+          <p className="header-title">RionUp</p>
+          <p className="header-text">A window to your life</p>
         </div>
         <div className="login-page__body container">
           <div className="search-form body__form">
@@ -60,7 +60,6 @@ class Login extends Component {
             <div className="google-link"><a href=' ' onClick={() => this.props.loginWithOAuth('google')}><GoogleIcon /></a></div>
           </div>
           <div className="bottom__button"><input type="submit" className="bottom__button-link" value="Log in" /></div>
-          <NavLink to={'/mobile/registration'} className="bottom__text">Have not account?</NavLink>
         </div>
       </form>
     )

@@ -72,7 +72,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .oidcUserService(customOidcUserService)
             .userService(customOAuthUserService)
           .and()
-            .defaultSuccessUrl("/", true)
+            .defaultSuccessUrl("/mobile/home", true)
         .and()
           .logout()
           .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler(HttpStatus.OK))
