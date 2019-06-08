@@ -23,7 +23,7 @@ class MainPage extends React.Component {
             <div className={'video-container'}>
               {
                 hasLayuot(currentPlace, LayoutItems.VIDEO) &&
-                <MainVideo/>
+                <MainVideo currentPlase = {currentPlace}/>
               }
             </div>
             <Footer />

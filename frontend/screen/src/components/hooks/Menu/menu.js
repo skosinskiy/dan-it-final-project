@@ -46,6 +46,9 @@ class Menu extends React.Component {
             </NavLink>
           </div>
         </div>
+        <div className={!this.props.isOpen ? 'place-title__visible' : 'place-title__hidden'}>
+          <h1> {currentPlace.title}</h1>
+        </div>
       </div>
     )
   }

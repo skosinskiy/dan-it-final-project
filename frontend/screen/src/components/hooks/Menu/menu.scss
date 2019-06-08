@@ -2,14 +2,12 @@
 .menu {
     display: flex;
     justify-content: space-between;
-   /* width: 658px;*/
     width: 31%;
     height: 51px;
     margin: 0;
 }
 .menu-hamburger{
     display: block;
-  /*  margin-right: 102px;*/
     margin-right: 2%;
     margin-left: 0;
 }
@@ -27,6 +25,7 @@ a {
     display: flex;
     justify-content: flex-start;
     width: 75%;
+    height: auto;
     margin: 0;
     opacity: 1;
     transition: .5s;
@@ -38,13 +37,9 @@ a {
 }
 
 .menu-hidden {
-    left: -100%;
-    display: flex;
-    justify-content: flex-start;
-    width: 75%;
-    margin: 0;
+    visibility: hidden;
     opacity: 0;
-    transition: .5s;
+    transition: opacity .5s ease-in-out;
 }
 $icon_classes: (
     'icon': 'menu__icon',
@@ -60,11 +55,11 @@ $icon_classes: (
     transition: .5s;
 }
 .menu__icon-crossed {
-    transform: rotate(45deg) translate(2px, -5px);
+    transform: rotate(45deg) translate(-5px, -5px);
     transform-origin: top left;
 }
 .menu__icon-crossed-reverse {
-    transform: rotate(-45grad) translateX(10px) translateY(-29px);
+    transform: rotate(-45grad) translate(7px, -36px);
     transform-origin: bottom right;
 }
 .menu__icon.menu-visible{
@@ -84,4 +79,22 @@ $icon_classes: (
     margin-top: 5px;
     font-size: 18px;
     text-align: center;
+}
+
+.place-title__visible{
+    display: flex;
+    align-items:center;
+    font-size: 30px;
+    letter-spacing: .2em;
+    text-align: center;
+    text-transform: uppercase;
+    opacity: 1;
+    transition: opacity .5s ease-out;
+}
+
+.place-title__hidden{
+    height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity .5s ease-out;
 }

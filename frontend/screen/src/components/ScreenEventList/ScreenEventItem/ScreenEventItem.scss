@@ -5,6 +5,7 @@
   flex-direction: column;
   box-sizing: border-box;
   width: 100%;
+  min-width: 200px;
   margin: auto;
   margin-bottom: 15px;
   box-shadow: 0px 1px 4px rgba(0, 0, 0, .15);
@@ -15,12 +16,12 @@
   cursor: pointer;
 }
 .sceenEventItem-title{
-  display: block;
-  width: 126px;
+  width: calc(100% - 10px);
   height: 31px;
   margin-top: 10px;
   margin-bottom: 0;
-  margin-left: 20px;
+  margin-left: 10px;
+  overflow: hidden;
   font-weight: 500;
   font-size: 22px;
   font-family: $roboto;
