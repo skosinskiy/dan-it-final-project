@@ -6,35 +6,12 @@
 .login-page {
     text-align: center;
     &__header {
+        padding-bottom: 80px;
         text-align: center;
         background-image: url("../../img/LoginPage/header-bg.svg");
         background-repeat: no-repeat;
         background-position: center;
         background-size: cover;
-
-        .header__logo {
-            display: inline-block;
-            width: 130px;
-            height: 110px;
-            padding-top: 86px;
-        }
-        .header__title {
-            margin-bottom: -15px;
-            padding-top: 8px;
-            color: $dark-grey2;
-            font-weight: 600;
-            font-size: 36px;
-            font-family: SF UI Text, sans-serif;
-        }
-        .header__text {
-            margin-top: 10px;
-            padding-top: 4px;
-            padding-bottom: 80px;
-            color: $dark-grey2;
-            font-weight: 400;
-            font-size: 18px;
-            font-family: SF UI Text, sans-serif;
-        }
     }
     &__body {
         .body__form {
@@ -146,5 +123,29 @@
             font-family: SF UI Text, sans-serif;
             text-decoration: none;
         }
+    }
+}
+
+.header {
+    &-logo {
+        display: inline-block;
+        width: 130px;
+        height: 110px;
+        margin-top: 40px;
+    }
+    &-title {
+        margin-top: 30px;
+        color: $dark-grey2;
+        font-weight: 600;
+        font-size: 36px;
+        font-family: SF UI Text, sans-serif;
+    }
+    .header__text {
+        margin-top: 20px;
+        padding-top: 4px;
+        color: $dark-grey2;
+        font-weight: 400;
+        font-size: 18px;
+        font-family: SF UI Text, sans-serif;
     }
 }
