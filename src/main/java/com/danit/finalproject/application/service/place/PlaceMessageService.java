@@ -1,5 +1,6 @@
 package com.danit.finalproject.application.service.place;
 
+import com.danit.finalproject.application.entity.Auditable;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.entity.place.Place;
 import com.danit.finalproject.application.entity.place.PlaceMessage;
@@ -11,6 +12,7 @@ import com.danit.finalproject.application.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -74,8 +76,10 @@ public class PlaceMessageService implements CrudService<PlaceMessage> {
   }
 
   public List<PlaceMessage> getAllByParam(Long placeId) {
-    return placeId == null
+    List<PlaceMessage> placeMessages = placeId == null
         ? getAll()
         : placeMessageRepository.findAllByPlaceId(placeId);
+    placeMessages.sort(Comparator.comparing(Auditable::getCreatedDate).reversed());
+    return placeMessages;
   }
 }

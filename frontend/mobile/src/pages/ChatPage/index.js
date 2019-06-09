@@ -78,9 +78,9 @@ class ChatPage extends Component {
     }
 
     const chatUsers = currentChat.users.find(user => user.id !== currentUser.id)
-    console.log(chatUsers)
+
     const chatTitle = currentChat.users.length === 2
-      ? (chatUsers ? `${chatUsers.firstName} ${chatUsers.lastName}` : null)
+      ? (chatUsers && chatUsers.firstName && chatUsers.lastName ? `${chatUsers.firstName} ${chatUsers.lastName}` : null)
       : '' || currentChat.name
     // const wsSourceUrl = window.location.protocol + '//' + window.location.host + '/ws'
     const wsSourceUrl = 'https://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9000/ws'

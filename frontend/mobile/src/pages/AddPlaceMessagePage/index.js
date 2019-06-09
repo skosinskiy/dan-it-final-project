@@ -62,7 +62,7 @@ class AddPlaceMessage extends Component {
                 style={{resize: 'none'}}
               />
               <button className="send-place-messages__submit-btn">
-                  Submit
+                <p className="link">Submit</p>
               </button>
             </div>
           </form>
