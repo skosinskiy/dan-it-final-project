@@ -44,7 +44,9 @@ public class ChatService implements CrudService<Chat> {
   @Override
   public Chat getById(Long id) {
     Chat chat = chatRepository.findById(id).orElse(null);
-    if (chat != null) {
+    if (chat != null
+        && chat.getChatMessages() != null
+        && chat.getChatMessages().stream().noneMatch(chatMessage -> chatMessage.getCreatedDate() == null)) {
       chat.getChatMessages().sort(Comparator.comparing(Auditable::getCreatedDate));
     }
     return chat;
