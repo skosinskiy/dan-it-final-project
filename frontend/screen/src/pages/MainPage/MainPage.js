@@ -27,9 +27,14 @@ class MainPage extends React.Component {
     const {currentPlace} = this.props
 
     let mainSectionClassWidth = 'main-section__width60'
+    let mainSectionClassHight = 'main-section__height100'
 
     if (!hasLayuot(currentPlace, LayoutItems.EVENTS) || !hasLayuot(currentPlace, LayoutItems.NEWS)) {
       mainSectionClassWidth = 'main-section__width80'
+    }
+
+    if (hasLayuot(currentPlace, LayoutItems.MESSAGES)) {
+      mainSectionClassHight = 'main-section__height80'
     }
 
     return (
@@ -40,7 +45,7 @@ class MainPage extends React.Component {
             <aside className={'left-sidebar'}><ScreenEventList screenId={+this.props.match.params.screenId}/></aside>
           }
           <main className={mainSectionClassWidth}>
-            <div className={'video-container'}>
+            <div className={'video-container ' + mainSectionClassHight}>
               {
                 hasLayuot(currentPlace, LayoutItems.VIDEO) &&
                 <MainVideo currentPlase = {currentPlace}/>

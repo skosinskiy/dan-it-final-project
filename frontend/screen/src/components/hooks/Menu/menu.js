@@ -41,7 +41,7 @@ class Menu extends React.Component {
           {menuItems}
           <div className={'menu__item'}>
             <NavLink to={`/screen/${screenId}/map`}>
-              <div className="menu-item_icon" style={{backgroundImage: `url(https://img.icons8.com/color/420/google-maps.png)`}}></div>
+              <div className="menu-item_icon" style={{backgroundImage: `url(https://st4.depositphotos.com/1000507/23792/v/1600/depositphotos_237927930-stock-illustration-map-location-icon-vector-illustration.jpg)`}}></div>
               <div className="menu-item_text">Map</div>
             </NavLink>
           </div>
