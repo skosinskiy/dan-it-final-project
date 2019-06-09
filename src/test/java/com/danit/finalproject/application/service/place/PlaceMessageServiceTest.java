@@ -19,12 +19,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNull;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -206,9 +206,11 @@ public class PlaceMessageServiceTest {
   public void getAllByNullParamTest() {
     PlaceMessage firstPlaceMessage = new PlaceMessage();
     firstPlaceMessage.setMessage("test1");
+    firstPlaceMessage.setCreatedDate(new Date());
 
     PlaceMessage secondPlaceMessage = new PlaceMessage();
     secondPlaceMessage.setMessage("test2");
+    secondPlaceMessage.setCreatedDate(new Date());
 
     ArrayList<PlaceMessage> placeMessages = new ArrayList<>();
     placeMessages.add(firstPlaceMessage);
@@ -228,9 +230,11 @@ public class PlaceMessageServiceTest {
 
     PlaceMessage firstPlaceMessage = new PlaceMessage();
     firstPlaceMessage.setMessage("test1");
+    firstPlaceMessage.setCreatedDate(new Date());
 
     PlaceMessage secondPlaceMessage = new PlaceMessage();
     secondPlaceMessage.setMessage("test2");
+    secondPlaceMessage.setCreatedDate(new Date());
 
     ArrayList<PlaceMessage> placeMessages = new ArrayList<>();
     placeMessages.add(firstPlaceMessage);
