@@ -1,7 +1,6 @@
 @import '../../styles/reset';
 @import "../../styles/variables";
 
-
 .main-page {
   display: flex;
   flex-direction: column;
@@ -15,6 +14,13 @@
   justify-content: space-between;
 }
 
+.main-section__height100{
+  height: 100%;
+}
+.main-section__height80{
+  height: 80%;
+}
+
 .mainPage-MainVideo{
   width: 100%;
 }
@@ -23,6 +29,7 @@
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
+  height: 100%;
   padding: 0 20px 0 20px;
 }
 .left-sidebar {
@@ -33,7 +40,7 @@
 .right-sidebar {
   width: 20%;
   height: 100%;
-  padding: 0 15px 0 0;
+  padding: 0 0 0 20px;
 }
 .main-section__width60 {
  width: 60%;
