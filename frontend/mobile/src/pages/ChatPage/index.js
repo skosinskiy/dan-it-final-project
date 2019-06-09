@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Preloader from '../../components/Preloader'
 import ChatList from './ChatList/chatlist'
-import { Redirect } from 'react-router-dom'
+import SockJsClient from 'react-stomp'
 
 const defaultMessage = {
   message: ''
@@ -15,7 +15,8 @@ const defaultMessage = {
 
 class ChatPage extends Component {
   state = {
-    message: ''
+    message: '',
+    messages: []
   }
 
   handleChange = event => {
@@ -29,14 +30,25 @@ class ChatPage extends Component {
 
     if (match.params.chatId !== 'new') {
       const chatId = +this.props.match.params.chatId
-      getChatById(chatId)
+      getChatById(chatId).then(() => {
+        console.log(this.props.currentChat)
+        this.setState({
+          ...this.state,
+          messages: this.props.currentChat.chatMessages
+        })
+      })
     } else {
       const userId = +this.props.match.params.userId
       const newChat = {
         users: [{id: userId}, {id: currentUser.id}],
         chatMessages: []
       }
-      createNewChat(newChat)
+      createNewChat(newChat).then(() => {
+        this.setState({
+          ...this.state,
+          messages: this.props.currentChat.messages
+        })
+      })
     }
   }
 
@@ -51,21 +63,35 @@ class ChatPage extends Component {
     }
   }
 
+  onMessageReceive = (msg, topic) => {
+    this.setState(prevState => ({
+      messages: [...prevState.messages, msg]
+    }))
+  }
+
   render () {
-    const {currentChat, isLoaded, isCurrentUserLoading, match} = this.props
-    const param = this.props.match.params.chatId
-    const {message, isChatCreated} = this.state
+    const {currentChat, isLoaded, isCurrentUserLoading, currentUser} = this.props
+    const {message} = this.state
 
     if (!isLoaded || isCurrentUserLoading) {
       return <Preloader/>
     }
 
+    const chatUsers = currentChat.users.find(user => user.id !== currentUser.id)
+    const chatTitle = currentChat.users.length === 2
+      ? (chatUsers ? `${chatUsers.firstName} ${chatUsers.lastName}` : null)
+      : '' || currentChat.name
+    // const wsSourceUrl = window.location.protocol + '//' + window.location.host + '/ws'
+    const wsSourceUrl = 'http://localhost:9000/ws'
     return (
       <div className="chat">
-        <ChatHeader title={'Current Location'}/>
+        <SockJsClient url={wsSourceUrl} topics={[`/topic/chats/${currentChat.id}`]}
+          onMessage={this.onMessageReceive}
+          ref={ (client) => { this.clientRef = client }} />
+        <ChatHeader title={chatTitle}/>
         <div className="chat__messages">
           <ScrollToBottom className="chat__scrollable-flex" followButtonClassName="chat__scroll-to-bot">
-            <ChatList messages={currentChat.chatMessages}/>
+            <ChatList messages={this.state.messages}/>
           </ScrollToBottom>
         </div>
         <div className="chat__input">

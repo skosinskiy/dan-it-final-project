@@ -1,13 +1,20 @@
 package com.danit.finalproject.application.service;
 
+import com.danit.finalproject.application.dto.response.ChatMessageResponse;
+import com.danit.finalproject.application.entity.Auditable;
 import com.danit.finalproject.application.entity.Chat;
 import com.danit.finalproject.application.entity.ChatMessage;
 import com.danit.finalproject.application.entity.User;
 import com.danit.finalproject.application.repository.ChatMessageRepository;
 import com.danit.finalproject.application.repository.ChatRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -17,19 +24,30 @@ public class ChatService implements CrudService<Chat> {
   private ChatRepository chatRepository;
   private ChatMessageRepository chatMessageRepository;
   private UserService userService;
+  private SimpMessagingTemplate messagingTemplate;
+  private ModelMapper modelMapper;
 
   @Autowired
   public ChatService(ChatRepository chatRepository,
                      ChatMessageRepository chatMessageRepository,
-                     UserService userService) {
+                     UserService userService,
+                     SimpMessagingTemplate messagingTemplate,
+                     ModelMapper modelMapper
+                     ) {
     this.chatRepository = chatRepository;
     this.chatMessageRepository = chatMessageRepository;
     this.userService = userService;
+    this.messagingTemplate = messagingTemplate;
+    this.modelMapper = modelMapper;
   }
 
   @Override
   public Chat getById(Long id) {
-    return chatRepository.findById(id).orElse(null);
+    Chat chat = chatRepository.findById(id).orElse(null);
+    if (chat != null) {
+      chat.getChatMessages().sort(Comparator.comparing(Auditable::getCreatedDate));
+    }
+    return chat;
   }
 
   @Override
@@ -40,10 +58,12 @@ public class ChatService implements CrudService<Chat> {
   @Override
   public Chat create(Chat chat) {
     chat.setId(null);
+    chat.setChatMessages(new ArrayList<>());
     User currentUser = userService.getPrincipalUser();
     if (isChatCreationRestricted(chat, currentUser)) {
       return null;
     }
+    chat.setUsers(new ArrayList<>(new HashSet<>(chat.getUsers())));
     if (isGroupChat(chat)) {
       return chatRepository.save(chat);
     }
@@ -51,8 +71,8 @@ public class ChatService implements CrudService<Chat> {
   }
 
   private boolean isChatCreationRestricted(Chat newChat, User currentUser) {
-    return newChat.getUsers().size() < 2 ||
-        newChat.getUsers().stream().noneMatch(user -> user.getId().equals(currentUser.getId()));
+    return newChat.getUsers().size() < 2
+        || newChat.getUsers().stream().noneMatch(user -> user.getId().equals(currentUser.getId()));
   }
 
   private boolean isGroupChat(Chat chat) {
@@ -95,8 +115,11 @@ public class ChatService implements CrudService<Chat> {
     User currentUser = userService.getPrincipalUser();
     chatMessage.setUser(currentUser);
     chat.getChatMessages().add(chatMessage);
-    chatMessageRepository.save(chatMessage);
+    ChatMessage savedChatMessage = chatMessageRepository.save(chatMessage);
+    savedChatMessage.getUser().setChats(null);
     chatRepository.save(chat);
+    messagingTemplate.convertAndSend(String.format("/topic/chats/%s", chatId),
+        modelMapper.map(savedChatMessage, ChatMessageResponse.class));
     return chat;
   }
 

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import './contact-item.scss'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { createNewChat } from '../../../../store/chats/operations'
 
 class ContactItem extends Component {
   render () {

@@ -20,7 +20,7 @@ class DialoguesItem extends Component {
     const messageDate = createdDate.slice(0, 10) + ' ' + createdDate.slice(11, 16)
 
     const chatUsers = item.users.find(user => user.id !== currentUser.id)
-    console.log(chatUsers)
+
     const renderName = item.users.length === 2
       ? (chatUsers ? `${chatUsers.firstName} ${chatUsers.lastName}` : null)
       : name
