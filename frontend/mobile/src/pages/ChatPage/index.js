@@ -82,7 +82,7 @@ class ChatPage extends Component {
       ? (chatUsers ? `${chatUsers.firstName} ${chatUsers.lastName}` : null)
       : '' || currentChat.name
     // const wsSourceUrl = window.location.protocol + '//' + window.location.host + '/ws'
-    const wsSourceUrl = 'http://localhost:9000/ws'
+    const wsSourceUrl = 'https://localhost:9000/ws'
     return (
       <div className="chat">
         <SockJsClient url={wsSourceUrl} topics={[`/topic/chats/${currentChat.id}`]}
