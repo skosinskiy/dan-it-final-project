@@ -65,7 +65,13 @@ public class ChatService implements CrudService<Chat> {
     if (isChatCreationRestricted(chat, currentUser)) {
       return null;
     }
-    chat.setUsers(new ArrayList<>(new HashSet<>(chat.getUsers())));
+    List<User> uniqueUsers  = new ArrayList<>();
+    chat.getUsers().forEach(user -> {
+      if (uniqueUsers.stream().noneMatch(uniqueUser -> uniqueUser.getId().equals(user.getId()))) {
+        uniqueUsers.add(user);
+      }
+    });
+    chat.setUsers(uniqueUsers);
     if (isGroupChat(chat)) {
       return chatRepository.save(chat);
     }

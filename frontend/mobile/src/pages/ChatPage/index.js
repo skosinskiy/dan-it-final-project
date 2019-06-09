@@ -31,7 +31,6 @@ class ChatPage extends Component {
     if (match.params.chatId !== 'new') {
       const chatId = +this.props.match.params.chatId
       getChatById(chatId).then(() => {
-        console.log(this.props.currentChat)
         this.setState({
           ...this.state,
           messages: this.props.currentChat.chatMessages
@@ -43,10 +42,11 @@ class ChatPage extends Component {
         users: [{id: userId}, {id: currentUser.id}],
         chatMessages: []
       }
+
       createNewChat(newChat).then(() => {
         this.setState({
           ...this.state,
-          messages: this.props.currentChat.messages
+          messages: this.props.currentChat.chatMessages
         })
       })
     }
@@ -78,6 +78,7 @@ class ChatPage extends Component {
     }
 
     const chatUsers = currentChat.users.find(user => user.id !== currentUser.id)
+    console.log(chatUsers)
     const chatTitle = currentChat.users.length === 2
       ? (chatUsers ? `${chatUsers.firstName} ${chatUsers.lastName}` : null)
       : '' || currentChat.name
