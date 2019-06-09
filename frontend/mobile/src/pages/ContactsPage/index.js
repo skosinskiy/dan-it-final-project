@@ -39,7 +39,7 @@ class ContactsPage extends Component {
       return <Preloader/>
     }
     const hasContacts = currentPlace.placeCategory && currentPlace.placeCategory.shouldAddPairedUsers
-    console.log(currentUserChats)
+
     const contacts = usersListByPLace.filter(user => {
       return user.id !== currentUser.id
     })

@@ -23,7 +23,7 @@ class DialoguesItem extends Component {
 
     const renderName = item.users.length === 2
       ? (chatUsers ? `${chatUsers.firstName} ${chatUsers.lastName}` : null)
-      : name
+      : name || ''
 
     return (
       <NavLink to={`/mobile/messages/${id}`} className="chat-link">
