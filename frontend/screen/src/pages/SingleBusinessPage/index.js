@@ -18,9 +18,6 @@ class SingleBusinessPage extends Component {
     }
     console.log(...businessItem.photos)
     const link = currentCategory.id ? `/screen/${screenId}/category/${currentCategory.id}` : `/screen/${screenId}`
-    const img = businessItem.photos && businessItem.mainPhoto
-      ? businessItem.photos.find(photo => photo.id === businessItem.mainPhoto.id).imageUrl
-      : 'https://www.film.ru/images/empty/260x400.png'
     return (
       <div className="bp-wrapper">
 
@@ -32,8 +29,8 @@ class SingleBusinessPage extends Component {
           <div className="bp-info_text">
             <a href={businessItem.webSite} className="bp-info_text__site">{businessItem.webSite}</a>
             <p className="bp-info_text__address">{businessItem.address}</p>
-            <p className="bp-info_text__description">{businessItem.description}</p>
             <span className="bp-info_text__phone">{businessItem.phoneNumber}</span>
+            <p className="bp-info_text__description">{businessItem.description}</p>
             <div className="bp-info__categories">
               {[...businessItem.categories.map(item => <p key={Math.random()} className="bp-categories-info__text">{item.name}</p>)]}
             </div>
