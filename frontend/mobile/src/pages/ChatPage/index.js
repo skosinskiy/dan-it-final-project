@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import ScrollToBottom from 'react-scroll-to-bottom'
 import ChatHeader from '../../components/ChatHeader'
 import './chat-page.scss'
-import { getChatById, createNewMessage } from '../../store/chats/operations'
+import {getChatById, createNewMessage, createNewChat} from '../../store/chats/operations'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import Preloader from '../../components/Preloader'
 import ChatList from './ChatList/chatlist'
-import { Redirect } from 'react-router-dom'
+import SockJsClient from 'react-stomp'
 
 const defaultMessage = {
   message: ''
@@ -15,7 +15,8 @@ const defaultMessage = {
 
 class ChatPage extends Component {
   state = {
-    message: ''
+    message: '',
+    messages: []
   }
 
   handleChange = event => {
@@ -25,11 +26,29 @@ class ChatPage extends Component {
   }
 
   componentDidMount () {
-    const {getChatById} = this.props
+    const {getChatById, match, currentUser, createNewChat} = this.props
 
-    if (this.props.match.params.chatId !== 'new') {
+    if (match.params.chatId !== 'new') {
       const chatId = +this.props.match.params.chatId
-      getChatById(chatId)
+      getChatById(chatId).then(() => {
+        console.log(this.props.currentChat)
+        this.setState({
+          ...this.state,
+          messages: this.props.currentChat.chatMessages
+        })
+      })
+    } else {
+      const userId = +this.props.match.params.userId
+      const newChat = {
+        users: [{id: userId}, {id: currentUser.id}],
+        chatMessages: []
+      }
+      createNewChat(newChat).then(() => {
+        this.setState({
+          ...this.state,
+          messages: this.props.currentChat.messages
+        })
+      })
     }
   }
 
@@ -44,28 +63,35 @@ class ChatPage extends Component {
     }
   }
 
-  render () {
-    const {currentChat, isLoaded, isCurrentUserLoading} = this.props
-    const param = this.props.match.params.chatId
-    const {message} = this.state
+  onMessageReceive = (msg, topic) => {
+    this.setState(prevState => ({
+      messages: [...prevState.messages, msg]
+    }))
+  }
 
-    if (param === 'new') {
-      if (!isLoaded) {
-        return <Preloader/>
-      }
-      return <Redirect to={`/mobile/messages/${currentChat.id}`}/>
-    }
+  render () {
+    const {currentChat, isLoaded, isCurrentUserLoading, currentUser} = this.props
+    const {message} = this.state
 
     if (!isLoaded || isCurrentUserLoading) {
       return <Preloader/>
     }
 
+    const chatUsers = currentChat.users.find(user => user.id !== currentUser.id)
+    const chatTitle = currentChat.users.length === 2
+      ? (chatUsers ? `${chatUsers.firstName} ${chatUsers.lastName}` : null)
+      : '' || currentChat.name
+    // const wsSourceUrl = window.location.protocol + '//' + window.location.host + '/ws'
+    const wsSourceUrl = 'https://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9000/ws'
     return (
       <div className="chat">
-        <ChatHeader title={'Current Location'}/>
+        <SockJsClient url={wsSourceUrl} topics={[`/topic/chats/${currentChat.id}`]}
+          onMessage={this.onMessageReceive}
+          ref={ (client) => { this.clientRef = client }} />
+        <ChatHeader title={chatTitle}/>
         <div className="chat__messages">
           <ScrollToBottom className="chat__scrollable-flex" followButtonClassName="chat__scroll-to-bot">
-            <ChatList messages={currentChat.chatMessages}/>
+            <ChatList messages={this.state.messages}/>
           </ScrollToBottom>
         </div>
         <div className="chat__input">
@@ -86,6 +112,7 @@ ChatPage.propTypes = {
 const mapStateToProps = (state) => {
   return {
     currentChat: state.chats.currentChat,
+    currentUser: state.users.currentUser,
     isLoaded: state.chats.isLoaded,
     isCurrentUserLoading: state.users.isCurrentUserLoading,
     chatIsCreated: state.chats.chatIsCreated
@@ -95,6 +122,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getChatById: (chatId) => dispatch(getChatById(chatId)),
+    createNewChat: (chat) => dispatch(createNewChat(chat)),
     createNewMessage: (chatId, message) => dispatch(createNewMessage(chatId, message))
   }
 }

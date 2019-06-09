@@ -2,25 +2,13 @@ import React, { Component } from 'react'
 import './contact-item.scss'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
-import { createNewChat } from '../../../../store/chats/operations'
 
 class ContactItem extends Component {
-  createChat = (user) => {
-    const {currentUser, createNewChat} = this.props
-    const defaultChat = {
-      name: '',
-      users: []
-    }
-    defaultChat.name = user.firstName + ' ' + currentUser.firstName
-    defaultChat.users.push(user)
-    defaultChat.users.push(currentUser)
-    createNewChat(defaultChat)
-  }
   render () {
-    const {item, location} = this.props
+    const {item, location, chat} = this.props
     return (
-      <NavLink to={`/mobile/messages/new`} className="chat-link">
-        <li onClick={() => this.createChat(item)} className='contact-list__item'>
+      <NavLink to={`/mobile/messages/${chat}`} className="chat-link">
+        <li className='contact-list__item'>
           <div className='contact-list__img-container'>
             <div>{`${(item.firstName.charAt(0) + item.lastName.charAt(0)).toUpperCase()}`}</div>
           </div>
@@ -46,10 +34,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    createNewChat: (chat) => dispatch(createNewChat(chat))
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactItem)
+export default connect(mapStateToProps, null)(ContactItem)

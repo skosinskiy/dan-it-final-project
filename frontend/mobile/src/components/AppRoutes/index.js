@@ -50,6 +50,7 @@ const AppRoutes = (props) => {
         <ProtectedRoute path="/mobile/home/" component={BusinessesEvents} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/places" component={SelectBuildings} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/news" component={NewsPage} authenticated={!!currentUser}/>
+        <ProtectedRoute path="/mobile/messages/:chatId/:userId" component={ChatPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/messages/:chatId" component={ChatPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/messages" component={DialoguesPage} authenticated={!!currentUser}/>
         <ProtectedRoute path="/mobile/create-chat" component={CreateChatPage} authenticated={!!currentUser}/>

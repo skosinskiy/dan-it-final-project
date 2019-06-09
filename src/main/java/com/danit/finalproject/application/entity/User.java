@@ -67,10 +67,7 @@ public class User extends BaseEntity {
   @ToString.Exclude
   private Place currentPlace;
 
-  @ManyToMany
-  @JoinTable(name = "users_chats",
-      joinColumns = {@JoinColumn(name = "user_id")},
-      inverseJoinColumns = {@JoinColumn(name = "chat_id")})
+  @ManyToMany(mappedBy = "users")
   @ToString.Exclude
   private List<Chat> chats;
 
