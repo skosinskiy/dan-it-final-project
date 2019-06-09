@@ -3,7 +3,7 @@ import api from '../../helpers/FetchData/index'
 
 export const getChatById = (chatId) => dispatch => {
   dispatch(ACTIONS.chatIsLoaded(false))
-  api.get(`/api/chats/${chatId}`).then(res => {
+  return api.get(`/api/chats/${chatId}`).then(res => {
     dispatch(ACTIONS.getChatById({chat: res}))
   }).finally(() => {
     dispatch(ACTIONS.chatIsLoaded(true))
@@ -11,11 +11,8 @@ export const getChatById = (chatId) => dispatch => {
 }
 
 export const createNewMessage = (chatId, message) => dispatch => {
-  dispatch(ACTIONS.chatIsLoaded(false))
   api.post(`/api/chats/${chatId}/messages`, message).then(res => {
     dispatch(ACTIONS.getChatById({chat: res}))
-  }).finally(() => {
-    dispatch(ACTIONS.chatIsLoaded(true))
   })
 }
 
@@ -42,7 +39,7 @@ export const getAllChatsForCurrentUser = (userId) => dispatch => {
 
 export const createNewChat = (chat) => dispatch => {
   dispatch(ACTIONS.chatIsLoaded(false))
-  api.post('/api/chats', chat).then(chat => {
+  return api.post('/api/chats', chat).then(chat => {
     dispatch(ACTIONS.getChatById({chat: chat}))
   }).finally(() => {
     dispatch(ACTIONS.chatIsLoaded(true))

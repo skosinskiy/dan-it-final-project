@@ -2,17 +2,12 @@ package com.danit.finalproject.application.controller;
 
 import com.danit.finalproject.application.dto.request.ChatRequest;
 import com.danit.finalproject.application.dto.response.ChatResponse;
-import com.danit.finalproject.application.dto.response.place.PlaceResponse;
+import com.danit.finalproject.application.dto.view.View;
 import com.danit.finalproject.application.entity.Chat;
 import com.danit.finalproject.application.entity.ChatMessage;
 import com.danit.finalproject.application.entity.User;
-import com.danit.finalproject.application.entity.place.Place;
-import com.danit.finalproject.application.entity.place.PlacePhoto;
 import com.danit.finalproject.application.repository.ChatMessageRepository;
 import com.danit.finalproject.application.service.ChatService;
-import com.danit.finalproject.application.service.place.PlaceCategoryService;
-import com.danit.finalproject.application.service.place.PlacePhotoService;
-import com.danit.finalproject.application.service.place.PlaceService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
@@ -21,7 +16,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -55,6 +52,9 @@ public class ChatControllerTest {
 
   @Autowired
   private ChatMessageRepository chatMessageRepository;
+
+  @MockBean
+  private SimpMessagingTemplate messagingTemplate;
 
   @Test
   public void getChatById() throws Exception {
@@ -171,7 +171,7 @@ public class ChatControllerTest {
     chatMessage.setId(expectedId);
     chatMessage.setMessage(expectedText);
 
-    String chatMessageJson = objectMapper.writeValueAsString(chatMessage);
+    String chatMessageJson = objectMapper.writerWithView(View.Chat.class).writeValueAsString(chatMessage);
 
     MvcResult result = mockMvc.perform(
         post("/api/chats/1/messages")

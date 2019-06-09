@@ -6,6 +6,7 @@ import { getUsersByPlace } from '../../store/users/operations'
 import Preloader from '../../components/Preloader'
 import {ReactComponent as Search} from '../../img/icons/search.svg'
 import './contacts-page.scss'
+import {chatOperations} from '../../store/chats'
 
 class ContactsPage extends Component {
   state = {
@@ -15,8 +16,9 @@ class ContactsPage extends Component {
     }
   }
   componentDidMount () {
-    const {getUsersByPlace, currentUser} = this.props
+    const {getUsersByPlace, currentUser, getAllChatsForCurrentUser} = this.props
     getUsersByPlace(currentUser.currentPlace.id)
+    getAllChatsForCurrentUser(currentUser.id)
     this.setState({
       ...this.state,
       currentPlace: currentUser.currentPlace
@@ -30,13 +32,14 @@ class ContactsPage extends Component {
   }
 
   render () {
-    const {usersListByPLace, usersListByPLaceIsLoading, currentUser, currentPlaceById} = this.props
+    const {usersListByPLace, usersListByPLaceIsLoading, currentUser, currentPlaceById, currentUserChats} = this.props
     const {searchParam, currentPlace} = this.state
 
     if (usersListByPLaceIsLoading) {
       return <Preloader/>
     }
-
+    const hasContacts = currentPlace.placeCategory && currentPlace.placeCategory.shouldAddPairedUsers
+    console.log(currentUserChats)
     const contacts = usersListByPLace.filter(user => {
       return user.id !== currentUser.id
     })
@@ -50,6 +53,16 @@ class ContactsPage extends Component {
         return user.firstName.toLowerCase().indexOf(searchParam.toLowerCase()) !== -1 || user.lastName.toLowerCase().indexOf(searchParam.toLowerCase()) !== -1
       })
     }
+
+    const contactsContent = (
+      <div className={'content'}>
+        <div className="search-bar">
+          <input className="contacts-search" onChange={this.handleChange} type="text" placeholder="Search" value={searchParam}/>
+          <span className="search-icon"><Search/></span>
+        </div>
+        <ContactList contacts={contactsList} currentUserChats={currentUserChats} location={currentPlaceById.title}/>
+      </div>
+    )
 
     const photos = currentPlace.photos.length > 0
       ? currentPlace.photos.filter(photo => photo.id !== currentPlace.mainPhoto.id)
@@ -65,13 +78,12 @@ class ContactsPage extends Component {
           header='Contacts'
           location={currentPlace.title}
           icon={currentPlace.placeCategory && currentPlace.placeCategory.iconKey}/>
-        <div className={'content'}>
-          <div className="search-bar">
-            <input className="contacts-search" onChange={this.handleChange} type="text" placeholder="Search" value={searchParam}/>
-            <span className="search-icon"><Search/></span>
+        {hasContacts
+          ? contactsContent
+          : <div className={'no_contacts-wrapper'}>
+            <p className={'no_contacts-text'}>This type of place has not visible contacts</p>
           </div>
-          <ContactList contacts={contactsList} location={currentPlaceById.title}/>
-        </div>
+        }
       </div>
     )
   }
@@ -84,13 +96,15 @@ const mapStateToProps = (state) => {
     currentUser: state.users.currentUser,
     isCurrentUserLoading: state.users.isCurrentUserLoading,
     currentPlaceById: state.places.currentPlaceById,
-    isLoaded: state.places.isLoaded
+    isLoaded: state.places.isLoaded,
+    currentUserChats: state.chats.curentUserChats
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUsersByPlace: places => dispatch(getUsersByPlace(places))
+    getUsersByPlace: places => dispatch(getUsersByPlace(places)),
+    getAllChatsForCurrentUser: userId => dispatch(chatOperations.getAllChatsForCurrentUser(userId))
   }
 }
 

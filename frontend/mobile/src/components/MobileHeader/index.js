@@ -21,9 +21,9 @@ class ParallaxHeader extends Component {
     if (this.state.isReturnClicked) {
       return <Redirect to={this.props.backLink}/>
     }
-
+    const iconUrl = this.props.icon ? `"https://rion-up-project.s3.eu-central-1.amazonaws.com/${this.props.icon}"` : ''
     const iconStyle = {
-      backgroundImage: `url("https://rion-up-project.s3.eu-central-1.amazonaws.com/${this.props.icon}")`,
+      backgroundImage: `url(${iconUrl})`,
       backgroundSize: 'cover'
     }
 

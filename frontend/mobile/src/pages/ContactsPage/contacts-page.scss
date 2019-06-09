@@ -4,6 +4,22 @@
 .contacts {
   height: calc(100vh - 91px);
   overflow-y: scroll;
+
+  .no_contacts {
+
+    &-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: calc(100vh - 91px - 230px);
+    }
+
+    &-text {
+      font-weight: 600;
+      font-size: 26px;
+    }
+
+  }
 }
 
 .search-bar {

@@ -2,13 +2,20 @@ package com.danit.finalproject.application.controller;
 
 import com.danit.finalproject.application.dto.request.ChatMessageRequest;
 import com.danit.finalproject.application.dto.request.ChatRequest;
+import com.danit.finalproject.application.dto.response.ChatMessageResponse;
 import com.danit.finalproject.application.dto.response.ChatResponse;
 import com.danit.finalproject.application.dto.view.View;
+import com.danit.finalproject.application.entity.ChatMessage;
 import com.danit.finalproject.application.facade.ChatFacade;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +45,7 @@ public class ChatController {
 
   @GetMapping("user/{userId}")
   @JsonView(View.Chat.class)
-  public ResponseEntity<List<ChatResponse>> getAllChatsForUser(@PathVariable("userId") Long userId) {
+  public ResponseEntity<List<ChatResponse>> getAllChatsForUser(@PathVariable Long userId) {
     return new ResponseEntity<>(chatFacade.getAllchatsForUser(userId), HttpStatus.OK);
   }
 
@@ -78,5 +85,13 @@ public class ChatController {
   public ResponseEntity<ChatResponse> deleteMessage(
       @PathVariable("chatId") Long chatId, @PathVariable("id") Long messageId) {
     return new ResponseEntity<>(chatFacade.deleteMessage(chatId, messageId), HttpStatus.OK);
+  }
+
+  @SendTo("/topic/chats/{chatId}")
+  public ChatMessageResponse sendMessageToWebSocket(
+      @Payload ChatMessageResponse chatMessage,
+      @DestinationVariable String chatId
+  ) {
+    return chatMessage;
   }
 }

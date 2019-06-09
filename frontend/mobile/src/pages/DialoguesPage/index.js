@@ -23,8 +23,7 @@ class DialoguesPage extends Component {
     return (
       <div className='dialogue-page'>
         <div className='dialogue-page__header'>
-          <div className='dialogue-page__title'>Messages</div>
-          <a href=' ' className='dialogue-page__header-menu' > </a>
+          <div className='dialogue-page__title'>Chats</div>
         </div>
         <DialogueList dialogues={curentUserChats} />
         <NavLink to={'/mobile/create-chat'}><BlueButton /></NavLink>
