@@ -34,10 +34,6 @@ const NewsItem = (props) => {
           <p className='news-item__top-text-description'>{shorten(contentSnippet)}</p>
         </div>
       </div>
-      <div className='news-item__bottom'>
-        <input className='news-item__bottom-input' type='text' placeholder='Comment' />
-        <button className='news-item__bottom-btn' />
-      </div>
     </div>
   )
 }

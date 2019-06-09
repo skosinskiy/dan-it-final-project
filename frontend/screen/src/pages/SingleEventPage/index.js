@@ -17,23 +17,23 @@ class SingleEventPage extends Component {
     if (!Object.keys(eventItem).length) {
       return <Preloader/>
     }
+    const startDate = new Date(eventItem.startDate)
+    const endDate = new Date(eventItem.endDate)
 
-    const img = eventItem.photos && eventItem.mainPhoto
-      ? eventItem.photos.find(photo => photo.id === eventItem.mainPhoto.id).imageUrl
-      : 'https://www.film.ru/images/empty/260x400.png'
+    console.log(eventItem.photos)
+
     return (
       <div className='ep-wrapper'>
-        <NavLink to={`/screen/${screenId}`} className='bp_back-btn'>
-          Back
-        </NavLink>
-        <h2 className='ep__title'>{eventItem.title}</h2>
-        <div className='ep-info'>
-          <div style={{backgroundImage: `url(${img})`}} className='ep-info__photo'/>
+        <div className={'ep-info'}>
+          <NavLink to={`/screen/${screenId}`} className='ep_back-btn'>
+            Back
+          </NavLink>
+          <h2 className='ep__title'>{eventItem.title}</h2>
           <div className='ep-info_text'>
             <p className='ep-info_text__address'>{eventItem.address}</p>
+            {(startDate) ? <span className='ep-info_text__date date-start'>{startDate.toLocaleString()}</span> : null}
+            {(endDate) ? <span className='ep-info_text__date date-end'>{endDate.toLocaleString()}</span> : null}
             <p className='ep-info_text__description'>{eventItem.description}</p>
-            <span className='ep-info_text__date date-start'>{eventItem.startDate ? eventItem.startDate : '1.1.11111 18:00'}</span>
-            <span className='ep-info_text__date date-end'>{eventItem.endDate ? eventItem.startDate : '1.1.11111 20:00'}</span>
             <div className='ep-info__categories'>
               {[...eventItem.categories.map(item => <p key={Math.random()} className='ep-categories-info__text'>{item.name}</p>)]}
             </div>
@@ -42,8 +42,10 @@ class SingleEventPage extends Component {
             </p>
           </div>
         </div>
-        <div className='ep-photos'>
-          {[...eventItem.photos.map(item => <img key={Math.random()} className='ep-photo__item' src={item.imageUrl} alt='event-photos-item'/>)]}
+        <div className={'ep-place-photo-wrapper'}>
+          <div className='ep-photos'>
+            {[...eventItem.photos.map(item => <div key={Math.random()} className='ep-photo__item' style={{backgroundImage: `url(${item.imageUrl})`}} alt='event-photos-item'></div>)]}
+          </div>
         </div>
       </div>
     )
