@@ -8,7 +8,8 @@ const initialState = {
   error: null,
   currentCategory: {},
   categoryIsLoading: true,
-  businessesByCategoryIsLoadig: true
+  businessesByCategoryIsLoadig: true,
+  placeMessages: []
 }
 
 const businessReducer = (state = initialState, action) => {
@@ -46,6 +47,8 @@ const businessReducer = (state = initialState, action) => {
       return {...state, categoryIsLoading: action.payload}
     case TYPES.BUSINESS_BY_CATEGORY_LOADED:
       return {...state, businessesByCategoryIsLoadig: action.payload.businessesByCategoryIsLoadig}
+    case TYPES.PLACE_MESSAGES_BY_PLACE_ID:
+      return {...state, placeMessages: action.payload}
     default:
       return state
   }

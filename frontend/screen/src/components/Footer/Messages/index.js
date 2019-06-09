@@ -21,7 +21,7 @@ export default class Messages extends Component {
     activeMessage: null
   }
   openDialog = (message) => this.setState({ activeMessage: message })
- 
+
   handleClose = () => this.setState({ activeMessage: null })
   render () {
     const {messages} = this.props
@@ -45,7 +45,7 @@ export default class Messages extends Component {
           >
             <div className={'messages__item'}>
               <BoyImg className={'messages__item__photo'}/>
-              <p href={activeMessage.link} className={'messages__item__text'}>{activeMessage.text}</p>
+              <p href={activeMessage.link} className={'messages__item__text'}>{activeMessage.message}</p>
             </div>
             <button onClick={this.handleClose} className="messages__button">Close</button>
           </Modal>

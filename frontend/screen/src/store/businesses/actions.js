@@ -63,3 +63,8 @@ export const businessesByCategoryIsLoading = (isLoading) => ({
   type: TYPES.BUSINESS_BY_CATEGORY_LOADED,
   payload: {businessesByCategoryIsLoadig: isLoading}
 })
+
+export const getPlaceMessagesByPlaceId = placeMessages => ({
+  type: TYPES.PLACE_MESSAGES_BY_PLACE_ID,
+  payload: placeMessages
+})

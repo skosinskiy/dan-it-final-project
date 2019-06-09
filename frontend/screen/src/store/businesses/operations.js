@@ -83,3 +83,9 @@ export const getBusinessCategoryById = (categoryId) => dispatch => {
     dispatch(ACTIONS.businessCategoryIsLoading(false))
   })
 }
+
+export const getPlaceMessagesByPlaceId = placeId => dispatch => {
+  return api.get(`/api/place-messages?placeId=${placeId}`).then(res => {
+    dispatch(ACTIONS.getPlaceMessagesByPlaceId(res))
+  })
+}

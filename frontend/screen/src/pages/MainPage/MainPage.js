@@ -8,8 +8,21 @@ import Footer from '../../components/Footer/Footer'
 import ScreenEventList from '../../components/ScreenEventList/ScreenEventList'
 import ScreenNewsList from '../../components/ScreenNewsList'
 import QRCode from '../../components/QRCode/QRCode'
+import {businessOperations} from '../../store/businesses'
 
 class MainPage extends React.Component {
+  state = {
+    messages: []
+  }
+
+  componentDidMount () {
+    this.props.getPlaceMessagesByPlaceId(this.props.currentPlace.id).then(() => {
+      this.setState({
+        ...this.state, messages: this.props.placeMessages
+      })
+    })
+  }
+
   render () {
     const {currentPlace} = this.props
 
@@ -33,7 +46,7 @@ class MainPage extends React.Component {
                 <MainVideo currentPlase = {currentPlace}/>
               }
             </div>
-            <Footer />
+            <Footer messages={this.state.messages} />
           </main>
           {
             hasLayuot(currentPlace, LayoutItems.NEWS) &&
@@ -48,12 +61,14 @@ class MainPage extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    currentPlace: state.currentPlace.currentPlace
+    currentPlace: state.currentPlace.currentPlace,
+    placeMessages: state.businesses.placeMessages
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getPlaceMessagesByPlaceId: placeId => dispatch(businessOperations.getPlaceMessagesByPlaceId(placeId))
   }
 }
 
