@@ -16,34 +16,36 @@ class SingleBusinessPage extends Component {
     if (!businessItem) {
       return <Preloader/>
     }
+    console.log(...businessItem.photos)
     const link = currentCategory.id ? `/screen/${screenId}/category/${currentCategory.id}` : `/screen/${screenId}`
     const img = businessItem.photos && businessItem.mainPhoto
       ? businessItem.photos.find(photo => photo.id === businessItem.mainPhoto.id).imageUrl
       : 'https://www.film.ru/images/empty/260x400.png'
     return (
       <div className="bp-wrapper">
-        <NavLink to={link} className="bp_back-btn">
-          Back
-        </NavLink>
-        <h2 className="bp__title">{businessItem.title}</h2>
+
         <div className="bp-info">
-          <div style={{backgroundImage: `url(${img})`}} className="bp-info__photo"/>
+          <NavLink to={link} className="bp-info_back-btn">
+            Back
+          </NavLink>
+          <h2 className="bp-info__title">{businessItem.title}</h2>
           <div className="bp-info_text">
+            <a href={businessItem.webSite} className="bp-info_text__site">{businessItem.webSite}</a>
             <p className="bp-info_text__address">{businessItem.address}</p>
             <p className="bp-info_text__description">{businessItem.description}</p>
             <span className="bp-info_text__phone">{businessItem.phoneNumber}</span>
-            <a href={businessItem.webSite} className="bp-info_text__site">{businessItem.webSite}</a>
             <div className="bp-info__categories">
               {[...businessItem.categories.map(item => <p key={Math.random()} className="bp-categories-info__text">{item.name}</p>)]}
+            </div>
+            <div className="bp-info_photot"></div>
+            <div className="bp-places">
+              <p className="bp-places__item">{businessItem.place.title}</p>
             </div>
           </div>
         </div>
         <div className="bp-place-photo-wrapper">
-          <div className="bp-places">
-            <p className="bp-places__item">{businessItem.place.title}</p>
-          </div>
           <div className="bp-photos">
-            {[...businessItem.photos.map(item => <p key={Math.random()} className="bp-photo__item">{item.photo}</p>)]}
+            {[...businessItem.photos.map(item => <div key={Math.random()} className="bp-photo__item" style={{backgroundImage: `url(${item.imageUrl})`}}></div>)]}
           </div>
         </div>
       </div>

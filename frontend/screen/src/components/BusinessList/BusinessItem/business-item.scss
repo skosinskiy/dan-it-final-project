@@ -6,6 +6,7 @@ $color_grey_dark: #a2a2a2;
 .business-item {
   display: flex;
   margin: 0 20px 20px;
+  overflow: hidden;
   font-family: 'PT Sans', sans-serif;
   line-height: 1.4;
   background: $color_white;
@@ -14,7 +15,8 @@ $color_grey_dark: #a2a2a2;
   cursor: pointer;
 
   .photo {
-    width: 200px;
+
+    min-width: 200px;
     height: 200px;
     background-position: center;
     background-size: cover;
@@ -28,6 +30,7 @@ $color_grey_dark: #a2a2a2;
 
   .description {
     padding: 1rem;
+    overflow: hidden;
     background: $color_white;
     h2,
     h3 {
@@ -52,13 +55,13 @@ $color_grey_dark: #a2a2a2;
     &:first-of-type {
       margin-top: 1.25rem;
       &:before {
-        content: "";
         position: absolute;
         top: -.75rem;
         width: 35px;
         height: 5px;
         background: #FEBA00;
         border-radius: 3px;
+        content: "";
       }
     }
   }
