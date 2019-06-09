@@ -20,7 +20,6 @@ class SingleBusinessPage extends Component {
     const link = currentCategory.id ? `/screen/${screenId}/category/${currentCategory.id}` : `/screen/${screenId}`
     return (
       <div className="bp-wrapper">
-
         <div className="bp-info">
           <NavLink to={link} className="bp-info_back-btn">
             Back
@@ -34,7 +33,6 @@ class SingleBusinessPage extends Component {
             <div className="bp-info__categories">
               {[...businessItem.categories.map(item => <p key={Math.random()} className="bp-categories-info__text">{item.name}</p>)]}
             </div>
-            <div className="bp-info_photot"></div>
             <div className="bp-places">
               <p className="bp-places__item">{businessItem.place.title}</p>
             </div>
