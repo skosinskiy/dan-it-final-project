@@ -29,9 +29,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.validation.BindingResult;
@@ -426,5 +432,64 @@ public class UserServiceTest {
 
 		verify(userRepository, times(1)).findAllByPlaces(place, pageable);
 		assertEquals(users, expectedUsers);
+	}
+
+	@Test
+	public void getPrincipalUserFacebookTest() {
+		String expectedEmail = "test";
+		Map <String, Object> expectedAttributes = new HashMap<>();
+		expectedAttributes.put("email", expectedEmail);
+
+		OAuth2AuthenticationToken token = mock(OAuth2AuthenticationToken.class);
+		SecurityContext securityContext = mock(SecurityContext.class);
+		OAuth2User user = mock(OAuth2User.class);
+
+		SecurityContextHolder.setContext(securityContext);
+
+		when(securityContext.getAuthentication()).thenReturn(token);
+		when(token.getAuthorizedClientRegistrationId()).thenReturn("facebook");
+		when(token.getPrincipal()).thenReturn(user);
+		when(user.getAttributes()).thenReturn(expectedAttributes);
+
+		userService.getPrincipalUser();
+
+		verify(userRepository, times(1)).findByEmail(expectedEmail);
+	}
+
+	@Test
+	public void getPrincipalUserGoogleTest() {
+		String expectedEmail = "test";
+
+		OAuth2AuthenticationToken token = mock(OAuth2AuthenticationToken.class);
+		SecurityContext securityContext = mock(SecurityContext.class);
+		OidcUser user = mock(OidcUser.class);
+
+		SecurityContextHolder.setContext(securityContext);
+
+		when(securityContext.getAuthentication()).thenReturn(token);
+		when(token.getAuthorizedClientRegistrationId()).thenReturn("google");
+		when(token.getPrincipal()).thenReturn(user);
+		when(user.getEmail()).thenReturn(expectedEmail);
+
+		userService.getPrincipalUser();
+
+		verify(userRepository, times(1)).findByEmail(expectedEmail);
+	}
+
+	@Test
+	public void getPrincipalUserAnonymousTest() {
+		String expectedEmail = "test";
+
+		AnonymousAuthenticationToken token = mock(AnonymousAuthenticationToken.class);
+		SecurityContext securityContext = mock(SecurityContext.class);
+		OidcUser user = mock(OidcUser.class);
+
+		SecurityContextHolder.setContext(securityContext);
+
+		when(securityContext.getAuthentication()).thenReturn(token);
+		when(token.getPrincipal()).thenReturn(user);
+		when(user.getEmail()).thenReturn(expectedEmail);
+
+		assertNull(userService.getPrincipalUser());
 	}
 }
