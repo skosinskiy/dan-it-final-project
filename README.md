@@ -7,7 +7,7 @@
 ## Description
 Application combines relevant information about the place where a large number of people are concentrated, for example, business centers, shopping centers or residential complexes.
 Project consists of 3 applications:
-- Screen application will be deployed on a touch screen monitor which will be installed. On this screen, we can see current information about the current location.
+- Screen application which will be deployed on a touch screen monitor. On this screen, we can see current information about the current location.
 - Mobile application with which users are able to “subscribe” to updates of a specific location via QR-code.
 - Admin panel for adding content and application configuration
 
@@ -16,6 +16,7 @@ https://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9000
 
 #### Credentials:
 Login: first.user@test.com
+
 Password: admin
 
 #### Technologies used in the development:
@@ -24,6 +25,12 @@ Password: admin
 - Testing: JUnit, Mockito
 - AWS: EC2, MySQL RDS, S3
 - Build tools: Maven, Travis CI
+
+#### Slack Bot
+Project uses slack bot for deployment application on Amazon.
+Source code of bot application: 
+
+https://github.com/skosinskiy/rion-up-deployer
 
 ###### Development build is available on port 9001
 https://ec2-3-14-226-139.us-east-2.compute.amazonaws.com:9001
