@@ -114,7 +114,36 @@ public class UserControllerTest {
 		assertEquals(expectedSize, user.getPlaces().size());
 	}
 
-  @Test
+	@Test
+	@WithMockUser(value = "first.user@test.com")
+	public void removePlaceFromUser() throws Exception {
+		int expectedSize = 1;
+
+		MvcResult result = mockMvc.perform(put("/api/users/unpair/2").with(csrf()))
+				.andReturn();
+		String responseBody = result.getResponse().getContentAsString();
+		UserResponse user =
+				objectMapper.readValue(responseBody, UserResponse.class);
+
+		assertEquals(expectedSize, user.getPlaces().size());
+	}
+
+	@Test
+	@WithMockUser(value = "first.user@test.com")
+	public void updateCurrentPlace() throws Exception {
+		Long expectedId = 2L;
+
+		MvcResult result = mockMvc.perform(put("/api/users/current/place/2").with(csrf()))
+				.andReturn();
+		String responseBody = result.getResponse().getContentAsString();
+		UserResponse user =
+				objectMapper.readValue(responseBody, UserResponse.class);
+
+		assertEquals(expectedId, user.getCurrentPlace().getId());
+	}
+
+
+	@Test
 	@WithMockUser(value = "first.user@test.com")
   public void getCurrentUser() throws Exception {
     final String FIRST_NAME = "Elon";

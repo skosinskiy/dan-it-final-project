@@ -95,6 +95,17 @@ public class EventControllerTest {
   }
 
   @Test
+  public void getAllEventsByPlaceId() throws Exception {
+    long expectedResultSize = 2L;
+
+    MvcResult result = mockMvc.perform(get("/api/events/place/1").with(csrf())).andReturn();
+    String responseBody = result.getResponse().getContentAsString();
+    List<EventResponse> events = objectMapper.readValue(responseBody, new TypeReference<List<EventResponse>>() {});
+
+    assertEquals(expectedResultSize, events.size());
+  }
+
+  @Test
   public void getAllEventsByTitleOrBusinessTitleOrPlaceTitle() throws Exception {
     int expectedSize = 1;
 

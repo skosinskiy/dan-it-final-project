@@ -1,6 +1,7 @@
 package com.danit.finalproject.application.controller;
 
 import com.danit.finalproject.application.dto.request.ChatRequest;
+import com.danit.finalproject.application.dto.response.ChatMessageResponse;
 import com.danit.finalproject.application.dto.response.ChatResponse;
 import com.danit.finalproject.application.dto.view.View;
 import com.danit.finalproject.application.entity.Chat;
@@ -55,6 +56,9 @@ public class ChatControllerTest {
 
   @MockBean
   private SimpMessagingTemplate messagingTemplate;
+
+  @Autowired
+  private ChatController chatController;
 
   @Test
   public void getChatById() throws Exception {
@@ -189,5 +193,11 @@ public class ChatControllerTest {
   public void deleteMessage() throws Exception {
     mockMvc.perform(delete("/api/chats/1/messages/1").with(csrf()));
     assertNull(chatMessageRepository.findById(1L).orElse(null));
+  }
+
+  @Test
+  public void sendMessageToWebSocketTest() {
+    ChatMessageResponse chatMessage = new ChatMessageResponse();
+    assertEquals(chatMessage, chatController.sendMessageToWebSocket(chatMessage, "test"));
   }
 }

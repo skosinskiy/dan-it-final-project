@@ -270,7 +270,7 @@ public class UserService implements UserDetailsService, CrudService<User> {
         .filter(place -> !place.getId().equals(placeId))
         .collect(Collectors.toList());
     user.setPlaces(filteredUserPlaces);
-    if (user.getCurrentPlace().getId().equals(placeId)) {
+    if (user.getCurrentPlace() != null && user.getCurrentPlace().getId().equals(placeId)) {
       user.setCurrentPlace(null);
       if (!filteredUserPlaces.isEmpty()) {
         user.setCurrentPlace(filteredUserPlaces.get(0));
