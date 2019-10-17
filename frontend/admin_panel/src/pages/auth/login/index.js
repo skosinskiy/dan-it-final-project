@@ -106,7 +106,7 @@ class Login extends Component {
 
           <form className={classes.form} onSubmit={this.props.submitLoginForm}>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="email">Email Address</InputLabel>
+              <InputLabel htmlFor="email">Email</InputLabel>
               <Input
                 id="email"
                 name="username"
