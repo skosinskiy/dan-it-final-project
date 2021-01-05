@@ -4,7 +4,7 @@
   "homepage": "/mobile",
   "private": true,
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "prop-types": "^15.5.7",
     "react": "^16.8.6",
     "react-autosize-textarea": "^7.0.0",
